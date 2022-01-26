@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ntt.proxies.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.proxies.pb.v1alpha2";
+
+option java_outer_classname = "ProjectProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/proxies/resources/v1alpha2/project;project";
+
+// Project Resource
+message Project {
+  option (google.api.resource) = {
+    type : "proxies.edgelq.com/Project"
+    pattern : "projects/{project}"
+  };
+
+  // Name of Project
+  string name = 1;
+
+  // Metadata
+  ntt.types.Meta metadata = 2;
+
+  // Multi region policy
+  ntt.meta.multi_region.Policy multi_region_policy = 3;
+}

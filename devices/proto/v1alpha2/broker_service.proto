@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/devices/proto/v1alpha2/broker_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/device_change.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
+
+import "google/api/annotations.proto";
+
+import "google/api/client.proto";
+
+import "google/protobuf/empty.proto";
+
+import "google/protobuf/field_mask.proto";
+
+import "goten-sdk/runtime/api/view.proto";
+
+import "goten-sdk/runtime/api/watch_type.proto";
+
+option java_package = "com.ntt.devices.pb.v1alpha2";
+
+option java_outer_classname = "BrokerServiceProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/broker;broker_client";
+
+// Broker service API for Devices
+service BrokerService {
+  option (google.api.default_host) = "devices.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // ListenForConnections
+  rpc ListenForConnections(stream ListenForConnectionsRequest)
+      returns (stream ListenForConnectionsResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=projects/*/regions/*/devices/"
+             "*}:listenForConnections"
+    };
+  }
+
+  // OpenConnectionChannelSocket
+  rpc OpenConnectionChannelSocket(stream OpenConnectionChannelSocketRequest)
+      returns (stream OpenConnectionChannelSocketResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=projects/*/regions/*/devices/"
+             "*}:openConnectionChannelSocket"
+    };
+  }
+
+  // ConnectToDevice
+  rpc ConnectToDevice(stream ConnectToDeviceRequest)
+      returns (stream ConnectToDeviceResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=projects/*/regions/*/devices/*}:connectToDevice"
+    };
+  }
+}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha2;
+
+import "edgelq-sdk/iam/proto/v1alpha2/role_binding.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/role_binding_change.proto";
+
+import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role_binding;role_binding_client";
+
+option java_package = "com.ntt.iam.pb.v1alpha2";
+
+option java_outer_classname = "RoleBindingCustomProto";
+
+// Request message for method
+// [SetupCreateOwnerRole][ntt.iam.v1alpha2.SetupCreateOwnerRole] This is almost
+// same as CreateRoleBinding, but used when central region creates initial
+// RoleBinding for newly created project or organization. This skips checking if
+// Project/Organization exist in store because they do not yet! Instead it
+// checks if create owner role binding already exists.
+message SetupCreateOwnerRoleRequest {
+  // Parent reference of ntt.iam.v1alpha2.RoleBinding
+  string parent = 1;
+
+  // RoleBinding resource body
+  RoleBinding role_binding = 2;
+
+  // Policy created with this project
+  ntt.meta.multi_region.Policy multi_region_policy = 3;
+}

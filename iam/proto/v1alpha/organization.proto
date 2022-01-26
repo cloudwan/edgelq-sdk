@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+option java_outer_classname = "OrganizationProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization;organization";
+
+// Organization represents higher-level organizational unit, like Company,
+// University or Division
+//
+// Organizations supports managing hierarchies with
+// [Organization.parent_organization] field. All [Permission] grants through
+// [RoleBinding]s are propagated from organization ancestors to their
+// descendants.
+message Organization {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Organization"
+    pattern : "organizations/{organization}"
+  };
+
+  // Name of Organization
+  string name = 1;
+
+  // Official Name of Organization
+  string title = 2;
+
+  // Parent organization
+  string parent_organization = 3
+      [ (google.api.resource_reference) = {type : "Organization"} ];
+
+  // Top parent (internal)
+  string root_organization = 4
+      [ (google.api.resource_reference) = {type : "Organization"} ];
+
+  // Full ancestry path (internal)
+  repeated string ancestry_path = 5
+      [ (google.api.resource_reference) = {type : "Organization"} ];
+
+  // Metadata
+  ntt.types.Meta metadata = 6;
+}

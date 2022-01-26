@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha;
+
+import "edgelq-sdk/audit/proto/v1alpha/common.proto";
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.audit.pb.v1alpha";
+
+option java_outer_classname = "MethodDescriptorProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/method_descriptor;method_descriptor";
+
+// MethodDescriptor Resource
+message MethodDescriptor {
+  option (google.api.resource) = {
+    type : "audit.edgelq.com/MethodDescriptor"
+    pattern : "methodDescriptors/{method_descriptor}"
+  };
+
+  // Name of MethodDescriptor - contains service name and
+  // method type name, separated by '/' sign. Example name:
+  // "iam.edgelq.com/CreateRoleBinding"
+  string name = 1;
+
+  // Optional. A concise name for the audited object type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners.
+  string display_name = 2;
+
+  // Optional. A detailed description of the audited method type that might
+  // be used in documentation.
+  string description = 3;
+
+  // A set of labels used to describe instances of this audited
+  // method type. For example, for "UpdateRoleBinding" we can define member
+  // label. This can allow us to make query like "who tried to give user X
+  // permissions to those things?"
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations.
+  repeated LabelKeySet promoted_label_key_sets = 5;
+
+  // List of API versions which define this method
+  repeated string versions = 6;
+
+  // Metadata
+  ntt.types.Meta metadata = 7;
+}

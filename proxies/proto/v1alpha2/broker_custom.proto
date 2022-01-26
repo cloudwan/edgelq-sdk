@@ -1,0 +1,286 @@
+syntax = "proto3";
+
+package ntt.proxies.v1alpha2;
+
+import "edgelq-sdk/proxies/proto/v1alpha2/project.proto";
+
+import "edgelq-sdk/proxies/proto/v1alpha2/project_change.proto";
+
+option java_package = "com.ntt.proxies.pb.v1alpha2";
+
+option java_outer_classname = "BrokerCustomProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/proxies/client/v1alpha2/broker;broker_client";
+
+// Request message for method [Connect][ntt.proxies.v1alpha2.Connect]
+message ConnectRequest {
+  oneof message {
+    // The initiation message to open a channel to a device.
+    OpenRequest open_request = 1;
+
+    // Attempt to resume stream of data
+    ResumeRequest resume_request = 2;
+
+    // ACK message
+    Ack ack = 3;
+
+    // Any data sent to the device through the endpoint.
+    Data data = 4;
+
+    Close close = 5;
+
+    Error error = 6;
+
+    Ping ping = 7;
+  }
+
+  message OpenRequest {
+    string project = 1;
+
+    string region_id = 6;
+
+    string name = 2;
+
+    // name to connect.
+    string provider_name = 3;
+
+    // Device service
+    string service = 4;
+
+    // Initial argument (optional)
+    bytes arg = 5;
+  }
+
+  message ResumeRequest {
+    string project = 1;
+
+    string region_id = 7;
+
+    string name = 2;
+
+    // name to connect.
+    string provider_name = 3;
+
+    uint64 session_id = 4;
+
+    uint64 channel_id = 5;
+
+    uint64 last_message_id = 6;
+  }
+}
+
+// Response message for method [Connect][ntt.proxies.v1alpha2.Connect]
+message ConnectResponse {
+  oneof message {
+    // Notification from the agent (endpoint) to the channel has been opened.
+    OpenResponse open_response = 1;
+
+    ResumeResponse resume_response = 2;
+
+    ChannelOpenError channel_open_error = 3;
+
+    // ACK message
+    Ack ack = 4;
+
+    // Any data from the device (endpoint) to the client.
+    Data data = 5;
+
+    Close close = 6;
+
+    Error error = 7;
+  }
+
+  message OpenResponse {
+    uint64 session_id = 1;
+
+    uint64 channel_id = 2;
+  }
+
+  message ResumeResponse {
+    uint64 session_id = 1;
+
+    uint64 channel_id = 2;
+
+    uint64 last_message_id = 4;
+  }
+
+  message ChannelOpenError {
+    // ID of the channel failed to open.
+    uint64 channel_id = 1;
+
+    // Error message.
+    string message = 2;
+  }
+}
+
+// Request message for method [Listen][ntt.proxies.v1alpha2.Listen]
+message ListenRequest {
+  oneof message {
+    // This is a hello message from the agent with its name.
+    OpenRequest open_request = 1;
+
+    ResumeRequest resume_request = 2;
+
+    // When the agent failed to open a requested channel, this message will be
+    // sent from the agent to the endpoint.
+    ChannelOpenError channel_open_error = 3;
+
+    Ping ping = 4;
+  }
+
+  message OpenRequest {
+    string project = 1;
+
+    string region_id = 3;
+
+    // The self-declared device name, used for authentication/authorization.
+    string name = 2;
+  }
+
+  message ResumeRequest {
+    string project = 1;
+
+    string region_id = 4;
+
+    // The self-declared device name, used for authentication/authorization.
+    string name = 2;
+
+    uint64 session_id = 3;
+  }
+
+  message ChannelOpenError {
+    // ID of the channel failed to open.
+    uint64 channel_id = 1;
+
+    // Error message.
+    string message = 2;
+  }
+}
+
+// Response message for method [Listen][ntt.proxies.v1alpha2.Listen]
+message ListenResponse {
+  oneof message {
+    Listening listening = 1;
+
+    // Notifies a new channel has been requested by a client.
+    OpenChannelResponse open_channel_response = 2;
+
+    // Notifies a channel was asked to be resumed by a client
+    ResumeChannelResponse resume_channel_response = 3;
+  }
+
+  message Listening { uint64 session_id = 1; }
+
+  message OpenChannelResponse {
+    // Channel ID
+    uint64 channel_id = 1;
+
+    // Device service;
+    string service = 2;
+
+    // Initial argument (optional)
+    bytes arg = 3;
+  }
+
+  message ResumeChannelResponse {
+    // Channel ID
+    uint64 channel_id = 1;
+
+    // Device service;
+    string service = 2;
+
+    // Initial argument (optional)
+    bytes arg = 3;
+
+    uint64 last_message_id = 4;
+  }
+}
+
+// Request message for method [Accept][ntt.proxies.v1alpha2.Accept]
+message AcceptRequest {
+  oneof message {
+    // Registers a new socket on the endpoint.
+    OpenRequest open_request = 1;
+
+    ResumeRequest resume_request = 2;
+
+    // Data from the agent to the endpoint (client).
+    Data data = 3;
+
+    // ACK message
+    Ack ack = 4;
+
+    Close close = 5;
+
+    Error error = 6;
+
+    Ping ping = 7;
+  }
+
+  message OpenRequest {
+    string project = 1;
+
+    string region_id = 5;
+
+    // Name, to be authenticated/authorized.
+    string name = 2;
+
+    uint64 session_id = 3;
+
+    // Channel ID, requested by the endpoint in the ChannelRequested message.
+    uint64 channel_id = 4;
+  }
+
+  message ResumeRequest {
+    string project = 1;
+
+    string region_id = 6;
+
+    // Name, to be authenticated/authorized.
+    string name = 2;
+
+    uint64 session_id = 3;
+
+    // Channel ID, requested by the endpoint in the ChannelRequested message.
+    uint64 channel_id = 4;
+
+    uint64 last_message_id = 5;
+  }
+}
+
+// Response message for method [Accept][ntt.proxies.v1alpha2.Accept]
+message AcceptResponse {
+  oneof message {
+    // Data from the endpoint (client) to the agent.
+    Data data = 1;
+
+    // ACK message
+    Ack ack = 2;
+
+    Close close = 3;
+
+    Error error = 4;
+  }
+}
+
+message Ping {}
+
+message Data {
+  uint64 id = 1;
+
+  bytes bytes = 2;
+
+  bool ack_required = 3;
+}
+
+message Ack { uint64 id = 1; }
+
+message Close { uint64 id = 1; }
+
+message Error {
+  uint64 id = 1;
+
+  string message = 2;
+}

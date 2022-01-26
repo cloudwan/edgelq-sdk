@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha2;
+
+import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.audit.pb.v1alpha2";
+
+option java_outer_classname = "AuditedResourceDescriptorProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor;audited_resource_descriptor";
+
+// AuditedResourceDescriptor Resource
+message AuditedResourceDescriptor {
+  option (google.api.resource) = {
+    type : "audit.edgelq.com/AuditedResourceDescriptor"
+    pattern : "auditedResourceDescriptors/{audited_resource_descriptor}"
+  };
+
+  // Name of AuditedResourceDescriptor - contains service name and
+  // resource type name, separated by '/' sign. Example name:
+  // "iam.edgelq.com/RoleBinding"
+  string name = 1;
+
+  // Optional. A concise name for the audited object type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners.
+  string display_name = 2;
+
+  // Optional. A detailed description of the audited object type that might
+  // be used in documentation.
+  string description = 3;
+
+  // Required. A set of labels used to describe instances of this audited
+  // resource type. For example, for "RoleBinding" we can define name+member.
+  // This can allow us to make query like "who allowed user X to do those
+  // things?"
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations.
+  repeated LabelKeySet promoted_label_key_sets = 5;
+
+  // List of API versions which define this resource
+  repeated string versions = 6;
+
+  // List of spec fields
+  repeated string spec_fields = 7;
+
+  // List of state fields
+  repeated string state_fields = 8;
+
+  // List of meta fields
+  repeated string meta_fields = 9;
+
+  // Metadata
+  ntt.types.Meta metadata = 10;
+}

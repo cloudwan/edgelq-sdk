@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.devices.pb.v1alpha2";
+
+option java_outer_classname = "ProvisioningApprovalRequestProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request;provisioning_approval_request";
+
+// ProvisioningApprovalRequest Resource
+message ProvisioningApprovalRequest {
+  option (google.api.resource) = {
+    type : "devices.edgelq.com/ProvisioningApprovalRequest"
+    pattern : "projects/{project}/regions/{region}/provisioningPolicies/"
+              "{provisioning_policy}/provisioningApprovalRequests/"
+              "{provisioning_approval_request}"
+  };
+
+  // Name of ProvisioningApprovalRequest
+  string name = 1;
+
+  Spec spec = 3;
+
+  Status status = 4;
+
+  ntt.types.Meta metadata = 5;
+
+  message Spec {
+    // The verdicit for the approval, approved or revoked.
+    Conclusion conclusion = 1;
+
+    // System managed, this service account will be used by the Device resource
+    // once it's approved. A device finds its pending request using this field.
+    string service_account = 2;
+
+    enum Conclusion {
+      CONCLUSION_NOT_SPECIFIED = 0;
+
+      APPROVED = 1;
+
+      REVOKED = 2;
+    }
+  }
+
+  message Status {}
+}

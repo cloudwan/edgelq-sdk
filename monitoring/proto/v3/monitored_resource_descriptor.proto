@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "edgelq-sdk/monitoring/proto/v3/common.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+option java_outer_classname = "MonitoredResourceDescriptorProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor;monitored_resource_descriptor";
+
+// An object that describes the schema of a
+// [MonitoredResource][google.api.MonitoredResource] object using a type name
+// and a set of labels.  For example, the monitored resource descriptor for
+// Google Compute Engine VM instances has a type of
+// `"gce_instance"` and specifies the use of the labels `"instance_id"` and
+// `"zone"` to identify particular VM instances.
+//
+// Different APIs can support different monitored resource types. APIs generally
+// provide a `list` method that returns the monitored resource descriptors used
+// by the API.
+message MonitoredResourceDescriptor {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/MonitoredResourceDescriptor"
+    pattern : "monitoredResourceDescriptors/{monitored_resource_descriptor}"
+  };
+
+  // Optional. The resource name of the monitored resource descriptor:
+  // `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
+  // {type} is the value of the `type` field in this object and
+  // {project_id} is a project ID that provides API-specific context for
+  // accessing the type.  APIs that do not use project information can use the
+  // resource name format `"monitoredResourceDescriptors/{type}"`.
+  // NOTE: currently only `"monitoredResourceDescriptors/{type}"` form is
+  // supported.
+  string name = 5;
+
+  // Required. The monitored resource type. For example, the type
+  // `"cloudsql_database"` represents databases in Google Cloud SQL.
+  // The maximum length of this value is 256 characters.
+  string type = 1;
+
+  // Optional. A concise name for the monitored resource type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners. For example,
+  // `"Google Cloud SQL Database"`.
+  string display_name = 2;
+
+  // Optional. A detailed description of the monitored resource type that might
+  // be used in documentation.
+  string description = 3;
+
+  // Required. A set of labels used to describe instances of this monitored
+  // resource type. For example, an individual Google Cloud SQL database is
+  // identified by values for the labels `"database_id"` and `"zone"`.
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations. Metric promoted label sets
+  // are combined with MonitoredResource promoted label sets and result in
+  // PromotedKeySet.
+  repeated LabelKeySet promoted_label_key_sets = 32;
+
+  // Metadata
+  ntt.types.Meta metadata = 33;
+}

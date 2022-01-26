@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/monitoring/proto/v3/common.proto";
+
+import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie;time_serie";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+option java_outer_classname = "TimeSerieProto";
+
+option java_multiple_files = true;
+
+// A single data point in a time series.
+message Point {
+  // The time interval to which the data point applies.  For `GAUGE` metrics,
+  // only the end time of the interval is used.  For `DELTA` metrics, the start
+  // and end time should specify a non-zero interval, with subsequent points
+  // specifying contiguous and non-overlapping intervals.  For `CUMULATIVE`
+  // metrics, the start and end time should specify a non-zero interval, with
+  // subsequent points specifying the same start time and increasing end times,
+  // until an event resets the cumulative value to zero and sets a new start
+  // time for the following points.
+  TimeInterval interval = 1;
+
+  // The value of the data point.
+  TypedValue value = 2;
+
+  // Additional aggregation info
+  // Used internally for batching rollup points
+  Aggregation aggregation = 101;
+}
+
+// A collection of data points that describes the time-varying values
+// of a metric. A time series is identified by a combination of a
+// fully-specified monitored resource and a fully-specified metric.
+// This type is used for both listing and creating time series.
+message TimeSerie {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/TimeSerie"
+    pattern : "projects/{project}/timeSeries/{time_serie}"
+  };
+
+  // TimeSerie key identifies unique TimeSeries tuple:
+  // <project, region, metric.type, metric.labels, resource.type,
+  // resource.labels>
+  //
+  // Kind/ValueType are not present in key
+  // Key is not to be decoded outside of service, but treated as opaque string
+  //
+  // Specific key is valid and understood only in single region only. If time
+  // serie is created by merging from multiple regions, key must be ignore.
+  bytes key = 101;
+
+  // Internal use - for bulk reporting of TimeSeries
+  string project = 102;
+
+  // Region ID associated with time serie.
+  string region = 103;
+
+  // The associated metric. A fully-specified metric used to identify the time
+  // series.
+  Metric metric = 1;
+
+  // The associated monitored resource.  Custom metrics can use only certain
+  // monitored resource types in their time series data.
+  MonitoredResource resource = 2;
+
+  // Output only. The associated monitored resource metadata. When reading a
+  // a timeseries, this field will include metadata labels that are explicitly
+  // named in the reduction. When creating a timeseries, this field is ignored.
+  MonitoredResourceMetadata metadata = 7;
+
+  // The metric kind of the time series. When listing time series, this metric
+  // kind might be different from the metric kind of the associated metric if
+  // this time series is an alignment or reduction of other time series.
+  //
+  // When creating a time series, this field is optional. If present, it must be
+  // the same as the metric kind of the associated metric. If the associated
+  // metric's descriptor must be auto-created, then this field specifies the
+  // metric kind of the new descriptor and must be either `GAUGE` (the default)
+  // or `CUMULATIVE`.
+  MetricDescriptor.MetricKind metric_kind = 3;
+
+  // The value type of the time series. When listing time series, this value
+  // type might be different from the value type of the associated metric if
+  // this time series is an alignment or reduction of other time series.
+  //
+  // When creating a time series, this field is optional. If present, it must be
+  // the same as the type of the data in the `points` field.
+  MetricDescriptor.ValueType value_type = 4;
+
+  // The data points of this time series. When listing time series, points are
+  // returned in reverse time order.
+  //
+  // When creating a time series, this field must contain exactly one point and
+  // the point's type must be the same as the value type of the associated
+  // metric. If the associated metric's descriptor must be auto-created, then
+  // the value type of the descriptor is determined by the point's type, which
+  // must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
+  repeated Point points = 5;
+}
+
+// Used for reporting rollups
+message BulkTimeSeries { repeated TimeSerie time_series = 1; }

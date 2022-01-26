@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/iam/proto/v1alpha/condition.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+option java_outer_classname = "RoleProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role;role";
+
+// Role is a named bag of [Permissions][ntt.iam.v1alpha.Permission] that can be
+// granted on certain scope (system, organization or project) to member (user,
+// service account, group, anyone) with [RoleBinding].
+//
+// Note: currently roles are defined as system-level resources, but
+// per-organization or per-project support is expected.
+message Role {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Role"
+    pattern : "roles/{role}"
+  };
+
+  // Name of Role
+  string name = 1;
+
+  // Display Name
+  string display_name = 2;
+
+  // Included Permissions in this Role. Binding this role grants all following
+  // Permissions.
+  repeated string included_permissions = 3
+      [ (google.api.resource_reference) = {type : "Permission"} ];
+
+  // Default conditionBinding (optional)
+  ConditionBinding default_condition_binding = 5;
+}

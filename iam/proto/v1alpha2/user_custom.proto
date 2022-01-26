@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha2;
+
+import "edgelq-sdk/iam/proto/v1alpha2/user.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/user_change.proto";
+
+import "google/protobuf/field_mask.proto";
+
+import "goten-sdk/runtime/api/view.proto";
+
+option java_outer_classname = "UserCustomProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/user;user_client";
+
+option java_package = "com.ntt.iam.pb.v1alpha2";
+
+// Request message for method [GetUserByEmail][ntt.iam.v1alpha2.GetUserByEmail]
+message GetUserByEmailRequest {
+  //  reference of ntt.iam.v1alpha2.User
+  string email = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+
+  // If true, server will skip checking if query result is present in it's cache
+  bool skip_cache = 5;
+}
+
+// Request message for method
+// [BatchGetUsersByEmail][ntt.iam.v1alpha2.BatchGetUsersByEmail]
+message BatchGetUsersByEmailRequest {
+  // Emails of users
+  repeated string emails = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+
+  // If true, server will skip checking if query result is present in it's cache
+  bool skip_cache = 5;
+}
+
+// Response message for method
+// [BatchGetUsersByEmail][ntt.iam.v1alpha2.BatchGetUsersByEmail]
+message BatchGetUsersByEmailResponse {
+  // found Users
+  repeated User users = 1;
+
+  // list of not found user emails
+  repeated string missing = 2;
+}
+
+// Request message for method [GetMySettings][ntt.iam.v1alpha2.GetMySettings]
+message GetMySettingsRequest {
+  // list of keys to retrieve
+  repeated string keys = 1;
+}
+
+// Response message for method [GetMySettings][ntt.iam.v1alpha2.GetMySettings]
+message GetMySettingsResponse {
+  // resulting settings
+  map<string, string> settings = 1;
+}
+
+// Request message for method [SetMySettings][ntt.iam.v1alpha2.SetMySettings]
+message SetMySettingsRequest {
+  // Settings to update. Leave empty value to unset key
+  map<string, string> settings = 1;
+}
+
+// Request message for method
+// [RefreshUserFromIdToken][ntt.iam.v1alpha2.RefreshUserFromIdToken]
+message RefreshUserFromIdTokenRequest {
+  // JWT-encoded ID token
+  string id_token = 1;
+}
+
+// Response message for method
+// [RefreshUserFromIdToken][ntt.iam.v1alpha2.RefreshUserFromIdToken]
+message RefreshUserFromIdTokenResponse {}

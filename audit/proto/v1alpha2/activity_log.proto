@@ -1,0 +1,312 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha2;
+
+import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
+
+import "edgelq-sdk/common/rpc/status.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+
+import "google/api/resource.proto";
+
+import "google/protobuf/any.proto";
+
+import "google/protobuf/field_mask.proto";
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.ntt.audit.pb.v1alpha2";
+
+option java_outer_classname = "ActivityLogProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/activity_log;activity_log";
+
+// ActivityLog Resource - describes notification of
+// activity triggered by a request sent to an API service.
+// ActivityLog creation is triggered by an API service
+// when it receives either unary or stream request.
+//
+// ActivityLog contains messages exchanged between client
+// and server within single API call and finally exit status.
+// ActivityLog is method oriented - service name + method name
+// (for example IAM/CreateRoleBinding) is a leading information.
+//
+// ActivityLog can have N associated ResourceChangeLog objects,
+// if API call it describes made some changes in a data store.
+// You can combine ActivityLog and ResourceChangeLog by making
+// queries with request_id specified in a filter.
+message ActivityLog {
+  option (google.api.resource) = {
+    type : "audit.edgelq.com/ActivityLog"
+    pattern : "activityLogs/{activity_log}"
+    pattern : "projects/{project}/activityLogs/{activity_log}"
+    pattern : "organizations/{organization}/activityLogs/{activity_log}"
+  };
+
+  // Name of ActivityLog. It contains scope + ID of the log.
+  // ID is a base64 encoded unique key that identifies tuple:
+  //   scope
+  //   request_id
+  //   authentication.principal
+  //   request_metadata.ip_address
+  //   request_metadata.user_agent
+  //   authorization.granted_permissions
+  //   authorization.denied_permissions
+  //   service.name
+  //   service.region_id
+  //   method.type
+  //   method.version
+  //   resource.name
+  //   resource.difference.fields
+  //   category
+  //   labels
+  //
+  // Key is not to be decoded outside of service, but treated as opaque string
+  string name = 1;
+
+  // Contains scope from name field without resource ID.
+  // Used for internal purpose for filtering (logs are using custom store).
+  // Example formats are:
+  // - organization/umbrella
+  // - projects/mars_exploration
+  // - <system>
+  string scope = 2;
+
+  // Generated ID of the request. Same ID must be used in ResourceChangeLog
+  // objects associated with this request.
+  uint64 request_id = 3;
+
+  // Authentication data - informs who made a request
+  Authentication authentication = 5;
+
+  // Authorization data - informs what permissions were
+  // granted or denied for associated request
+  Authorization authorization = 6;
+
+  // Information about the service
+  ServiceData service = 7;
+
+  // Information about the method
+  Method method = 8;
+
+  // Request metadata
+  RequestMetadata request_metadata = 13;
+
+  // Subject resource for this activity.
+  SubjectResource resource = 11;
+
+  // Category of the activity log.
+  Category category = 12;
+
+  // List of query-able labels
+  map<string, string> labels = 9;
+
+  // List of events attached to this log
+  repeated Event events = 10;
+
+  // Event associated with activity.
+  message Event {
+    oneof evt {
+      // Client message received event
+      ClientMsgEvent client_message = 1;
+
+      // Server message sent event
+      ServerMsgEvent server_message = 2;
+
+      // Request finished event
+      ExitEvent exit = 3;
+
+      // Server received response from another server (used for split & merge)
+      // which describes PARTIAL result to be sent to the client.
+      RegionalServerMsgEvent regional_server_message = 4;
+
+      // Server received exit code from another server (used for split & merge).
+      // In case it contains error, its likely final exit will contain this too.
+      RegionalServerMsgEvent regional_exit = 5;
+    }
+
+    // Describes client message event
+    message ClientMsgEvent {
+      // Message contents
+      google.protobuf.Any data = 1;
+
+      // Time of a message
+      google.protobuf.Timestamp time = 2;
+    }
+
+    // Describes message received from server in specific region.
+    // This type is used only for requests, which receiving server decided to
+    // split across many regions. Each regional server sends own response and
+    // executing server is responsible for merging all partial results into one.
+    // This type does not show what was sent to the client.
+    // TODO: No use case for now, just placeholder, no server implementation
+    message RegionalServerMsgEvent {
+      // Message contents
+      google.protobuf.Any data = 1;
+
+      // Time of a message
+      google.protobuf.Timestamp time = 2;
+
+      // Region ID where message comes from.
+      string region_id = 3;
+    }
+
+    // Describes server message event
+    message ServerMsgEvent {
+      // Message contents
+      google.protobuf.Any data = 1;
+
+      // Time of a message
+      google.protobuf.Timestamp time = 2;
+
+      // If request was routed to another region and response received from
+      // other server, this field will be populated and contain region ID where
+      // request was routed.
+      string routed_region_id = 3;
+    }
+
+    // Describes exit code received from server in specific region.
+    // This type is used only for requests, which receiving server decided to
+    // split across many regions. Each regional server sends own response and
+    // executing server is responsible for merging all partial results into one.
+    // IT does not contain status actually sent to the client.
+    // TODO: No use case for now, just placeholder, no server implementation
+    message RegionalExitEvent {
+      // Final status of a request for given region
+      ntt.rpc.Status status = 1;
+
+      // Time when request finished
+      google.protobuf.Timestamp time = 2;
+
+      // Region ID where status comes from
+      string region_id = 3;
+    }
+
+    // Describes exit event (request finished)
+    message ExitEvent {
+      // Final status of a request
+      ntt.rpc.Status status = 1;
+
+      // Time when request finished
+      google.protobuf.Timestamp time = 2;
+    }
+  }
+
+  // Description of the executed method
+  message Method {
+    // Type name of a method, for example "UpdateRoleBinding".
+    string type = 1;
+
+    // Version in which method was executed.
+    string version = 2;
+  }
+
+  // Additional information about request caller
+  message RequestMetadata {
+    // Source IP from where request came
+    string ip_address = 1;
+
+    // Agent used by the request caller
+    string user_agent = 2;
+  }
+
+  // Description of the main subject resource activity refers to.
+  // For standard, goten-generated actions it's same as subject resource
+  // of the method. For custom actions, in some cases, developer
+  // may pick however different resource (it is customizable in proto audit
+  // spec).
+  message SubjectResource {
+    // full name of the resource
+    string name = 1;
+
+    // difference contains update information of the subject resource.
+    // Left empty if the request described by this activity log did not
+    // update the resource.
+    Difference difference = 2;
+
+    // Describes changes (in database) executed on the resource.
+    message Difference {
+      // List of updated field paths (which are either marked as a state or
+      // spec fields). Proper, actual values are stored in "before" and "after"
+      // fields. Populated only for updating requests.
+      google.protobuf.FieldMask fields = 1;
+
+      // State of the resource before update.
+      // Note that "before" object contains only values of fields present
+      // in "fields". It does not contain whole resource as it was before
+      // the update.
+      google.protobuf.Any before = 2;
+
+      // State of the resource after update.
+      // Note that "after" object contains only values of fields present
+      // in "fields". It does not contain whole resource as it is after
+      // the update.
+      google.protobuf.Any after = 3;
+    }
+  }
+
+  // Activity log category.
+  // Each activity log basically describes read or write action,
+  // optionally describes other "operation" type.
+  enum Category {
+    // Undefined, should never be used
+    Undefined = 0;
+
+    // Describes any request making update on the system state.
+    // Note this includes not just "Update<Res>" requests, but also
+    // creations and deletions (create/delete is also some UPDATE
+    // of the part of the system). However, note that there are other "Update"
+    // types in this enumeration.
+    // Basically, this "Update" type is for any CUD request EXCEPT those
+    // classified as SpecUpdateOnly, StateUpdateOnly, InternalUpdate or
+    // OtherUpdate.
+    Update = 1;
+
+    // Describes any request executing some special operation on the
+    // system. It is to be used by special requests like connecting to
+    // device with SSH.
+    // It's for requests that cannot obviously be classified clearly as
+    // a read or update.
+    Operation = 2;
+
+    // Describes any request updating only "spec" field paths
+    // on the subject resource and not updating any "state" fields.
+    // It may contain additionally updated meta fields.
+    // It never describes create/delete operation.
+    SpecUpdateOnly = 3;
+
+    // Describes any request updating only "state" field paths
+    // on the subject resource and not updating any "spec" fields.
+    // It may contain additionally updated meta fields.
+    // It never describes create/delete operation.
+    StateUpdateOnly = 4;
+
+    // Describes internal update of the system. This is for requests
+    // executed internally by the system (like controller creating role
+    // binding for each group member for each role assigned to group).
+    InternalUpdate = 5;
+
+    // Describes any other non-significant update request (never create/delete).
+    // This is for empty updates or modifying meta fields only.
+    OtherUpdate = 6;
+
+    // Describes request that has been rejected and therefore no action
+    // has happened. This is result of lack of permission/authentication.
+    Rejected = 7;
+
+    // Describes request that has failed due to client error (like validation
+    // error)
+    ClientError = 8;
+
+    // Describes request that has failed due to server issue.
+    ServerError = 9;
+
+    // Describes any read request (like BatchGet, Get, List, Watch).
+    Read = 10;
+  }
+}

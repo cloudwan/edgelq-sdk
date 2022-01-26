@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ntt.meta.multi_region;
+
+option java_package = "com.ntt.meta.pb.multi_region";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta";
+
+// SyncingMeta is a helper object associated with each resource that is either
+// regional or is governed by Policy object. Developer of a service must place
+// instance of this object inside resource schema for each resource, otherwise
+// service will not compile. This object is used for internal purposes like Sync
+// controller which ensures data synchronization of all resources across
+// multiple regions. This object must be defined in each resource schema, but
+// not necessarily as "top" field. It can be in the nested message. Code-gen
+// tools automatically tries to detect presence of this field in resource schema
+// - by using first field path found. It puts priority on the shortest path from
+// the root - breadth first.
+message SyncingMeta {
+  // For regional resources (or their descendants) it is equal to the region ID
+  // (present in resource name). Otherwise it is equal to the region as defined
+  // in Policy object under default_control_region field.
+  string owning_region = 1;
+
+  // List of regions where owning resource can be present. If can be present in
+  // all regions, will contain "*".
+  repeated string regions = 2;
+}

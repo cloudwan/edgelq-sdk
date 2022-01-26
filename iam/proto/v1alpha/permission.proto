@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+option java_outer_classname = "PermissionProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/permission;permission";
+
+// Permission Resource
+message Permission {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Permission"
+    pattern : "permissions/{permission}"
+  };
+
+  // Name of Permission
+  // Example: liquid.site.create
+  string name = 1;
+
+  // Title
+  string title = 2;
+
+  // Description
+  string description = 3;
+}

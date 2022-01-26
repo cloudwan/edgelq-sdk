@@ -1,0 +1,96 @@
+# ignore all
+*
+# unignore all with extensions
+!*.*
+# unignore all dirs
+!*/
+# unignore Dockerfile
+!Dockerfile
+# unignore Makefile
+!Makefile
+# unignore Gemfile
+!Gemfile
+
+!CODEOWNERS
+
+# ignore keys, certs
+id_rsa
+*.key
+*.gpg
+*key.json
+*cred.json
+*credentials.json
+*.pem
+*.csr
+*.crt
+*.pub
+
+# ignore tmp files
+*~
+*.swp
+
+# ignore backup files
+*.bak
+*.bck
+
+# ignore macos attribute files
+.DS_Store
+
+# ignore compiled objects
+*.o
+*.pyc
+
+# ignore build output directories
+out/
+dist/
+target/
+
+# ignore developer playground directories
+playground
+
+# ignore database files
+*.db
+
+# ignore log files (vagrant, npm)
+*.log
+
+# ignore project tool private dirs
+.vscode/
+.vagrant/
+.idea/
+\#*\#
+.\#*
+.vs/
+
+# ignore ui caches
+node_modules/
+.awcache/
+
+# ignore terraform stuff
+.terraform/
+terraform.tfstate.d/
+
+# ignore go unit tests profile outputs
+coverage.out
+coverage.html
+coverage_percent.txt
+
+# golang gomock tmp files
+gomock_reflect*
+
+# python ignores
+.hypothesis/
+.pytest_cache/
+reports/
+__pycache__/
+*.py[cod]
+
+# python envs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+/.gitconfig

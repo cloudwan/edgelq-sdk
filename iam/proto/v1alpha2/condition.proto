@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha2";
+
+option java_outer_classname = "ConditionProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition;condition";
+
+// Condition Resource provides an extension to primary RBAC model, which allows
+// customizable (scriptable) access. Conditions can only be used to further
+// limit (or narrow) access compared to standard (or unconditional) RBAC.
+//
+// Usage:
+//
+// 1. Condition is created with expression and parameter declarations.
+//    Consider this a definition, which will be later "bound".
+// 2. When creating a [RoleBinding] pass [ConditionBinding] with reference to
+// [Condition] and bound parameters.
+//
+// When checking for principal access (anonymous, user, service account), for
+// RoleBinding to grant permissions included in bound [Role], both RBAC and
+// Condition expression evaluation must grant access.
+message Condition {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/Condition"
+    pattern : "conditions/{condition}"
+    pattern : "projects/{project}/conditions/{condition}"
+    pattern : "organizations/{organization}/conditions/{condition}"
+  };
+
+  // Name of Condition
+  string name = 1;
+
+  // Display Name
+  string display_name = 2;
+
+  // Description
+  string description = 3;
+
+  // Condition expression in [Google
+  // CEL](https://github.com/google/cel-spec/blob/v0.4.0/doc/intro.md), syntax,
+  // e.g. `resource.name == "projects/xyz/instances/abc"`
+  //
+  // Accessible parameters:
+  // | variable | type | description | examples |
+  // |-|-|-|-|
+  // | `resource.body` | `string` | Resource type | `"iam.edgelq.com/Condition"`
+  // | | `request.action` | `string` | Action verb | `"create"`, `"batchGet"` |
+  // | `request.body` | `dyn` | Request body (in native format). |
+  // request.body.page_size | | `parameters` | `map(string, dyn)` | Bound
+  // parameters. | `parameters.minSeverity` | | `attest.policy` | `string` |
+  // Name of attestation policy attested with by the atestee; empty string if
+  // none. | `""`, `"projects/myProj/AttestationPolicies/myPol"` |
+  //
+  // Extension:
+  //
+  // Some
+  //
+  // Filter.`satisfies(other)`
+  //
+  // Access is determined by the return value. Return `true` to grant access or
+  // `false` to deny. Any execution error results in access denied.
+  string expression = 4;
+
+  // Typed parameters declarations. When binding a Condition passed parameters
+  // must correspond to declarations.
+  repeated ParameterDeclaration parameter_declarations = 5;
+
+  // Metadata
+  ntt.types.Meta metadata = 6;
+
+  // Parameter Declarations used
+  message ParameterDeclaration {
+    // Parameter Key - must be unique within condition. Defined parameter
+    // variables are accessible in condition expression via `parameters.<key>`,
+    // e.g.`parameters.projectId`
+    string key = 1;
+
+    // Parameter value type
+    ParameterType type = 2;
+  }
+
+  // Parameter Type. Note: currently only STRING type is supported.
+  enum ParameterType {
+    TYPE_UNSPECIFIED = 0;
+
+    STRING = 1;
+
+    INT64 = 2;
+
+    DOUBLE = 3;
+
+    BOOL = 4;
+  }
+}
+
+// ConditionBinding represents instantiantion of condi
+message ConditionBinding {
+  // Reference to Condition which may also be parameterized
+  string condition = 1;
+
+  // Parameters in string form. Parameters must match
+  // [declarations][ntt.iam.v1alpha2.Condition.parameter_declarations]
+  map<string, string> parameters = 2;
+}

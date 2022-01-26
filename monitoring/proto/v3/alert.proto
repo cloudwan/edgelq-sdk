@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "edgelq-sdk/monitoring/proto/v3/common.proto";
+
+import "google/api/resource.proto";
+
+import "google/protobuf/duration.proto";
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+option java_outer_classname = "AlertProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert;alert";
+
+message Alert {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/Alert"
+    pattern : "projects/{project}/alertingPolicies/{alerting_policy}/regions/"
+              "{region}/alertingConditions/{alerting_condition}/alerts/{alert}"
+  };
+
+  // Name of Alert
+  string name = 1;
+
+  ntt.types.Meta metadata = 2;
+
+  string display_name = 3;
+
+  Info info = 4;
+
+  // State of alert
+  State state = 5;
+
+  message Info {
+    // TimeSerie labels that violated condition
+    TimeSerie time_serie = 1;
+
+    // observed time series values during alert creation
+    ObservedValues observed_values = 2;
+
+    message TimeSerie {
+      bytes key = 101;
+
+      Metric metric = 1;
+
+      MonitoredResource monitored_resource = 2;
+    }
+
+    message ObservedValues {
+      // oneof
+      double example_value = 1;
+
+      map<string, double> per_metric = 2;
+    }
+  }
+
+  message State {
+    bool is_firing = 2;
+
+    bool is_acknowledged = 3;
+
+    bool is_silenced = 4;
+
+    // describes in terms of time series when alert began and ended (resolved).
+    // uses Time Series derived timestamps, rather than real-time.
+    // use meta.create_time to get creation date.
+    TimeRange lifetime = 7;
+
+    // Notification state
+    Notification notification = 8;
+
+    // oneof:
+    message Threshold { double observed_value = 1; }
+
+    message CombineThreshold {
+      message PerMetric { map<string, double> observed_values = 2; }
+    }
+
+    message Notification {
+      Slack slack = 1;
+
+      message Slack {
+        // Slack message "ts" (timestamp) string field. Used to track message
+        string ts = 1;
+
+        // Delivery State
+        DeliveryStatus delivery_status = 2;
+
+        // Message explaining issue. Only present if delivery_state is ERROR
+        string error_message = 3;
+
+        enum DeliveryStatus {
+          DELIVERY_STATUS_UNSPECIFIED = 0;
+
+          PENDING = 1;
+
+          SUCCESS = 2;
+
+          ERROR = 3;
+        }
+      }
+    }
+  }
+}

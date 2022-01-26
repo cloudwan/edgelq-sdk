@@ -1,0 +1,708 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "google/protobuf/duration.proto";
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+option java_outer_classname = "CommonProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/common/v3;monitoring_common";
+
+// A description of a label.
+message LabelDescriptor {
+  // The label key.
+  string key = 1;
+
+  // The type of data that can be assigned to the label.
+  ValueType value_type = 2;
+
+  // A human-readable description for the label.
+  string description = 3;
+
+  // Default value for string label - this value is used in two cases:
+  // 1. to populate missing labels while creating TimeSeries
+  // 2. to populate missing remaining kvs while querying TimeSeries - usually
+  // applies to old data
+  string default_value = 12;
+
+  // disabled flag communicates that this label is ignored by the backend. It's
+  // used for backward compatibility.
+  bool disabled = 13;
+
+  // Value types that can be used as label values.
+  enum ValueType {
+    // A variable-length string. This is the default.
+    STRING = 0;
+
+    // Boolean; true or false.
+    BOOL = 1;
+
+    // A 64-bit signed integer.
+    INT64 = 2;
+  }
+}
+
+// LabelKeySet is used for defining PromotedLabelKeySets on Metric descriptors
+message LabelKeySet {
+  repeated string label_keys = 1;
+
+  // if set, index will not be considered for queries, but will be written to.
+  // useful for transition periods.
+  bool write_only = 2;
+}
+
+// Distribution contains summary statistics for a population of values and,
+// optionally, a histogram representing the distribution of those values across
+// a specified set of histogram buckets.
+//
+// The summary statistics are the count, mean, sum of the squared deviation from
+// the mean, the minimum, and the maximum of the set of population of values.
+//
+// The histogram is based on a sequence of buckets and gives a count of values
+// that fall into each bucket.  The boundaries of the buckets are given either
+// explicitly or by specifying parameters for a method of computing them
+// (buckets of fixed width or buckets of exponentially increasing width).
+//
+// Although it is not forbidden, it is generally a bad idea to include
+// non-finite values (infinities or NaNs) in the population of values, as this
+// will render the `mean` and `sum_of_squared_deviation` fields meaningless.
+message Distribution {
+  // The number of values in the population. Must be non-negative.
+  int64 count = 1;
+
+  // The arithmetic mean of the values in the population. If `count` is zero
+  // then this field must be zero.
+  double mean = 2;
+
+  // The sum of squared deviations from the mean of the values in the
+  // population.  For values x_i this is:
+  //
+  //     Sum[i=1..n]((x_i - mean)^2)
+  //
+  // Knuth, "The Art of Computer Programming", Vol. 2, page 323, 3rd edition
+  // describes Welford's method for accumulating this sum in one pass.
+  //
+  // If `count` is zero then this field must be zero.
+  double sum_of_squared_deviation = 3;
+
+  // If specified, contains the range of the population values. The field
+  // must not be present if the `count` is zero.
+  Range range = 4;
+
+  // Defines the histogram bucket boundaries.
+  BucketOptions bucket_options = 6;
+
+  // If `bucket_options` is given, then the sum of the values in `bucket_counts`
+  // must equal the value in `count`.  If `bucket_options` is not given, no
+  // `bucket_counts` fields may be given.
+  //
+  // Bucket counts are given in order under the numbering scheme described
+  // above (the underflow bucket has number 0; the finite buckets, if any,
+  // have numbers 1 through N-2; the overflow bucket has number N-1).
+  //
+  // The size of `bucket_counts` must be no greater than N as defined in
+  // `bucket_options`.
+  //
+  // Any suffix of trailing zero bucket_count fields may be omitted.
+  repeated int64 bucket_counts = 7;
+
+  // The range of the population values.
+  message Range {
+    // The minimum of the population values.
+    double min = 1;
+
+    // The maximum of the population values.
+    double max = 2;
+  }
+
+  // A Distribution may optionally contain a histogram of the values in the
+  // population.  The histogram is given in `bucket_counts` as counts of values
+  // that fall into one of a sequence of non-overlapping buckets.  The sequence
+  // of buckets is described by `bucket_options`.
+  //
+  // A bucket specifies an inclusive lower bound and exclusive upper bound for
+  // the values that are counted for that bucket.  The upper bound of a bucket
+  // is strictly greater than the lower bound.
+  //
+  // The sequence of N buckets for a Distribution consists of an underflow
+  // bucket (number 0), zero or more finite buckets (number 1 through N - 2) and
+  // an overflow bucket (number N - 1).  The buckets are contiguous:  the lower
+  // bound of bucket i (i > 0) is the same as the upper bound of bucket i - 1.
+  // The buckets span the whole range of finite values: lower bound of the
+  // underflow bucket is -infinity and the upper bound of the overflow bucket is
+  // +infinity.  The finite buckets are so-called because both bounds are
+  // finite.
+  //
+  // `BucketOptions` describes bucket boundaries in one of three ways.  Two
+  // describe the boundaries by giving parameters for a formula to generate
+  // boundaries and one gives the bucket boundaries explicitly.
+  //
+  // If `bucket_boundaries` is not given, then no `bucket_counts` may be given.
+  message BucketOptions {
+    // Exactly one of these three fields must be set.
+    oneof options {
+      // The linear bucket.
+      Linear linear_buckets = 1;
+
+      // The exponential buckets.
+      Exponential exponential_buckets = 2;
+
+      // The explicit buckets.
+      Explicit explicit_buckets = 3;
+
+      // TDigest dynamic bucketing
+      Dynamic dynamic_buckets = 9;
+    }
+
+    // Specify a sequence of buckets that all have the same width (except
+    // overflow and underflow).  Each bucket represents a constant absolute
+    // uncertainty on the specific value in the bucket.
+    //
+    // Defines `num_finite_buckets + 2` (= N) buckets with these boundaries for
+    // bucket `i`:
+    //
+    //    Upper bound (0 <= i < N-1):     offset + (width * i).
+    //    Lower bound (1 <= i < N):       offset + (width * (i - 1)).
+    message Linear {
+      // Must be greater than 0.
+      int32 num_finite_buckets = 1;
+
+      // Must be greater than 0.
+      double width = 2;
+
+      // Lower bound of the first bucket.
+      double offset = 3;
+    }
+
+    // Specify a sequence of buckets that have a width that is proportional to
+    // the value of the lower bound.  Each bucket represents a constant relative
+    // uncertainty on a specific value in the bucket.
+    //
+    // Defines `num_finite_buckets + 2` (= N) buckets with these boundaries for
+    // bucket i:
+    //
+    //    Upper bound (0 <= i < N-1):     scale * (growth_factor ^ i).
+    //    Lower bound (1 <= i < N):       scale * (growth_factor ^ (i - 1)).
+    message Exponential {
+      // Must be greater than 0.
+      int32 num_finite_buckets = 1;
+
+      // Must be greater than 1.
+      double growth_factor = 2;
+
+      // Must be greater than 0.
+      double scale = 3;
+    }
+
+    // A set of buckets with arbitrary widths.
+    //
+    // Defines `size(bounds) + 1` (= N) buckets with these boundaries for
+    // bucket i:
+    //
+    //    Upper bound (0 <= i < N-1):     bounds[i]
+    //    Lower bound (1 <= i < N);       bounds[i - 1]
+    //
+    // There must be at least one element in `bounds`.  If `bounds` has only one
+    // element, there are no finite buckets, and that single element is the
+    // common boundary of the overflow and underflow buckets.
+    message Explicit {
+      // The values must be monotonically increasing.
+      repeated double bounds = 1;
+    }
+
+    // Dynamic buckets centroid based. TDigest implementation.
+    message Dynamic {
+      // TDigest compression rate
+      double compression = 1;
+
+      // Centroid means. Must be the same length as bucket counts.
+      // Each mean, count represents a weighed centroid.
+      repeated double means = 2;
+    }
+  }
+}
+
+// A single strongly-typed value.
+message TypedValue {
+  // The typed value field.
+  oneof value {
+    // A Boolean value: `true` or `false`.
+    bool bool_value = 1;
+
+    // A 64-bit integer. Its range is approximately &plusmn;9.2x10<sup>18</sup>.
+    int64 int64_value = 2;
+
+    // A 64-bit double-precision floating-point number. Its magnitude
+    // is approximately &plusmn;10<sup>&plusmn;300</sup> and it has 16
+    // significant digits of precision.
+    double double_value = 3;
+
+    // A variable-length string value.
+    string string_value = 4;
+
+    // A distribution value.
+    Distribution distribution_value = 5;
+  }
+}
+
+// A time interval extending just after a start time through an end time.
+// If the start time is the same as the end time, then the interval
+// represents a single point in time.
+message TimeInterval {
+  // Required. The end of the time interval.
+  google.protobuf.Timestamp end_time = 2;
+
+  // Optional. The beginning of the time interval.  The default value
+  // for the start time is the end time. The start time must not be
+  // later than the end time.
+  google.protobuf.Timestamp start_time = 1;
+}
+
+// Time Range represents time between two points in time. Any of those can
+// be missing, which means it's open-ended.
+message TimeRange {
+  // Optional. Start of time range
+  google.protobuf.Timestamp start_time = 1;
+
+  // Optional. End of time range
+  google.protobuf.Timestamp end_time = 2;
+}
+
+// Describes how to combine multiple time series to provide different views of
+// the data.  Aggregation consists of an alignment step on individual time
+// series (`alignment_period` and `per_series_aligner`) followed by an optional
+// reduction step of the data across the aligned time series
+// (`cross_series_reducer` and `group_by_fields`).  For more details, see
+// [Aggregation](/monitoring/api/learn_more#aggregation).
+message Aggregation {
+  // The alignment period for per-[time series][ntt.monitoring.v3.TimeSeries]
+  // alignment. If present, `alignmentPeriod` must be at least 60
+  // seconds.  After per-time series alignment, each time series will
+  // contain data points only on the period boundaries. If
+  // `perSeriesAligner` is not specified or equals `ALIGN_NONE`, then
+  // this field is ignored. If `perSeriesAligner` is specified and
+  // does not equal `ALIGN_NONE`, then this field must be defined;
+  // otherwise an error is returned.
+  google.protobuf.Duration alignment_period = 1;
+
+  // The approach to be used to align individual time series. Not all
+  // alignment functions may be applied to all time series, depending
+  // on the metric type and value type of the original time
+  // series. Alignment may change the metric type or the value type of
+  // the time series.
+  //
+  // Time series data must be aligned in order to perform cross-time
+  // series reduction. If `crossSeriesReducer` is specified, then
+  // `perSeriesAligner` must be specified and not equal `ALIGN_NONE`
+  // and `alignmentPeriod` must be specified; otherwise, an error is
+  // returned.
+  Aligner per_series_aligner = 2;
+
+  // The approach to be used to combine time series. Not all reducer
+  // functions may be applied to all time series, depending on the
+  // metric type and the value type of the original time
+  // series. Reduction may change the metric type of value type of the
+  // time series.
+  //
+  // Time series data must be aligned in order to perform cross-time
+  // series reduction. If `crossSeriesReducer` is specified, then
+  // `perSeriesAligner` must be specified and not equal `ALIGN_NONE`
+  // and `alignmentPeriod` must be specified; otherwise, an error is
+  // returned.
+  Reducer cross_series_reducer = 4;
+
+  // The set of fields to preserve when `crossSeriesReducer` is
+  // specified. The `groupByFields` determine how the time series are
+  // partitioned into subsets prior to applying the aggregation
+  // function. Each subset contains time series that have the same
+  // value for each of the grouping fields. Each individual time
+  // series is a member of exactly one subset. The
+  // `crossSeriesReducer` is applied to each subset of time series.
+  // It is not possible to reduce across different resource types, so
+  // this field implicitly contains `resource.type`.  Fields not
+  // specified in `groupByFields` are aggregated away.  If
+  // `groupByFields` is not specified and all the time series have
+  // the same resource type, then the time series are aggregated into
+  // a single output time series. If `crossSeriesReducer` is not
+  // defined, this field is ignored.
+  repeated string group_by_fields = 5;
+
+  // The Aligner describes how to bring the data points in a single
+  // time series into temporal alignment.
+  enum Aligner {
+    // No alignment. Raw data is returned. Not valid if cross-time
+    // series reduction is requested. The value type of the result is
+    // the same as the value type of the input.
+    ALIGN_NONE = 0;
+
+    // Align and convert to delta metric type. This alignment is valid
+    // for cumulative metrics and delta metrics. Aligning an existing
+    // delta metric to a delta metric requires that the alignment
+    // period be increased. The value type of the result is the same
+    // as the value type of the input.
+    //
+    // One can think of this aligner as a rate but without time units; that
+    // is, the output is conceptually (second_point - first_point).
+    ALIGN_DELTA = 1;
+
+    // Align and convert to a rate. This alignment is valid for
+    // cumulative metrics and delta metrics with numeric values. The output is a
+    // gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    //
+    // One can think of this aligner as conceptually providing the slope of
+    // the line that passes through the value at the start and end of the
+    // window. In other words, this is conceptually ((y1 - y0)/(t1 - t0)),
+    // and the output unit is one that has a "/time" dimension.
+    //
+    // If, by rate, you are looking for percentage change, see the
+    // `ALIGN_PERCENT_CHANGE` aligner option.
+    ALIGN_RATE = 2;
+
+    // Align by interpolating between adjacent points around the
+    // period boundary. This alignment is valid for gauge
+    // metrics with numeric values. The value type of the result is the same
+    // as the value type of the input.
+    ALIGN_INTERPOLATE = 3;
+
+    // Align by shifting the oldest data point before the period
+    // boundary to the boundary. This alignment is valid for gauge
+    // metrics. The value type of the result is the same as the
+    // value type of the input.
+    ALIGN_NEXT_OLDER = 4;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the minimum of all data points in the
+    // period. This alignment is valid for gauge and delta metrics with numeric
+    // values. The value type of the result is the same as the value
+    // type of the input.
+    ALIGN_MIN = 10;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the maximum of all data points in the
+    // period. This alignment is valid for gauge and delta metrics with numeric
+    // values. The value type of the result is the same as the value
+    // type of the input.
+    ALIGN_MAX = 11;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the average or arithmetic mean of all
+    // data points in the period. This alignment is valid for gauge and delta
+    // metrics with numeric values. The value type of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_MEAN = 12;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the count of all data points in the
+    // period. This alignment is valid for gauge and delta metrics with numeric
+    // or Boolean values. The value type of the output is
+    // [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    ALIGN_COUNT = 13;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the sum of all data points in the
+    // period. This alignment is valid for gauge and delta metrics with numeric
+    // and distribution values. The value type of the output is the
+    // same as the value type of the input.
+    ALIGN_SUM = 14;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the standard deviation of all data
+    // points in the period. This alignment is valid for gauge and delta metrics
+    // with numeric values. The value type of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_STDDEV = 15;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the count of True-valued data points in the
+    // period. This alignment is valid for gauge metrics with
+    // Boolean values. The value type of the output is
+    // [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    ALIGN_COUNT_TRUE = 16;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the count of False-valued data points in the
+    // period. This alignment is valid for gauge metrics with
+    // Boolean values. The value type of the output is
+    // [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    ALIGN_COUNT_FALSE = 24;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the fraction of True-valued data points in the
+    // period. This alignment is valid for gauge metrics with Boolean values.
+    // The output value is in the range [0, 1] and has value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_FRACTION_TRUE = 17;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the 99th percentile of all data
+    // points in the period. This alignment is valid for gauge and delta metrics
+    // with distribution values. The output is a gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_PERCENTILE_99 = 18;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the 95th percentile of all data
+    // points in the period. This alignment is valid for gauge and delta metrics
+    // with distribution values. The output is a gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_PERCENTILE_95 = 19;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the 50th percentile of all data
+    // points in the period. This alignment is valid for gauge and delta metrics
+    // with distribution values. The output is a gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_PERCENTILE_50 = 20;
+
+    // Align time series via aggregation. The resulting data point in
+    // the alignment period is the 5th percentile of all data
+    // points in the period. This alignment is valid for gauge and delta metrics
+    // with distribution values. The output is a gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_PERCENTILE_05 = 21;
+
+    // Align and convert to a percentage change. This alignment is valid for
+    // gauge and delta metrics with numeric values. This alignment conceptually
+    // computes the equivalent of "((current - previous)/previous)*100"
+    // where previous value is determined based on the alignmentPeriod.
+    // In the event that previous is 0 the calculated value is infinity with the
+    // exception that if both (current - previous) and previous are 0 the
+    // calculated value is 0.
+    // A 10 minute moving mean is computed at each point of the time window
+    // prior to the above calculation to smooth the metric and prevent false
+    // positives from very short lived spikes.
+    // Only applicable for data that is >= 0. Any values < 0 are treated as
+    // no data. While delta metrics are accepted by this alignment special care
+    // should be taken that the values for the metric will always be positive.
+    // The output is a gauge metric with value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    ALIGN_PERCENT_CHANGE = 23;
+
+    // Outputs Distribution without bucketing with stats like: Min, Max, Count,
+    // Mean, SumOfSquaredDeviations valid only for LONG, DOUBLE and DISTRIBUTION
+    // value types
+    ALIGN_SUMMARY = 45;
+
+    // TDigest Summary allows for calculation (and further aggregation) of
+    // percentiles
+    ALIGN_TDIGEST_SUMMARY = 46;
+  }
+
+  // A Reducer describes how to aggregate data points from multiple
+  // time series into a single time series.
+  enum Reducer {
+    // No cross-time series reduction. The output of the aligner is
+    // returned.
+    REDUCE_NONE = 0;
+
+    // Reduce by computing the mean across time series for each
+    // alignment period. This reducer is valid for delta and
+    // gauge metrics with numeric or distribution values. The value type of the
+    // output is [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    REDUCE_MEAN = 1;
+
+    // Reduce by computing the minimum across time series for each
+    // alignment period. This reducer is valid for delta and
+    // gauge metrics with numeric values. The value type of the output
+    // is the same as the value type of the input.
+    REDUCE_MIN = 2;
+
+    // Reduce by computing the maximum across time series for each
+    // alignment period. This reducer is valid for delta and
+    // gauge metrics with numeric values. The value type of the output
+    // is the same as the value type of the input.
+    REDUCE_MAX = 3;
+
+    // Reduce by computing the sum across time series for each
+    // alignment period. This reducer is valid for delta and
+    // gauge metrics with numeric and distribution values. The value type of
+    // the output is the same as the value type of the input.
+    REDUCE_SUM = 4;
+
+    // Reduce by computing the standard deviation across time series
+    // for each alignment period. This reducer is valid for delta
+    // and gauge metrics with numeric or distribution values. The value type of
+    // the output is [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    REDUCE_STDDEV = 5;
+
+    // Reduce by computing the count of data points across time series
+    // for each alignment period. This reducer is valid for delta
+    // and gauge metrics of numeric, Boolean, distribution, and string value
+    // type. The value type of the output is
+    // [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    REDUCE_COUNT = 6;
+
+    // Reduce by computing the count of True-valued data points across time
+    // series for each alignment period. This reducer is valid for delta
+    // and gauge metrics of Boolean value type. The value type of
+    // the output is [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    REDUCE_COUNT_TRUE = 7;
+
+    // Reduce by computing the count of False-valued data points across time
+    // series for each alignment period. This reducer is valid for delta
+    // and gauge metrics of Boolean value type. The value type of
+    // the output is [INT64][google.api.MetricDescriptor.ValueType.INT64].
+    REDUCE_COUNT_FALSE = 15;
+
+    // Reduce by computing the fraction of True-valued data points across time
+    // series for each alignment period. This reducer is valid for delta
+    // and gauge metrics of Boolean value type. The output value is in the
+    // range [0, 1] and has value type
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE].
+    REDUCE_FRACTION_TRUE = 8;
+
+    // Reduce by computing 99th percentile of data points across time series
+    // for each alignment period. This reducer is valid for gauge and delta
+    // metrics of numeric and distribution type. The value of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE]
+    REDUCE_PERCENTILE_99 = 9;
+
+    // Reduce by computing 95th percentile of data points across time series
+    // for each alignment period. This reducer is valid for gauge and delta
+    // metrics of numeric and distribution type. The value of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE]
+    REDUCE_PERCENTILE_95 = 10;
+
+    // Reduce by computing 50th percentile of data points across time series
+    // for each alignment period. This reducer is valid for gauge and delta
+    // metrics of numeric and distribution type. The value of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE]
+    REDUCE_PERCENTILE_50 = 11;
+
+    // Reduce by computing 5th percentile of data points across time series
+    // for each alignment period. This reducer is valid for gauge and delta
+    // metrics of numeric and distribution type. The value of the output is
+    // [DOUBLE][google.api.MetricDescriptor.ValueType.DOUBLE]
+    REDUCE_PERCENTILE_05 = 12;
+
+    // Reduce with Distribution with stats like: Min, Max, Count, Mean,
+    // SumOfSquaredDeviations, histogram. This reducer is valid for gauge and
+    // delta metrics of numeric and distribution type. The value of the output
+    // is [DISTRIBUTION][google.api.MetricDescriptor.ValueType.DISTRIBUTION]
+    REDUCE_SUMMARY = 13;
+  }
+}
+
+// A specific metric, identified by specifying values for all of the
+// labels of a [`MetricDescriptor`][google.api.MetricDescriptor].
+message Metric {
+  // An existing metric type, see
+  // [google.api.MetricDescriptor][google.api.MetricDescriptor]. For example,
+  // `custom.googleapis.com/invoice/paid/amount`.
+  string type = 3;
+
+  // The set of label values that uniquely identify this metric. All
+  // labels listed in the `MetricDescriptor` must be assigned values.
+  map<string, string> labels = 2;
+
+  // reduced labels in aggregations
+  repeated string reduced_labels = 11;
+}
+
+// An object representing a resource that can be used for monitoring, logging,
+// billing, or other purposes. Examples include virtual machine instances,
+// databases, and storage devices such as disks. The `type` field identifies a
+// [MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor] object
+// that describes the resource's schema. Information in the `labels` field
+// identifies the actual resource and its attributes according to the schema.
+// For example, a particular Compute Engine VM instance could be represented by
+// the following object, because the
+// [MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor] for
+// `"gce_instance"` has labels
+// `"instance_id"` and `"zone"`:
+//
+//     { "type": "gce_instance",
+//       "labels": { "instance_id": "12345678901234",
+//                   "zone": "us-central1-a" }}
+message MonitoredResource {
+  // Required. The monitored resource type. This field must match
+  // the `type` field of a
+  // [MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor]
+  // object. For example, the type of a Compute Engine VM instance is
+  // `gce_instance`.
+  string type = 1;
+
+  // Required. Values for all of the labels listed in the associated monitored
+  // resource descriptor. For example, Compute Engine VM instances use the
+  // labels `"project_id"`, `"instance_id"`, and `"zone"`.
+  map<string, string> labels = 2;
+
+  // reduced labels in aggregations
+  repeated string reduced_labels = 11;
+}
+
+// Auxiliary metadata for a [MonitoredResource][google.api.MonitoredResource]
+// object. [MonitoredResource][google.api.MonitoredResource] objects contain the
+// minimum set of information to uniquely identify a monitored resource
+// instance. There is some other useful auxiliary metadata. Monitoring and
+// Logging use an ingestion pipeline to extract metadata for cloud resources of
+// all types, and store the metadata in this message.
+message MonitoredResourceMetadata {
+  // Output only. A map of user-defined metadata labels.
+  map<string, string> user_labels = 2;
+}
+
+// Represents wrapped list of strings.
+message Strings { repeated string values = 1; }
+
+// MonitoredResourceSelector selects `resource.type` and list of labels used to
+// build query, like:
+//
+// ```
+// resource.type IN ("type0", "type1", ...) AND
+// resource.labels.<key0> IN (label0_0, label0_1, ...) AND
+// resource.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+//
+// Note: Only one resource.type per query is currently allowed
+message MonitoredResourceSelector {
+  repeated string types = 1;
+
+  // label key, e.g. "project_id", "target_id", etc
+  // Note the missing "resource.labels." prefix.
+  map<string, Strings> labels = 2;
+}
+
+// Metric selects `metric.type` and list of labels used to
+// build query, like:
+//
+// ```
+// metric.type IN ("type0", "type1", ...) AND
+// metric.labels.<key0> IN (label0_0, label0_1, ...) AND
+// metric.labels.<key1> IN (label1_0, label1_1, ...) AND ...
+// ```
+//
+message MetricSelector {
+  repeated string types = 1;
+
+  // label key, e.g. "project_id", "target_id", etc
+  // Note the missing "metric.labels." prefix.
+  map<string, Strings> labels = 2;
+}
+
+message TimeSeriesSelector {
+  // Metric Selector used to specify filtered Metric types and labels
+  MetricSelector metric = 1;
+
+  // Resource Selector used to specify filtered Monitored Resource
+  // types and labels
+  MonitoredResourceSelector resource = 2;
+}
+
+// Controls which fields are returned by `ListTimeSeries`.
+enum TimeSeriesView {
+  // Returns the identity of the metric(s), the time series,
+  // and the time series data.
+  FULL = 0;
+
+  // Returns the identity of the metric and the time series resource,
+  // but not the time series data.
+  HEADERS = 1;
+}

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/iam/proto/v1alpha/project_invitation.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_invitation_change.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+option java_outer_classname = "ProjectInvitationCustomProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha/project_invitation;project_invitation_client";
+
+// Request message for method
+// [AcceptProjectInvitation][ntt.iam.v1alpha.AcceptProjectInvitation]
+message AcceptProjectInvitationRequest {
+  // reference of ntt.iam.v1alpha.ProjectInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [AcceptProjectInvitation][ntt.iam.v1alpha.AcceptProjectInvitation]
+message AcceptProjectInvitationResponse {}
+
+// Request message for method
+// [DeclineProjectInvitation][ntt.iam.v1alpha.DeclineProjectInvitation]
+message DeclineProjectInvitationRequest {
+  // reference of ntt.iam.v1alpha.ProjectInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [DeclineProjectInvitation][ntt.iam.v1alpha.DeclineProjectInvitation]
+message DeclineProjectInvitationResponse {}
+
+// Request message for method
+// [ListMyProjectInvitations][ntt.iam.v1alpha.ListMyProjectInvitations]
+message ListMyProjectInvitationsRequest {
+  // Reference of ntt.iam.v1alpha.Project
+  string parent = 1;
+
+  // Additional filter for invitations, e.g. state = "PENDING"
+  string filter = 5;
+}
+
+// Response message for method
+// [ListMyProjectInvitations][ntt.iam.v1alpha.ListMyProjectInvitations]
+message ListMyProjectInvitationsResponse {
+  // The list of ProjectInvitations
+  repeated ProjectInvitation project_invitations = 1;
+}

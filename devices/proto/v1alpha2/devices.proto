@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha2;
+
+import "edgelq-sdk/devices/proto/v1alpha2/broker_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/broker_service.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/device_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/device_service.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/project.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/project_service.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request_service.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_policy.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_policy_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/provisioning_policy_service.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/public_custom.proto";
+
+import "edgelq-sdk/devices/proto/v1alpha2/public_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/iam.proto";
+
+import "google/api/annotations.proto";
+
+import "google/api/client.proto";
+
+import "google/protobuf/empty.proto";
+
+option java_outer_classname = "DevicesProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/devices;devices_client";
+
+option java_package = "com.ntt.devices.pb.v1alpha2";

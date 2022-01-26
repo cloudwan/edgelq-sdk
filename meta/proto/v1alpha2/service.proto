@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package ntt.meta.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.meta.pb.v1alpha2";
+
+option java_outer_classname = "ServiceProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service;service";
+
+// Service Resource
+message Service {
+  option (google.api.resource) = {
+    type : "meta.edgelq.com/Service"
+    pattern : "services/{service}"
+  };
+
+  // Name of Service
+  string name = 1;
+
+  // Metadata
+  ntt.types.Meta metadata = 2;
+}

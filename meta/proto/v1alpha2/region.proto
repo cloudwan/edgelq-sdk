@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package ntt.meta.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_package = "com.ntt.meta.pb.v1alpha2";
+
+option java_outer_classname = "RegionProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region;region";
+
+// Region Resource
+message Region {
+  option (google.api.resource) = {
+    type : "meta.edgelq.com/Region"
+    pattern : "regions/{region}"
+  };
+
+  // Name of Region
+  string name = 1;
+
+  // Region title
+  string title = 2;
+
+  // Region domain, for example us-west.edgelq.com
+  string domain = 3;
+
+  // Region location
+  RegionLocation location = 4;
+
+  // Whether is default. Only one record is allowed to have this attribute on.
+  bool is_default = 5;
+
+  // Hardcoded scores regarding connectivity preference.
+  repeated RegionConnectivityPreference connectivity_scores = 6;
+
+  // Metadata
+  ntt.types.Meta metadata = 7;
+
+  // RegionLocation describes deployment location of a region.
+  message RegionLocation {
+    string continent = 1;
+
+    string country = 2;
+
+    string agglomeration = 3;
+
+    string city = 4;
+
+    string cloud = 5;
+  }
+
+  // RegionConnectivityPreference is a hardcoded connectivity score to other
+  // region.
+  message RegionConnectivityPreference {
+    // Destination region
+    string dest = 2;
+
+    // Hardcoded score
+    int32 score = 3;
+  }
+}

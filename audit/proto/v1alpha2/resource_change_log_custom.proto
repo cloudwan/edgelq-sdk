@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha2;
+
+import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
+
+import "edgelq-sdk/audit/proto/v1alpha2/resource_change_log.proto";
+
+import "edgelq-sdk/common/rpc/status.proto";
+
+import "google/api/resource.proto";
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.ntt.audit.pb.v1alpha2";
+
+option java_outer_classname = "ResourceChangeLogCustomProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/resource_change_log;resource_change_log_client";
+
+// Request message for method
+// [ListResourceChangeLogs][ntt.audit.v1alpha2.ListResourceChangeLogs]
+//
+// Returns resource changes for specified time range, region, scope and filter.
+// Note that resource change logs are Resource oriented - primary object is
+// resource here. Audit monitors resources that have non-custom store. Resource
+// change logs are stored only in region which executed those changes and never
+// duplicated. Because of that its important to pay attention to region IDs in a
+// request object.
+//
+// Note that filter field is mandatory and minimal filters are:
+// * --filter 'service.name=[SERVICE_NAME] and resource.type=[RESOURCE_NAME]'
+// (what is happening for this resource type)
+// * --filter 'request_id=[REQUEST_ID]' (which resources were changed by this
+// request_id?)
+//
+// Be aware that server will append scope filter condition (and scope IN ...) to
+// an any of the above filters. All scopes are extracted from parents field in
+// ListResourceChangeLogsRequest body. This ensures that users can view only
+// scopes he/she is allowed to.
+//
+// For all of the above filters you can replace filter condition compare (=)
+// with IN operator. You can therefore query for multiple services, methods or
+// users at once. Above filters are also preferred as we have optimization for
+// them.
+//
+// Resource change logs can also be filtered by custom labels (field labels in
+// ResourceChangeLog - pre and post versions). Labels are custom per each API
+// resource - so you must specify service.name and resource.type conditions to
+// enable them. For example, suppose you have a VM resource which contains
+// "group" field, which is a reference to some other resource. If you create
+// label "group" in VM resource spec (in proto model) you can make a following
+// query:
+// *--filter 'service.name=vms.domain.com and resource.type=VM and
+// resource.post.labels.group=projects/P/vmgroups/myGroup'*.
+//
+// Examples of usage (with cuttle - we are interested only in one region and
+// scope):
+// * Checks activities within one hour for role binding resources
+//
+// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
+// us-west
+//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding"'
+//   --interval '{"startTime":"2020-09-08T12:00:00Z",
+//   "endTime":"2020-09-08T13:00:00Z"}' -o json
+//
+// * Checks modification of specific RoleBinding
+//
+// $ cuttle audit query activity-log --parents 'project/demo' --region_ids
+// us-west
+//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
+//   resource.name="projects/x/roleBindings/myRB"'
+//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//
+// * Checks changes on resource RoleBinding made by specific user (we need their
+// email)
+//
+// $ cuttle audit query resource-change-log --parents 'project/demo'
+// --region_ids us-west
+//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
+//   authentication.principal="user:we.know.who@domain.com"'
+//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+message ListResourceChangeLogsRequest {
+  // Parent reference of ntt.audit.v1alpha2.ResourceChangeLog
+  repeated string parents = 1;
+
+  // A audit filter that specifies which resource change logs should be returned
+  string filter = 2;
+
+  // Regions from which records are queried. If empty, then global view is
+  // queried. Its possible also to specify global view (by not providing
+  // request_ids) BUT still provide negative filter condition (NOT IN, !=). In
+  // those cases some regions will be skipped.
+  repeated string region_ids = 3;
+
+  // The time interval for which results should be returned. Only logs
+  // that contain data points in the specified interval are included
+  // in the response.
+  TimeInterval interval = 4;
+
+  // Cap on a number of resource change logs to be included in a response.
+  // Number of logs in an actual response can be higher, since logs are
+  // read in bulk with second precision - exceed logs above the limit will share
+  // same timestamp as the logs below the limit.
+  //
+  // Results will be adjusted to the "end time" taken from interval field
+  // (adjusted also by page_token if provided).
+  int32 page_size = 5;
+
+  // Token which identifies next page with further results. Token should be
+  // taken from ListResourceChangeLogsResponse
+  // [ListResourceChangeLogsResponse.next_page_token][ntt.audit.v1alpha2.ListResourceChangeLogsResponse.next_page_token].
+  string page_token = 6;
+}
+
+// Response message for method
+// [ListResourceChangeLogs][ntt.audit.v1alpha2.ListResourceChangeLogs]
+message ListResourceChangeLogsResponse {
+  // One or more resource change logs that match the filter included in the
+  // request. Contains results from all queried regions. Its possible however
+  // that some logs may be missing, for this see execution_errors.
+  repeated ResourceChangeLog resource_change_logs = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value. To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  // Query execution errors that may have caused the response data returned to
+  // be incomplete. Because logs are stored only locally (for each region), all
+  // resource change log queries are split and merged by a receiving request
+  // server according to the queried regions. Its possible that some regions
+  // will fail when request is redirected to them, but others not. For each
+  // failed region, one execution error will be appended. In each ntt.rpc.Status
+  // message, fields code and message will contain error obtained from failed
+  // regional server, while field details will contain always one item and this
+  // item will be of type ErrorDetails.
+  repeated ntt.rpc.Status execution_errors = 3;
+
+  // ErrorDetails is used when one of the queried regions fails to produce
+  // results. It is used in execution_errors field (see subfield
+  // ntt.rpc.Status.details).
+  message ErrorDetails {
+    // region id which failed to give results.
+    string region_id = 1;
+  }
+}
+
+// Request message for method
+// [CreatePreCommittedResourceChangeLogs][ntt.audit.v1alpha2.CreatePreCommittedResourceChangeLogs]
+//
+// Creates resource change log.
+//
+// This request should not be used by regular users - only API services should
+// be able to submit resource change logs. Developers of services should use
+// logs exporter package offered along other Audit service packages instead of
+// developing own components.
+message CreatePreCommittedResourceChangeLogsRequest {
+  // ID of the request - must be same as the one used in activity logs
+  uint64 request_id = 1;
+
+  // Time of the request
+  google.protobuf.Timestamp timestamp = 2;
+
+  // Authentication data - informs who made a change
+  Authentication authentication = 3;
+
+  // Information about the service
+  ServiceData service = 4;
+
+  // Information about transaction
+  ResourceChangeLog.TransactionInfo transaction = 5;
+
+  // List of changes
+  repeated ResourceChangeLog.ResourceChange changes = 6;
+}
+
+// Response message for method
+// [CreateResourceChangeLogs][ntt.audit.v1alpha2.CreateResourceChangeLogs]
+message CreatePreCommittedResourceChangeLogsResponse {
+  // Resource change log keys - one key per each resource change, in same order
+  repeated bytes log_keys = 1;
+}
+
+// Request message for method
+// [SetResourceChangeLogsCommitState][ntt.audit.v1alpha2.SetResourceChangeLogsCommitState]
+//
+// Sets transaction status of selected resource change logs.
+//
+// This request should not be used by regular users - only API services should
+// be able to modify resource change logs. Developers of services should use
+// logs exporter package offered along other Audit service packages instead of
+// developing own components.
+message SetResourceChangeLogsCommitStateRequest {
+  // list of resource change log keys.
+  repeated bytes log_keys = 1;
+
+  // Time of the request - must be same as in
+  // CreatePreCommittedResourceChangeLogsRequest
+  google.protobuf.Timestamp timestamp = 2;
+
+  // final state of the transaction - must be COMMITTED or ROLLED_BACK
+  ResourceChangeLog.TransactionInfo.State tx_result = 3;
+}
+
+// Response message for method
+// [SetResourceChangeLogsCommitState][ntt.audit.v1alpha2.SetResourceChangeLogsCommitState]
+message SetResourceChangeLogsCommitStateResponse {}

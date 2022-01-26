@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package ntt.meta.multi_region;
+
+option java_package = "com.ntt.meta.pb.multi_region";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy";
+
+// Policy is an object defining relation between multi-region service
+// environment and resource holding this Policy as one of its fields. Policy
+// ought to be used for high-level resources like "Project" or "Organization"
+// which form top elements in scopes. Policy then, attached to such a high level
+// resource defines syncing policies for all kid resources and limits their
+// geographical belonging (kid resources can belong only to the region allowed
+// by a policy). Note: While Policy governs all resources under policy holder
+// resource, policy holder resource itself is not subject to this Policy. This
+// rule allows information about policy spread properly across regions and
+// enables routing.
+message Policy {
+  // List of regions available in the scope.
+  // It is forbidden to create resource within given scope outside allowed
+  // regions.
+  repeated string enabled_regions = 1;
+
+  // Must be within restricted_regions. Defines region handling CUD requests for
+  // resources not attached to any region.
+  string default_control_region = 2;
+
+  // List of criteria according to which synchronization is disabled.
+  repeated CriteriaForDisabledSync criteria_for_disabled_sync = 3;
+
+  // CriteriaForDisabledSync is a rule preventing data synchronization. By
+  // default, everything within Policy scope is synced (unless schema tells
+  // otherwise). However, within single scope to which this policy is attached,
+  // it is possible to blacklist synchronization for specific criteria.
+  // Examples: { resource_type_name: "ntt.edgelq.com/Device", sourceRegion:
+  // "France" } -> will make Devices in France private { resource_type_name:
+  // "ntt.edgelq.com/Device", destRegion: "HongKong" } -> will prevent from
+  // syncing Devices INTO HongKong region { resource_type_name:
+  // "ntt.edgelq.com/Device", sourceRegion: "Germany", destRegion: "HongKong" }
+  // -> Will block syncing of Devices from Germany to HongKong. {
+  // resource_type_name: "ntt.edgelq.com/Pod" } -> will make Pods in all regions
+  // private { region: "Japan" } -> will make all resources in Japan private
+  message CriteriaForDisabledSync {
+    // Fully qualified name of a resource. If not provided, all are considered
+    // Required format:
+    // "${SERVICE_DOMAIN}/${RESOURCE_SINGLE_NAME_CAMEL}, for example:
+    // "ntt.edgelq.com/Device"
+    string resource_type_name = 1;
+
+    // Source region indicates that this rule prevents syncing into this region.
+    // If left blank, then all regions are considered.
+    string source_region = 2;
+
+    // Dest region indicates that this rule prevents syncing from this region.
+    // If left blank, then all regions are considered.
+    string dest_region = 3;
+  }
+}

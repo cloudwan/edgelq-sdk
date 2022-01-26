@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
+
+import "google/api/resource.proto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project_invitation;project_invitation";
+
+option java_package = "com.ntt.iam.pb.v1alpha2";
+
+option java_outer_classname = "ProjectInvitationProto";
+
+// ProjectInvitation Resource
+message ProjectInvitation {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/ProjectInvitation"
+    pattern : "projects/{project}/projectInvitations/{project_invitation}"
+  };
+
+  // Name of ProjectInvitation
+  string name = 1;
+
+  Invitation invitation = 2;
+
+  // Metadata
+  ntt.types.Meta metadata = 3;
+}

@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/iam/proto/v1alpha/authorization_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/authorization_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/condition.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/condition_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/group.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/group_member.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/group_member_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/group_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_invitation.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_invitation_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_invitation_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/permission.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/permission_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_invitation.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_invitation_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_invitation_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/project_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/role.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/role_binding.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/role_binding_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/role_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/service_account.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/service_account_key.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/service_account_key_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/service_account_service.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/user.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/user_custom.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha/user_service.proto";
+
+import "google/api/annotations.proto";
+
+import "google/api/client.proto";
+
+import "google/protobuf/empty.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+option java_outer_classname = "IAMProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha/iam;iam_client";

@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha;
+
+import "edgelq-sdk/audit/proto/v1alpha/activity_log.proto";
+
+import "edgelq-sdk/audit/proto/v1alpha/common.proto";
+
+import "edgelq-sdk/common/rpc/status.proto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha/activity_log;activity_log_client";
+
+option java_package = "com.ntt.audit.pb.v1alpha";
+
+option java_outer_classname = "ActivityLogCustomProto";
+
+// Request message for method
+// [ListActivityLogs][ntt.audit.v1alpha.ListActivityLogs]
+message ListActivityLogsRequest {
+  // Parent references of ntt.audit.v1alpha2.ActivityLog - provides list of all
+  // scopes we want to query about
+  repeated string parents = 1;
+
+  // A audit filter that specifies which activity logs should be returned
+  string filter = 2;
+
+  // The time interval for which results should be returned. Only logs
+  // that contain data points in the specified interval are included
+  // in the response.
+  TimeInterval interval = 4;
+
+  // Cap on a number of activity logs to be included in a response.
+  // Number of logs in an actual response can be higher, since logs are
+  // read in bulk with second precision - exceed logs above the limit will share
+  // same timestamp as the logs below the limit.
+  //
+  // Results will be adjusted to the "end time" taken from interval field
+  // (adjusted also by page_token if provided).
+  int32 page_size = 5;
+
+  // Token which identifies next page with further results. Token should be
+  // taken from
+  // [ListActivityLogsResponse.next_page_token][ntt.audit.v1alpha2.ListActivityLogsResponse.next_page_token].
+  string page_token = 6;
+}
+
+// Response message for method
+// [ListActivityLogs][ntt.audit.v1alpha.ListActivityLogs]
+message ListActivityLogsResponse {
+  // One or more activity method logs that match the filter included in the
+  // request.
+  repeated ActivityLog activity_logs = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value. To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  // Query execution errors that may have caused the response data returned
+  // to be incomplete.
+  repeated ntt.rpc.Status execution_errors = 3;
+}
+
+// Request message for method
+// [CreateActivityLogs][ntt.audit.v1alpha.CreateActivityLogs]
+message CreateActivityLogsRequest {
+  // List of activity logs to be added to service. Can be coming from different
+  // scopes.
+  repeated ActivityLog activity_logs = 1;
+}
+
+// Response message for method
+// [CreateActivityLogs][ntt.audit.v1alpha.CreateActivityLogs]
+message CreateActivityLogsResponse {
+  // Resource change log names - one name per each activity log, in same order
+  // as in the request
+  repeated string log_names = 1;
+}

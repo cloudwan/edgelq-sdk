@@ -1,0 +1,366 @@
+syntax = "proto3";
+
+package ntt.audit.v1alpha2;
+
+import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor.proto";
+
+import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor_change.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
+
+import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
+
+import "google/api/annotations.proto";
+
+import "google/api/client.proto";
+
+import "google/protobuf/empty.proto";
+
+import "google/protobuf/field_mask.proto";
+
+import "goten-sdk/runtime/api/view.proto";
+
+import "goten-sdk/runtime/api/watch_type.proto";
+
+option java_package = "com.ntt.audit.pb.v1alpha2";
+
+option java_outer_classname = "AuditedResourceDescriptorServiceProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/audited_resource_descriptor;audited_resource_descriptor_client";
+
+// Request message for method
+// [GetAuditedResourceDescriptor][ntt.audit.v1alpha2.GetAuditedResourceDescriptor]
+message GetAuditedResourceDescriptorRequest {
+  // Reference of ntt.audit.v1alpha2.AuditedResourceDescriptor
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// Request message for method
+// [BatchGetAuditedResourceDescriptors][ntt.audit.v1alpha2.BatchGetAuditedResourceDescriptors]
+message BatchGetAuditedResourceDescriptorsRequest {
+  // Optional parent ntt.audit.v1alpha2.AuditedResourceDescriptor
+  string parent = 1;
+
+  // Names of AuditedResourceDescriptors
+  repeated string names = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// BatchGetAuditedResourceDescriptorsResponse
+message BatchGetAuditedResourceDescriptorsResponse {
+  // found AuditedResourceDescriptors
+  repeated AuditedResourceDescriptor audited_resource_descriptors = 1;
+
+  // list of not found AuditedResourceDescriptors
+  repeated string missing = 2;
+}
+
+// Request message for method
+// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+message ListAuditedResourceDescriptorsRequest {
+  // Requested page size. Server may return fewer AuditedResourceDescriptors
+  // than requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListAuditedResourceDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+}
+
+// Request message for method
+// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+message ListAuditedResourceDescriptorsResponse {
+  // The list of AuditedResourceDescriptors
+  repeated AuditedResourceDescriptor audited_resource_descriptors = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+  string next_page_token = 4;
+}
+
+// Request message for method
+// [WatchAuditedResourceDescriptor][ntt.audit.v1alpha2.WatchAuditedResourceDescriptor]
+message WatchAuditedResourceDescriptorRequest {
+  // Reference to ntt.audit.v1alpha2.AuditedResourceDescriptor
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 2;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// WatchAuditedResourceDescriptorResponse
+message WatchAuditedResourceDescriptorResponse {
+  AuditedResourceDescriptorChange change = 1;
+}
+
+// Request message for method
+// [WatchAuditedResourceDescriptors][ntt.audit.v1alpha2.WatchAuditedResourceDescriptors]
+message WatchAuditedResourceDescriptorsRequest {
+  // Type of a watch. Identifies how server stream data to a client, which
+  // fields in a request are allowed and which fields in response are relevant.
+  goten.watch_type.WatchType type = 9;
+
+  // Requested page size. Server may return fewer AuditedResourceDescriptors
+  // than requested. If unspecified, server will pick an appropriate default.
+  // Can be populated only for stateful watch type.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Can be populated only for stateful watch type.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
+  // populated only for stateful watch type.
+  string order_by = 4;
+
+  // A token identifying watch resume point from previous session.
+  // Can be populated only for stateless watch type.
+  string resume_token = 10;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view Changes to AuditedResourceDescriptor
+  // that don't affect any of masked fields won't be sent back.
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask Changes to
+  // AuditedResourceDescriptor that don't affect any of masked fields won't be
+  // sent back.
+  goten.view.View view = 8;
+
+  // Maximum amount of changes in each response message. Query result response
+  // is divided on the server side into chunks with size of a specified amount
+  // to limit memory footprint of each message. Responses will hold information
+  // whether more elements will continue for the actual change. If unspecified,
+  // server will pick an appropriate default.
+  int32 max_chunk_size = 11;
+}
+
+// WatchAuditedResourceDescriptorsResponse
+message WatchAuditedResourceDescriptorsResponse {
+  // Changes of AuditedResourceDescriptors
+  repeated AuditedResourceDescriptorChange audited_resource_descriptor_changes =
+      2;
+
+  // If request specified max_chunk_size (or this limit was enforced if
+  // stateless watch has been chosen), then responses with "full changeset" will
+  // be divided into chunks. Client should keep receiving messages and, once
+  // is_current has value true, combine this recent message with all previous
+  // ones where is_current is false. If this is the first is_current in a whole
+  // watch stream, then it means that client should have, at this moment,
+  // contain snapshot of the current situation (or more accurately, snapshot of
+  // situation at the moment of request). All AuditedResourceDescriptors will be
+  // of type Added/Current (depending on watch_type specified in the request).
+  // Further responses will be incremental - however messages may still be
+  // chunked and is_current logic still applies. is_current is always true for
+  // stateful watch if max_chunk_size was left to 0.
+  bool is_current = 4;
+
+  // When present, PageTokens used for page navigation should be updated.
+  // Present only if is_current is true (last chunk).
+  PageTokenChange page_token_change = 3;
+
+  // Token that can be used if current connection drops and client needs to
+  // reconnect. Populated only for stateless watch type. Present only if
+  // is_current is true (last chunk).
+  string resume_token = 5;
+
+  // Server may occasionally send information how many resources should client
+  // have in its state so far (response message without any changes, but with
+  // snapshot_size field specified). If client has different value than the one
+  // sent by the server, then it should be treated by a client as an error and
+  // should reconnect. If value is smaller then 0, then client should ignore
+  // this field as unpopulated. This field should be checked only for stateless
+  // watch. In stateful those kind of errors are handled by the server side.
+  // Will be never sent together with is_current, is_soft_reset and
+  // is_hard_reset flags.
+  int64 snapshot_size = 6;
+
+  // In case of internal issue server may send response message with this flag.
+  // It indicates that client should drop all changes from recent responses
+  // where is_current is false only! If last message had is_current set to true,
+  // client should do nothing and process normally. Resume token received before
+  // is still valid. This field should be checked only for stateless watch. In
+  // stateful those kind of errors are handled by the server side. Will never be
+  // sent along with is_current, is_hard_reset or snapshot_size.
+  bool is_soft_reset = 7;
+
+  // In case of internal issue server may send response message with this flag.
+  // After receiving, client should clear whole state (drop all changes received
+  // so far) as server will send new snapshot (AuditedResourceDescriptors will
+  // contains changes of type Current only). Any resume tokens should be
+  // discarded as well. This field should be checked only for stateless watch.
+  // In stateful those kind of errors are handled by the server side. Will never
+  // be sent along with is_current, is_soft_reset or snapshot_size.
+  bool is_hard_reset = 8;
+
+  message PageTokenChange {
+    // New token to retrieve previous page of results.
+    string prev_page_token = 1;
+
+    // New token to retrieve next page of results.
+    string next_page_token = 2;
+  }
+}
+
+// Request message for method
+// [CreateAuditedResourceDescriptor][ntt.audit.v1alpha2.CreateAuditedResourceDescriptor]
+message CreateAuditedResourceDescriptorRequest {
+  // AuditedResourceDescriptor resource body
+  AuditedResourceDescriptor audited_resource_descriptor = 2;
+}
+
+// Request message for method
+// [UpdateAuditedResourceDescriptor][ntt.audit.v1alpha2.UpdateAuditedResourceDescriptor]
+message UpdateAuditedResourceDescriptorRequest {
+  // AuditedResourceDescriptor resource body
+  AuditedResourceDescriptor audited_resource_descriptor = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    AuditedResourceDescriptor conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+}
+
+// AuditedResourceDescriptor service API for Audit
+service AuditedResourceDescriptorService {
+  option (google.api.default_host) = "audit.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // GetAuditedResourceDescriptor
+  rpc GetAuditedResourceDescriptor(GetAuditedResourceDescriptorRequest)
+      returns (AuditedResourceDescriptor) {
+    option (google.api.http) = {
+      get : "/v1alpha2/{name=auditedResourceDescriptors/*}"
+    };
+  }
+
+  // BatchGetAuditedResourceDescriptors
+  rpc BatchGetAuditedResourceDescriptors(
+      BatchGetAuditedResourceDescriptorsRequest)
+      returns (BatchGetAuditedResourceDescriptorsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/auditedResourceDescriptors:batchGet"
+    };
+  }
+
+  // ListAuditedResourceDescriptors
+  rpc ListAuditedResourceDescriptors(ListAuditedResourceDescriptorsRequest)
+      returns (ListAuditedResourceDescriptorsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/auditedResourceDescriptors"
+    };
+  }
+
+  // WatchAuditedResourceDescriptor
+  rpc WatchAuditedResourceDescriptor(WatchAuditedResourceDescriptorRequest)
+      returns (stream WatchAuditedResourceDescriptorResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=auditedResourceDescriptors/*}:watch"
+    };
+  }
+
+  // WatchAuditedResourceDescriptors
+  rpc WatchAuditedResourceDescriptors(WatchAuditedResourceDescriptorsRequest)
+      returns (stream WatchAuditedResourceDescriptorsResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/auditedResourceDescriptors:watch"
+    };
+  }
+
+  // CreateAuditedResourceDescriptor
+  rpc CreateAuditedResourceDescriptor(CreateAuditedResourceDescriptorRequest)
+      returns (AuditedResourceDescriptor) {
+    option (google.api.http) = {
+      post : "/v1alpha2/auditedResourceDescriptors"
+      body : "audited_resource_descriptor"
+    };
+  }
+
+  // UpdateAuditedResourceDescriptor
+  rpc UpdateAuditedResourceDescriptor(UpdateAuditedResourceDescriptorRequest)
+      returns (AuditedResourceDescriptor) {
+    option (google.api.http) = {
+      put : "/v1alpha2/"
+            "{audited_resource_descriptor.name=auditedResourceDescriptors/*}"
+      body : "audited_resource_descriptor"
+    };
+  }
+}

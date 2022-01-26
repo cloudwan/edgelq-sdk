@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha2;
+
+import "edgelq-sdk/iam/proto/v1alpha2/group_member.proto";
+
+import "google/api/resource.proto";
+
+import "google/protobuf/field_mask.proto";
+
+option java_package = "com.ntt.iam.pb.v1alpha2";
+
+option java_outer_classname = "GroupMemberChangeProto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member;group_member";
+
+// GroupMemberChange is used by Watch notifications Responses to describe change
+// of single GroupMember One of Added, Modified, Removed
+message GroupMemberChange {
+  // GroupMember change
+  oneof change_type {
+    // Added is returned when watched document is added, either created or
+    // enters Query view
+    Added added = 1;
+
+    // Modified is returned when watched document is modified
+    Modified modified = 2;
+
+    // Current is returned in stateless watch when document enters query view or
+    // is modified within.
+    Current current = 4;
+
+    // Removed is returned when GroupMember is deleted or leaves Query view
+    Removed removed = 3;
+  }
+
+  // GroupMember has been added to query view
+  message Added {
+    GroupMember group_member = 1;
+
+    // Integer describing index of added GroupMember in resulting query view.
+    int32 view_index = 2;
+  }
+
+  // GroupMember changed some of it's fields - contains either full document or
+  // masked change
+  message Modified {
+    // Name of modified GroupMember
+    string name = 1;
+
+    // New version of GroupMember or masked difference, depending on
+    // mask_changes instrumentation of issued [WatchGroupMemberRequest] or
+    // [WatchGroupMembersRequest]
+    GroupMember group_member = 2;
+
+    // Used when mask_changes is set, contains field paths of modified
+    // properties.
+    google.protobuf.FieldMask field_mask = 3;
+
+    // Previous view index specifies previous position of modified GroupMember.
+    // When modification doesn't affect sorted order, value will remain
+    // identical to [view_index].
+    int32 previous_view_index = 4;
+
+    // Integer specifying GroupMember new index in resulting query view.
+    int32 view_index = 5;
+  }
+
+  // GroupMember has been added or modified in a query view. Version used for
+  // stateless watching
+  message Current { GroupMember group_member = 1; }
+
+  // Removed is returned when GroupMember is deleted or leaves Query view
+  message Removed {
+    string name = 1;
+
+    // Integer specifying removed GroupMember index. Not populated in stateless
+    // watch type.
+    int32 view_index = 2;
+  }
+}

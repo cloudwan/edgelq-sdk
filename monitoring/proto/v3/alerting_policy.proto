@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/common/types/meta.proto";
+
+import "google/api/resource.proto";
+
+option java_outer_classname = "AlertingPolicyProto";
+
+option java_multiple_files = true;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy;alerting_policy";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+message AlertingPolicy {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/AlertingPolicy"
+    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
+              "{alerting_policy}"
+  };
+
+  // Name of AlertingPolicy
+  string name = 1;
+
+  ntt.types.Meta metadata = 2;
+
+  // display name
+  string display_name = 3;
+
+  // Long description
+  string description = 4;
+
+  Documentation documentation = 5;
+
+  // Spec
+  Spec spec = 6;
+
+  // Documentation
+  message Documentation {
+    // Documentation content
+    string content = 1;
+
+    // documentation mime type. Only `"text/markdown"` is supported.
+    string mime_type = 2;
+  }
+
+  message Spec {
+    // Whether policy is enabled and will evaluate any conditions
+    // Note: If any existing fired alerts are present,
+    // they will not be resolved automatically
+    // TODO: consider if they should?
+    bool enabled = 1;
+
+    // Condition Combiner when deciding if ANY (OR) or ALL (AND) conditions for
+    // given subset of resource labels must fire in order to trigger an alert
+    // TODO: Add support to AND
+    ConditionsCombiner condition_combiner = 2;
+
+    // Notification specification
+    Notification notification = 3;
+
+    message Notification {
+      // Slack config
+      Slack slack = 1;
+
+      message Slack {
+        // Slack Application configuration.
+        // Exclusive with Incoming Webhook URL
+        App app = 1;
+
+        // Incoming Webhook
+        string incoming_webhook = 2;
+
+        message App {
+          // Slack app auth token
+          string auth_token = 2;
+
+          // Slack channels to notify
+          repeated string channel = 3;
+        }
+      }
+    }
+
+    enum ConditionsCombiner {
+      OR = 0;
+
+      AND = 1;
+    }
+  }
+}

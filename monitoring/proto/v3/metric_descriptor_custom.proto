@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
+
+import "google/protobuf/field_mask.proto";
+
+import "goten-sdk/runtime/api/view.proto";
+
+option java_multiple_files = false;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/metric_descriptor;metric_descriptor_client";
+
+option java_package = "com.ntt.monitoring.pb.v3";
+
+option java_outer_classname = "MetricDescriptorCustomProto";
+
+// Request message for method
+// [ListMetricDescriptors][ntt.monitoring.v3.ListMetricDescriptors]
+message ListMetricDescriptorsRequest {
+  // The project on which to execute the request. The format is
+  // `"projects/{project_id_or_number}"`.
+  // TODO: enable when multi-parents are supported
+  string parent = 5;
+
+  // If this field is empty, all custom and
+  // system-defined metric descriptors are returned.
+  // Otherwise, the [filter](/monitoring/api/v3/filters)
+  // specifies which metric descriptors are to be
+  // returned. For example, the following filter matches all
+  // [custom metrics](/monitoring/custom-metrics):
+  //
+  //     metric.type = starts_with("custom.googleapis.com/")
+  string filter = 2;
+
+  // A positive number that is the maximum number of results to return.
+  int32 page_size = 3;
+
+  // If this field is not empty then it must contain the `nextPageToken` value
+  // returned by a previous call to this method.  Using this field causes the
+  // method to return additional results from the previous method call.
+  string page_token = 4;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination
+  string order_by = 666;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+}
+
+// Response message for method
+// [ListMetricDescriptors][ntt.monitoring.v3.ListMetricDescriptors]
+message ListMetricDescriptorsResponse {
+  // The metric descriptors that are available to the project
+  // and that match the value of `filter`, if present.
+  repeated MetricDescriptor metric_descriptors = 1;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value.  To see the additional results,
+  // use that value as `pageToken` in the next call to this method.
+  string next_page_token = 2;
+
+  string prev_page_token = 666;
+}
+
+// Request message for method
+// [GetMetricDescriptor][ntt.monitoring.v3.GetMetricDescriptor]
+message GetMetricDescriptorRequest {
+  // The metric descriptor on which to execute the request. The format is
+  // `"projects/{project_id_or_number}/metricDescriptors/{metric_id}"`.
+  // An example value of `{metric_id}` is
+  // `"compute.googleapis.com/instance/disk/read_bytes_count"`.
+  string name = 3;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 4;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 5;
+}
+
+// Request message for method
+// [CreateMetricDescriptor][ntt.monitoring.v3.CreateMetricDescriptor]
+message CreateMetricDescriptorRequest {
+  // The project on which to execute the request. The format is
+  // `"projects/{project_id_or_number}"`.
+  // TODO: enable when multi-parents are supported
+  string parent = 3;
+
+  // The new [custom metric](/monitoring/custom-metrics)
+  // descriptor.
+  MetricDescriptor metric_descriptor = 2;
+}
+
+// Request message for method
+// [DeleteMetricDescriptor][ntt.monitoring.v3.DeleteMetricDescriptor]
+message DeleteMetricDescriptorRequest {
+  // The metric descriptor on which to execute the request. The format is
+  // `"projects/{project_id_or_number}/metricDescriptors/{metric_id}"`.
+  // An example of `{metric_id}` is:
+  // `"custom.googleapis.com/my_test_metric"`.
+  string name = 3;
+}
