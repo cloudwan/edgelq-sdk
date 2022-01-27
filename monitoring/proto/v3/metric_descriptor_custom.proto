@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
 
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/metric_descriptor;metric_descriptor_client";
-
-option java_package = "com.ntt.monitoring.pb.v3";
-
+option java_multiple_files = false;
 option java_outer_classname = "MetricDescriptorCustomProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Request message for method
 // [ListMetricDescriptors][ntt.monitoring.v3.ListMetricDescriptors]

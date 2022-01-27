@@ -3,28 +3,18 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
-
 import "edgelq-sdk/common/rpc/status.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/any.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "ActivityLogProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/activity_log;activity_log";
+option java_multiple_files = true;
+option java_outer_classname = "ActivityLogProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // ActivityLog Resource - describes notification of
 // activity triggered by a request sent to an API service.

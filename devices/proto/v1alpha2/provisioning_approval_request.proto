@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "google/api/resource.proto";
 
-option java_package = "com.ntt.devices.pb.v1alpha2";
-
-option java_outer_classname = "ProvisioningApprovalRequestProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request;provisioning_approval_request";
+option java_multiple_files = true;
+option java_outer_classname = "ProvisioningApprovalRequestProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // ProvisioningApprovalRequest Resource
 message ProvisioningApprovalRequest {

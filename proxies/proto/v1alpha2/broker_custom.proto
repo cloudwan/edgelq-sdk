@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.proxies.v1alpha2;
 
 import "edgelq-sdk/proxies/proto/v1alpha2/project.proto";
-
 import "edgelq-sdk/proxies/proto/v1alpha2/project_change.proto";
 
-option java_package = "com.ntt.proxies.pb.v1alpha2";
-
-option java_outer_classname = "BrokerCustomProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/proxies/client/v1alpha2/broker;broker_client";
+option java_multiple_files = false;
+option java_outer_classname = "BrokerCustomProto";
+option java_package = "com.ntt.proxies.pb.v1alpha2";
 
 // Request message for method [Connect][ntt.proxies.v1alpha2.Connect]
 message ConnectRequest {

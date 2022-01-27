@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "google/api/resource.proto";
 
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
-option java_outer_classname = "GroupProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group;group";
+option java_multiple_files = true;
+option java_outer_classname = "GroupProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Group Resource
 //

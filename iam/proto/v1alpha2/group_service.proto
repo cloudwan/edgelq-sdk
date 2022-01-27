@@ -3,28 +3,18 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/iam/proto/v1alpha2/group.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/group_change.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/group;group_client";
-
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
-option java_outer_classname = "GroupServiceProto";
-
 option java_multiple_files = false;
+option java_outer_classname = "GroupServiceProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Request message for method [GetGroup][ntt.iam.v1alpha2.GetGroup]
 message GetGroupRequest {
@@ -300,7 +290,6 @@ message DeleteGroupRequest {
 // Group service API for IAM
 service GroupService {
   option (google.api.default_host) = "iam.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetGroup

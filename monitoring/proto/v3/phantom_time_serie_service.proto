@@ -3,32 +3,20 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/phantom_time_serie.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/phantom_time_serie_change.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "PhantomTimeSerieServiceProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie;phantom_time_serie_client";
+option java_multiple_files = false;
+option java_outer_classname = "PhantomTimeSerieServiceProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Request message for method
 // [GetPhantomTimeSerie][ntt.monitoring.v3.GetPhantomTimeSerie]
@@ -284,7 +272,6 @@ message DeletePhantomTimeSerieRequest {
 // PhantomTimeSerie service API for Monitoring
 service PhantomTimeSerieService {
   option (google.api.default_host) = "monitoring.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPhantomTimeSerie

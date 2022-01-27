@@ -3,37 +3,21 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log_custom.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log_service.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor_service.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/method_descriptor.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/method_descriptor_service.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/resource_change_log.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/resource_change_log_custom.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/resource_change_log_service.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/iam.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/audit;audit_client";
-
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "AuditProto";
-
 option java_multiple_files = true;
+option java_outer_classname = "AuditProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";

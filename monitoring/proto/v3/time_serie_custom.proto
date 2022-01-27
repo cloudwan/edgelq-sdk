@@ -3,20 +3,14 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/common/rpc/status.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/common.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/time_serie.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "TimeSerieCustomProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/time_serie;time_serie_client";
+option java_multiple_files = false;
+option java_outer_classname = "TimeSerieCustomProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Request message for method [ListTimeSeries][ntt.monitoring.v3.ListTimeSeries]
 message ListTimeSeriesRequest {

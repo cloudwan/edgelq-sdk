@@ -12,6 +12,7 @@
 !Gemfile
 
 !CODEOWNERS
+!LICENSE
 
 # ignore keys, certs
 id_rsa

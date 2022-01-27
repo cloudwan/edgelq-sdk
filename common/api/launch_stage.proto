@@ -5,12 +5,9 @@ syntax = "proto3";
 // with messages in the original file.
 package ntt.api;
 
-option java_package = "com.ntt.api.pb";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/common/api;api";
-
+option java_multiple_files = true;
+option java_package = "com.ntt.api.pb";
 option objc_class_prefix = "GAPI";
 
 // The launch stage as defined by [Google Cloud Platform

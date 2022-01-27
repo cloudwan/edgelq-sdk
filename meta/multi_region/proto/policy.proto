@@ -2,11 +2,9 @@ syntax = "proto3";
 
 package ntt.meta.multi_region;
 
-option java_package = "com.ntt.meta.pb.multi_region";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy";
+option java_multiple_files = true;
+option java_package = "com.ntt.meta.pb.multi_region";
 
 // Policy is an object defining relation between multi-region service
 // environment and resource holding this Policy as one of its fields. Policy

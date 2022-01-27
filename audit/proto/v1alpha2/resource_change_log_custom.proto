@@ -3,22 +3,15 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/resource_change_log.proto";
-
 import "edgelq-sdk/common/rpc/status.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "ResourceChangeLogCustomProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/resource_change_log;resource_change_log_client";
+option java_multiple_files = false;
+option java_outer_classname = "ResourceChangeLogCustomProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // Request message for method
 // [ListResourceChangeLogs][ntt.audit.v1alpha2.ListResourceChangeLogs]

@@ -2,11 +2,9 @@ syntax = "proto3";
 
 package ntt.meta.multi_region;
 
-option java_package = "com.ntt.meta.pb.multi_region";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta";
+option java_multiple_files = true;
+option java_package = "com.ntt.meta.pb.multi_region";
 
 // SyncingMeta is a helper object associated with each resource that is either
 // regional or is governed by Policy object. Developer of a service must place

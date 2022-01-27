@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "google/protobuf/duration.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "CommonProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/common/v3;monitoring_common";
+option java_multiple_files = false;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // A description of a label.
 message LabelDescriptor {

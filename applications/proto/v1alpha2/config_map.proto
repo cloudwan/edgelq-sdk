@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map;config_map";
-
-option java_package = "com.ntt.applications.pb.v1alpha2";
-
-option java_outer_classname = "ConfigMapProto";
-
 option java_multiple_files = true;
+option java_outer_classname = "ConfigMapProto";
+option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // ConfigMap Resource
 message ConfigMap {

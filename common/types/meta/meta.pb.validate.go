@@ -40,8 +40,6 @@ var (
 	_ = durationpb.Duration{}
 	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
-
-	validation_regex_Meta_tags_01bb86434a9ec2ae8947141a40b748cb = regexp.MustCompile("^[A-Za-z0-9][A-Za-z0-9_-]*$")
 )
 
 // make sure we're using proto imports
@@ -73,9 +71,6 @@ func (obj *Meta) GotenValidate() error {
 			if rlen < 1 {
 				return gotenvalidate.NewValidationError("Meta", "tags", el, "field must contain at least 1 characters", nil)
 			}
-		}
-		if !validation_regex_Meta_tags_01bb86434a9ec2ae8947141a40b748cb.Match([]byte(el)) {
-			return gotenvalidate.NewValidationError("Meta", "tags", el, "field must match the regex ^[A-Za-z0-9][A-Za-z0-9_-]*$", nil)
 		}
 	}
 	if subobj, ok := interface{}(obj.Syncing).(gotenvalidate.Validator); ok {

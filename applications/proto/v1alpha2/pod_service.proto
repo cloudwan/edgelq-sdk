@@ -3,32 +3,20 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/pod.proto";
-
 import "edgelq-sdk/applications/proto/v1alpha2/pod_change.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
-option java_package = "com.ntt.applications.pb.v1alpha2";
-
-option java_outer_classname = "PodServiceProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/pod;pod_client";
+option java_multiple_files = false;
+option java_outer_classname = "PodServiceProto";
+option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // Request message for method [GetPod][ntt.applications.v1alpha2.GetPod]
 message GetPodRequest {
@@ -305,7 +293,6 @@ message DeletePodRequest {
 // Pod service API for Applications
 service PodService {
   option (google.api.default_host) = "applications.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPod

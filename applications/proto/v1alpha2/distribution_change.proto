@@ -3,17 +3,12 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/distribution.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_outer_classname = "DistributionChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution;distribution";
-
+option java_multiple_files = false;
+option java_outer_classname = "DistributionChangeProto";
 option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // DistributionChange is used by Watch notifications Responses to describe

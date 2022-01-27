@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/config_map.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map;config_map";
-
-option java_package = "com.ntt.applications.pb.v1alpha2";
-
+option java_multiple_files = false;
 option java_outer_classname = "ConfigMapChangeProto";
+option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // ConfigMapChange is used by Watch notifications Responses to describe change
 // of single ConfigMap One of Added, Modified, Removed

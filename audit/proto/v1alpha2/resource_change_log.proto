@@ -3,17 +3,12 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_outer_classname = "ResourceChangeLogProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/resource_change_log;resource_change_log";
-
+option java_multiple_files = true;
+option java_outer_classname = "ResourceChangeLogProto";
 option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // ResourceChangeLog Resource - describes notification
