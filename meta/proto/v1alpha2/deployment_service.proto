@@ -299,9 +299,9 @@ message DeleteDeploymentRequest {
 
 // Deployment service API for Meta
 service DeploymentService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "meta.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDeployment
   rpc GetDeployment(GetDeploymentRequest) returns (Deployment) {

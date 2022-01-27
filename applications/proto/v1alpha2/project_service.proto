@@ -290,9 +290,9 @@ message DeleteProjectRequest {
 
 // Project service API for Applications
 service ProjectService {
-  option (google.api.default_host) = "applications.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  option (google.api.default_host) = "applications.edgelq.com";
 
   // GetProject
   rpc GetProject(GetProjectRequest) returns (Project) {

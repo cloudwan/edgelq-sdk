@@ -300,9 +300,9 @@ message DeleteConfigMapRequest {
 
 // ConfigMap service API for Applications
 service ConfigMapService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "applications.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetConfigMap
   rpc GetConfigMap(GetConfigMapRequest) returns (ConfigMap) {

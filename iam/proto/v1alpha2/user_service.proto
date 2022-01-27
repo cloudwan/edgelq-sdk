@@ -281,9 +281,9 @@ message DeleteUserRequest {
 
 // User service API for IAM
 service UserService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "iam.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetUser
   rpc GetUser(GetUserRequest) returns (User) {

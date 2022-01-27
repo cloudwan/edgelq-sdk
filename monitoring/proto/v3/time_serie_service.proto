@@ -20,9 +20,9 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // TimeSerie service API for Monitoring
 service TimeSerieService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "monitoring.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListTimeSeries
   rpc ListTimeSeries(ListTimeSeriesRequest) returns (ListTimeSeriesResponse) {

@@ -290,9 +290,9 @@ message DeleteOrganizationRequest {
 
 // Organization service API for IAM
 service OrganizationService {
-  option (google.api.default_host) = "iam.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  option (google.api.default_host) = "iam.edgelq.com";
 
   // GetOrganization
   rpc GetOrganization(GetOrganizationRequest) returns (Organization) {

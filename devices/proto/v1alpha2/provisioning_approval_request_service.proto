@@ -305,9 +305,9 @@ message DeleteProvisioningApprovalRequestRequest {
 
 // ProvisioningApprovalRequest service API for Devices
 service ProvisioningApprovalRequestService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "devices.edgelq.com";
+
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetProvisioningApprovalRequest
   rpc GetProvisioningApprovalRequest(GetProvisioningApprovalRequestRequest)
