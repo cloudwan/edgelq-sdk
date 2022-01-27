@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
-option java_outer_classname = "OrganizationChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization;organization";
+option java_multiple_files = false;
+option java_outer_classname = "OrganizationChangeProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // OrganizationChange is used by Watch notifications Responses to describe
 // change of single Organization One of Added, Modified, Removed

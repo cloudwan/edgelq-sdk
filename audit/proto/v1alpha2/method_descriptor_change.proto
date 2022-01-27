@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/method_descriptor.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/method_descriptor;method_descriptor";
-
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "MethodDescriptorChangeProto";
-
 option java_multiple_files = false;
+option java_outer_classname = "MethodDescriptorChangeProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // MethodDescriptorChange is used by Watch notifications Responses to describe
 // change of single MethodDescriptor One of Added, Modified, Removed

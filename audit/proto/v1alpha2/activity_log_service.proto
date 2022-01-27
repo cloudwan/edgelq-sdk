@@ -3,32 +3,20 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log.proto";
-
 import "edgelq-sdk/audit/proto/v1alpha2/activity_log_custom.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "ActivityLogServiceProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha2/activity_log;activity_log_client";
+option java_multiple_files = false;
+option java_outer_classname = "ActivityLogServiceProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // ActivityLog service API for Audit
 service ActivityLogService {

@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "google/protobuf/any.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "CommonProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2;audit_common";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // Information about authorized principal who sent a request
 message Authentication {

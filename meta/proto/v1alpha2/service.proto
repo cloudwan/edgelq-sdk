@@ -3,16 +3,12 @@ syntax = "proto3";
 package ntt.meta.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "google/api/resource.proto";
 
-option java_package = "com.ntt.meta.pb.v1alpha2";
-
-option java_outer_classname = "ServiceProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service;service";
+option java_multiple_files = true;
+option java_outer_classname = "ServiceProto";
+option java_package = "com.ntt.meta.pb.v1alpha2";
 
 // Service Resource
 message Service {

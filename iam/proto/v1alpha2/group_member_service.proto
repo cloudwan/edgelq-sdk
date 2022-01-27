@@ -3,28 +3,18 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/iam/proto/v1alpha2/group_member.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/group_member_change.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/group_member;group_member_client";
-
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
-option java_outer_classname = "GroupMemberServiceProto";
-
 option java_multiple_files = false;
+option java_outer_classname = "GroupMemberServiceProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Request message for method [GetGroupMember][ntt.iam.v1alpha2.GetGroupMember]
 message GetGroupMemberRequest {

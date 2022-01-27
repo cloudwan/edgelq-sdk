@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/applications/proto/v1alpha2/pod.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.applications.pb.v1alpha2";
-
-option java_outer_classname = "PodChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod;pod";
+option java_multiple_files = false;
+option java_outer_classname = "PodChangeProto";
+option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // PodChange is used by Watch notifications Responses to describe change of
 // single Pod One of Added, Modified, Removed

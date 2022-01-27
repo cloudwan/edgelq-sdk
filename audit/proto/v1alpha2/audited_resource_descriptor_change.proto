@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/audited_resource_descriptor.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.audit.pb.v1alpha2";
-
-option java_outer_classname = "AuditedResourceDescriptorChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor;audited_resource_descriptor";
+option java_multiple_files = false;
+option java_outer_classname = "AuditedResourceDescriptorChangeProto";
+option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // AuditedResourceDescriptorChange is used by Watch notifications Responses to
 // describe change of single AuditedResourceDescriptor One of Added, Modified,

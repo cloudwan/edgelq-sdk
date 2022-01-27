@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request;provisioning_approval_request";
-
-option java_package = "com.ntt.devices.pb.v1alpha2";
-
-option java_outer_classname = "ProvisioningApprovalRequestChangeProto";
-
 option java_multiple_files = false;
+option java_outer_classname = "ProvisioningApprovalRequestChangeProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // ProvisioningApprovalRequestChange is used by Watch notifications Responses to
 // describe change of single ProvisioningApprovalRequest One of Added, Modified,

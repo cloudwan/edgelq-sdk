@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.meta.v1alpha2;
 
 import "edgelq-sdk/meta/proto/v1alpha2/region.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.meta.pb.v1alpha2";
-
-option java_outer_classname = "RegionChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region;region";
+option java_multiple_files = false;
+option java_outer_classname = "RegionChangeProto";
+option java_package = "com.ntt.meta.pb.v1alpha2";
 
 // RegionChange is used by Watch notifications Responses to describe change of
 // single Region One of Added, Modified, Removed

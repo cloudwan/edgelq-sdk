@@ -3,20 +3,14 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/iam/proto/v1alpha2/attestation_domain.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/attestation_domain_change.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
-
 import "google/api/resource.proto";
 
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/attestation;attestation_client";
-
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
+option java_multiple_files = false;
 option java_outer_classname = "AttestationCustomProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Request message for method [Verify][ntt.iam.v1alpha2.Verify]
 message VerifyRequest {

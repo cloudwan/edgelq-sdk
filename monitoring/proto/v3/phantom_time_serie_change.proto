@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/monitoring/proto/v3/phantom_time_serie.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie;phantom_time_serie";
-
-option java_package = "com.ntt.monitoring.pb.v3";
-
+option java_multiple_files = false;
 option java_outer_classname = "PhantomTimeSerieChangeProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // PhantomTimeSerieChange is used by Watch notifications Responses to describe
 // change of single PhantomTimeSerie One of Added, Modified, Removed

@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/field_mask.proto";
 
-option java_package = "com.ntt.devices.pb.v1alpha2";
-
-option java_outer_classname = "DeviceChangeProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device;device";
+option java_multiple_files = false;
+option java_outer_classname = "DeviceChangeProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // DeviceChange is used by Watch notifications Responses to describe change of
 // single Device One of Added, Modified, Removed

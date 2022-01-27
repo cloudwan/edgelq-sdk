@@ -3,34 +3,21 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request.proto";
-
 import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request_change.proto";
-
 import "edgelq-sdk/devices/proto/v1alpha2/provisioning_approval_request_custom.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
-option java_package = "com.ntt.devices.pb.v1alpha2";
-
-option java_outer_classname = "ProvisioningApprovalRequestServiceProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha2/provisioning_approval_request;provisioning_approval_request_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProvisioningApprovalRequestServiceProto";
+option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // Request message for method
 // [GetProvisioningApprovalRequest][ntt.devices.v1alpha2.GetProvisioningApprovalRequest]

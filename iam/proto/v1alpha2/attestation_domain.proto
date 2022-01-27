@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
-
 import "google/api/resource.proto";
 
-option java_package = "com.ntt.iam.pb.v1alpha2";
-
-option java_outer_classname = "AttestationDomainProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain;attestation_domain";
+option java_multiple_files = true;
+option java_outer_classname = "AttestationDomainProto";
+option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // AttestationDomain represents attestation parameters for a heterogenous fleet
 // of devices.

@@ -3,20 +3,14 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/common/api/launch_stage.proto";
-
 import "edgelq-sdk/common/types/meta.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/common.proto";
-
 import "google/api/resource.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "MetricDescriptorProto";
-
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor;metric_descriptor";
+option java_multiple_files = true;
+option java_outer_classname = "MetricDescriptorProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Defines a metric type and its schema. Once a metric descriptor is created,
 // deleting or altering it stops data collection and makes the metric type's

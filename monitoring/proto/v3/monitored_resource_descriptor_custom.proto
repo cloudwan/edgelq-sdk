@@ -3,18 +3,13 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/monitoring/proto/v3/monitored_resource_descriptor.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "MonitoredResourceDescriptorCustomProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitored_resource_descriptor;monitored_resource_descriptor_client";
+option java_multiple_files = false;
+option java_outer_classname = "MonitoredResourceDescriptorCustomProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Request message for method
 // [GetMonitoredResourceDescriptor][ntt.monitoring.v3.GetMonitoredResourceDescriptor]

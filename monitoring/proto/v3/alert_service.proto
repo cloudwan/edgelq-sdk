@@ -3,32 +3,20 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/alert.proto";
-
 import "edgelq-sdk/monitoring/proto/v3/alert_change.proto";
-
 import "google/api/annotations.proto";
-
 import "google/api/client.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/protobuf/field_mask.proto";
-
 import "goten-sdk/runtime/api/view.proto";
-
 import "goten-sdk/runtime/api/watch_type.proto";
 
-option java_package = "com.ntt.monitoring.pb.v3";
-
-option java_outer_classname = "AlertServiceProto";
-
-option java_multiple_files = false;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alert;alert_client";
+option java_multiple_files = false;
+option java_outer_classname = "AlertServiceProto";
+option java_package = "com.ntt.monitoring.pb.v3";
 
 // Request message for method [GetAlert][ntt.monitoring.v3.GetAlert]
 message GetAlertRequest {

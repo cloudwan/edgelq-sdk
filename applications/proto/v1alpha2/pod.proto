@@ -3,20 +3,14 @@ syntax = "proto3";
 package ntt.applications.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-
 import "google/api/field_behavior.proto";
-
 import "google/api/resource.proto";
-
 import "google/protobuf/timestamp.proto";
 
-option java_multiple_files = true;
-
 option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod;pod";
-
-option java_package = "com.ntt.applications.pb.v1alpha2";
-
+option java_multiple_files = true;
 option java_outer_classname = "PodProto";
+option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // Pod Resource
 message Pod {
