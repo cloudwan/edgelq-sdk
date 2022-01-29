@@ -284,9 +284,9 @@ message UpdateMethodDescriptorRequest {
 
 // MethodDescriptor service API for Audit
 service MethodDescriptorService {
-  option (google.api.default_host) = "audit.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  option (google.api.default_host) = "audit.edgelq.com";
 
   // GetMethodDescriptor
   rpc GetMethodDescriptor(GetMethodDescriptorRequest)

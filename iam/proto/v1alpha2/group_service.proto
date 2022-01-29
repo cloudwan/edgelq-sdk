@@ -289,9 +289,9 @@ message DeleteGroupRequest {
 
 // Group service API for IAM
 service GroupService {
-  option (google.api.default_host) = "iam.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  option (google.api.default_host) = "iam.edgelq.com";
 
   // GetGroup
   rpc GetGroup(GetGroupRequest) returns (Group) {
