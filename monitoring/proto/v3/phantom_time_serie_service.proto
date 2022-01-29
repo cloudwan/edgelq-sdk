@@ -272,7 +272,6 @@ message DeletePhantomTimeSerieRequest {
 // PhantomTimeSerie service API for Monitoring
 service PhantomTimeSerieService {
   option (google.api.default_host) = "monitoring.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPhantomTimeSerie

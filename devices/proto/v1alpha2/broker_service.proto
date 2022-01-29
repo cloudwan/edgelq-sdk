@@ -22,7 +22,6 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 // Broker service API for Devices
 service BrokerService {
   option (google.api.default_host) = "devices.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListenForConnections

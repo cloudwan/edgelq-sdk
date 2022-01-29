@@ -216,7 +216,6 @@ message UpdateMetricDescriptorRequest {
 // MetricDescriptor service API for Monitoring
 service MetricDescriptorService {
   option (google.api.default_host) = "monitoring.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // BatchGetMetricDescriptors

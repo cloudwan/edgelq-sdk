@@ -230,9 +230,8 @@ message DeleteMonitoredResourceDescriptorRequest {
 
 // MonitoredResourceDescriptor service API for Monitoring
 service MonitoredResourceDescriptorService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "monitoring.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // BatchGetMonitoredResourceDescriptors
   rpc BatchGetMonitoredResourceDescriptors(

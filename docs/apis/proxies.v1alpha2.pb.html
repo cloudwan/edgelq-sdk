@@ -1,0 +1,1916 @@
+
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+body {
+  padding: 1em;
+}
+h2 {
+  margin-top: 1em;
+}
+h3 {
+  margin-top: 1em;
+}
+h4 {
+  margin-top: 1em;
+}
+h5 {
+  margin-top: 1em;
+}
+div.operation {
+  background: #f0f0f0;
+}
+div.operation h5 {
+  padding: 0.2em;
+  background: #e0e0e0;
+}
+div.operation .signature {
+  font-weight: bold;
+  padding: 0.2em;
+}
+div.operation .description {
+  padding: 0.2em;
+}
+table th,
+table td {
+  padding: 0.2em;
+}
+table.fields {
+  width: 100%;
+}
+table.fields thead tr th {
+  background: #c0c0c0;
+}
+table.fields tbody tr th {
+  background: #e0e0e0;
+  vertical-align: top;
+  border-bottom: 1px solid #ababab;
+  width: 25%;
+}
+table.fields tbody tr td.type {
+  font-weight: bold;
+}
+table.fields tbody tr td.type pre {
+  margin: 0px;
+}
+table.fields tbody tr td.description {
+  border-bottom: 1px solid #ababab;
+}
+table.fields tbody tr td.description *:last-child {
+  margin-bottom: 0px;
+}
+table.fields tbody tr td.none {
+  border-bottom: 1px solid #ababab;
+}
+</style>
+</head>
+<body>
+<h1>Service: Proxies (ntt.proxies.v1alpha2 - v1alpha2)</h1>
+
+<p>Service Proxies</p>
+
+<h2>Index</h2>
+
+<ul>
+
+<li><a href="#resource-Project">Project</a></li> 
+
+<li><a href="#shared-resources">Shared Resources</a></li>
+</ul>
+
+<h2>Resources</h2>
+
+
+<h3 id="resource-Project"><span id="message-Project">Project</span></h3>
+
+<p>Project Resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of Project</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">multi_region_policy</th>
+<td class="type"><pre>.ntt.meta.multi_region.Policy</pre></td>
+</tr>
+<tr><td class="description"><p>Multi region policy</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-Connect">Connect</h5>
+
+<pre class="signature">rpc Connect(<a href="#message-ConnectRequest">ConnectRequest</a>) returns (<a href="#message-ConnectResponse">ConnectResponse</a>)</pre>
+
+<div class="description">
+<p>Connect</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-Listen">Listen</h5>
+
+<pre class="signature">rpc Listen(<a href="#message-ListenRequest">ListenRequest</a>) returns (<a href="#message-ListenResponse">ListenResponse</a>)</pre>
+
+<div class="description">
+<p>Listen</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-Accept">Accept</h5>
+
+<pre class="signature">rpc Accept(<a href="#message-AcceptRequest">AcceptRequest</a>) returns (<a href="#message-AcceptResponse">AcceptResponse</a>)</pre>
+
+<div class="description">
+<p>Accept</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-GetProject">GetProject</h5>
+
+<pre class="signature">rpc GetProject(<a href="#message-GetProjectRequest">GetProjectRequest</a>) returns (<a href="#message-Project">Project</a>)</pre>
+
+<div class="description">
+<p>GetProject</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetProjects">BatchGetProjects</h5>
+
+<pre class="signature">rpc BatchGetProjects(<a href="#message-BatchGetProjectsRequest">BatchGetProjectsRequest</a>) returns (<a href="#message-BatchGetProjectsResponse">BatchGetProjectsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetProjects</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListProjects">ListProjects</h5>
+
+<pre class="signature">rpc ListProjects(<a href="#message-ListProjectsRequest">ListProjectsRequest</a>) returns (<a href="#message-ListProjectsResponse">ListProjectsResponse</a>)</pre>
+
+<div class="description">
+<p>ListProjects</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchProject">WatchProject</h5>
+
+<pre class="signature">rpc WatchProject(<a href="#message-WatchProjectRequest">WatchProjectRequest</a>) returns (<a href="#message-WatchProjectResponse">WatchProjectResponse</a>)</pre>
+
+<div class="description">
+<p>WatchProject</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchProjects">WatchProjects</h5>
+
+<pre class="signature">rpc WatchProjects(<a href="#message-WatchProjectsRequest">WatchProjectsRequest</a>) returns (<a href="#message-WatchProjectsResponse">WatchProjectsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchProjects</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateProject">CreateProject</h5>
+
+<pre class="signature">rpc CreateProject(<a href="#message-CreateProjectRequest">CreateProjectRequest</a>) returns (<a href="#message-Project">Project</a>)</pre>
+
+<div class="description">
+<p>CreateProject</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateProject">UpdateProject</h5>
+
+<pre class="signature">rpc UpdateProject(<a href="#message-UpdateProjectRequest">UpdateProjectRequest</a>) returns (<a href="#message-Project">Project</a>)</pre>
+
+<div class="description">
+<p>UpdateProject</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteProject">DeleteProject</h5>
+
+<pre class="signature">rpc DeleteProject(<a href="#message-DeleteProjectRequest">DeleteProjectRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteProject</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-ConnectRequest">ConnectRequest</h5>
+
+<p>Request message for method [Connect][ntt.proxies.v1alpha2.Connect]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">open_request</th>
+<td class="type"><pre><a href="#message-ConnectRequest.OpenRequest">ConnectRequest.OpenRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>The initiation message to open a channel to a device.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_request</th>
+<td class="type"><pre><a href="#message-ConnectRequest.ResumeRequest">ConnectRequest.ResumeRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>Attempt to resume stream of data</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ack</th>
+<td class="type"><pre><a href="#message-Ack">Ack</a></pre></td>
+</tr>
+<tr><td class="description"><p>ACK message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre><a href="#message-Data">Data</a></pre></td>
+</tr>
+<tr><td class="description"><p>Any data sent to the device through the endpoint.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">close</th>
+<td class="type"><pre><a href="#message-Close">Close</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre><a href="#message-Error">Error</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">ping</th>
+<td class="type"><pre><a href="#message-Ping">Ping</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectRequest.OpenRequest">ConnectRequest.OpenRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">provider_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>name to connect.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Device service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">arg</th>
+<td class="type"><pre>bytes</pre></td>
+</tr>
+<tr><td class="description"><p>Initial argument (optional)</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectRequest.ResumeRequest">ConnectRequest.ResumeRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">provider_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>name to connect.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">last_message_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectResponse">ConnectResponse</h5>
+
+<p>Response message for method [Connect][ntt.proxies.v1alpha2.Connect]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">open_response</th>
+<td class="type"><pre><a href="#message-ConnectResponse.OpenResponse">ConnectResponse.OpenResponse</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notification from the agent (endpoint) to the channel has been opened.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_response</th>
+<td class="type"><pre><a href="#message-ConnectResponse.ResumeResponse">ConnectResponse.ResumeResponse</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_open_error</th>
+<td class="type"><pre><a href="#message-ConnectResponse.ChannelOpenError">ConnectResponse.ChannelOpenError</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">ack</th>
+<td class="type"><pre><a href="#message-Ack">Ack</a></pre></td>
+</tr>
+<tr><td class="description"><p>ACK message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre><a href="#message-Data">Data</a></pre></td>
+</tr>
+<tr><td class="description"><p>Any data from the device (endpoint) to the client.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">close</th>
+<td class="type"><pre><a href="#message-Close">Close</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre><a href="#message-Error">Error</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectResponse.OpenResponse">ConnectResponse.OpenResponse</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectResponse.ResumeResponse">ConnectResponse.ResumeResponse</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">last_message_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConnectResponse.ChannelOpenError">ConnectResponse.ChannelOpenError</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>ID of the channel failed to open.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">message</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Error message.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenRequest">ListenRequest</h5>
+
+<p>Request message for method [Listen][ntt.proxies.v1alpha2.Listen]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">open_request</th>
+<td class="type"><pre><a href="#message-ListenRequest.OpenRequest">ListenRequest.OpenRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>This is a hello message from the agent with its name.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_request</th>
+<td class="type"><pre><a href="#message-ListenRequest.ResumeRequest">ListenRequest.ResumeRequest</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_open_error</th>
+<td class="type"><pre><a href="#message-ListenRequest.ChannelOpenError">ListenRequest.ChannelOpenError</a></pre></td>
+</tr>
+<tr><td class="description"><p>When the agent failed to open a requested channel, this message will be
+sent from the agent to the endpoint.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ping</th>
+<td class="type"><pre><a href="#message-Ping">Ping</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenRequest.OpenRequest">ListenRequest.OpenRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>The self-declared device name, used for authentication/authorization.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenRequest.ResumeRequest">ListenRequest.ResumeRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>The self-declared device name, used for authentication/authorization.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenRequest.ChannelOpenError">ListenRequest.ChannelOpenError</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>ID of the channel failed to open.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">message</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Error message.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenResponse">ListenResponse</h5>
+
+<p>Response message for method [Listen][ntt.proxies.v1alpha2.Listen]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">listening</th>
+<td class="type"><pre><a href="#message-ListenResponse.Listening">ListenResponse.Listening</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">open_channel_response</th>
+<td class="type"><pre><a href="#message-ListenResponse.OpenChannelResponse">ListenResponse.OpenChannelResponse</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notifies a new channel has been requested by a client.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_channel_response</th>
+<td class="type"><pre><a href="#message-ListenResponse.ResumeChannelResponse">ListenResponse.ResumeChannelResponse</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notifies a channel was asked to be resumed by a client</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenResponse.Listening">ListenResponse.Listening</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenResponse.OpenChannelResponse">ListenResponse.OpenChannelResponse</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Channel ID</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Device service;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">arg</th>
+<td class="type"><pre>bytes</pre></td>
+</tr>
+<tr><td class="description"><p>Initial argument (optional)</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListenResponse.ResumeChannelResponse">ListenResponse.ResumeChannelResponse</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Channel ID</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Device service;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">arg</th>
+<td class="type"><pre>bytes</pre></td>
+</tr>
+<tr><td class="description"><p>Initial argument (optional)</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">last_message_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptRequest">AcceptRequest</h5>
+
+<p>Request message for method [Accept][ntt.proxies.v1alpha2.Accept]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">open_request</th>
+<td class="type"><pre><a href="#message-AcceptRequest.OpenRequest">AcceptRequest.OpenRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>Registers a new socket on the endpoint.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_request</th>
+<td class="type"><pre><a href="#message-AcceptRequest.ResumeRequest">AcceptRequest.ResumeRequest</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre><a href="#message-Data">Data</a></pre></td>
+</tr>
+<tr><td class="description"><p>Data from the agent to the endpoint (client).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ack</th>
+<td class="type"><pre><a href="#message-Ack">Ack</a></pre></td>
+</tr>
+<tr><td class="description"><p>ACK message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">close</th>
+<td class="type"><pre><a href="#message-Close">Close</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre><a href="#message-Error">Error</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">ping</th>
+<td class="type"><pre><a href="#message-Ping">Ping</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptRequest.OpenRequest">AcceptRequest.OpenRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name, to be authenticated/authorized.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Channel ID, requested by the endpoint in the ChannelRequested message.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptRequest.ResumeRequest">AcceptRequest.ResumeRequest</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name, to be authenticated/authorized.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">session_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">channel_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Channel ID, requested by the endpoint in the ChannelRequested message.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">last_message_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptResponse">AcceptResponse</h5>
+
+<p>Response message for method [Accept][ntt.proxies.v1alpha2.Accept]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre><a href="#message-Data">Data</a></pre></td>
+</tr>
+<tr><td class="description"><p>Data from the endpoint (client) to the agent.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ack</th>
+<td class="type"><pre><a href="#message-Ack">Ack</a></pre></td>
+</tr>
+<tr><td class="description"><p>ACK message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">close</th>
+<td class="type"><pre><a href="#message-Close">Close</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre><a href="#message-Error">Error</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetProjectRequest">GetProjectRequest</h5>
+
+<p>Request message for method [GetProject][ntt.proxies.v1alpha2.GetProject]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.proxies.v1alpha2.Project</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetProjectsRequest">BatchGetProjectsRequest</h5>
+
+<p>Request message for method
+[BatchGetProjects][ntt.proxies.v1alpha2.BatchGetProjects]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional parent ntt.proxies.v1alpha2.Project</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of Projects</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetProjectsResponse">BatchGetProjectsResponse</h5>
+
+<p>BatchGetProjectsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">projects</th>
+<td class="type"><pre>repeated <a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>found Projects</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found Projects</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListProjectsRequest">ListProjectsRequest</h5>
+
+<p>Request message for method [ListProjects][ntt.proxies.v1alpha2.ListProjects]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Projects than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListProjectsResponse.next_page_token][ntt.proxies.v1alpha2.ListProjectsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListProjectsResponse">ListProjectsResponse</h5>
+
+<p>Request message for method [ListProjects][ntt.proxies.v1alpha2.ListProjects]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">projects</th>
+<td class="type"><pre>repeated <a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of Projects</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListProjectsRequest.page_token][ntt.proxies.v1alpha2.ListProjectsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListProjectsRequest.page_token][ntt.proxies.v1alpha2.ListProjectsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchProjectRequest">WatchProjectRequest</h5>
+
+<p>Request message for method [WatchProject][ntt.proxies.v1alpha2.WatchProject]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.proxies.v1alpha2.Project</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchProjectResponse">WatchProjectResponse</h5>
+
+<p>WatchProjectResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-ProjectChange">ProjectChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchProjectsRequest">WatchProjectsRequest</h5>
+
+<p>Request message for method
+[WatchProjects][ntt.proxies.v1alpha2.WatchProjects]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Projects than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to Project that don't affect
+any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+Project that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchProjectsResponse">WatchProjectsResponse</h5>
+
+<p>WatchProjectsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project_changes</th>
+<td class="type"><pre>repeated <a href="#message-ProjectChange">ProjectChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of Projects</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All Projects will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchProjectsResponse.PageTokenChange">WatchProjectsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (Projects will contains changes of
+type Current only). Any resume tokens should be discarded as well. This
+field should be checked only for stateless watch. In stateful those kind of
+errors are handled by the server side. Will never be sent along with
+is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchProjectsResponse.PageTokenChange">WatchProjectsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateProjectRequest">CreateProjectRequest</h5>
+
+<p>Request message for method
+[CreateProject][ntt.proxies.v1alpha2.CreateProject]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>Project resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateProjectRequest">UpdateProjectRequest</h5>
+
+<p>Request message for method
+[UpdateProject][ntt.proxies.v1alpha2.UpdateProject]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>Project resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateProjectRequest.CAS">UpdateProjectRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateProjectRequest.CAS">UpdateProjectRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteProjectRequest">DeleteProjectRequest</h5>
+
+<p>Request message for method
+[DeleteProject][ntt.proxies.v1alpha2.DeleteProject]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.proxies.v1alpha2.Project</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+ 
+
+<h4 id="shared-resources">Shared Resources</h4>
+
+<h5>Operations</h5>
+
+ 
+
+
+<h5>Messages<h5>
+
+<h5 id="message-Ack">Ack</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Close">Close</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Data">Data</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">bytes</th>
+<td class="type"><pre>bytes</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">ack_required</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Error">Error</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">message</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Ping">Ping</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+
+
+<h5 id="message-ProjectChange">ProjectChange</h5>
+
+<p>ProjectChange is used by Watch notifications Responses to describe change of
+single Project One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-ProjectChange.Added">ProjectChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-ProjectChange.Modified">ProjectChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-ProjectChange.Current">ProjectChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-ProjectChange.Removed">ProjectChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when Project is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ProjectChange.Added">ProjectChange.Added</h5>
+
+<p>Project has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added Project in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ProjectChange.Current">ProjectChange.Current</h5>
+
+<p>Project has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ProjectChange.Modified">ProjectChange.Modified</h5>
+
+<p>Project changed some of it's fields - contains either full document or
+masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified Project</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre><a href="#message-Project">Project</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of Project or masked difference, depending on mask_changes
+instrumentation of issued [WatchProjectRequest] or [WatchProjectsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified Project.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying Project new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ProjectChange.Removed">ProjectChange.Removed</h5>
+
+<p>Removed is returned when Project is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed Project index. Not populated in stateless
+watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+
+
+</body>
+</html>

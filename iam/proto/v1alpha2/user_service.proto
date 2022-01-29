@@ -282,7 +282,6 @@ message DeleteUserRequest {
 // User service API for IAM
 service UserService {
   option (google.api.default_host) = "iam.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetUser

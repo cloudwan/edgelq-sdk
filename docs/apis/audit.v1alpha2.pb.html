@@ -1,0 +1,3767 @@
+
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+body {
+  padding: 1em;
+}
+h2 {
+  margin-top: 1em;
+}
+h3 {
+  margin-top: 1em;
+}
+h4 {
+  margin-top: 1em;
+}
+h5 {
+  margin-top: 1em;
+}
+div.operation {
+  background: #f0f0f0;
+}
+div.operation h5 {
+  padding: 0.2em;
+  background: #e0e0e0;
+}
+div.operation .signature {
+  font-weight: bold;
+  padding: 0.2em;
+}
+div.operation .description {
+  padding: 0.2em;
+}
+table th,
+table td {
+  padding: 0.2em;
+}
+table.fields {
+  width: 100%;
+}
+table.fields thead tr th {
+  background: #c0c0c0;
+}
+table.fields tbody tr th {
+  background: #e0e0e0;
+  vertical-align: top;
+  border-bottom: 1px solid #ababab;
+  width: 25%;
+}
+table.fields tbody tr td.type {
+  font-weight: bold;
+}
+table.fields tbody tr td.type pre {
+  margin: 0px;
+}
+table.fields tbody tr td.description {
+  border-bottom: 1px solid #ababab;
+}
+table.fields tbody tr td.description *:last-child {
+  margin-bottom: 0px;
+}
+table.fields tbody tr td.none {
+  border-bottom: 1px solid #ababab;
+}
+</style>
+</head>
+<body>
+<h1>Service: Audit (ntt.audit.v1alpha2 - v1alpha2)</h1>
+
+<p>Service Audit</p>
+
+<h2>Index</h2>
+
+<ul>
+
+<li><a href="#resource-ActivityLog">ActivityLog</a></li>
+
+<li><a href="#resource-AuditedResourceDescriptor">AuditedResourceDescriptor</a></li>
+
+<li><a href="#resource-MethodDescriptor">MethodDescriptor</a></li>
+
+<li><a href="#resource-ResourceChangeLog">ResourceChangeLog</a></li> 
+
+<li><a href="#shared-resources">Shared Resources</a></li>
+</ul>
+
+<h2>Resources</h2>
+
+
+<h3 id="resource-ActivityLog"><span id="message-ActivityLog">ActivityLog</span></h3>
+
+<p>ActivityLog Resource - describes notification of
+activity triggered by a request sent to an API service.
+ActivityLog creation is triggered by an API service
+when it receives either unary or stream request.</p>
+<p>ActivityLog contains messages exchanged between client
+and server within single API call and finally exit status.
+ActivityLog is method oriented - service name + method name
+(for example IAM/CreateRoleBinding) is a leading information.</p>
+<p>ActivityLog can have N associated ResourceChangeLog objects,
+if API call it describes made some changes in a data store.
+You can combine ActivityLog and ResourceChangeLog by making
+queries with request_id specified in a filter.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of ActivityLog. It contains scope + ID of the log.
+ID is a base64 encoded unique key that identifies tuple:
+scope
+request_id
+authentication.principal
+request_metadata.ip_address
+request_metadata.user_agent
+authorization.granted_permissions
+authorization.denied_permissions
+service.name
+service.region_id
+method.type
+method.version
+resource.name
+resource.difference.fields
+category
+labels</p>
+<p>Key is not to be decoded outside of service, but treated as opaque string</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">scope</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Contains scope from name field without resource ID.
+Used for internal purpose for filtering (logs are using custom store).
+Example formats are:</p>
+<ul>
+<li>organization/umbrella</li>
+<li>projects/mars_exploration</li>
+<li>
+<system></li>
+</ul>
+</td></tr>
+
+<tr>
+<th rowspan="2">request_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Generated ID of the request. Same ID must be used in ResourceChangeLog
+objects associated with this request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">authentication</th>
+<td class="type"><pre><a href="#message-Authentication">Authentication</a></pre></td>
+</tr>
+<tr><td class="description"><p>Authentication data - informs who made a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">authorization</th>
+<td class="type"><pre><a href="#message-Authorization">Authorization</a></pre></td>
+</tr>
+<tr><td class="description"><p>Authorization data - informs what permissions were
+granted or denied for associated request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre><a href="#message-ServiceData">ServiceData</a></pre></td>
+</tr>
+<tr><td class="description"><p>Information about the service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">method</th>
+<td class="type"><pre><a href="#message-ActivityLog.Method">ActivityLog.Method</a></pre></td>
+</tr>
+<tr><td class="description"><p>Information about the method</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">request_metadata</th>
+<td class="type"><pre><a href="#message-ActivityLog.RequestMetadata">ActivityLog.RequestMetadata</a></pre></td>
+</tr>
+<tr><td class="description"><p>Request metadata</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre><a href="#message-ActivityLog.SubjectResource">ActivityLog.SubjectResource</a></pre></td>
+</tr>
+<tr><td class="description"><p>Subject resource for this activity.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">category</th>
+<td class="type"><pre><a href="#enum-ActivityLog.Category">ActivityLog.Category</a></pre></td>
+</tr>
+<tr><td class="description"><p>Category of the activity log.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">labels</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>List of query-able labels</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">events</th>
+<td class="type"><pre>repeated <a href="#message-ActivityLog.Event">ActivityLog.Event</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of events attached to this log</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-ListActivityLogs">ListActivityLogs</h5>
+
+<pre class="signature">rpc ListActivityLogs(<a href="#message-ListActivityLogsRequest">ListActivityLogsRequest</a>) returns (<a href="#message-ListActivityLogsResponse">ListActivityLogsResponse</a>)</pre>
+
+<div class="description">
+<p>ListActivityLogs</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateActivityLogs">CreateActivityLogs</h5>
+
+<pre class="signature">rpc CreateActivityLogs(<a href="#message-CreateActivityLogsRequest">CreateActivityLogsRequest</a>) returns (<a href="#message-CreateActivityLogsResponse">CreateActivityLogsResponse</a>)</pre>
+
+<div class="description">
+<p>CreateActivityLogs</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-ActivityLog.Event">ActivityLog.Event</h5>
+
+<p>Event associated with activity.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">client_message</th>
+<td class="type"><pre><a href="#message-ActivityLog.Event.ClientMsgEvent">ActivityLog.Event.ClientMsgEvent</a></pre></td>
+</tr>
+<tr><td class="description"><p>Client message received event</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">server_message</th>
+<td class="type"><pre><a href="#message-ActivityLog.Event.ServerMsgEvent">ActivityLog.Event.ServerMsgEvent</a></pre></td>
+</tr>
+<tr><td class="description"><p>Server message sent event</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">exit</th>
+<td class="type"><pre><a href="#message-ActivityLog.Event.ExitEvent">ActivityLog.Event.ExitEvent</a></pre></td>
+</tr>
+<tr><td class="description"><p>Request finished event</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_server_message</th>
+<td class="type"><pre><a href="#message-ActivityLog.Event.RegionalServerMsgEvent">ActivityLog.Event.RegionalServerMsgEvent</a></pre></td>
+</tr>
+<tr><td class="description"><p>Server received response from another server (used for split &amp; merge)
+which describes PARTIAL result to be sent to the client.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_exit</th>
+<td class="type"><pre><a href="#message-ActivityLog.Event.RegionalServerMsgEvent">ActivityLog.Event.RegionalServerMsgEvent</a></pre></td>
+</tr>
+<tr><td class="description"><p>Server received exit code from another server (used for split &amp; merge).
+In case it contains error, its likely final exit will contain this too.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Method">ActivityLog.Method</h5>
+
+<p>Description of the executed method</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Type name of a method, for example &quot;UpdateRoleBinding&quot;.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">version</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Version in which method was executed.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.RequestMetadata">ActivityLog.RequestMetadata</h5>
+
+<p>Additional information about request caller</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">ip_address</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Source IP from where request came</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">user_agent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Agent used by the request caller</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.SubjectResource">ActivityLog.SubjectResource</h5>
+
+<p>Description of the main subject resource activity refers to.
+For standard, goten-generated actions it's same as subject resource
+of the method. For custom actions, in some cases, developer
+may pick however different resource (it is customizable in proto audit
+spec).</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>full name of the resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">difference</th>
+<td class="type"><pre><a href="#message-ActivityLog.SubjectResource.Difference">ActivityLog.SubjectResource.Difference</a></pre></td>
+</tr>
+<tr><td class="description"><p>difference contains update information of the subject resource.
+Left empty if the request described by this activity log did not
+update the resource.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Event.ClientMsgEvent">ActivityLog.Event.ClientMsgEvent</h5>
+
+<p>Describes client message event</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Message contents</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of a message</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Event.RegionalServerMsgEvent">ActivityLog.Event.RegionalServerMsgEvent</h5>
+
+<p>Describes message received from server in specific region.
+This type is used only for requests, which receiving server decided to
+split across many regions. Each regional server sends own response and
+executing server is responsible for merging all partial results into one.
+This type does not show what was sent to the client.
+TODO: No use case for now, just placeholder, no server implementation</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Message contents</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of a message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Region ID where message comes from.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Event.ServerMsgEvent">ActivityLog.Event.ServerMsgEvent</h5>
+
+<p>Describes server message event</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Message contents</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of a message</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">routed_region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>If request was routed to another region and response received from
+other server, this field will be populated and contain region ID where
+request was routed.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Event.RegionalExitEvent">ActivityLog.Event.RegionalExitEvent</h5>
+
+<p>Describes exit code received from server in specific region.
+This type is used only for requests, which receiving server decided to
+split across many regions. Each regional server sends own response and
+executing server is responsible for merging all partial results into one.
+IT does not contain status actually sent to the client.
+TODO: No use case for now, just placeholder, no server implementation</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">status</th>
+<td class="type"><pre>.ntt.rpc.Status</pre></td>
+</tr>
+<tr><td class="description"><p>Final status of a request for given region</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time when request finished</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Region ID where status comes from</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.Event.ExitEvent">ActivityLog.Event.ExitEvent</h5>
+
+<p>Describes exit event (request finished)</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">status</th>
+<td class="type"><pre>.ntt.rpc.Status</pre></td>
+</tr>
+<tr><td class="description"><p>Final status of a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time when request finished</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ActivityLog.SubjectResource.Difference">ActivityLog.SubjectResource.Difference</h5>
+
+<p>Describes changes (in database) executed on the resource.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">fields</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>List of updated field paths (which are either marked as a state or
+spec fields). Proper, actual values are stored in &quot;before&quot; and &quot;after&quot;
+fields. Populated only for updating requests.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">before</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>State of the resource before update.
+Note that &quot;before&quot; object contains only values of fields present
+in &quot;fields&quot;. It does not contain whole resource as it was before
+the update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">after</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>State of the resource after update.
+Note that &quot;after&quot; object contains only values of fields present
+in &quot;fields&quot;. It does not contain whole resource as it is after
+the update.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListActivityLogsRequest">ListActivityLogsRequest</h5>
+
+<p>Request message for method
+[ListActivityLogs][ntt.audit.v1alpha2.ListActivityLogs]</p>
+<p>Returns activities for specified time range and within specified filter.
+Activity logs are stored only in region which executed them and never
+duplicated. Because of that its important to pay attention to region IDs in a
+request object.</p>
+<p>Basic supported filters are:</p>
+<ul>
+<li>--filter 'service.name=[SERVICE_NAME]' (what is happening in this service)</li>
+<li>--filter 'service.name=[SERVICE_NAME] and method.type=[METHOD_NAME]' (what
+is happening for this API call)</li>
+<li>--filter 'authentication.principal=[PRINCIPAL_NAME]' (what that person is
+doing)</li>
+<li>--filter 'request_id=[REQUEST_ID]' (I have request ID, what is actually
+this?)</li>
+<li>--filter 'service.name=[SERVICE_NAME] and
+resource.name=[FULL_RESOURCE_NAME]' (can I see activities on this resource?)</li>
+</ul>
+<p>Be aware, that server will append scope filter condition (and scope=...) to
+the filter. Scope(s) will be extracted from fields parents in
+ListActivityLogsRequest object. Note you can query for multiple at once, both
+projects and organizations.</p>
+<p>For all of the above filters you can replace filter condition compare (=)
+with IN operator. You can therefore query for multiple services, methods or
+users at once. Above filters are also preferred as we have optimization for
+them.</p>
+<p>Activity logs can be filtered by custom labels (field labels in ActivityLog).
+Labels are defined per each API method - so you must specify service.name and
+method.type conditions to be able to query by labels.</p>
+<p>For example, suppose you have a CreateVM method, which creates resource &quot;VM&quot;.
+Suppose there is a field &quot;group&quot; within resource body, which is reference to
+other resource. If you want to make a query like &quot;who was creating VMs for
+that group&quot;, then you need to create label &quot;group&quot; inside resource body. Then
+you will be able to make a query with following filter condition:
+<em>--filter 'service.name=vms.domain.com and method.type=CreateVM and
+labels.group=mySpecialVMGroup'</em>.</p>
+<p>Be aware, that Create/Update requests, which have resource object in their
+own bodies, will automatically inherit resource labels. So, basically you
+need to define &quot;group&quot; label in resource spec, not inside request. This is
+useful, as both Create/Update methods will have this label. This also allows
+code-gen to continue maintaining *derived.proto files.</p>
+<p>Examples of usage (with cuttle - we are interested only in one region and
+scope):</p>
+<ul>
+<li>Checks connections to all devices within ssh-demo project starting from 8th
+of September 12 UTC time</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/ssh-demo' --region_ids
+us-west
+--filter 'service.name=&quot;devices.edgelq.com&quot; and
+method.type=&quot;ConnectToDevice&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<p>*Checks connections to device demo-device within ssh-demo project starting
+from 8th of September 12 UTC time</p>
+<p>$ cuttle audit query activity-log --parents 'project/ssh-demo' --region_ids
+us-west
+--filter 'service.name=&quot;devices.edgelq.com&quot; and
+method.type=&quot;ConnectToDevice&quot; and
+resource.name=&quot;projects/ssh-demo/devices/demo-device&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks what is happening within whole iam service for project demo starting
+from 8th of September 12 UTC time</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks activities within one hour for whole iam service for selected
+methods</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot; and method.type IN
+[&quot;CreateRoleBinding&quot;, &quot;UpdateRoleBinding&quot;, &quot;DeleteRoleBinding&quot;]'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;,
+&quot;endTime&quot;:&quot;2020-09-08T13:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks modification of RoleBinding</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot; and method.type=&quot;UpdateRoleBinding&quot;
+and labels.resource_name=&quot;projects/x/roleBindings/myRB&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks what was happening with some device</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;devices.edgelq.com&quot; and
+resource.name=&quot;projects/x/devices/myDevice&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks activities made by specific user (we need their email)</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'authentication.principal=&quot;user:we.know.who@domain.com&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks activities made by specific service account (we need it's email)</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter
+'authentication.principal=&quot;serviceAccount:myServiceAccount@domain.com&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parents</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent references of ntt.audit.v1alpha2.ActivityLog - provides list of all
+scopes we want to query about</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A audit filter that specifies which activity logs should be returned</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region_ids</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Regions from which logs are queried. If empty, then global view is queried.
+Its possible also to specify global view (by not providing request_ids) BUT
+still provide negative filter condition (NOT IN, !=). In those cases some
+regions will be skipped.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">interval</th>
+<td class="type"><pre><a href="#message-TimeInterval">TimeInterval</a></pre></td>
+</tr>
+<tr><td class="description"><p>The time interval for which results should be returned. Only logs
+that contain data points in the specified interval are included
+in the response.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Cap on a number of activity logs to be included in a response.
+Number of logs in an actual response can be higher, since logs are
+read in bulk with second precision - exceed logs above the limit will share
+same timestamp as the logs below the limit.</p>
+<p>Results will be adjusted to the &quot;end time&quot; taken from interval field
+(adjusted also by page_token if provided).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token which identifies next page with further results. Token should be
+taken from
+[ListActivityLogsResponse.next_page_token][ntt.audit.v1alpha2.ListActivityLogsResponse.next_page_token].</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListActivityLogsResponse">ListActivityLogsResponse</h5>
+
+<p>Response message for method
+[ListActivityLogs][ntt.audit.v1alpha2.ListActivityLogs]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">activity_logs</th>
+<td class="type"><pre>repeated <a href="#message-ActivityLog">ActivityLog</a></pre></td>
+</tr>
+<tr><td class="description"><p>One or more activity method logs that match the filter included in the
+request. Contains results from all queried regions. Its possible however
+that some logs may be missing, for this see execution_errors.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>If there are more results than have been returned, then this field is set
+to a non-empty value. To see the additional results,
+use that value as <code>pageToken</code> in the next call to this method.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">execution_errors</th>
+<td class="type"><pre>repeated .ntt.rpc.Status</pre></td>
+</tr>
+<tr><td class="description"><p>Query execution errors that may have caused the response data returned to
+be incomplete. Because logs are stored only locally (for each region), all
+activity log queries are split and merged by a receiving request server
+according to the queried regions. Its possible that some regions will fail
+when request is redirected to them, but others not. For each failed region,
+one execution error will be appended. In each ntt.rpc.Status message,
+fields code and message will contain error obtained from failed regional
+server, while field details will contain always one item and this item will
+be of type ErrorDetails.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListActivityLogsResponse.ErrorDetails">ListActivityLogsResponse.ErrorDetails</h5>
+
+<p>ErrorDetails is used when one of the queried regions fails to produce
+results. It is used in execution_errors field (see subfield
+ntt.rpc.Status.details).</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>region id which failed to give results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateActivityLogsRequest">CreateActivityLogsRequest</h5>
+
+<p>Request message for method
+[CreateActivityLogs][ntt.audit.v1alpha2.CreateActivityLogs]</p>
+<p>Creates many activity logs at once - or appends existing, if some of the
+activity logs already exist (their name is already known).</p>
+<p>This request should not be used by regular users - only API services should
+be able to submit activity logs. Developers of services should use logs
+exporter package offered along other Audit service packages instead of
+developing own components.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">activity_logs</th>
+<td class="type"><pre>repeated <a href="#message-ActivityLog">ActivityLog</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of activity logs to be added to service. Can be coming from different
+scopes but must be submitted to the same region.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateActivityLogsResponse">CreateActivityLogsResponse</h5>
+
+<p>Response message for method
+[CreateActivityLogs][ntt.audit.v1alpha2.CreateActivityLogs]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">log_names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Resource change log names - one name per each activity log, in same order
+as in the request</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-ActivityLog.Category">ActivityLog.Category</h5>
+
+<p>Activity log category.
+Each activity log basically describes read or write action,
+optionally describes other &quot;operation&quot; type.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>Undefined</th>
+<td class="description"><p>Undefined, should never be used</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>Update</th>
+<td class="description"><p>Describes any request making update on the system state.
+Note this includes not just &quot;Update<Res>&quot; requests, but also
+creations and deletions (create/delete is also some UPDATE
+of the part of the system). However, note that there are other &quot;Update&quot;
+types in this enumeration.
+Basically, this &quot;Update&quot; type is for any CUD request EXCEPT those
+classified as SpecUpdateOnly, StateUpdateOnly, InternalUpdate or
+OtherUpdate.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>Operation</th>
+<td class="description"><p>Describes any request executing some special operation on the
+system. It is to be used by special requests like connecting to
+device with SSH.
+It's for requests that cannot obviously be classified clearly as
+a read or update.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SpecUpdateOnly</th>
+<td class="description"><p>Describes any request updating only &quot;spec&quot; field paths
+on the subject resource and not updating any &quot;state&quot; fields.
+It may contain additionally updated meta fields.
+It never describes create/delete operation.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>StateUpdateOnly</th>
+<td class="description"><p>Describes any request updating only &quot;state&quot; field paths
+on the subject resource and not updating any &quot;spec&quot; fields.
+It may contain additionally updated meta fields.
+It never describes create/delete operation.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>InternalUpdate</th>
+<td class="description"><p>Describes internal update of the system. This is for requests
+executed internally by the system (like controller creating role
+binding for each group member for each role assigned to group).</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>OtherUpdate</th>
+<td class="description"><p>Describes any other non-significant update request (never create/delete).
+This is for empty updates or modifying meta fields only.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>Rejected</th>
+<td class="description"><p>Describes request that has been rejected and therefore no action
+has happened. This is result of lack of permission/authentication.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ClientError</th>
+<td class="description"><p>Describes request that has failed due to client error (like validation
+error)</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ServerError</th>
+<td class="description"><p>Describes request that has failed due to server issue.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>Read</th>
+<td class="description"><p>Describes any read request (like BatchGet, Get, List, Watch).</p>
+</td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
+
+
+
+<h3 id="resource-AuditedResourceDescriptor"><span id="message-AuditedResourceDescriptor">AuditedResourceDescriptor</span></h3>
+
+<p>AuditedResourceDescriptor Resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of AuditedResourceDescriptor - contains service name and
+resource type name, separated by '/' sign. Example name:
+&quot;iam.edgelq.com/RoleBinding&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">display_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional. A concise name for the audited object type that might be
+displayed in user interfaces. It should be a Title Cased Noun Phrase,
+without any article or other determiners.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">description</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional. A detailed description of the audited object type that might
+be used in documentation.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">labels</th>
+<td class="type"><pre>repeated <a href="#message-LabelDescriptor">LabelDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>Required. A set of labels used to describe instances of this audited
+resource type. For example, for &quot;RoleBinding&quot; we can define name+member.
+This can allow us to make query like &quot;who allowed user X to do those
+things?&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">promoted_label_key_sets</th>
+<td class="type"><pre>repeated <a href="#message-LabelKeySet">LabelKeySet</a></pre></td>
+</tr>
+<tr><td class="description"><p>Promoted Label Key Sets allow defining multiple indexing rules for
+underlying backend enabling query optimizations.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">versions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of API versions which define this resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">spec_fields</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of spec fields</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">state_fields</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of state fields</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">meta_fields</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of meta fields</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetAuditedResourceDescriptor">GetAuditedResourceDescriptor</h5>
+
+<pre class="signature">rpc GetAuditedResourceDescriptor(<a href="#message-GetAuditedResourceDescriptorRequest">GetAuditedResourceDescriptorRequest</a>) returns (<a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a>)</pre>
+
+<div class="description">
+<p>GetAuditedResourceDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetAuditedResourceDescriptors">BatchGetAuditedResourceDescriptors</h5>
+
+<pre class="signature">rpc BatchGetAuditedResourceDescriptors(<a href="#message-BatchGetAuditedResourceDescriptorsRequest">BatchGetAuditedResourceDescriptorsRequest</a>) returns (<a href="#message-BatchGetAuditedResourceDescriptorsResponse">BatchGetAuditedResourceDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetAuditedResourceDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListAuditedResourceDescriptors">ListAuditedResourceDescriptors</h5>
+
+<pre class="signature">rpc ListAuditedResourceDescriptors(<a href="#message-ListAuditedResourceDescriptorsRequest">ListAuditedResourceDescriptorsRequest</a>) returns (<a href="#message-ListAuditedResourceDescriptorsResponse">ListAuditedResourceDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>ListAuditedResourceDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchAuditedResourceDescriptor">WatchAuditedResourceDescriptor</h5>
+
+<pre class="signature">rpc WatchAuditedResourceDescriptor(<a href="#message-WatchAuditedResourceDescriptorRequest">WatchAuditedResourceDescriptorRequest</a>) returns (<a href="#message-WatchAuditedResourceDescriptorResponse">WatchAuditedResourceDescriptorResponse</a>)</pre>
+
+<div class="description">
+<p>WatchAuditedResourceDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchAuditedResourceDescriptors">WatchAuditedResourceDescriptors</h5>
+
+<pre class="signature">rpc WatchAuditedResourceDescriptors(<a href="#message-WatchAuditedResourceDescriptorsRequest">WatchAuditedResourceDescriptorsRequest</a>) returns (<a href="#message-WatchAuditedResourceDescriptorsResponse">WatchAuditedResourceDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchAuditedResourceDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateAuditedResourceDescriptor">CreateAuditedResourceDescriptor</h5>
+
+<pre class="signature">rpc CreateAuditedResourceDescriptor(<a href="#message-CreateAuditedResourceDescriptorRequest">CreateAuditedResourceDescriptorRequest</a>) returns (<a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a>)</pre>
+
+<div class="description">
+<p>CreateAuditedResourceDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateAuditedResourceDescriptor">UpdateAuditedResourceDescriptor</h5>
+
+<pre class="signature">rpc UpdateAuditedResourceDescriptor(<a href="#message-UpdateAuditedResourceDescriptorRequest">UpdateAuditedResourceDescriptorRequest</a>) returns (<a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a>)</pre>
+
+<div class="description">
+<p>UpdateAuditedResourceDescriptor</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetAuditedResourceDescriptorRequest">GetAuditedResourceDescriptorRequest</h5>
+
+<p>Request message for method
+[GetAuditedResourceDescriptor][ntt.audit.v1alpha2.GetAuditedResourceDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.audit.v1alpha2.AuditedResourceDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetAuditedResourceDescriptorsRequest">BatchGetAuditedResourceDescriptorsRequest</h5>
+
+<p>Request message for method
+[BatchGetAuditedResourceDescriptors][ntt.audit.v1alpha2.BatchGetAuditedResourceDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional parent ntt.audit.v1alpha2.AuditedResourceDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of AuditedResourceDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetAuditedResourceDescriptorsResponse">BatchGetAuditedResourceDescriptorsResponse</h5>
+
+<p>BatchGetAuditedResourceDescriptorsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptors</th>
+<td class="type"><pre>repeated <a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>found AuditedResourceDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found AuditedResourceDescriptors</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListAuditedResourceDescriptorsRequest">ListAuditedResourceDescriptorsRequest</h5>
+
+<p>Request message for method
+[ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AuditedResourceDescriptors
+than requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListAuditedResourceDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListAuditedResourceDescriptorsResponse">ListAuditedResourceDescriptorsResponse</h5>
+
+<p>Request message for method
+[ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptors</th>
+<td class="type"><pre>repeated <a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of AuditedResourceDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAuditedResourceDescriptorRequest">WatchAuditedResourceDescriptorRequest</h5>
+
+<p>Request message for method
+[WatchAuditedResourceDescriptor][ntt.audit.v1alpha2.WatchAuditedResourceDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.audit.v1alpha2.AuditedResourceDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAuditedResourceDescriptorResponse">WatchAuditedResourceDescriptorResponse</h5>
+
+<p>WatchAuditedResourceDescriptorResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptorChange">AuditedResourceDescriptorChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAuditedResourceDescriptorsRequest">WatchAuditedResourceDescriptorsRequest</h5>
+
+<p>Request message for method
+[WatchAuditedResourceDescriptors][ntt.audit.v1alpha2.WatchAuditedResourceDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AuditedResourceDescriptors
+than requested. If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to AuditedResourceDescriptor
+that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+AuditedResourceDescriptor that don't affect any of masked fields won't be
+sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAuditedResourceDescriptorsResponse">WatchAuditedResourceDescriptorsResponse</h5>
+
+<p>WatchAuditedResourceDescriptorsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptor_changes</th>
+<td class="type"><pre>repeated <a href="#message-AuditedResourceDescriptorChange">AuditedResourceDescriptorChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of AuditedResourceDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All AuditedResourceDescriptors will be
+of type Added/Current (depending on watch_type specified in the request).
+Further responses will be incremental - however messages may still be
+chunked and is_current logic still applies. is_current is always true for
+stateful watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchAuditedResourceDescriptorsResponse.PageTokenChange">WatchAuditedResourceDescriptorsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (AuditedResourceDescriptors will
+contains changes of type Current only). Any resume tokens should be
+discarded as well. This field should be checked only for stateless watch.
+In stateful those kind of errors are handled by the server side. Will never
+be sent along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAuditedResourceDescriptorsResponse.PageTokenChange">WatchAuditedResourceDescriptorsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateAuditedResourceDescriptorRequest">CreateAuditedResourceDescriptorRequest</h5>
+
+<p>Request message for method
+[CreateAuditedResourceDescriptor][ntt.audit.v1alpha2.CreateAuditedResourceDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptor</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>AuditedResourceDescriptor resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateAuditedResourceDescriptorRequest">UpdateAuditedResourceDescriptorRequest</h5>
+
+<p>Request message for method
+[UpdateAuditedResourceDescriptor][ntt.audit.v1alpha2.UpdateAuditedResourceDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptor</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>AuditedResourceDescriptor resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateAuditedResourceDescriptorRequest.CAS">UpdateAuditedResourceDescriptorRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateAuditedResourceDescriptorRequest.CAS">UpdateAuditedResourceDescriptorRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-MethodDescriptor"><span id="message-MethodDescriptor">MethodDescriptor</span></h3>
+
+<p>MethodDescriptor Resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of MethodDescriptor - contains service name and
+method type name, separated by '/' sign. Example name:
+&quot;iam.edgelq.com/CreateRoleBinding&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">display_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional. A concise name for the audited object type that might be
+displayed in user interfaces. It should be a Title Cased Noun Phrase,
+without any article or other determiners.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">description</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional. A detailed description of the audited method type that might
+be used in documentation.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">labels</th>
+<td class="type"><pre>repeated <a href="#message-LabelDescriptor">LabelDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>A set of labels used to describe instances of this audited
+method type. For example, for &quot;UpdateRoleBinding&quot; we can define member
+label. This can allow us to make query like &quot;who tried to give user X
+permissions to those things?&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">promoted_label_key_sets</th>
+<td class="type"><pre>repeated <a href="#message-LabelKeySet">LabelKeySet</a></pre></td>
+</tr>
+<tr><td class="description"><p>Promoted Label Key Sets allow defining multiple indexing rules for
+underlying backend enabling query optimizations.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">versions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of API versions which define this method</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetMethodDescriptor">GetMethodDescriptor</h5>
+
+<pre class="signature">rpc GetMethodDescriptor(<a href="#message-GetMethodDescriptorRequest">GetMethodDescriptorRequest</a>) returns (<a href="#message-MethodDescriptor">MethodDescriptor</a>)</pre>
+
+<div class="description">
+<p>GetMethodDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetMethodDescriptors">BatchGetMethodDescriptors</h5>
+
+<pre class="signature">rpc BatchGetMethodDescriptors(<a href="#message-BatchGetMethodDescriptorsRequest">BatchGetMethodDescriptorsRequest</a>) returns (<a href="#message-BatchGetMethodDescriptorsResponse">BatchGetMethodDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetMethodDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListMethodDescriptors">ListMethodDescriptors</h5>
+
+<pre class="signature">rpc ListMethodDescriptors(<a href="#message-ListMethodDescriptorsRequest">ListMethodDescriptorsRequest</a>) returns (<a href="#message-ListMethodDescriptorsResponse">ListMethodDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>ListMethodDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchMethodDescriptor">WatchMethodDescriptor</h5>
+
+<pre class="signature">rpc WatchMethodDescriptor(<a href="#message-WatchMethodDescriptorRequest">WatchMethodDescriptorRequest</a>) returns (<a href="#message-WatchMethodDescriptorResponse">WatchMethodDescriptorResponse</a>)</pre>
+
+<div class="description">
+<p>WatchMethodDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchMethodDescriptors">WatchMethodDescriptors</h5>
+
+<pre class="signature">rpc WatchMethodDescriptors(<a href="#message-WatchMethodDescriptorsRequest">WatchMethodDescriptorsRequest</a>) returns (<a href="#message-WatchMethodDescriptorsResponse">WatchMethodDescriptorsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchMethodDescriptors</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateMethodDescriptor">CreateMethodDescriptor</h5>
+
+<pre class="signature">rpc CreateMethodDescriptor(<a href="#message-CreateMethodDescriptorRequest">CreateMethodDescriptorRequest</a>) returns (<a href="#message-MethodDescriptor">MethodDescriptor</a>)</pre>
+
+<div class="description">
+<p>CreateMethodDescriptor</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateMethodDescriptor">UpdateMethodDescriptor</h5>
+
+<pre class="signature">rpc UpdateMethodDescriptor(<a href="#message-UpdateMethodDescriptorRequest">UpdateMethodDescriptorRequest</a>) returns (<a href="#message-MethodDescriptor">MethodDescriptor</a>)</pre>
+
+<div class="description">
+<p>UpdateMethodDescriptor</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetMethodDescriptorRequest">GetMethodDescriptorRequest</h5>
+
+<p>Request message for method
+[GetMethodDescriptor][ntt.audit.v1alpha2.GetMethodDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.audit.v1alpha2.MethodDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetMethodDescriptorsRequest">BatchGetMethodDescriptorsRequest</h5>
+
+<p>Request message for method
+[BatchGetMethodDescriptors][ntt.audit.v1alpha2.BatchGetMethodDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional parent ntt.audit.v1alpha2.MethodDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of MethodDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetMethodDescriptorsResponse">BatchGetMethodDescriptorsResponse</h5>
+
+<p>BatchGetMethodDescriptorsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptors</th>
+<td class="type"><pre>repeated <a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>found MethodDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found MethodDescriptors</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListMethodDescriptorsRequest">ListMethodDescriptorsRequest</h5>
+
+<p>Request message for method
+[ListMethodDescriptors][ntt.audit.v1alpha2.ListMethodDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer MethodDescriptors than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListMethodDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListMethodDescriptorsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListMethodDescriptorsResponse">ListMethodDescriptorsResponse</h5>
+
+<p>Request message for method
+[ListMethodDescriptors][ntt.audit.v1alpha2.ListMethodDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptors</th>
+<td class="type"><pre>repeated <a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of MethodDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListMethodDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListMethodDescriptorsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListMethodDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListMethodDescriptorsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchMethodDescriptorRequest">WatchMethodDescriptorRequest</h5>
+
+<p>Request message for method
+[WatchMethodDescriptor][ntt.audit.v1alpha2.WatchMethodDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.audit.v1alpha2.MethodDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchMethodDescriptorResponse">WatchMethodDescriptorResponse</h5>
+
+<p>WatchMethodDescriptorResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-MethodDescriptorChange">MethodDescriptorChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchMethodDescriptorsRequest">WatchMethodDescriptorsRequest</h5>
+
+<p>Request message for method
+[WatchMethodDescriptors][ntt.audit.v1alpha2.WatchMethodDescriptors]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer MethodDescriptors than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to MethodDescriptor that don't
+affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+MethodDescriptor that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchMethodDescriptorsResponse">WatchMethodDescriptorsResponse</h5>
+
+<p>WatchMethodDescriptorsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptor_changes</th>
+<td class="type"><pre>repeated <a href="#message-MethodDescriptorChange">MethodDescriptorChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of MethodDescriptors</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All MethodDescriptors will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchMethodDescriptorsResponse.PageTokenChange">WatchMethodDescriptorsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (MethodDescriptors will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchMethodDescriptorsResponse.PageTokenChange">WatchMethodDescriptorsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateMethodDescriptorRequest">CreateMethodDescriptorRequest</h5>
+
+<p>Request message for method
+[CreateMethodDescriptor][ntt.audit.v1alpha2.CreateMethodDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptor</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>MethodDescriptor resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateMethodDescriptorRequest">UpdateMethodDescriptorRequest</h5>
+
+<p>Request message for method
+[UpdateMethodDescriptor][ntt.audit.v1alpha2.UpdateMethodDescriptor]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptor</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>MethodDescriptor resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateMethodDescriptorRequest.CAS">UpdateMethodDescriptorRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateMethodDescriptorRequest.CAS">UpdateMethodDescriptorRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-ResourceChangeLog"><span id="message-ResourceChangeLog">ResourceChangeLog</span></h3>
+
+<p>ResourceChangeLog Resource - describes notification
+of resource change. This log is resource oriented -
+it strictly is associated with single resource,
+where service name, resource type and resource name
+are the strongest attributes.</p>
+<p>All resource changes are happening via API calls made
+to API services. Therefore, each ResourceChangeLog
+has associated ActivityLog. Relation is 1-N between
+activity and resource change logs, as one API call
+can modify multiple resources.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of ResourceChangeLog. It contains scope + ID of the log.
+ID is a base64 encoded unique key that identifies tuple:
+scope
+request_id
+authentication.principal
+service.name
+service.region_id
+resource.name
+resource.type
+resource.pre.labels
+resource.post.labels</p>
+<p>ID part should not be decoded, but treated as opaque string</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">scope</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Contains scope from name field without resource ID.
+Used for internal purpose for filtering (logs are using custom store).
+Supported formats are:</p>
+<ul>
+<li>organization/umbrella</li>
+<li>projects/mars_exploration</li>
+<li>
+<system></li>
+</ul>
+</td></tr>
+
+<tr>
+<th rowspan="2">request_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>Unique identifier of request - it must match the one
+in the associated activity log.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">timestamp</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of the change - equal to request timestamp (activity log)</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">authentication</th>
+<td class="type"><pre><a href="#message-Authentication">Authentication</a></pre></td>
+</tr>
+<tr><td class="description"><p>Authentication data - informs who made a change</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre><a href="#message-ServiceData">ServiceData</a></pre></td>
+</tr>
+<tr><td class="description"><p>Information about the service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre><a href="#message-ResourceChangeLog.ResourceChange">ResourceChangeLog.ResourceChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Describes change on the resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">transaction</th>
+<td class="type"><pre><a href="#message-ResourceChangeLog.TransactionInfo">ResourceChangeLog.TransactionInfo</a></pre></td>
+</tr>
+<tr><td class="description"><p>Describes state of the transaction</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-ListResourceChangeLogs">ListResourceChangeLogs</h5>
+
+<pre class="signature">rpc ListResourceChangeLogs(<a href="#message-ListResourceChangeLogsRequest">ListResourceChangeLogsRequest</a>) returns (<a href="#message-ListResourceChangeLogsResponse">ListResourceChangeLogsResponse</a>)</pre>
+
+<div class="description">
+<p>ListResourceChangeLogs</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreatePreCommittedResourceChangeLogs">CreatePreCommittedResourceChangeLogs</h5>
+
+<pre class="signature">rpc CreatePreCommittedResourceChangeLogs(<a href="#message-CreatePreCommittedResourceChangeLogsRequest">CreatePreCommittedResourceChangeLogsRequest</a>) returns (<a href="#message-CreatePreCommittedResourceChangeLogsResponse">CreatePreCommittedResourceChangeLogsResponse</a>)</pre>
+
+<div class="description">
+<p>CreatePreCommittedResourceChangeLogs</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-SetResourceChangeLogsCommitState">SetResourceChangeLogsCommitState</h5>
+
+<pre class="signature">rpc SetResourceChangeLogsCommitState(<a href="#message-SetResourceChangeLogsCommitStateRequest">SetResourceChangeLogsCommitStateRequest</a>) returns (<a href="#message-SetResourceChangeLogsCommitStateResponse">SetResourceChangeLogsCommitStateResponse</a>)</pre>
+
+<div class="description">
+<p>SetResourceChangeLogsCommitState</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-ResourceChangeLog.ResourceChange">ResourceChangeLog.ResourceChange</h5>
+
+<p>Description of change on the resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Fully qualified name of the resource (eg. &quot;RoleBinding/Public&quot;)
+that has changed from this request (if successful)</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of the resource type for example &quot;RoleBinding&quot;.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">action</th>
+<td class="type"><pre><a href="#enum-ResourceChangeLog.ResourceChange.Action">ResourceChangeLog.ResourceChange.Action</a></pre></td>
+</tr>
+<tr><td class="description"><p>Action on the resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">pre</th>
+<td class="type"><pre><a href="#message-ObjectState">ObjectState</a></pre></td>
+</tr>
+<tr><td class="description"><p>State of the resource before change.
+It is empty if action is CREATE</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">post</th>
+<td class="type"><pre><a href="#message-ObjectState">ObjectState</a></pre></td>
+</tr>
+<tr><td class="description"><p>State of the resource after change.
+It is empty if action is DELETE</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceChangeLog.TransactionInfo">ResourceChangeLog.TransactionInfo</h5>
+
+<p>Information about transaction where change
+has been executed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">identifier</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>unique identifier of the transaction.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">try_counter</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Indicator of try counter. If transaction has been
+concluded at first try, try_counter will be 1. If
+on the second try, then number will be 2 (etc).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">state</th>
+<td class="type"><pre><a href="#enum-ResourceChangeLog.TransactionInfo.State">ResourceChangeLog.TransactionInfo.State</a></pre></td>
+</tr>
+<tr><td class="description"><p>State of the transaction.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListResourceChangeLogsRequest">ListResourceChangeLogsRequest</h5>
+
+<p>Request message for method
+[ListResourceChangeLogs][ntt.audit.v1alpha2.ListResourceChangeLogs]</p>
+<p>Returns resource changes for specified time range, region, scope and filter.
+Note that resource change logs are Resource oriented - primary object is
+resource here. Audit monitors resources that have non-custom store. Resource
+change logs are stored only in region which executed those changes and never
+duplicated. Because of that its important to pay attention to region IDs in a
+request object.</p>
+<p>Note that filter field is mandatory and minimal filters are:</p>
+<ul>
+<li>--filter 'service.name=[SERVICE_NAME] and resource.type=[RESOURCE_NAME]'
+(what is happening for this resource type)</li>
+<li>--filter 'request_id=[REQUEST_ID]' (which resources were changed by this
+request_id?)</li>
+</ul>
+<p>Be aware that server will append scope filter condition (and scope IN ...) to
+an any of the above filters. All scopes are extracted from parents field in
+ListResourceChangeLogsRequest body. This ensures that users can view only
+scopes he/she is allowed to.</p>
+<p>For all of the above filters you can replace filter condition compare (=)
+with IN operator. You can therefore query for multiple services, methods or
+users at once. Above filters are also preferred as we have optimization for
+them.</p>
+<p>Resource change logs can also be filtered by custom labels (field labels in
+ResourceChangeLog - pre and post versions). Labels are custom per each API
+resource - so you must specify service.name and resource.type conditions to
+enable them. For example, suppose you have a VM resource which contains
+&quot;group&quot; field, which is a reference to some other resource. If you create
+label &quot;group&quot; in VM resource spec (in proto model) you can make a following
+query:
+<em>--filter 'service.name=vms.domain.com and resource.type=VM and
+resource.post.labels.group=projects/P/vmgroups/myGroup'</em>.</p>
+<p>Examples of usage (with cuttle - we are interested only in one region and
+scope):</p>
+<ul>
+<li>Checks activities within one hour for role binding resources</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot; and resource.type=&quot;RoleBinding&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;,
+&quot;endTime&quot;:&quot;2020-09-08T13:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks modification of specific RoleBinding</li>
+</ul>
+<p>$ cuttle audit query activity-log --parents 'project/demo' --region_ids
+us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot; and resource.type=&quot;RoleBinding&quot; and
+resource.name=&quot;projects/x/roleBindings/myRB&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+<ul>
+<li>Checks changes on resource RoleBinding made by specific user (we need their
+email)</li>
+</ul>
+<p>$ cuttle audit query resource-change-log --parents 'project/demo'
+--region_ids us-west
+--filter 'service.name=&quot;IAM.edgelq.com&quot; and resource.type=&quot;RoleBinding&quot; and
+authentication.principal=&quot;user:we.know.who@domain.com&quot;'
+--interval '{&quot;startTime&quot;:&quot;2020-09-08T12:00:00Z&quot;}' -o json</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parents</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.audit.v1alpha2.ResourceChangeLog</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A audit filter that specifies which resource change logs should be returned</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region_ids</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Regions from which records are queried. If empty, then global view is
+queried. Its possible also to specify global view (by not providing
+request_ids) BUT still provide negative filter condition (NOT IN, !=). In
+those cases some regions will be skipped.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">interval</th>
+<td class="type"><pre><a href="#message-TimeInterval">TimeInterval</a></pre></td>
+</tr>
+<tr><td class="description"><p>The time interval for which results should be returned. Only logs
+that contain data points in the specified interval are included
+in the response.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Cap on a number of resource change logs to be included in a response.
+Number of logs in an actual response can be higher, since logs are
+read in bulk with second precision - exceed logs above the limit will share
+same timestamp as the logs below the limit.</p>
+<p>Results will be adjusted to the &quot;end time&quot; taken from interval field
+(adjusted also by page_token if provided).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token which identifies next page with further results. Token should be
+taken from ListResourceChangeLogsResponse
+[ListResourceChangeLogsResponse.next_page_token][ntt.audit.v1alpha2.ListResourceChangeLogsResponse.next_page_token].</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListResourceChangeLogsResponse">ListResourceChangeLogsResponse</h5>
+
+<p>Response message for method
+[ListResourceChangeLogs][ntt.audit.v1alpha2.ListResourceChangeLogs]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_change_logs</th>
+<td class="type"><pre>repeated <a href="#message-ResourceChangeLog">ResourceChangeLog</a></pre></td>
+</tr>
+<tr><td class="description"><p>One or more resource change logs that match the filter included in the
+request. Contains results from all queried regions. Its possible however
+that some logs may be missing, for this see execution_errors.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>If there are more results than have been returned, then this field is set
+to a non-empty value. To see the additional results,
+use that value as <code>pageToken</code> in the next call to this method.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">execution_errors</th>
+<td class="type"><pre>repeated .ntt.rpc.Status</pre></td>
+</tr>
+<tr><td class="description"><p>Query execution errors that may have caused the response data returned to
+be incomplete. Because logs are stored only locally (for each region), all
+resource change log queries are split and merged by a receiving request
+server according to the queried regions. Its possible that some regions
+will fail when request is redirected to them, but others not. For each
+failed region, one execution error will be appended. In each ntt.rpc.Status
+message, fields code and message will contain error obtained from failed
+regional server, while field details will contain always one item and this
+item will be of type ErrorDetails.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListResourceChangeLogsResponse.ErrorDetails">ListResourceChangeLogsResponse.ErrorDetails</h5>
+
+<p>ErrorDetails is used when one of the queried regions fails to produce
+results. It is used in execution_errors field (see subfield
+ntt.rpc.Status.details).</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>region id which failed to give results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreatePreCommittedResourceChangeLogsRequest">CreatePreCommittedResourceChangeLogsRequest</h5>
+
+<p>Request message for method
+[CreatePreCommittedResourceChangeLogs][ntt.audit.v1alpha2.CreatePreCommittedResourceChangeLogs]</p>
+<p>Creates resource change log.</p>
+<p>This request should not be used by regular users - only API services should
+be able to submit resource change logs. Developers of services should use
+logs exporter package offered along other Audit service packages instead of
+developing own components.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">request_id</th>
+<td class="type"><pre>uint64</pre></td>
+</tr>
+<tr><td class="description"><p>ID of the request - must be same as the one used in activity logs</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">timestamp</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of the request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">authentication</th>
+<td class="type"><pre><a href="#message-Authentication">Authentication</a></pre></td>
+</tr>
+<tr><td class="description"><p>Authentication data - informs who made a change</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre><a href="#message-ServiceData">ServiceData</a></pre></td>
+</tr>
+<tr><td class="description"><p>Information about the service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">transaction</th>
+<td class="type"><pre><a href="#message-ResourceChangeLog.TransactionInfo">ResourceChangeLog.TransactionInfo</a></pre></td>
+</tr>
+<tr><td class="description"><p>Information about transaction</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">changes</th>
+<td class="type"><pre>repeated <a href="#message-ResourceChangeLog.ResourceChange">ResourceChangeLog.ResourceChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of changes</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreatePreCommittedResourceChangeLogsResponse">CreatePreCommittedResourceChangeLogsResponse</h5>
+
+<p>Response message for method
+[CreateResourceChangeLogs][ntt.audit.v1alpha2.CreateResourceChangeLogs]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">log_keys</th>
+<td class="type"><pre>repeated bytes</pre></td>
+</tr>
+<tr><td class="description"><p>Resource change log keys - one key per each resource change, in same order</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SetResourceChangeLogsCommitStateRequest">SetResourceChangeLogsCommitStateRequest</h5>
+
+<p>Request message for method
+[SetResourceChangeLogsCommitState][ntt.audit.v1alpha2.SetResourceChangeLogsCommitState]</p>
+<p>Sets transaction status of selected resource change logs.</p>
+<p>This request should not be used by regular users - only API services should
+be able to modify resource change logs. Developers of services should use
+logs exporter package offered along other Audit service packages instead of
+developing own components.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">log_keys</th>
+<td class="type"><pre>repeated bytes</pre></td>
+</tr>
+<tr><td class="description"><p>list of resource change log keys.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">timestamp</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time of the request - must be same as in
+CreatePreCommittedResourceChangeLogsRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tx_result</th>
+<td class="type"><pre><a href="#enum-ResourceChangeLog.TransactionInfo.State">ResourceChangeLog.TransactionInfo.State</a></pre></td>
+</tr>
+<tr><td class="description"><p>final state of the transaction - must be COMMITTED or ROLLED_BACK</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SetResourceChangeLogsCommitStateResponse">SetResourceChangeLogsCommitStateResponse</h5>
+
+<p>Response message for method
+[SetResourceChangeLogsCommitState][ntt.audit.v1alpha2.SetResourceChangeLogsCommitState]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-ResourceChangeLog.ResourceChange.Action">ResourceChangeLog.ResourceChange.Action</h5>
+
+<p>Type of change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>CREATE</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>UPDATE</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DELETE</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="enum-ResourceChangeLog.TransactionInfo.State">ResourceChangeLog.TransactionInfo.State</h5>
+
+<p>State of the transaction.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>PRE_COMMITTED</th>
+<td class="description"><p>Indicates that this change did not happen -
+it is just proposal of the change.
+Such a log should be followed by another
+ResourceChangeLog with value COMMITTED
+or ROLLED_BACK.
+If one transaction has been retried
+multiple times, then there may be multiple
+records with PRE_COMMITTED, last record
+should indicate final transaction state.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>COMMITTED</th>
+<td class="description"><p>Indicates change has been committed
+successfully.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ROLLED_BACK</th>
+<td class="description"><p>Indicates that change did not happen.
+Log of this type should be treated as
+attempt of change.</p>
+</td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
+
+
+ 
+
+<h4 id="shared-resources">Shared Resources</h4>
+
+<h5>Operations</h5>
+
+ 
+
+
+<h5>Messages<h5>
+
+<h5 id="message-AuditedResourceDescriptorChange">AuditedResourceDescriptorChange</h5>
+
+<p>AuditedResourceDescriptorChange is used by Watch notifications Responses to
+describe change of single AuditedResourceDescriptor One of Added, Modified,
+Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptorChange.Added">AuditedResourceDescriptorChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptorChange.Modified">AuditedResourceDescriptorChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptorChange.Current">AuditedResourceDescriptorChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptorChange.Removed">AuditedResourceDescriptorChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when AuditedResourceDescriptor is deleted or leaves
+Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AuditedResourceDescriptorChange.Added">AuditedResourceDescriptorChange.Added</h5>
+
+<p>AuditedResourceDescriptor has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptor</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added AuditedResourceDescriptor in resulting
+query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AuditedResourceDescriptorChange.Current">AuditedResourceDescriptorChange.Current</h5>
+
+<p>AuditedResourceDescriptor has been added or modified in a query view.
+Version used for stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">audited_resource_descriptor</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AuditedResourceDescriptorChange.Modified">AuditedResourceDescriptorChange.Modified</h5>
+
+<p>AuditedResourceDescriptor changed some of it's fields - contains either
+full document or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified AuditedResourceDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">audited_resource_descriptor</th>
+<td class="type"><pre><a href="#message-AuditedResourceDescriptor">AuditedResourceDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of AuditedResourceDescriptor or masked difference, depending
+on mask_changes instrumentation of issued
+[WatchAuditedResourceDescriptorRequest] or
+[WatchAuditedResourceDescriptorsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+AuditedResourceDescriptor. When modification doesn't affect sorted order,
+value will remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying AuditedResourceDescriptor new index in resulting query
+view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AuditedResourceDescriptorChange.Removed">AuditedResourceDescriptorChange.Removed</h5>
+
+<p>Removed is returned when AuditedResourceDescriptor is deleted or leaves
+Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed AuditedResourceDescriptor index. Not populated
+in stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Authentication">Authentication</h5>
+
+<p>Information about authorized principal who sent a request</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">principal</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of the principal, for example: &quot;user:our_<a href="mailto:new_admin@example.com">new_admin@example.com</a>&quot;</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Authorization">Authorization</h5>
+
+<p>Information about authorization applicable for a request.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">granted_permissions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of permissions that were granted</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">denied_permissions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of permissions that were denied</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LabelDescriptor">LabelDescriptor</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">key</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>The label key.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">versions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of versions where label is supported</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LabelKeySet">LabelKeySet</h5>
+
+<p>LabelKeySet is used for defining PromotedLabelKeySets on Object descriptors</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">label_keys</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">versions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of versions where label set is supported</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-MethodDescriptorChange">MethodDescriptorChange</h5>
+
+<p>MethodDescriptorChange is used by Watch notifications Responses to describe
+change of single MethodDescriptor One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-MethodDescriptorChange.Added">MethodDescriptorChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-MethodDescriptorChange.Modified">MethodDescriptorChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-MethodDescriptorChange.Current">MethodDescriptorChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-MethodDescriptorChange.Removed">MethodDescriptorChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when MethodDescriptor is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-MethodDescriptorChange.Added">MethodDescriptorChange.Added</h5>
+
+<p>MethodDescriptor has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptor</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added MethodDescriptor in resulting query
+view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-MethodDescriptorChange.Current">MethodDescriptorChange.Current</h5>
+
+<p>MethodDescriptor has been added or modified in a query view. Version used
+for stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">method_descriptor</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-MethodDescriptorChange.Modified">MethodDescriptorChange.Modified</h5>
+
+<p>MethodDescriptor changed some of it's fields - contains either full
+document or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified MethodDescriptor</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">method_descriptor</th>
+<td class="type"><pre><a href="#message-MethodDescriptor">MethodDescriptor</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of MethodDescriptor or masked difference, depending on
+mask_changes instrumentation of issued [WatchMethodDescriptorRequest] or
+[WatchMethodDescriptorsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+MethodDescriptor. When modification doesn't affect sorted order, value
+will remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying MethodDescriptor new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-MethodDescriptorChange.Removed">MethodDescriptorChange.Removed</h5>
+
+<p>Removed is returned when MethodDescriptor is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed MethodDescriptor index. Not populated in
+stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ObjectState">ObjectState</h5>
+
+<p>State of the object - can be resource, request or response.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">data</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Object data</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">labels</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Values for all of the labels listed in the associated audited
+object descriptor - they are extracted from protobuf object
+and used for filtering</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ServiceData">ServiceData</h5>
+
+<p>Information about service processing a request</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Fully qualified service name executing a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Region where request is coming from.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-TimeInterval">TimeInterval</h5>
+
+<p>A time interval extending just after a start time through an end time.
+If the start time is the same as the end time, then the interval
+represents a single point in time.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">end_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Optional - end of the time interval. If not provided, current
+time will be assumed.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">start_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Required. The beginning of the time interval. The start time must not be
+later than the end time.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+
+
+</body>
+</html>

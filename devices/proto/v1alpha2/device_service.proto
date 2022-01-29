@@ -294,7 +294,6 @@ message DeleteDeviceRequest {
 // Device service API for Devices
 service DeviceService {
   option (google.api.default_host) = "devices.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDevice

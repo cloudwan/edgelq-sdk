@@ -297,9 +297,8 @@ message DeleteGroupMemberRequest {
 
 // GroupMember service API for IAM
 service GroupMemberService {
-  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
-
   option (google.api.default_host) = "iam.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetGroupMember
   rpc GetGroupMember(GetGroupMemberRequest) returns (GroupMember) {

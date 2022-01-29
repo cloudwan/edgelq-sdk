@@ -303,7 +303,6 @@ message DeleteProvisioningPolicyRequest {
 // ProvisioningPolicy service API for Devices
 service ProvisioningPolicyService {
   option (google.api.default_host) = "devices.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetProvisioningPolicy

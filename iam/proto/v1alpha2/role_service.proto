@@ -281,7 +281,6 @@ message DeleteRoleRequest {
 // Role service API for IAM
 service RoleService {
   option (google.api.default_host) = "iam.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetRole

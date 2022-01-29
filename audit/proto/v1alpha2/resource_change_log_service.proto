@@ -21,7 +21,6 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // ResourceChangeLog service API for Audit
 service ResourceChangeLogService {
   option (google.api.default_host) = "audit.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListResourceChangeLogs

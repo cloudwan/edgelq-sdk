@@ -302,7 +302,6 @@ message DeleteAlertingConditionRequest {
 // AlertingCondition service API for Monitoring
 service AlertingConditionService {
   option (google.api.default_host) = "monitoring.edgelq.com";
-
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetAlertingCondition
