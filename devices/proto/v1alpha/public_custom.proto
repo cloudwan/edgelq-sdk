@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package ntt.devices.v1alpha;
+
+import "edgelq-sdk/devices/proto/v1alpha/device.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/runtime/api/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha/public;public_client";
+option java_multiple_files = false;
+option java_outer_classname = "PublicCustomProto";
+option java_package = "com.ntt.devices.pb.v1alpha";
+
+// Request message for method
+// [ListPublicDevices][ntt.devices.v1alpha.ListPublicDevices]
+message ListPublicDevicesRequest {
+  // Name of Project_Reference
+  string parent = 1;
+
+  // Requested page size. Server may return fewer Devices than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListDevicesResponse.next_page_token][ntt.devices.v1alpha.ListDevicesResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be requested on top of those defined by request
+  // field View.
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+}
+
+// Response message for method
+// [ListPublicDevices][ntt.devices.v1alpha.ListPublicDevices]
+message ListPublicDevicesResponse {
+  // The list of Devices
+  repeated Device devices = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListDevicesRequest.page_token][ntt.devices.v1alpha.ListDevicesRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListDevicesRequest.page_token][ntt.devices.v1alpha.ListDevicesRequest.page_token]
+  string next_page_token = 4;
+}

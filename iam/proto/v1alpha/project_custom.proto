@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/iam/proto/v1alpha/project.proto";
+import "edgelq-sdk/iam/proto/v1alpha/project_change.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha/project;project_client";
+option java_multiple_files = false;
+option java_outer_classname = "ProjectCustomProto";
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+// Request message for method [ListMyProjects][ntt.iam.v1alpha.ListMyProjects]
+message ListMyProjectsRequest {
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A FieldMask used to filter response fields. When present, only requested
+  // fields will be present in each response item. Omitting field_mask results
+  // will cause response items to contain all present fields.
+  google.protobuf.FieldMask field_mask = 6;
+}
+
+// Response message for method [ListMyProjects][ntt.iam.v1alpha.ListMyProjects]
+message ListMyProjectsResponse {
+  // The list of Projects
+  repeated Project projects = 1;
+}

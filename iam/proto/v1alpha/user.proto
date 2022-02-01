@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/user;user";
+option java_multiple_files = true;
+option java_outer_classname = "UserProto";
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+// User Resource
+message User {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/User"
+    pattern : "users/{user}"
+  };
+
+  // Name of User
+  string name = 1;
+
+  // Full Name
+  string full_name = 2;
+
+  // Metadata
+  ntt.types.Meta metadata = 8;
+
+  // Email
+  string email = 3;
+
+  // Is email verified
+  bool email_verified = 4;
+
+  AuthInfo auth_info = 5;
+
+  // User settings and preferences
+  map<string, string> settings = 7;
+
+  google.protobuf.Timestamp refreshed_time = 6
+      [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  message AuthInfo {
+    // auth provider
+    string provider = 1;
+
+    // auth provider id
+    string id = 2;
+  }
+}

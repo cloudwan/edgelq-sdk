@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ntt.applications.v1alpha;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project;project";
+option java_multiple_files = true;
+option java_outer_classname = "ProjectProto";
+option java_package = "com.ntt.applications.pb.v1alpha";
+
+// Project Resource
+message Project {
+  option (google.api.resource) = {
+    type : "applications.edgelq.com/Project"
+    pattern : "projects/{project}"
+  };
+
+  // Name of Project
+  string name = 1;
+
+  // Metadata
+  ntt.types.Meta metadata = 2;
+}

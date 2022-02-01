@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/iam/proto/v1alpha/organization_invitation.proto";
+import "edgelq-sdk/iam/proto/v1alpha/organization_invitation_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha/organization_invitation;organization_invitation_client";
+option java_multiple_files = false;
+option java_outer_classname = "OrganizationInvitationCustomProto";
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+// Request message for method
+// [AcceptOrganizationInvitation][ntt.iam.v1alpha.AcceptOrganizationInvitation]
+message AcceptOrganizationInvitationRequest {
+  // reference of ntt.iam.v1alpha.OrganizationInvitation
+  string name = 1;
+}
+
+// Response message for method
+// [AcceptOrganizationInvitation][ntt.iam.v1alpha.AcceptOrganizationInvitation]
+message AcceptOrganizationInvitationResponse {}
+
+// Request message for method
+// [DeclineOrganizationInvitation][ntt.iam.v1alpha.DeclineOrganizationInvitation]
+message DeclineOrganizationInvitationRequest {
+  //  reference of ntt.iam.v1alpha.OrganizationInvitation
+  string name = 1;
+
+  // Additional filter for invitations, e.g. state = "PENDING"
+  string filter = 5;
+}
+
+// Response message for method
+// [DeclineOrganizationInvitation][ntt.iam.v1alpha.DeclineOrganizationInvitation]
+message DeclineOrganizationInvitationResponse {}
+
+// Request message for method
+// [ListMyOrganizationInvitations][ntt.iam.v1alpha.ListMyOrganizationInvitations]
+message ListMyOrganizationInvitationsRequest {
+  // Reference of ntt.iam.v1alpha.Organization
+  string parent = 1;
+
+  // Additional filter for invitations, e.g. state = "PENDING"
+  string filter = 5;
+}
+
+// Response message for method
+// [ListMyOrganizationInvitations][ntt.iam.v1alpha.ListMyOrganizationInvitations]
+message ListMyOrganizationInvitationsResponse {
+  // The list of OrganizationInvitations
+  repeated OrganizationInvitation organization_invitations = 1;
+}

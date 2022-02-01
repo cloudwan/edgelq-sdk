@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package ntt.iam.v1alpha;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha/condition.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role_binding;role_binding";
+option java_multiple_files = true;
+option java_outer_classname = "RoleBindingProto";
+option java_package = "com.ntt.iam.pb.v1alpha";
+
+// RoleBinding in iam RBAC model is the way of granting access to a party (user,
+// service account, etc) to edgelq resources. Creating RoleBinding requires user
+// to answer 3 questions:
+//
+// Who: with member field, e.g. "user:wile.e.coyote@customers.acme.com"
+// What: specify scope (or parent), e.g.: `projects/acme/roleBindings/<uuid>`
+// How: bind role and optional condition to grant access to resources within
+// above scope
+//
+// RoleBindings are additive, meaning that creating a new RoleBinding may only
+// extend ability of given member to perform actions. In other words RoleBinding
+// doesn't affect other RoleBindings and
+// [PermissionCheck][ntt.iam.v1alpha.PermissionCheck] method needs to find *any*
+// RoleBinding granting permission
+message RoleBinding {
+  option (google.api.resource) = {
+    type : "iam.edgelq.com/RoleBinding"
+    pattern : "roleBindings/{role_binding}"
+    pattern : "projects/{project}/roleBindings/{role_binding}"
+    pattern : "organizations/{organization}/roleBindings/{role_binding}"
+  };
+
+  // Name of RoleBinding
+  string name = 1;
+
+  // Role
+  string role = 2 [ (google.api.resource_reference) = {type : "Role"} ];
+
+  // Binding members
+  // Format of the string is one of:
+  // - "allUsers" (anyone)
+  // - "allAuthenticatedUsers" (anyone logged in)
+  // - "user:admin.super@example.com"
+  // - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
+  // - "group:nice.group@example.com"
+  // - "domain:example.com" (anyone with exact email domain)
+  string member = 4;
+
+  // optional ConditionBinding
+  ConditionBinding condition_binding = 6;
+
+  // Internal field used by IAM controller to note role binding ancestry path
+  repeated Parent ancestry_path = 7;
+
+  // Metadata
+  ntt.types.Meta metadata = 8;
+
+  // Provides information about inheritance of this role binding - if it was
+  // created from another role binding.
+  message Parent {
+    // Role bindings which have group as member have child for each service
+    // account and user in that group. All those role bindings have one common
+    // parent pointing at group role binding
+    string parent = 1
+        [ (google.api.resource_reference) = {type : "RoleBinding"} ];
+
+    // Member of the parent role binding
+    string member = 2;
+  }
+
+  reserved 5;
+}
