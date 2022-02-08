@@ -10810,6 +10810,10 @@ func (DevicePathSelectorStatus) DeviceInfo() DevicePathSelectorStatusDeviceInfo 
 	return DevicePathSelectorStatusDeviceInfo{}
 }
 
+func (DevicePathSelectorStatus) AttestationStatus() DevicePathSelectorStatusAttestationStatus {
+	return DevicePathSelectorStatusAttestationStatus{}
+}
+
 type DevicePathSelectorStatusAddresses struct{}
 
 func (DevicePathSelectorStatusAddresses) FieldPath() *Device_FieldSubPath {
@@ -12983,6 +12987,23 @@ func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMem
 }
 
 func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusAttestationStatus struct{}
+
+func (DevicePathSelectorStatusAttestationStatus) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusAttestationStatus) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusAttestationStatus) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -23258,6 +23279,9 @@ func (DeviceStatusFieldPathBuilder) Conditions() Device_StatusPathSelectorCondit
 func (DeviceStatusFieldPathBuilder) DeviceInfo() Device_StatusPathSelectorDeviceInfo {
 	return Device_StatusPathSelectorDeviceInfo{}
 }
+func (DeviceStatusFieldPathBuilder) AttestationStatus() Device_StatusPathSelectorAttestationStatus {
+	return Device_StatusPathSelectorAttestationStatus{}
+}
 
 type Device_StatusPathSelectorAddresses struct{}
 
@@ -25470,6 +25494,20 @@ func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMe
 
 func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorAttestationStatus struct{}
+
+func (Device_StatusPathSelectorAttestationStatus) FieldPath() *DeviceStatus_FieldTerminalPath {
+	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus}
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithValue(value string) *DeviceStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithArrayOfValues(values []string) *DeviceStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
 }
 
 type DevicePublicListingSpecFieldPathBuilder struct{}

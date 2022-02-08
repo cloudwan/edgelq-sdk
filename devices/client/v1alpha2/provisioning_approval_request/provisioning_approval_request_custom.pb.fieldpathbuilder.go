@@ -118,6 +118,10 @@ func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatus) DeviceIn
 	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusDeviceInfo{}
 }
 
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus {
+	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus{}
+}
+
 type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAddresses struct{}
 
 func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAddresses) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
@@ -2291,6 +2295,23 @@ func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusDeviceIn
 }
 
 func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus struct{}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestRequest_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13063,6 +13084,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatus) DeviceI
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusDeviceInfo{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus{}
+}
+
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAddresses struct{}
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAddresses) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
@@ -15236,6 +15261,23 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusDeviceI
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

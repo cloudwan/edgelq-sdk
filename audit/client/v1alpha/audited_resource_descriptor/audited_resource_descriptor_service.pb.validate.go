@@ -74,6 +74,13 @@ func (obj *BatchGetAuditedResourceDescriptorsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.AuditedResourceDescriptors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("BatchGetAuditedResourceDescriptorsResponse", "auditedResourceDescriptors", obj.AuditedResourceDescriptors[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -94,6 +101,13 @@ func (obj *ListAuditedResourceDescriptorsRequest) GotenValidate() error {
 func (obj *ListAuditedResourceDescriptorsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.AuditedResourceDescriptors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListAuditedResourceDescriptorsResponse", "auditedResourceDescriptors", obj.AuditedResourceDescriptors[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -141,6 +155,13 @@ func (obj *WatchAuditedResourceDescriptorsRequest) GotenValidate() error {
 func (obj *WatchAuditedResourceDescriptorsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.AuditedResourceDescriptorChanges {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("WatchAuditedResourceDescriptorsResponse", "auditedResourceDescriptorChanges", obj.AuditedResourceDescriptorChanges[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if subobj, ok := interface{}(obj.PageTokenChange).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {

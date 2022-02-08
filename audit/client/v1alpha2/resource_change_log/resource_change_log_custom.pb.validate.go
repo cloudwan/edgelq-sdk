@@ -77,6 +77,20 @@ func (obj *ListResourceChangeLogsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.ResourceChangeLogs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListResourceChangeLogsResponse", "resourceChangeLogs", obj.ResourceChangeLogs[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ExecutionErrors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListResourceChangeLogsResponse", "executionErrors", obj.ExecutionErrors[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -108,6 +122,13 @@ func (obj *CreatePreCommittedResourceChangeLogsRequest) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Transaction).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("CreatePreCommittedResourceChangeLogsRequest", "transaction", obj.Transaction, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Changes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreatePreCommittedResourceChangeLogsRequest", "changes", obj.Changes[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

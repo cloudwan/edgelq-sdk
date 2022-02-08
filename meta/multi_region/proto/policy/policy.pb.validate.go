@@ -52,6 +52,13 @@ func (obj *Policy) GotenValidate() error {
 	if obj.DefaultControlRegion == "" {
 		return gotenvalidate.NewValidationError("Policy", "defaultControlRegion", obj.DefaultControlRegion, "field is required", nil)
 	}
+	for idx, elem := range obj.CriteriaForDisabledSync {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Policy", "criteriaForDisabledSync", obj.CriteriaForDisabledSync[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

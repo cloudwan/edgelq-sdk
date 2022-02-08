@@ -73,6 +73,13 @@ func (obj *Meta) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.OwnerReferences {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Meta", "ownerReferences", obj.OwnerReferences[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Syncing).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Meta", "syncing", obj.Syncing, "nested object validation failed", err)
@@ -86,6 +93,13 @@ func (obj *Meta) GotenValidate() error {
 func (obj *LabelSelector) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.MatchExpressions {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("LabelSelector", "matchExpressions", obj.MatchExpressions[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

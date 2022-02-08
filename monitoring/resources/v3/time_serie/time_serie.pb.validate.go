@@ -91,6 +91,13 @@ func (obj *TimeSerie) GotenValidate() error {
 			return gotenvalidate.NewValidationError("TimeSerie", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.Points {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("TimeSerie", "points", obj.Points[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -99,6 +106,13 @@ func (obj *TimeSerie) GotenValidate() error {
 func (obj *BulkTimeSeries) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.TimeSeries {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("BulkTimeSeries", "timeSeries", obj.TimeSeries[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

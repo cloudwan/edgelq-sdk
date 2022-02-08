@@ -82,6 +82,34 @@ func (obj *Pod_Spec) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Containers {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Spec", "containers", obj.Containers[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ImagePullSecrets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Spec", "imagePullSecrets", obj.ImagePullSecrets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Volumes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Spec", "volumes", obj.Volumes[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.HostVolumeMounts {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Spec", "hostVolumeMounts", obj.HostVolumeMounts[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -90,6 +118,13 @@ func (obj *Pod_Spec) GotenValidate() error {
 func (obj *Pod_Status) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.ContainerStatuses {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Status", "containerStatuses", obj.ContainerStatuses[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -100,6 +135,13 @@ func (obj *Pod_Spec_Container) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Env {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Container", "env", obj.Env[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Resources).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Container", "resources", obj.Resources, "nested object validation failed", err)
@@ -108,6 +150,13 @@ func (obj *Pod_Spec_Container) GotenValidate() error {
 	if subobj, ok := interface{}(obj.SecurityContext).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Container", "securityContext", obj.SecurityContext, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.VolumeMounts {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Container", "volumeMounts", obj.VolumeMounts[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if subobj, ok := interface{}(obj.EnvFrom).(gotenvalidate.Validator); ok {
@@ -332,6 +381,13 @@ func (obj *SecretVolumeSource) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Items {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("SecretVolumeSource", "items", obj.Items[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -349,6 +405,13 @@ func (obj *KeyToPath) GotenValidate() error {
 func (obj *ConfigMapVolumeSource) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.Items {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConfigMapVolumeSource", "items", obj.Items[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

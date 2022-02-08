@@ -445,6 +445,10 @@ message Device {
     // Device detailed information
     DeviceInfo device_info = 3;
 
+    // TODO: change string to a own
+    // attestation status type
+    string attestation_status = 4;
+
     // Interface addresses of the Device.
     message Address {
       // IPv4 or IPv6 address such as `203.0.113.5` (no suffix for subnet)

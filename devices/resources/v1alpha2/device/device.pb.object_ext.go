@@ -379,6 +379,9 @@ func (o *Device_Status) MakeDiffFieldMask(other *Device_Status) *Device_Status_F
 			}
 		}
 	}
+	if o.GetAttestationStatus() != other.GetAttestationStatus() {
+		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
+	}
 	return res
 }
 
@@ -400,6 +403,7 @@ func (o *Device_Status) Clone() *Device_Status {
 		result.Conditions[i] = sourceValue.Clone()
 	}
 	result.DeviceInfo = o.DeviceInfo.Clone()
+	result.AttestationStatus = o.AttestationStatus
 	return result
 }
 
@@ -450,6 +454,7 @@ func (o *Device_Status) Merge(source *Device_Status) {
 		}
 		o.DeviceInfo.Merge(source.GetDeviceInfo())
 	}
+	o.AttestationStatus = source.GetAttestationStatus()
 }
 
 func (o *Device_Status) MergeRaw(source gotenobject.GotenObjectExt) {

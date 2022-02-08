@@ -52,6 +52,20 @@ func (obj *MethodDescriptor) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Labels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("MethodDescriptor", "labels", obj.Labels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.PromotedLabelKeySets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("MethodDescriptor", "promotedLabelKeySets", obj.PromotedLabelKeySets[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("MethodDescriptor", "metadata", obj.Metadata, "nested object validation failed", err)

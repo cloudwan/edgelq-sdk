@@ -75,6 +75,20 @@ func (obj *ListActivityLogsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.ActivityLogs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListActivityLogsResponse", "activityLogs", obj.ActivityLogs[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ExecutionErrors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListActivityLogsResponse", "executionErrors", obj.ExecutionErrors[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -83,6 +97,13 @@ func (obj *ListActivityLogsResponse) GotenValidate() error {
 func (obj *CreateActivityLogsRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.ActivityLogs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreateActivityLogsRequest", "activityLogs", obj.ActivityLogs[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

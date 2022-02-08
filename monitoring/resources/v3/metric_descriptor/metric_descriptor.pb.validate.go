@@ -72,8 +72,12 @@ func (obj *MetricDescriptor) GotenValidate() error {
 			values[v] = struct{}{}
 		}
 	}
-	if len(obj.Labels) > 13 {
-		return gotenvalidate.NewValidationError("MetricDescriptor", "labels", obj.Labels, "field must have at most 13 items", nil)
+	for idx, elem := range obj.Labels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("MetricDescriptor", "labels", obj.Labels[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if subobj, ok := interface{}(obj.MetricDescriptorMetadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
@@ -83,6 +87,13 @@ func (obj *MetricDescriptor) GotenValidate() error {
 	if subobj, ok := interface{}(obj.DistributionBucketOptions).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("MetricDescriptor", "distributionBucketOptions", obj.DistributionBucketOptions, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.PromotedLabelKeySets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("MetricDescriptor", "promotedLabelKeySets", obj.PromotedLabelKeySets[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if subobj, ok := interface{}(obj.IndexSpec).(gotenvalidate.Validator); ok {
@@ -113,6 +124,13 @@ func (obj *MetricDescriptor_IndexSpec) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.PerResource {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("IndexSpec", "perResource", obj.PerResource[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -139,6 +157,13 @@ func (obj *MetricDescriptor_IndexSpec_Index) GotenValidate() error {
 func (obj *MetricDescriptor_IndexSpec_PerMonitoredResource) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.Indices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PerMonitoredResource", "indices", obj.Indices[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

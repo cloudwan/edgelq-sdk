@@ -1851,9 +1851,10 @@ type DeviceStatus_FieldPath interface {
 type DeviceStatus_FieldPathSelector int32
 
 const (
-	DeviceStatus_FieldPathSelectorAddresses  DeviceStatus_FieldPathSelector = 0
-	DeviceStatus_FieldPathSelectorConditions DeviceStatus_FieldPathSelector = 1
-	DeviceStatus_FieldPathSelectorDeviceInfo DeviceStatus_FieldPathSelector = 2
+	DeviceStatus_FieldPathSelectorAddresses         DeviceStatus_FieldPathSelector = 0
+	DeviceStatus_FieldPathSelectorConditions        DeviceStatus_FieldPathSelector = 1
+	DeviceStatus_FieldPathSelectorDeviceInfo        DeviceStatus_FieldPathSelector = 2
+	DeviceStatus_FieldPathSelectorAttestationStatus DeviceStatus_FieldPathSelector = 3
 )
 
 func (s DeviceStatus_FieldPathSelector) String() string {
@@ -1864,6 +1865,8 @@ func (s DeviceStatus_FieldPathSelector) String() string {
 		return "conditions"
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return "device_info"
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return "attestation_status"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", s))
 	}
@@ -1881,6 +1884,8 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConditions}, nil
 		case "device_info", "deviceInfo", "device-info":
 			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo}, nil
+		case "attestation_status", "attestationStatus", "attestation-status":
+			return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1959,6 +1964,8 @@ func (fp *DeviceStatus_FieldTerminalPath) Get(source *Device_Status) (values []i
 			if source.DeviceInfo != nil {
 				values = append(values, source.DeviceInfo)
 			}
+		case DeviceStatus_FieldPathSelectorAttestationStatus:
+			values = append(values, source.AttestationStatus)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -1982,6 +1989,8 @@ func (fp *DeviceStatus_FieldTerminalPath) GetSingle(source *Device_Status) (inte
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		res := source.GetDeviceInfo()
 		return res, res != nil
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return source.GetAttestationStatus(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2000,6 +2009,8 @@ func (fp *DeviceStatus_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*Device_Status_Condition)(nil)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return (*Device_Status_DeviceInfo)(nil)
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2014,6 +2025,8 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValue(item *Device_Status) {
 			item.Conditions = nil
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			item.DeviceInfo = nil
+		case DeviceStatus_FieldPathSelectorAttestationStatus:
+			item.AttestationStatus = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2026,7 +2039,7 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *DeviceStatus_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == DeviceStatus_FieldPathSelectorAttestationStatus
 }
 
 func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceStatus_FieldPathValue {
@@ -2037,6 +2050,8 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceSt
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*Device_Status_Condition)}
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo)}
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2055,6 +2070,8 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*Device_Status_Condition)}
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo)}
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2270,6 +2287,10 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) AsDeviceInfoValue() (*Device_Sta
 	res, ok := fpv.value.(*Device_Status_DeviceInfo)
 	return res, ok
 }
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsAttestationStatusValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Status
 func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
@@ -2283,6 +2304,8 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
 		(*target).Conditions = fpv.value.([]*Device_Status_Condition)
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		(*target).DeviceInfo = fpv.value.(*Device_Status_DeviceInfo)
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		(*target).AttestationStatus = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2302,6 +2325,16 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) CompareWith(source *Device_Statu
 		return 0, false
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return 0, false
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAttestationStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2524,6 +2557,10 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]*Device_Status_DeviceInfo) {
 			values = append(values, v)
 		}
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2537,6 +2574,10 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsConditionsArrayOfVal
 }
 func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsDeviceInfoArrayOfValues() ([]*Device_Status_DeviceInfo, bool) {
 	res, ok := fpaov.values.([]*Device_Status_DeviceInfo)
+	return res, ok
+}
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAttestationStatusArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

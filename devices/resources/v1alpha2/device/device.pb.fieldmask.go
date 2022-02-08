@@ -755,6 +755,7 @@ func FullDevice_Status_FieldMask() *Device_Status_FieldMask {
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAddresses})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorConditions})
 	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo})
+	res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
 	return res
 }
 
@@ -798,7 +799,7 @@ func (fieldMask *Device_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -828,7 +829,7 @@ func (fieldMask *Device_Status_FieldMask) Reset() {
 
 func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMask) *Device_Status_FieldMask {
 	result := &Device_Status_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
 		DeviceStatus_FieldPathSelectorAddresses:  &Device_Status_Address_FieldMask{},
 		DeviceStatus_FieldPathSelectorConditions: &Device_Status_Condition_FieldMask{},
@@ -1031,6 +1032,8 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 			case DeviceStatus_FieldPathSelectorDeviceInfo:
 				result.DeviceInfo = source.DeviceInfo
 				wholeDeviceInfoAccepted = true
+			case DeviceStatus_FieldPathSelectorAttestationStatus:
+				result.AttestationStatus = source.AttestationStatus
 			}
 		case *DeviceStatus_FieldSubPath:
 			switch tp.selector {

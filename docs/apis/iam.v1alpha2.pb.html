@@ -323,7 +323,8 @@ the fleet.</p>
 </tr>
 <tr><td class="description"><p>List of acceptable manufacturer's root CAs certs (in PEM format).</p>
 <p>To obtain such a cert, run something like:
-<code>tpm2_getekcertificate -o cert.bin openssl x509 -inform der -in cert.bin -noout -text</code>
+<code>tpm2_getekcertificate -o cert.bin</code>
+<code>openssl x509 -inform der -in cert.bin -noout -text</code>
 Then manually download certificate specified in Authority Information
 Access (AIA). Repeat the above <code>openssl</code> command on the newly
 downloadedfile (change the value of <code>-in</code> argument). Continue this until
@@ -338,7 +339,7 @@ concatenation.</p>
 <th rowspan="2">require_enrollment</th>
 <td class="type"><pre>bool</pre></td>
 </tr>
-<tr><td class="description"><p>If true, the atestee's pubkey SHALL be present on this
+<tr><td class="description"><p>If true, the attestee's pubkey SHALL be present on this
 AttestationDomain's enrollment list, otherwise fail the attestation.</p>
 </td></tr>
 

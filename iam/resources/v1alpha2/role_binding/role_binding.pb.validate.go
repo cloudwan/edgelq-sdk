@@ -63,6 +63,13 @@ func (obj *RoleBinding) GotenValidate() error {
 			return gotenvalidate.NewValidationError("RoleBinding", "conditionBinding", obj.ConditionBinding, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.AncestryPath {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("RoleBinding", "ancestryPath", obj.AncestryPath[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("RoleBinding", "metadata", obj.Metadata, "nested object validation failed", err)

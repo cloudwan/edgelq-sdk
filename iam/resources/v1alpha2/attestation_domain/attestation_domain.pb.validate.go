@@ -59,6 +59,20 @@ func (obj *AttestationDomain) GotenValidate() error {
 			return gotenvalidate.NewValidationError("AttestationDomain", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.Policies {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("AttestationDomain", "policies", obj.Policies[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.EnrollmentList {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("AttestationDomain", "enrollmentList", obj.EnrollmentList[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -68,6 +82,16 @@ func (obj *AttestationDomain_Policy) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if err := gotenvalidate.ValidatePEM(string(obj.ManufacturerRootCaCertsPem)); err != nil {
+		return gotenvalidate.NewValidationError("Policy", "manufacturerRootCaCertsPem", obj.ManufacturerRootCaCertsPem, "field must contain a valid PEM encoded primitive", err)
+	}
+	for idx, elem := range obj.ExpectedPcrs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Policy", "expectedPcrs", obj.ExpectedPcrs[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -76,6 +100,12 @@ func (obj *AttestationDomain_Policy) GotenValidate() error {
 func (obj *AttestationDomain_EnrolledKey) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if err := gotenvalidate.ValidatePEM(string(obj.PubkeyPem)); err != nil {
+		return gotenvalidate.NewValidationError("EnrolledKey", "pubkeyPem", obj.PubkeyPem, "field must contain a valid PEM encoded primitive", err)
+	}
+	if obj.PubkeyPem == "" {
+		return gotenvalidate.NewValidationError("EnrolledKey", "pubkeyPem", obj.PubkeyPem, "field is required", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

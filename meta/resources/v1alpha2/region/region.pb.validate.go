@@ -55,6 +55,13 @@ func (obj *Region) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Region", "location", obj.Location, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.ConnectivityScores {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Region", "connectivityScores", obj.ConnectivityScores[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Region", "metadata", obj.Metadata, "nested object validation failed", err)

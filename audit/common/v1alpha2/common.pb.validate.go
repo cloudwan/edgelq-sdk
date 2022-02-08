@@ -41,7 +41,7 @@ var (
 	_ = timestamppb.Timestamp{}
 	_ = gotenvalidate.NewValidationError
 
-	validation_regex_LabelDescriptor_key_3767d375e69c51f9742b2f17e9eb21a2 = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_LabelDescriptor_key_c12b6926c4eb549aa691c1ddf8b26524 = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,63}$")
 )
 
 // make sure we're using proto imports
@@ -90,8 +90,8 @@ func (obj *LabelDescriptor) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if !validation_regex_LabelDescriptor_key_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(obj.Key)) {
-		return gotenvalidate.NewValidationError("LabelDescriptor", "key", obj.Key, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+	if !validation_regex_LabelDescriptor_key_c12b6926c4eb549aa691c1ddf8b26524.Match([]byte(obj.Key)) {
+		return gotenvalidate.NewValidationError("LabelDescriptor", "key", obj.Key, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,63}$", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

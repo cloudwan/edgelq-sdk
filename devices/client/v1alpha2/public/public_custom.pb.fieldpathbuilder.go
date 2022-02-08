@@ -10951,6 +10951,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesStatus) DeviceInfo() ListPubli
 	return ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfo{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesStatus) AttestationStatus() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesStatusAddresses struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesStatusAddresses) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -13124,6 +13128,23 @@ func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInfo
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

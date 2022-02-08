@@ -55,8 +55,8 @@ message AttestationDomain {
     // List of acceptable manufacturer's root CAs certs (in PEM format).
     //
     // To obtain such a cert, run something like:
-    // `tpm2_getekcertificate -o cert.bin
-    // openssl x509 -inform der -in cert.bin -noout -text`
+    // `tpm2_getekcertificate -o cert.bin`
+    // `openssl x509 -inform der -in cert.bin -noout -text`
     // Then manually download certificate specified in Authority Information
     // Access (AIA). Repeat the above `openssl` command on the newly
     // downloadedfile (change the value of `-in` argument). Continue this until
@@ -70,7 +70,7 @@ message AttestationDomain {
     // concatenation.
     string manufacturer_root_ca_certs_pem = 1;
 
-    // If true, the atestee's pubkey SHALL be present on this
+    // If true, the attestee's pubkey SHALL be present on this
     // AttestationDomain's enrollment list, otherwise fail the attestation.
     bool require_enrollment = 2;
 

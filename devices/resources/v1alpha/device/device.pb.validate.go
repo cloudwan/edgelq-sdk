@@ -108,6 +108,20 @@ func (obj *Device_Status) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Addresses {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Status", "addresses", obj.Addresses[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Conditions {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Status", "conditions", obj.Conditions[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.DeviceInfo).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Status", "deviceInfo", obj.DeviceInfo, "nested object validation failed", err)
@@ -131,6 +145,48 @@ func (obj *Device_Spec_NetworkConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Ethernets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "ethernets", obj.Ethernets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Wifis {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "wifis", obj.Wifis[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Bridges {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "bridges", obj.Bridges[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Bonds {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "bonds", obj.Bonds[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Tunnels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "tunnels", obj.Tunnels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Vlans {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NetworkConfig", "vlans", obj.Vlans[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -139,6 +195,13 @@ func (obj *Device_Spec_NetworkConfig) GotenValidate() error {
 func (obj *Device_Spec_SSHConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.SshAuthorized {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("SSHConfig", "sshAuthorized", obj.SshAuthorized[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -162,6 +225,13 @@ func (obj *Device_Spec_NetworkConfig_CommonOpts) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Nameservers).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("CommonOpts", "nameservers", obj.Nameservers, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.Routes {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CommonOpts", "routes", obj.Routes[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if subobj, ok := interface{}(obj.RoutingPolicy).(gotenvalidate.Validator); ok {
@@ -210,6 +280,13 @@ func (obj *Device_Spec_NetworkConfig_WifiOpts) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Opts).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("WifiOpts", "opts", obj.Opts, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.AccessPoints {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("WifiOpts", "accessPoints", obj.AccessPoints[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -517,6 +594,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_CPU) GotenValidate() err
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Processors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CPU", "processors", obj.Processors[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -525,6 +609,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_CPU) GotenValidate() err
 func (obj *Device_Status_DeviceInfo_HardwareInformation_Block) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.Disks {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Block", "disks", obj.Disks[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -535,6 +626,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_Network) GotenValidate()
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Nics {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Network", "nics", obj.Nics[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -543,6 +641,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_Network) GotenValidate()
 func (obj *Device_Status_DeviceInfo_HardwareInformation_GPU) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.GraphicCards {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("GPU", "graphicCards", obj.GraphicCards[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -562,6 +667,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) GotenValidat
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Memory {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("MemoryInfo", "memory", obj.Memory[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -580,6 +692,20 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) GotenVali
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.Capabilities {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Processor", "capabilities", obj.Capabilities[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.CacheInfo {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Processor", "cacheInfo", obj.CacheInfo[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -597,6 +723,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache) Got
 func (obj *Device_Status_DeviceInfo_HardwareInformation_Block_Disk) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.Partitions {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Disk", "partitions", obj.Partitions[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -638,6 +771,13 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) GotenVa
 func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.MemoryBanks {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Memory", "memoryBanks", obj.MemoryBanks[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

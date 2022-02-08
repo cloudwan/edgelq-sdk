@@ -315,6 +315,10 @@ func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatus) DeviceInfo() Prov
 	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfo{}
 }
 
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus{}
+}
+
 type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAddresses struct{}
 
 func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAddresses) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
@@ -2488,6 +2492,23 @@ func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwar
 }
 
 func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13277,6 +13298,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatus) DeviceInfo() Pro
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfo{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatus) AttestationStatus() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAddresses struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAddresses) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -15450,6 +15475,23 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwa
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

@@ -83,6 +83,20 @@ func (obj *ListTimeSeriesResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.TimeSeries {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListTimeSeriesResponse", "timeSeries", obj.TimeSeries[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ExecutionErrors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ListTimeSeriesResponse", "executionErrors", obj.ExecutionErrors[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -101,6 +115,13 @@ func (obj *CreateTimeSeriesRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	for idx, elem := range obj.TimeSeries {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreateTimeSeriesRequest", "timeSeries", obj.TimeSeries[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -109,6 +130,13 @@ func (obj *CreateTimeSeriesRequest) GotenValidate() error {
 func (obj *CreateTimeSeriesResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.FailedTimeSeries {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CreateTimeSeriesResponse", "failedTimeSeries", obj.FailedTimeSeries[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

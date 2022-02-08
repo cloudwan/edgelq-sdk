@@ -33451,6 +33451,10 @@ func (b *filterCndBuilderStatus) DeviceInfo() *filterCndBuilderStatusDeviceInfo 
 	return &filterCndBuilderStatusDeviceInfo{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatus) AttestationStatus() *filterCndBuilderStatusAttestationStatus {
+	return &filterCndBuilderStatusAttestationStatus{builder: b.builder}
+}
+
 type filterCndBuilderStatusAddresses struct {
 	builder *FilterBuilder
 }
@@ -40237,6 +40241,65 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemo
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusAttestationStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithValue(value),
 	})
 }
 
