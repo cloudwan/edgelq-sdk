@@ -1490,6 +1490,12 @@ func (PhantomTimeSeriesBulkChangeFieldPathBuilder) Added() PhantomTimeSeriesBulk
 func (PhantomTimeSeriesBulkChangeFieldPathBuilder) Removed() PhantomTimeSeriesBulkChangePathSelectorRemoved {
 	return PhantomTimeSeriesBulkChangePathSelectorRemoved{}
 }
+func (PhantomTimeSeriesBulkChangeFieldPathBuilder) StartTime() PhantomTimeSeriesBulkChangePathSelectorStartTime {
+	return PhantomTimeSeriesBulkChangePathSelectorStartTime{}
+}
+func (PhantomTimeSeriesBulkChangeFieldPathBuilder) MsgTime() PhantomTimeSeriesBulkChangePathSelectorMsgTime {
+	return PhantomTimeSeriesBulkChangePathSelectorMsgTime{}
+}
 
 type PhantomTimeSeriesBulkChangePathSelectorResync struct{}
 
@@ -4397,4 +4403,32 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedValueDistributionValueBuck
 
 func (s PhantomTimeSeriesBulkChangePathSelectorRemovedValueDistributionValueBucketCounts) WithItemValue(value int64) *PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorStartTime struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorStartTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldTerminalPath {
+	return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorStartTime) WithValue(value *timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldTerminalPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorStartTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorMsgTime struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorMsgTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldTerminalPath {
+	return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorMsgTime) WithValue(value *timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldTerminalPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorMsgTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues)
 }

@@ -24,6 +24,7 @@ import (
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // ensure the imports are used
@@ -47,6 +48,7 @@ var (
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &timestamp.Timestamp{}
 )
 
 type PhantomTimeSerie_FieldMask struct {
@@ -427,6 +429,8 @@ func FullPhantomTimeSeriesBulkChange_FieldMask() *PhantomTimeSeriesBulkChange_Fi
 	res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorPartition})
 	res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded})
 	res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved})
+	res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime})
+	res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime})
 	return res
 }
 
@@ -470,7 +474,7 @@ func (fieldMask *PhantomTimeSeriesBulkChange_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PhantomTimeSeriesBulkChange_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -500,7 +504,7 @@ func (fieldMask *PhantomTimeSeriesBulkChange_FieldMask) Reset() {
 
 func (fieldMask *PhantomTimeSeriesBulkChange_FieldMask) Subtract(other *PhantomTimeSeriesBulkChange_FieldMask) *PhantomTimeSeriesBulkChange_FieldMask {
 	result := &PhantomTimeSeriesBulkChange_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[PhantomTimeSeriesBulkChange_FieldPathSelector]gotenobject.FieldMask{
 		PhantomTimeSeriesBulkChange_FieldPathSelectorAdded:   &PhantomTimeSerie_FieldMask{},
 		PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved: &PhantomTimeSerie_FieldMask{},
@@ -729,6 +733,10 @@ func (fieldMask *PhantomTimeSeriesBulkChange_FieldMask) Project(source *PhantomT
 			case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 				result.Removed = source.Removed
 				wholeRemovedAccepted = true
+			case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+				result.StartTime = source.StartTime
+			case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+				result.MsgTime = source.MsgTime
 			}
 		case *PhantomTimeSeriesBulkChange_FieldSubPath:
 			switch tp.selector {

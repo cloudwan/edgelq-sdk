@@ -28,6 +28,7 @@ import (
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // ensure the imports are used
@@ -55,6 +56,7 @@ var (
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &timestamp.Timestamp{}
 )
 
 // FieldPath provides implementation to handle
@@ -1078,6 +1080,8 @@ const (
 	PhantomTimeSeriesBulkChange_FieldPathSelectorPartition PhantomTimeSeriesBulkChange_FieldPathSelector = 1
 	PhantomTimeSeriesBulkChange_FieldPathSelectorAdded     PhantomTimeSeriesBulkChange_FieldPathSelector = 2
 	PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved   PhantomTimeSeriesBulkChange_FieldPathSelector = 3
+	PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime PhantomTimeSeriesBulkChange_FieldPathSelector = 4
+	PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime   PhantomTimeSeriesBulkChange_FieldPathSelector = 5
 )
 
 func (s PhantomTimeSeriesBulkChange_FieldPathSelector) String() string {
@@ -1090,6 +1094,10 @@ func (s PhantomTimeSeriesBulkChange_FieldPathSelector) String() string {
 		return "added"
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		return "removed"
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		return "start_time"
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		return "msg_time"
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", s))
 	}
@@ -1109,6 +1117,10 @@ func BuildPhantomTimeSeriesBulkChange_FieldPath(fp gotenobject.RawFieldPath) (Ph
 			return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded}, nil
 		case "removed":
 			return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved}, nil
+		case "start_time", "startTime", "start-time":
+			return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime}, nil
+		case "msg_time", "msgTime", "msg-time":
+			return &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1181,6 +1193,14 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) Get(source *PhantomTime
 			for _, value := range source.GetRemoved() {
 				values = append(values, value)
 			}
+		case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+			if source.StartTime != nil {
+				values = append(values, source.StartTime)
+			}
+		case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+			if source.MsgTime != nil {
+				values = append(values, source.MsgTime)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 		}
@@ -1206,6 +1226,12 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) GetSingle(source *Phant
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		res := source.GetRemoved()
 		return res, res != nil
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		res := source.GetStartTime()
+		return res, res != nil
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		res := source.GetMsgTime()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 	}
@@ -1226,6 +1252,10 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) GetDefault() interface{
 		return ([]*PhantomTimeSerie)(nil)
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		return ([]*PhantomTimeSerie)(nil)
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		return (*timestamp.Timestamp)(nil)
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		return (*timestamp.Timestamp)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 	}
@@ -1242,6 +1272,10 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) ClearValue(item *Phanto
 			item.Added = nil
 		case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 			item.Removed = nil
+		case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+			item.StartTime = nil
+		case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+			item.MsgTime = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 		}
@@ -1255,7 +1289,9 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorResync ||
-		fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorPartition
+		fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorPartition ||
+		fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime ||
+		fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime
 }
 
 func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) WithIValue(value interface{}) PhantomTimeSeriesBulkChange_FieldPathValue {
@@ -1268,6 +1304,10 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) WithIValue(value interf
 		return &PhantomTimeSeriesBulkChange_FieldTerminalPathValue{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, value: value.([]*PhantomTimeSerie)}
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		return &PhantomTimeSeriesBulkChange_FieldTerminalPathValue{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, value: value.([]*PhantomTimeSerie)}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		return &PhantomTimeSeriesBulkChange_FieldTerminalPathValue{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		return &PhantomTimeSeriesBulkChange_FieldTerminalPathValue{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 	}
@@ -1288,6 +1328,10 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) WithIArrayOfValues(valu
 		return &PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, values: values.([][]*PhantomTimeSerie)}
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		return &PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, values: values.([][]*PhantomTimeSerie)}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		return &PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		return &PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues{PhantomTimeSeriesBulkChange_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fp.selector))
 	}
@@ -1494,6 +1538,14 @@ func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) AsRemovedValue() 
 	res, ok := fpv.value.([]*PhantomTimeSerie)
 	return res, ok
 }
+func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) AsStartTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
+func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) AsMsgTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object PhantomTimeSeriesBulkChange
 func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) SetTo(target **PhantomTimeSeriesBulkChange) {
@@ -1509,6 +1561,10 @@ func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) SetTo(target **Ph
 		(*target).Added = fpv.value.([]*PhantomTimeSerie)
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		(*target).Removed = fpv.value.([]*PhantomTimeSerie)
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		(*target).StartTime = fpv.value.(*timestamp.Timestamp)
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		(*target).MsgTime = fpv.value.(*timestamp.Timestamp)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fpv.selector))
 	}
@@ -1538,6 +1594,44 @@ func (fpv *PhantomTimeSeriesBulkChange_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		return 0, false
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetMsgTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fpv.selector))
 	}
@@ -1750,6 +1844,14 @@ func (fpaov *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([][]*PhantomTimeSerie) {
 			values = append(values, v)
 		}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1767,6 +1869,14 @@ func (fpaov *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues) AsAdded
 }
 func (fpaov *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues) AsRemovedArrayOfValues() ([][]*PhantomTimeSerie, bool) {
 	res, ok := fpaov.values.([][]*PhantomTimeSerie)
+	return res, ok
+}
+func (fpaov *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues) AsStartTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
+	return res, ok
+}
+func (fpaov *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayOfValues) AsMsgTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 

@@ -8795,6 +8795,21 @@ group upon resync)</p>
 <td class="type"><pre>repeated <a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
 </tr>
 <tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">start_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Timestamp of the first PhantomTimeSeriesBulkChange for this partition.
+It updates with every resync event.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">msg_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Timestamp of the message</p>
+</td></tr>
  
 </tbody>
 </table>

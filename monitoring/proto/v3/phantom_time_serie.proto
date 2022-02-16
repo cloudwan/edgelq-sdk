@@ -6,6 +6,7 @@ import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/monitoring/proto/v3/common.proto";
 import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
 import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie;phantom_time_serie";
 option java_multiple_files = true;
@@ -80,4 +81,11 @@ message PhantomTimeSeriesBulkChange {
   repeated PhantomTimeSerie removed = 4;
   // no need to handle modified (key is treated as id and it must change on
   // modified)
+
+  // Timestamp of the first PhantomTimeSeriesBulkChange for this partition.
+  // It updates with every resync event.
+  google.protobuf.Timestamp start_time = 5;
+
+  // Timestamp of the message
+  google.protobuf.Timestamp msg_time = 6;
 }

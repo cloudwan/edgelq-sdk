@@ -20,6 +20,7 @@ import (
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // ensure the imports are used
@@ -39,6 +40,7 @@ var (
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
+	_ = &timestamp.Timestamp{}
 )
 
 func (o *PhantomTimeSerie) GotenObjectExt() {}
@@ -254,6 +256,12 @@ func (o *PhantomTimeSeriesBulkChange) MakeDiffFieldMask(other *PhantomTimeSeries
 	} else {
 		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved})
 	}
+	if !proto.Equal(o.GetStartTime(), other.GetStartTime()) {
+		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime})
+	}
+	if !proto.Equal(o.GetMsgTime(), other.GetMsgTime()) {
+		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime})
+	}
 	return res
 }
 
@@ -279,6 +287,8 @@ func (o *PhantomTimeSeriesBulkChange) Clone() *PhantomTimeSeriesBulkChange {
 	for i, sourceValue := range o.Removed {
 		result.Removed[i] = sourceValue.Clone()
 	}
+	result.StartTime = proto.Clone(o.StartTime).(*timestamp.Timestamp)
+	result.MsgTime = proto.Clone(o.MsgTime).(*timestamp.Timestamp)
 	return result
 }
 
@@ -328,6 +338,18 @@ func (o *PhantomTimeSeriesBulkChange) Merge(source *PhantomTimeSeriesBulkChange)
 		}
 	}
 
+	if source.GetStartTime() != nil {
+		if o.StartTime == nil {
+			o.StartTime = new(timestamp.Timestamp)
+		}
+		proto.Merge(o.StartTime, source.GetStartTime())
+	}
+	if source.GetMsgTime() != nil {
+		if o.MsgTime == nil {
+			o.MsgTime = new(timestamp.Timestamp)
+		}
+		proto.Merge(o.MsgTime, source.GetMsgTime())
+	}
 }
 
 func (o *PhantomTimeSeriesBulkChange) MergeRaw(source gotenobject.GotenObjectExt) {
