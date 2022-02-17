@@ -27,6 +27,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -57,6 +58,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
+	_ = &iam_iam_common.Actor{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -1907,6 +1909,12 @@ func BuildDeviceStatus_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatus_Fiel
 			} else {
 				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorDeviceInfo, subPath: subpath}, nil
 			}
+		case "attestation_status", "attestationStatus", "attestation-status":
+			if subpath, err := iam_iam_common.BuildPCR_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status", fp)
@@ -1965,7 +1973,9 @@ func (fp *DeviceStatus_FieldTerminalPath) Get(source *Device_Status) (values []i
 				values = append(values, source.DeviceInfo)
 			}
 		case DeviceStatus_FieldPathSelectorAttestationStatus:
-			values = append(values, source.AttestationStatus)
+			for _, value := range source.GetAttestationStatus() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -1990,7 +2000,8 @@ func (fp *DeviceStatus_FieldTerminalPath) GetSingle(source *Device_Status) (inte
 		res := source.GetDeviceInfo()
 		return res, res != nil
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		return source.GetAttestationStatus(), source != nil
+		res := source.GetAttestationStatus()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2010,7 +2021,7 @@ func (fp *DeviceStatus_FieldTerminalPath) GetDefault() interface{} {
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return (*Device_Status_DeviceInfo)(nil)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		return ""
+		return ([]*iam_iam_common.PCR)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2026,7 +2037,7 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValue(item *Device_Status) {
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			item.DeviceInfo = nil
 		case DeviceStatus_FieldPathSelectorAttestationStatus:
-			item.AttestationStatus = ""
+			item.AttestationStatus = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 		}
@@ -2039,7 +2050,7 @@ func (fp *DeviceStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *DeviceStatus_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == DeviceStatus_FieldPathSelectorAttestationStatus
+	return false
 }
 
 func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceStatus_FieldPathValue {
@@ -2051,7 +2062,7 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceSt
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(string)}
+		return &DeviceStatus_FieldTerminalPathValue{DeviceStatus_FieldTerminalPath: *fp, value: value.([]*iam_iam_common.PCR)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2071,7 +2082,7 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]*Device_Status_DeviceInfo)}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([]string)}
+		return &DeviceStatus_FieldTerminalPathArrayOfValues{DeviceStatus_FieldTerminalPath: *fp, values: values.([][]*iam_iam_common.PCR)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2088,6 +2099,8 @@ func (fp *DeviceStatus_FieldTerminalPath) WithIArrayItemValue(value interface{})
 		return &DeviceStatus_FieldTerminalPathArrayItemValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_Address)}
 	case DeviceStatus_FieldPathSelectorConditions:
 		return &DeviceStatus_FieldTerminalPathArrayItemValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*Device_Status_Condition)}
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return &DeviceStatus_FieldTerminalPathArrayItemValue{DeviceStatus_FieldTerminalPath: *fp, value: value.(*iam_iam_common.PCR)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fp.selector))
 	}
@@ -2119,6 +2132,10 @@ func (fps *DeviceStatus_FieldSubPath) AsDeviceInfoSubPath() (DeviceStatusDeviceI
 	res, ok := fps.subPath.(DeviceStatusDeviceInfo_FieldPath)
 	return res, ok
 }
+func (fps *DeviceStatus_FieldSubPath) AsAttestationStatusSubPath() (iam_iam_common.PCR_FieldPath, bool) {
+	res, ok := fps.subPath.(iam_iam_common.PCR_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *DeviceStatus_FieldSubPath) String() string {
@@ -2142,6 +2159,10 @@ func (fps *DeviceStatus_FieldSubPath) Get(source *Device_Status) (values []inter
 		}
 	} else if asDeviceInfoFieldPath, ok := fps.AsDeviceInfoSubPath(); ok {
 		values = append(values, asDeviceInfoFieldPath.Get(source.GetDeviceInfo())...)
+	} else if asPCRFieldPath, ok := fps.AsAttestationStatusSubPath(); ok {
+		for _, item := range source.GetAttestationStatus() {
+			values = append(values, asPCRFieldPath.Get(item)...)
+		}
 	} else {
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 	}
@@ -2170,6 +2191,11 @@ func (fps *DeviceStatus_FieldSubPath) GetSingle(source *Device_Status) (interfac
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetDeviceInfo())
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		if len(source.GetAttestationStatus()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAttestationStatus()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 	}
@@ -2197,6 +2223,10 @@ func (fps *DeviceStatus_FieldSubPath) ClearValue(item *Device_Status) {
 			}
 		case DeviceStatus_FieldPathSelectorDeviceInfo:
 			fps.subPath.ClearValueRaw(item.DeviceInfo)
+		case DeviceStatus_FieldPathSelectorAttestationStatus:
+			for _, subItem := range item.AttestationStatus {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 		}
@@ -2287,8 +2317,8 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) AsDeviceInfoValue() (*Device_Sta
 	res, ok := fpv.value.(*Device_Status_DeviceInfo)
 	return res, ok
 }
-func (fpv *DeviceStatus_FieldTerminalPathValue) AsAttestationStatusValue() (string, bool) {
-	res, ok := fpv.value.(string)
+func (fpv *DeviceStatus_FieldTerminalPathValue) AsAttestationStatusValue() ([]*iam_iam_common.PCR, bool) {
+	res, ok := fpv.value.([]*iam_iam_common.PCR)
 	return res, ok
 }
 
@@ -2305,7 +2335,7 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) SetTo(target **Device_Status) {
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		(*target).DeviceInfo = fpv.value.(*Device_Status_DeviceInfo)
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		(*target).AttestationStatus = fpv.value.(string)
+		(*target).AttestationStatus = fpv.value.([]*iam_iam_common.PCR)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2326,15 +2356,7 @@ func (fpv *DeviceStatus_FieldTerminalPathValue) CompareWith(source *Device_Statu
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return 0, false
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetAttestationStatus()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpv.selector))
 	}
@@ -2363,6 +2385,10 @@ func (fpvs *DeviceStatus_FieldSubPathValue) AsDeviceInfoPathValue() (DeviceStatu
 	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceStatus_FieldSubPathValue) AsAttestationStatusPathValue() (iam_iam_common.PCR_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(iam_iam_common.PCR_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *DeviceStatus_FieldSubPathValue) SetTo(target **Device_Status) {
 	if *target == nil {
@@ -2375,6 +2401,8 @@ func (fpvs *DeviceStatus_FieldSubPathValue) SetTo(target **Device_Status) {
 		panic("FieldPath setter is unsupported for array subpaths")
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).SetTo(&(*target).DeviceInfo)
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpvs.Selector()))
 	}
@@ -2397,6 +2425,8 @@ func (fpvs *DeviceStatus_FieldSubPathValue) CompareWith(source *Device_Status) (
 		return 0, false // repeated field
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return fpvs.subPathValue.(DeviceStatusDeviceInfo_FieldPathValue).CompareWith(source.GetDeviceInfo())
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpvs.Selector()))
 	}
@@ -2454,6 +2484,10 @@ func (fpaiv *DeviceStatus_FieldTerminalPathArrayItemValue) AsConditionsItemValue
 	res, ok := fpaiv.value.(*Device_Status_Condition)
 	return res, ok
 }
+func (fpaiv *DeviceStatus_FieldTerminalPathArrayItemValue) AsAttestationStatusItemValue() (*iam_iam_common.PCR, bool) {
+	res, ok := fpaiv.value.(*iam_iam_common.PCR)
+	return res, ok
+}
 
 func (fpaiv *DeviceStatus_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status) (interface{}, bool) {
 	return nil, false
@@ -2495,6 +2529,10 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsDeviceInfoPathItemValue
 	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfo_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) AsAttestationStatusPathItemValue() (iam_iam_common.PCR_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(iam_iam_common.PCR_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Status'
 func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status) bool {
@@ -2505,6 +2543,8 @@ func (fpaivs *DeviceStatus_FieldSubPathArrayItemValue) ContainsValue(source *Dev
 		return false // repeated/map field
 	case DeviceStatus_FieldPathSelectorDeviceInfo:
 		return fpaivs.subPathItemValue.(DeviceStatusDeviceInfo_FieldPathArrayItemValue).ContainsValue(source.GetDeviceInfo())
+	case DeviceStatus_FieldPathSelectorAttestationStatus:
+		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fpaivs.Selector()))
 	}
@@ -2558,7 +2598,7 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case DeviceStatus_FieldPathSelectorAttestationStatus:
-		for _, v := range fpaov.values.([]string) {
+		for _, v := range fpaov.values.([][]*iam_iam_common.PCR) {
 			values = append(values, v)
 		}
 	}
@@ -2576,8 +2616,8 @@ func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsDeviceInfoArrayOfVal
 	res, ok := fpaov.values.([]*Device_Status_DeviceInfo)
 	return res, ok
 }
-func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAttestationStatusArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
+func (fpaov *DeviceStatus_FieldTerminalPathArrayOfValues) AsAttestationStatusArrayOfValues() ([][]*iam_iam_common.PCR, bool) {
+	res, ok := fpaov.values.([][]*iam_iam_common.PCR)
 	return res, ok
 }
 
@@ -2601,6 +2641,10 @@ func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsConditionsPathArrayOfVal
 }
 func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsDeviceInfoPathArrayOfValues() (DeviceStatusDeviceInfo_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfo_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceStatus_FieldSubPathArrayOfValues) AsAttestationStatusPathArrayOfValues() (iam_iam_common.PCR_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(iam_iam_common.PCR_FieldPathArrayOfValues)
 	return res, ok
 }
 

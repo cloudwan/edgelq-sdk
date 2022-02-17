@@ -13140,11 +13140,99 @@ func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) Field
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) Index() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) DigestHex() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) DigestAlg() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatus) Comment() ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment {
+	return ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex) WithValue(value uint32) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesStatusAttestationStatusComment) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

@@ -2504,11 +2504,99 @@ func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) 
 	}
 }
 
-func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) Index() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) DigestHex() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) DigestAlg() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg{}
+}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatus) Comment() ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment {
+	return ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment{}
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex) WithValue(value uint32) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment struct{}
+
+func (ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment) FieldPath() *ProvisionDeviceViaPolicyRequest_FieldSubPath {
+	return &ProvisionDeviceViaPolicyRequest_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment) WithValue(value string) *ProvisionDeviceViaPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyRequestPathSelectorDeviceStatusAttestationStatusComment) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -15487,11 +15575,99 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus)
 	}
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) Index() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) DigestHex() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) DigestAlg() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatus) Comment() ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex) WithValue(value uint32) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceStatusAttestationStatusComment) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

@@ -19,6 +19,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -41,6 +42,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
+	_ = &iam_iam_common.Actor{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -379,7 +381,16 @@ func (o *Device_Status) MakeDiffFieldMask(other *Device_Status) *Device_Status_F
 			}
 		}
 	}
-	if o.GetAttestationStatus() != other.GetAttestationStatus() {
+
+	if len(o.GetAttestationStatus()) == len(other.GetAttestationStatus()) {
+		for i, lValue := range o.GetAttestationStatus() {
+			rValue := other.GetAttestationStatus()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
+				break
+			}
+		}
+	} else {
 		res.Paths = append(res.Paths, &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus})
 	}
 	return res
@@ -403,7 +414,10 @@ func (o *Device_Status) Clone() *Device_Status {
 		result.Conditions[i] = sourceValue.Clone()
 	}
 	result.DeviceInfo = o.DeviceInfo.Clone()
-	result.AttestationStatus = o.AttestationStatus
+	result.AttestationStatus = make([]*iam_iam_common.PCR, len(o.AttestationStatus))
+	for i, sourceValue := range o.AttestationStatus {
+		result.AttestationStatus[i] = sourceValue.Clone()
+	}
 	return result
 }
 
@@ -454,7 +468,24 @@ func (o *Device_Status) Merge(source *Device_Status) {
 		}
 		o.DeviceInfo.Merge(source.GetDeviceInfo())
 	}
-	o.AttestationStatus = source.GetAttestationStatus()
+	for _, sourceValue := range source.GetAttestationStatus() {
+		exists := false
+		for _, currentValue := range o.AttestationStatus {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *iam_iam_common.PCR
+			if sourceValue != nil {
+				newDstElement = new(iam_iam_common.PCR)
+				newDstElement.Merge(sourceValue)
+			}
+			o.AttestationStatus = append(o.AttestationStatus, newDstElement)
+		}
+	}
+
 }
 
 func (o *Device_Status) MergeRaw(source gotenobject.GotenObjectExt) {

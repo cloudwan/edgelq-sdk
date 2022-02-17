@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.devices.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
@@ -445,9 +446,7 @@ message Device {
     // Device detailed information
     DeviceInfo device_info = 3;
 
-    // TODO: change string to a own
-    // attestation status type
-    string attestation_status = 4;
+    repeated ntt.iam.v1alpha2.PCR attestation_status = 4;
 
     // Interface addresses of the Device.
     message Address {

@@ -40248,37 +40248,37 @@ type filterCndBuilderStatusAttestationStatus struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Eq(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Neq(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Gt(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Gte(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Lt(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Lte(value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) In(values [][]*iam_iam_common.PCR) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) NotIn(values [][]*iam_iam_common.PCR) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithArrayOfValues(values),
 	})
@@ -40296,10 +40296,296 @@ func (b *filterCndBuilderStatusAttestationStatus) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderStatusAttestationStatus) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusAttestationStatus) Contains(value *iam_iam_common.PCR) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().AttestationStatus().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) ContainsAnyOf(values []*iam_iam_common.PCR) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().AttestationStatus()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) ContainsAll(values []*iam_iam_common.PCR) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().AttestationStatus()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) compare(op gotenfilter.CompareOperator, value []*iam_iam_common.PCR) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Index() *filterCndBuilderStatusAttestationStatusIndex {
+	return &filterCndBuilderStatusAttestationStatusIndex{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) DigestHex() *filterCndBuilderStatusAttestationStatusDigestHex {
+	return &filterCndBuilderStatusAttestationStatusDigestHex{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) DigestAlg() *filterCndBuilderStatusAttestationStatusDigestAlg {
+	return &filterCndBuilderStatusAttestationStatusDigestAlg{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusAttestationStatus) Comment() *filterCndBuilderStatusAttestationStatusComment {
+	return &filterCndBuilderStatusAttestationStatusComment{builder: b.builder}
+}
+
+type filterCndBuilderStatusAttestationStatusIndex struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Eq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Neq(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Gt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Gte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Lt(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) Lte(value uint32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) In(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) NotIn(values []uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusIndex) compare(op gotenfilter.CompareOperator, value uint32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusAttestationStatusDigestHex struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestHex) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusAttestationStatusDigestAlg struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Eq(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Neq(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Gt(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Gte(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Lt(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) Lte(value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) In(values []iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) NotIn(values []iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusDigestAlg) compare(op gotenfilter.CompareOperator, value iam_iam_common.DigestAlg) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusAttestationStatusComment struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusAttestationStatusComment) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().WithValue(value),
 	})
 }
 

@@ -2307,11 +2307,99 @@ func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestatio
 	}
 }
 
-func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) Index() ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex {
+	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex{}
+}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) DigestHex() ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex {
+	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex{}
+}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) DigestAlg() ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg {
+	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg{}
+}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatus) Comment() ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment {
+	return ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment{}
+}
+
+type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex struct{}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestRequest_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex) WithValue(value uint32) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex struct{}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestRequest_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex) WithValue(value string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg struct{}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestRequest_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment struct{}
+
+func (ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment) FieldPath() *ProvisionDeviceForApprovedRequestRequest_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestRequest_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus,
+		subPath:  device.NewDeviceStatusFieldPathBuilder().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment) WithValue(value string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestRequestPathSelectorDeviceStatusAttestationStatusComment) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -15273,11 +15361,99 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestati
 	}
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue)
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) Index() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) DigestHex() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) DigestAlg() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatus) Comment() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment{}
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex) WithValue(value uint32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Status().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceStatusAttestationStatusComment) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

@@ -12999,11 +12999,99 @@ func (DevicePathSelectorStatusAttestationStatus) FieldPath() *Device_FieldSubPat
 	}
 }
 
-func (s DevicePathSelectorStatusAttestationStatus) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusAttestationStatus) WithValue(value []*iam_iam_common.PCR) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusAttestationStatus) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorStatusAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+func (DevicePathSelectorStatusAttestationStatus) Index() DevicePathSelectorStatusAttestationStatusIndex {
+	return DevicePathSelectorStatusAttestationStatusIndex{}
+}
+
+func (DevicePathSelectorStatusAttestationStatus) DigestHex() DevicePathSelectorStatusAttestationStatusDigestHex {
+	return DevicePathSelectorStatusAttestationStatusDigestHex{}
+}
+
+func (DevicePathSelectorStatusAttestationStatus) DigestAlg() DevicePathSelectorStatusAttestationStatusDigestAlg {
+	return DevicePathSelectorStatusAttestationStatusDigestAlg{}
+}
+
+func (DevicePathSelectorStatusAttestationStatus) Comment() DevicePathSelectorStatusAttestationStatusComment {
+	return DevicePathSelectorStatusAttestationStatusComment{}
+}
+
+type DevicePathSelectorStatusAttestationStatusIndex struct{}
+
+func (DevicePathSelectorStatusAttestationStatusIndex) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().AttestationStatus().Index().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusAttestationStatusIndex) WithValue(value uint32) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusAttestationStatusIndex) WithArrayOfValues(values []uint32) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusAttestationStatusDigestHex struct{}
+
+func (DevicePathSelectorStatusAttestationStatusDigestHex) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestHex().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusAttestationStatusDigestHex) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusAttestationStatusDigestHex) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusAttestationStatusDigestAlg struct{}
+
+func (DevicePathSelectorStatusAttestationStatusDigestAlg) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().AttestationStatus().DigestAlg().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusAttestationStatusComment struct{}
+
+func (DevicePathSelectorStatusAttestationStatusComment) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().AttestationStatus().Comment().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusAttestationStatusComment) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusAttestationStatusComment) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -25502,12 +25590,115 @@ func (Device_StatusPathSelectorAttestationStatus) FieldPath() *DeviceStatus_Fiel
 	return &DeviceStatus_FieldTerminalPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus}
 }
 
-func (s Device_StatusPathSelectorAttestationStatus) WithValue(value string) *DeviceStatus_FieldTerminalPathValue {
+func (s Device_StatusPathSelectorAttestationStatus) WithValue(value []*iam_iam_common.PCR) *DeviceStatus_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldTerminalPathValue)
 }
 
-func (s Device_StatusPathSelectorAttestationStatus) WithArrayOfValues(values []string) *DeviceStatus_FieldTerminalPathArrayOfValues {
+func (s Device_StatusPathSelectorAttestationStatus) WithArrayOfValues(values [][]*iam_iam_common.PCR) *DeviceStatus_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithItemValue(value *iam_iam_common.PCR) *DeviceStatus_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldTerminalPathArrayItemValue)
+}
+func (Device_StatusPathSelectorAttestationStatus) WithSubPath(subPath iam_iam_common.PCR_FieldPath) *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{selector: DeviceStatus_FieldPathSelectorAttestationStatus, subPath: subPath}
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithSubValue(subPathValue iam_iam_common.PCR_FieldPathValue) *DeviceStatus_FieldSubPathValue {
+	return &DeviceStatus_FieldSubPathValue{DeviceStatus_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithSubArrayOfValues(subPathArrayOfValues iam_iam_common.PCR_FieldPathArrayOfValues) *DeviceStatus_FieldSubPathArrayOfValues {
+	return &DeviceStatus_FieldSubPathArrayOfValues{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_StatusPathSelectorAttestationStatus) WithSubArrayItemValue(subPathArrayItemValue iam_iam_common.PCR_FieldPathArrayItemValue) *DeviceStatus_FieldSubPathArrayItemValue {
+	return &DeviceStatus_FieldSubPathArrayItemValue{DeviceStatus_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_StatusPathSelectorAttestationStatus) Index() Device_StatusPathSelectorAttestationStatusIndex {
+	return Device_StatusPathSelectorAttestationStatusIndex{}
+}
+
+func (Device_StatusPathSelectorAttestationStatus) DigestHex() Device_StatusPathSelectorAttestationStatusDigestHex {
+	return Device_StatusPathSelectorAttestationStatusDigestHex{}
+}
+
+func (Device_StatusPathSelectorAttestationStatus) DigestAlg() Device_StatusPathSelectorAttestationStatusDigestAlg {
+	return Device_StatusPathSelectorAttestationStatusDigestAlg{}
+}
+
+func (Device_StatusPathSelectorAttestationStatus) Comment() Device_StatusPathSelectorAttestationStatusComment {
+	return Device_StatusPathSelectorAttestationStatusComment{}
+}
+
+type Device_StatusPathSelectorAttestationStatusIndex struct{}
+
+func (Device_StatusPathSelectorAttestationStatusIndex) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorAttestationStatus,
+		subPath:  iam_iam_common.NewPCRFieldPathBuilder().Index().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorAttestationStatusIndex) WithValue(value uint32) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorAttestationStatusIndex) WithArrayOfValues(values []uint32) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorAttestationStatusDigestHex struct{}
+
+func (Device_StatusPathSelectorAttestationStatusDigestHex) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorAttestationStatus,
+		subPath:  iam_iam_common.NewPCRFieldPathBuilder().DigestHex().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorAttestationStatusDigestHex) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorAttestationStatusDigestHex) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorAttestationStatusDigestAlg struct{}
+
+func (Device_StatusPathSelectorAttestationStatusDigestAlg) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorAttestationStatus,
+		subPath:  iam_iam_common.NewPCRFieldPathBuilder().DigestAlg().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorAttestationStatusDigestAlg) WithValue(value iam_iam_common.DigestAlg) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorAttestationStatusDigestAlg) WithArrayOfValues(values []iam_iam_common.DigestAlg) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorAttestationStatusComment struct{}
+
+func (Device_StatusPathSelectorAttestationStatusComment) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorAttestationStatus,
+		subPath:  iam_iam_common.NewPCRFieldPathBuilder().Comment().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorAttestationStatusComment) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorAttestationStatusComment) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
 type DevicePublicListingSpecFieldPathBuilder struct{}

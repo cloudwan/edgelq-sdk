@@ -23,6 +23,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -49,6 +50,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
+	_ = &iam_iam_common.Actor{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -831,14 +833,16 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 	result := &Device_Status_FieldMask{}
 	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatus_FieldPathSelectorAddresses:  &Device_Status_Address_FieldMask{},
-		DeviceStatus_FieldPathSelectorConditions: &Device_Status_Condition_FieldMask{},
-		DeviceStatus_FieldPathSelectorDeviceInfo: &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAddresses:         &Device_Status_Address_FieldMask{},
+		DeviceStatus_FieldPathSelectorConditions:        &Device_Status_Condition_FieldMask{},
+		DeviceStatus_FieldPathSelectorDeviceInfo:        &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAttestationStatus: &iam_iam_common.PCR_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatus_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatus_FieldPathSelectorAddresses:  &Device_Status_Address_FieldMask{},
-		DeviceStatus_FieldPathSelectorConditions: &Device_Status_Condition_FieldMask{},
-		DeviceStatus_FieldPathSelectorDeviceInfo: &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAddresses:         &Device_Status_Address_FieldMask{},
+		DeviceStatus_FieldPathSelectorConditions:        &Device_Status_Condition_FieldMask{},
+		DeviceStatus_FieldPathSelectorDeviceInfo:        &Device_Status_DeviceInfo_FieldMask{},
+		DeviceStatus_FieldPathSelectorAttestationStatus: &iam_iam_common.PCR_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -860,6 +864,8 @@ func (fieldMask *Device_Status_FieldMask) Subtract(other *Device_Status_FieldMas
 						mySubMasks[DeviceStatus_FieldPathSelectorConditions] = FullDevice_Status_Condition_FieldMask()
 					case DeviceStatus_FieldPathSelectorDeviceInfo:
 						mySubMasks[DeviceStatus_FieldPathSelectorDeviceInfo] = FullDevice_Status_DeviceInfo_FieldMask()
+					case DeviceStatus_FieldPathSelectorAttestationStatus:
+						mySubMasks[DeviceStatus_FieldPathSelectorAttestationStatus] = iam_iam_common.FullPCR_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatus_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1018,6 +1024,8 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 	wholeConditionsAccepted := false
 	deviceInfoMask := &Device_Status_DeviceInfo_FieldMask{}
 	wholeDeviceInfoAccepted := false
+	attestationStatusMask := &iam_iam_common.PCR_FieldMask{}
+	wholeAttestationStatusAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1034,6 +1042,7 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 				wholeDeviceInfoAccepted = true
 			case DeviceStatus_FieldPathSelectorAttestationStatus:
 				result.AttestationStatus = source.AttestationStatus
+				wholeAttestationStatusAccepted = true
 			}
 		case *DeviceStatus_FieldSubPath:
 			switch tp.selector {
@@ -1043,6 +1052,8 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 				conditionsMask.AppendPath(tp.subPath.(DeviceStatusCondition_FieldPath))
 			case DeviceStatus_FieldPathSelectorDeviceInfo:
 				deviceInfoMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfo_FieldPath))
+			case DeviceStatus_FieldPathSelectorAttestationStatus:
+				attestationStatusMask.AppendPath(tp.subPath.(iam_iam_common.PCR_FieldPath))
 			}
 		}
 	}
@@ -1058,6 +1069,11 @@ func (fieldMask *Device_Status_FieldMask) Project(source *Device_Status) *Device
 	}
 	if wholeDeviceInfoAccepted == false && len(deviceInfoMask.Paths) > 0 {
 		result.DeviceInfo = deviceInfoMask.Project(source.GetDeviceInfo())
+	}
+	if wholeAttestationStatusAccepted == false && len(attestationStatusMask.Paths) > 0 {
+		for _, sourceItem := range source.GetAttestationStatus() {
+			result.AttestationStatus = append(result.AttestationStatus, attestationStatusMask.Project(sourceItem))
+		}
 	}
 	return result
 }
