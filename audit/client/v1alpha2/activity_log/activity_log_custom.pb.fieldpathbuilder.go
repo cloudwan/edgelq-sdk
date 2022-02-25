@@ -14,6 +14,7 @@ import (
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -29,6 +30,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &any.Any{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

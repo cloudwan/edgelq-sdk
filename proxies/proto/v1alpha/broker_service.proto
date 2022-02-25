@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ntt.proxies.v1alpha;
 
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "edgelq-sdk/proxies/proto/v1alpha/broker_custom.proto";
 import "edgelq-sdk/proxies/proto/v1alpha/project.proto";
 import "edgelq-sdk/proxies/proto/v1alpha/project_change.proto";

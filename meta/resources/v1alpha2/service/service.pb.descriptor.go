@@ -26,15 +26,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Service", "Services", "meta.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Service_FieldTerminalPath{selector: Service_FieldPathSelectorName},
-			"pattern", "serviceId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -46,19 +38,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewService() *Service {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Service{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewService()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewServiceName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -77,30 +61,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewServiceCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewServiceCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewServiceChange() *ServiceChange {
-	return &ServiceChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Service_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewServiceChange()
-}
-
-func (d *Descriptor) NewServiceQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ServiceChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewServiceQueryResultSnapshot()
-}
-func (d *Descriptor) NewServiceQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -108,34 +91,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewServiceQueryResultChange()
-}
-
-func (d *Descriptor) NewServiceList(size, reserved int) ServiceList {
-	return make(ServiceList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ServiceList, size, reserved)
-}
-func (d *Descriptor) NewServiceChangeList(size, reserved int) ServiceChangeList {
-	return make(ServiceChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ServiceChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewServiceNameList(size, reserved int) ServiceNameList {
-	return make(ServiceNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ServiceNameList, size, reserved)
-}
-
-func (d *Descriptor) NewServiceReferenceList(size, reserved int) ServiceReferenceList {
-	return make(ServiceReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -150,15 +118,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewServiceMap(reserved int) ServiceMap {
-	return make(ServiceMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ServiceMap, reserved)
-}
-func (d *Descriptor) NewServiceChangeMap(reserved int) ServiceChangeMap {
-	return make(ServiceChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -177,10 +138,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseService_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseServiceName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initServiceDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Service", "Services", "meta.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Service_FieldTerminalPath{selector: Service_FieldPathSelectorName},
+			"pattern", "serviceId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initServiceDescriptor()
 }

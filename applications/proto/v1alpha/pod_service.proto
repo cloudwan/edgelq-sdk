@@ -4,8 +4,6 @@ package ntt.applications.v1alpha;
 
 import "edgelq-sdk/applications/proto/v1alpha/pod.proto";
 import "edgelq-sdk/applications/proto/v1alpha/pod_change.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

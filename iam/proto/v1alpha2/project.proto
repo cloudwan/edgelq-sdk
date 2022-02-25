@@ -4,6 +4,7 @@ package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project;project";
@@ -41,4 +42,7 @@ message Project {
 
   // Multi region policy
   ntt.meta.multi_region.Policy multi_region_policy = 7;
+
+  // Enabled services. This field is checked only for non-core edgelq services.
+  repeated string enabled_services = 8;
 }

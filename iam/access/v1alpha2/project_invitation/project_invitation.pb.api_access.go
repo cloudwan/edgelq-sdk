@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiProjectInvitationAccess) SaveProjectInvitation(ctx context.Context, 
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetProjectInvitation(ctx, &project_invitation.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiProjectInvitationAccess) SaveProjectInvitation(ctx context.Context, 
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &project_invitation_client.UpdateProjectInvitationRequest{
 			ProjectInvitation: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*project_invitation.ProjectInvitation_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &project_invitation_client.UpdateProjectInvitationRequest_CAS{
+				ConditionalState: conditionalState.(*project_invitation.ProjectInvitation),
+				FieldMask:        mask.(*project_invitation.ProjectInvitation_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateProjectInvitation(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiProjectInvitationAccess) DeleteProjectInvitation(ctx context.Context
 	}
 	_, err := a.client.DeleteProjectInvitation(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(project_invitation.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return project_invitation.AsAnyCastAccess(NewApiProjectInvitationAccess(project_invitation_client.NewProjectInvitationServiceClient(cc)))
+	})
 }

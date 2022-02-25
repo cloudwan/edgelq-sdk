@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiRoleBindingAccess) SaveRoleBinding(ctx context.Context, res *role_bi
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetRoleBinding(ctx, &role_binding.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiRoleBindingAccess) SaveRoleBinding(ctx context.Context, res *role_bi
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &role_binding_client.UpdateRoleBindingRequest{
 			RoleBinding: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*role_binding.RoleBinding_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &role_binding_client.UpdateRoleBindingRequest_CAS{
+				ConditionalState: conditionalState.(*role_binding.RoleBinding),
+				FieldMask:        mask.(*role_binding.RoleBinding_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateRoleBinding(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiRoleBindingAccess) DeleteRoleBinding(ctx context.Context, ref *role_
 	}
 	_, err := a.client.DeleteRoleBinding(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(role_binding.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return role_binding.AsAnyCastAccess(NewApiRoleBindingAccess(role_binding_client.NewRoleBindingServiceClient(cc)))
+	})
 }

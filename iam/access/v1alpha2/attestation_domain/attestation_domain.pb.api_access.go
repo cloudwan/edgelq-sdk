@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetAttestationDomain(ctx, &attestation_domain.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &attestation_domain_client.UpdateAttestationDomainRequest{
 			AttestationDomain: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*attestation_domain.AttestationDomain_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &attestation_domain_client.UpdateAttestationDomainRequest_CAS{
+				ConditionalState: conditionalState.(*attestation_domain.AttestationDomain),
+				FieldMask:        mask.(*attestation_domain.AttestationDomain_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateAttestationDomain(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context
 	}
 	_, err := a.client.DeleteAttestationDomain(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(attestation_domain.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return attestation_domain.AsAnyCastAccess(NewApiAttestationDomainAccess(attestation_domain_client.NewAttestationDomainServiceClient(cc)))
+	})
 }

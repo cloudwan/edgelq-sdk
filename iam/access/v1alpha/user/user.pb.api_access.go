@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiUserAccess) SaveUser(ctx context.Context, res *user.User, opts ...go
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetUser(ctx, &user.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiUserAccess) SaveUser(ctx context.Context, res *user.User, opts ...go
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &user_client.UpdateUserRequest{
 			User: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*user.User_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &user_client.UpdateUserRequest_CAS{
+				ConditionalState: conditionalState.(*user.User),
+				FieldMask:        mask.(*user.User_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateUser(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiUserAccess) DeleteUser(ctx context.Context, ref *user.Reference, opt
 	}
 	_, err := a.client.DeleteUser(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(user.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return user.AsAnyCastAccess(NewApiUserAccess(user_client.NewUserServiceClient(cc)))
+	})
 }

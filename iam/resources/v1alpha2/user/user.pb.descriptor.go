@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"User", "Users", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&User_FieldTerminalPath{selector: User_FieldPathSelectorName},
-			"pattern", "userId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewUser() *User {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &User{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewUser()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewUserName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewUserCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewUserCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewUserChange() *UserChange {
-	return &UserChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &User_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewUserChange()
-}
-
-func (d *Descriptor) NewUserQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &UserChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewUserQueryResultSnapshot()
-}
-func (d *Descriptor) NewUserQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,34 +93,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewUserQueryResultChange()
-}
-
-func (d *Descriptor) NewUserList(size, reserved int) UserList {
-	return make(UserList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(UserList, size, reserved)
-}
-func (d *Descriptor) NewUserChangeList(size, reserved int) UserChangeList {
-	return make(UserChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(UserChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewUserNameList(size, reserved int) UserNameList {
-	return make(UserNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(UserNameList, size, reserved)
-}
-
-func (d *Descriptor) NewUserReferenceList(size, reserved int) UserReferenceList {
-	return make(UserReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -152,15 +120,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewUserMap(reserved int) UserMap {
-	return make(UserMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(UserMap, reserved)
-}
-func (d *Descriptor) NewUserChangeMap(reserved int) UserChangeMap {
-	return make(UserChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -179,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseUser_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseUserName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initUserDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"User", "Users", "iam.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&User_FieldTerminalPath{selector: User_FieldPathSelectorName},
+			"pattern", "userId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initUserDescriptor()
 }

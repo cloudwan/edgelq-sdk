@@ -3,8 +3,6 @@ syntax = "proto3";
 package ntt.devices.v1alpha;
 
 import "edgelq-sdk/devices/proto/v1alpha/public_custom.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

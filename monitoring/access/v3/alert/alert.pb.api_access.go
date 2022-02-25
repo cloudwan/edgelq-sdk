@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetAlert(ctx, &alert.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &alert_client.UpdateAlertRequest{
 			Alert: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*alert.Alert_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &alert_client.UpdateAlertRequest_CAS{
+				ConditionalState: conditionalState.(*alert.Alert),
+				FieldMask:        mask.(*alert.Alert_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateAlert(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, 
 	}
 	_, err := a.client.DeleteAlert(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(alert.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return alert.AsAnyCastAccess(NewApiAlertAccess(alert_client.NewAlertServiceClient(cc)))
+	})
 }

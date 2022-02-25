@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiServiceAccess) SaveService(ctx context.Context, res *service.Service
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetService(ctx, &service.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiServiceAccess) SaveService(ctx context.Context, res *service.Service
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &service_client.UpdateServiceRequest{
 			Service: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*service.Service_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &service_client.UpdateServiceRequest_CAS{
+				ConditionalState: conditionalState.(*service.Service),
+				FieldMask:        mask.(*service.Service_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateService(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Refer
 	}
 	_, err := a.client.DeleteService(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(service.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return service.AsAnyCastAccess(NewApiServiceAccess(service_client.NewServiceServiceClient(cc)))
+	})
 }

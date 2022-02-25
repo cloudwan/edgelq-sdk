@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Distribution", "Distributions", "applications.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorName},
-			"pattern", "distributionId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewDistribution() *Distribution {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Distribution{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewDistribution()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewDistributionName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewDistributionCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewDistributionCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewDistributionChange() *DistributionChange {
-	return &DistributionChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Distribution_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewDistributionChange()
-}
-
-func (d *Descriptor) NewDistributionQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &DistributionChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewDistributionQueryResultSnapshot()
-}
-func (d *Descriptor) NewDistributionQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewDistributionQueryResultChange()
-}
-
-func (d *Descriptor) NewDistributionList(size, reserved int) DistributionList {
-	return make(DistributionList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(DistributionList, size, reserved)
-}
-func (d *Descriptor) NewDistributionChangeList(size, reserved int) DistributionChangeList {
-	return make(DistributionChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(DistributionChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewDistributionNameList(size, reserved int) DistributionNameList {
-	return make(DistributionNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(DistributionNameList, size, reserved)
-}
-
-func (d *Descriptor) NewDistributionReferenceList(size, reserved int) DistributionReferenceList {
-	return make(DistributionReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(DistributionReferenceList, size, reserved)
 }
-func (d *Descriptor) NewDistributionParentNameList(size, reserved int) DistributionParentNameList {
-	return make(DistributionParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(DistributionParentNameList, size, reserved)
-}
-func (d *Descriptor) NewDistributionParentReferenceList(size, reserved int) DistributionParentReferenceList {
-	return make(DistributionParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(DistributionParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewDistributionMap(reserved int) DistributionMap {
-	return make(DistributionMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(DistributionMap, reserved)
-}
-func (d *Descriptor) NewDistributionChangeMap(reserved int) DistributionChangeMap {
-	return make(DistributionChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseDistribution_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseDistributionName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initDistributionDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Distribution", "Distributions", "applications.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorName},
+			"pattern", "distributionId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initDistributionDescriptor()
 }

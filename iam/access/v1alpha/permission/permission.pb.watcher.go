@@ -11,6 +11,7 @@ import (
 	"sync/atomic"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus/ctxlogrus"
+	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -34,16 +35,20 @@ type Watcher struct {
 	client             permission_client.PermissionServiceClient
 	config             *WatcherConfig
 	outputEvtChan      chan WatcherEvent
+	iOutputEvtChan     chan gotenaccess.WatcherEvent
 	queryWatcherStates map[int]*queryWatcherState
 	watcherEvtsChan    chan *QueryWatcherEvent
 	filters            []*WatcherFilterParams
 	filtersResetChan   chan []*WatcherFilterParams
 	inSyncFlag         int32
 	nextIdentifier     int
+	watcherCtx         context.Context
+	watcherCtxCancel   context.CancelFunc
+	useIChan           int32
 }
 
 type WatcherConfig struct {
-	*gotenaccess.WatcherConfig
+	*gotenaccess.WatcherConfigBase
 
 	// common params that must be shared across queries
 	WatchType watch_type.WatchType
@@ -64,6 +69,14 @@ func (p *WatcherFilterParams) String() string {
 	return fmt.Sprintf("%s", p.Filter)
 }
 
+func (p *WatcherFilterParams) GetIFilter() gotenresource.Filter {
+	return p.Filter
+}
+
+func (p *WatcherFilterParams) GetIParentRef() gotenresource.Reference {
+	return nil
+}
+
 type queryWatcherState struct {
 	cancel          context.CancelFunc
 	watcher         *QueryWatcher
@@ -75,6 +88,7 @@ type queryWatcherState struct {
 }
 
 func NewWatcher(client permission_client.PermissionServiceClient, config *WatcherConfig, filters ...*WatcherFilterParams) *Watcher {
+	ctx, cancel := context.WithCancel(context.Background())
 	return &Watcher{
 		client:             client,
 		config:             config,
@@ -83,11 +97,32 @@ func NewWatcher(client permission_client.PermissionServiceClient, config *Watche
 		queryWatcherStates: map[int]*queryWatcherState{},
 		watcherEvtsChan:    make(chan *QueryWatcherEvent, config.WatcherEventBufferSize),
 		filtersResetChan:   make(chan []*WatcherFilterParams, 1),
+		watcherCtx:         ctx,
+		watcherCtxCancel:   cancel,
 	}
 }
 
 func (pw *Watcher) Events() <-chan WatcherEvent {
 	return pw.outputEvtChan
+}
+
+func (pw *Watcher) IEvents() <-chan gotenaccess.WatcherEvent {
+	if atomic.CompareAndSwapInt32(&pw.useIChan, 0, 1) {
+		pw.iOutputEvtChan = make(chan gotenaccess.WatcherEvent, pw.config.WatcherEventBufferSize)
+		go func() {
+			for {
+				select {
+				case <-pw.watcherCtx.Done():
+				case evt := <-pw.outputEvtChan:
+					select {
+					case <-pw.watcherCtx.Done():
+					case pw.iOutputEvtChan <- &evt:
+					}
+				}
+			}
+		}()
+	}
+	return pw.iOutputEvtChan
 }
 
 func (pw *Watcher) InSync() bool {
@@ -108,6 +143,15 @@ func (pw *Watcher) GetFilters() []*WatcherFilterParams {
 	return copied
 }
 
+func (pw *Watcher) GetIFilters() []gotenaccess.WatcherFilterParams {
+	filters := pw.GetFilters()
+	result := make([]gotenaccess.WatcherFilterParams, 0, len(filters))
+	for _, filter := range filters {
+		result = append(result, filter)
+	}
+	return result
+}
+
 func (pw *Watcher) ResetFilters(ctx context.Context, filters ...*WatcherFilterParams) error {
 	select {
 	case <-ctx.Done():
@@ -115,6 +159,14 @@ func (pw *Watcher) ResetFilters(ctx context.Context, filters ...*WatcherFilterPa
 	case pw.filtersResetChan <- filters:
 	}
 	return nil
+}
+
+func (pw *Watcher) ResetIFilters(ctx context.Context, filters ...gotenaccess.WatcherFilterParams) error {
+	typedFilters := make([]*WatcherFilterParams, 0, len(filters))
+	for _, filter := range filters {
+		typedFilters = append(typedFilters, filter.(*WatcherFilterParams))
+	}
+	return pw.ResetFilters(ctx, typedFilters...)
 }
 
 func (pw *Watcher) Run(ctx context.Context) error {
@@ -128,6 +180,7 @@ func (pw *Watcher) Run(ctx context.Context) error {
 	log.Debugf("running")
 	defer func() {
 		close(pw.outputEvtChan)
+		pw.watcherCtxCancel()
 	}()
 
 	for {
@@ -308,7 +361,7 @@ func (pw *Watcher) onQueryChanges(ctx context.Context, evt *QueryWatcherEvent) {
 				return
 			}
 		} else if pw.inSyncFlag > 0 {
-			evt := &WatcherEvent{WatcherEventbase: gotenaccess.NewWatcherEvent(false), Changes: changes}
+			evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(false), Changes: changes}
 			pw.sendEvent(ctx, evt)
 		}
 	}
@@ -317,7 +370,7 @@ func (pw *Watcher) onQueryChanges(ctx context.Context, evt *QueryWatcherEvent) {
 func (pw *Watcher) processSyncLost(ctx context.Context) {
 	ctxlogrus.Extract(ctx).Infof("Notifiying watcher-wide sync lost")
 	atomic.StoreInt32(&pw.inSyncFlag, 0)
-	evt := &WatcherEvent{WatcherEventbase: gotenaccess.NewWatcherEventLostSync()}
+	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBaseLostSync()}
 	pw.sendEvent(ctx, evt)
 }
 
@@ -330,7 +383,7 @@ func (pw *Watcher) processSnapshot(ctx context.Context) {
 			snapshot = append(snapshot, NewAddWatcherEventChange(item))
 		}
 	}
-	evt := &WatcherEvent{WatcherEventbase: gotenaccess.NewWatcherEvent(true), Changes: snapshot}
+	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(true), Changes: snapshot}
 	pw.sendEvent(ctx, evt)
 }
 
@@ -442,7 +495,7 @@ func (c *WatcherEventChange) GetRawCurrent() gotenresource.Resource {
 }
 
 type WatcherEvent struct {
-	gotenaccess.WatcherEventbase
+	gotenaccess.WatcherEventBase
 	Changes []*WatcherEventChange
 }
 
@@ -478,12 +531,12 @@ func (e *WatcherEvent) Merge(src *WatcherEvent) {
 		return
 	}
 	if src.LostSync() || src.Resync() {
-		e.WatcherEventbase = src.WatcherEventbase
+		e.WatcherEventBase = src.WatcherEventBase
 		e.Changes = src.Changes
 		return
 	}
-	if !e.WatcherEventbase.Resync() {
-		e.WatcherEventbase = src.WatcherEventbase
+	if !e.WatcherEventBase.Resync() {
+		e.WatcherEventBase = src.WatcherEventBase
 		e.Changes = append(e.Changes, src.Changes...)
 		return
 	}
@@ -589,4 +642,33 @@ func (qws *queryWatcherState) computeSize(pendingChanges []*permission.Permissio
 		}
 	}
 	return size
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterWatcherConstructor(permission.GetDescriptor(), func(cc grpc.ClientConnInterface, params *gotenaccess.WatcherConfigParams, filters ...gotenaccess.WatcherFilterParams) gotenaccess.Watcher {
+		cfg := &WatcherConfig{
+			WatcherConfigBase: params.CfgBase,
+			WatchType:         params.WatchType,
+			View:              params.View,
+			ChunkSize:         params.ChunkSize,
+		}
+		if params.FieldMask != nil {
+			cfg.FieldMask = params.FieldMask.(*permission.Permission_FieldMask)
+		}
+		if params.OrderBy != nil {
+			cfg.OrderBy = params.OrderBy.(*permission.OrderBy)
+		}
+		typedFilters := make([]*WatcherFilterParams, 0, len(filters))
+		for _, filter := range filters {
+			typedFilters = append(typedFilters, filter.(*WatcherFilterParams))
+		}
+		return NewWatcher(permission_client.NewPermissionServiceClient(cc), cfg, typedFilters...)
+	})
+	gotenaccess.GetRegistry().RegisterWatcherFilterConstructor(permission.GetDescriptor(), func(filter gotenresource.Filter, parent gotenresource.Reference) gotenaccess.WatcherFilterParams {
+		params := &WatcherFilterParams{}
+		if filter != nil {
+			params.Filter = filter.(*permission.Filter)
+		}
+		return params
+	})
 }

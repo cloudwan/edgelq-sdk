@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Secret", "Secrets", "secrets.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorName},
-			"pattern", "secretId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewSecret() *Secret {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Secret{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewSecret()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewSecretName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewSecretCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewSecretCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewSecretChange() *SecretChange {
-	return &SecretChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Secret_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewSecretChange()
-}
-
-func (d *Descriptor) NewSecretQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &SecretChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewSecretQueryResultSnapshot()
-}
-func (d *Descriptor) NewSecretQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,63 +93,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewSecretQueryResultChange()
-}
-
-func (d *Descriptor) NewSecretList(size, reserved int) SecretList {
-	return make(SecretList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(SecretList, size, reserved)
-}
-func (d *Descriptor) NewSecretChangeList(size, reserved int) SecretChangeList {
-	return make(SecretChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(SecretChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewSecretNameList(size, reserved int) SecretNameList {
-	return make(SecretNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(SecretNameList, size, reserved)
-}
-
-func (d *Descriptor) NewSecretReferenceList(size, reserved int) SecretReferenceList {
-	return make(SecretReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(SecretReferenceList, size, reserved)
 }
-func (d *Descriptor) NewSecretParentNameList(size, reserved int) SecretParentNameList {
-	return make(SecretParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(SecretParentNameList, size, reserved)
-}
-func (d *Descriptor) NewSecretParentReferenceList(size, reserved int) SecretParentReferenceList {
-	return make(SecretParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(SecretParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewSecretMap(reserved int) SecretMap {
-	return make(SecretMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(SecretMap, reserved)
-}
-func (d *Descriptor) NewSecretChangeMap(reserved int) SecretChangeMap {
-	return make(SecretChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -185,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseSecret_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseSecretName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initSecretDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Secret", "Secrets", "secrets.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorName},
+			"pattern", "secretId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initSecretDescriptor()
 }

@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Condition", "Conditions", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorName},
-			"pattern", "conditionId",
-			[]string{"projectId", "organizationId"},
-			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewCondition() *Condition {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Condition{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewCondition()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewConditionName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewConditionCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewConditionCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewConditionChange() *ConditionChange {
-	return &ConditionChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Condition_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewConditionChange()
-}
-
-func (d *Descriptor) NewConditionQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ConditionChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewConditionQueryResultSnapshot()
-}
-func (d *Descriptor) NewConditionQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewConditionQueryResultChange()
-}
-
-func (d *Descriptor) NewConditionList(size, reserved int) ConditionList {
-	return make(ConditionList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ConditionList, size, reserved)
-}
-func (d *Descriptor) NewConditionChangeList(size, reserved int) ConditionChangeList {
-	return make(ConditionChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ConditionChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewConditionNameList(size, reserved int) ConditionNameList {
-	return make(ConditionNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ConditionNameList, size, reserved)
-}
-
-func (d *Descriptor) NewConditionReferenceList(size, reserved int) ConditionReferenceList {
-	return make(ConditionReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ConditionReferenceList, size, reserved)
 }
-func (d *Descriptor) NewConditionParentNameList(size, reserved int) ConditionParentNameList {
-	return make(ConditionParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ConditionParentNameList, size, reserved)
-}
-func (d *Descriptor) NewConditionParentReferenceList(size, reserved int) ConditionParentReferenceList {
-	return make(ConditionParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ConditionParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewConditionMap(reserved int) ConditionMap {
-	return make(ConditionMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ConditionMap, reserved)
-}
-func (d *Descriptor) NewConditionChangeMap(reserved int) ConditionChangeMap {
-	return make(ConditionChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseCondition_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseConditionName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initConditionDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Condition", "Conditions", "iam.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorName},
+			"pattern", "conditionId",
+			[]string{"projectId", "organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initConditionDescriptor()
 }

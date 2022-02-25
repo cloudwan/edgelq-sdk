@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiRegionAccess) SaveRegion(ctx context.Context, res *region.Region, op
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetRegion(ctx, &region.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiRegionAccess) SaveRegion(ctx context.Context, res *region.Region, op
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &region_client.UpdateRegionRequest{
 			Region: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*region.Region_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &region_client.UpdateRegionRequest_CAS{
+				ConditionalState: conditionalState.(*region.Region),
+				FieldMask:        mask.(*region.Region_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateRegion(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Referenc
 	}
 	_, err := a.client.DeleteRegion(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(region.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return region.AsAnyCastAccess(NewApiRegionAccess(region_client.NewRegionServiceClient(cc)))
+	})
 }

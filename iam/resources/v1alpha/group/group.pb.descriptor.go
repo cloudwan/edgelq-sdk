@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Group", "Groups", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Group_FieldTerminalPath{selector: Group_FieldPathSelectorName},
-			"pattern", "groupId",
-			[]string{"projectId", "organizationId"},
-			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewGroup() *Group {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Group{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewGroup()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewGroupName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewGroupCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewGroupCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewGroupChange() *GroupChange {
-	return &GroupChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Group_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewGroupChange()
-}
-
-func (d *Descriptor) NewGroupQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &GroupChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewGroupQueryResultSnapshot()
-}
-func (d *Descriptor) NewGroupQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewGroupQueryResultChange()
-}
-
-func (d *Descriptor) NewGroupList(size, reserved int) GroupList {
-	return make(GroupList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(GroupList, size, reserved)
-}
-func (d *Descriptor) NewGroupChangeList(size, reserved int) GroupChangeList {
-	return make(GroupChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(GroupChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewGroupNameList(size, reserved int) GroupNameList {
-	return make(GroupNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(GroupNameList, size, reserved)
-}
-
-func (d *Descriptor) NewGroupReferenceList(size, reserved int) GroupReferenceList {
-	return make(GroupReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(GroupReferenceList, size, reserved)
 }
-func (d *Descriptor) NewGroupParentNameList(size, reserved int) GroupParentNameList {
-	return make(GroupParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(GroupParentNameList, size, reserved)
-}
-func (d *Descriptor) NewGroupParentReferenceList(size, reserved int) GroupParentReferenceList {
-	return make(GroupParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(GroupParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewGroupMap(reserved int) GroupMap {
-	return make(GroupMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(GroupMap, reserved)
-}
-func (d *Descriptor) NewGroupChangeMap(reserved int) GroupChangeMap {
-	return make(GroupChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseGroup_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseGroupName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initGroupDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Group", "Groups", "iam.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Group_FieldTerminalPath{selector: Group_FieldPathSelectorName},
+			"pattern", "groupId",
+			[]string{"projectId", "organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initGroupDescriptor()
 }

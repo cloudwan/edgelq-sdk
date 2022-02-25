@@ -34,15 +34,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"MetricDescriptor", "MetricDescriptors", "monitoring.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorName},
-			"pattern", "metricDescriptorId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -54,19 +46,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewMetricDescriptor() *MetricDescriptor {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &MetricDescriptor{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewMetricDescriptor()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewMetricDescriptorName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -85,30 +69,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewMetricDescriptorCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewMetricDescriptorCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewMetricDescriptorChange() *MetricDescriptorChange {
-	return &MetricDescriptorChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &MetricDescriptor_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewMetricDescriptorChange()
-}
-
-func (d *Descriptor) NewMetricDescriptorQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &MetricDescriptorChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewMetricDescriptorQueryResultSnapshot()
-}
-func (d *Descriptor) NewMetricDescriptorQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -116,63 +99,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewMetricDescriptorQueryResultChange()
-}
-
-func (d *Descriptor) NewMetricDescriptorList(size, reserved int) MetricDescriptorList {
-	return make(MetricDescriptorList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(MetricDescriptorList, size, reserved)
-}
-func (d *Descriptor) NewMetricDescriptorChangeList(size, reserved int) MetricDescriptorChangeList {
-	return make(MetricDescriptorChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(MetricDescriptorChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewMetricDescriptorNameList(size, reserved int) MetricDescriptorNameList {
-	return make(MetricDescriptorNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(MetricDescriptorNameList, size, reserved)
-}
-
-func (d *Descriptor) NewMetricDescriptorReferenceList(size, reserved int) MetricDescriptorReferenceList {
-	return make(MetricDescriptorReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(MetricDescriptorReferenceList, size, reserved)
 }
-func (d *Descriptor) NewMetricDescriptorParentNameList(size, reserved int) MetricDescriptorParentNameList {
-	return make(MetricDescriptorParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(MetricDescriptorParentNameList, size, reserved)
-}
-func (d *Descriptor) NewMetricDescriptorParentReferenceList(size, reserved int) MetricDescriptorParentReferenceList {
-	return make(MetricDescriptorParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(MetricDescriptorParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewMetricDescriptorMap(reserved int) MetricDescriptorMap {
-	return make(MetricDescriptorMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(MetricDescriptorMap, reserved)
-}
-func (d *Descriptor) NewMetricDescriptorChangeMap(reserved int) MetricDescriptorChangeMap {
-	return make(MetricDescriptorChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -191,10 +146,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseMetricDescriptor_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseMetricDescriptorName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initMetricDescriptorDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"MetricDescriptor", "MetricDescriptors", "monitoring.edgelq.com", "v3"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorName},
+			"pattern", "metricDescriptorId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initMetricDescriptorDescriptor()
 }

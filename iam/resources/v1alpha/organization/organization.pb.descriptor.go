@@ -26,15 +26,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Organization", "Organizations", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorName},
-			"pattern", "organizationId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -46,19 +38,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewOrganization() *Organization {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Organization{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewOrganization()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewOrganizationName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -77,30 +61,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewOrganizationCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewOrganizationCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewOrganizationChange() *OrganizationChange {
-	return &OrganizationChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Organization_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewOrganizationChange()
-}
-
-func (d *Descriptor) NewOrganizationQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &OrganizationChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewOrganizationQueryResultSnapshot()
-}
-func (d *Descriptor) NewOrganizationQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -108,34 +91,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewOrganizationQueryResultChange()
-}
-
-func (d *Descriptor) NewOrganizationList(size, reserved int) OrganizationList {
-	return make(OrganizationList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(OrganizationList, size, reserved)
-}
-func (d *Descriptor) NewOrganizationChangeList(size, reserved int) OrganizationChangeList {
-	return make(OrganizationChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(OrganizationChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewOrganizationNameList(size, reserved int) OrganizationNameList {
-	return make(OrganizationNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(OrganizationNameList, size, reserved)
-}
-
-func (d *Descriptor) NewOrganizationReferenceList(size, reserved int) OrganizationReferenceList {
-	return make(OrganizationReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -150,15 +118,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewOrganizationMap(reserved int) OrganizationMap {
-	return make(OrganizationMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(OrganizationMap, reserved)
-}
-func (d *Descriptor) NewOrganizationChangeMap(reserved int) OrganizationChangeMap {
-	return make(OrganizationChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -177,10 +138,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseOrganization_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseOrganizationName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initOrganizationDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Organization", "Organizations", "iam.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorName},
+			"pattern", "organizationId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initOrganizationDescriptor()
 }

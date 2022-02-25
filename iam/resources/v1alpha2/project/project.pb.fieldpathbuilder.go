@@ -10,6 +10,7 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -19,6 +20,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -47,6 +49,9 @@ func (ProjectFieldPathBuilder) Metadata() ProjectPathSelectorMetadata {
 }
 func (ProjectFieldPathBuilder) MultiRegionPolicy() ProjectPathSelectorMultiRegionPolicy {
 	return ProjectPathSelectorMultiRegionPolicy{}
+}
+func (ProjectFieldPathBuilder) EnabledServices() ProjectPathSelectorEnabledServices {
+	return ProjectPathSelectorEnabledServices{}
 }
 
 type ProjectPathSelectorName struct{}
@@ -795,4 +800,22 @@ func (s ProjectPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion) W
 
 func (s ProjectPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *Project_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
+}
+
+type ProjectPathSelectorEnabledServices struct{}
+
+func (ProjectPathSelectorEnabledServices) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices}
+}
+
+func (s ProjectPathSelectorEnabledServices) WithValue(value []*meta_service.Reference) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+func (s ProjectPathSelectorEnabledServices) WithItemValue(value *meta_service.Reference) *Project_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
 }

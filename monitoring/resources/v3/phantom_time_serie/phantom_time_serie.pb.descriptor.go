@@ -32,15 +32,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"PhantomTimeSerie", "PhantomTimeSeries", "monitoring.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&PhantomTimeSerie_FieldTerminalPath{selector: PhantomTimeSerie_FieldPathSelectorName},
-			"pattern", "phantomTimeSerieId",
-			[]string{"projectId", "regionId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -52,19 +44,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewPhantomTimeSerie() *PhantomTimeSerie {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &PhantomTimeSerie{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewPhantomTimeSerie()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewPhantomTimeSerieName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -83,30 +67,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewPhantomTimeSerieCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewPhantomTimeSerieCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewPhantomTimeSerieChange() *PhantomTimeSerieChange {
-	return &PhantomTimeSerieChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &PhantomTimeSerie_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewPhantomTimeSerieChange()
-}
-
-func (d *Descriptor) NewPhantomTimeSerieQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &PhantomTimeSerieChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewPhantomTimeSerieQueryResultSnapshot()
-}
-func (d *Descriptor) NewPhantomTimeSerieQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -114,63 +97,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewPhantomTimeSerieQueryResultChange()
-}
-
-func (d *Descriptor) NewPhantomTimeSerieList(size, reserved int) PhantomTimeSerieList {
-	return make(PhantomTimeSerieList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(PhantomTimeSerieList, size, reserved)
-}
-func (d *Descriptor) NewPhantomTimeSerieChangeList(size, reserved int) PhantomTimeSerieChangeList {
-	return make(PhantomTimeSerieChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(PhantomTimeSerieChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewPhantomTimeSerieNameList(size, reserved int) PhantomTimeSerieNameList {
-	return make(PhantomTimeSerieNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(PhantomTimeSerieNameList, size, reserved)
-}
-
-func (d *Descriptor) NewPhantomTimeSerieReferenceList(size, reserved int) PhantomTimeSerieReferenceList {
-	return make(PhantomTimeSerieReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(PhantomTimeSerieReferenceList, size, reserved)
 }
-func (d *Descriptor) NewPhantomTimeSerieParentNameList(size, reserved int) PhantomTimeSerieParentNameList {
-	return make(PhantomTimeSerieParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(PhantomTimeSerieParentNameList, size, reserved)
-}
-func (d *Descriptor) NewPhantomTimeSerieParentReferenceList(size, reserved int) PhantomTimeSerieParentReferenceList {
-	return make(PhantomTimeSerieParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(PhantomTimeSerieParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewPhantomTimeSerieMap(reserved int) PhantomTimeSerieMap {
-	return make(PhantomTimeSerieMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(PhantomTimeSerieMap, reserved)
-}
-func (d *Descriptor) NewPhantomTimeSerieChangeMap(reserved int) PhantomTimeSerieChangeMap {
-	return make(PhantomTimeSerieChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -189,10 +144,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParsePhantomTimeSerie_FieldPath(raw)
 }
 
-func (d *Descriptor) ParsePhantomTimeSerieName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initPhantomTimeSerieDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"PhantomTimeSerie", "PhantomTimeSeries", "monitoring.edgelq.com", "v3"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&PhantomTimeSerie_FieldTerminalPath{selector: PhantomTimeSerie_FieldPathSelectorName},
+			"pattern", "phantomTimeSerieId",
+			[]string{"projectId", "regionId"},
+			[]gotenresource.NamePattern{NamePattern_Project_Region}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initPhantomTimeSerieDescriptor()
 }

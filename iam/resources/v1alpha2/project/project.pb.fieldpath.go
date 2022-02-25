@@ -27,6 +27,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 // ensure the imports are used
@@ -53,6 +54,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &policy.Policy{}
+	_ = &meta_service.Service{}
 )
 
 // FieldPath provides implementation to handle
@@ -81,6 +83,7 @@ const (
 	Project_FieldPathSelectorAncestryPath       Project_FieldPathSelector = 4
 	Project_FieldPathSelectorMetadata           Project_FieldPathSelector = 5
 	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 6
+	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 7
 )
 
 func (s Project_FieldPathSelector) String() string {
@@ -99,6 +102,8 @@ func (s Project_FieldPathSelector) String() string {
 		return "metadata"
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return "multi_region_policy"
+	case Project_FieldPathSelectorEnabledServices:
+		return "enabled_services"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", s))
 	}
@@ -124,6 +129,8 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMetadata}, nil
 		case "multi_region_policy", "multiRegionPolicy", "multi-region-policy":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy}, nil
+		case "enabled_services", "enabledServices", "enabled-services":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -210,6 +217,10 @@ func (fp *Project_FieldTerminalPath) Get(source *Project) (values []interface{})
 			if source.MultiRegionPolicy != nil {
 				values = append(values, source.MultiRegionPolicy)
 			}
+		case Project_FieldPathSelectorEnabledServices:
+			for _, value := range source.GetEnabledServices() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -244,6 +255,9 @@ func (fp *Project_FieldTerminalPath) GetSingle(source *Project) (interface{}, bo
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		res := source.GetMultiRegionPolicy()
 		return res, res != nil
+	case Project_FieldPathSelectorEnabledServices:
+		res := source.GetEnabledServices()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -270,6 +284,8 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 		return (*ntt_meta.Meta)(nil)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return (*policy.Policy)(nil)
+	case Project_FieldPathSelectorEnabledServices:
+		return ([]*meta_service.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -292,6 +308,8 @@ func (fp *Project_FieldTerminalPath) ClearValue(item *Project) {
 			item.Metadata = nil
 		case Project_FieldPathSelectorMultiRegionPolicy:
 			item.MultiRegionPolicy = nil
+		case Project_FieldPathSelectorEnabledServices:
+			item.EnabledServices = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -308,7 +326,8 @@ func (fp *Project_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Project_FieldPathSelectorTitle ||
 		fp.selector == Project_FieldPathSelectorParentOrganization ||
 		fp.selector == Project_FieldPathSelectorRootOrganization ||
-		fp.selector == Project_FieldPathSelectorAncestryPath
+		fp.selector == Project_FieldPathSelectorAncestryPath ||
+		fp.selector == Project_FieldPathSelectorEnabledServices
 }
 
 func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_FieldPathValue {
@@ -327,6 +346,8 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*policy.Policy)}
+	case Project_FieldPathSelectorEnabledServices:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*meta_service.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -353,6 +374,8 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*policy.Policy)}
+	case Project_FieldPathSelectorEnabledServices:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*meta_service.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -367,6 +390,8 @@ func (fp *Project_FieldTerminalPath) WithIArrayItemValue(value interface{}) Proj
 	switch fp.selector {
 	case Project_FieldPathSelectorAncestryPath:
 		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*organization.Reference)}
+	case Project_FieldPathSelectorEnabledServices:
+		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -561,6 +586,10 @@ func (fpv *Project_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*policy.P
 	res, ok := fpv.value.(*policy.Policy)
 	return res, ok
 }
+func (fpv *Project_FieldTerminalPathValue) AsEnabledServicesValue() ([]*meta_service.Reference, bool) {
+	res, ok := fpv.value.([]*meta_service.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Project
 func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
@@ -582,6 +611,8 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		(*target).MultiRegionPolicy = fpv.value.(*policy.Policy)
+	case Project_FieldPathSelectorEnabledServices:
+		(*target).EnabledServices = fpv.value.([]*meta_service.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -667,6 +698,8 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 	case Project_FieldPathSelectorMetadata:
 		return 0, false
 	case Project_FieldPathSelectorMultiRegionPolicy:
+		return 0, false
+	case Project_FieldPathSelectorEnabledServices:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
@@ -773,6 +806,10 @@ func (fpaiv *Project_FieldTerminalPathArrayItemValue) GetRawItemValue() interfac
 }
 func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsAncestryPathItemValue() (*organization.Reference, bool) {
 	res, ok := fpaiv.value.(*organization.Reference)
+	return res, ok
+}
+func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsEnabledServicesItemValue() (*meta_service.Reference, bool) {
+	res, ok := fpaiv.value.(*meta_service.Reference)
 	return res, ok
 }
 
@@ -888,6 +925,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([]*policy.Policy) {
 			values = append(values, v)
 		}
+	case Project_FieldPathSelectorEnabledServices:
+		for _, v := range fpaov.values.([][]*meta_service.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -917,6 +958,10 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() (
 }
 func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*policy.Policy, bool) {
 	res, ok := fpaov.values.([]*policy.Policy)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsEnabledServicesArrayOfValues() ([][]*meta_service.Reference, bool) {
+	res, ok := fpaov.values.([][]*meta_service.Reference)
 	return res, ok
 }
 

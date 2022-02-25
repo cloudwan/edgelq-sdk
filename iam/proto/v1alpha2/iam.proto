@@ -40,6 +40,7 @@ import "edgelq-sdk/iam/proto/v1alpha2/service_account_service.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/user.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/user_custom.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/user_service.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/meta.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Project", "Projects", "proxies.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Project_FieldTerminalPath{selector: Project_FieldPathSelectorName},
-			"pattern", "projectId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewProject() *Project {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Project{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewProject()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewProjectName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewProjectCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewProjectCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewProjectChange() *ProjectChange {
-	return &ProjectChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Project_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewProjectChange()
-}
-
-func (d *Descriptor) NewProjectQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ProjectChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewProjectQueryResultSnapshot()
-}
-func (d *Descriptor) NewProjectQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,34 +93,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewProjectQueryResultChange()
-}
-
-func (d *Descriptor) NewProjectList(size, reserved int) ProjectList {
-	return make(ProjectList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ProjectList, size, reserved)
-}
-func (d *Descriptor) NewProjectChangeList(size, reserved int) ProjectChangeList {
-	return make(ProjectChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ProjectChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewProjectNameList(size, reserved int) ProjectNameList {
-	return make(ProjectNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ProjectNameList, size, reserved)
-}
-
-func (d *Descriptor) NewProjectReferenceList(size, reserved int) ProjectReferenceList {
-	return make(ProjectReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -152,15 +120,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewProjectMap(reserved int) ProjectMap {
-	return make(ProjectMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ProjectMap, reserved)
-}
-func (d *Descriptor) NewProjectChangeMap(reserved int) ProjectChangeMap {
-	return make(ProjectChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -179,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseProject_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseProjectName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initProjectDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Project", "Projects", "proxies.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Project_FieldTerminalPath{selector: Project_FieldPathSelectorName},
+			"pattern", "projectId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initProjectDescriptor()
 }

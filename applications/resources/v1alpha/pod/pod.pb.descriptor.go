@@ -32,15 +32,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Pod", "Pods", "applications.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorName},
-			"pattern", "podId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -52,19 +44,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewPod() *Pod {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Pod{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewPod()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewPodName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -83,30 +67,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewPodCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewPodCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewPodChange() *PodChange {
-	return &PodChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Pod_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewPodChange()
-}
-
-func (d *Descriptor) NewPodQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &PodChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewPodQueryResultSnapshot()
-}
-func (d *Descriptor) NewPodQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -114,63 +97,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewPodQueryResultChange()
-}
-
-func (d *Descriptor) NewPodList(size, reserved int) PodList {
-	return make(PodList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(PodList, size, reserved)
-}
-func (d *Descriptor) NewPodChangeList(size, reserved int) PodChangeList {
-	return make(PodChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(PodChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewPodNameList(size, reserved int) PodNameList {
-	return make(PodNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(PodNameList, size, reserved)
-}
-
-func (d *Descriptor) NewPodReferenceList(size, reserved int) PodReferenceList {
-	return make(PodReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(PodReferenceList, size, reserved)
 }
-func (d *Descriptor) NewPodParentNameList(size, reserved int) PodParentNameList {
-	return make(PodParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(PodParentNameList, size, reserved)
-}
-func (d *Descriptor) NewPodParentReferenceList(size, reserved int) PodParentReferenceList {
-	return make(PodParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(PodParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewPodMap(reserved int) PodMap {
-	return make(PodMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(PodMap, reserved)
-}
-func (d *Descriptor) NewPodChangeMap(reserved int) PodChangeMap {
-	return make(PodChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -189,10 +144,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParsePod_FieldPath(raw)
 }
 
-func (d *Descriptor) ParsePodName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initPodDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Pod", "Pods", "applications.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorName},
+			"pattern", "podId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initPodDescriptor()
 }

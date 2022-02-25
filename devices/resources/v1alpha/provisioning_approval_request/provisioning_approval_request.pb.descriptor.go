@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ProvisioningApprovalRequest", "ProvisioningApprovalRequests", "devices.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ProvisioningApprovalRequest_FieldTerminalPath{selector: ProvisioningApprovalRequest_FieldPathSelectorName},
-			"pattern", "provisioningApprovalRequestId",
-			[]string{"projectId", "provisioningPolicyId"},
-			[]gotenresource.NamePattern{NamePattern_Project_ProvisioningPolicy}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewProvisioningApprovalRequest() *ProvisioningApprovalRequest {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ProvisioningApprovalRequest{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewProvisioningApprovalRequest()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewProvisioningApprovalRequestName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewProvisioningApprovalRequestCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewProvisioningApprovalRequestCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewProvisioningApprovalRequestChange() *ProvisioningApprovalRequestChange {
-	return &ProvisioningApprovalRequestChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ProvisioningApprovalRequest_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewProvisioningApprovalRequestChange()
-}
-
-func (d *Descriptor) NewProvisioningApprovalRequestQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ProvisioningApprovalRequestChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewProvisioningApprovalRequestQueryResultSnapshot()
-}
-func (d *Descriptor) NewProvisioningApprovalRequestQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewProvisioningApprovalRequestQueryResultChange()
-}
-
-func (d *Descriptor) NewProvisioningApprovalRequestList(size, reserved int) ProvisioningApprovalRequestList {
-	return make(ProvisioningApprovalRequestList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ProvisioningApprovalRequestList, size, reserved)
-}
-func (d *Descriptor) NewProvisioningApprovalRequestChangeList(size, reserved int) ProvisioningApprovalRequestChangeList {
-	return make(ProvisioningApprovalRequestChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ProvisioningApprovalRequestChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewProvisioningApprovalRequestNameList(size, reserved int) ProvisioningApprovalRequestNameList {
-	return make(ProvisioningApprovalRequestNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ProvisioningApprovalRequestNameList, size, reserved)
-}
-
-func (d *Descriptor) NewProvisioningApprovalRequestReferenceList(size, reserved int) ProvisioningApprovalRequestReferenceList {
-	return make(ProvisioningApprovalRequestReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ProvisioningApprovalRequestReferenceList, size, reserved)
 }
-func (d *Descriptor) NewProvisioningApprovalRequestParentNameList(size, reserved int) ProvisioningApprovalRequestParentNameList {
-	return make(ProvisioningApprovalRequestParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ProvisioningApprovalRequestParentNameList, size, reserved)
-}
-func (d *Descriptor) NewProvisioningApprovalRequestParentReferenceList(size, reserved int) ProvisioningApprovalRequestParentReferenceList {
-	return make(ProvisioningApprovalRequestParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ProvisioningApprovalRequestParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewProvisioningApprovalRequestMap(reserved int) ProvisioningApprovalRequestMap {
-	return make(ProvisioningApprovalRequestMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ProvisioningApprovalRequestMap, reserved)
-}
-func (d *Descriptor) NewProvisioningApprovalRequestChangeMap(reserved int) ProvisioningApprovalRequestChangeMap {
-	return make(ProvisioningApprovalRequestChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseProvisioningApprovalRequest_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseProvisioningApprovalRequestName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initProvisioningApprovalRequestDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ProvisioningApprovalRequest", "ProvisioningApprovalRequests", "devices.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ProvisioningApprovalRequest_FieldTerminalPath{selector: ProvisioningApprovalRequest_FieldPathSelectorName},
+			"pattern", "provisioningApprovalRequestId",
+			[]string{"projectId", "provisioningPolicyId"},
+			[]gotenresource.NamePattern{NamePattern_Project_ProvisioningPolicy}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initProvisioningApprovalRequestDescriptor()
 }

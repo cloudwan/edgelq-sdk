@@ -26,15 +26,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Region", "Regions", "meta.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Region_FieldTerminalPath{selector: Region_FieldPathSelectorName},
-			"pattern", "regionId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -46,19 +38,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewRegion() *Region {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Region{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewRegion()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewRegionName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -77,30 +61,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewRegionCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewRegionCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewRegionChange() *RegionChange {
-	return &RegionChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Region_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewRegionChange()
-}
-
-func (d *Descriptor) NewRegionQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &RegionChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewRegionQueryResultSnapshot()
-}
-func (d *Descriptor) NewRegionQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -108,34 +91,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewRegionQueryResultChange()
-}
-
-func (d *Descriptor) NewRegionList(size, reserved int) RegionList {
-	return make(RegionList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(RegionList, size, reserved)
-}
-func (d *Descriptor) NewRegionChangeList(size, reserved int) RegionChangeList {
-	return make(RegionChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(RegionChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewRegionNameList(size, reserved int) RegionNameList {
-	return make(RegionNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(RegionNameList, size, reserved)
-}
-
-func (d *Descriptor) NewRegionReferenceList(size, reserved int) RegionReferenceList {
-	return make(RegionReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -150,15 +118,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewRegionMap(reserved int) RegionMap {
-	return make(RegionMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(RegionMap, reserved)
-}
-func (d *Descriptor) NewRegionChangeMap(reserved int) RegionChangeMap {
-	return make(RegionChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -177,10 +138,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseRegion_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseRegionName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initRegionDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Region", "Regions", "meta.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Region_FieldTerminalPath{selector: Region_FieldPathSelectorName},
+			"pattern", "regionId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initRegionDescriptor()
 }

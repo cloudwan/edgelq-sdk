@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiServiceAccountAccess) SaveServiceAccount(ctx context.Context, res *s
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetServiceAccount(ctx, &service_account.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiServiceAccountAccess) SaveServiceAccount(ctx context.Context, res *s
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &service_account_client.UpdateServiceAccountRequest{
 			ServiceAccount: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*service_account.ServiceAccount_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &service_account_client.UpdateServiceAccountRequest_CAS{
+				ConditionalState: conditionalState.(*service_account.ServiceAccount),
+				FieldMask:        mask.(*service_account.ServiceAccount_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateServiceAccount(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiServiceAccountAccess) DeleteServiceAccount(ctx context.Context, ref 
 	}
 	_, err := a.client.DeleteServiceAccount(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(service_account.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return service_account.AsAnyCastAccess(NewApiServiceAccountAccess(service_account_client.NewServiceAccountServiceClient(cc)))
+	})
 }

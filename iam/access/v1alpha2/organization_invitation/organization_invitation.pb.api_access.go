@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiOrganizationInvitationAccess) SaveOrganizationInvitation(ctx context
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetOrganizationInvitation(ctx, &organization_invitation.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiOrganizationInvitationAccess) SaveOrganizationInvitation(ctx context
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &organization_invitation_client.UpdateOrganizationInvitationRequest{
 			OrganizationInvitation: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*organization_invitation.OrganizationInvitation_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &organization_invitation_client.UpdateOrganizationInvitationRequest_CAS{
+				ConditionalState: conditionalState.(*organization_invitation.OrganizationInvitation),
+				FieldMask:        mask.(*organization_invitation.OrganizationInvitation_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateOrganizationInvitation(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiOrganizationInvitationAccess) DeleteOrganizationInvitation(ctx conte
 	}
 	_, err := a.client.DeleteOrganizationInvitation(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(organization_invitation.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return organization_invitation.AsAnyCastAccess(NewApiOrganizationInvitationAccess(organization_invitation_client.NewOrganizationInvitationServiceClient(cc)))
+	})
 }

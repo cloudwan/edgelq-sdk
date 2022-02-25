@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetMethodDescriptor(ctx, &method_descriptor.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &method_descriptor_client.UpdateMethodDescriptorRequest{
 			MethodDescriptor: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*method_descriptor.MethodDescriptor_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &method_descriptor_client.UpdateMethodDescriptorRequest_CAS{
+				ConditionalState: conditionalState.(*method_descriptor.MethodDescriptor),
+				FieldMask:        mask.(*method_descriptor.MethodDescriptor_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateMethodDescriptor(ctx, updateRequest)
 		if err != nil {
@@ -189,4 +202,10 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 
 func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
 	return fmt.Errorf("Delete operation on MethodDescriptor is prohibited")
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(method_descriptor.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return method_descriptor.AsAnyCastAccess(NewApiMethodDescriptorAccess(method_descriptor_client.NewMethodDescriptorServiceClient(cc)))
+	})
 }

@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"OrganizationInvitation", "OrganizationInvitations", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&OrganizationInvitation_FieldTerminalPath{selector: OrganizationInvitation_FieldPathSelectorName},
-			"pattern", "organizationInvitationId",
-			[]string{"organizationId"},
-			[]gotenresource.NamePattern{NamePattern_Organization}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewOrganizationInvitation() *OrganizationInvitation {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &OrganizationInvitation{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewOrganizationInvitation()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewOrganizationInvitationName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewOrganizationInvitationCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewOrganizationInvitationCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewOrganizationInvitationChange() *OrganizationInvitationChange {
-	return &OrganizationInvitationChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &OrganizationInvitation_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewOrganizationInvitationChange()
-}
-
-func (d *Descriptor) NewOrganizationInvitationQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &OrganizationInvitationChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewOrganizationInvitationQueryResultSnapshot()
-}
-func (d *Descriptor) NewOrganizationInvitationQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,63 +93,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewOrganizationInvitationQueryResultChange()
-}
-
-func (d *Descriptor) NewOrganizationInvitationList(size, reserved int) OrganizationInvitationList {
-	return make(OrganizationInvitationList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(OrganizationInvitationList, size, reserved)
-}
-func (d *Descriptor) NewOrganizationInvitationChangeList(size, reserved int) OrganizationInvitationChangeList {
-	return make(OrganizationInvitationChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(OrganizationInvitationChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewOrganizationInvitationNameList(size, reserved int) OrganizationInvitationNameList {
-	return make(OrganizationInvitationNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(OrganizationInvitationNameList, size, reserved)
-}
-
-func (d *Descriptor) NewOrganizationInvitationReferenceList(size, reserved int) OrganizationInvitationReferenceList {
-	return make(OrganizationInvitationReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(OrganizationInvitationReferenceList, size, reserved)
 }
-func (d *Descriptor) NewOrganizationInvitationParentNameList(size, reserved int) OrganizationInvitationParentNameList {
-	return make(OrganizationInvitationParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(OrganizationInvitationParentNameList, size, reserved)
-}
-func (d *Descriptor) NewOrganizationInvitationParentReferenceList(size, reserved int) OrganizationInvitationParentReferenceList {
-	return make(OrganizationInvitationParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(OrganizationInvitationParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewOrganizationInvitationMap(reserved int) OrganizationInvitationMap {
-	return make(OrganizationInvitationMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(OrganizationInvitationMap, reserved)
-}
-func (d *Descriptor) NewOrganizationInvitationChangeMap(reserved int) OrganizationInvitationChangeMap {
-	return make(OrganizationInvitationChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -185,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseOrganizationInvitation_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseOrganizationInvitationName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initOrganizationInvitationDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"OrganizationInvitation", "OrganizationInvitations", "iam.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&OrganizationInvitation_FieldTerminalPath{selector: OrganizationInvitation_FieldPathSelectorName},
+			"pattern", "organizationInvitationId",
+			[]string{"organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Organization}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initOrganizationInvitationDescriptor()
 }

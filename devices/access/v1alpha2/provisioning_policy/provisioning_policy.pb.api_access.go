@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiProvisioningPolicyAccess) SaveProvisioningPolicy(ctx context.Context
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetProvisioningPolicy(ctx, &provisioning_policy.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiProvisioningPolicyAccess) SaveProvisioningPolicy(ctx context.Context
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &provisioning_policy_client.UpdateProvisioningPolicyRequest{
 			ProvisioningPolicy: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*provisioning_policy.ProvisioningPolicy_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &provisioning_policy_client.UpdateProvisioningPolicyRequest_CAS{
+				ConditionalState: conditionalState.(*provisioning_policy.ProvisioningPolicy),
+				FieldMask:        mask.(*provisioning_policy.ProvisioningPolicy_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateProvisioningPolicy(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiProvisioningPolicyAccess) DeleteProvisioningPolicy(ctx context.Conte
 	}
 	_, err := a.client.DeleteProvisioningPolicy(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(provisioning_policy.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return provisioning_policy.AsAnyCastAccess(NewApiProvisioningPolicyAccess(provisioning_policy_client.NewProvisioningPolicyServiceClient(cc)))
+	})
 }

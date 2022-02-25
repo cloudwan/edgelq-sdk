@@ -36,15 +36,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ProvisioningPolicy", "ProvisioningPolicies", "devices.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorName},
-			"pattern", "provisioningPolicyId",
-			[]string{"projectId", "regionId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -56,19 +48,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewProvisioningPolicy() *ProvisioningPolicy {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ProvisioningPolicy{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewProvisioningPolicy()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewProvisioningPolicyName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -87,30 +71,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewProvisioningPolicyCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewProvisioningPolicyCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewProvisioningPolicyChange() *ProvisioningPolicyChange {
-	return &ProvisioningPolicyChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ProvisioningPolicy_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewProvisioningPolicyChange()
-}
-
-func (d *Descriptor) NewProvisioningPolicyQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ProvisioningPolicyChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewProvisioningPolicyQueryResultSnapshot()
-}
-func (d *Descriptor) NewProvisioningPolicyQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -118,63 +101,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewProvisioningPolicyQueryResultChange()
-}
-
-func (d *Descriptor) NewProvisioningPolicyList(size, reserved int) ProvisioningPolicyList {
-	return make(ProvisioningPolicyList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ProvisioningPolicyList, size, reserved)
-}
-func (d *Descriptor) NewProvisioningPolicyChangeList(size, reserved int) ProvisioningPolicyChangeList {
-	return make(ProvisioningPolicyChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ProvisioningPolicyChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewProvisioningPolicyNameList(size, reserved int) ProvisioningPolicyNameList {
-	return make(ProvisioningPolicyNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ProvisioningPolicyNameList, size, reserved)
-}
-
-func (d *Descriptor) NewProvisioningPolicyReferenceList(size, reserved int) ProvisioningPolicyReferenceList {
-	return make(ProvisioningPolicyReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ProvisioningPolicyReferenceList, size, reserved)
 }
-func (d *Descriptor) NewProvisioningPolicyParentNameList(size, reserved int) ProvisioningPolicyParentNameList {
-	return make(ProvisioningPolicyParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ProvisioningPolicyParentNameList, size, reserved)
-}
-func (d *Descriptor) NewProvisioningPolicyParentReferenceList(size, reserved int) ProvisioningPolicyParentReferenceList {
-	return make(ProvisioningPolicyParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ProvisioningPolicyParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewProvisioningPolicyMap(reserved int) ProvisioningPolicyMap {
-	return make(ProvisioningPolicyMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ProvisioningPolicyMap, reserved)
-}
-func (d *Descriptor) NewProvisioningPolicyChangeMap(reserved int) ProvisioningPolicyChangeMap {
-	return make(ProvisioningPolicyChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -193,10 +148,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseProvisioningPolicy_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseProvisioningPolicyName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initProvisioningPolicyDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ProvisioningPolicy", "ProvisioningPolicies", "devices.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorName},
+			"pattern", "provisioningPolicyId",
+			[]string{"projectId", "regionId"},
+			[]gotenresource.NamePattern{NamePattern_Project_Region}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initProvisioningPolicyDescriptor()
 }

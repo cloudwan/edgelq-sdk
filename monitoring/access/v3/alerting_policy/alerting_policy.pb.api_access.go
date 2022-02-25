@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetAlertingPolicy(ctx, &alerting_policy.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &alerting_policy_client.UpdateAlertingPolicyRequest{
 			AlertingPolicy: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*alerting_policy.AlertingPolicy_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &alerting_policy_client.UpdateAlertingPolicyRequest_CAS{
+				ConditionalState: conditionalState.(*alerting_policy.AlertingPolicy),
+				FieldMask:        mask.(*alerting_policy.AlertingPolicy_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateAlertingPolicy(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref 
 	}
 	_, err := a.client.DeleteAlertingPolicy(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(alerting_policy.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return alerting_policy.AsAnyCastAccess(NewApiAlertingPolicyAccess(alerting_policy_client.NewAlertingPolicyServiceClient(cc)))
+	})
 }

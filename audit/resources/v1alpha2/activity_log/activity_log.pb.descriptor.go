@@ -38,15 +38,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ActivityLog", "ActivityLogs", "audit.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorName},
-			"pattern", "activityLogId",
-			[]string{"projectId", "organizationId"},
-			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -58,19 +50,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewActivityLog() *ActivityLog {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ActivityLog{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewActivityLog()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewActivityLogName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -94,6 +78,18 @@ func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return nil
 }
 
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
+}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return nil
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ActivityLog_FieldMask{}
+}
+
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
 	return nil
 }
@@ -110,10 +106,6 @@ func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
 	return nil
 }
 
-func (d *Descriptor) NewActivityLogList(size, reserved int) ActivityLogList {
-	return make(ActivityLogList, size, reserved)
-}
-
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ActivityLogList, size, reserved)
 }
@@ -122,38 +114,20 @@ func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.Res
 	return nil
 }
 
-func (d *Descriptor) NewActivityLogNameList(size, reserved int) ActivityLogNameList {
-	return make(ActivityLogNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ActivityLogNameList, size, reserved)
-}
-
-func (d *Descriptor) NewActivityLogReferenceList(size, reserved int) ActivityLogReferenceList {
-	return make(ActivityLogReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ActivityLogReferenceList, size, reserved)
 }
-func (d *Descriptor) NewActivityLogParentNameList(size, reserved int) ActivityLogParentNameList {
-	return make(ActivityLogParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ActivityLogParentNameList, size, reserved)
 }
-func (d *Descriptor) NewActivityLogParentReferenceList(size, reserved int) ActivityLogParentReferenceList {
-	return make(ActivityLogParentReferenceList, size, reserved)
-}
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ActivityLogParentReferenceList, size, reserved)
-}
-
-func (d *Descriptor) NewActivityLogMap(reserved int) ActivityLogMap {
-	return make(ActivityLogMap, reserved)
 }
 
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
@@ -176,10 +150,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseActivityLog_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseActivityLogName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initActivityLogDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ActivityLog", "ActivityLogs", "audit.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorName},
+			"pattern", "activityLogId",
+			[]string{"projectId", "organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initActivityLogDescriptor()
 }

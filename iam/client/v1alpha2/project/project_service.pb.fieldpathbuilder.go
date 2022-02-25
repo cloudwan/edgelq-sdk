@@ -11,6 +11,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -25,6 +26,7 @@ var (
 	_ = &project.Project{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -238,6 +240,10 @@ func (BatchGetProjectsResponsePathSelectorProjects) Metadata() BatchGetProjectsR
 
 func (BatchGetProjectsResponsePathSelectorProjects) MultiRegionPolicy() BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy {
 	return BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy{}
+}
+
+func (BatchGetProjectsResponsePathSelectorProjects) EnabledServices() BatchGetProjectsResponsePathSelectorProjectsEnabledServices {
+	return BatchGetProjectsResponsePathSelectorProjectsEnabledServices{}
 }
 
 type BatchGetProjectsResponsePathSelectorProjectsName struct{}
@@ -977,6 +983,27 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaFor
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
+type BatchGetProjectsResponsePathSelectorProjectsEnabledServices struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsEnabledServices) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsEnabledServices) WithValue(value []*meta_service.Reference) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsEnabledServices) WithItemValue(value *meta_service.Reference) *BatchGetProjectsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetProjectsResponse_FieldSubPathArrayItemValue)
+}
+
 type BatchGetProjectsResponsePathSelectorMissing struct{}
 
 func (BatchGetProjectsResponsePathSelectorMissing) FieldPath() *BatchGetProjectsResponse_FieldTerminalPath {
@@ -1177,6 +1204,10 @@ func (ListProjectsResponsePathSelectorProjects) Metadata() ListProjectsResponseP
 
 func (ListProjectsResponsePathSelectorProjects) MultiRegionPolicy() ListProjectsResponsePathSelectorProjectsMultiRegionPolicy {
 	return ListProjectsResponsePathSelectorProjectsMultiRegionPolicy{}
+}
+
+func (ListProjectsResponsePathSelectorProjects) EnabledServices() ListProjectsResponsePathSelectorProjectsEnabledServices {
+	return ListProjectsResponsePathSelectorProjectsEnabledServices{}
 }
 
 type ListProjectsResponsePathSelectorProjectsName struct{}
@@ -1916,6 +1947,27 @@ func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisa
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
+type ListProjectsResponsePathSelectorProjectsEnabledServices struct{}
+
+func (ListProjectsResponsePathSelectorProjectsEnabledServices) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsEnabledServices) WithValue(value []*meta_service.Reference) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsEnabledServices) WithItemValue(value *meta_service.Reference) *ListProjectsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListProjectsResponse_FieldSubPathArrayItemValue)
+}
+
 type ListProjectsResponsePathSelectorPrevPageToken struct{}
 
 func (ListProjectsResponsePathSelectorPrevPageToken) FieldPath() *ListProjectsResponse_FieldTerminalPath {
@@ -2475,6 +2527,10 @@ func (CreateProjectRequestPathSelectorProject) Metadata() CreateProjectRequestPa
 
 func (CreateProjectRequestPathSelectorProject) MultiRegionPolicy() CreateProjectRequestPathSelectorProjectMultiRegionPolicy {
 	return CreateProjectRequestPathSelectorProjectMultiRegionPolicy{}
+}
+
+func (CreateProjectRequestPathSelectorProject) EnabledServices() CreateProjectRequestPathSelectorProjectEnabledServices {
+	return CreateProjectRequestPathSelectorProjectEnabledServices{}
 }
 
 type CreateProjectRequestPathSelectorProjectName struct{}
@@ -3214,6 +3270,27 @@ func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisab
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
+type CreateProjectRequestPathSelectorProjectEnabledServices struct{}
+
+func (CreateProjectRequestPathSelectorProjectEnabledServices) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectEnabledServices) WithValue(value []*meta_service.Reference) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (s CreateProjectRequestPathSelectorProjectEnabledServices) WithItemValue(value *meta_service.Reference) *CreateProjectRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CreateProjectRequest_FieldSubPathArrayItemValue)
+}
+
 type UpdateProjectRequestFieldPathBuilder struct{}
 
 func NewUpdateProjectRequestFieldPathBuilder() UpdateProjectRequestFieldPathBuilder {
@@ -3285,6 +3362,10 @@ func (UpdateProjectRequestPathSelectorProject) Metadata() UpdateProjectRequestPa
 
 func (UpdateProjectRequestPathSelectorProject) MultiRegionPolicy() UpdateProjectRequestPathSelectorProjectMultiRegionPolicy {
 	return UpdateProjectRequestPathSelectorProjectMultiRegionPolicy{}
+}
+
+func (UpdateProjectRequestPathSelectorProject) EnabledServices() UpdateProjectRequestPathSelectorProjectEnabledServices {
+	return UpdateProjectRequestPathSelectorProjectEnabledServices{}
 }
 
 type UpdateProjectRequestPathSelectorProjectName struct{}
@@ -4024,6 +4105,27 @@ func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisab
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
+type UpdateProjectRequestPathSelectorProjectEnabledServices struct{}
+
+func (UpdateProjectRequestPathSelectorProjectEnabledServices) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectEnabledServices) WithValue(value []*meta_service.Reference) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectEnabledServices) WithItemValue(value *meta_service.Reference) *UpdateProjectRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
+}
+
 type UpdateProjectRequestPathSelectorUpdateMask struct{}
 
 func (UpdateProjectRequestPathSelectorUpdateMask) FieldPath() *UpdateProjectRequest_FieldTerminalPath {
@@ -4119,6 +4221,10 @@ func (UpdateProjectRequestPathSelectorCasConditionalState) Metadata() UpdateProj
 
 func (UpdateProjectRequestPathSelectorCasConditionalState) MultiRegionPolicy() UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy {
 	return UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy{}
+}
+
+func (UpdateProjectRequestPathSelectorCasConditionalState) EnabledServices() UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices {
+	return UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices{}
 }
 
 type UpdateProjectRequestPathSelectorCasConditionalStateName struct{}
@@ -4858,6 +4964,27 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCrit
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
+type UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().EnabledServices().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices) WithValue(value []*meta_service.Reference) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateEnabledServices) WithItemValue(value *meta_service.Reference) *UpdateProjectRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
+}
+
 type UpdateProjectRequestPathSelectorCasFieldMask struct{}
 
 func (UpdateProjectRequestPathSelectorCasFieldMask) FieldPath() *UpdateProjectRequest_FieldSubPath {
@@ -4943,6 +5070,10 @@ func (UpdateProjectRequest_CASPathSelectorConditionalState) Metadata() UpdatePro
 
 func (UpdateProjectRequest_CASPathSelectorConditionalState) MultiRegionPolicy() UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy {
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy{}
+}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalState) EnabledServices() UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices{}
 }
 
 type UpdateProjectRequest_CASPathSelectorConditionalStateName struct{}
@@ -5680,6 +5811,27 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCri
 
 func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices) WithValue(value []*meta_service.Reference) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateEnabledServices) WithItemValue(value *meta_service.Reference) *UpdateProjectRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequestCAS_FieldSubPathArrayItemValue)
 }
 
 type UpdateProjectRequest_CASPathSelectorFieldMask struct{}

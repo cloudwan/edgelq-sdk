@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetAuditedResourceDescriptor(ctx, &audited_resource_descriptor.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &audited_resource_descriptor_client.UpdateAuditedResourceDescriptorRequest{
 			AuditedResourceDescriptor: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &audited_resource_descriptor_client.UpdateAuditedResourceDescriptorRequest_CAS{
+				ConditionalState: conditionalState.(*audited_resource_descriptor.AuditedResourceDescriptor),
+				FieldMask:        mask.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateAuditedResourceDescriptor(ctx, updateRequest)
 		if err != nil {
@@ -189,4 +202,10 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 
 func (a *apiAuditedResourceDescriptorAccess) DeleteAuditedResourceDescriptor(ctx context.Context, ref *audited_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
 	return fmt.Errorf("Delete operation on AuditedResourceDescriptor is prohibited")
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(audited_resource_descriptor.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return audited_resource_descriptor.AsAnyCastAccess(NewApiAuditedResourceDescriptorAccess(audited_resource_descriptor_client.NewAuditedResourceDescriptorServiceClient(cc)))
+	})
 }

@@ -5,8 +5,6 @@ package ntt.devices.v1alpha2;
 import "edgelq-sdk/devices/proto/v1alpha2/broker_custom.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device.proto";
 import "edgelq-sdk/devices/proto/v1alpha2/device_change.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

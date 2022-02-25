@@ -11,6 +11,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -22,6 +23,7 @@ var (
 	_ = &project.Project{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
@@ -134,6 +136,10 @@ func (ListMyProjectsResponsePathSelectorProjects) Metadata() ListMyProjectsRespo
 
 func (ListMyProjectsResponsePathSelectorProjects) MultiRegionPolicy() ListMyProjectsResponsePathSelectorProjectsMultiRegionPolicy {
 	return ListMyProjectsResponsePathSelectorProjectsMultiRegionPolicy{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjects) EnabledServices() ListMyProjectsResponsePathSelectorProjectsEnabledServices {
+	return ListMyProjectsResponsePathSelectorProjectsEnabledServices{}
 }
 
 type ListMyProjectsResponsePathSelectorProjectsName struct{}
@@ -871,4 +877,25 @@ func (s ListMyProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDi
 
 func (s ListMyProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsEnabledServices struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsEnabledServices) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithValue(value []*meta_service.Reference) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithArrayOfValues(values [][]*meta_service.Reference) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithItemValue(value *meta_service.Reference) *ListMyProjectsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
 }

@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"MonitoredResourceDescriptor", "MonitoredResourceDescriptors", "monitoring.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&MonitoredResourceDescriptor_FieldTerminalPath{selector: MonitoredResourceDescriptor_FieldPathSelectorName},
-			"pattern", "monitoredResourceDescriptorId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewMonitoredResourceDescriptor() *MonitoredResourceDescriptor {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &MonitoredResourceDescriptor{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewMonitoredResourceDescriptor()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewMonitoredResourceDescriptorName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewMonitoredResourceDescriptorCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewMonitoredResourceDescriptorCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewMonitoredResourceDescriptorChange() *MonitoredResourceDescriptorChange {
-	return &MonitoredResourceDescriptorChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &MonitoredResourceDescriptor_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewMonitoredResourceDescriptorChange()
-}
-
-func (d *Descriptor) NewMonitoredResourceDescriptorQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &MonitoredResourceDescriptorChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewMonitoredResourceDescriptorQueryResultSnapshot()
-}
-func (d *Descriptor) NewMonitoredResourceDescriptorQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,34 +93,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewMonitoredResourceDescriptorQueryResultChange()
-}
-
-func (d *Descriptor) NewMonitoredResourceDescriptorList(size, reserved int) MonitoredResourceDescriptorList {
-	return make(MonitoredResourceDescriptorList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(MonitoredResourceDescriptorList, size, reserved)
-}
-func (d *Descriptor) NewMonitoredResourceDescriptorChangeList(size, reserved int) MonitoredResourceDescriptorChangeList {
-	return make(MonitoredResourceDescriptorChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(MonitoredResourceDescriptorChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewMonitoredResourceDescriptorNameList(size, reserved int) MonitoredResourceDescriptorNameList {
-	return make(MonitoredResourceDescriptorNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(MonitoredResourceDescriptorNameList, size, reserved)
-}
-
-func (d *Descriptor) NewMonitoredResourceDescriptorReferenceList(size, reserved int) MonitoredResourceDescriptorReferenceList {
-	return make(MonitoredResourceDescriptorReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -152,15 +120,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewMonitoredResourceDescriptorMap(reserved int) MonitoredResourceDescriptorMap {
-	return make(MonitoredResourceDescriptorMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(MonitoredResourceDescriptorMap, reserved)
-}
-func (d *Descriptor) NewMonitoredResourceDescriptorChangeMap(reserved int) MonitoredResourceDescriptorChangeMap {
-	return make(MonitoredResourceDescriptorChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -179,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseMonitoredResourceDescriptor_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseMonitoredResourceDescriptorName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initMonitoredResourceDescriptorDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"MonitoredResourceDescriptor", "MonitoredResourceDescriptors", "monitoring.edgelq.com", "v3"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&MonitoredResourceDescriptor_FieldTerminalPath{selector: MonitoredResourceDescriptor_FieldPathSelectorName},
+			"pattern", "monitoredResourceDescriptorId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initMonitoredResourceDescriptorDescriptor()
 }

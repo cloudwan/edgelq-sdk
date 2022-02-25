@@ -32,15 +32,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"AlertingCondition", "AlertingConditions", "monitoring.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&AlertingCondition_FieldTerminalPath{selector: AlertingCondition_FieldPathSelectorName},
-			"pattern", "alertingConditionId",
-			[]string{"projectId", "regionId", "alertingPolicyId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region_AlertingPolicy}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -52,19 +44,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewAlertingCondition() *AlertingCondition {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &AlertingCondition{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewAlertingCondition()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewAlertingConditionName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -83,30 +67,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewAlertingConditionCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewAlertingConditionCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewAlertingConditionChange() *AlertingConditionChange {
-	return &AlertingConditionChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &AlertingCondition_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewAlertingConditionChange()
-}
-
-func (d *Descriptor) NewAlertingConditionQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &AlertingConditionChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewAlertingConditionQueryResultSnapshot()
-}
-func (d *Descriptor) NewAlertingConditionQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -114,63 +97,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewAlertingConditionQueryResultChange()
-}
-
-func (d *Descriptor) NewAlertingConditionList(size, reserved int) AlertingConditionList {
-	return make(AlertingConditionList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(AlertingConditionList, size, reserved)
-}
-func (d *Descriptor) NewAlertingConditionChangeList(size, reserved int) AlertingConditionChangeList {
-	return make(AlertingConditionChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(AlertingConditionChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewAlertingConditionNameList(size, reserved int) AlertingConditionNameList {
-	return make(AlertingConditionNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(AlertingConditionNameList, size, reserved)
-}
-
-func (d *Descriptor) NewAlertingConditionReferenceList(size, reserved int) AlertingConditionReferenceList {
-	return make(AlertingConditionReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(AlertingConditionReferenceList, size, reserved)
 }
-func (d *Descriptor) NewAlertingConditionParentNameList(size, reserved int) AlertingConditionParentNameList {
-	return make(AlertingConditionParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(AlertingConditionParentNameList, size, reserved)
-}
-func (d *Descriptor) NewAlertingConditionParentReferenceList(size, reserved int) AlertingConditionParentReferenceList {
-	return make(AlertingConditionParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(AlertingConditionParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewAlertingConditionMap(reserved int) AlertingConditionMap {
-	return make(AlertingConditionMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(AlertingConditionMap, reserved)
-}
-func (d *Descriptor) NewAlertingConditionChangeMap(reserved int) AlertingConditionChangeMap {
-	return make(AlertingConditionChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -189,10 +144,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseAlertingCondition_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseAlertingConditionName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initAlertingConditionDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"AlertingCondition", "AlertingConditions", "monitoring.edgelq.com", "v3"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&AlertingCondition_FieldTerminalPath{selector: AlertingCondition_FieldPathSelectorName},
+			"pattern", "alertingConditionId",
+			[]string{"projectId", "regionId", "alertingPolicyId"},
+			[]gotenresource.NamePattern{NamePattern_Project_Region_AlertingPolicy}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initAlertingConditionDescriptor()
 }

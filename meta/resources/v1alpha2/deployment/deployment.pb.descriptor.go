@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Deployment", "Deployments", "meta.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName},
-			"pattern", "deploymentId",
-			[]string{"serviceId"},
-			[]gotenresource.NamePattern{NamePattern_Service}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewDeployment() *Deployment {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Deployment{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewDeployment()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewDeploymentName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewDeploymentCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewDeploymentCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewDeploymentChange() *DeploymentChange {
-	return &DeploymentChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Deployment_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewDeploymentChange()
-}
-
-func (d *Descriptor) NewDeploymentQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &DeploymentChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewDeploymentQueryResultSnapshot()
-}
-func (d *Descriptor) NewDeploymentQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewDeploymentQueryResultChange()
-}
-
-func (d *Descriptor) NewDeploymentList(size, reserved int) DeploymentList {
-	return make(DeploymentList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(DeploymentList, size, reserved)
-}
-func (d *Descriptor) NewDeploymentChangeList(size, reserved int) DeploymentChangeList {
-	return make(DeploymentChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(DeploymentChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewDeploymentNameList(size, reserved int) DeploymentNameList {
-	return make(DeploymentNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(DeploymentNameList, size, reserved)
-}
-
-func (d *Descriptor) NewDeploymentReferenceList(size, reserved int) DeploymentReferenceList {
-	return make(DeploymentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(DeploymentReferenceList, size, reserved)
 }
-func (d *Descriptor) NewDeploymentParentNameList(size, reserved int) DeploymentParentNameList {
-	return make(DeploymentParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(DeploymentParentNameList, size, reserved)
-}
-func (d *Descriptor) NewDeploymentParentReferenceList(size, reserved int) DeploymentParentReferenceList {
-	return make(DeploymentParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(DeploymentParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewDeploymentMap(reserved int) DeploymentMap {
-	return make(DeploymentMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(DeploymentMap, reserved)
-}
-func (d *Descriptor) NewDeploymentChangeMap(reserved int) DeploymentChangeMap {
-	return make(DeploymentChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseDeployment_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseDeploymentName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initDeploymentDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Deployment", "Deployments", "meta.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName},
+			"pattern", "deploymentId",
+			[]string{"serviceId"},
+			[]gotenresource.NamePattern{NamePattern_Service}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initDeploymentDescriptor()
 }

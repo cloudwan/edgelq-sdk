@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiDeploymentAccess) SaveDeployment(ctx context.Context, res *deploymen
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetDeployment(ctx, &deployment.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiDeploymentAccess) SaveDeployment(ctx context.Context, res *deploymen
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &deployment_client.UpdateDeploymentRequest{
 			Deployment: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*deployment.Deployment_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &deployment_client.UpdateDeploymentRequest_CAS{
+				ConditionalState: conditionalState.(*deployment.Deployment),
+				FieldMask:        mask.(*deployment.Deployment_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateDeployment(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiDeploymentAccess) DeleteDeployment(ctx context.Context, ref *deploym
 	}
 	_, err := a.client.DeleteDeployment(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(deployment.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return deployment.AsAnyCastAccess(NewApiDeploymentAccess(deployment_client.NewDeploymentServiceClient(cc)))
+	})
 }

@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"AlertingPolicy", "AlertingPolicies", "monitoring.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&AlertingPolicy_FieldTerminalPath{selector: AlertingPolicy_FieldPathSelectorName},
-			"pattern", "alertingPolicyId",
-			[]string{"projectId", "regionId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewAlertingPolicy() *AlertingPolicy {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &AlertingPolicy{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewAlertingPolicy()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewAlertingPolicyName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewAlertingPolicyCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewAlertingPolicyCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewAlertingPolicyChange() *AlertingPolicyChange {
-	return &AlertingPolicyChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &AlertingPolicy_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewAlertingPolicyChange()
-}
-
-func (d *Descriptor) NewAlertingPolicyQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &AlertingPolicyChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewAlertingPolicyQueryResultSnapshot()
-}
-func (d *Descriptor) NewAlertingPolicyQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,63 +93,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewAlertingPolicyQueryResultChange()
-}
-
-func (d *Descriptor) NewAlertingPolicyList(size, reserved int) AlertingPolicyList {
-	return make(AlertingPolicyList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(AlertingPolicyList, size, reserved)
-}
-func (d *Descriptor) NewAlertingPolicyChangeList(size, reserved int) AlertingPolicyChangeList {
-	return make(AlertingPolicyChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(AlertingPolicyChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewAlertingPolicyNameList(size, reserved int) AlertingPolicyNameList {
-	return make(AlertingPolicyNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(AlertingPolicyNameList, size, reserved)
-}
-
-func (d *Descriptor) NewAlertingPolicyReferenceList(size, reserved int) AlertingPolicyReferenceList {
-	return make(AlertingPolicyReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(AlertingPolicyReferenceList, size, reserved)
 }
-func (d *Descriptor) NewAlertingPolicyParentNameList(size, reserved int) AlertingPolicyParentNameList {
-	return make(AlertingPolicyParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(AlertingPolicyParentNameList, size, reserved)
-}
-func (d *Descriptor) NewAlertingPolicyParentReferenceList(size, reserved int) AlertingPolicyParentReferenceList {
-	return make(AlertingPolicyParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(AlertingPolicyParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewAlertingPolicyMap(reserved int) AlertingPolicyMap {
-	return make(AlertingPolicyMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(AlertingPolicyMap, reserved)
-}
-func (d *Descriptor) NewAlertingPolicyChangeMap(reserved int) AlertingPolicyChangeMap {
-	return make(AlertingPolicyChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -185,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseAlertingPolicy_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseAlertingPolicyName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initAlertingPolicyDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"AlertingPolicy", "AlertingPolicies", "monitoring.edgelq.com", "v3"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&AlertingPolicy_FieldTerminalPath{selector: AlertingPolicy_FieldPathSelectorName},
+			"pattern", "alertingPolicyId",
+			[]string{"projectId", "regionId"},
+			[]gotenresource.NamePattern{NamePattern_Project_Region}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initAlertingPolicyDescriptor()
 }

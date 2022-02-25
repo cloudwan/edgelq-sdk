@@ -15,6 +15,7 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -30,6 +31,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -198,6 +200,10 @@ func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 
 func (b *filterCndBuilder) MultiRegionPolicy() *filterCndBuilderMultiRegionPolicy {
 	return &filterCndBuilderMultiRegionPolicy{builder: b.builder}
+}
+
+func (b *filterCndBuilder) EnabledServices() *filterCndBuilderEnabledServices {
+	return &filterCndBuilderEnabledServices{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2581,5 +2587,98 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSyncDestRegion) com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().DestRegion().WithValue(value),
+	})
+}
+
+type filterCndBuilderEnabledServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderEnabledServices) Eq(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderEnabledServices) Neq(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderEnabledServices) Gt(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderEnabledServices) Gte(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderEnabledServices) Lt(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderEnabledServices) Lte(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderEnabledServices) In(values [][]*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().EnabledServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) NotIn(values [][]*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().EnabledServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) Contains(value *meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+		Value:     NewProjectFieldPathBuilder().EnabledServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) ContainsAnyOf(values []*meta_service.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().EnabledServices()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) ContainsAll(values []*meta_service.Reference) *FilterBuilder {
+	pathSelector := NewProjectFieldPathBuilder().EnabledServices()
+	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProjectFieldPathBuilder().EnabledServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderEnabledServices) compare(op gotenfilter.CompareOperator, value []*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Project_FieldPathValue: NewProjectFieldPathBuilder().EnabledServices().WithValue(value),
 	})
 }

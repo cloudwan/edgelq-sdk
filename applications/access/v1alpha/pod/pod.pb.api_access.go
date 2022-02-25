@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetPod(ctx, &pod.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &pod_client.UpdatePodRequest{
 			Pod: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*pod.Pod_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &pod_client.UpdatePodRequest_CAS{
+				ConditionalState: conditionalState.(*pod.Pod),
+				FieldMask:        mask.(*pod.Pod_FieldMask),
+			}
 		}
 		_, err := a.client.UpdatePod(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, opts .
 	}
 	_, err := a.client.DeletePod(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(pod.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return pod.AsAnyCastAccess(NewApiPodAccess(pod_client.NewPodServiceClient(cc)))
+	})
 }

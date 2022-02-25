@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiProvisioningApprovalRequestAccess) SaveProvisioningApprovalRequest(c
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetProvisioningApprovalRequest(ctx, &provisioning_approval_request.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiProvisioningApprovalRequestAccess) SaveProvisioningApprovalRequest(c
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &provisioning_approval_request_client.UpdateProvisioningApprovalRequestRequest{
 			ProvisioningApprovalRequest: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &provisioning_approval_request_client.UpdateProvisioningApprovalRequestRequest_CAS{
+				ConditionalState: conditionalState.(*provisioning_approval_request.ProvisioningApprovalRequest),
+				FieldMask:        mask.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateProvisioningApprovalRequest(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiProvisioningApprovalRequestAccess) DeleteProvisioningApprovalRequest
 	}
 	_, err := a.client.DeleteProvisioningApprovalRequest(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(provisioning_approval_request.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return provisioning_approval_request.AsAnyCastAccess(NewApiProvisioningApprovalRequestAccess(provisioning_approval_request_client.NewProvisioningApprovalRequestServiceClient(cc)))
+	})
 }

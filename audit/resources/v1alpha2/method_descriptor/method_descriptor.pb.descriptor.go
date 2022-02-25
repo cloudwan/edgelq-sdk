@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"MethodDescriptor", "MethodDescriptors", "audit.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&MethodDescriptor_FieldTerminalPath{selector: MethodDescriptor_FieldPathSelectorName},
-			"pattern", "methodDescriptorId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewMethodDescriptor() *MethodDescriptor {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &MethodDescriptor{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewMethodDescriptor()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewMethodDescriptorName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewMethodDescriptorCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewMethodDescriptorCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewMethodDescriptorChange() *MethodDescriptorChange {
-	return &MethodDescriptorChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &MethodDescriptor_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewMethodDescriptorChange()
-}
-
-func (d *Descriptor) NewMethodDescriptorQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &MethodDescriptorChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewMethodDescriptorQueryResultSnapshot()
-}
-func (d *Descriptor) NewMethodDescriptorQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,34 +93,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewMethodDescriptorQueryResultChange()
-}
-
-func (d *Descriptor) NewMethodDescriptorList(size, reserved int) MethodDescriptorList {
-	return make(MethodDescriptorList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(MethodDescriptorList, size, reserved)
-}
-func (d *Descriptor) NewMethodDescriptorChangeList(size, reserved int) MethodDescriptorChangeList {
-	return make(MethodDescriptorChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(MethodDescriptorChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewMethodDescriptorNameList(size, reserved int) MethodDescriptorNameList {
-	return make(MethodDescriptorNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(MethodDescriptorNameList, size, reserved)
-}
-
-func (d *Descriptor) NewMethodDescriptorReferenceList(size, reserved int) MethodDescriptorReferenceList {
-	return make(MethodDescriptorReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -152,15 +120,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewMethodDescriptorMap(reserved int) MethodDescriptorMap {
-	return make(MethodDescriptorMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(MethodDescriptorMap, reserved)
-}
-func (d *Descriptor) NewMethodDescriptorChangeMap(reserved int) MethodDescriptorChangeMap {
-	return make(MethodDescriptorChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -179,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseMethodDescriptor_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseMethodDescriptorName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initMethodDescriptorDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"MethodDescriptor", "MethodDescriptors", "audit.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&MethodDescriptor_FieldTerminalPath{selector: MethodDescriptor_FieldPathSelectorName},
+			"pattern", "methodDescriptorId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initMethodDescriptorDescriptor()
 }

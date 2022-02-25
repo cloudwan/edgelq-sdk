@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ServiceAccountKey", "ServiceAccountKeys", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorName},
-			"pattern", "serviceAccountKeyId",
-			[]string{"projectId", "regionId", "serviceAccountId"},
-			[]gotenresource.NamePattern{NamePattern_Project_Region_ServiceAccount}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewServiceAccountKey() *ServiceAccountKey {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ServiceAccountKey{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewServiceAccountKey()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewServiceAccountKeyName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewServiceAccountKeyCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewServiceAccountKeyCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewServiceAccountKeyChange() *ServiceAccountKeyChange {
-	return &ServiceAccountKeyChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ServiceAccountKey_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewServiceAccountKeyChange()
-}
-
-func (d *Descriptor) NewServiceAccountKeyQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ServiceAccountKeyChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewServiceAccountKeyQueryResultSnapshot()
-}
-func (d *Descriptor) NewServiceAccountKeyQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewServiceAccountKeyQueryResultChange()
-}
-
-func (d *Descriptor) NewServiceAccountKeyList(size, reserved int) ServiceAccountKeyList {
-	return make(ServiceAccountKeyList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ServiceAccountKeyList, size, reserved)
-}
-func (d *Descriptor) NewServiceAccountKeyChangeList(size, reserved int) ServiceAccountKeyChangeList {
-	return make(ServiceAccountKeyChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ServiceAccountKeyChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewServiceAccountKeyNameList(size, reserved int) ServiceAccountKeyNameList {
-	return make(ServiceAccountKeyNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ServiceAccountKeyNameList, size, reserved)
-}
-
-func (d *Descriptor) NewServiceAccountKeyReferenceList(size, reserved int) ServiceAccountKeyReferenceList {
-	return make(ServiceAccountKeyReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ServiceAccountKeyReferenceList, size, reserved)
 }
-func (d *Descriptor) NewServiceAccountKeyParentNameList(size, reserved int) ServiceAccountKeyParentNameList {
-	return make(ServiceAccountKeyParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ServiceAccountKeyParentNameList, size, reserved)
-}
-func (d *Descriptor) NewServiceAccountKeyParentReferenceList(size, reserved int) ServiceAccountKeyParentReferenceList {
-	return make(ServiceAccountKeyParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ServiceAccountKeyParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewServiceAccountKeyMap(reserved int) ServiceAccountKeyMap {
-	return make(ServiceAccountKeyMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ServiceAccountKeyMap, reserved)
-}
-func (d *Descriptor) NewServiceAccountKeyChangeMap(reserved int) ServiceAccountKeyChangeMap {
-	return make(ServiceAccountKeyChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseServiceAccountKey_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseServiceAccountKeyName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initServiceAccountKeyDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ServiceAccountKey", "ServiceAccountKeys", "iam.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorName},
+			"pattern", "serviceAccountKeyId",
+			[]string{"projectId", "regionId", "serviceAccountId"},
+			[]gotenresource.NamePattern{NamePattern_Project_Region_ServiceAccount}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initServiceAccountKeyDescriptor()
 }

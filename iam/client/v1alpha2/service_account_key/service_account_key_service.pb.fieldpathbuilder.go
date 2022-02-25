@@ -13,6 +13,7 @@ import (
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account_key"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -29,6 +30,7 @@ var (
 	_ = &service_account_key.ServiceAccountKey{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

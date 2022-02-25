@@ -23,6 +23,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 // ensure the imports are used
@@ -45,6 +46,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &policy.Policy{}
+	_ = &meta_service.Service{}
 )
 
 type Project_FieldMask struct {
@@ -60,6 +62,7 @@ func FullProject_FieldMask() *Project_FieldMask {
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorAncestryPath})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
 	return res
 }
 
@@ -103,7 +106,7 @@ func (fieldMask *Project_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Project_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -133,7 +136,7 @@ func (fieldMask *Project_FieldMask) Reset() {
 
 func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_FieldMask {
 	result := &Project_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &policy.Policy_FieldMask{},
@@ -355,6 +358,8 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 			case Project_FieldPathSelectorMultiRegionPolicy:
 				result.MultiRegionPolicy = source.MultiRegionPolicy
 				wholeMultiRegionPolicyAccepted = true
+			case Project_FieldPathSelectorEnabledServices:
+				result.EnabledServices = source.EnabledServices
 			}
 		case *Project_FieldSubPath:
 			switch tp.selector {

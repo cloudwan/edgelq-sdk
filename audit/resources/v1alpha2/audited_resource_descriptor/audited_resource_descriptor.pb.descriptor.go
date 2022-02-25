@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"AuditedResourceDescriptor", "AuditedResourceDescriptors", "audit.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&AuditedResourceDescriptor_FieldTerminalPath{selector: AuditedResourceDescriptor_FieldPathSelectorName},
-			"pattern", "auditedResourceDescriptorId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewAuditedResourceDescriptor() *AuditedResourceDescriptor {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &AuditedResourceDescriptor{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewAuditedResourceDescriptor()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewAuditedResourceDescriptorName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewAuditedResourceDescriptorCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewAuditedResourceDescriptorCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewAuditedResourceDescriptorChange() *AuditedResourceDescriptorChange {
-	return &AuditedResourceDescriptorChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &AuditedResourceDescriptor_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewAuditedResourceDescriptorChange()
-}
-
-func (d *Descriptor) NewAuditedResourceDescriptorQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &AuditedResourceDescriptorChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewAuditedResourceDescriptorQueryResultSnapshot()
-}
-func (d *Descriptor) NewAuditedResourceDescriptorQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,34 +93,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewAuditedResourceDescriptorQueryResultChange()
-}
-
-func (d *Descriptor) NewAuditedResourceDescriptorList(size, reserved int) AuditedResourceDescriptorList {
-	return make(AuditedResourceDescriptorList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(AuditedResourceDescriptorList, size, reserved)
-}
-func (d *Descriptor) NewAuditedResourceDescriptorChangeList(size, reserved int) AuditedResourceDescriptorChangeList {
-	return make(AuditedResourceDescriptorChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(AuditedResourceDescriptorChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewAuditedResourceDescriptorNameList(size, reserved int) AuditedResourceDescriptorNameList {
-	return make(AuditedResourceDescriptorNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(AuditedResourceDescriptorNameList, size, reserved)
-}
-
-func (d *Descriptor) NewAuditedResourceDescriptorReferenceList(size, reserved int) AuditedResourceDescriptorReferenceList {
-	return make(AuditedResourceDescriptorReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -152,15 +120,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewAuditedResourceDescriptorMap(reserved int) AuditedResourceDescriptorMap {
-	return make(AuditedResourceDescriptorMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(AuditedResourceDescriptorMap, reserved)
-}
-func (d *Descriptor) NewAuditedResourceDescriptorChangeMap(reserved int) AuditedResourceDescriptorChangeMap {
-	return make(AuditedResourceDescriptorChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -179,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseAuditedResourceDescriptor_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseAuditedResourceDescriptorName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initAuditedResourceDescriptorDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"AuditedResourceDescriptor", "AuditedResourceDescriptors", "audit.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&AuditedResourceDescriptor_FieldTerminalPath{selector: AuditedResourceDescriptor_FieldPathSelectorName},
+			"pattern", "auditedResourceDescriptorId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initAuditedResourceDescriptorDescriptor()
 }

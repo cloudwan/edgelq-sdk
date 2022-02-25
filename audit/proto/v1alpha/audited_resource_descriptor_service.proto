@@ -4,8 +4,6 @@ package ntt.audit.v1alpha;
 
 import "edgelq-sdk/audit/proto/v1alpha/audited_resource_descriptor.proto";
 import "edgelq-sdk/audit/proto/v1alpha/audited_resource_descriptor_change.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

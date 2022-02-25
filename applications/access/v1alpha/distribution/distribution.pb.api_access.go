@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiDistributionAccess) SaveDistribution(ctx context.Context, res *distr
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetDistribution(ctx, &distribution.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiDistributionAccess) SaveDistribution(ctx context.Context, res *distr
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &distribution_client.UpdateDistributionRequest{
 			Distribution: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*distribution.Distribution_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &distribution_client.UpdateDistributionRequest_CAS{
+				ConditionalState: conditionalState.(*distribution.Distribution),
+				FieldMask:        mask.(*distribution.Distribution_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateDistribution(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiDistributionAccess) DeleteDistribution(ctx context.Context, ref *dis
 	}
 	_, err := a.client.DeleteDistribution(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(distribution.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return distribution.AsAnyCastAccess(NewApiDistributionAccess(distribution_client.NewDistributionServiceClient(cc)))
+	})
 }

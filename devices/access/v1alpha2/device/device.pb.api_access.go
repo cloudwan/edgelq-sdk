@@ -8,9 +8,11 @@ import (
 	"context"
 	"fmt"
 
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
@@ -22,9 +24,11 @@ var (
 	_ = context.Context(nil)
 	_ = fmt.GoStringer(nil)
 
+	_ = grpc.ClientConnInterface(nil)
 	_ = codes.NotFound
 	_ = status.Status{}
 
+	_ = gotenaccess.Watcher(nil)
 	_ = watch_type.WatchType_STATEFUL
 	_ = gotenresource.ListQuery(nil)
 )
@@ -156,7 +160,7 @@ func (a *apiDeviceAccess) SaveDevice(ctx context.Context, res *device.Device, op
 	saveOpts := gotenresource.MakeSaveOptions(opts)
 	previousRes := saveOpts.GetPreviousResource()
 
-	if previousRes == nil {
+	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
 		var err error
 		previousRes, err = a.GetDevice(ctx, &device.GetQuery{Reference: res.Name.AsReference()})
 		if err != nil {
@@ -166,9 +170,18 @@ func (a *apiDeviceAccess) SaveDevice(ctx context.Context, res *device.Device, op
 		}
 	}
 
-	if previousRes != nil {
+	if saveOpts.OnlyUpdate() || previousRes != nil {
 		updateRequest := &device_client.UpdateDeviceRequest{
 			Device: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*device.Device_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &device_client.UpdateDeviceRequest_CAS{
+				ConditionalState: conditionalState.(*device.Device),
+				FieldMask:        mask.(*device.Device_FieldMask),
+			}
 		}
 		_, err := a.client.UpdateDevice(ctx, updateRequest)
 		if err != nil {
@@ -193,4 +206,10 @@ func (a *apiDeviceAccess) DeleteDevice(ctx context.Context, ref *device.Referenc
 	}
 	_, err := a.client.DeleteDevice(ctx, request)
 	return err
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterApiAccessConstructor(device.GetDescriptor(), func(cc grpc.ClientConnInterface) gotenresource.Access {
+		return device.AsAnyCastAccess(NewApiDeviceAccess(device_client.NewDeviceServiceClient(cc)))
+	})
 }

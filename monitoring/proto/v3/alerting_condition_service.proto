@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ntt.monitoring.v3;
 
-import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "edgelq-sdk/monitoring/proto/v3/alerting_condition.proto";
 import "edgelq-sdk/monitoring/proto/v3/alerting_condition_change.proto";
 import "google/api/annotations.proto";

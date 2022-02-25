@@ -32,15 +32,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ResourceChangeLog", "ResourceChangeLogs", "audit.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ResourceChangeLog_FieldTerminalPath{selector: ResourceChangeLog_FieldPathSelectorName},
-			"pattern", "resourceChangeLogId",
-			[]string{"projectId", "organizationId"},
-			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -52,19 +44,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewResourceChangeLog() *ResourceChangeLog {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ResourceChangeLog{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewResourceChangeLog()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewResourceChangeLogName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -88,6 +72,18 @@ func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return nil
 }
 
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
+}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return nil
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ResourceChangeLog_FieldMask{}
+}
+
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
 	return nil
 }
@@ -104,10 +100,6 @@ func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
 	return nil
 }
 
-func (d *Descriptor) NewResourceChangeLogList(size, reserved int) ResourceChangeLogList {
-	return make(ResourceChangeLogList, size, reserved)
-}
-
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ResourceChangeLogList, size, reserved)
 }
@@ -116,38 +108,20 @@ func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.Res
 	return nil
 }
 
-func (d *Descriptor) NewResourceChangeLogNameList(size, reserved int) ResourceChangeLogNameList {
-	return make(ResourceChangeLogNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ResourceChangeLogNameList, size, reserved)
-}
-
-func (d *Descriptor) NewResourceChangeLogReferenceList(size, reserved int) ResourceChangeLogReferenceList {
-	return make(ResourceChangeLogReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ResourceChangeLogReferenceList, size, reserved)
 }
-func (d *Descriptor) NewResourceChangeLogParentNameList(size, reserved int) ResourceChangeLogParentNameList {
-	return make(ResourceChangeLogParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ResourceChangeLogParentNameList, size, reserved)
 }
-func (d *Descriptor) NewResourceChangeLogParentReferenceList(size, reserved int) ResourceChangeLogParentReferenceList {
-	return make(ResourceChangeLogParentReferenceList, size, reserved)
-}
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ResourceChangeLogParentReferenceList, size, reserved)
-}
-
-func (d *Descriptor) NewResourceChangeLogMap(reserved int) ResourceChangeLogMap {
-	return make(ResourceChangeLogMap, reserved)
 }
 
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
@@ -170,10 +144,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseResourceChangeLog_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseResourceChangeLogName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initResourceChangeLogDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ResourceChangeLog", "ResourceChangeLogs", "audit.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ResourceChangeLog_FieldTerminalPath{selector: ResourceChangeLog_FieldPathSelectorName},
+			"pattern", "resourceChangeLogId",
+			[]string{"projectId", "organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Nil, NamePattern_Project, NamePattern_Organization}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initResourceChangeLogDescriptor()
 }

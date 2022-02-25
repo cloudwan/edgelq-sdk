@@ -22,15 +22,7 @@ var (
 var ()
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"Permission", "Permissions", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&Permission_FieldTerminalPath{selector: Permission_FieldPathSelectorName},
-			"pattern", "permissionId",
-			[]string{},
-			[]gotenresource.NamePattern{NamePattern_Nil}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -42,19 +34,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewPermission() *Permission {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &Permission{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewPermission()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewPermissionName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -73,30 +57,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewPermissionCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewPermissionCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewPermissionChange() *PermissionChange {
-	return &PermissionChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &Permission_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewPermissionChange()
-}
-
-func (d *Descriptor) NewPermissionQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &PermissionChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewPermissionQueryResultSnapshot()
-}
-func (d *Descriptor) NewPermissionQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -104,34 +87,19 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewPermissionQueryResultChange()
-}
-
-func (d *Descriptor) NewPermissionList(size, reserved int) PermissionList {
-	return make(PermissionList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(PermissionList, size, reserved)
-}
-func (d *Descriptor) NewPermissionChangeList(size, reserved int) PermissionChangeList {
-	return make(PermissionChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(PermissionChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewPermissionNameList(size, reserved int) PermissionNameList {
-	return make(PermissionNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(PermissionNameList, size, reserved)
-}
-
-func (d *Descriptor) NewPermissionReferenceList(size, reserved int) PermissionReferenceList {
-	return make(PermissionReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
@@ -146,15 +114,8 @@ func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.Pa
 	return nil
 }
 
-func (d *Descriptor) NewPermissionMap(reserved int) PermissionMap {
-	return make(PermissionMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(PermissionMap, reserved)
-}
-func (d *Descriptor) NewPermissionChangeMap(reserved int) PermissionChangeMap {
-	return make(PermissionChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -173,10 +134,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParsePermission_FieldPath(raw)
 }
 
-func (d *Descriptor) ParsePermissionName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initPermissionDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"Permission", "Permissions", "iam.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&Permission_FieldTerminalPath{selector: Permission_FieldPathSelectorName},
+			"pattern", "permissionId",
+			[]string{},
+			[]gotenresource.NamePattern{NamePattern_Nil}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initPermissionDescriptor()
 }

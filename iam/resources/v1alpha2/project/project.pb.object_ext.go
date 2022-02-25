@@ -19,6 +19,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 // ensure the imports are used
@@ -37,6 +38,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &policy.Policy{}
+	_ = &meta_service.Service{}
 )
 
 func (o *Project) GotenObjectExt() {}
@@ -102,6 +104,18 @@ func (o *Project) MakeDiffFieldMask(other *Project) *Project_FieldMask {
 			}
 		}
 	}
+
+	if len(o.GetEnabledServices()) == len(other.GetEnabledServices()) {
+		for i, lValue := range o.GetEnabledServices() {
+			rValue := other.GetEnabledServices()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
+	}
 	return res
 }
 
@@ -160,6 +174,19 @@ func (o *Project) Clone() *Project {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.MultiRegionPolicy = o.MultiRegionPolicy.Clone()
+	result.EnabledServices = make([]*meta_service.Reference, len(o.EnabledServices))
+	for i, sourceValue := range o.EnabledServices {
+		if sourceValue == nil {
+			result.EnabledServices[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.EnabledServices[i] = &meta_service.Reference{}
+			if err := result.EnabledServices[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
 	return result
 }
 
@@ -243,6 +270,32 @@ func (o *Project) Merge(source *Project) {
 		}
 		o.MultiRegionPolicy.Merge(source.GetMultiRegionPolicy())
 	}
+	for _, sourceValue := range source.GetEnabledServices() {
+		exists := false
+		for _, currentValue := range o.EnabledServices {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *meta_service.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &meta_service.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.EnabledServices = append(o.EnabledServices, newDstElement)
+		}
+	}
+
 }
 
 func (o *Project) MergeRaw(source gotenobject.GotenObjectExt) {

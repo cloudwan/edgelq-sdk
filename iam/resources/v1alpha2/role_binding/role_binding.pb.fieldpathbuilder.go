@@ -14,6 +14,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -27,6 +28,7 @@ var (
 	_ = &role.Role{}
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
+	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
 

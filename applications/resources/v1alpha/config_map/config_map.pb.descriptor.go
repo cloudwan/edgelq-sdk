@@ -28,15 +28,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ConfigMap", "ConfigMaps", "applications.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorName},
-			"pattern", "configMapId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -48,19 +40,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewConfigMap() *ConfigMap {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ConfigMap{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewConfigMap()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewConfigMapName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -79,30 +63,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewConfigMapCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewConfigMapCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewConfigMapChange() *ConfigMapChange {
-	return &ConfigMapChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ConfigMap_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewConfigMapChange()
-}
-
-func (d *Descriptor) NewConfigMapQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ConfigMapChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewConfigMapQueryResultSnapshot()
-}
-func (d *Descriptor) NewConfigMapQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -110,63 +93,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewConfigMapQueryResultChange()
-}
-
-func (d *Descriptor) NewConfigMapList(size, reserved int) ConfigMapList {
-	return make(ConfigMapList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ConfigMapList, size, reserved)
-}
-func (d *Descriptor) NewConfigMapChangeList(size, reserved int) ConfigMapChangeList {
-	return make(ConfigMapChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ConfigMapChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewConfigMapNameList(size, reserved int) ConfigMapNameList {
-	return make(ConfigMapNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ConfigMapNameList, size, reserved)
-}
-
-func (d *Descriptor) NewConfigMapReferenceList(size, reserved int) ConfigMapReferenceList {
-	return make(ConfigMapReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ConfigMapReferenceList, size, reserved)
 }
-func (d *Descriptor) NewConfigMapParentNameList(size, reserved int) ConfigMapParentNameList {
-	return make(ConfigMapParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ConfigMapParentNameList, size, reserved)
-}
-func (d *Descriptor) NewConfigMapParentReferenceList(size, reserved int) ConfigMapParentReferenceList {
-	return make(ConfigMapParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ConfigMapParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewConfigMapMap(reserved int) ConfigMapMap {
-	return make(ConfigMapMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ConfigMapMap, reserved)
-}
-func (d *Descriptor) NewConfigMapChangeMap(reserved int) ConfigMapChangeMap {
-	return make(ConfigMapChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -185,10 +140,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseConfigMap_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseConfigMapName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initConfigMapDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ConfigMap", "ConfigMaps", "applications.edgelq.com", "v1alpha"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorName},
+			"pattern", "configMapId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initConfigMapDescriptor()
 }

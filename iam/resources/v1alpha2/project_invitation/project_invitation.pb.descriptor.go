@@ -30,15 +30,7 @@ var (
 )
 
 var (
-	descriptor = &Descriptor{
-		typeName: gotenresource.NewTypeName(
-			"ProjectInvitation", "ProjectInvitations", "iam.edgelq.com"),
-		nameDescriptor: gotenresource.NewNameDescriptor(
-			&ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorName},
-			"pattern", "projectInvitationId",
-			[]string{"projectId"},
-			[]gotenresource.NamePattern{NamePattern_Project}),
-	}
+	descriptor *Descriptor
 )
 
 type Descriptor struct {
@@ -50,19 +42,11 @@ func GetDescriptor() *Descriptor {
 	return descriptor
 }
 
-func (d *Descriptor) NewProjectInvitation() *ProjectInvitation {
+func (d *Descriptor) NewResource() gotenresource.Resource {
 	return &ProjectInvitation{}
 }
 
-func (d *Descriptor) NewResource() gotenresource.Resource {
-	return d.NewProjectInvitation()
-}
-
 func (d *Descriptor) NewResourceName() gotenresource.Name {
-	return NewNameBuilder().Name()
-}
-
-func (d *Descriptor) NewProjectInvitationName() *Name {
 	return NewNameBuilder().Name()
 }
 
@@ -81,30 +65,29 @@ func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
 	return &WatchQuery{}
 }
-func (d *Descriptor) NewProjectInvitationCursor() *PagerCursor {
+
+func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
 	return &PagerCursor{}
 }
 
-func (d *Descriptor) NewResourceCursor() gotenresource.Cursor {
-	return d.NewProjectInvitationCursor()
+func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
+	return &Filter{}
 }
-func (d *Descriptor) NewProjectInvitationChange() *ProjectInvitationChange {
-	return &ProjectInvitationChange{}
+
+func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
+	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {
+	return &ProjectInvitation_FieldMask{}
 }
 
 func (d *Descriptor) NewResourceChange() gotenresource.ResourceChange {
-	return d.NewProjectInvitationChange()
-}
-
-func (d *Descriptor) NewProjectInvitationQueryResultSnapshot() *QueryResultSnapshot {
-	return &QueryResultSnapshot{}
+	return &ProjectInvitationChange{}
 }
 
 func (d *Descriptor) NewQueryResultSnapshot() gotenresource.QueryResultSnapshot {
-	return d.NewProjectInvitationQueryResultSnapshot()
-}
-func (d *Descriptor) NewProjectInvitationQueryResultChange() *QueryResultChange {
-	return &QueryResultChange{}
+	return &QueryResultSnapshot{}
 }
 
 func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryResultSnapshot {
@@ -112,63 +95,35 @@ func (d *Descriptor) NewSearchQueryResultSnapshot() gotenresource.SearchQueryRes
 }
 
 func (d *Descriptor) NewQueryResultChange() gotenresource.QueryResultChange {
-	return d.NewProjectInvitationQueryResultChange()
-}
-
-func (d *Descriptor) NewProjectInvitationList(size, reserved int) ProjectInvitationList {
-	return make(ProjectInvitationList, size, reserved)
+	return &QueryResultChange{}
 }
 
 func (d *Descriptor) NewResourceList(size, reserved int) gotenresource.ResourceList {
 	return make(ProjectInvitationList, size, reserved)
-}
-func (d *Descriptor) NewProjectInvitationChangeList(size, reserved int) ProjectInvitationChangeList {
-	return make(ProjectInvitationChangeList, size, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeList(size, reserved int) gotenresource.ResourceChangeList {
 	return make(ProjectInvitationChangeList, size, reserved)
 }
 
-func (d *Descriptor) NewProjectInvitationNameList(size, reserved int) ProjectInvitationNameList {
-	return make(ProjectInvitationNameList, size, reserved)
-}
-
 func (d *Descriptor) NewNameList(size, reserved int) gotenresource.NameList {
 	return make(ProjectInvitationNameList, size, reserved)
-}
-
-func (d *Descriptor) NewProjectInvitationReferenceList(size, reserved int) ProjectInvitationReferenceList {
-	return make(ProjectInvitationReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewReferenceList(size, reserved int) gotenresource.ReferenceList {
 	return make(ProjectInvitationReferenceList, size, reserved)
 }
-func (d *Descriptor) NewProjectInvitationParentNameList(size, reserved int) ProjectInvitationParentNameList {
-	return make(ProjectInvitationParentNameList, size, reserved)
-}
 
 func (d *Descriptor) NewParentNameList(size, reserved int) gotenresource.ParentNameList {
 	return make(ProjectInvitationParentNameList, size, reserved)
-}
-func (d *Descriptor) NewProjectInvitationParentReferenceList(size, reserved int) ProjectInvitationParentReferenceList {
-	return make(ProjectInvitationParentReferenceList, size, reserved)
 }
 
 func (d *Descriptor) NewParentReferenceList(size, reserved int) gotenresource.ParentReferenceList {
 	return make(ProjectInvitationParentReferenceList, size, reserved)
 }
 
-func (d *Descriptor) NewProjectInvitationMap(reserved int) ProjectInvitationMap {
-	return make(ProjectInvitationMap, reserved)
-}
-
 func (d *Descriptor) NewResourceMap(reserved int) gotenresource.ResourceMap {
 	return make(ProjectInvitationMap, reserved)
-}
-func (d *Descriptor) NewProjectInvitationChangeMap(reserved int) ProjectInvitationChangeMap {
-	return make(ProjectInvitationChangeMap, reserved)
 }
 
 func (d *Descriptor) NewResourceChangeMap(reserved int) gotenresource.ResourceChangeMap {
@@ -187,10 +142,23 @@ func (d *Descriptor) ParseFieldPath(raw string) (gotenobject.FieldPath, error) {
 	return ParseProjectInvitation_FieldPath(raw)
 }
 
-func (d *Descriptor) ParseProjectInvitationName(nameStr string) (*Name, error) {
+func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
 	return ParseName(nameStr)
 }
 
-func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, error) {
-	return ParseName(nameStr)
+func initProjectInvitationDescriptor() {
+	descriptor = &Descriptor{
+		typeName: gotenresource.NewTypeName(
+			"ProjectInvitation", "ProjectInvitations", "iam.edgelq.com", "v1alpha2"),
+		nameDescriptor: gotenresource.NewNameDescriptor(
+			&ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorName},
+			"pattern", "projectInvitationId",
+			[]string{"projectId"},
+			[]gotenresource.NamePattern{NamePattern_Project}),
+	}
+	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
+}
+
+func init() {
+	initProjectInvitationDescriptor()
 }
