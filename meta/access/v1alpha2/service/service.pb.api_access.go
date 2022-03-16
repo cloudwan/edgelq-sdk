@@ -46,7 +46,12 @@ func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQue
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetService(ctx, request)
+	res, err := a.client.GetService(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service.Reference, opts ...gotenresource.BatchGetOption) error {

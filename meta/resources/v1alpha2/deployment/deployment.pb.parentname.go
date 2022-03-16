@@ -97,10 +97,14 @@ func (name *ParentName) GetServiceName() *service.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Service
+	switch name.Pattern {
+	case NamePattern_Service:
+		return name.ServiceId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

@@ -46,7 +46,12 @@ func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery)
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetRegion(ctx, request)
+	res, err := a.client.GetRegion(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Reference, opts ...gotenresource.BatchGetOption) error {

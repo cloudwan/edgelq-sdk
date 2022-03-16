@@ -107,10 +107,14 @@ func (name *ParentName) GetAlertingPolicyName() *alerting_policy.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Project_Region_AlertingPolicy
+	switch name.Pattern {
+	case NamePattern_Project_Region_AlertingPolicy:
+		return name.ProjectId != "" && name.RegionId != "" && name.AlertingPolicyId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

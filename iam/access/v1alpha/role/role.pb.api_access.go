@@ -46,7 +46,12 @@ func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*rol
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetRole(ctx, request)
+	res, err := a.client.GetRole(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Reference, opts ...gotenresource.BatchGetOption) error {

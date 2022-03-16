@@ -46,7 +46,12 @@ func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, q
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetServiceAccountKey(ctx, request)
+	res, err := a.client.GetServiceAccountKey(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Context, refs []*service_account_key.Reference, opts ...gotenresource.BatchGetOption) error {

@@ -46,7 +46,12 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetCondition(ctx, request)
+	res, err := a.client.GetCondition(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*condition.Reference, opts ...gotenresource.BatchGetOption) error {

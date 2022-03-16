@@ -46,7 +46,12 @@ func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_b
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetRoleBinding(ctx, request)
+	res, err := a.client.GetRoleBinding(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []*role_binding.Reference, opts ...gotenresource.BatchGetOption) error {

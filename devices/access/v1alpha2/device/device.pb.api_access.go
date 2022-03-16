@@ -46,7 +46,12 @@ func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery)
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetDevice(ctx, request)
+	res, err := a.client.GetDevice(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Reference, opts ...gotenresource.BatchGetOption) error {

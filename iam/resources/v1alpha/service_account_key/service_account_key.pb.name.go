@@ -126,7 +126,10 @@ func (name *Name) GetServiceAccountName() *service_account.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Project_ServiceAccount)
+	if name == nil || name.Pattern == "" || name.ServiceAccountKeyId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

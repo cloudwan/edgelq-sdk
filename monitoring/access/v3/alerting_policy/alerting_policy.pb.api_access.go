@@ -46,7 +46,12 @@ func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetAlertingPolicy(ctx, request)
+	res, err := a.client.GetAlertingPolicy(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, refs []*alerting_policy.Reference, opts ...gotenresource.BatchGetOption) error {

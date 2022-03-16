@@ -46,7 +46,12 @@ func (a *apiProjectInvitationAccess) GetProjectInvitation(ctx context.Context, q
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetProjectInvitation(ctx, request)
+	res, err := a.client.GetProjectInvitation(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Context, refs []*project_invitation.Reference, opts ...gotenresource.BatchGetOption) error {

@@ -46,7 +46,12 @@ func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetAlert(ctx, request)
+	res, err := a.client.GetAlert(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Reference, opts ...gotenresource.BatchGetOption) error {

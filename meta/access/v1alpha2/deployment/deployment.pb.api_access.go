@@ -46,7 +46,12 @@ func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployme
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetDeployment(ctx, request)
+	res, err := a.client.GetDeployment(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*deployment.Reference, opts ...gotenresource.BatchGetOption) error {

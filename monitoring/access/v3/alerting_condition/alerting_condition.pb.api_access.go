@@ -46,7 +46,12 @@ func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, q
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetAlertingCondition(ctx, request)
+	res, err := a.client.GetAlertingCondition(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Context, refs []*alerting_condition.Reference, opts ...gotenresource.BatchGetOption) error {

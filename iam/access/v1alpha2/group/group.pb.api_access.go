@@ -46,7 +46,12 @@ func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetGroup(ctx, request)
+	res, err := a.client.GetGroup(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Reference, opts ...gotenresource.BatchGetOption) error {

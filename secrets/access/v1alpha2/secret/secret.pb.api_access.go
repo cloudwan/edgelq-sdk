@@ -46,7 +46,12 @@ func (a *apiSecretAccess) GetSecret(ctx context.Context, query *secret.GetQuery)
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetSecret(ctx, request)
+	res, err := a.client.GetSecret(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiSecretAccess) BatchGetSecrets(ctx context.Context, refs []*secret.Reference, opts ...gotenresource.BatchGetOption) error {

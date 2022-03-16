@@ -46,7 +46,12 @@ func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetConfigMap(ctx, request)
+	res, err := a.client.GetConfigMap(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*config_map.Reference, opts ...gotenresource.BatchGetOption) error {

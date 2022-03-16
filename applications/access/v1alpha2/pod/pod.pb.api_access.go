@@ -46,7 +46,12 @@ func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Po
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetPod(ctx, request)
+	res, err := a.client.GetPod(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, opts ...gotenresource.BatchGetOption) error {

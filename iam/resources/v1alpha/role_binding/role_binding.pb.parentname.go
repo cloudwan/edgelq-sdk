@@ -135,10 +135,18 @@ func (name *ParentName) GetOrganizationName() *organization.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Nil || name.Pattern == NamePattern_Project || name.Pattern == NamePattern_Organization
+	switch name.Pattern {
+	case NamePattern_Nil:
+		return true
+	case NamePattern_Project:
+		return name.ProjectId != ""
+	case NamePattern_Organization:
+		return name.OrganizationId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

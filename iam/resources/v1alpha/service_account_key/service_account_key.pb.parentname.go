@@ -99,10 +99,14 @@ func (name *ParentName) GetServiceAccountName() *service_account.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Project_ServiceAccount
+	switch name.Pattern {
+	case NamePattern_Project_ServiceAccount:
+		return name.ProjectId != "" && name.ServiceAccountId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

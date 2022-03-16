@@ -93,10 +93,14 @@ func (name *ParentName) GetProjectName() *project.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Project
+	switch name.Pattern {
+	case NamePattern_Project:
+		return name.ProjectId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

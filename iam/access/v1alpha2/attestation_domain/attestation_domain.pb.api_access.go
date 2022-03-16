@@ -46,7 +46,12 @@ func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, q
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetAttestationDomain(ctx, request)
+	res, err := a.client.GetAttestationDomain(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Context, refs []*attestation_domain.Reference, opts ...gotenresource.BatchGetOption) error {

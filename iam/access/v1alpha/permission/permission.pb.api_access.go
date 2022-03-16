@@ -46,7 +46,12 @@ func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permissi
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetPermission(ctx, request)
+	res, err := a.client.GetPermission(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*permission.Reference, opts ...gotenresource.BatchGetOption) error {

@@ -127,7 +127,10 @@ func (name *Name) GetServiceName() *service.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Service)
+	if name == nil || name.Pattern == "" || name.DeploymentId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

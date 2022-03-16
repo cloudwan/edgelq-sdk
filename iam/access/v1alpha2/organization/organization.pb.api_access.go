@@ -46,7 +46,12 @@ func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *orga
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetOrganization(ctx, request)
+	res, err := a.client.GetOrganization(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs []*organization.Reference, opts ...gotenresource.BatchGetOption) error {

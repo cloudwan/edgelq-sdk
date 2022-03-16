@@ -46,7 +46,12 @@ func (a *apiMonitoredResourceDescriptorAccess) GetMonitoredResourceDescriptor(ct
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetMonitoredResourceDescriptor(ctx, request)
+	res, err := a.client.GetMonitoredResourceDescriptor(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiMonitoredResourceDescriptorAccess) BatchGetMonitoredResourceDescriptors(ctx context.Context, refs []*monitored_resource_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {

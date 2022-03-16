@@ -46,7 +46,12 @@ func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*use
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetUser(ctx, request)
+	res, err := a.client.GetUser(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Reference, opts ...gotenresource.BatchGetOption) error {

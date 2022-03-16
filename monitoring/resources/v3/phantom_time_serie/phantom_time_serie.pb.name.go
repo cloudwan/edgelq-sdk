@@ -130,7 +130,10 @@ func (name *Name) GetProjectName() *project.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Project_Region)
+	if name == nil || name.Pattern == "" || name.PhantomTimeSerieId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

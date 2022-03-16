@@ -46,7 +46,12 @@ func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, que
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetPhantomTimeSerie(ctx, request)
+	res, err := a.client.GetPhantomTimeSerie(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Context, refs []*phantom_time_serie.Reference, opts ...gotenresource.BatchGetOption) error {

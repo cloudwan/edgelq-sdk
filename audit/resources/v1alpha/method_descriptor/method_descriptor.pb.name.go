@@ -109,12 +109,16 @@ func (name *Name) SetFromSegments(segments gotenresource.NameSegments) error {
 	if segments[len(segments)-1].CollectionLowerJson != "methodDescriptors" {
 		return status.Errorf(codes.InvalidArgument, "unable to use segments %s to form MethodDescriptor name", segments)
 	}
+	name.Pattern = NamePattern_Nil
 	name.MethodDescriptorId = segments[len(segments)-1].Id
 	return nil
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Nil)
+	if name == nil || name.Pattern == "" || name.MethodDescriptorId == "" {
+		return false
+	}
+	return name.Pattern == NamePattern_Nil
 }
 
 func (name *Name) IsFullyQualified() bool {

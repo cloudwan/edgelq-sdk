@@ -46,7 +46,12 @@ func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, que
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetMethodDescriptor(ctx, request)
+	res, err := a.client.GetMethodDescriptor(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Context, refs []*method_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {

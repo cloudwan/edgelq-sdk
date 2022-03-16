@@ -154,7 +154,10 @@ func (name *Name) GetOrganizationName() *iam_organization.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Nil || name.Pattern == NamePattern_Project || name.Pattern == NamePattern_Organization)
+	if name == nil || name.Pattern == "" || name.ActivityLogId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

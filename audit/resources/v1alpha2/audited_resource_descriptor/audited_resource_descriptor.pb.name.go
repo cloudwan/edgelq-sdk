@@ -109,12 +109,16 @@ func (name *Name) SetFromSegments(segments gotenresource.NameSegments) error {
 	if segments[len(segments)-1].CollectionLowerJson != "auditedResourceDescriptors" {
 		return status.Errorf(codes.InvalidArgument, "unable to use segments %s to form AuditedResourceDescriptor name", segments)
 	}
+	name.Pattern = NamePattern_Nil
 	name.AuditedResourceDescriptorId = segments[len(segments)-1].Id
 	return nil
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Nil)
+	if name == nil || name.Pattern == "" || name.AuditedResourceDescriptorId == "" {
+		return false
+	}
+	return name.Pattern == NamePattern_Nil
 }
 
 func (name *Name) IsFullyQualified() bool {

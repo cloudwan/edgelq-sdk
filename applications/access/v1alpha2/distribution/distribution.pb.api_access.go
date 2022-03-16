@@ -46,7 +46,12 @@ func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *dist
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetDistribution(ctx, request)
+	res, err := a.client.GetDistribution(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs []*distribution.Reference, opts ...gotenresource.BatchGetOption) error {

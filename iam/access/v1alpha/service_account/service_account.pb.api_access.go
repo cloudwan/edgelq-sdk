@@ -46,7 +46,12 @@ func (a *apiServiceAccountAccess) GetServiceAccount(ctx context.Context, query *
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetServiceAccount(ctx, request)
+	res, err := a.client.GetServiceAccount(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, refs []*service_account.Reference, opts ...gotenresource.BatchGetOption) error {

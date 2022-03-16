@@ -101,10 +101,14 @@ func (name *ParentName) GetProvisioningPolicyName() *provisioning_policy.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Project_ProvisioningPolicy
+	switch name.Pattern {
+	case NamePattern_Project_ProvisioningPolicy:
+		return name.ProjectId != "" && name.ProvisioningPolicyId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

@@ -46,7 +46,12 @@ func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ct
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetProvisioningApprovalRequest(ctx, request)
+	res, err := a.client.GetProvisioningApprovalRequest(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalRequests(ctx context.Context, refs []*provisioning_approval_request.Reference, opts ...gotenresource.BatchGetOption) error {

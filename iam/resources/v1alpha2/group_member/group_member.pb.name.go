@@ -141,7 +141,10 @@ func (name *Name) GetGroupName() *group.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Group || name.Pattern == NamePattern_Project_Group || name.Pattern == NamePattern_Organization_Group)
+	if name == nil || name.Pattern == "" || name.GroupMemberId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

@@ -46,7 +46,12 @@ func (a *apiAuditedResourceDescriptorAccess) GetAuditedResourceDescriptor(ctx co
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetAuditedResourceDescriptor(ctx, request)
+	res, err := a.client.GetAuditedResourceDescriptor(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiAuditedResourceDescriptorAccess) BatchGetAuditedResourceDescriptors(ctx context.Context, refs []*audited_resource_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {

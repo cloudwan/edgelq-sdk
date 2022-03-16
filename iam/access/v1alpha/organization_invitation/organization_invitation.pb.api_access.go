@@ -46,7 +46,12 @@ func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetOrganizationInvitation(ctx, request)
+	res, err := a.client.GetOrganizationInvitation(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx context.Context, refs []*organization_invitation.Reference, opts ...gotenresource.BatchGetOption) error {

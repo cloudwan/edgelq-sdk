@@ -46,7 +46,12 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetProject(ctx, request)
+	res, err := a.client.GetProject(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project.Reference, opts ...gotenresource.BatchGetOption) error {

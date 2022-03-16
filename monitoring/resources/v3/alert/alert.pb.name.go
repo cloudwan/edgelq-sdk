@@ -130,7 +130,10 @@ func (name *Name) GetAlertingConditionName() *alerting_condition.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Project_Region_AlertingPolicy_AlertingCondition)
+	if name == nil || name.Pattern == "" || name.AlertId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

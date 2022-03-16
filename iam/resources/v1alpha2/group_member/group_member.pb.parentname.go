@@ -135,10 +135,18 @@ func (name *ParentName) GetGroupName() *group.Name {
 }
 
 func (name *ParentName) IsSpecified() bool {
-	if name == nil {
+	if name == nil || name.Pattern == "" {
 		return false
 	}
-	return name.Pattern == NamePattern_Group || name.Pattern == NamePattern_Project_Group || name.Pattern == NamePattern_Organization_Group
+	switch name.Pattern {
+	case NamePattern_Group:
+		return name.GroupId != ""
+	case NamePattern_Project_Group:
+		return name.ProjectId != "" && name.GroupId != ""
+	case NamePattern_Organization_Group:
+		return name.OrganizationId != "" && name.GroupId != ""
+	}
+	return false
 }
 
 func (name *ParentName) IsFullyQualified() bool {

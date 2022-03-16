@@ -46,7 +46,12 @@ func (a *apiProvisioningPolicyAccess) GetProvisioningPolicy(ctx context.Context,
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetProvisioningPolicy(ctx, request)
+	res, err := a.client.GetProvisioningPolicy(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiProvisioningPolicyAccess) BatchGetProvisioningPolicys(ctx context.Context, refs []*provisioning_policy.Reference, opts ...gotenresource.BatchGetOption) error {

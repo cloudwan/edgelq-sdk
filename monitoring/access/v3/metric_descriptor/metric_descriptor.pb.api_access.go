@@ -46,7 +46,12 @@ func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, que
 		Name:      query.Reference,
 		FieldMask: query.Mask,
 	}
-	return a.client.GetMetricDescriptor(ctx, request)
+	res, err := a.client.GetMetricDescriptor(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	query.Reference.Resolve(res)
+	return res, nil
 }
 
 func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Context, refs []*metric_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {

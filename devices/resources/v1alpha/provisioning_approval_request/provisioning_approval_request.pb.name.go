@@ -128,7 +128,10 @@ func (name *Name) GetProvisioningPolicyName() *provisioning_policy.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Project_ProvisioningPolicy)
+	if name == nil || name.Pattern == "" || name.ProvisioningApprovalRequestId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {

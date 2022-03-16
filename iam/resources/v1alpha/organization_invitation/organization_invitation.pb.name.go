@@ -125,7 +125,10 @@ func (name *Name) GetOrganizationName() *organization.Name {
 }
 
 func (name *Name) IsSpecified() bool {
-	return name != nil && (name.Pattern == NamePattern_Organization)
+	if name == nil || name.Pattern == "" || name.OrganizationInvitationId == "" {
+		return false
+	}
+	return name.ParentName.IsSpecified()
 }
 
 func (name *Name) IsFullyQualified() bool {
