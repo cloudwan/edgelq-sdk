@@ -315,6 +315,7 @@ func (pw *Watcher) onQueryVerifySnapshotSize(ctx context.Context, evt *QueryWatc
 			cache:      state.cache,
 			filter:     state.filter,
 			inSnapshot: true,
+			inSync:     state.inSync,
 		}
 		pw.nextIdentifier++
 
@@ -629,7 +630,7 @@ func (qws *queryWatcherState) transform(rawChanges []*method_descriptor.MethodDe
 
 func (qws *queryWatcherState) computeSize(pendingChanges []*method_descriptor.MethodDescriptorChange) int64 {
 	size := int64(len(qws.cache))
-	for _, pendingChange := range pendingChanges {
+	for _, pendingChange := range append(qws.pendingSnapshot, pendingChanges...) {
 		name := *pendingChange.GetMethodDescriptorName()
 		if pendingChange.IsDelete() {
 			if _, exists := qws.cache[name]; exists {

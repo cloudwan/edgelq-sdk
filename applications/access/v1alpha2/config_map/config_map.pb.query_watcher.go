@@ -178,6 +178,18 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 			return ctx.Err()
 		}
 
+		// if we disconnected during initial snapshot (we were not in sync), send a message to cancel all data
+		if !inSync {
+			evt := &QueryWatcherEvent{
+				Identifier: qw.identifier,
+				Reset:      true,
+			}
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case qw.evtsChan <- evt:
+			}
+		}
 		if qw.syncDeadline.IsZero() && qw.params.RecoveryDeadline > 0 {
 			qw.syncDeadline = time.Now().UTC().Add(qw.params.RecoveryDeadline)
 			log.Infof("lost sync, scheduling recovery with timeout %s", qw.syncDeadline)
