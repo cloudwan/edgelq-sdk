@@ -94,7 +94,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if region_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{RegionId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Region name or id", name)
 	}

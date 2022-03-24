@@ -99,7 +99,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if distribution_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{DistributionId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Distribution name or id", name)
 	}

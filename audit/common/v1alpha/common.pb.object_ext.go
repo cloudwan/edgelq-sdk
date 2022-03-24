@@ -59,6 +59,9 @@ func (o *Authentication) MakeDiffFieldMask(other *Authentication) *Authenticatio
 	if o.GetPrincipal() != other.GetPrincipal() {
 		res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipal})
 	}
+	if o.GetPrincipalType() != other.GetPrincipalType() {
+		res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType})
+	}
 	return res
 }
 
@@ -72,6 +75,7 @@ func (o *Authentication) Clone() *Authentication {
 	}
 	result := &Authentication{}
 	result.Principal = o.Principal
+	result.PrincipalType = o.PrincipalType
 	return result
 }
 
@@ -81,6 +85,7 @@ func (o *Authentication) CloneRaw() gotenobject.GotenObjectExt {
 
 func (o *Authentication) Merge(source *Authentication) {
 	o.Principal = source.GetPrincipal()
+	o.PrincipalType = source.GetPrincipalType()
 }
 
 func (o *Authentication) MergeRaw(source gotenobject.GotenObjectExt) {

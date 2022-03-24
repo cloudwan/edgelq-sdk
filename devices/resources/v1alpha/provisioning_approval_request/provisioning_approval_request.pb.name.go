@@ -100,7 +100,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if provisioningApprovalRequest_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ProvisioningApprovalRequestId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ProvisioningApprovalRequest name or id", name)
 	}

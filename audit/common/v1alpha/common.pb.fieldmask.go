@@ -52,6 +52,7 @@ type Authentication_FieldMask struct {
 func FullAuthentication_FieldMask() *Authentication_FieldMask {
 	res := &Authentication_FieldMask{}
 	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipal})
+	res.Paths = append(res.Paths, &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType})
 	return res
 }
 
@@ -95,7 +96,7 @@ func (fieldMask *Authentication_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Authentication_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -125,7 +126,7 @@ func (fieldMask *Authentication_FieldMask) Reset() {
 
 func (fieldMask *Authentication_FieldMask) Subtract(other *Authentication_FieldMask) *Authentication_FieldMask {
 	result := &Authentication_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -281,6 +282,8 @@ func (fieldMask *Authentication_FieldMask) Project(source *Authentication) *Auth
 			switch tp.selector {
 			case Authentication_FieldPathSelectorPrincipal:
 				result.Principal = source.Principal
+			case Authentication_FieldPathSelectorPrincipalType:
+				result.PrincipalType = source.PrincipalType
 			}
 		}
 	}

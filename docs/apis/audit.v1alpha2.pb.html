@@ -921,63 +921,59 @@ optionally describes other &quot;operation&quot; type.</p>
 <tr></tr>
 
 <tr>
-<th>Update</th>
-<td class="description"><p>Describes any request making update on the system state.
-Note this includes not just &quot;Update<Res>&quot; requests, but also
-creations and deletions (create/delete is also some UPDATE
-of the part of the system). However, note that there are other &quot;Update&quot;
-types in this enumeration.
-Basically, this &quot;Update&quot; type is for any CUD request EXCEPT those
-classified as SpecUpdateOnly, StateUpdateOnly, InternalUpdate or
-OtherUpdate.</p>
-</td>
-</tr>
-<tr></tr>
-
-<tr>
 <th>Operation</th>
-<td class="description"><p>Describes any request executing some special operation on the
-system. It is to be used by special requests like connecting to
-device with SSH.
-It's for requests that cannot obviously be classified clearly as
-a read or update.</p>
+<td class="description"><p>Describes all requests that involved execution of some special operation,
+for example, SSH connection could be put in this category.
+It's for requests that cannot be classified clearly as a read or write.</p>
 </td>
 </tr>
 <tr></tr>
 
 <tr>
-<th>SpecUpdateOnly</th>
-<td class="description"><p>Describes any request updating only &quot;spec&quot; field paths
-on the subject resource and not updating any &quot;state&quot; fields.
-It may contain additionally updated meta fields.
-It never describes create/delete operation.</p>
+<th>Creation</th>
+<td class="description"><p>Describes all requests that involved creation of a new resource.</p>
 </td>
 </tr>
 <tr></tr>
 
 <tr>
-<th>StateUpdateOnly</th>
-<td class="description"><p>Describes any request updating only &quot;state&quot; field paths
-on the subject resource and not updating any &quot;spec&quot; fields.
-It may contain additionally updated meta fields.
-It never describes create/delete operation.</p>
+<th>Deletion</th>
+<td class="description"><p>Describes all requests which involved deletion of an existing resource.</p>
 </td>
 </tr>
 <tr></tr>
 
 <tr>
-<th>InternalUpdate</th>
-<td class="description"><p>Describes internal update of the system. This is for requests
-executed internally by the system (like controller creating role
-binding for each group member for each role assigned to group).</p>
+<th>SpecUpdate</th>
+<td class="description"><p>Describes all update requests that changed specification fields in
+an existing resource(s).</p>
 </td>
 </tr>
 <tr></tr>
 
 <tr>
-<th>OtherUpdate</th>
-<td class="description"><p>Describes any other non-significant update request (never create/delete).
-This is for empty updates or modifying meta fields only.</p>
+<th>StateUpdate</th>
+<td class="description"><p>Describes all update requests that changed state fields in an existing
+resource(s) (but not specification).</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>MetaUpdate</th>
+<td class="description"><p>Describes all update requests that are neither of SpecUpdate or
+StateUpdate type. It is for non-significant updates like modification of
+metadata annotations.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>Internal</th>
+<td class="description"><p>Describes an internal update of the system (like controller creating role
+binding for each group member for each role assigned to group).
+It includes all CUD requests as long as they are result of an internal
+system balancing.</p>
 </td>
 </tr>
 <tr></tr>
@@ -3417,6 +3413,13 @@ in stateless watch type.</p>
 <td class="type"><pre>string</pre></td>
 </tr>
 <tr><td class="description"><p>Name of the principal, for example: &quot;user:our_<a href="mailto:new_admin@example.com">new_admin@example.com</a>&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">principal_type</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Principal type - user, serviceAccount, anonymous</p>
 </td></tr>
  
 </tbody>

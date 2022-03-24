@@ -94,7 +94,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if permission_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{PermissionId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Permission name or id", name)
 	}

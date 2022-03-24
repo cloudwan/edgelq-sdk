@@ -110,7 +110,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if condition_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ConditionId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Condition name or id", name)
 	}

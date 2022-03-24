@@ -352,6 +352,10 @@ func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthentication
 	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipal{}
 }
 
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthentication) PrincipalType() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType {
+	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType{}
+}
+
 type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipal struct{}
 
 func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipal) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
@@ -366,6 +370,23 @@ func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticati
 }
 
 func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipal) WithArrayOfValues(values []string) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType struct{}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Authentication().PrincipalType().FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType) WithValue(value string) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsAuthenticationPrincipalType) WithArrayOfValues(values []string) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -939,6 +960,10 @@ func (CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthentication) Pri
 	return CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipal{}
 }
 
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthentication) PrincipalType() CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType {
+	return CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType{}
+}
+
 type CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipal struct{}
 
 func (CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipal) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
@@ -953,6 +978,23 @@ func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPri
 }
 
 func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipal) WithArrayOfValues(values []string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType struct{}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorAuthentication,
+		subPath:  audit_common.NewAuthenticationFieldPathBuilder().PrincipalType().FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType) WithValue(value string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorAuthenticationPrincipalType) WithArrayOfValues(values []string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
 }
 

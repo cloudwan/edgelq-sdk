@@ -98,7 +98,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if configMap_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ConfigMapId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ConfigMap name or id", name)
 	}

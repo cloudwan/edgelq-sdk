@@ -102,7 +102,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if alert_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{AlertId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Alert name or id", name)
 	}

@@ -146,6 +146,10 @@ func (ResourceChangeLogPathSelectorAuthentication) Principal() ResourceChangeLog
 	return ResourceChangeLogPathSelectorAuthenticationPrincipal{}
 }
 
+func (ResourceChangeLogPathSelectorAuthentication) PrincipalType() ResourceChangeLogPathSelectorAuthenticationPrincipalType {
+	return ResourceChangeLogPathSelectorAuthenticationPrincipalType{}
+}
+
 type ResourceChangeLogPathSelectorAuthenticationPrincipal struct{}
 
 func (ResourceChangeLogPathSelectorAuthenticationPrincipal) FieldPath() *ResourceChangeLog_FieldSubPath {
@@ -160,6 +164,23 @@ func (s ResourceChangeLogPathSelectorAuthenticationPrincipal) WithValue(value st
 }
 
 func (s ResourceChangeLogPathSelectorAuthenticationPrincipal) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorAuthenticationPrincipalType struct{}
+
+func (ResourceChangeLogPathSelectorAuthenticationPrincipalType) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorAuthentication,
+		subPath:  audit_common.NewAuthenticationFieldPathBuilder().PrincipalType().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationPrincipalType) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorAuthenticationPrincipalType) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
 }
 

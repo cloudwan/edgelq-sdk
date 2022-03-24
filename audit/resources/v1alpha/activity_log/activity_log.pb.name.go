@@ -120,7 +120,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if activityLog_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ActivityLogId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ActivityLog name or id", name)
 	}

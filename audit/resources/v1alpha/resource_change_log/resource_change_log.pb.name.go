@@ -114,7 +114,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if resourceChangeLog_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ResourceChangeLogId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ResourceChangeLog name or id", name)
 	}

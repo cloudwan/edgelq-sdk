@@ -468,6 +468,10 @@ func (b *filterCndBuilderAuthentication) Principal() *filterCndBuilderAuthentica
 	return &filterCndBuilderAuthenticationPrincipal{builder: b.builder}
 }
 
+func (b *filterCndBuilderAuthentication) PrincipalType() *filterCndBuilderAuthenticationPrincipalType {
+	return &filterCndBuilderAuthenticationPrincipalType{builder: b.builder}
+}
+
 type filterCndBuilderAuthenticationPrincipal struct {
 	builder *FilterBuilder
 }
@@ -524,6 +528,65 @@ func (b *filterCndBuilderAuthenticationPrincipal) compare(op gotenfilter.Compare
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Authentication().Principal().WithValue(value),
+	})
+}
+
+type filterCndBuilderAuthenticationPrincipalType struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authentication().PrincipalType().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Authentication().PrincipalType().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewActivityLogFieldPathBuilder().Authentication().PrincipalType().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewActivityLogFieldPathBuilder().Authentication().PrincipalType().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAuthenticationPrincipalType) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Authentication().PrincipalType().WithValue(value),
 	})
 }
 

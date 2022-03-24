@@ -247,43 +247,35 @@ message ActivityLog {
     // Undefined, should never be used
     Undefined = 0;
 
-    // Describes any request making update on the system state.
-    // Note this includes not just "Update<Res>" requests, but also
-    // creations and deletions (create/delete is also some UPDATE
-    // of the part of the system). However, note that there are other "Update"
-    // types in this enumeration.
-    // Basically, this "Update" type is for any CUD request EXCEPT those
-    // classified as SpecUpdateOnly, StateUpdateOnly, InternalUpdate or
-    // OtherUpdate.
-    Update = 1;
-
-    // Describes any request executing some special operation on the
-    // system. It is to be used by special requests like connecting to
-    // device with SSH.
-    // It's for requests that cannot obviously be classified clearly as
-    // a read or update.
+    // Describes all requests that involved execution of some special operation,
+    // for example, SSH connection could be put in this category.
+    // It's for requests that cannot be classified clearly as a read or write.
     Operation = 2;
 
-    // Describes any request updating only "spec" field paths
-    // on the subject resource and not updating any "state" fields.
-    // It may contain additionally updated meta fields.
-    // It never describes create/delete operation.
-    SpecUpdateOnly = 3;
+    // Describes all requests that involved creation of a new resource.
+    Creation = 1;
 
-    // Describes any request updating only "state" field paths
-    // on the subject resource and not updating any "spec" fields.
-    // It may contain additionally updated meta fields.
-    // It never describes create/delete operation.
-    StateUpdateOnly = 4;
+    // Describes all requests which involved deletion of an existing resource.
+    Deletion = 11;
 
-    // Describes internal update of the system. This is for requests
-    // executed internally by the system (like controller creating role
+    // Describes all update requests that changed specification fields in
+    // an existing resource(s).
+    SpecUpdate = 3;
+
+    // Describes all update requests that changed state fields in an existing
+    // resource(s) (but not specification).
+    StateUpdate = 4;
+
+    // Describes all update requests that are neither of SpecUpdate or
+    // StateUpdate type. It is for non-significant updates like modification of
+    // metadata annotations.
+    MetaUpdate = 6;
+
+    // Describes an internal update of the system (like controller creating role
     // binding for each group member for each role assigned to group).
-    InternalUpdate = 5;
-
-    // Describes any other non-significant update request (never create/delete).
-    // This is for empty updates or modifying meta fields only.
-    OtherUpdate = 6;
+    // It includes all CUD requests as long as they are result of an internal
+    // system balancing.
+    Internal = 5;
 
     // Describes request that has been rejected and therefore no action
     // has happened. This is result of lack of permission/authentication.

@@ -148,6 +148,10 @@ func (ActivityLogPathSelectorAuthentication) Principal() ActivityLogPathSelector
 	return ActivityLogPathSelectorAuthenticationPrincipal{}
 }
 
+func (ActivityLogPathSelectorAuthentication) PrincipalType() ActivityLogPathSelectorAuthenticationPrincipalType {
+	return ActivityLogPathSelectorAuthenticationPrincipalType{}
+}
+
 type ActivityLogPathSelectorAuthenticationPrincipal struct{}
 
 func (ActivityLogPathSelectorAuthenticationPrincipal) FieldPath() *ActivityLog_FieldSubPath {
@@ -162,6 +166,23 @@ func (s ActivityLogPathSelectorAuthenticationPrincipal) WithValue(value string) 
 }
 
 func (s ActivityLogPathSelectorAuthenticationPrincipal) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorAuthenticationPrincipalType struct{}
+
+func (ActivityLogPathSelectorAuthenticationPrincipalType) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorAuthentication,
+		subPath:  audit_common.NewAuthenticationFieldPathBuilder().PrincipalType().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorAuthenticationPrincipalType) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorAuthenticationPrincipalType) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 

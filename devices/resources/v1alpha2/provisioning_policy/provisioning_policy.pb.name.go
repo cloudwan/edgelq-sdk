@@ -106,7 +106,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if provisioningPolicy_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ProvisioningPolicyId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ProvisioningPolicy name or id", name)
 	}

@@ -97,7 +97,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if projectInvitation_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{ProjectInvitationId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as ProjectInvitation name or id", name)
 	}

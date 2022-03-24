@@ -98,7 +98,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if alertingPolicy_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{AlertingPolicyId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as AlertingPolicy name or id", name)
 	}

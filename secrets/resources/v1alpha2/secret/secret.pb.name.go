@@ -97,7 +97,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if secret_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{SecretId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Secret name or id", name)
 	}

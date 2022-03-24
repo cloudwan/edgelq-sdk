@@ -378,6 +378,10 @@ func (ListActivityLogsResponsePathSelectorActivityLogsAuthentication) Principal(
 	return ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipal{}
 }
 
+func (ListActivityLogsResponsePathSelectorActivityLogsAuthentication) PrincipalType() ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType {
+	return ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType{}
+}
+
 type ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipal struct{}
 
 func (ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipal) FieldPath() *ListActivityLogsResponse_FieldSubPath {
@@ -392,6 +396,23 @@ func (s ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipal)
 }
 
 func (s ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipal) WithArrayOfValues(values []string) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListActivityLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType struct{}
+
+func (ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType) FieldPath() *ListActivityLogsResponse_FieldSubPath {
+	return &ListActivityLogsResponse_FieldSubPath{
+		selector: ListActivityLogsResponse_FieldPathSelectorActivityLogs,
+		subPath:  activity_log.NewActivityLogFieldPathBuilder().Authentication().PrincipalType().FieldPath(),
+	}
+}
+
+func (s ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType) WithValue(value string) *ListActivityLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListActivityLogsResponse_FieldSubPathValue)
+}
+
+func (s ListActivityLogsResponsePathSelectorActivityLogsAuthenticationPrincipalType) WithArrayOfValues(values []string) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListActivityLogsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1583,6 +1604,10 @@ func (CreateActivityLogsRequestPathSelectorActivityLogsAuthentication) Principal
 	return CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipal{}
 }
 
+func (CreateActivityLogsRequestPathSelectorActivityLogsAuthentication) PrincipalType() CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType {
+	return CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType{}
+}
+
 type CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipal struct{}
 
 func (CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipal) FieldPath() *CreateActivityLogsRequest_FieldSubPath {
@@ -1597,6 +1622,23 @@ func (s CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipal
 }
 
 func (s CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipal) WithArrayOfValues(values []string) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateActivityLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType struct{}
+
+func (CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType) FieldPath() *CreateActivityLogsRequest_FieldSubPath {
+	return &CreateActivityLogsRequest_FieldSubPath{
+		selector: CreateActivityLogsRequest_FieldPathSelectorActivityLogs,
+		subPath:  activity_log.NewActivityLogFieldPathBuilder().Authentication().PrincipalType().FieldPath(),
+	}
+}
+
+func (s CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType) WithValue(value string) *CreateActivityLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateActivityLogsRequest_FieldSubPathValue)
+}
+
+func (s CreateActivityLogsRequestPathSelectorActivityLogsAuthenticationPrincipalType) WithArrayOfValues(values []string) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateActivityLogsRequest_FieldSubPathArrayOfValues)
 }
 

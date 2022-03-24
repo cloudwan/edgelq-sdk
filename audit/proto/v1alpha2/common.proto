@@ -14,6 +14,9 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 message Authentication {
   // Name of the principal, for example: "user:our_new_admin@example.com"
   string principal = 1;
+
+  // Principal type - user, serviceAccount, anonymous
+  string principal_type = 2;
 }
 
 // Information about authorization applicable for a request.

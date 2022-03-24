@@ -24,6 +24,9 @@ func NewAuthenticationFieldPathBuilder() AuthenticationFieldPathBuilder {
 func (AuthenticationFieldPathBuilder) Principal() AuthenticationPathSelectorPrincipal {
 	return AuthenticationPathSelectorPrincipal{}
 }
+func (AuthenticationFieldPathBuilder) PrincipalType() AuthenticationPathSelectorPrincipalType {
+	return AuthenticationPathSelectorPrincipalType{}
+}
 
 type AuthenticationPathSelectorPrincipal struct{}
 
@@ -36,6 +39,20 @@ func (s AuthenticationPathSelectorPrincipal) WithValue(value string) *Authentica
 }
 
 func (s AuthenticationPathSelectorPrincipal) WithArrayOfValues(values []string) *Authentication_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldTerminalPathArrayOfValues)
+}
+
+type AuthenticationPathSelectorPrincipalType struct{}
+
+func (AuthenticationPathSelectorPrincipalType) FieldPath() *Authentication_FieldTerminalPath {
+	return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType}
+}
+
+func (s AuthenticationPathSelectorPrincipalType) WithValue(value string) *Authentication_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Authentication_FieldTerminalPathValue)
+}
+
+func (s AuthenticationPathSelectorPrincipalType) WithArrayOfValues(values []string) *Authentication_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Authentication_FieldTerminalPathArrayOfValues)
 }
 

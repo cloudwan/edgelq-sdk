@@ -96,7 +96,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if user_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{UserId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as User name or id", name)
 	}

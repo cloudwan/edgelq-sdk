@@ -110,7 +110,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if device_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{DeviceId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Device name or id", name)
 	}

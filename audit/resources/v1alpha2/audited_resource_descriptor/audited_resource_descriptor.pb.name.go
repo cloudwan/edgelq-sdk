@@ -96,7 +96,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if auditedResourceDescriptor_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{AuditedResourceDescriptorId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as AuditedResourceDescriptor name or id", name)
 	}

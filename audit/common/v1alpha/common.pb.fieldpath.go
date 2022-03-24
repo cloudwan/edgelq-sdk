@@ -72,13 +72,16 @@ type Authentication_FieldPath interface {
 type Authentication_FieldPathSelector int32
 
 const (
-	Authentication_FieldPathSelectorPrincipal Authentication_FieldPathSelector = 0
+	Authentication_FieldPathSelectorPrincipal     Authentication_FieldPathSelector = 0
+	Authentication_FieldPathSelectorPrincipalType Authentication_FieldPathSelector = 1
 )
 
 func (s Authentication_FieldPathSelector) String() string {
 	switch s {
 	case Authentication_FieldPathSelectorPrincipal:
 		return "principal"
+	case Authentication_FieldPathSelectorPrincipalType:
+		return "principal_type"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", s))
 	}
@@ -92,6 +95,8 @@ func BuildAuthentication_FieldPath(fp gotenobject.RawFieldPath) (Authentication_
 		switch fp[0] {
 		case "principal":
 			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipal}, nil
+		case "principal_type", "principalType", "principal-type":
+			return &Authentication_FieldTerminalPath{selector: Authentication_FieldPathSelectorPrincipalType}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Authentication", fp)
@@ -139,6 +144,8 @@ func (fp *Authentication_FieldTerminalPath) Get(source *Authentication) (values 
 		switch fp.selector {
 		case Authentication_FieldPathSelectorPrincipal:
 			values = append(values, source.Principal)
+		case Authentication_FieldPathSelectorPrincipalType:
+			values = append(values, source.PrincipalType)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 		}
@@ -155,6 +162,8 @@ func (fp *Authentication_FieldTerminalPath) GetSingle(source *Authentication) (i
 	switch fp.selector {
 	case Authentication_FieldPathSelectorPrincipal:
 		return source.GetPrincipal(), source != nil
+	case Authentication_FieldPathSelectorPrincipalType:
+		return source.GetPrincipalType(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -169,6 +178,8 @@ func (fp *Authentication_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case Authentication_FieldPathSelectorPrincipal:
 		return ""
+	case Authentication_FieldPathSelectorPrincipalType:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 	}
@@ -179,6 +190,8 @@ func (fp *Authentication_FieldTerminalPath) ClearValue(item *Authentication) {
 		switch fp.selector {
 		case Authentication_FieldPathSelectorPrincipal:
 			item.Principal = ""
+		case Authentication_FieldPathSelectorPrincipalType:
+			item.PrincipalType = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
 		}
@@ -191,12 +204,15 @@ func (fp *Authentication_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *Authentication_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == Authentication_FieldPathSelectorPrincipal
+	return fp.selector == Authentication_FieldPathSelectorPrincipal ||
+		fp.selector == Authentication_FieldPathSelectorPrincipalType
 }
 
 func (fp *Authentication_FieldTerminalPath) WithIValue(value interface{}) Authentication_FieldPathValue {
 	switch fp.selector {
 	case Authentication_FieldPathSelectorPrincipal:
+		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(string)}
+	case Authentication_FieldPathSelectorPrincipalType:
 		return &Authentication_FieldTerminalPathValue{Authentication_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
@@ -211,6 +227,8 @@ func (fp *Authentication_FieldTerminalPath) WithIArrayOfValues(values interface{
 	fpaov := &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case Authentication_FieldPathSelectorPrincipal:
+		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]string)}
+	case Authentication_FieldPathSelectorPrincipalType:
 		return &Authentication_FieldTerminalPathArrayOfValues{Authentication_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fp.selector))
@@ -276,6 +294,10 @@ func (fpv *Authentication_FieldTerminalPathValue) AsPrincipalValue() (string, bo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Authentication_FieldTerminalPathValue) AsPrincipalTypeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Authentication
 func (fpv *Authentication_FieldTerminalPathValue) SetTo(target **Authentication) {
@@ -285,6 +307,8 @@ func (fpv *Authentication_FieldTerminalPathValue) SetTo(target **Authentication)
 	switch fpv.selector {
 	case Authentication_FieldPathSelectorPrincipal:
 		(*target).Principal = fpv.value.(string)
+	case Authentication_FieldPathSelectorPrincipalType:
+		(*target).PrincipalType = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Authentication: %d", fpv.selector))
 	}
@@ -301,6 +325,16 @@ func (fpv *Authentication_FieldTerminalPathValue) CompareWith(source *Authentica
 	case Authentication_FieldPathSelectorPrincipal:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetPrincipal()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Authentication_FieldPathSelectorPrincipalType:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPrincipalType()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -416,10 +450,18 @@ func (fpaov *Authentication_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Authentication_FieldPathSelectorPrincipalType:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsPrincipalArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Authentication_FieldTerminalPathArrayOfValues) AsPrincipalTypeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

@@ -99,7 +99,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if organizationInvitation_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{OrganizationInvitationId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as OrganizationInvitation name or id", name)
 	}

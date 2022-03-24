@@ -103,7 +103,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if metricDescriptor_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{MetricDescriptorId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as MetricDescriptor name or id", name)
 	}

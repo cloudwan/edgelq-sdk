@@ -96,7 +96,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if methodDescriptor_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{MethodDescriptorId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as MethodDescriptor name or id", name)
 	}

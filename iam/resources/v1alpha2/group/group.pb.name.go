@@ -112,7 +112,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if group_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{GroupId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Group name or id", name)
 	}

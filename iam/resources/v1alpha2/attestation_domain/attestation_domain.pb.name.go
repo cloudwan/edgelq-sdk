@@ -99,7 +99,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if attestationDomain_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{AttestationDomainId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as AttestationDomain name or id", name)
 	}

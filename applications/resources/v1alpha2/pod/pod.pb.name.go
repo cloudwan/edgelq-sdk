@@ -102,7 +102,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 		return name, err
 	}
 	if pod_RegexpId.MatchString(nameOrId) {
-		return NewNameBuilder().SetId(nameOrId).Name(), nil
+		return &Name{PodId: nameOrId}, nil
 	} else {
 		return nil, fmt.Errorf("unable to parse '%s' as Pod name or id", name)
 	}
