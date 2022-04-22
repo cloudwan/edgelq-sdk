@@ -74,15 +74,18 @@ type ProjectInvitation_FieldPath interface {
 type ProjectInvitation_FieldPathSelector int32
 
 const (
-	ProjectInvitation_FieldPathSelectorName       ProjectInvitation_FieldPathSelector = 0
-	ProjectInvitation_FieldPathSelectorInvitation ProjectInvitation_FieldPathSelector = 1
-	ProjectInvitation_FieldPathSelectorMetadata   ProjectInvitation_FieldPathSelector = 2
+	ProjectInvitation_FieldPathSelectorName               ProjectInvitation_FieldPathSelector = 0
+	ProjectInvitation_FieldPathSelectorProjectDisplayName ProjectInvitation_FieldPathSelector = 1
+	ProjectInvitation_FieldPathSelectorInvitation         ProjectInvitation_FieldPathSelector = 2
+	ProjectInvitation_FieldPathSelectorMetadata           ProjectInvitation_FieldPathSelector = 3
 )
 
 func (s ProjectInvitation_FieldPathSelector) String() string {
 	switch s {
 	case ProjectInvitation_FieldPathSelectorName:
 		return "name"
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		return "project_display_name"
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		return "invitation"
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -100,6 +103,8 @@ func BuildProjectInvitation_FieldPath(fp gotenobject.RawFieldPath) (ProjectInvit
 		switch fp[0] {
 		case "name":
 			return &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorName}, nil
+		case "project_display_name", "projectDisplayName", "project-display-name":
+			return &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorProjectDisplayName}, nil
 		case "invitation":
 			return &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorInvitation}, nil
 		case "metadata":
@@ -168,6 +173,8 @@ func (fp *ProjectInvitation_FieldTerminalPath) Get(source *ProjectInvitation) (v
 			if source.Name != nil {
 				values = append(values, source.Name)
 			}
+		case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+			values = append(values, source.ProjectDisplayName)
 		case ProjectInvitation_FieldPathSelectorInvitation:
 			if source.Invitation != nil {
 				values = append(values, source.Invitation)
@@ -193,6 +200,8 @@ func (fp *ProjectInvitation_FieldTerminalPath) GetSingle(source *ProjectInvitati
 	case ProjectInvitation_FieldPathSelectorName:
 		res := source.GetName()
 		return res, res != nil
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		return source.GetProjectDisplayName(), source != nil
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		res := source.GetInvitation()
 		return res, res != nil
@@ -213,6 +222,8 @@ func (fp *ProjectInvitation_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ProjectInvitation_FieldPathSelectorName:
 		return (*Name)(nil)
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		return ""
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		return (*iam_common.Invitation)(nil)
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -227,6 +238,8 @@ func (fp *ProjectInvitation_FieldTerminalPath) ClearValue(item *ProjectInvitatio
 		switch fp.selector {
 		case ProjectInvitation_FieldPathSelectorName:
 			item.Name = nil
+		case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+			item.ProjectDisplayName = ""
 		case ProjectInvitation_FieldPathSelectorInvitation:
 			item.Invitation = nil
 		case ProjectInvitation_FieldPathSelectorMetadata:
@@ -243,13 +256,16 @@ func (fp *ProjectInvitation_FieldTerminalPath) ClearValueRaw(item proto.Message)
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ProjectInvitation_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ProjectInvitation_FieldPathSelectorName
+	return fp.selector == ProjectInvitation_FieldPathSelectorName ||
+		fp.selector == ProjectInvitation_FieldPathSelectorProjectDisplayName
 }
 
 func (fp *ProjectInvitation_FieldTerminalPath) WithIValue(value interface{}) ProjectInvitation_FieldPathValue {
 	switch fp.selector {
 	case ProjectInvitation_FieldPathSelectorName:
 		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(*Name)}
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(string)}
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(*iam_common.Invitation)}
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -268,6 +284,8 @@ func (fp *ProjectInvitation_FieldTerminalPath) WithIArrayOfValues(values interfa
 	switch fp.selector {
 	case ProjectInvitation_FieldPathSelectorName:
 		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]*Name)}
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]string)}
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]*iam_common.Invitation)}
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -454,6 +472,10 @@ func (fpv *ProjectInvitation_FieldTerminalPathValue) AsNameValue() (*Name, bool)
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
+func (fpv *ProjectInvitation_FieldTerminalPathValue) AsProjectDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *ProjectInvitation_FieldTerminalPathValue) AsInvitationValue() (*iam_common.Invitation, bool) {
 	res, ok := fpv.value.(*iam_common.Invitation)
 	return res, ok
@@ -471,6 +493,8 @@ func (fpv *ProjectInvitation_FieldTerminalPathValue) SetTo(target **ProjectInvit
 	switch fpv.selector {
 	case ProjectInvitation_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		(*target).ProjectDisplayName = fpv.value.(string)
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		(*target).Invitation = fpv.value.(*iam_common.Invitation)
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -503,6 +527,16 @@ func (fpv *ProjectInvitation_FieldTerminalPathValue) CompareWith(source *Project
 		if leftValue.String() == rightValue.String() {
 			return 0, true
 		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetProjectDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -703,6 +737,10 @@ func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]*Name) {
 			values = append(values, v)
 		}
+	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case ProjectInvitation_FieldPathSelectorInvitation:
 		for _, v := range fpaov.values.([]*iam_common.Invitation) {
 			values = append(values, v)
@@ -716,6 +754,10 @@ func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) GetRawValues() (v
 }
 func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
 	res, ok := fpaov.values.([]*Name)
+	return res, ok
+}
+func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsProjectDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsInvitationArrayOfValues() ([]*iam_common.Invitation, bool) {

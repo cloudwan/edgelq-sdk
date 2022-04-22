@@ -21,6 +21,10 @@ message ProjectInvitation {
   // Name of ProjectInvitation
   string name = 1;
 
+  // project display name (auto-generated). Present here as user doesn't have
+  // yet permission to fetch related project.
+  string projectDisplayName = 4;
+
   Invitation invitation = 2;
 
   // Metadata

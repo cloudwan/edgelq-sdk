@@ -806,6 +806,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesSpec) AttestationConfig() List
 	return ListPublicDevicesResponsePathSelectorDevicesSpecAttestationConfig{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesSpec) DisableDeviceDiscovery() ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesSpecServiceAccount struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesSpecServiceAccount) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -10921,6 +10925,23 @@ func (s ListPublicDevicesResponsePathSelectorDevicesSpecAttestationConfigInsecur
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

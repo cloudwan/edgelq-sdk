@@ -61,6 +61,9 @@ func (o *ProjectInvitation) MakeDiffFieldMask(other *ProjectInvitation) *Project
 	if o.GetName().String() != other.GetName().String() {
 		res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorName})
 	}
+	if o.GetProjectDisplayName() != other.GetProjectDisplayName() {
+		res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorProjectDisplayName})
+	}
 	{
 		subMask := o.GetInvitation().MakeDiffFieldMask(other.GetInvitation())
 		if subMask.IsFull() {
@@ -103,6 +106,7 @@ func (o *ProjectInvitation) Clone() *ProjectInvitation {
 			panic(err)
 		}
 	}
+	result.ProjectDisplayName = o.ProjectDisplayName
 	result.Invitation = o.Invitation.Clone()
 	result.Metadata = o.Metadata.Clone()
 	return result
@@ -125,6 +129,7 @@ func (o *ProjectInvitation) Merge(source *ProjectInvitation) {
 	} else {
 		o.Name = nil
 	}
+	o.ProjectDisplayName = source.GetProjectDisplayName()
 	if source.GetInvitation() != nil {
 		if o.Invitation == nil {
 			o.Invitation = new(iam_common.Invitation)

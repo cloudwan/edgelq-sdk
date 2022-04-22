@@ -652,6 +652,10 @@ func (DevicePathSelectorSpec) AttestationConfig() DevicePathSelectorSpecAttestat
 	return DevicePathSelectorSpecAttestationConfig{}
 }
 
+func (DevicePathSelectorSpec) DisableDeviceDiscovery() DevicePathSelectorSpecDisableDeviceDiscovery {
+	return DevicePathSelectorSpecDisableDeviceDiscovery{}
+}
+
 type DevicePathSelectorSpecServiceAccount struct{}
 
 func (DevicePathSelectorSpecServiceAccount) FieldPath() *Device_FieldSubPath {
@@ -10770,6 +10774,23 @@ func (s DevicePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed) With
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
+type DevicePathSelectorSpecDisableDeviceDiscovery struct{}
+
+func (DevicePathSelectorSpecDisableDeviceDiscovery) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecDisableDeviceDiscovery) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
 type DevicePathSelectorStatus struct{}
 
 func (DevicePathSelectorStatus) FieldPath() *Device_FieldTerminalPath {
@@ -13208,6 +13229,9 @@ func (DeviceSpecFieldPathBuilder) SshConfig() Device_SpecPathSelectorSshConfig {
 }
 func (DeviceSpecFieldPathBuilder) AttestationConfig() Device_SpecPathSelectorAttestationConfig {
 	return Device_SpecPathSelectorAttestationConfig{}
+}
+func (DeviceSpecFieldPathBuilder) DisableDeviceDiscovery() Device_SpecPathSelectorDisableDeviceDiscovery {
+	return Device_SpecPathSelectorDisableDeviceDiscovery{}
 }
 
 type Device_SpecPathSelectorServiceAccount struct{}
@@ -23353,6 +23377,20 @@ func (s Device_SpecPathSelectorAttestationConfigInsecureUseTpmSimulatorSeed) Wit
 
 func (s Device_SpecPathSelectorAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *DeviceSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+type Device_SpecPathSelectorDisableDeviceDiscovery struct{}
+
+func (Device_SpecPathSelectorDisableDeviceDiscovery) FieldPath() *DeviceSpec_FieldTerminalPath {
+	return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery}
+}
+
+func (s Device_SpecPathSelectorDisableDeviceDiscovery) WithValue(value bool) *DeviceSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldTerminalPathValue)
+}
+
+func (s Device_SpecPathSelectorDisableDeviceDiscovery) WithArrayOfValues(values []bool) *DeviceSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceStatusFieldPathBuilder struct{}

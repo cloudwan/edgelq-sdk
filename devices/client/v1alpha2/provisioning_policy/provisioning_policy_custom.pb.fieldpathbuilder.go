@@ -3241,6 +3241,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) AttestationConfig(
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecAttestationConfig{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) DisableDeviceDiscovery() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -13356,6 +13360,23 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecAttestationConfigI
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithValue(value bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

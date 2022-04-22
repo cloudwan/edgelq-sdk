@@ -232,6 +232,10 @@ func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitations) Name() B
 	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsName{}
 }
 
+func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitations) ProjectDisplayName() BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName {
+	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName{}
+}
+
 func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitations) Invitation() BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitation {
 	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitation{}
 }
@@ -254,6 +258,23 @@ func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsName) Wi
 }
 
 func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsName) WithArrayOfValues(values []*project_invitation.Name) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName struct{}
+
+func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) FieldPath() *BatchGetProjectInvitationsResponse_FieldSubPath {
+	return &BatchGetProjectInvitationsResponse_FieldSubPath{
+		selector: BatchGetProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithValue(value string) *BatchGetProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithArrayOfValues(values []string) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1159,6 +1180,10 @@ func (ListProjectInvitationsResponsePathSelectorProjectInvitations) Name() ListP
 	return ListProjectInvitationsResponsePathSelectorProjectInvitationsName{}
 }
 
+func (ListProjectInvitationsResponsePathSelectorProjectInvitations) ProjectDisplayName() ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName {
+	return ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName{}
+}
+
 func (ListProjectInvitationsResponsePathSelectorProjectInvitations) Invitation() ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitation {
 	return ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitation{}
 }
@@ -1181,6 +1206,23 @@ func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsName) WithVa
 }
 
 func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsName) WithArrayOfValues(values []*project_invitation.Name) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName struct{}
+
+func (ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) FieldPath() *ListProjectInvitationsResponse_FieldSubPath {
+	return &ListProjectInvitationsResponse_FieldSubPath{
+		selector: ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithValue(value string) *ListProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithArrayOfValues(values []string) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2462,6 +2504,10 @@ func (CreateProjectInvitationRequestPathSelectorProjectInvitation) Name() Create
 	return CreateProjectInvitationRequestPathSelectorProjectInvitationName{}
 }
 
+func (CreateProjectInvitationRequestPathSelectorProjectInvitation) ProjectDisplayName() CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName {
+	return CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName{}
+}
+
 func (CreateProjectInvitationRequestPathSelectorProjectInvitation) Invitation() CreateProjectInvitationRequestPathSelectorProjectInvitationInvitation {
 	return CreateProjectInvitationRequestPathSelectorProjectInvitationInvitation{}
 }
@@ -2484,6 +2530,23 @@ func (s CreateProjectInvitationRequestPathSelectorProjectInvitationName) WithVal
 }
 
 func (s CreateProjectInvitationRequestPathSelectorProjectInvitationName) WithArrayOfValues(values []*project_invitation.Name) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName struct{}
+
+func (CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) FieldPath() *CreateProjectInvitationRequest_FieldSubPath {
+	return &CreateProjectInvitationRequest_FieldSubPath{
+		selector: CreateProjectInvitationRequest_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) WithValue(value string) *CreateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) WithArrayOfValues(values []string) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3243,6 +3306,10 @@ func (UpdateProjectInvitationRequestPathSelectorProjectInvitation) Name() Update
 	return UpdateProjectInvitationRequestPathSelectorProjectInvitationName{}
 }
 
+func (UpdateProjectInvitationRequestPathSelectorProjectInvitation) ProjectDisplayName() UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName {
+	return UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName{}
+}
+
 func (UpdateProjectInvitationRequestPathSelectorProjectInvitation) Invitation() UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitation {
 	return UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitation{}
 }
@@ -3265,6 +3332,23 @@ func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationName) WithVal
 }
 
 func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationName) WithArrayOfValues(values []*project_invitation.Name) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName struct{}
+
+func (UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) FieldPath() *UpdateProjectInvitationRequest_FieldSubPath {
+	return &UpdateProjectInvitationRequest_FieldSubPath{
+		selector: UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) WithValue(value string) *UpdateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationProjectDisplayName) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4048,6 +4132,10 @@ func (UpdateProjectInvitationRequestPathSelectorCasConditionalState) Name() Upda
 	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateName{}
 }
 
+func (UpdateProjectInvitationRequestPathSelectorCasConditionalState) ProjectDisplayName() UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName {
+	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName{}
+}
+
 func (UpdateProjectInvitationRequestPathSelectorCasConditionalState) Invitation() UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitation {
 	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitation{}
 }
@@ -4070,6 +4158,23 @@ func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateName) WithV
 }
 
 func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateName) WithArrayOfValues(values []*project_invitation.Name) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName struct{}
+
+func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName) FieldPath() *UpdateProjectInvitationRequest_FieldSubPath {
+	return &UpdateProjectInvitationRequest_FieldSubPath{
+		selector: UpdateProjectInvitationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectInvitationRequestCASFieldPathBuilder().ConditionalState().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName) WithValue(value string) *UpdateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateProjectDisplayName) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4843,6 +4948,10 @@ func (UpdateProjectInvitationRequest_CASPathSelectorConditionalState) Name() Upd
 	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateName{}
 }
 
+func (UpdateProjectInvitationRequest_CASPathSelectorConditionalState) ProjectDisplayName() UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName {
+	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName{}
+}
+
 func (UpdateProjectInvitationRequest_CASPathSelectorConditionalState) Invitation() UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation {
 	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation{}
 }
@@ -4865,6 +4974,23 @@ func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateName) With
 }
 
 func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateName) WithArrayOfValues(values []*project_invitation.Name) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName struct{}
+
+func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName) FieldPath() *UpdateProjectInvitationRequestCAS_FieldSubPath {
+	return &UpdateProjectInvitationRequestCAS_FieldSubPath{
+		selector: UpdateProjectInvitationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName) WithValue(value string) *UpdateProjectInvitationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateProjectDisplayName) WithArrayOfValues(values []string) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

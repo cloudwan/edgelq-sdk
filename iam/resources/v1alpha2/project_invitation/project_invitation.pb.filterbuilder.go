@@ -192,6 +192,10 @@ func (b *filterCndBuilder) Name() *filterCndBuilderName {
 	return &filterCndBuilderName{builder: b.builder}
 }
 
+func (b *filterCndBuilder) ProjectDisplayName() *filterCndBuilderProjectDisplayName {
+	return &filterCndBuilderProjectDisplayName{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Invitation() *filterCndBuilderInvitation {
 	return &filterCndBuilderInvitation{builder: b.builder}
 }
@@ -256,6 +260,65 @@ func (b *filterCndBuilderName) compare(op gotenfilter.CompareOperator, value *Na
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderProjectDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderProjectDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderProjectDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().ProjectDisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderProjectDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().ProjectDisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderProjectDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderProjectDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderProjectDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().ProjectDisplayName().WithValue(value),
 	})
 }
 

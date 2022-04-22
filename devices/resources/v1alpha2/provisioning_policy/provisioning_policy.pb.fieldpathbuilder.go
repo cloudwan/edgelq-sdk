@@ -804,6 +804,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) AttestationConfig() Provis
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfig{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) DisableDeviceDiscovery() ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -10922,6 +10926,23 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecAttestationConfigInsecureU
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -12264,6 +12285,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) SshConfig() ProvisioningP
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) AttestationConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfig {
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfig{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) DisableDeviceDiscovery() ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery{}
 }
 
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount struct{}
@@ -22384,6 +22409,23 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecAttestationConfigInsecure
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery) WithValue(value bool) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -23076,6 +23118,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) SshConfig() Provisioning
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) AttestationConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfig {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfig{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) DisableDeviceDiscovery() ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery{}
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecServiceAccount struct{}
@@ -33193,6 +33239,23 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecur
 }
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery) WithValue(value bool) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

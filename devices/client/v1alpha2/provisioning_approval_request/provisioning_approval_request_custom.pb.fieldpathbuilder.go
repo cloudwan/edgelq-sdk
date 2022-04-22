@@ -3027,6 +3027,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) Attestati
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecAttestationConfig{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) DisableDeviceDiscovery() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery{}
+}
+
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
@@ -13142,6 +13146,23 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecAttestati
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecAttestationConfigInsecureUseTpmSimulatorSeed) WithArrayOfValues(values []int32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().DisableDeviceDiscovery().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithValue(value bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

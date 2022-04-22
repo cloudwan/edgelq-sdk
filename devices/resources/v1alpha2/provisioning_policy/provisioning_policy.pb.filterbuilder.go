@@ -2372,6 +2372,10 @@ func (b *filterCndBuilderSpecTemplateSpec) AttestationConfig() *filterCndBuilder
 	return &filterCndBuilderSpecTemplateSpecAttestationConfig{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) DisableDeviceDiscovery() *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery {
+	return &filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -33835,6 +33839,65 @@ func (b *filterCndBuilderSpecTemplateSpecAttestationConfigInsecureUseTpmSimulato
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().AttestationConfig().InsecureUseTpmSimulatorSeed().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().WithValue(value),
 	})
 }
 

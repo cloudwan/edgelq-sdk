@@ -253,6 +253,9 @@ func (o *Device_Spec) MakeDiffFieldMask(other *Device_Spec) *Device_Spec_FieldMa
 			}
 		}
 	}
+	if o.GetDisableDeviceDiscovery() != other.GetDisableDeviceDiscovery() {
+		res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery})
+	}
 	return res
 }
 
@@ -281,6 +284,7 @@ func (o *Device_Spec) Clone() *Device_Spec {
 	result.OsImageUrl = o.OsImageUrl
 	result.SshConfig = o.SshConfig.Clone()
 	result.AttestationConfig = o.AttestationConfig.Clone()
+	result.DisableDeviceDiscovery = o.DisableDeviceDiscovery
 	return result
 }
 
@@ -322,6 +326,7 @@ func (o *Device_Spec) Merge(source *Device_Spec) {
 		}
 		o.AttestationConfig.Merge(source.GetAttestationConfig())
 	}
+	o.DisableDeviceDiscovery = source.GetDisableDeviceDiscovery()
 }
 
 func (o *Device_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

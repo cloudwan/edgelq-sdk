@@ -409,6 +409,16 @@ URL format: base_url/dedicated_path/iso_version/architecture/os_type</p>
 <td class="type"><pre><a href="#message-Device.Spec.AttestationConfig">Device.Spec.AttestationConfig</a></pre></td>
 </tr>
 <tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">disable_device_discovery</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Disables the daemon on the device for device auto discovery on the
+network. When it's enabled, avahi-daemon is launched on the device which
+listens at UDP 5353. This daemon is useful to locate the device that
+acquires an IP address with DHCP.</p>
+</td></tr>
  
 </tbody>
 </table>

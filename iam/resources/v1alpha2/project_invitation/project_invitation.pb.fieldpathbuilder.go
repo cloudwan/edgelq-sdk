@@ -46,6 +46,9 @@ func NewProjectInvitationFieldPathBuilder() ProjectInvitationFieldPathBuilder {
 func (ProjectInvitationFieldPathBuilder) Name() ProjectInvitationPathSelectorName {
 	return ProjectInvitationPathSelectorName{}
 }
+func (ProjectInvitationFieldPathBuilder) ProjectDisplayName() ProjectInvitationPathSelectorProjectDisplayName {
+	return ProjectInvitationPathSelectorProjectDisplayName{}
+}
 func (ProjectInvitationFieldPathBuilder) Invitation() ProjectInvitationPathSelectorInvitation {
 	return ProjectInvitationPathSelectorInvitation{}
 }
@@ -64,6 +67,20 @@ func (s ProjectInvitationPathSelectorName) WithValue(value *Name) *ProjectInvita
 }
 
 func (s ProjectInvitationPathSelectorName) WithArrayOfValues(values []*Name) *ProjectInvitation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldTerminalPathArrayOfValues)
+}
+
+type ProjectInvitationPathSelectorProjectDisplayName struct{}
+
+func (ProjectInvitationPathSelectorProjectDisplayName) FieldPath() *ProjectInvitation_FieldTerminalPath {
+	return &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorProjectDisplayName}
+}
+
+func (s ProjectInvitationPathSelectorProjectDisplayName) WithValue(value string) *ProjectInvitation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldTerminalPathValue)
+}
+
+func (s ProjectInvitationPathSelectorProjectDisplayName) WithArrayOfValues(values []string) *ProjectInvitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldTerminalPathArrayOfValues)
 }
 

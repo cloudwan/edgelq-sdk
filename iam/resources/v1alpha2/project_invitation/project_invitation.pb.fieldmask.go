@@ -54,6 +54,7 @@ type ProjectInvitation_FieldMask struct {
 func FullProjectInvitation_FieldMask() *ProjectInvitation_FieldMask {
 	res := &ProjectInvitation_FieldMask{}
 	res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorProjectDisplayName})
 	res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorInvitation})
 	res.Paths = append(res.Paths, &ProjectInvitation_FieldTerminalPath{selector: ProjectInvitation_FieldPathSelectorMetadata})
 	return res
@@ -99,7 +100,7 @@ func (fieldMask *ProjectInvitation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProjectInvitation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -129,7 +130,7 @@ func (fieldMask *ProjectInvitation_FieldMask) Reset() {
 
 func (fieldMask *ProjectInvitation_FieldMask) Subtract(other *ProjectInvitation_FieldMask) *ProjectInvitation_FieldMask {
 	result := &ProjectInvitation_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[ProjectInvitation_FieldPathSelector]gotenobject.FieldMask{
 		ProjectInvitation_FieldPathSelectorInvitation: &iam_common.Invitation_FieldMask{},
 		ProjectInvitation_FieldPathSelectorMetadata:   &ntt_meta.Meta_FieldMask{},
@@ -337,6 +338,8 @@ func (fieldMask *ProjectInvitation_FieldMask) Project(source *ProjectInvitation)
 			switch tp.selector {
 			case ProjectInvitation_FieldPathSelectorName:
 				result.Name = source.Name
+			case ProjectInvitation_FieldPathSelectorProjectDisplayName:
+				result.ProjectDisplayName = source.ProjectDisplayName
 			case ProjectInvitation_FieldPathSelectorInvitation:
 				result.Invitation = source.Invitation
 				wholeInvitationAccepted = true

@@ -184,6 +184,10 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitations) Name() Lis
 	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsName{}
 }
 
+func (ListMyProjectInvitationsResponsePathSelectorProjectInvitations) ProjectDisplayName() ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName {
+	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName{}
+}
+
 func (ListMyProjectInvitationsResponsePathSelectorProjectInvitations) Invitation() ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation {
 	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation{}
 }
@@ -206,6 +210,23 @@ func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsName) With
 }
 
 func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsName) WithArrayOfValues(values []*project_invitation.Name) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName struct{}
+
+func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) FieldPath() *ListMyProjectInvitationsResponse_FieldSubPath {
+	return &ListMyProjectInvitationsResponse_FieldSubPath{
+		selector: ListMyProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().ProjectDisplayName().FieldPath(),
+	}
+}
+
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithValue(value string) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsProjectDisplayName) WithArrayOfValues(values []string) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 

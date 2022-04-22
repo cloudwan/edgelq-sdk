@@ -963,13 +963,14 @@ type DeviceSpec_FieldPath interface {
 type DeviceSpec_FieldPathSelector int32
 
 const (
-	DeviceSpec_FieldPathSelectorServiceAccount    DeviceSpec_FieldPathSelector = 0
-	DeviceSpec_FieldPathSelectorOsVersion         DeviceSpec_FieldPathSelector = 1
-	DeviceSpec_FieldPathSelectorNetConfig         DeviceSpec_FieldPathSelector = 2
-	DeviceSpec_FieldPathSelectorNetConfigMode     DeviceSpec_FieldPathSelector = 3
-	DeviceSpec_FieldPathSelectorOsImageUrl        DeviceSpec_FieldPathSelector = 4
-	DeviceSpec_FieldPathSelectorSshConfig         DeviceSpec_FieldPathSelector = 5
-	DeviceSpec_FieldPathSelectorAttestationConfig DeviceSpec_FieldPathSelector = 6
+	DeviceSpec_FieldPathSelectorServiceAccount         DeviceSpec_FieldPathSelector = 0
+	DeviceSpec_FieldPathSelectorOsVersion              DeviceSpec_FieldPathSelector = 1
+	DeviceSpec_FieldPathSelectorNetConfig              DeviceSpec_FieldPathSelector = 2
+	DeviceSpec_FieldPathSelectorNetConfigMode          DeviceSpec_FieldPathSelector = 3
+	DeviceSpec_FieldPathSelectorOsImageUrl             DeviceSpec_FieldPathSelector = 4
+	DeviceSpec_FieldPathSelectorSshConfig              DeviceSpec_FieldPathSelector = 5
+	DeviceSpec_FieldPathSelectorAttestationConfig      DeviceSpec_FieldPathSelector = 6
+	DeviceSpec_FieldPathSelectorDisableDeviceDiscovery DeviceSpec_FieldPathSelector = 7
 )
 
 func (s DeviceSpec_FieldPathSelector) String() string {
@@ -988,6 +989,8 @@ func (s DeviceSpec_FieldPathSelector) String() string {
 		return "ssh_config"
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		return "attestation_config"
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		return "disable_device_discovery"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", s))
 	}
@@ -1013,6 +1016,8 @@ func BuildDeviceSpec_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpec_FieldPat
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorSshConfig}, nil
 		case "attestation_config", "attestationConfig", "attestation-config":
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorAttestationConfig}, nil
+		case "disable_device_discovery", "disableDeviceDiscovery", "disable-device-discovery":
+			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1101,6 +1106,8 @@ func (fp *DeviceSpec_FieldTerminalPath) Get(source *Device_Spec) (values []inter
 			if source.AttestationConfig != nil {
 				values = append(values, source.AttestationConfig)
 			}
+		case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+			values = append(values, source.DisableDeviceDiscovery)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1133,6 +1140,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetSingle(source *Device_Spec) (interfac
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		res := source.GetAttestationConfig()
 		return res, res != nil
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		return source.GetDisableDeviceDiscovery(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1159,6 +1168,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*Device_Spec_SSHConfig)(nil)
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		return (*Device_Spec_AttestationConfig)(nil)
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1181,6 +1192,8 @@ func (fp *DeviceSpec_FieldTerminalPath) ClearValue(item *Device_Spec) {
 			item.SshConfig = nil
 		case DeviceSpec_FieldPathSelectorAttestationConfig:
 			item.AttestationConfig = nil
+		case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+			item.DisableDeviceDiscovery = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1196,7 +1209,8 @@ func (fp *DeviceSpec_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeviceSpec_FieldPathSelectorServiceAccount ||
 		fp.selector == DeviceSpec_FieldPathSelectorOsVersion ||
 		fp.selector == DeviceSpec_FieldPathSelectorNetConfigMode ||
-		fp.selector == DeviceSpec_FieldPathSelectorOsImageUrl
+		fp.selector == DeviceSpec_FieldPathSelectorOsImageUrl ||
+		fp.selector == DeviceSpec_FieldPathSelectorDisableDeviceDiscovery
 }
 
 func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec_FieldPathValue {
@@ -1215,6 +1229,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_SSHConfig)}
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_AttestationConfig)}
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1241,6 +1257,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_SSHConfig)}
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_AttestationConfig)}
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1460,6 +1478,10 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) AsAttestationConfigValue() (*Devic
 	res, ok := fpv.value.(*Device_Spec_AttestationConfig)
 	return res, ok
 }
+func (fpv *DeviceSpec_FieldTerminalPathValue) AsDisableDeviceDiscoveryValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
@@ -1481,6 +1503,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
 		(*target).SshConfig = fpv.value.(*Device_Spec_SSHConfig)
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		(*target).AttestationConfig = fpv.value.(*Device_Spec_AttestationConfig)
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		(*target).DisableDeviceDiscovery = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1549,6 +1573,16 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) CompareWith(source *Device_Spec) (
 		return 0, false
 	case DeviceSpec_FieldPathSelectorAttestationConfig:
 		return 0, false
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetDisableDeviceDiscovery()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1779,6 +1813,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*Device_Spec_AttestationConfig) {
 			values = append(values, v)
 		}
+	case DeviceSpec_FieldPathSelectorDisableDeviceDiscovery:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1808,6 +1846,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsSshConfigArrayOfValues
 }
 func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsAttestationConfigArrayOfValues() ([]*Device_Spec_AttestationConfig, bool) {
 	res, ok := fpaov.values.([]*Device_Spec_AttestationConfig)
+	return res, ok
+}
+func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsDisableDeviceDiscoveryArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
