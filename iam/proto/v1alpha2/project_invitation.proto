@@ -4,6 +4,7 @@ package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project_invitation;project_invitation";
@@ -23,7 +24,7 @@ message ProjectInvitation {
 
   // project display name (auto-generated). Present here as user doesn't have
   // yet permission to fetch related project.
-  string projectDisplayName = 4;
+  string project_display_name = 4 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   Invitation invitation = 2;
 

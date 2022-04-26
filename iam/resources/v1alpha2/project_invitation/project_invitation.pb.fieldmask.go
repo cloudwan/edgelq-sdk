@@ -189,6 +189,7 @@ func (fieldMask *ProjectInvitation_FieldMask) FilterInputFields() *ProjectInvita
 	result := &ProjectInvitation_FieldMask{}
 	for _, path := range fieldMask.Paths {
 		switch path.Selector() {
+		case ProjectInvitation_FieldPathSelectorProjectDisplayName:
 		case ProjectInvitation_FieldPathSelectorMetadata:
 			if _, ok := path.(*ProjectInvitation_FieldTerminalPath); ok {
 				for _, subpath := range ntt_meta.FullMeta_FieldMask().FilterInputFields().Paths {
