@@ -393,4 +393,12 @@ service ProjectInvitationService {
       post : "/v1alpha2/{parent=projects/*}/projectInvitations:listMy"
     };
   }
+
+  // ResendProjectInvitation
+  rpc ResendProjectInvitation(ResendProjectInvitationRequest)
+      returns (ResendProjectInvitationResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=projects/*/projectInvitations/*}:resend"
+    };
+  }
 }

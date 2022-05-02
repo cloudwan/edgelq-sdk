@@ -2467,3 +2467,951 @@ func (fpsaov *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues) AsProj
 	res, ok := fpsaov.subPathArrayOfValues.(project_invitation.ProjectInvitation_FieldPathArrayOfValues)
 	return res, ok
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ResendProjectInvitationRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ResendProjectInvitationRequest_FieldPathSelector
+	Get(source *ResendProjectInvitationRequest) []interface{}
+	GetSingle(source *ResendProjectInvitationRequest) (interface{}, bool)
+	ClearValue(item *ResendProjectInvitationRequest)
+
+	// Those methods build corresponding ResendProjectInvitationRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ResendProjectInvitationRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) ResendProjectInvitationRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ResendProjectInvitationRequest_FieldPathArrayItemValue
+}
+
+type ResendProjectInvitationRequest_FieldPathSelector int32
+
+const (
+	ResendProjectInvitationRequest_FieldPathSelectorName ResendProjectInvitationRequest_FieldPathSelector = 0
+)
+
+func (s ResendProjectInvitationRequest_FieldPathSelector) String() string {
+	switch s {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		return "name"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", s))
+	}
+}
+
+func BuildResendProjectInvitationRequest_FieldPath(fp gotenobject.RawFieldPath) (ResendProjectInvitationRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ResendProjectInvitationRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &ResendProjectInvitationRequest_FieldTerminalPath{selector: ResendProjectInvitationRequest_FieldPathSelectorName}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ResendProjectInvitationRequest", fp)
+}
+
+func ParseResendProjectInvitationRequest_FieldPath(rawField string) (ResendProjectInvitationRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildResendProjectInvitationRequest_FieldPath(fp)
+}
+
+func MustParseResendProjectInvitationRequest_FieldPath(rawField string) ResendProjectInvitationRequest_FieldPath {
+	fp, err := ParseResendProjectInvitationRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ResendProjectInvitationRequest_FieldTerminalPath struct {
+	selector ResendProjectInvitationRequest_FieldPathSelector
+}
+
+var _ ResendProjectInvitationRequest_FieldPath = (*ResendProjectInvitationRequest_FieldTerminalPath)(nil)
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) Selector() ResendProjectInvitationRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ResendProjectInvitationRequest
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) Get(source *ResendProjectInvitationRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ResendProjectInvitationRequest_FieldPathSelectorName:
+			if source.Name != nil {
+				values = append(values, source.Name)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ResendProjectInvitationRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source ResendProjectInvitationRequest
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) GetSingle(source *ResendProjectInvitationRequest) (interface{}, bool) {
+	switch fp.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		res := source.GetName()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ResendProjectInvitationRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		return (*project_invitation.Reference)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) ClearValue(item *ResendProjectInvitationRequest) {
+	if item != nil {
+		switch fp.selector {
+		case ResendProjectInvitationRequest_FieldPathSelectorName:
+			item.Name = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ResendProjectInvitationRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ResendProjectInvitationRequest_FieldPathSelectorName
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithIValue(value interface{}) ResendProjectInvitationRequest_FieldPathValue {
+	switch fp.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		return &ResendProjectInvitationRequest_FieldTerminalPathValue{ResendProjectInvitationRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ResendProjectInvitationRequest_FieldPathArrayOfValues {
+	fpaov := &ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues{ResendProjectInvitationRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		return &ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues{ResendProjectInvitationRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) ResendProjectInvitationRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ResendProjectInvitationRequest_FieldPathValue allows storing values for ResendProjectInvitationRequest fields according to their type
+type ResendProjectInvitationRequest_FieldPathValue interface {
+	ResendProjectInvitationRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ResendProjectInvitationRequest)
+	CompareWith(*ResendProjectInvitationRequest) (cmp int, comparable bool)
+}
+
+func ParseResendProjectInvitationRequest_FieldPathValue(pathStr, valueStr string) (ResendProjectInvitationRequest_FieldPathValue, error) {
+	fp, err := ParseResendProjectInvitationRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ResendProjectInvitationRequest_FieldPathValue), nil
+}
+
+func MustParseResendProjectInvitationRequest_FieldPathValue(pathStr, valueStr string) ResendProjectInvitationRequest_FieldPathValue {
+	fpv, err := ParseResendProjectInvitationRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ResendProjectInvitationRequest_FieldTerminalPathValue struct {
+	ResendProjectInvitationRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendProjectInvitationRequest_FieldPathValue = (*ResendProjectInvitationRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ResendProjectInvitationRequest' as interface{}
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) AsNameValue() (*project_invitation.Reference, bool) {
+	res, ok := fpv.value.(*project_invitation.Reference)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ResendProjectInvitationRequest
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) SetTo(target **ResendProjectInvitationRequest) {
+	if *target == nil {
+		*target = new(ResendProjectInvitationRequest)
+	}
+	switch fpv.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		(*target).Name = fpv.value.(*project_invitation.Reference)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResendProjectInvitationRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ResendProjectInvitationRequest_FieldTerminalPathValue' with the value under path in 'ResendProjectInvitationRequest'.
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) CompareWith(source *ResendProjectInvitationRequest) (int, bool) {
+	switch fpv.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		leftValue := fpv.value.(*project_invitation.Reference)
+		rightValue := source.GetName()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendProjectInvitationRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ResendProjectInvitationRequest))
+}
+
+// ResendProjectInvitationRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for ResendProjectInvitationRequest according to their type
+// Present only for array (repeated) types.
+type ResendProjectInvitationRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ResendProjectInvitationRequest_FieldPath
+	ContainsValue(*ResendProjectInvitationRequest) bool
+}
+
+// ParseResendProjectInvitationRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseResendProjectInvitationRequest_FieldPathArrayItemValue(pathStr, valueStr string) (ResendProjectInvitationRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseResendProjectInvitationRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ResendProjectInvitationRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseResendProjectInvitationRequest_FieldPathArrayItemValue(pathStr, valueStr string) ResendProjectInvitationRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseResendProjectInvitationRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue struct {
+	ResendProjectInvitationRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendProjectInvitationRequest_FieldPathArrayItemValue = (*ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ResendProjectInvitationRequest as interface{}
+func (fpaiv *ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue) GetSingle(source *ResendProjectInvitationRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ResendProjectInvitationRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ResendProjectInvitationRequest'
+func (fpaiv *ResendProjectInvitationRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ResendProjectInvitationRequest) bool {
+	slice := fpaiv.ResendProjectInvitationRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ResendProjectInvitationRequest_FieldPathArrayOfValues allows storing slice of values for ResendProjectInvitationRequest fields according to their type
+type ResendProjectInvitationRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ResendProjectInvitationRequest_FieldPath
+}
+
+func ParseResendProjectInvitationRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (ResendProjectInvitationRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseResendProjectInvitationRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ResendProjectInvitationRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseResendProjectInvitationRequest_FieldPathArrayOfValues(pathStr, valuesStr string) ResendProjectInvitationRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseResendProjectInvitationRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues struct {
+	ResendProjectInvitationRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ ResendProjectInvitationRequest_FieldPathArrayOfValues = (*ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ResendProjectInvitationRequest_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]*project_invitation.Reference) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ResendProjectInvitationRequest_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*project_invitation.Reference, bool) {
+	res, ok := fpaov.values.([]*project_invitation.Reference)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ResendProjectInvitationResponse_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ResendProjectInvitationResponse_FieldPathSelector
+	Get(source *ResendProjectInvitationResponse) []interface{}
+	GetSingle(source *ResendProjectInvitationResponse) (interface{}, bool)
+	ClearValue(item *ResendProjectInvitationResponse)
+
+	// Those methods build corresponding ResendProjectInvitationResponse_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ResendProjectInvitationResponse_FieldPathValue
+	WithIArrayOfValues(values interface{}) ResendProjectInvitationResponse_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ResendProjectInvitationResponse_FieldPathArrayItemValue
+}
+
+type ResendProjectInvitationResponse_FieldPathSelector int32
+
+const (
+	ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation ResendProjectInvitationResponse_FieldPathSelector = 0
+)
+
+func (s ResendProjectInvitationResponse_FieldPathSelector) String() string {
+	switch s {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return "project_invitation"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", s))
+	}
+}
+
+func BuildResendProjectInvitationResponse_FieldPath(fp gotenobject.RawFieldPath) (ResendProjectInvitationResponse_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ResendProjectInvitationResponse")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "project_invitation", "projectInvitation", "project-invitation":
+			return &ResendProjectInvitationResponse_FieldTerminalPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "project_invitation", "projectInvitation", "project-invitation":
+			if subpath, err := project_invitation.BuildProjectInvitation_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ResendProjectInvitationResponse_FieldSubPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ResendProjectInvitationResponse", fp)
+}
+
+func ParseResendProjectInvitationResponse_FieldPath(rawField string) (ResendProjectInvitationResponse_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildResendProjectInvitationResponse_FieldPath(fp)
+}
+
+func MustParseResendProjectInvitationResponse_FieldPath(rawField string) ResendProjectInvitationResponse_FieldPath {
+	fp, err := ParseResendProjectInvitationResponse_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ResendProjectInvitationResponse_FieldTerminalPath struct {
+	selector ResendProjectInvitationResponse_FieldPathSelector
+}
+
+var _ ResendProjectInvitationResponse_FieldPath = (*ResendProjectInvitationResponse_FieldTerminalPath)(nil)
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) Selector() ResendProjectInvitationResponse_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ResendProjectInvitationResponse
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) Get(source *ResendProjectInvitationResponse) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+			if source.ProjectInvitation != nil {
+				values = append(values, source.ProjectInvitation)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ResendProjectInvitationResponse))
+}
+
+// GetSingle returns value pointed by specific field of from source ResendProjectInvitationResponse
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) GetSingle(source *ResendProjectInvitationResponse) (interface{}, bool) {
+	switch fp.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		res := source.GetProjectInvitation()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ResendProjectInvitationResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return (*project_invitation.ProjectInvitation)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) ClearValue(item *ResendProjectInvitationResponse) {
+	if item != nil {
+		switch fp.selector {
+		case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+			item.ProjectInvitation = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ResendProjectInvitationResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithIValue(value interface{}) ResendProjectInvitationResponse_FieldPathValue {
+	switch fp.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return &ResendProjectInvitationResponse_FieldTerminalPathValue{ResendProjectInvitationResponse_FieldTerminalPath: *fp, value: value.(*project_invitation.ProjectInvitation)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithIArrayOfValues(values interface{}) ResendProjectInvitationResponse_FieldPathArrayOfValues {
+	fpaov := &ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues{ResendProjectInvitationResponse_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return &ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues{ResendProjectInvitationResponse_FieldTerminalPath: *fp, values: values.([]*project_invitation.ProjectInvitation)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithIArrayItemValue(value interface{}) ResendProjectInvitationResponse_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fp.selector))
+	}
+}
+
+func (fp *ResendProjectInvitationResponse_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type ResendProjectInvitationResponse_FieldSubPath struct {
+	selector ResendProjectInvitationResponse_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ResendProjectInvitationResponse_FieldPath = (*ResendProjectInvitationResponse_FieldSubPath)(nil)
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) Selector() ResendProjectInvitationResponse_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ResendProjectInvitationResponse_FieldSubPath) AsProjectInvitationSubPath() (project_invitation.ProjectInvitation_FieldPath, bool) {
+	res, ok := fps.subPath.(project_invitation.ProjectInvitation_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ResendProjectInvitationResponse_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ResendProjectInvitationResponse_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ResendProjectInvitationResponse
+func (fps *ResendProjectInvitationResponse_FieldSubPath) Get(source *ResendProjectInvitationResponse) (values []interface{}) {
+	if asProjectInvitationFieldPath, ok := fps.AsProjectInvitationSubPath(); ok {
+		values = append(values, asProjectInvitationFieldPath.Get(source.GetProjectInvitation())...)
+	} else {
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ResendProjectInvitationResponse))
+}
+
+// GetSingle returns value of selected field from source ResendProjectInvitationResponse
+func (fps *ResendProjectInvitationResponse_FieldSubPath) GetSingle(source *ResendProjectInvitationResponse) (interface{}, bool) {
+	switch fps.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		if source.GetProjectInvitation() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetProjectInvitation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fps.selector))
+	}
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ResendProjectInvitationResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ResendProjectInvitationResponse_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) ClearValue(item *ResendProjectInvitationResponse) {
+	if item != nil {
+		switch fps.selector {
+		case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+			fps.subPath.ClearValueRaw(item.ProjectInvitation)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ResendProjectInvitationResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ResendProjectInvitationResponse_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithIValue(value interface{}) ResendProjectInvitationResponse_FieldPathValue {
+	return &ResendProjectInvitationResponse_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithIArrayOfValues(values interface{}) ResendProjectInvitationResponse_FieldPathArrayOfValues {
+	return &ResendProjectInvitationResponse_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithIArrayItemValue(value interface{}) ResendProjectInvitationResponse_FieldPathArrayItemValue {
+	return &ResendProjectInvitationResponse_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ResendProjectInvitationResponse_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// ResendProjectInvitationResponse_FieldPathValue allows storing values for ResendProjectInvitationResponse fields according to their type
+type ResendProjectInvitationResponse_FieldPathValue interface {
+	ResendProjectInvitationResponse_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ResendProjectInvitationResponse)
+	CompareWith(*ResendProjectInvitationResponse) (cmp int, comparable bool)
+}
+
+func ParseResendProjectInvitationResponse_FieldPathValue(pathStr, valueStr string) (ResendProjectInvitationResponse_FieldPathValue, error) {
+	fp, err := ParseResendProjectInvitationResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationResponse field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ResendProjectInvitationResponse_FieldPathValue), nil
+}
+
+func MustParseResendProjectInvitationResponse_FieldPathValue(pathStr, valueStr string) ResendProjectInvitationResponse_FieldPathValue {
+	fpv, err := ParseResendProjectInvitationResponse_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ResendProjectInvitationResponse_FieldTerminalPathValue struct {
+	ResendProjectInvitationResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendProjectInvitationResponse_FieldPathValue = (*ResendProjectInvitationResponse_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ResendProjectInvitationResponse' as interface{}
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) AsProjectInvitationValue() (*project_invitation.ProjectInvitation, bool) {
+	res, ok := fpv.value.(*project_invitation.ProjectInvitation)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ResendProjectInvitationResponse
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) SetTo(target **ResendProjectInvitationResponse) {
+	if *target == nil {
+		*target = new(ResendProjectInvitationResponse)
+	}
+	switch fpv.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		(*target).ProjectInvitation = fpv.value.(*project_invitation.ProjectInvitation)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResendProjectInvitationResponse)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ResendProjectInvitationResponse_FieldTerminalPathValue' with the value under path in 'ResendProjectInvitationResponse'.
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) CompareWith(source *ResendProjectInvitationResponse) (int, bool) {
+	switch fpv.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendProjectInvitationResponse_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ResendProjectInvitationResponse))
+}
+
+type ResendProjectInvitationResponse_FieldSubPathValue struct {
+	ResendProjectInvitationResponse_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ResendProjectInvitationResponse_FieldPathValue = (*ResendProjectInvitationResponse_FieldSubPathValue)(nil)
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) AsProjectInvitationPathValue() (project_invitation.ProjectInvitation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(project_invitation.ProjectInvitation_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) SetTo(target **ResendProjectInvitationResponse) {
+	if *target == nil {
+		*target = new(ResendProjectInvitationResponse)
+	}
+	switch fpvs.Selector() {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		fpvs.subPathValue.(project_invitation.ProjectInvitation_FieldPathValue).SetTo(&(*target).ProjectInvitation)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResendProjectInvitationResponse)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) CompareWith(source *ResendProjectInvitationResponse) (int, bool) {
+	switch fpvs.Selector() {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return fpvs.subPathValue.(project_invitation.ProjectInvitation_FieldPathValue).CompareWith(source.GetProjectInvitation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ResendProjectInvitationResponse_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ResendProjectInvitationResponse))
+}
+
+// ResendProjectInvitationResponse_FieldPathArrayItemValue allows storing single item in Path-specific values for ResendProjectInvitationResponse according to their type
+// Present only for array (repeated) types.
+type ResendProjectInvitationResponse_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ResendProjectInvitationResponse_FieldPath
+	ContainsValue(*ResendProjectInvitationResponse) bool
+}
+
+// ParseResendProjectInvitationResponse_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseResendProjectInvitationResponse_FieldPathArrayItemValue(pathStr, valueStr string) (ResendProjectInvitationResponse_FieldPathArrayItemValue, error) {
+	fp, err := ParseResendProjectInvitationResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationResponse field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ResendProjectInvitationResponse_FieldPathArrayItemValue), nil
+}
+
+func MustParseResendProjectInvitationResponse_FieldPathArrayItemValue(pathStr, valueStr string) ResendProjectInvitationResponse_FieldPathArrayItemValue {
+	fpaiv, err := ParseResendProjectInvitationResponse_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue struct {
+	ResendProjectInvitationResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendProjectInvitationResponse_FieldPathArrayItemValue = (*ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ResendProjectInvitationResponse as interface{}
+func (fpaiv *ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue) GetSingle(source *ResendProjectInvitationResponse) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ResendProjectInvitationResponse))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ResendProjectInvitationResponse'
+func (fpaiv *ResendProjectInvitationResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ResendProjectInvitationResponse) bool {
+	slice := fpaiv.ResendProjectInvitationResponse_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type ResendProjectInvitationResponse_FieldSubPathArrayItemValue struct {
+	ResendProjectInvitationResponse_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ResendProjectInvitationResponse_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ResendProjectInvitationResponse_FieldSubPathArrayItemValue) AsProjectInvitationPathItemValue() (project_invitation.ProjectInvitation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(project_invitation.ProjectInvitation_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ResendProjectInvitationResponse'
+func (fpaivs *ResendProjectInvitationResponse_FieldSubPathArrayItemValue) ContainsValue(source *ResendProjectInvitationResponse) bool {
+	switch fpaivs.Selector() {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		return fpaivs.subPathItemValue.(project_invitation.ProjectInvitation_FieldPathArrayItemValue).ContainsValue(source.GetProjectInvitation())
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendProjectInvitationResponse: %d", fpaivs.Selector()))
+	}
+}
+
+// ResendProjectInvitationResponse_FieldPathArrayOfValues allows storing slice of values for ResendProjectInvitationResponse fields according to their type
+type ResendProjectInvitationResponse_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ResendProjectInvitationResponse_FieldPath
+}
+
+func ParseResendProjectInvitationResponse_FieldPathArrayOfValues(pathStr, valuesStr string) (ResendProjectInvitationResponse_FieldPathArrayOfValues, error) {
+	fp, err := ParseResendProjectInvitationResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendProjectInvitationResponse field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ResendProjectInvitationResponse_FieldPathArrayOfValues), nil
+}
+
+func MustParseResendProjectInvitationResponse_FieldPathArrayOfValues(pathStr, valuesStr string) ResendProjectInvitationResponse_FieldPathArrayOfValues {
+	fpaov, err := ParseResendProjectInvitationResponse_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues struct {
+	ResendProjectInvitationResponse_FieldTerminalPath
+	values interface{}
+}
+
+var _ ResendProjectInvitationResponse_FieldPathArrayOfValues = (*ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+		for _, v := range fpaov.values.([]*project_invitation.ProjectInvitation) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ResendProjectInvitationResponse_FieldTerminalPathArrayOfValues) AsProjectInvitationArrayOfValues() ([]*project_invitation.ProjectInvitation, bool) {
+	res, ok := fpaov.values.([]*project_invitation.ProjectInvitation)
+	return res, ok
+}
+
+type ResendProjectInvitationResponse_FieldSubPathArrayOfValues struct {
+	ResendProjectInvitationResponse_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ResendProjectInvitationResponse_FieldPathArrayOfValues = (*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ResendProjectInvitationResponse_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ResendProjectInvitationResponse_FieldSubPathArrayOfValues) AsProjectInvitationPathArrayOfValues() (project_invitation.ProjectInvitation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(project_invitation.ProjectInvitation_FieldPathArrayOfValues)
+	return res, ok
+}

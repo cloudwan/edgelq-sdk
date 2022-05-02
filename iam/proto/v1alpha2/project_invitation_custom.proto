@@ -48,3 +48,14 @@ message ListMyProjectInvitationsResponse {
   // The list of ProjectInvitations
   repeated ProjectInvitation project_invitations = 1;
 }
+
+// ResendInvitationRequest
+message ResendProjectInvitationRequest {
+  //  reference of ntt.iam.v1alpha2.ProjectInvitation
+  string name = 1;
+}
+
+// ResendInvitationResponse
+message ResendProjectInvitationResponse {
+  ProjectInvitation project_invitation = 1;
+}

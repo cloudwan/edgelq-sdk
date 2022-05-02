@@ -440,3 +440,135 @@ func (o *ListMyProjectInvitationsResponse) Merge(source *ListMyProjectInvitation
 func (o *ListMyProjectInvitationsResponse) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ListMyProjectInvitationsResponse))
 }
+
+func (o *ResendProjectInvitationRequest) GotenObjectExt() {}
+
+func (o *ResendProjectInvitationRequest) MakeFullFieldMask() *ResendProjectInvitationRequest_FieldMask {
+	return FullResendProjectInvitationRequest_FieldMask()
+}
+
+func (o *ResendProjectInvitationRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullResendProjectInvitationRequest_FieldMask()
+}
+
+func (o *ResendProjectInvitationRequest) MakeDiffFieldMask(other *ResendProjectInvitationRequest) *ResendProjectInvitationRequest_FieldMask {
+	if o == nil && other == nil {
+		return &ResendProjectInvitationRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullResendProjectInvitationRequest_FieldMask()
+	}
+
+	res := &ResendProjectInvitationRequest_FieldMask{}
+	if o.GetName().String() != other.GetName().String() {
+		res.Paths = append(res.Paths, &ResendProjectInvitationRequest_FieldTerminalPath{selector: ResendProjectInvitationRequest_FieldPathSelectorName})
+	}
+	return res
+}
+
+func (o *ResendProjectInvitationRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ResendProjectInvitationRequest))
+}
+
+func (o *ResendProjectInvitationRequest) Clone() *ResendProjectInvitationRequest {
+	if o == nil {
+		return nil
+	}
+	result := &ResendProjectInvitationRequest{}
+	if o.Name == nil {
+		result.Name = nil
+	} else if data, err := o.Name.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Name = &project_invitation.Reference{}
+		if err := result.Name.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	return result
+}
+
+func (o *ResendProjectInvitationRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ResendProjectInvitationRequest) Merge(source *ResendProjectInvitationRequest) {
+	if source.GetName() != nil {
+		if data, err := source.GetName().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Name = &project_invitation.Reference{}
+			if err := o.Name.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Name = nil
+	}
+}
+
+func (o *ResendProjectInvitationRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ResendProjectInvitationRequest))
+}
+
+func (o *ResendProjectInvitationResponse) GotenObjectExt() {}
+
+func (o *ResendProjectInvitationResponse) MakeFullFieldMask() *ResendProjectInvitationResponse_FieldMask {
+	return FullResendProjectInvitationResponse_FieldMask()
+}
+
+func (o *ResendProjectInvitationResponse) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullResendProjectInvitationResponse_FieldMask()
+}
+
+func (o *ResendProjectInvitationResponse) MakeDiffFieldMask(other *ResendProjectInvitationResponse) *ResendProjectInvitationResponse_FieldMask {
+	if o == nil && other == nil {
+		return &ResendProjectInvitationResponse_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullResendProjectInvitationResponse_FieldMask()
+	}
+
+	res := &ResendProjectInvitationResponse_FieldMask{}
+	{
+		subMask := o.GetProjectInvitation().MakeDiffFieldMask(other.GetProjectInvitation())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &ResendProjectInvitationResponse_FieldTerminalPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &ResendProjectInvitationResponse_FieldSubPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *ResendProjectInvitationResponse) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ResendProjectInvitationResponse))
+}
+
+func (o *ResendProjectInvitationResponse) Clone() *ResendProjectInvitationResponse {
+	if o == nil {
+		return nil
+	}
+	result := &ResendProjectInvitationResponse{}
+	result.ProjectInvitation = o.ProjectInvitation.Clone()
+	return result
+}
+
+func (o *ResendProjectInvitationResponse) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ResendProjectInvitationResponse) Merge(source *ResendProjectInvitationResponse) {
+	if source.GetProjectInvitation() != nil {
+		if o.ProjectInvitation == nil {
+			o.ProjectInvitation = new(project_invitation.ProjectInvitation)
+		}
+		o.ProjectInvitation.Merge(source.GetProjectInvitation())
+	}
+}
+
+func (o *ResendProjectInvitationResponse) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ResendProjectInvitationResponse))
+}

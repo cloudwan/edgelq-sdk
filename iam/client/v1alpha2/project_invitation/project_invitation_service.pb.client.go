@@ -60,6 +60,7 @@ type ProjectInvitationServiceClient interface {
 	AcceptProjectInvitation(ctx context.Context, in *AcceptProjectInvitationRequest, opts ...grpc.CallOption) (*AcceptProjectInvitationResponse, error)
 	DeclineProjectInvitation(ctx context.Context, in *DeclineProjectInvitationRequest, opts ...grpc.CallOption) (*DeclineProjectInvitationResponse, error)
 	ListMyProjectInvitations(ctx context.Context, in *ListMyProjectInvitationsRequest, opts ...grpc.CallOption) (*ListMyProjectInvitationsResponse, error)
+	ResendProjectInvitation(ctx context.Context, in *ResendProjectInvitationRequest, opts ...grpc.CallOption) (*ResendProjectInvitationResponse, error)
 }
 
 type client struct {
@@ -219,6 +220,15 @@ func (c *client) DeclineProjectInvitation(ctx context.Context, in *DeclineProjec
 func (c *client) ListMyProjectInvitations(ctx context.Context, in *ListMyProjectInvitationsRequest, opts ...grpc.CallOption) (*ListMyProjectInvitationsResponse, error) {
 	out := new(ListMyProjectInvitationsResponse)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.ProjectInvitationService/ListMyProjectInvitations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ResendProjectInvitation(ctx context.Context, in *ResendProjectInvitationRequest, opts ...grpc.CallOption) (*ResendProjectInvitationResponse, error) {
+	out := new(ResendProjectInvitationResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.ProjectInvitationService/ResendProjectInvitation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -7584,6 +7584,20 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+<div class="operation">
+<h5 id="operation-ResendProjectInvitation">ResendProjectInvitation</h5>
+
+<pre class="signature">rpc ResendProjectInvitation(<a href="#message-ResendProjectInvitationRequest">ResendProjectInvitationRequest</a>) returns (<a href="#message-ResendProjectInvitationResponse">ResendProjectInvitationResponse</a>)</pre>
+
+<div class="description">
+<p>ResendProjectInvitation</p>
+
+</div>
+
+</div>
+
  
 
 <h4>Messages</h4>
@@ -8330,6 +8344,45 @@ compare.</p>
 </tr>
 <tr><td class="description"><p>The list of ProjectInvitations</p>
 </td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResendProjectInvitationRequest">ResendProjectInvitationRequest</h5>
+
+<p>ResendInvitationRequest</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.iam.v1alpha2.ProjectInvitation</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResendProjectInvitationResponse">ResendProjectInvitationResponse</h5>
+
+<p>ResendInvitationResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project_invitation</th>
+<td class="type"><pre><a href="#message-ProjectInvitation">ProjectInvitation</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
  
 </tbody>
 </table>

@@ -1616,3 +1616,564 @@ func (fieldMask *ListMyProjectInvitationsResponse_FieldMask) PathsCount() int {
 	}
 	return len(fieldMask.Paths)
 }
+
+type ResendProjectInvitationRequest_FieldMask struct {
+	Paths []ResendProjectInvitationRequest_FieldPath
+}
+
+func FullResendProjectInvitationRequest_FieldMask() *ResendProjectInvitationRequest_FieldMask {
+	res := &ResendProjectInvitationRequest_FieldMask{}
+	res.Paths = append(res.Paths, &ResendProjectInvitationRequest_FieldTerminalPath{selector: ResendProjectInvitationRequest_FieldPathSelectorName})
+	return res
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseResendProjectInvitationRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ResendProjectInvitationRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseResendProjectInvitationRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Subtract(other *ResendProjectInvitationRequest_FieldMask) *ResendProjectInvitationRequest_FieldMask {
+	result := &ResendProjectInvitationRequest_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ResendProjectInvitationRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ResendProjectInvitationRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) FilterInputFields() *ResendProjectInvitationRequest_FieldMask {
+	result := &ResendProjectInvitationRequest_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ResendProjectInvitationRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseResendProjectInvitationRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ResendProjectInvitationRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ResendProjectInvitationRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) AppendPath(path ResendProjectInvitationRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ResendProjectInvitationRequest_FieldPath))
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) GetPaths() []ResendProjectInvitationRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseResendProjectInvitationRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Set(target, source *ResendProjectInvitationRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ResendProjectInvitationRequest), source.(*ResendProjectInvitationRequest))
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) Project(source *ResendProjectInvitationRequest) *ResendProjectInvitationRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ResendProjectInvitationRequest{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ResendProjectInvitationRequest_FieldTerminalPath:
+			switch tp.selector {
+			case ResendProjectInvitationRequest_FieldPathSelectorName:
+				result.Name = source.Name
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ResendProjectInvitationRequest))
+}
+
+func (fieldMask *ResendProjectInvitationRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type ResendProjectInvitationResponse_FieldMask struct {
+	Paths []ResendProjectInvitationResponse_FieldPath
+}
+
+func FullResendProjectInvitationResponse_FieldMask() *ResendProjectInvitationResponse_FieldMask {
+	res := &ResendProjectInvitationResponse_FieldMask{}
+	res.Paths = append(res.Paths, &ResendProjectInvitationResponse_FieldTerminalPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation})
+	return res
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseResendProjectInvitationResponse_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ResendProjectInvitationResponse_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseResendProjectInvitationResponse_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Subtract(other *ResendProjectInvitationResponse_FieldMask) *ResendProjectInvitationResponse_FieldMask {
+	result := &ResendProjectInvitationResponse_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[ResendProjectInvitationResponse_FieldPathSelector]gotenobject.FieldMask{
+		ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation: &project_invitation.ProjectInvitation_FieldMask{},
+	}
+	mySubMasks := map[ResendProjectInvitationResponse_FieldPathSelector]gotenobject.FieldMask{
+		ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation: &project_invitation.ProjectInvitation_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ResendProjectInvitationResponse_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *ResendProjectInvitationResponse_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*ResendProjectInvitationResponse_FieldTerminalPath); ok {
+					switch tp.selector {
+					case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+						mySubMasks[ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation] = project_invitation.FullProjectInvitation_FieldMask()
+					}
+				} else if tp, ok := path.(*ResendProjectInvitationResponse_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &ResendProjectInvitationResponse_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ResendProjectInvitationResponse_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) FilterInputFields() *ResendProjectInvitationResponse_FieldMask {
+	result := &ResendProjectInvitationResponse_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+			if _, ok := path.(*ResendProjectInvitationResponse_FieldTerminalPath); ok {
+				for _, subpath := range project_invitation.FullProjectInvitation_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &ResendProjectInvitationResponse_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*ResendProjectInvitationResponse_FieldSubPath); ok {
+				selectedMask := &project_invitation.ProjectInvitation_FieldMask{
+					Paths: []project_invitation.ProjectInvitation_FieldPath{sub.subPath.(project_invitation.ProjectInvitation_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &ResendProjectInvitationResponse_FieldSubPath{selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ResendProjectInvitationResponse_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseResendProjectInvitationResponse_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ResendProjectInvitationResponse_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ResendProjectInvitationResponse_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) AppendPath(path ResendProjectInvitationResponse_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ResendProjectInvitationResponse_FieldPath))
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) GetPaths() []ResendProjectInvitationResponse_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseResendProjectInvitationResponse_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Set(target, source *ResendProjectInvitationResponse) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ResendProjectInvitationResponse), source.(*ResendProjectInvitationResponse))
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) Project(source *ResendProjectInvitationResponse) *ResendProjectInvitationResponse {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ResendProjectInvitationResponse{}
+	projectInvitationMask := &project_invitation.ProjectInvitation_FieldMask{}
+	wholeProjectInvitationAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ResendProjectInvitationResponse_FieldTerminalPath:
+			switch tp.selector {
+			case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+				result.ProjectInvitation = source.ProjectInvitation
+				wholeProjectInvitationAccepted = true
+			}
+		case *ResendProjectInvitationResponse_FieldSubPath:
+			switch tp.selector {
+			case ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation:
+				projectInvitationMask.AppendPath(tp.subPath.(project_invitation.ProjectInvitation_FieldPath))
+			}
+		}
+	}
+	if wholeProjectInvitationAccepted == false && len(projectInvitationMask.Paths) > 0 {
+		result.ProjectInvitation = projectInvitationMask.Project(source.GetProjectInvitation())
+	}
+	return result
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ResendProjectInvitationResponse))
+}
+
+func (fieldMask *ResendProjectInvitationResponse_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
