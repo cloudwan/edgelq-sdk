@@ -13,6 +13,9 @@ import (
 	deployment_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/deployment"
 	region_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/region"
 	service_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/service"
+	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
+	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
+	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -22,8 +25,11 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &deployment.Deployment{}
 	_ = &deployment_client.GetDeploymentRequest{}
+	_ = &region.Region{}
 	_ = &region_client.GetRegionRequest{}
+	_ = &service.Service{}
 	_ = &service_client.GetServiceRequest{}
 )
 

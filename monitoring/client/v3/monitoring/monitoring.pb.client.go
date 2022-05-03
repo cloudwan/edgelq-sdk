@@ -18,6 +18,14 @@ import (
 	phantom_time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie"
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/project"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/time_serie"
+	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
+	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
+	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
+	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
+	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
+	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -27,13 +35,21 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &alert.Alert{}
 	_ = &alert_client.GetAlertRequest{}
+	_ = &alerting_condition.AlertingCondition{}
 	_ = &alerting_condition_client.GetAlertingConditionRequest{}
+	_ = &alerting_policy.AlertingPolicy{}
 	_ = &alerting_policy_client.GetAlertingPolicyRequest{}
+	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &metric_descriptor_client.BatchGetMetricDescriptorsRequest{}
+	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &monitored_resource_descriptor_client.BatchGetMonitoredResourceDescriptorsRequest{}
+	_ = &phantom_time_serie.PhantomTimeSerie{}
 	_ = &phantom_time_serie_client.GetPhantomTimeSerieRequest{}
+	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &time_serie.Point{}
 )
 
 type MonitoringClient interface {

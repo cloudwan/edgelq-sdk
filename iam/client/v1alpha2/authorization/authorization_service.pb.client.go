@@ -12,7 +12,9 @@ import (
 )
 
 // proto imports
-import ()
+import (
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var (
@@ -22,7 +24,9 @@ var (
 )
 
 // make sure we're using proto imports
-var ()
+var (
+	_ = &permission.Permission{}
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.

@@ -14,6 +14,10 @@ import (
 	audited_resource_descriptor_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha/audited_resource_descriptor"
 	method_descriptor_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha/method_descriptor"
 	resource_change_log_client "github.com/cloudwan/edgelq-sdk/audit/client/v1alpha/resource_change_log"
+	activity_log "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/activity_log"
+	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/audited_resource_descriptor"
+	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/method_descriptor"
+	resource_change_log "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/resource_change_log"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -23,8 +27,12 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &activity_log.ActivityLog{}
+	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
 	_ = &audited_resource_descriptor_client.GetAuditedResourceDescriptorRequest{}
+	_ = &method_descriptor.MethodDescriptor{}
 	_ = &method_descriptor_client.GetMethodDescriptorRequest{}
+	_ = &resource_change_log.ResourceChangeLog{}
 )
 
 type AuditClient interface {

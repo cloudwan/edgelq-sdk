@@ -26,6 +26,20 @@ import (
 	service_account_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/service_account"
 	service_account_key_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/service_account_key"
 	user_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/user"
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
+	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group"
+	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member"
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	project_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project_invitation"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
+	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
+	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
+	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account_key"
+	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -35,19 +49,33 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &attestation_domain_client.GetAttestationDomainRequest{}
+	_ = &condition.Condition{}
 	_ = &condition_client.GetConditionRequest{}
+	_ = &group.Group{}
+	_ = &group_member.GroupMember{}
 	_ = &group_member_client.GetGroupMemberRequest{}
 	_ = &group_client.GetGroupRequest{}
+	_ = &organization.Organization{}
+	_ = &organization_invitation.OrganizationInvitation{}
 	_ = &organization_invitation_client.GetOrganizationInvitationRequest{}
 	_ = &organization_client.GetOrganizationRequest{}
+	_ = &permission.Permission{}
 	_ = &permission_client.GetPermissionRequest{}
+	_ = &project.Project{}
+	_ = &project_invitation.ProjectInvitation{}
 	_ = &project_invitation_client.GetProjectInvitationRequest{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &role.Role{}
+	_ = &role_binding.RoleBinding{}
 	_ = &role_binding_client.GetRoleBindingRequest{}
 	_ = &role_client.GetRoleRequest{}
+	_ = &service_account.ServiceAccount{}
+	_ = &service_account_key.ServiceAccountKey{}
 	_ = &service_account_key_client.GetServiceAccountKeyRequest{}
 	_ = &service_account_client.GetServiceAccountRequest{}
+	_ = &user.User{}
 	_ = &user_client.GetUserRequest{}
 )
 

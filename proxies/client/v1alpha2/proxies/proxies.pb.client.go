@@ -12,6 +12,7 @@ import (
 import (
 	broker_client "github.com/cloudwan/edgelq-sdk/proxies/client/v1alpha2/broker"
 	project_client "github.com/cloudwan/edgelq-sdk/proxies/client/v1alpha2/project"
+	project "github.com/cloudwan/edgelq-sdk/proxies/resources/v1alpha2/project"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,6 +22,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
 )
 

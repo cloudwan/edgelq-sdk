@@ -16,6 +16,10 @@ import (
 	provisioning_approval_request_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha/provisioning_approval_request"
 	provisioning_policy_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha/provisioning_policy"
 	public_client "github.com/cloudwan/edgelq-sdk/devices/client/v1alpha/public"
+	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
+	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/project"
+	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/provisioning_approval_request"
+	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/provisioning_policy"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -25,9 +29,13 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device.Device{}
 	_ = &device_client.GetDeviceRequest{}
+	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
 	_ = &provisioning_approval_request_client.GetProvisioningApprovalRequestRequest{}
+	_ = &provisioning_policy.ProvisioningPolicy{}
 	_ = &provisioning_policy_client.GetProvisioningPolicyRequest{}
 )
 

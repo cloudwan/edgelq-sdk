@@ -12,7 +12,9 @@ import (
 )
 
 // proto imports
-import ()
+import (
+	resource_change_log "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/resource_change_log"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var (
@@ -22,7 +24,9 @@ var (
 )
 
 // make sure we're using proto imports
-var ()
+var (
+	_ = &resource_change_log.ResourceChangeLog{}
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.

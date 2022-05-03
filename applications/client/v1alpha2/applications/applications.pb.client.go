@@ -14,6 +14,10 @@ import (
 	distribution_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/distribution"
 	pod_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/pod"
 	project_client "github.com/cloudwan/edgelq-sdk/applications/client/v1alpha2/project"
+	config_map "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/config_map"
+	distribution "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/distribution"
+	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
+	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -23,9 +27,13 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &config_map.ConfigMap{}
 	_ = &config_map_client.GetConfigMapRequest{}
+	_ = &distribution.Distribution{}
 	_ = &distribution_client.GetDistributionRequest{}
+	_ = &pod.Pod{}
 	_ = &pod_client.GetPodRequest{}
+	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
 )
 

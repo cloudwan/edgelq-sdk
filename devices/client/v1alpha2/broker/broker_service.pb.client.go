@@ -12,7 +12,9 @@ import (
 )
 
 // proto imports
-import ()
+import (
+	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var (
@@ -22,7 +24,9 @@ var (
 )
 
 // make sure we're using proto imports
-var ()
+var (
+	_ = &device.Device{}
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.

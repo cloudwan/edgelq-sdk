@@ -13,6 +13,8 @@ import (
 	encryption_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha/encryption"
 	project_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha/project"
 	secret_client "github.com/cloudwan/edgelq-sdk/secrets/client/v1alpha/secret"
+	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/project"
+	secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/secret"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -22,7 +24,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &secret.Secret{}
 	_ = &secret_client.GetSecretRequest{}
 )
 
