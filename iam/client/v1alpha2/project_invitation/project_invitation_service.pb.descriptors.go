@@ -44,6 +44,7 @@ var (
 	acceptProjectInvitationDescriptor    *AcceptProjectInvitationDescriptor
 	declineProjectInvitationDescriptor   *DeclineProjectInvitationDescriptor
 	listMyProjectInvitationsDescriptor   *ListMyProjectInvitationsDescriptor
+	resendProjectInvitationDescriptor    *ResendProjectInvitationDescriptor
 )
 
 type GetProjectInvitationDescriptor struct{}
@@ -1900,6 +1901,171 @@ func GetListMyProjectInvitationsDescriptor() *ListMyProjectInvitationsDescriptor
 	return listMyProjectInvitationsDescriptor
 }
 
+type ResendProjectInvitationDescriptor struct{}
+
+type ResendProjectInvitationDescriptorClientMsgHandle struct{}
+
+type ResendProjectInvitationDescriptorServerMsgHandle struct{}
+
+func (d *ResendProjectInvitationDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ResendProjectInvitationRequest{}
+}
+
+func (d *ResendProjectInvitationDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ResendProjectInvitationResponse{}
+}
+
+func (d *ResendProjectInvitationDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ResendProjectInvitationDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ResendProjectInvitationDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ResendProjectInvitationDescriptor) IsCollectionSubject() bool {
+	return false
+}
+
+func (d *ResendProjectInvitationDescriptor) IsPluralSubject() bool {
+	return false
+}
+
+func (d *ResendProjectInvitationDescriptor) HasSubjectResource() bool {
+	return true
+}
+
+func (d *ResendProjectInvitationDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ResendProjectInvitationDescriptor) GetVerb() string {
+	return "resend"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetMethodName() string {
+	return "ResendProjectInvitation"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.ProjectInvitationService/ResendProjectInvitation"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetApiName() string {
+	return "ProjectInvitationService"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *ResendProjectInvitationDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return projectInvitationServiceDescriptor
+}
+
+func (d *ResendProjectInvitationDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+	return project_invitation.GetDescriptor()
+}
+
+func (d *ResendProjectInvitationDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResendProjectInvitationDescriptorClientMsgHandle{}
+}
+
+func (d *ResendProjectInvitationDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResendProjectInvitationDescriptorServerMsgHandle{}
+}
+
+func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResendProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectResourceName(*ResendProjectInvitationRequest) *project_invitation.Name
+	})
+	if ok {
+		return override.OverrideExtractSubjectResourceName(typedMsg)
+	}
+	if ref := typedMsg.GetName(); ref != nil {
+		return &ref.Name
+	}
+	return (*project_invitation.Name)(nil)
+}
+
+func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ResendProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectResourceNames(*ResendProjectInvitationRequest) []*project_invitation.Name
+	})
+	if ok {
+		return project_invitation.ProjectInvitationNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResendProjectInvitationRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectCollectionName(*ResendProjectInvitationRequest) *project_invitation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractSubjectCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResendProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectResourceName(*ResendProjectInvitationResponse) *project_invitation.Name
+	})
+	if ok {
+		return override.OverrideExtractSubjectResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ResendProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectResourceNames(*ResendProjectInvitationResponse) []*project_invitation.Name
+	})
+	if ok {
+		return project_invitation.ProjectInvitationNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResendProjectInvitationDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResendProjectInvitationResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractSubjectCollectionName(*ResendProjectInvitationResponse) *project_invitation.ParentName
+	})
+	if ok {
+		return override.OverrideExtractSubjectCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetResendProjectInvitationDescriptor() *ResendProjectInvitationDescriptor {
+	return resendProjectInvitationDescriptor
+}
+
 type ProjectInvitationServiceDescriptor struct{}
 
 func (d *ProjectInvitationServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1915,6 +2081,7 @@ func (d *ProjectInvitationServiceDescriptor) AllMethodDescriptors() []gotenclien
 		acceptProjectInvitationDescriptor,
 		declineProjectInvitationDescriptor,
 		listMyProjectInvitationsDescriptor,
+		resendProjectInvitationDescriptor,
 	}
 }
 
@@ -1955,6 +2122,7 @@ func initDescriptors() {
 	acceptProjectInvitationDescriptor = &AcceptProjectInvitationDescriptor{}
 	declineProjectInvitationDescriptor = &DeclineProjectInvitationDescriptor{}
 	listMyProjectInvitationsDescriptor = &ListMyProjectInvitationsDescriptor{}
+	resendProjectInvitationDescriptor = &ResendProjectInvitationDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(projectInvitationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getProjectInvitationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetProjectInvitationsDescriptor)
@@ -1967,6 +2135,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(acceptProjectInvitationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(declineProjectInvitationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listMyProjectInvitationsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(resendProjectInvitationDescriptor)
 }
 
 func init() {

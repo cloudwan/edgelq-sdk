@@ -261,6 +261,10 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail{}
 }
 
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) LanguageCode() ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode {
+	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode{}
+}
+
 func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Roles() ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles {
 	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles{}
 }
@@ -380,6 +384,23 @@ func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 }
 
 func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode struct{}
+
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) FieldPath() *ListMyOrganizationInvitationsResponse_FieldSubPath {
+	return &ListMyOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithValue(value string) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 

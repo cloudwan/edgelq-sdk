@@ -93,6 +93,9 @@ func (InvitationFieldPathBuilder) InviterFullName() InvitationPathSelectorInvite
 func (InvitationFieldPathBuilder) InviterEmail() InvitationPathSelectorInviterEmail {
 	return InvitationPathSelectorInviterEmail{}
 }
+func (InvitationFieldPathBuilder) LanguageCode() InvitationPathSelectorLanguageCode {
+	return InvitationPathSelectorLanguageCode{}
+}
 func (InvitationFieldPathBuilder) Roles() InvitationPathSelectorRoles {
 	return InvitationPathSelectorRoles{}
 }
@@ -214,6 +217,20 @@ func (s InvitationPathSelectorInviterEmail) WithValue(value string) *Invitation_
 }
 
 func (s InvitationPathSelectorInviterEmail) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
+}
+
+type InvitationPathSelectorLanguageCode struct{}
+
+func (InvitationPathSelectorLanguageCode) FieldPath() *Invitation_FieldTerminalPath {
+	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode}
+}
+
+func (s InvitationPathSelectorLanguageCode) WithValue(value string) *Invitation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
+}
+
+func (s InvitationPathSelectorLanguageCode) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
 }
 

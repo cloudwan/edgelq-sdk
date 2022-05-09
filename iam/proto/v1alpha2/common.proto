@@ -32,6 +32,9 @@ message Invitation {
   // Inviter Email
   string inviter_email = 10 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
+  // Invitation ISO language code. Defaults to "en-us" (American English).
+  string language_code = 11;
+
   // List of Roles to be granted on project when invitation is accepted
   repeated string roles = 7;
 

@@ -517,9 +517,10 @@ const (
 	Invitation_FieldPathSelectorInviterActor    Invitation_FieldPathSelector = 1
 	Invitation_FieldPathSelectorInviterFullName Invitation_FieldPathSelector = 2
 	Invitation_FieldPathSelectorInviterEmail    Invitation_FieldPathSelector = 3
-	Invitation_FieldPathSelectorRoles           Invitation_FieldPathSelector = 4
-	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 5
-	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 6
+	Invitation_FieldPathSelectorLanguageCode    Invitation_FieldPathSelector = 4
+	Invitation_FieldPathSelectorRoles           Invitation_FieldPathSelector = 5
+	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 6
+	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 7
 )
 
 func (s Invitation_FieldPathSelector) String() string {
@@ -532,6 +533,8 @@ func (s Invitation_FieldPathSelector) String() string {
 		return "inviter_full_name"
 	case Invitation_FieldPathSelectorInviterEmail:
 		return "inviter_email"
+	case Invitation_FieldPathSelectorLanguageCode:
+		return "language_code"
 	case Invitation_FieldPathSelectorRoles:
 		return "roles"
 	case Invitation_FieldPathSelectorExpirationDate:
@@ -557,6 +560,8 @@ func BuildInvitation_FieldPath(fp gotenobject.RawFieldPath) (Invitation_FieldPat
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterFullName}, nil
 		case "inviter_email", "inviterEmail", "inviter-email":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail}, nil
+		case "language_code", "languageCode", "language-code":
+			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode}, nil
 		case "roles":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles}, nil
 		case "expiration_date", "expirationDate", "expiration-date":
@@ -627,6 +632,8 @@ func (fp *Invitation_FieldTerminalPath) Get(source *Invitation) (values []interf
 			values = append(values, source.InviterFullName)
 		case Invitation_FieldPathSelectorInviterEmail:
 			values = append(values, source.InviterEmail)
+		case Invitation_FieldPathSelectorLanguageCode:
+			values = append(values, source.LanguageCode)
 		case Invitation_FieldPathSelectorRoles:
 			for _, value := range source.GetRoles() {
 				values = append(values, value)
@@ -660,6 +667,8 @@ func (fp *Invitation_FieldTerminalPath) GetSingle(source *Invitation) (interface
 		return source.GetInviterFullName(), source != nil
 	case Invitation_FieldPathSelectorInviterEmail:
 		return source.GetInviterEmail(), source != nil
+	case Invitation_FieldPathSelectorLanguageCode:
+		return source.GetLanguageCode(), source != nil
 	case Invitation_FieldPathSelectorRoles:
 		res := source.GetRoles()
 		return res, res != nil
@@ -688,6 +697,8 @@ func (fp *Invitation_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Invitation_FieldPathSelectorInviterEmail:
 		return ""
+	case Invitation_FieldPathSelectorLanguageCode:
+		return ""
 	case Invitation_FieldPathSelectorRoles:
 		return ([]*role.Reference)(nil)
 	case Invitation_FieldPathSelectorExpirationDate:
@@ -710,6 +721,8 @@ func (fp *Invitation_FieldTerminalPath) ClearValue(item *Invitation) {
 			item.InviterFullName = ""
 		case Invitation_FieldPathSelectorInviterEmail:
 			item.InviterEmail = ""
+		case Invitation_FieldPathSelectorLanguageCode:
+			item.LanguageCode = ""
 		case Invitation_FieldPathSelectorRoles:
 			item.Roles = nil
 		case Invitation_FieldPathSelectorExpirationDate:
@@ -731,6 +744,7 @@ func (fp *Invitation_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Invitation_FieldPathSelectorInviteeEmail ||
 		fp.selector == Invitation_FieldPathSelectorInviterFullName ||
 		fp.selector == Invitation_FieldPathSelectorInviterEmail ||
+		fp.selector == Invitation_FieldPathSelectorLanguageCode ||
 		fp.selector == Invitation_FieldPathSelectorRoles ||
 		fp.selector == Invitation_FieldPathSelectorExpirationDate ||
 		fp.selector == Invitation_FieldPathSelectorState
@@ -745,6 +759,8 @@ func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation
 	case Invitation_FieldPathSelectorInviterFullName:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
 	case Invitation_FieldPathSelectorInviterEmail:
+		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
+	case Invitation_FieldPathSelectorLanguageCode:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
 	case Invitation_FieldPathSelectorRoles:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*role.Reference)}
@@ -771,6 +787,8 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayOfValues(values interface{}) I
 	case Invitation_FieldPathSelectorInviterFullName:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
 	case Invitation_FieldPathSelectorInviterEmail:
+		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
+	case Invitation_FieldPathSelectorLanguageCode:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
 	case Invitation_FieldPathSelectorRoles:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*role.Reference)}
@@ -961,6 +979,10 @@ func (fpv *Invitation_FieldTerminalPathValue) AsInviterEmailValue() (string, boo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Invitation_FieldTerminalPathValue) AsLanguageCodeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Invitation_FieldTerminalPathValue) AsRolesValue() ([]*role.Reference, bool) {
 	res, ok := fpv.value.([]*role.Reference)
 	return res, ok
@@ -988,6 +1010,8 @@ func (fpv *Invitation_FieldTerminalPathValue) SetTo(target **Invitation) {
 		(*target).InviterFullName = fpv.value.(string)
 	case Invitation_FieldPathSelectorInviterEmail:
 		(*target).InviterEmail = fpv.value.(string)
+	case Invitation_FieldPathSelectorLanguageCode:
+		(*target).LanguageCode = fpv.value.(string)
 	case Invitation_FieldPathSelectorRoles:
 		(*target).Roles = fpv.value.([]*role.Reference)
 	case Invitation_FieldPathSelectorExpirationDate:
@@ -1032,6 +1056,16 @@ func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (i
 	case Invitation_FieldPathSelectorInviterEmail:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetInviterEmail()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Invitation_FieldPathSelectorLanguageCode:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetLanguageCode()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1264,6 +1298,10 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Invitation_FieldPathSelectorLanguageCode:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Invitation_FieldPathSelectorRoles:
 		for _, v := range fpaov.values.([][]*role.Reference) {
 			values = append(values, v)
@@ -1292,6 +1330,10 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviterFullNameArrayOf
 	return res, ok
 }
 func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviterEmailArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsLanguageCodeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

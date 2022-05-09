@@ -174,6 +174,9 @@ func (o *Invitation) MakeDiffFieldMask(other *Invitation) *Invitation_FieldMask 
 	if o.GetInviterEmail() != other.GetInviterEmail() {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail})
 	}
+	if o.GetLanguageCode() != other.GetLanguageCode() {
+		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode})
+	}
 
 	if len(o.GetRoles()) == len(other.GetRoles()) {
 		for i, lValue := range o.GetRoles() {
@@ -208,6 +211,7 @@ func (o *Invitation) Clone() *Invitation {
 	result.InviterActor = o.InviterActor.Clone()
 	result.InviterFullName = o.InviterFullName
 	result.InviterEmail = o.InviterEmail
+	result.LanguageCode = o.LanguageCode
 	result.Roles = make([]*role.Reference, len(o.Roles))
 	for i, sourceValue := range o.Roles {
 		if sourceValue == nil {
@@ -240,6 +244,7 @@ func (o *Invitation) Merge(source *Invitation) {
 	}
 	o.InviterFullName = source.GetInviterFullName()
 	o.InviterEmail = source.GetInviterEmail()
+	o.LanguageCode = source.GetLanguageCode()
 	for _, sourceValue := range source.GetRoles() {
 		exists := false
 		for _, currentValue := range o.Roles {

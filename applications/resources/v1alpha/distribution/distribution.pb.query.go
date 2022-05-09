@@ -41,7 +41,7 @@ type GetQuery struct {
 func (q *GetQuery) GotenQuery() {}
 
 func (q *GetQuery) String() string {
-	return gotenresource.MakeSQLGetString(q.Mask, q.Reference)
+	return gotenresource.MakeSQLGetString(q)
 }
 
 func (q *GetQuery) GetResourceDescriptor() gotenresource.Descriptor {
@@ -81,7 +81,7 @@ type ListQuery struct {
 func (q *ListQuery) GotenQuery() {}
 
 func (q *ListQuery) String() string {
-	return gotenresource.MakeSQLString(q.Mask, q.Filter, q.Pager, "")
+	return gotenresource.MakeSQLListString(q)
 }
 
 func (q *ListQuery) GetResourceDescriptor() gotenresource.Descriptor {
@@ -129,6 +129,10 @@ type WatchQuery struct {
 	WatchType   watch_type.WatchType
 	ChunkSize   int
 	ResumeToken string
+}
+
+func (q *WatchQuery) String() string {
+	return gotenresource.MakeSQLWatchString(q)
 }
 
 func (q *WatchQuery) GetWatchType() watch_type.WatchType {

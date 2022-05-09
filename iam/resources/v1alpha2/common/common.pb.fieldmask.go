@@ -315,6 +315,7 @@ func FullInvitation_FieldMask() *Invitation_FieldMask {
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterActor})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterFullName})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail})
+	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState})
@@ -361,7 +362,7 @@ func (fieldMask *Invitation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Invitation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -391,7 +392,7 @@ func (fieldMask *Invitation_FieldMask) Reset() {
 
 func (fieldMask *Invitation_FieldMask) Subtract(other *Invitation_FieldMask) *Invitation_FieldMask {
 	result := &Invitation_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[Invitation_FieldPathSelector]gotenobject.FieldMask{
 		Invitation_FieldPathSelectorInviterActor: &Actor_FieldMask{},
 	}
@@ -582,6 +583,8 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 				result.InviterFullName = source.InviterFullName
 			case Invitation_FieldPathSelectorInviterEmail:
 				result.InviterEmail = source.InviterEmail
+			case Invitation_FieldPathSelectorLanguageCode:
+				result.LanguageCode = source.LanguageCode
 			case Invitation_FieldPathSelectorRoles:
 				result.Roles = source.Roles
 			case Invitation_FieldPathSelectorExpirationDate:

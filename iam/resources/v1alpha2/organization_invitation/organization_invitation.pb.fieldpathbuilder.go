@@ -113,6 +113,10 @@ func (OrganizationInvitationPathSelectorInvitation) InviterEmail() OrganizationI
 	return OrganizationInvitationPathSelectorInvitationInviterEmail{}
 }
 
+func (OrganizationInvitationPathSelectorInvitation) LanguageCode() OrganizationInvitationPathSelectorInvitationLanguageCode {
+	return OrganizationInvitationPathSelectorInvitationLanguageCode{}
+}
+
 func (OrganizationInvitationPathSelectorInvitation) Roles() OrganizationInvitationPathSelectorInvitationRoles {
 	return OrganizationInvitationPathSelectorInvitationRoles{}
 }
@@ -232,6 +236,23 @@ func (s OrganizationInvitationPathSelectorInvitationInviterEmail) WithValue(valu
 }
 
 func (s OrganizationInvitationPathSelectorInvitationInviterEmail) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+type OrganizationInvitationPathSelectorInvitationLanguageCode struct{}
+
+func (OrganizationInvitationPathSelectorInvitationLanguageCode) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().LanguageCode().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorInvitationLanguageCode) WithValue(value string) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorInvitationLanguageCode) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 

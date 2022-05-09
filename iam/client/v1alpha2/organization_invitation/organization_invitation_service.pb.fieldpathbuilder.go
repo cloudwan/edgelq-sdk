@@ -292,6 +292,10 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail{}
 }
 
+func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) LanguageCode() BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode {
+	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode{}
+}
+
 func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Roles() BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles {
 	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles{}
 }
@@ -411,6 +415,23 @@ func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitatio
 }
 
 func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode struct{}
+
+func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) FieldPath() *BatchGetOrganizationInvitationsResponse_FieldSubPath {
+	return &BatchGetOrganizationInvitationsResponse_FieldSubPath{
+		selector: BatchGetOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithValue(value string) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1219,6 +1240,10 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail{}
 }
 
+func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) LanguageCode() ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode {
+	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode{}
+}
+
 func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Roles() ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles {
 	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationRoles{}
 }
@@ -1338,6 +1363,23 @@ func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 }
 
 func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode struct{}
+
+func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) FieldPath() *ListOrganizationInvitationsResponse_FieldSubPath {
+	return &ListOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithValue(value string) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2522,6 +2564,10 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterEmail{}
 }
 
+func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) LanguageCode() CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode {
+	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode{}
+}
+
 func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) Roles() CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationRoles {
 	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationRoles{}
 }
@@ -2641,6 +2687,23 @@ func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInv
 }
 
 func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterEmail) WithArrayOfValues(values []string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode struct{}
+
+func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) FieldPath() *CreateOrganizationInvitationRequest_FieldSubPath {
+	return &CreateOrganizationInvitationRequest_FieldSubPath{
+		selector: CreateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) WithValue(value string) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) WithArrayOfValues(values []string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3303,6 +3366,10 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterEmail{}
 }
 
+func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) LanguageCode() UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode {
+	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode{}
+}
+
 func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) Roles() UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationRoles {
 	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationRoles{}
 }
@@ -3422,6 +3489,23 @@ func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInv
 }
 
 func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode struct{}
+
+func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4108,6 +4192,10 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterEmail{}
 }
 
+func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) LanguageCode() UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode {
+	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode{}
+}
+
 func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) Roles() UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationRoles {
 	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationRoles{}
 }
@@ -4227,6 +4315,23 @@ func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvita
 }
 
 func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode struct{}
+
+func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateOrganizationInvitationRequestCASFieldPathBuilder().ConditionalState().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4903,6 +5008,10 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterEmail{}
 }
 
+func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) LanguageCode() UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode {
+	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode{}
+}
+
 func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) Roles() UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationRoles {
 	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationRoles{}
 }
@@ -5022,6 +5131,23 @@ func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvit
 }
 
 func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode struct{}
+
+func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) FieldPath() *UpdateOrganizationInvitationRequestCAS_FieldSubPath {
+	return &UpdateOrganizationInvitationRequestCAS_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) WithValue(value string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

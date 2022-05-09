@@ -263,6 +263,10 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) 
 	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail{}
 }
 
+func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) LanguageCode() ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode {
+	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode{}
+}
+
 func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) Roles() ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles {
 	return ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles{}
 }
@@ -382,6 +386,23 @@ func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation
 }
 
 func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode struct{}
+
+func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) FieldPath() *ListMyProjectInvitationsResponse_FieldSubPath {
+	return &ListMyProjectInvitationsResponse_FieldSubPath{
+		selector: ListMyProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithValue(value string) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1082,6 +1103,10 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) In
 	return ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterEmail{}
 }
 
+func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) LanguageCode() ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode {
+	return ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode{}
+}
+
 func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) Roles() ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationRoles {
 	return ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationRoles{}
 }
@@ -1201,6 +1226,23 @@ func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationIn
 }
 
 func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterEmail) WithArrayOfValues(values []string) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
+}
+
+type ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode struct{}
+
+func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode) FieldPath() *ResendProjectInvitationResponse_FieldSubPath {
+	return &ResendProjectInvitationResponse_FieldSubPath{
+		selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode) WithValue(value string) *ResendProjectInvitationResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
+}
+
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationLanguageCode) WithArrayOfValues(values []string) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 

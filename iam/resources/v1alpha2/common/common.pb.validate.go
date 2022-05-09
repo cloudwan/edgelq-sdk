@@ -73,6 +73,9 @@ func (obj *Invitation) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Invitation", "inviterActor", obj.InviterActor, "nested object validation failed", err)
 		}
 	}
+	if obj.LanguageCode != "" && obj.LanguageCode != "en-us" && obj.LanguageCode != "jp" {
+		return gotenvalidate.NewValidationError("Invitation", "languageCode", obj.LanguageCode, "field must be equal to exactly one of the following values: , en-us, jp", nil)
+	}
 	if len(obj.Roles) < 1 {
 		return gotenvalidate.NewValidationError("Invitation", "roles", obj.Roles, "field must have at least 1 items", nil)
 	}

@@ -311,6 +311,10 @@ func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitation
 	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail{}
 }
 
+func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) LanguageCode() BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode {
+	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode{}
+}
+
 func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) Roles() BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles {
 	return BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles{}
 }
@@ -430,6 +434,23 @@ func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitati
 }
 
 func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode struct{}
+
+func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) FieldPath() *BatchGetProjectInvitationsResponse_FieldSubPath {
+	return &BatchGetProjectInvitationsResponse_FieldSubPath{
+		selector: BatchGetProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithValue(value string) *BatchGetProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1259,6 +1280,10 @@ func (ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) In
 	return ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail{}
 }
 
+func (ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) LanguageCode() ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode {
+	return ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode{}
+}
+
 func (ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) Roles() ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles {
 	return ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationRoles{}
 }
@@ -1378,6 +1403,23 @@ func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationIn
 }
 
 func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterEmail) WithArrayOfValues(values []string) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode struct{}
+
+func (ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) FieldPath() *ListProjectInvitationsResponse_FieldSubPath {
+	return &ListProjectInvitationsResponse_FieldSubPath{
+		selector: ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithValue(value string) *ListProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsInvitationLanguageCode) WithArrayOfValues(values []string) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2583,6 +2625,10 @@ func (CreateProjectInvitationRequestPathSelectorProjectInvitationInvitation) Inv
 	return CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationInviterEmail{}
 }
 
+func (CreateProjectInvitationRequestPathSelectorProjectInvitationInvitation) LanguageCode() CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode {
+	return CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode{}
+}
+
 func (CreateProjectInvitationRequestPathSelectorProjectInvitationInvitation) Roles() CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationRoles {
 	return CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationRoles{}
 }
@@ -2702,6 +2748,23 @@ func (s CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationInv
 }
 
 func (s CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationInviterEmail) WithArrayOfValues(values []string) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode struct{}
+
+func (CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) FieldPath() *CreateProjectInvitationRequest_FieldSubPath {
+	return &CreateProjectInvitationRequest_FieldSubPath{
+		selector: CreateProjectInvitationRequest_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) WithValue(value string) *CreateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) WithArrayOfValues(values []string) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3385,6 +3448,10 @@ func (UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitation) Inv
 	return UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationInviterEmail{}
 }
 
+func (UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitation) LanguageCode() UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode {
+	return UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode{}
+}
+
 func (UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitation) Roles() UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationRoles {
 	return UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationRoles{}
 }
@@ -3504,6 +3571,23 @@ func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationInv
 }
 
 func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode struct{}
+
+func (UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) FieldPath() *UpdateProjectInvitationRequest_FieldSubPath {
+	return &UpdateProjectInvitationRequest_FieldSubPath{
+		selector: UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) WithValue(value string) *UpdateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4211,6 +4295,10 @@ func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitation) I
 	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationInviterEmail{}
 }
 
+func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitation) LanguageCode() UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode {
+	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode{}
+}
+
 func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitation) Roles() UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationRoles {
 	return UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationRoles{}
 }
@@ -4330,6 +4418,23 @@ func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationI
 }
 
 func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode struct{}
+
+func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) FieldPath() *UpdateProjectInvitationRequest_FieldSubPath {
+	return &UpdateProjectInvitationRequest_FieldSubPath{
+		selector: UpdateProjectInvitationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectInvitationRequestCASFieldPathBuilder().ConditionalState().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) WithValue(value string) *UpdateProjectInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5027,6 +5132,10 @@ func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation) 
 	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationInviterEmail{}
 }
 
+func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation) LanguageCode() UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode {
+	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode{}
+}
+
 func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation) Roles() UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationRoles {
 	return UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationRoles{}
 }
@@ -5146,6 +5255,23 @@ func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitation
 }
 
 func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationInviterEmail) WithArrayOfValues(values []string) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode struct{}
+
+func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) FieldPath() *UpdateProjectInvitationRequestCAS_FieldSubPath {
+	return &UpdateProjectInvitationRequestCAS_FieldSubPath{
+		selector: UpdateProjectInvitationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	}
+}
+
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) WithValue(value string) *UpdateProjectInvitationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateInvitationLanguageCode) WithArrayOfValues(values []string) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

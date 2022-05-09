@@ -397,6 +397,10 @@ func (b *filterCndBuilderInvitation) InviterEmail() *filterCndBuilderInvitationI
 	return &filterCndBuilderInvitationInviterEmail{builder: b.builder}
 }
 
+func (b *filterCndBuilderInvitation) LanguageCode() *filterCndBuilderInvitationLanguageCode {
+	return &filterCndBuilderInvitationLanguageCode{builder: b.builder}
+}
+
 func (b *filterCndBuilderInvitation) Roles() *filterCndBuilderInvitationRoles {
 	return &filterCndBuilderInvitationRoles{builder: b.builder}
 }
@@ -768,6 +772,65 @@ func (b *filterCndBuilderInvitationInviterEmail) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().InviterEmail().WithValue(value),
+	})
+}
+
+type filterCndBuilderInvitationLanguageCode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationLanguageCode) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().LanguageCode().WithValue(value),
 	})
 }
 
