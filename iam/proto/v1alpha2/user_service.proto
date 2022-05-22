@@ -33,9 +33,6 @@ message GetUserRequest {
 
 // Request message for method [BatchGetUsers][ntt.iam.v1alpha2.BatchGetUsers]
 message BatchGetUsersRequest {
-  // Optional parent ntt.iam.v1alpha2.User
-  string parent = 1;
-
   // Names of Users
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetUsersRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetUsersResponse
@@ -345,7 +344,7 @@ service UserService {
   // GetUserByEmail
   rpc GetUserByEmail(GetUserByEmailRequest) returns (User) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=users/*}:getByEmail"
+      post : "/v1alpha2:getByEmail"
     };
   }
 

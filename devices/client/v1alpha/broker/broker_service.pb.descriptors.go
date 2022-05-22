@@ -62,15 +62,15 @@ func (d *ListenForConnectionsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *ListenForConnectionsDescriptor) IsCollectionSubject() bool {
+func (d *ListenForConnectionsDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ListenForConnectionsDescriptor) IsPluralSubject() bool {
+func (d *ListenForConnectionsDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ListenForConnectionsDescriptor) HasSubjectResource() bool {
+func (d *ListenForConnectionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -110,7 +110,7 @@ func (d *ListenForConnectionsDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return brokerServiceDescriptor
 }
 
-func (d *ListenForConnectionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListenForConnectionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return device.GetDescriptor()
 }
 
@@ -122,74 +122,79 @@ func (d *ListenForConnectionsDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &ListenForConnectionsDescriptorServerMsgHandle{}
 }
 
-func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenForConnectionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListenForConnectionsRequest) *device.Name
+		OverrideExtractResourceName(*ListenForConnectionsRequest) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetRegisterListener().GetDevice(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*device.Name)(nil)
 }
 
-func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListenForConnectionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListenForConnectionsRequest) []*device.Name
+		OverrideExtractResourceNames(*ListenForConnectionsRequest) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListenForConnectionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenForConnectionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListenForConnectionsRequest) *device.ParentName
+		OverrideExtractCollectionName(*ListenForConnectionsRequest) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenForConnectionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListenForConnectionsResponse) *device.Name
+		OverrideExtractResourceName(*ListenForConnectionsResponse) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListenForConnectionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListenForConnectionsResponse) []*device.Name
+		OverrideExtractResourceNames(*ListenForConnectionsResponse) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListenForConnectionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenForConnectionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListenForConnectionsResponse) *device.ParentName
+		OverrideExtractCollectionName(*ListenForConnectionsResponse) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -224,15 +229,15 @@ func (d *OpenConnectionChannelSocketDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *OpenConnectionChannelSocketDescriptor) IsCollectionSubject() bool {
+func (d *OpenConnectionChannelSocketDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *OpenConnectionChannelSocketDescriptor) IsPluralSubject() bool {
+func (d *OpenConnectionChannelSocketDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *OpenConnectionChannelSocketDescriptor) HasSubjectResource() bool {
+func (d *OpenConnectionChannelSocketDescriptor) HasResource() bool {
 	return true
 }
 
@@ -272,7 +277,7 @@ func (d *OpenConnectionChannelSocketDescriptor) GetApiDescriptor() gotenclient.A
 	return brokerServiceDescriptor
 }
 
-func (d *OpenConnectionChannelSocketDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *OpenConnectionChannelSocketDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return device.GetDescriptor()
 }
 
@@ -284,74 +289,79 @@ func (d *OpenConnectionChannelSocketDescriptor) GetServerMsgReflectHandle() gote
 	return &OpenConnectionChannelSocketDescriptorServerMsgHandle{}
 }
 
-func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*OpenConnectionChannelSocketRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*OpenConnectionChannelSocketRequest) *device.Name
+		OverrideExtractResourceName(*OpenConnectionChannelSocketRequest) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetRegisterSocket().GetDevice(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*device.Name)(nil)
 }
 
-func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*OpenConnectionChannelSocketRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*OpenConnectionChannelSocketRequest) []*device.Name
+		OverrideExtractResourceNames(*OpenConnectionChannelSocketRequest) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *OpenConnectionChannelSocketDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*OpenConnectionChannelSocketRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*OpenConnectionChannelSocketRequest) *device.ParentName
+		OverrideExtractCollectionName(*OpenConnectionChannelSocketRequest) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*OpenConnectionChannelSocketResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*OpenConnectionChannelSocketResponse) *device.Name
+		OverrideExtractResourceName(*OpenConnectionChannelSocketResponse) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*OpenConnectionChannelSocketResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*OpenConnectionChannelSocketResponse) []*device.Name
+		OverrideExtractResourceNames(*OpenConnectionChannelSocketResponse) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *OpenConnectionChannelSocketDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*OpenConnectionChannelSocketResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*OpenConnectionChannelSocketResponse) *device.ParentName
+		OverrideExtractCollectionName(*OpenConnectionChannelSocketResponse) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -386,15 +396,15 @@ func (d *ConnectToDeviceDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *ConnectToDeviceDescriptor) IsCollectionSubject() bool {
+func (d *ConnectToDeviceDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ConnectToDeviceDescriptor) IsPluralSubject() bool {
+func (d *ConnectToDeviceDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ConnectToDeviceDescriptor) HasSubjectResource() bool {
+func (d *ConnectToDeviceDescriptor) HasResource() bool {
 	return true
 }
 
@@ -434,7 +444,7 @@ func (d *ConnectToDeviceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return brokerServiceDescriptor
 }
 
-func (d *ConnectToDeviceDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ConnectToDeviceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return device.GetDescriptor()
 }
 
@@ -446,74 +456,79 @@ func (d *ConnectToDeviceDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &ConnectToDeviceDescriptorServerMsgHandle{}
 }
 
-func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectToDeviceRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ConnectToDeviceRequest) *device.Name
+		OverrideExtractResourceName(*ConnectToDeviceRequest) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetOpenRequest().GetDevice(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*device.Name)(nil)
 }
 
-func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ConnectToDeviceRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ConnectToDeviceRequest) []*device.Name
+		OverrideExtractResourceNames(*ConnectToDeviceRequest) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ConnectToDeviceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectToDeviceRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ConnectToDeviceRequest) *device.ParentName
+		OverrideExtractCollectionName(*ConnectToDeviceRequest) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectToDeviceResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ConnectToDeviceResponse) *device.Name
+		OverrideExtractResourceName(*ConnectToDeviceResponse) *device.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ConnectToDeviceResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ConnectToDeviceResponse) []*device.Name
+		OverrideExtractResourceNames(*ConnectToDeviceResponse) []*device.Name
 	})
 	if ok {
-		return device.DeviceNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ConnectToDeviceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectToDeviceResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ConnectToDeviceResponse) *device.ParentName
+		OverrideExtractCollectionName(*ConnectToDeviceResponse) *device.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

@@ -320,7 +320,6 @@ type BatchGetConditionsRequest_FieldMask struct {
 
 func FullBatchGetConditionsRequest_FieldMask() *BatchGetConditionsRequest_FieldMask {
 	res := &BatchGetConditionsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorView})
@@ -367,7 +366,7 @@ func (fieldMask *BatchGetConditionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetConditionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -397,7 +396,7 @@ func (fieldMask *BatchGetConditionsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetConditionsRequest_FieldMask) Subtract(other *BatchGetConditionsRequest_FieldMask) *BatchGetConditionsRequest_FieldMask {
 	result := &BatchGetConditionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -551,8 +550,6 @@ func (fieldMask *BatchGetConditionsRequest_FieldMask) Project(source *BatchGetCo
 		switch tp := p.(type) {
 		case *BatchGetConditionsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetConditionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetConditionsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetConditionsRequest_FieldPathSelectorFieldMask:

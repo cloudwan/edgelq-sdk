@@ -120,9 +120,6 @@ type BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder struct{}
 func NewBatchGetProvisioningApprovalRequestsRequestFieldPathBuilder() BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder {
 	return BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder{}
 }
-func (BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder) Parent() BatchGetProvisioningApprovalRequestsRequestPathSelectorParent {
-	return BatchGetProvisioningApprovalRequestsRequestPathSelectorParent{}
-}
 func (BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder) Names() BatchGetProvisioningApprovalRequestsRequestPathSelectorNames {
 	return BatchGetProvisioningApprovalRequestsRequestPathSelectorNames{}
 }
@@ -131,20 +128,6 @@ func (BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder) FieldMask() B
 }
 func (BatchGetProvisioningApprovalRequestsRequestFieldPathBuilder) View() BatchGetProvisioningApprovalRequestsRequestPathSelectorView {
 	return BatchGetProvisioningApprovalRequestsRequestPathSelectorView{}
-}
-
-type BatchGetProvisioningApprovalRequestsRequestPathSelectorParent struct{}
-
-func (BatchGetProvisioningApprovalRequestsRequestPathSelectorParent) FieldPath() *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath {
-	return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetProvisioningApprovalRequestsRequestPathSelectorParent) WithValue(value *provisioning_approval_request.Reference) *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetProvisioningApprovalRequestsRequestPathSelectorParent) WithArrayOfValues(values []*provisioning_approval_request.Reference) *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetProvisioningApprovalRequestsRequestPathSelectorNames struct{}

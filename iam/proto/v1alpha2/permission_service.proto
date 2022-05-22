@@ -33,9 +33,6 @@ message GetPermissionRequest {
 // Request message for method
 // [BatchGetPermissions][ntt.iam.v1alpha2.BatchGetPermissions]
 message BatchGetPermissionsRequest {
-  // Optional parent ntt.iam.v1alpha2.Permission
-  string parent = 1;
-
   // Names of Permissions
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetPermissionsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetPermissionsResponse

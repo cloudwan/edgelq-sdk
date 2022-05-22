@@ -318,7 +318,6 @@ type BatchGetOrganizationInvitationsRequest_FieldMask struct {
 
 func FullBatchGetOrganizationInvitationsRequest_FieldMask() *BatchGetOrganizationInvitationsRequest_FieldMask {
 	res := &BatchGetOrganizationInvitationsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetOrganizationInvitationsRequest_FieldMask) IsFull() bool
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetOrganizationInvitationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetOrganizationInvitationsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetOrganizationInvitationsRequest_FieldMask) Subtract(other *BatchGetOrganizationInvitationsRequest_FieldMask) *BatchGetOrganizationInvitationsRequest_FieldMask {
 	result := &BatchGetOrganizationInvitationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetOrganizationInvitationsRequest_FieldMask) Project(sourc
 		switch tp := p.(type) {
 		case *BatchGetOrganizationInvitationsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:

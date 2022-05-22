@@ -152,9 +152,6 @@ func (o *BatchGetDistributionsRequest) MakeDiffFieldMask(other *BatchGetDistribu
 	}
 
 	res := &BatchGetDistributionsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -185,16 +182,6 @@ func (o *BatchGetDistributionsRequest) Clone() *BatchGetDistributionsRequest {
 		return nil
 	}
 	result := &BatchGetDistributionsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &distribution.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*distribution.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -218,18 +205,6 @@ func (o *BatchGetDistributionsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *BatchGetDistributionsRequest) Merge(source *BatchGetDistributionsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &distribution.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

@@ -318,7 +318,6 @@ type BatchGetAlertingConditionsRequest_FieldMask struct {
 
 func FullBatchGetAlertingConditionsRequest_FieldMask() *BatchGetAlertingConditionsRequest_FieldMask {
 	res := &BatchGetAlertingConditionsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetAlertingConditionsRequest_FieldTerminalPath{selector: BatchGetAlertingConditionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetAlertingConditionsRequest_FieldTerminalPath{selector: BatchGetAlertingConditionsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetAlertingConditionsRequest_FieldTerminalPath{selector: BatchGetAlertingConditionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetAlertingConditionsRequest_FieldTerminalPath{selector: BatchGetAlertingConditionsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetAlertingConditionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetAlertingConditionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetAlertingConditionsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetAlertingConditionsRequest_FieldMask) Subtract(other *BatchGetAlertingConditionsRequest_FieldMask) *BatchGetAlertingConditionsRequest_FieldMask {
 	result := &BatchGetAlertingConditionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetAlertingConditionsRequest_FieldMask) Project(source *Ba
 		switch tp := p.(type) {
 		case *BatchGetAlertingConditionsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetAlertingConditionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetAlertingConditionsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetAlertingConditionsRequest_FieldPathSelectorFieldMask:

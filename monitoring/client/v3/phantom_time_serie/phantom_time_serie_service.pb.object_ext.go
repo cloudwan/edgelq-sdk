@@ -152,9 +152,6 @@ func (o *BatchGetPhantomTimeSeriesRequest) MakeDiffFieldMask(other *BatchGetPhan
 	}
 
 	res := &BatchGetPhantomTimeSeriesRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -185,16 +182,6 @@ func (o *BatchGetPhantomTimeSeriesRequest) Clone() *BatchGetPhantomTimeSeriesReq
 		return nil
 	}
 	result := &BatchGetPhantomTimeSeriesRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &phantom_time_serie.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*phantom_time_serie.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -218,18 +205,6 @@ func (o *BatchGetPhantomTimeSeriesRequest) CloneRaw() gotenobject.GotenObjectExt
 }
 
 func (o *BatchGetPhantomTimeSeriesRequest) Merge(source *BatchGetPhantomTimeSeriesRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &phantom_time_serie.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

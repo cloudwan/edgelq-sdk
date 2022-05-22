@@ -542,16 +542,13 @@ type BatchGetProjectInvitationsRequest_FieldPath interface {
 type BatchGetProjectInvitationsRequest_FieldPathSelector int32
 
 const (
-	BatchGetProjectInvitationsRequest_FieldPathSelectorParent    BatchGetProjectInvitationsRequest_FieldPathSelector = 0
-	BatchGetProjectInvitationsRequest_FieldPathSelectorNames     BatchGetProjectInvitationsRequest_FieldPathSelector = 1
-	BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask BatchGetProjectInvitationsRequest_FieldPathSelector = 2
-	BatchGetProjectInvitationsRequest_FieldPathSelectorView      BatchGetProjectInvitationsRequest_FieldPathSelector = 3
+	BatchGetProjectInvitationsRequest_FieldPathSelectorNames     BatchGetProjectInvitationsRequest_FieldPathSelector = 0
+	BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask BatchGetProjectInvitationsRequest_FieldPathSelector = 1
+	BatchGetProjectInvitationsRequest_FieldPathSelectorView      BatchGetProjectInvitationsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetProjectInvitationsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetProjectInvitationsRequest_FieldPath(fp gotenobject.RawFieldPat
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) JSONString() stri
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) Get(source *BatchGetProjectInvitationsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) GetRaw(source pro
 // GetSingle returns value pointed by specific field of from source BatchGetProjectInvitationsRequest
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) GetSingle(source *BatchGetProjectInvitationsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) GetSingleRaw(sour
 // GetDefault returns a default value of the field type
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		return (*project_invitation.Reference)(nil)
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		return ([]*project_invitation.Reference)(nil)
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) GetDefault() inte
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) ClearValue(item *BatchGetProjectInvitationsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) ClearValueRaw(ite
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetProjectInvitationsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetProjectInvitationsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetProjectInvitationsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetProjectInvitationsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetProjectInvitationsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		return &BatchGetProjectInvitationsRequest_FieldTerminalPathValue{BatchGetProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.Reference)}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		return &BatchGetProjectInvitationsRequest_FieldTerminalPathValue{BatchGetProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.([]*project_invitation.Reference)}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) WithRawIValue(val
 func (fp *BatchGetProjectInvitationsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetProjectInvitationsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectInvitationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		return &BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.Reference)}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		return &BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([][]*project_invitation.Reference)}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetProjectInvitationsRequest_FieldPathValue = (*BatchGetProjectInvita
 func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*project_invitation.Reference, bool) {
-	res, ok := fpv.value.(*project_invitation.Reference)
-	return res, ok
-}
 func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) AsNamesValue() ([]*project_invitation.Reference, bool) {
 	res, ok := fpv.value.([]*project_invitation.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) SetTo(targe
 		*target = new(BatchGetProjectInvitationsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*project_invitation.Reference)
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*project_invitation.Reference)
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) SetToRaw(ta
 // CompareWith compares value in the 'BatchGetProjectInvitationsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetProjectInvitationsRequest'.
 func (fpv *BatchGetProjectInvitationsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetProjectInvitationsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*project_invitation.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetProjectInvitationsRequest_FieldPathArrayOfValues = (*BatchGetProje
 
 func (fpaov *BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*project_invitation.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*project_invitation.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues) G
 		}
 	}
 	return
-}
-func (fpaov *BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*project_invitation.Reference, bool) {
-	res, ok := fpaov.values.([]*project_invitation.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*project_invitation.Reference, bool) {
 	res, ok := fpaov.values.([][]*project_invitation.Reference)

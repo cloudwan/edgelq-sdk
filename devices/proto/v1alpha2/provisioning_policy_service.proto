@@ -35,9 +35,6 @@ message GetProvisioningPolicyRequest {
 // Request message for method
 // [BatchGetProvisioningPolicies][ntt.devices.v1alpha2.BatchGetProvisioningPolicies]
 message BatchGetProvisioningPoliciesRequest {
-  // Optional parent ntt.devices.v1alpha2.ProvisioningPolicy
-  string parent = 1;
-
   // Names of ProvisioningPolicies
   repeated string names = 2;
 
@@ -48,6 +45,8 @@ message BatchGetProvisioningPoliciesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetProvisioningPoliciesResponse
@@ -315,8 +314,7 @@ service ProvisioningPolicyService {
   rpc BatchGetProvisioningPolicies(BatchGetProvisioningPoliciesRequest)
       returns (BatchGetProvisioningPoliciesResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*/regions/*}/"
-            "provisioningPolicies:batchGet"
+      get : "/v1alpha2/provisioningPolicies:batchGet"
     };
   }
 

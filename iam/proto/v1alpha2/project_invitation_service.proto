@@ -35,9 +35,6 @@ message GetProjectInvitationRequest {
 // Request message for method
 // [BatchGetProjectInvitations][ntt.iam.v1alpha2.BatchGetProjectInvitations]
 message BatchGetProjectInvitationsRequest {
-  // Optional parent ntt.iam.v1alpha2.ProjectInvitation
-  string parent = 1;
-
   // Names of ProjectInvitations
   repeated string names = 2;
 
@@ -48,6 +45,8 @@ message BatchGetProjectInvitationsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetProjectInvitationsResponse
@@ -315,7 +314,7 @@ service ProjectInvitationService {
   rpc BatchGetProjectInvitations(BatchGetProjectInvitationsRequest)
       returns (BatchGetProjectInvitationsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*}/projectInvitations:batchGet"
+      get : "/v1alpha2/projectInvitations:batchGet"
     };
   }
 

@@ -540,16 +540,13 @@ type BatchGetServicesRequest_FieldPath interface {
 type BatchGetServicesRequest_FieldPathSelector int32
 
 const (
-	BatchGetServicesRequest_FieldPathSelectorParent    BatchGetServicesRequest_FieldPathSelector = 0
-	BatchGetServicesRequest_FieldPathSelectorNames     BatchGetServicesRequest_FieldPathSelector = 1
-	BatchGetServicesRequest_FieldPathSelectorFieldMask BatchGetServicesRequest_FieldPathSelector = 2
-	BatchGetServicesRequest_FieldPathSelectorView      BatchGetServicesRequest_FieldPathSelector = 3
+	BatchGetServicesRequest_FieldPathSelectorNames     BatchGetServicesRequest_FieldPathSelector = 0
+	BatchGetServicesRequest_FieldPathSelectorFieldMask BatchGetServicesRequest_FieldPathSelector = 1
+	BatchGetServicesRequest_FieldPathSelectorView      BatchGetServicesRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetServicesRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetServicesRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchG
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetServicesRequest_FieldTerminalPath) Get(source *BatchGetServicesRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetServicesRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetServicesRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) GetRaw(source proto.Message
 // GetSingle returns value pointed by specific field of from source BatchGetServicesRequest
 func (fp *BatchGetServicesRequest_FieldTerminalPath) GetSingle(source *BatchGetServicesRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) GetSingleRaw(source proto.M
 // GetDefault returns a default value of the field type
 func (fp *BatchGetServicesRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		return (*service.Reference)(nil)
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		return ([]*service.Reference)(nil)
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetServicesRequest_FieldTerminalPath) ClearValue(item *BatchGetServicesRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetServicesRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetServicesRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetServicesRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetServicesRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetServicesRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetServicesRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetServicesRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetServicesRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetServicesRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetServicesRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		return &BatchGetServicesRequest_FieldTerminalPathValue{BatchGetServicesRequest_FieldTerminalPath: *fp, value: value.(*service.Reference)}
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		return &BatchGetServicesRequest_FieldTerminalPathValue{BatchGetServicesRequest_FieldTerminalPath: *fp, value: value.([]*service.Reference)}
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetServicesRequest_FieldTerminalPath) WithRawIValue(value interfa
 func (fp *BatchGetServicesRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetServicesRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetServicesRequest_FieldTerminalPathArrayOfValues{BatchGetServicesRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		return &BatchGetServicesRequest_FieldTerminalPathArrayOfValues{BatchGetServicesRequest_FieldTerminalPath: *fp, values: values.([]*service.Reference)}
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		return &BatchGetServicesRequest_FieldTerminalPathArrayOfValues{BatchGetServicesRequest_FieldTerminalPath: *fp, values: values.([][]*service.Reference)}
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetServicesRequest_FieldPathValue = (*BatchGetServicesRequest_FieldTe
 func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) AsParentValue() (*service.Reference, bool) {
-	res, ok := fpv.value.(*service.Reference)
-	return res, ok
-}
 func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) AsNamesValue() ([]*service.Reference, bool) {
 	res, ok := fpv.value.([]*service.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) SetTo(target **BatchG
 		*target = new(BatchGetServicesRequest)
 	}
 	switch fpv.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*service.Reference)
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*service.Reference)
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) SetToRaw(target proto
 // CompareWith compares value in the 'BatchGetServicesRequest_FieldTerminalPathValue' with the value under path in 'BatchGetServicesRequest'.
 func (fpv *BatchGetServicesRequest_FieldTerminalPathValue) CompareWith(source *BatchGetServicesRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*service.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetServicesRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetServicesRequest_FieldPathArrayOfValues = (*BatchGetServicesRequest
 
 func (fpaov *BatchGetServicesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetServicesRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*service.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetServicesRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*service.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetServicesRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		}
 	}
 	return
-}
-func (fpaov *BatchGetServicesRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*service.Reference, bool) {
-	res, ok := fpaov.values.([]*service.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetServicesRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*service.Reference, bool) {
 	res, ok := fpaov.values.([][]*service.Reference)

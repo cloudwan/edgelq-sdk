@@ -108,9 +108,6 @@ type BatchGetOrganizationInvitationsRequestFieldPathBuilder struct{}
 func NewBatchGetOrganizationInvitationsRequestFieldPathBuilder() BatchGetOrganizationInvitationsRequestFieldPathBuilder {
 	return BatchGetOrganizationInvitationsRequestFieldPathBuilder{}
 }
-func (BatchGetOrganizationInvitationsRequestFieldPathBuilder) Parent() BatchGetOrganizationInvitationsRequestPathSelectorParent {
-	return BatchGetOrganizationInvitationsRequestPathSelectorParent{}
-}
 func (BatchGetOrganizationInvitationsRequestFieldPathBuilder) Names() BatchGetOrganizationInvitationsRequestPathSelectorNames {
 	return BatchGetOrganizationInvitationsRequestPathSelectorNames{}
 }
@@ -119,20 +116,6 @@ func (BatchGetOrganizationInvitationsRequestFieldPathBuilder) FieldMask() BatchG
 }
 func (BatchGetOrganizationInvitationsRequestFieldPathBuilder) View() BatchGetOrganizationInvitationsRequestPathSelectorView {
 	return BatchGetOrganizationInvitationsRequestPathSelectorView{}
-}
-
-type BatchGetOrganizationInvitationsRequestPathSelectorParent struct{}
-
-func (BatchGetOrganizationInvitationsRequestPathSelectorParent) FieldPath() *BatchGetOrganizationInvitationsRequest_FieldTerminalPath {
-	return &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetOrganizationInvitationsRequestPathSelectorParent) WithValue(value *organization_invitation.Reference) *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetOrganizationInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*organization_invitation.Reference) *BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetOrganizationInvitationsRequestPathSelectorNames struct{}

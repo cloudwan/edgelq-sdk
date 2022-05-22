@@ -35,9 +35,6 @@ message GetOrganizationInvitationRequest {
 // Request message for method
 // [BatchGetOrganizationInvitations][ntt.iam.v1alpha2.BatchGetOrganizationInvitations]
 message BatchGetOrganizationInvitationsRequest {
-  // Optional parent ntt.iam.v1alpha2.OrganizationInvitation
-  string parent = 1;
-
   // Names of OrganizationInvitations
   repeated string names = 2;
 
@@ -48,6 +45,8 @@ message BatchGetOrganizationInvitationsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetOrganizationInvitationsResponse
@@ -317,8 +316,7 @@ service OrganizationInvitationService {
   rpc BatchGetOrganizationInvitations(BatchGetOrganizationInvitationsRequest)
       returns (BatchGetOrganizationInvitationsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=organizations/*}/"
-            "organizationInvitations:batchGet"
+      get : "/v1alpha2/organizationInvitations:batchGet"
     };
   }
 

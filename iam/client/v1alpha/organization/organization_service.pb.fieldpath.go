@@ -540,16 +540,13 @@ type BatchGetOrganizationsRequest_FieldPath interface {
 type BatchGetOrganizationsRequest_FieldPathSelector int32
 
 const (
-	BatchGetOrganizationsRequest_FieldPathSelectorParent    BatchGetOrganizationsRequest_FieldPathSelector = 0
-	BatchGetOrganizationsRequest_FieldPathSelectorNames     BatchGetOrganizationsRequest_FieldPathSelector = 1
-	BatchGetOrganizationsRequest_FieldPathSelectorFieldMask BatchGetOrganizationsRequest_FieldPathSelector = 2
-	BatchGetOrganizationsRequest_FieldPathSelectorView      BatchGetOrganizationsRequest_FieldPathSelector = 3
+	BatchGetOrganizationsRequest_FieldPathSelectorNames     BatchGetOrganizationsRequest_FieldPathSelector = 0
+	BatchGetOrganizationsRequest_FieldPathSelectorFieldMask BatchGetOrganizationsRequest_FieldPathSelector = 1
+	BatchGetOrganizationsRequest_FieldPathSelectorView      BatchGetOrganizationsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetOrganizationsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetOrganizationsRequest_FieldPath(fp gotenobject.RawFieldPath) (B
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) Get(source *BatchGetOrganizationsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) GetRaw(source proto.Me
 // GetSingle returns value pointed by specific field of from source BatchGetOrganizationsRequest
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) GetSingle(source *BatchGetOrganizationsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) GetSingleRaw(source pr
 // GetDefault returns a default value of the field type
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		return (*organization.Reference)(nil)
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		return ([]*organization.Reference)(nil)
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) GetDefault() interface
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) ClearValue(item *BatchGetOrganizationsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) ClearValueRaw(item pro
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetOrganizationsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetOrganizationsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetOrganizationsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetOrganizationsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetOrganizationsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetOrganizationsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		return &BatchGetOrganizationsRequest_FieldTerminalPathValue{BatchGetOrganizationsRequest_FieldTerminalPath: *fp, value: value.(*organization.Reference)}
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		return &BatchGetOrganizationsRequest_FieldTerminalPathValue{BatchGetOrganizationsRequest_FieldTerminalPath: *fp, value: value.([]*organization.Reference)}
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) WithRawIValue(value in
 func (fp *BatchGetOrganizationsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetOrganizationsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		return &BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.Reference)}
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		return &BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationsRequest_FieldTerminalPath: *fp, values: values.([][]*organization.Reference)}
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetOrganizationsRequest_FieldPathValue = (*BatchGetOrganizationsReque
 func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) AsParentValue() (*organization.Reference, bool) {
-	res, ok := fpv.value.(*organization.Reference)
-	return res, ok
-}
 func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) AsNamesValue() ([]*organization.Reference, bool) {
 	res, ok := fpv.value.([]*organization.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) SetTo(target **B
 		*target = new(BatchGetOrganizationsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*organization.Reference)
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*organization.Reference)
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) SetToRaw(target 
 // CompareWith compares value in the 'BatchGetOrganizationsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetOrganizationsRequest'.
 func (fpv *BatchGetOrganizationsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetOrganizationsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*organization.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetOrganizationsRequest_FieldPathArrayOfValues = (*BatchGetOrganizati
 
 func (fpaov *BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*organization.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*organization.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues) GetRaw
 		}
 	}
 	return
-}
-func (fpaov *BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*organization.Reference, bool) {
-	res, ok := fpaov.values.([]*organization.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetOrganizationsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*organization.Reference, bool) {
 	res, ok := fpaov.values.([][]*organization.Reference)

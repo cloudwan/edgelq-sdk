@@ -69,15 +69,15 @@ func (d *GetPodDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetPodDescriptor) IsCollectionSubject() bool {
+func (d *GetPodDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetPodDescriptor) IsPluralSubject() bool {
+func (d *GetPodDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetPodDescriptor) HasSubjectResource() bool {
+func (d *GetPodDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetPodDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *GetPodDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetPodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetPodDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHand
 	return &GetPodDescriptorServerMsgHandle{}
 }
 
-func (h *GetPodDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPodDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetPodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetPodRequest) *pod.Name
+		OverrideExtractResourceName(*GetPodRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*pod.Name)(nil)
 }
 
-func (h *GetPodDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPodDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetPodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetPodRequest) []*pod.Name
+		OverrideExtractResourceNames(*GetPodRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPodDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPodDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetPodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetPodRequest) *pod.ParentName
+		OverrideExtractCollectionName(*GetPodRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetPodDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPodDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*pod.Pod) *pod.Name
+		OverrideExtractResourceName(*pod.Pod) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*pod.Name)(nil)
 }
 
-func (h *GetPodDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPodDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*pod.Pod) []*pod.Name
+		OverrideExtractResourceNames(*pod.Pod) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPodDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPodDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*pod.Pod) *pod.ParentName
+		OverrideExtractCollectionName(*pod.Pod) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetPodsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetPodsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetPodsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetPodsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetPodsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetPodsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetPodsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetPodsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *BatchGetPodsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetPodsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetPodsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &BatchGetPodsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPodsRequest) *pod.Name
+		OverrideExtractResourceName(*BatchGetPodsRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPodsRequest) []*pod.Name
+		OverrideExtractResourceNames(*BatchGetPodsRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(pod.PodNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(pod.PodNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (pod.PodNameList)(nil)
 }
 
-func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPodsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetPodsRequest) *pod.ParentName
+		OverrideExtractCollectionName(*BatchGetPodsRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPodsResponse) *pod.Name
+		OverrideExtractResourceName(*BatchGetPodsResponse) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPodsResponse) []*pod.Name
+		OverrideExtractResourceNames(*BatchGetPodsResponse) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPods()
-	list := make(pod.PodNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPods(); len(resources) > 0 {
+			list := make(pod.PodNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (pod.PodNameList)(nil)
 }
 
-func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPodsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetPodsResponse) *pod.ParentName
+		OverrideExtractCollectionName(*BatchGetPodsResponse) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListPodsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListPodsDescriptor) IsCollectionSubject() bool {
+func (d *ListPodsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListPodsDescriptor) IsPluralSubject() bool {
+func (d *ListPodsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListPodsDescriptor) HasSubjectResource() bool {
+func (d *ListPodsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListPodsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *ListPodsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListPodsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListPodsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHa
 	return &ListPodsDescriptorServerMsgHandle{}
 }
 
-func (h *ListPodsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPodsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPodsRequest) *pod.Name
+		OverrideExtractResourceName(*ListPodsRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPodsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPodsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPodsRequest) []*pod.Name
+		OverrideExtractResourceNames(*ListPodsRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListPodsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPodsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListPodsRequest) *pod.ParentName
+		OverrideExtractCollectionName(*ListPodsRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*pod.ParentName)(nil)
 }
 
-func (h *ListPodsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPodsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPodsResponse) *pod.Name
+		OverrideExtractResourceName(*ListPodsResponse) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPodsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPodsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPodsResponse) []*pod.Name
+		OverrideExtractResourceNames(*ListPodsResponse) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPods()
-	list := make(pod.PodNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPods(); len(resources) > 0 {
+			list := make(pod.PodNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (pod.PodNameList)(nil)
 }
 
-func (h *ListPodsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPodsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListPodsResponse) *pod.ParentName
+		OverrideExtractCollectionName(*ListPodsResponse) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchPodDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPodDescriptor) IsCollectionSubject() bool {
+func (d *WatchPodDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchPodDescriptor) IsPluralSubject() bool {
+func (d *WatchPodDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchPodDescriptor) HasSubjectResource() bool {
+func (d *WatchPodDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchPodDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *WatchPodDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchPodDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHa
 	return &WatchPodDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPodDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPodRequest) *pod.Name
+		OverrideExtractResourceName(*WatchPodRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*pod.Name)(nil)
-}
-
-func (h *WatchPodDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPodRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPodRequest) []*pod.Name
-	})
-	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchPodDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchPodRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPodRequest) *pod.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchPodDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchPodResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPodResponse) *pod.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *pod.PodChange_Added_:
-			return tResChange.Added.GetPod().GetName()
-		case *pod.PodChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *pod.PodChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *pod.PodChange_Current_:
-			return tResChange.Current.GetPod().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*pod.Name)(nil)
 }
 
-func (h *WatchPodDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPodResponse)
+func (h *WatchPodDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPodResponse) []*pod.Name
+		OverrideExtractResourceNames(*WatchPodRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPodDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchPodRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchPodRequest) *pod.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPodDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPodResponse) *pod.ParentName
+		OverrideExtractResourceName(*WatchPodResponse) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *pod.PodChange_Added_:
+				return tResChange.Added.GetPod().GetName()
+			case *pod.PodChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *pod.PodChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *pod.PodChange_Current_:
+				return tResChange.Current.GetPod().GetName()
+			}
+		}
+	}
+	return (*pod.Name)(nil)
+}
+
+func (h *WatchPodDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPodResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchPodResponse) []*pod.Name
+	})
+	if ok {
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchPodDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchPodResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchPodResponse) *pod.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchPodsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPodsDescriptor) IsCollectionSubject() bool {
+func (d *WatchPodsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchPodsDescriptor) IsPluralSubject() bool {
+func (d *WatchPodsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchPodsDescriptor) HasSubjectResource() bool {
+func (d *WatchPodsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchPodsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *WatchPodsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPodsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchPodsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &WatchPodsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPodsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPodsRequest) *pod.Name
+		OverrideExtractResourceName(*WatchPodsRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPodsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPodsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPodsRequest) []*pod.Name
+		OverrideExtractResourceNames(*WatchPodsRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPodsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPodsRequest) *pod.ParentName
+		OverrideExtractCollectionName(*WatchPodsRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*pod.ParentName)(nil)
 }
 
-func (h *WatchPodsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPodsResponse) *pod.Name
+		OverrideExtractResourceName(*WatchPodsResponse) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPodsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPodsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPodsResponse) []*pod.Name
+		OverrideExtractResourceNames(*WatchPodsResponse) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetPodChanges()
-	list := make(pod.PodNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *pod.PodChange_Added_:
-			list = append(list, tResChange.Added.GetPod().GetName())
-		case *pod.PodChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *pod.PodChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *pod.PodChange_Current_:
-			list = append(list, tResChange.Current.GetPod().GetName())
+	{
+		if resChanges := typedMsg.GetPodChanges(); len(resChanges) > 0 {
+			list := make(pod.PodNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *pod.PodChange_Added_:
+					list = append(list, tResChange.Added.GetPod().GetName())
+				case *pod.PodChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *pod.PodChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *pod.PodChange_Current_:
+					list = append(list, tResChange.Current.GetPod().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (pod.PodNameList)(nil)
 }
 
-func (h *WatchPodsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPodsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPodsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPodsResponse) *pod.ParentName
+		OverrideExtractCollectionName(*WatchPodsResponse) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreatePodDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreatePodDescriptor) IsCollectionSubject() bool {
+func (d *CreatePodDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreatePodDescriptor) IsPluralSubject() bool {
+func (d *CreatePodDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreatePodDescriptor) HasSubjectResource() bool {
+func (d *CreatePodDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreatePodDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *CreatePodDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreatePodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreatePodDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &CreatePodDescriptorServerMsgHandle{}
 }
 
-func (h *CreatePodDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePodDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreatePodRequest) *pod.Name
+		OverrideExtractResourceName(*CreatePodRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetPod().GetName()
+	{
+		res := typedMsg.GetPod()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*pod.Name)(nil)
 }
 
-func (h *CreatePodDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePodDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreatePodRequest) []*pod.Name
+		OverrideExtractResourceNames(*CreatePodRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePodDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePodDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreatePodRequest) *pod.ParentName
+		OverrideExtractCollectionName(*CreatePodRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*pod.ParentName)(nil)
 }
 
-func (h *CreatePodDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePodDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*pod.Pod) *pod.Name
+		OverrideExtractResourceName(*pod.Pod) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*pod.Name)(nil)
 }
 
-func (h *CreatePodDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePodDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*pod.Pod) []*pod.Name
+		OverrideExtractResourceNames(*pod.Pod) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePodDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePodDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*pod.Pod) *pod.ParentName
+		OverrideExtractCollectionName(*pod.Pod) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdatePodDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdatePodDescriptor) IsCollectionSubject() bool {
+func (d *UpdatePodDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdatePodDescriptor) IsPluralSubject() bool {
+func (d *UpdatePodDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdatePodDescriptor) HasSubjectResource() bool {
+func (d *UpdatePodDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdatePodDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *UpdatePodDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdatePodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdatePodDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &UpdatePodDescriptorServerMsgHandle{}
 }
 
-func (h *UpdatePodDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePodDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdatePodRequest) *pod.Name
+		OverrideExtractResourceName(*UpdatePodRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetPod().GetName()
+	{
+		res := typedMsg.GetPod()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*pod.Name)(nil)
 }
 
-func (h *UpdatePodDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdatePodDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdatePodRequest) []*pod.Name
+		OverrideExtractResourceNames(*UpdatePodRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdatePodDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePodDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdatePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdatePodRequest) *pod.ParentName
+		OverrideExtractCollectionName(*UpdatePodRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdatePodDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePodDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*pod.Pod) *pod.Name
+		OverrideExtractResourceName(*pod.Pod) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*pod.Name)(nil)
 }
 
-func (h *UpdatePodDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdatePodDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*pod.Pod) []*pod.Name
+		OverrideExtractResourceNames(*pod.Pod) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdatePodDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePodDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*pod.Pod)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*pod.Pod) *pod.ParentName
+		OverrideExtractCollectionName(*pod.Pod) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeletePodDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeletePodDescriptor) IsCollectionSubject() bool {
+func (d *DeletePodDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeletePodDescriptor) IsPluralSubject() bool {
+func (d *DeletePodDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeletePodDescriptor) HasSubjectResource() bool {
+func (d *DeletePodDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeletePodDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return podServiceDescriptor
 }
 
-func (d *DeletePodDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeletePodDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return pod.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeletePodDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &DeletePodDescriptorServerMsgHandle{}
 }
 
-func (h *DeletePodDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePodDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeletePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeletePodRequest) *pod.Name
+		OverrideExtractResourceName(*DeletePodRequest) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*pod.Name)(nil)
 }
 
-func (h *DeletePodDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePodDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeletePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeletePodRequest) []*pod.Name
+		OverrideExtractResourceNames(*DeletePodRequest) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePodDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePodDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeletePodRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeletePodRequest) *pod.ParentName
+		OverrideExtractCollectionName(*DeletePodRequest) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeletePodDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePodDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *pod.Name
+		OverrideExtractResourceName(*empty.Empty) *pod.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeletePodDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePodDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*pod.Name
+		OverrideExtractResourceNames(*empty.Empty) []*pod.Name
 	})
 	if ok {
-		return pod.PodNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return pod.PodNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePodDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePodDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *pod.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *pod.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

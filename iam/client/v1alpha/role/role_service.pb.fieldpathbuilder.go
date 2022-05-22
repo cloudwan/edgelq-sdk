@@ -98,9 +98,6 @@ type BatchGetRolesRequestFieldPathBuilder struct{}
 func NewBatchGetRolesRequestFieldPathBuilder() BatchGetRolesRequestFieldPathBuilder {
 	return BatchGetRolesRequestFieldPathBuilder{}
 }
-func (BatchGetRolesRequestFieldPathBuilder) Parent() BatchGetRolesRequestPathSelectorParent {
-	return BatchGetRolesRequestPathSelectorParent{}
-}
 func (BatchGetRolesRequestFieldPathBuilder) Names() BatchGetRolesRequestPathSelectorNames {
 	return BatchGetRolesRequestPathSelectorNames{}
 }
@@ -109,20 +106,6 @@ func (BatchGetRolesRequestFieldPathBuilder) FieldMask() BatchGetRolesRequestPath
 }
 func (BatchGetRolesRequestFieldPathBuilder) View() BatchGetRolesRequestPathSelectorView {
 	return BatchGetRolesRequestPathSelectorView{}
-}
-
-type BatchGetRolesRequestPathSelectorParent struct{}
-
-func (BatchGetRolesRequestPathSelectorParent) FieldPath() *BatchGetRolesRequest_FieldTerminalPath {
-	return &BatchGetRolesRequest_FieldTerminalPath{selector: BatchGetRolesRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetRolesRequestPathSelectorParent) WithValue(value *role.Reference) *BatchGetRolesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetRolesRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetRolesRequestPathSelectorParent) WithArrayOfValues(values []*role.Reference) *BatchGetRolesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetRolesRequestPathSelectorNames struct{}

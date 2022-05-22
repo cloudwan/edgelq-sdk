@@ -34,9 +34,6 @@ message GetAlertingConditionRequest {
 // Request message for method
 // [BatchGetAlertingConditions][ntt.monitoring.v3.BatchGetAlertingConditions]
 message BatchGetAlertingConditionsRequest {
-  // Optional parent ntt.monitoring.v3.AlertingCondition
-  string parent = 1;
-
   // Names of AlertingConditions
   repeated string names = 2;
 
@@ -47,6 +44,8 @@ message BatchGetAlertingConditionsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetAlertingConditionsResponse
@@ -315,8 +314,7 @@ service AlertingConditionService {
   rpc BatchGetAlertingConditions(BatchGetAlertingConditionsRequest)
       returns (BatchGetAlertingConditionsResponse) {
     option (google.api.http) = {
-      get : "/v3/{parent=projects/*/regions/*/alertingPolicies/*}/"
-            "alertingConditions:batchGet"
+      get : "/v3/alertingConditions:batchGet"
     };
   }
 

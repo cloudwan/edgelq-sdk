@@ -98,9 +98,6 @@ type BatchGetGroupsRequestFieldPathBuilder struct{}
 func NewBatchGetGroupsRequestFieldPathBuilder() BatchGetGroupsRequestFieldPathBuilder {
 	return BatchGetGroupsRequestFieldPathBuilder{}
 }
-func (BatchGetGroupsRequestFieldPathBuilder) Parent() BatchGetGroupsRequestPathSelectorParent {
-	return BatchGetGroupsRequestPathSelectorParent{}
-}
 func (BatchGetGroupsRequestFieldPathBuilder) Names() BatchGetGroupsRequestPathSelectorNames {
 	return BatchGetGroupsRequestPathSelectorNames{}
 }
@@ -109,20 +106,6 @@ func (BatchGetGroupsRequestFieldPathBuilder) FieldMask() BatchGetGroupsRequestPa
 }
 func (BatchGetGroupsRequestFieldPathBuilder) View() BatchGetGroupsRequestPathSelectorView {
 	return BatchGetGroupsRequestPathSelectorView{}
-}
-
-type BatchGetGroupsRequestPathSelectorParent struct{}
-
-func (BatchGetGroupsRequestPathSelectorParent) FieldPath() *BatchGetGroupsRequest_FieldTerminalPath {
-	return &BatchGetGroupsRequest_FieldTerminalPath{selector: BatchGetGroupsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetGroupsRequestPathSelectorParent) WithValue(value *group.Reference) *BatchGetGroupsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetGroupsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetGroupsRequestPathSelectorParent) WithArrayOfValues(values []*group.Reference) *BatchGetGroupsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetGroupsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetGroupsRequestPathSelectorNames struct{}

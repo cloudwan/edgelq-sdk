@@ -1642,7 +1642,7 @@ func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) GetSingleRaw(s
 func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return (*organization.Reference)(nil)
+		return (*organization_invitation.ParentReference)(nil)
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter:
 		return (*organization_invitation.Filter)(nil)
 	default:
@@ -1676,7 +1676,7 @@ func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) IsLeaf() bool 
 func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationInvitationsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathValue{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, value: value.(*organization.Reference)}
+		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathValue{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, value: value.(*organization_invitation.ParentReference)}
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter:
 		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathValue{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, value: value.(*organization_invitation.Filter)}
 	default:
@@ -1692,7 +1692,7 @@ func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) WithIArrayOfVa
 	fpaov := &ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.Reference)}
+		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*organization_invitation.ParentReference)}
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter:
 		return &ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*organization_invitation.Filter)}
 	default:
@@ -1755,8 +1755,8 @@ var _ ListMyOrganizationInvitationsRequest_FieldPathValue = (*ListMyOrganization
 func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*organization.Reference, bool) {
-	res, ok := fpv.value.(*organization.Reference)
+func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*organization_invitation.ParentReference, bool) {
+	res, ok := fpv.value.(*organization_invitation.ParentReference)
 	return res, ok
 }
 func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) AsFilterValue() (*organization_invitation.Filter, bool) {
@@ -1771,7 +1771,7 @@ func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) SetTo(ta
 	}
 	switch fpv.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*organization.Reference)
+		(*target).Parent = fpv.value.(*organization_invitation.ParentReference)
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*organization_invitation.Filter)
 	default:
@@ -1788,7 +1788,7 @@ func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) SetToRaw
 func (fpv *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue) CompareWith(source *ListMyOrganizationInvitationsRequest) (int, bool) {
 	switch fpv.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*organization.Reference)
+		leftValue := fpv.value.(*organization_invitation.ParentReference)
 		rightValue := source.GetParent()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1913,7 +1913,7 @@ var _ ListMyOrganizationInvitationsRequest_FieldPathArrayOfValues = (*ListMyOrga
 func (fpaov *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*organization.Reference) {
+		for _, v := range fpaov.values.([]*organization_invitation.ParentReference) {
 			values = append(values, v)
 		}
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter:
@@ -1923,8 +1923,8 @@ func (fpaov *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues
 	}
 	return
 }
-func (fpaov *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*organization.Reference, bool) {
-	res, ok := fpaov.values.([]*organization.Reference)
+func (fpaov *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*organization_invitation.ParentReference, bool) {
+	res, ok := fpaov.values.([]*organization_invitation.ParentReference)
 	return res, ok
 }
 func (fpaov *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*organization_invitation.Filter, bool) {

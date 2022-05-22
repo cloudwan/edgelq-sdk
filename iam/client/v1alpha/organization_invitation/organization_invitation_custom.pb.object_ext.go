@@ -336,7 +336,7 @@ func (o *ListMyOrganizationInvitationsRequest) Clone() *ListMyOrganizationInvita
 	} else if data, err := o.Parent.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Parent = &organization.Reference{}
+		result.Parent = &organization_invitation.ParentReference{}
 		if err := result.Parent.ParseProtoString(data); err != nil {
 			panic(err)
 		}
@@ -363,7 +363,7 @@ func (o *ListMyOrganizationInvitationsRequest) Merge(source *ListMyOrganizationI
 		if data, err := source.GetParent().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Parent = &organization.Reference{}
+			o.Parent = &organization_invitation.ParentReference{}
 			if err := o.Parent.ParseProtoString(data); err != nil {
 				panic(err)
 			}

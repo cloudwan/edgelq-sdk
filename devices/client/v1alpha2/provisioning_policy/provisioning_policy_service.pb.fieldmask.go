@@ -318,7 +318,6 @@ type BatchGetProvisioningPoliciesRequest_FieldMask struct {
 
 func FullBatchGetProvisioningPoliciesRequest_FieldMask() *BatchGetProvisioningPoliciesRequest_FieldMask {
 	res := &BatchGetProvisioningPoliciesRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetProvisioningPoliciesRequest_FieldTerminalPath{selector: BatchGetProvisioningPoliciesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPoliciesRequest_FieldTerminalPath{selector: BatchGetProvisioningPoliciesRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPoliciesRequest_FieldTerminalPath{selector: BatchGetProvisioningPoliciesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPoliciesRequest_FieldTerminalPath{selector: BatchGetProvisioningPoliciesRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetProvisioningPoliciesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetProvisioningPoliciesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetProvisioningPoliciesRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetProvisioningPoliciesRequest_FieldMask) Subtract(other *BatchGetProvisioningPoliciesRequest_FieldMask) *BatchGetProvisioningPoliciesRequest_FieldMask {
 	result := &BatchGetProvisioningPoliciesRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetProvisioningPoliciesRequest_FieldMask) Project(source *
 		switch tp := p.(type) {
 		case *BatchGetProvisioningPoliciesRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetProvisioningPoliciesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetProvisioningPoliciesRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetProvisioningPoliciesRequest_FieldPathSelectorFieldMask:

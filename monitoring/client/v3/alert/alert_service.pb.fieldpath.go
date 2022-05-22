@@ -542,16 +542,13 @@ type BatchGetAlertsRequest_FieldPath interface {
 type BatchGetAlertsRequest_FieldPathSelector int32
 
 const (
-	BatchGetAlertsRequest_FieldPathSelectorParent    BatchGetAlertsRequest_FieldPathSelector = 0
-	BatchGetAlertsRequest_FieldPathSelectorNames     BatchGetAlertsRequest_FieldPathSelector = 1
-	BatchGetAlertsRequest_FieldPathSelectorFieldMask BatchGetAlertsRequest_FieldPathSelector = 2
-	BatchGetAlertsRequest_FieldPathSelectorView      BatchGetAlertsRequest_FieldPathSelector = 3
+	BatchGetAlertsRequest_FieldPathSelectorNames     BatchGetAlertsRequest_FieldPathSelector = 0
+	BatchGetAlertsRequest_FieldPathSelectorFieldMask BatchGetAlertsRequest_FieldPathSelector = 1
+	BatchGetAlertsRequest_FieldPathSelectorView      BatchGetAlertsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetAlertsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetAlertsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGet
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) Get(source *BatchGetAlertsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetAlertsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetAlertsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) GetRaw(source proto.Message) 
 // GetSingle returns value pointed by specific field of from source BatchGetAlertsRequest
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) GetSingle(source *BatchGetAlertsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) GetSingleRaw(source proto.Mes
 // GetDefault returns a default value of the field type
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		return (*alert.Reference)(nil)
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		return ([]*alert.Reference)(nil)
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) ClearValue(item *BatchGetAlertsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetAlertsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetAlertsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mess
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetAlertsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetAlertsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetAlertsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetAlertsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetAlertsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetAlertsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		return &BatchGetAlertsRequest_FieldTerminalPathValue{BatchGetAlertsRequest_FieldTerminalPath: *fp, value: value.(*alert.Reference)}
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		return &BatchGetAlertsRequest_FieldTerminalPathValue{BatchGetAlertsRequest_FieldTerminalPath: *fp, value: value.([]*alert.Reference)}
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetAlertsRequest_FieldTerminalPath) WithRawIValue(value interface
 func (fp *BatchGetAlertsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetAlertsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetAlertsRequest_FieldTerminalPathArrayOfValues{BatchGetAlertsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		return &BatchGetAlertsRequest_FieldTerminalPathArrayOfValues{BatchGetAlertsRequest_FieldTerminalPath: *fp, values: values.([]*alert.Reference)}
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		return &BatchGetAlertsRequest_FieldTerminalPathArrayOfValues{BatchGetAlertsRequest_FieldTerminalPath: *fp, values: values.([][]*alert.Reference)}
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetAlertsRequest_FieldPathValue = (*BatchGetAlertsRequest_FieldTermin
 func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) AsParentValue() (*alert.Reference, bool) {
-	res, ok := fpv.value.(*alert.Reference)
-	return res, ok
-}
 func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) AsNamesValue() ([]*alert.Reference, bool) {
 	res, ok := fpv.value.([]*alert.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) SetTo(target **BatchGet
 		*target = new(BatchGetAlertsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*alert.Reference)
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*alert.Reference)
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) SetToRaw(target proto.M
 // CompareWith compares value in the 'BatchGetAlertsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetAlertsRequest'.
 func (fpv *BatchGetAlertsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetAlertsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*alert.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetAlertsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetAlertsRequest_FieldPathArrayOfValues = (*BatchGetAlertsRequest_Fie
 
 func (fpaov *BatchGetAlertsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetAlertsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*alert.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetAlertsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*alert.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetAlertsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		}
 	}
 	return
-}
-func (fpaov *BatchGetAlertsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*alert.Reference, bool) {
-	res, ok := fpaov.values.([]*alert.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetAlertsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*alert.Reference, bool) {
 	res, ok := fpaov.values.([][]*alert.Reference)

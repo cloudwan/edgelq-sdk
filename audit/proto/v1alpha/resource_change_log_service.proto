@@ -26,12 +26,6 @@ service ResourceChangeLogService {
       returns (ListResourceChangeLogsResponse) {
     option (google.api.http) = {
       get : "/v1alpha/resourceChangeLogs"
-      additional_bindings : <
-        get : "/v1alpha/{parent=projects/*}/resourceChangeLogs"
-      >
-      additional_bindings : <
-        get : "/v1alpha/{parent=organizations/*}/resourceChangeLogs"
-      >
     };
   }
 
@@ -41,12 +35,6 @@ service ResourceChangeLogService {
       returns (CreatePreCommittedResourceChangeLogsResponse) {
     option (google.api.http) = {
       post : "/v1alpha/resourceChangeLogs"
-      additional_bindings : <
-        post : "/v1alpha/{parent=projects/*}/resourceChangeLogs"
-      >
-      additional_bindings : <
-        post : "/v1alpha/{parent=organizations/*}/resourceChangeLogs"
-      >
     };
   }
 
@@ -55,12 +43,6 @@ service ResourceChangeLogService {
       returns (SetResourceChangeLogsCommitStateResponse) {
     option (google.api.http) = {
       post : "/v1alpha/resourceChangeLogs"
-      additional_bindings : <
-        post : "/v1alpha/{parent=projects/*}/resourceChangeLogs"
-      >
-      additional_bindings : <
-        post : "/v1alpha/{parent=organizations/*}/resourceChangeLogs"
-      >
     };
   }
 }

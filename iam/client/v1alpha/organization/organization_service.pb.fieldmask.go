@@ -316,7 +316,6 @@ type BatchGetOrganizationsRequest_FieldMask struct {
 
 func FullBatchGetOrganizationsRequest_FieldMask() *BatchGetOrganizationsRequest_FieldMask {
 	res := &BatchGetOrganizationsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetOrganizationsRequest_FieldTerminalPath{selector: BatchGetOrganizationsRequest_FieldPathSelectorView})
@@ -363,7 +362,7 @@ func (fieldMask *BatchGetOrganizationsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetOrganizationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -393,7 +392,7 @@ func (fieldMask *BatchGetOrganizationsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetOrganizationsRequest_FieldMask) Subtract(other *BatchGetOrganizationsRequest_FieldMask) *BatchGetOrganizationsRequest_FieldMask {
 	result := &BatchGetOrganizationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -547,8 +546,6 @@ func (fieldMask *BatchGetOrganizationsRequest_FieldMask) Project(source *BatchGe
 		switch tp := p.(type) {
 		case *BatchGetOrganizationsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetOrganizationsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetOrganizationsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetOrganizationsRequest_FieldPathSelectorFieldMask:

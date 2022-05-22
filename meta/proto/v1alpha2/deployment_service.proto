@@ -33,9 +33,6 @@ message GetDeploymentRequest {
 // Request message for method
 // [BatchGetDeployments][ntt.meta.v1alpha2.BatchGetDeployments]
 message BatchGetDeploymentsRequest {
-  // Optional parent ntt.meta.v1alpha2.Deployment
-  string parent = 1;
-
   // Names of Deployments
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetDeploymentsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetDeploymentsResponse
@@ -311,7 +310,7 @@ service DeploymentService {
   rpc BatchGetDeployments(BatchGetDeploymentsRequest)
       returns (BatchGetDeploymentsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=services/*}/deployments:batchGet"
+      get : "/v1alpha2/deployments:batchGet"
     };
   }
 

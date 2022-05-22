@@ -148,9 +148,6 @@ func (o *BatchGetAuditedResourceDescriptorsRequest) MakeDiffFieldMask(other *Bat
 	}
 
 	res := &BatchGetAuditedResourceDescriptorsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -181,16 +178,6 @@ func (o *BatchGetAuditedResourceDescriptorsRequest) Clone() *BatchGetAuditedReso
 		return nil
 	}
 	result := &BatchGetAuditedResourceDescriptorsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &audited_resource_descriptor.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*audited_resource_descriptor.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -214,18 +201,6 @@ func (o *BatchGetAuditedResourceDescriptorsRequest) CloneRaw() gotenobject.Goten
 }
 
 func (o *BatchGetAuditedResourceDescriptorsRequest) Merge(source *BatchGetAuditedResourceDescriptorsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &audited_resource_descriptor.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

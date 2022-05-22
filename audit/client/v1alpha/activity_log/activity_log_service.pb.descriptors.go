@@ -61,15 +61,15 @@ func (d *ListActivityLogsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListActivityLogsDescriptor) IsCollectionSubject() bool {
+func (d *ListActivityLogsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListActivityLogsDescriptor) IsPluralSubject() bool {
-	return false
+func (d *ListActivityLogsDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *ListActivityLogsDescriptor) HasSubjectResource() bool {
+func (d *ListActivityLogsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -109,7 +109,7 @@ func (d *ListActivityLogsDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return activityLogServiceDescriptor
 }
 
-func (d *ListActivityLogsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListActivityLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return activity_log.GetDescriptor()
 }
 
@@ -121,74 +121,74 @@ func (d *ListActivityLogsDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &ListActivityLogsDescriptorServerMsgHandle{}
 }
 
-func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListActivityLogsRequest) *activity_log.Name
+		OverrideExtractResourceName(*ListActivityLogsRequest) *activity_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListActivityLogsRequest) []*activity_log.Name
+		OverrideExtractResourceNames(*ListActivityLogsRequest) []*activity_log.Name
 	})
 	if ok {
-		return activity_log.ActivityLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return activity_log.ActivityLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListActivityLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListActivityLogsRequest) *activity_log.ParentName
+		OverrideExtractCollectionName(*ListActivityLogsRequest) *activity_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListActivityLogsResponse) *activity_log.Name
+		OverrideExtractResourceName(*ListActivityLogsResponse) *activity_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListActivityLogsResponse) []*activity_log.Name
+		OverrideExtractResourceNames(*ListActivityLogsResponse) []*activity_log.Name
 	})
 	if ok {
-		return activity_log.ActivityLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return activity_log.ActivityLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListActivityLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListActivityLogsResponse) *activity_log.ParentName
+		OverrideExtractCollectionName(*ListActivityLogsResponse) *activity_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -223,15 +223,15 @@ func (d *CreateActivityLogsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateActivityLogsDescriptor) IsCollectionSubject() bool {
+func (d *CreateActivityLogsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateActivityLogsDescriptor) IsPluralSubject() bool {
-	return false
+func (d *CreateActivityLogsDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *CreateActivityLogsDescriptor) HasSubjectResource() bool {
+func (d *CreateActivityLogsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -271,7 +271,7 @@ func (d *CreateActivityLogsDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return activityLogServiceDescriptor
 }
 
-func (d *CreateActivityLogsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateActivityLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return activity_log.GetDescriptor()
 }
 
@@ -283,74 +283,74 @@ func (d *CreateActivityLogsDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &CreateActivityLogsDescriptorServerMsgHandle{}
 }
 
-func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateActivityLogsRequest) *activity_log.Name
+		OverrideExtractResourceName(*CreateActivityLogsRequest) *activity_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateActivityLogsRequest) []*activity_log.Name
+		OverrideExtractResourceNames(*CreateActivityLogsRequest) []*activity_log.Name
 	})
 	if ok {
-		return activity_log.ActivityLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return activity_log.ActivityLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateActivityLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateActivityLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateActivityLogsRequest) *activity_log.ParentName
+		OverrideExtractCollectionName(*CreateActivityLogsRequest) *activity_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateActivityLogsResponse) *activity_log.Name
+		OverrideExtractResourceName(*CreateActivityLogsResponse) *activity_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateActivityLogsResponse) []*activity_log.Name
+		OverrideExtractResourceNames(*CreateActivityLogsResponse) []*activity_log.Name
 	})
 	if ok {
-		return activity_log.ActivityLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return activity_log.ActivityLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateActivityLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateActivityLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateActivityLogsResponse) *activity_log.ParentName
+		OverrideExtractCollectionName(*CreateActivityLogsResponse) *activity_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

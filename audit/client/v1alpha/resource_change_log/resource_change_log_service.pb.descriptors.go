@@ -62,15 +62,15 @@ func (d *ListResourceChangeLogsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListResourceChangeLogsDescriptor) IsCollectionSubject() bool {
+func (d *ListResourceChangeLogsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListResourceChangeLogsDescriptor) IsPluralSubject() bool {
-	return false
+func (d *ListResourceChangeLogsDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *ListResourceChangeLogsDescriptor) HasSubjectResource() bool {
+func (d *ListResourceChangeLogsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -110,7 +110,7 @@ func (d *ListResourceChangeLogsDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return resourceChangeLogServiceDescriptor
 }
 
-func (d *ListResourceChangeLogsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListResourceChangeLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return resource_change_log.GetDescriptor()
 }
 
@@ -122,74 +122,74 @@ func (d *ListResourceChangeLogsDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &ListResourceChangeLogsDescriptorServerMsgHandle{}
 }
 
-func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListResourceChangeLogsRequest) *resource_change_log.Name
+		OverrideExtractResourceName(*ListResourceChangeLogsRequest) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListResourceChangeLogsRequest) []*resource_change_log.Name
+		OverrideExtractResourceNames(*ListResourceChangeLogsRequest) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListResourceChangeLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListResourceChangeLogsRequest) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*ListResourceChangeLogsRequest) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListResourceChangeLogsResponse) *resource_change_log.Name
+		OverrideExtractResourceName(*ListResourceChangeLogsResponse) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListResourceChangeLogsResponse) []*resource_change_log.Name
+		OverrideExtractResourceNames(*ListResourceChangeLogsResponse) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListResourceChangeLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListResourceChangeLogsResponse) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*ListResourceChangeLogsResponse) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -224,15 +224,15 @@ func (d *CreatePreCommittedResourceChangeLogsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreatePreCommittedResourceChangeLogsDescriptor) IsCollectionSubject() bool {
+func (d *CreatePreCommittedResourceChangeLogsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreatePreCommittedResourceChangeLogsDescriptor) IsPluralSubject() bool {
-	return false
+func (d *CreatePreCommittedResourceChangeLogsDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *CreatePreCommittedResourceChangeLogsDescriptor) HasSubjectResource() bool {
+func (d *CreatePreCommittedResourceChangeLogsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -272,7 +272,7 @@ func (d *CreatePreCommittedResourceChangeLogsDescriptor) GetApiDescriptor() gote
 	return resourceChangeLogServiceDescriptor
 }
 
-func (d *CreatePreCommittedResourceChangeLogsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreatePreCommittedResourceChangeLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return resource_change_log.GetDescriptor()
 }
 
@@ -284,74 +284,74 @@ func (d *CreatePreCommittedResourceChangeLogsDescriptor) GetServerMsgReflectHand
 	return &CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle{}
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreatePreCommittedResourceChangeLogsRequest) *resource_change_log.Name
+		OverrideExtractResourceName(*CreatePreCommittedResourceChangeLogsRequest) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreatePreCommittedResourceChangeLogsRequest) []*resource_change_log.Name
+		OverrideExtractResourceNames(*CreatePreCommittedResourceChangeLogsRequest) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreatePreCommittedResourceChangeLogsRequest) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*CreatePreCommittedResourceChangeLogsRequest) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreatePreCommittedResourceChangeLogsResponse) *resource_change_log.Name
+		OverrideExtractResourceName(*CreatePreCommittedResourceChangeLogsResponse) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreatePreCommittedResourceChangeLogsResponse) []*resource_change_log.Name
+		OverrideExtractResourceNames(*CreatePreCommittedResourceChangeLogsResponse) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePreCommittedResourceChangeLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePreCommittedResourceChangeLogsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreatePreCommittedResourceChangeLogsResponse) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*CreatePreCommittedResourceChangeLogsResponse) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -386,15 +386,15 @@ func (d *SetResourceChangeLogsCommitStateDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *SetResourceChangeLogsCommitStateDescriptor) IsCollectionSubject() bool {
+func (d *SetResourceChangeLogsCommitStateDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *SetResourceChangeLogsCommitStateDescriptor) IsPluralSubject() bool {
-	return false
+func (d *SetResourceChangeLogsCommitStateDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *SetResourceChangeLogsCommitStateDescriptor) HasSubjectResource() bool {
+func (d *SetResourceChangeLogsCommitStateDescriptor) HasResource() bool {
 	return true
 }
 
@@ -434,7 +434,7 @@ func (d *SetResourceChangeLogsCommitStateDescriptor) GetApiDescriptor() gotencli
 	return resourceChangeLogServiceDescriptor
 }
 
-func (d *SetResourceChangeLogsCommitStateDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *SetResourceChangeLogsCommitStateDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return resource_change_log.GetDescriptor()
 }
 
@@ -446,74 +446,74 @@ func (d *SetResourceChangeLogsCommitStateDescriptor) GetServerMsgReflectHandle()
 	return &SetResourceChangeLogsCommitStateDescriptorServerMsgHandle{}
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*SetResourceChangeLogsCommitStateRequest) *resource_change_log.Name
+		OverrideExtractResourceName(*SetResourceChangeLogsCommitStateRequest) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*SetResourceChangeLogsCommitStateRequest) []*resource_change_log.Name
+		OverrideExtractResourceNames(*SetResourceChangeLogsCommitStateRequest) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *SetResourceChangeLogsCommitStateDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*SetResourceChangeLogsCommitStateRequest) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*SetResourceChangeLogsCommitStateRequest) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*SetResourceChangeLogsCommitStateResponse) *resource_change_log.Name
+		OverrideExtractResourceName(*SetResourceChangeLogsCommitStateResponse) *resource_change_log.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*SetResourceChangeLogsCommitStateResponse) []*resource_change_log.Name
+		OverrideExtractResourceNames(*SetResourceChangeLogsCommitStateResponse) []*resource_change_log.Name
 	})
 	if ok {
-		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return resource_change_log.ResourceChangeLogNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *SetResourceChangeLogsCommitStateDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetResourceChangeLogsCommitStateResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*SetResourceChangeLogsCommitStateResponse) *resource_change_log.ParentName
+		OverrideExtractCollectionName(*SetResourceChangeLogsCommitStateResponse) *resource_change_log.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

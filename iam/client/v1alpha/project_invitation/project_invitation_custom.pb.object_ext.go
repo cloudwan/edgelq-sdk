@@ -309,7 +309,7 @@ func (o *ListMyProjectInvitationsRequest) Clone() *ListMyProjectInvitationsReque
 	} else if data, err := o.Parent.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Parent = &project.Name{}
+		result.Parent = &project_invitation.ParentReference{}
 		if err := result.Parent.ParseProtoString(data); err != nil {
 			panic(err)
 		}
@@ -336,7 +336,7 @@ func (o *ListMyProjectInvitationsRequest) Merge(source *ListMyProjectInvitations
 		if data, err := source.GetParent().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Parent = &project.Name{}
+			o.Parent = &project_invitation.ParentReference{}
 			if err := o.Parent.ParseProtoString(data); err != nil {
 				panic(err)
 			}

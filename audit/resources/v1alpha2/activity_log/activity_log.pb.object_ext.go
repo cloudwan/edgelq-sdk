@@ -255,7 +255,7 @@ func (o *ActivityLog) Merge(source *ActivityLog) {
 	}
 	if source.GetResource() != nil {
 		if o.Resource == nil {
-			o.Resource = new(ActivityLog_SubjectResource)
+			o.Resource = new(ActivityLog_Resource)
 		}
 		o.Resource.Merge(source.GetResource())
 	}
@@ -607,71 +607,71 @@ func (o *ActivityLog_RequestMetadata) MergeRaw(source gotenobject.GotenObjectExt
 	o.Merge(source.(*ActivityLog_RequestMetadata))
 }
 
-func (o *ActivityLog_SubjectResource) GotenObjectExt() {}
+func (o *ActivityLog_Resource) GotenObjectExt() {}
 
-func (o *ActivityLog_SubjectResource) MakeFullFieldMask() *ActivityLog_SubjectResource_FieldMask {
-	return FullActivityLog_SubjectResource_FieldMask()
+func (o *ActivityLog_Resource) MakeFullFieldMask() *ActivityLog_Resource_FieldMask {
+	return FullActivityLog_Resource_FieldMask()
 }
 
-func (o *ActivityLog_SubjectResource) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullActivityLog_SubjectResource_FieldMask()
+func (o *ActivityLog_Resource) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullActivityLog_Resource_FieldMask()
 }
 
-func (o *ActivityLog_SubjectResource) MakeDiffFieldMask(other *ActivityLog_SubjectResource) *ActivityLog_SubjectResource_FieldMask {
+func (o *ActivityLog_Resource) MakeDiffFieldMask(other *ActivityLog_Resource) *ActivityLog_Resource_FieldMask {
 	if o == nil && other == nil {
-		return &ActivityLog_SubjectResource_FieldMask{}
+		return &ActivityLog_Resource_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullActivityLog_SubjectResource_FieldMask()
+		return FullActivityLog_Resource_FieldMask()
 	}
 
-	res := &ActivityLog_SubjectResource_FieldMask{}
+	res := &ActivityLog_Resource_FieldMask{}
 	if o.GetName() != other.GetName() {
-		res.Paths = append(res.Paths, &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorName})
+		res.Paths = append(res.Paths, &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorName})
 	}
 	{
 		subMask := o.GetDifference().MakeDiffFieldMask(other.GetDifference())
 		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference})
+			res.Paths = append(res.Paths, &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorDifference})
 		} else {
 			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogSubjectResource_FieldSubPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference, subPath: subpath})
+				res.Paths = append(res.Paths, &ActivityLogResource_FieldSubPath{selector: ActivityLogResource_FieldPathSelectorDifference, subPath: subpath})
 			}
 		}
 	}
 	return res
 }
 
-func (o *ActivityLog_SubjectResource) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*ActivityLog_SubjectResource))
+func (o *ActivityLog_Resource) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ActivityLog_Resource))
 }
 
-func (o *ActivityLog_SubjectResource) Clone() *ActivityLog_SubjectResource {
+func (o *ActivityLog_Resource) Clone() *ActivityLog_Resource {
 	if o == nil {
 		return nil
 	}
-	result := &ActivityLog_SubjectResource{}
+	result := &ActivityLog_Resource{}
 	result.Name = o.Name
 	result.Difference = o.Difference.Clone()
 	return result
 }
 
-func (o *ActivityLog_SubjectResource) CloneRaw() gotenobject.GotenObjectExt {
+func (o *ActivityLog_Resource) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *ActivityLog_SubjectResource) Merge(source *ActivityLog_SubjectResource) {
+func (o *ActivityLog_Resource) Merge(source *ActivityLog_Resource) {
 	o.Name = source.GetName()
 	if source.GetDifference() != nil {
 		if o.Difference == nil {
-			o.Difference = new(ActivityLog_SubjectResource_Difference)
+			o.Difference = new(ActivityLog_Resource_Difference)
 		}
 		o.Difference.Merge(source.GetDifference())
 	}
 }
 
-func (o *ActivityLog_SubjectResource) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*ActivityLog_SubjectResource))
+func (o *ActivityLog_Resource) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ActivityLog_Resource))
 }
 
 func (o *ActivityLog_Event_ClientMsgEvent) GotenObjectExt() {}
@@ -1028,57 +1028,57 @@ func (o *ActivityLog_Event_ExitEvent) MergeRaw(source gotenobject.GotenObjectExt
 	o.Merge(source.(*ActivityLog_Event_ExitEvent))
 }
 
-func (o *ActivityLog_SubjectResource_Difference) GotenObjectExt() {}
+func (o *ActivityLog_Resource_Difference) GotenObjectExt() {}
 
-func (o *ActivityLog_SubjectResource_Difference) MakeFullFieldMask() *ActivityLog_SubjectResource_Difference_FieldMask {
-	return FullActivityLog_SubjectResource_Difference_FieldMask()
+func (o *ActivityLog_Resource_Difference) MakeFullFieldMask() *ActivityLog_Resource_Difference_FieldMask {
+	return FullActivityLog_Resource_Difference_FieldMask()
 }
 
-func (o *ActivityLog_SubjectResource_Difference) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullActivityLog_SubjectResource_Difference_FieldMask()
+func (o *ActivityLog_Resource_Difference) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullActivityLog_Resource_Difference_FieldMask()
 }
 
-func (o *ActivityLog_SubjectResource_Difference) MakeDiffFieldMask(other *ActivityLog_SubjectResource_Difference) *ActivityLog_SubjectResource_Difference_FieldMask {
+func (o *ActivityLog_Resource_Difference) MakeDiffFieldMask(other *ActivityLog_Resource_Difference) *ActivityLog_Resource_Difference_FieldMask {
 	if o == nil && other == nil {
-		return &ActivityLog_SubjectResource_Difference_FieldMask{}
+		return &ActivityLog_Resource_Difference_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullActivityLog_SubjectResource_Difference_FieldMask()
+		return FullActivityLog_Resource_Difference_FieldMask()
 	}
 
-	res := &ActivityLog_SubjectResource_Difference_FieldMask{}
+	res := &ActivityLog_Resource_Difference_FieldMask{}
 	if !proto.Equal(o.GetFields(), other.GetFields()) {
-		res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorFields})
+		res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields})
 	}
 	if !proto.Equal(o.GetBefore(), other.GetBefore()) {
-		res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorBefore})
+		res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore})
 	}
 	if !proto.Equal(o.GetAfter(), other.GetAfter()) {
-		res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorAfter})
+		res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter})
 	}
 	return res
 }
 
-func (o *ActivityLog_SubjectResource_Difference) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*ActivityLog_SubjectResource_Difference))
+func (o *ActivityLog_Resource_Difference) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ActivityLog_Resource_Difference))
 }
 
-func (o *ActivityLog_SubjectResource_Difference) Clone() *ActivityLog_SubjectResource_Difference {
+func (o *ActivityLog_Resource_Difference) Clone() *ActivityLog_Resource_Difference {
 	if o == nil {
 		return nil
 	}
-	result := &ActivityLog_SubjectResource_Difference{}
+	result := &ActivityLog_Resource_Difference{}
 	result.Fields = proto.Clone(o.Fields).(*field_mask.FieldMask)
 	result.Before = proto.Clone(o.Before).(*any.Any)
 	result.After = proto.Clone(o.After).(*any.Any)
 	return result
 }
 
-func (o *ActivityLog_SubjectResource_Difference) CloneRaw() gotenobject.GotenObjectExt {
+func (o *ActivityLog_Resource_Difference) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *ActivityLog_SubjectResource_Difference) Merge(source *ActivityLog_SubjectResource_Difference) {
+func (o *ActivityLog_Resource_Difference) Merge(source *ActivityLog_Resource_Difference) {
 	if source.GetFields() != nil {
 		if o.Fields == nil {
 			o.Fields = new(field_mask.FieldMask)
@@ -1099,6 +1099,6 @@ func (o *ActivityLog_SubjectResource_Difference) Merge(source *ActivityLog_Subje
 	}
 }
 
-func (o *ActivityLog_SubjectResource_Difference) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*ActivityLog_SubjectResource_Difference))
+func (o *ActivityLog_Resource_Difference) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ActivityLog_Resource_Difference))
 }

@@ -314,7 +314,6 @@ type BatchGetAuditedResourceDescriptorsRequest_FieldMask struct {
 
 func FullBatchGetAuditedResourceDescriptorsRequest_FieldMask() *BatchGetAuditedResourceDescriptorsRequest_FieldMask {
 	res := &BatchGetAuditedResourceDescriptorsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorView})
@@ -361,7 +360,7 @@ func (fieldMask *BatchGetAuditedResourceDescriptorsRequest_FieldMask) IsFull() b
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -391,7 +390,7 @@ func (fieldMask *BatchGetAuditedResourceDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetAuditedResourceDescriptorsRequest_FieldMask) Subtract(other *BatchGetAuditedResourceDescriptorsRequest_FieldMask) *BatchGetAuditedResourceDescriptorsRequest_FieldMask {
 	result := &BatchGetAuditedResourceDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -545,8 +544,6 @@ func (fieldMask *BatchGetAuditedResourceDescriptorsRequest_FieldMask) Project(so
 		switch tp := p.(type) {
 		case *BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorFieldMask:

@@ -69,15 +69,15 @@ func (d *GetConfigMapDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetConfigMapDescriptor) IsCollectionSubject() bool {
+func (d *GetConfigMapDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetConfigMapDescriptor) IsPluralSubject() bool {
+func (d *GetConfigMapDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetConfigMapDescriptor) HasSubjectResource() bool {
+func (d *GetConfigMapDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetConfigMapDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return configMapServiceDescriptor
 }
 
-func (d *GetConfigMapDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetConfigMapDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetConfigMapDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &GetConfigMapDescriptorServerMsgHandle{}
 }
 
-func (h *GetConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetConfigMapRequest) *config_map.Name
+		OverrideExtractResourceName(*GetConfigMapRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*config_map.Name)(nil)
 }
 
-func (h *GetConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetConfigMapDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetConfigMapRequest) []*config_map.Name
+		OverrideExtractResourceNames(*GetConfigMapRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetConfigMapDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetConfigMapRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*GetConfigMapRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*config_map.ConfigMap) *config_map.Name
+		OverrideExtractResourceName(*config_map.ConfigMap) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*config_map.Name)(nil)
 }
 
-func (h *GetConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*config_map.ConfigMap) []*config_map.Name
+		OverrideExtractResourceNames(*config_map.ConfigMap) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetConfigMapDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*config_map.ConfigMap) *config_map.ParentName
+		OverrideExtractCollectionName(*config_map.ConfigMap) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetConfigMapsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetConfigMapsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetConfigMapsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetConfigMapsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetConfigMapsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetConfigMapsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetConfigMapsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetConfigMapsDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return configMapServiceDescriptor
 }
 
-func (d *BatchGetConfigMapsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetConfigMapsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetConfigMapsDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &BatchGetConfigMapsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetConfigMapsRequest) *config_map.Name
+		OverrideExtractResourceName(*BatchGetConfigMapsRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetConfigMapsRequest) []*config_map.Name
+		OverrideExtractResourceNames(*BatchGetConfigMapsRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(config_map.ConfigMapNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(config_map.ConfigMapNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (config_map.ConfigMapNameList)(nil)
 }
 
-func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetConfigMapsRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*BatchGetConfigMapsRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetConfigMapsResponse) *config_map.Name
+		OverrideExtractResourceName(*BatchGetConfigMapsResponse) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetConfigMapsResponse) []*config_map.Name
+		OverrideExtractResourceNames(*BatchGetConfigMapsResponse) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetConfigMaps()
-	list := make(config_map.ConfigMapNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			list := make(config_map.ConfigMapNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (config_map.ConfigMapNameList)(nil)
 }
 
-func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetConfigMapsResponse) *config_map.ParentName
+		OverrideExtractCollectionName(*BatchGetConfigMapsResponse) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListConfigMapsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListConfigMapsDescriptor) IsCollectionSubject() bool {
+func (d *ListConfigMapsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListConfigMapsDescriptor) IsPluralSubject() bool {
+func (d *ListConfigMapsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListConfigMapsDescriptor) HasSubjectResource() bool {
+func (d *ListConfigMapsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListConfigMapsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return configMapServiceDescriptor
 }
 
-func (d *ListConfigMapsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListConfigMapsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListConfigMapsDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &ListConfigMapsDescriptorServerMsgHandle{}
 }
 
-func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListConfigMapsRequest) *config_map.Name
+		OverrideExtractResourceName(*ListConfigMapsRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListConfigMapsRequest) []*config_map.Name
+		OverrideExtractResourceNames(*ListConfigMapsRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListConfigMapsRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*ListConfigMapsRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*config_map.ParentName)(nil)
 }
 
-func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListConfigMapsResponse) *config_map.Name
+		OverrideExtractResourceName(*ListConfigMapsResponse) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListConfigMapsResponse) []*config_map.Name
+		OverrideExtractResourceNames(*ListConfigMapsResponse) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetConfigMaps()
-	list := make(config_map.ConfigMapNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetConfigMaps(); len(resources) > 0 {
+			list := make(config_map.ConfigMapNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (config_map.ConfigMapNameList)(nil)
 }
 
-func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListConfigMapsResponse) *config_map.ParentName
+		OverrideExtractCollectionName(*ListConfigMapsResponse) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchConfigMapDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchConfigMapDescriptor) IsCollectionSubject() bool {
+func (d *WatchConfigMapDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchConfigMapDescriptor) IsPluralSubject() bool {
+func (d *WatchConfigMapDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchConfigMapDescriptor) HasSubjectResource() bool {
+func (d *WatchConfigMapDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchConfigMapDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return configMapServiceDescriptor
 }
 
-func (d *WatchConfigMapDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchConfigMapDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchConfigMapDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &WatchConfigMapDescriptorServerMsgHandle{}
 }
 
-func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchConfigMapRequest) *config_map.Name
+		OverrideExtractResourceName(*WatchConfigMapRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*config_map.Name)(nil)
-}
-
-func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchConfigMapRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchConfigMapRequest) []*config_map.Name
-	})
-	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchConfigMapRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchConfigMapRequest) *config_map.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchConfigMapResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchConfigMapResponse) *config_map.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *config_map.ConfigMapChange_Added_:
-			return tResChange.Added.GetConfigMap().GetName()
-		case *config_map.ConfigMapChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *config_map.ConfigMapChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *config_map.ConfigMapChange_Current_:
-			return tResChange.Current.GetConfigMap().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*config_map.Name)(nil)
 }
 
-func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchConfigMapResponse)
+func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchConfigMapResponse) []*config_map.Name
+		OverrideExtractResourceNames(*WatchConfigMapRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchConfigMapRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchConfigMapRequest) *config_map.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchConfigMapResponse) *config_map.ParentName
+		OverrideExtractResourceName(*WatchConfigMapResponse) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *config_map.ConfigMapChange_Added_:
+				return tResChange.Added.GetConfigMap().GetName()
+			case *config_map.ConfigMapChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *config_map.ConfigMapChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *config_map.ConfigMapChange_Current_:
+				return tResChange.Current.GetConfigMap().GetName()
+			}
+		}
+	}
+	return (*config_map.Name)(nil)
+}
+
+func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchConfigMapResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchConfigMapResponse) []*config_map.Name
+	})
+	if ok {
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchConfigMapResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchConfigMapResponse) *config_map.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchConfigMapsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchConfigMapsDescriptor) IsCollectionSubject() bool {
+func (d *WatchConfigMapsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchConfigMapsDescriptor) IsPluralSubject() bool {
+func (d *WatchConfigMapsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchConfigMapsDescriptor) HasSubjectResource() bool {
+func (d *WatchConfigMapsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchConfigMapsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return configMapServiceDescriptor
 }
 
-func (d *WatchConfigMapsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchConfigMapsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchConfigMapsDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &WatchConfigMapsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchConfigMapsRequest) *config_map.Name
+		OverrideExtractResourceName(*WatchConfigMapsRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchConfigMapsRequest) []*config_map.Name
+		OverrideExtractResourceNames(*WatchConfigMapsRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchConfigMapsRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*WatchConfigMapsRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*config_map.ParentName)(nil)
 }
 
-func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchConfigMapsResponse) *config_map.Name
+		OverrideExtractResourceName(*WatchConfigMapsResponse) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchConfigMapsResponse) []*config_map.Name
+		OverrideExtractResourceNames(*WatchConfigMapsResponse) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetConfigMapChanges()
-	list := make(config_map.ConfigMapNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *config_map.ConfigMapChange_Added_:
-			list = append(list, tResChange.Added.GetConfigMap().GetName())
-		case *config_map.ConfigMapChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *config_map.ConfigMapChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *config_map.ConfigMapChange_Current_:
-			list = append(list, tResChange.Current.GetConfigMap().GetName())
+	{
+		if resChanges := typedMsg.GetConfigMapChanges(); len(resChanges) > 0 {
+			list := make(config_map.ConfigMapNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *config_map.ConfigMapChange_Added_:
+					list = append(list, tResChange.Added.GetConfigMap().GetName())
+				case *config_map.ConfigMapChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *config_map.ConfigMapChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *config_map.ConfigMapChange_Current_:
+					list = append(list, tResChange.Current.GetConfigMap().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (config_map.ConfigMapNameList)(nil)
 }
 
-func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchConfigMapsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchConfigMapsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchConfigMapsResponse) *config_map.ParentName
+		OverrideExtractCollectionName(*WatchConfigMapsResponse) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateConfigMapDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateConfigMapDescriptor) IsCollectionSubject() bool {
+func (d *CreateConfigMapDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateConfigMapDescriptor) IsPluralSubject() bool {
+func (d *CreateConfigMapDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateConfigMapDescriptor) HasSubjectResource() bool {
+func (d *CreateConfigMapDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateConfigMapDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return configMapServiceDescriptor
 }
 
-func (d *CreateConfigMapDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateConfigMapDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateConfigMapDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &CreateConfigMapDescriptorServerMsgHandle{}
 }
 
-func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateConfigMapRequest) *config_map.Name
+		OverrideExtractResourceName(*CreateConfigMapRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetConfigMap().GetName()
+	{
+		res := typedMsg.GetConfigMap()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*config_map.Name)(nil)
 }
 
-func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateConfigMapRequest) []*config_map.Name
+		OverrideExtractResourceNames(*CreateConfigMapRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateConfigMapRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*CreateConfigMapRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*config_map.ParentName)(nil)
 }
 
-func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*config_map.ConfigMap) *config_map.Name
+		OverrideExtractResourceName(*config_map.ConfigMap) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*config_map.Name)(nil)
 }
 
-func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*config_map.ConfigMap) []*config_map.Name
+		OverrideExtractResourceNames(*config_map.ConfigMap) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*config_map.ConfigMap) *config_map.ParentName
+		OverrideExtractCollectionName(*config_map.ConfigMap) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateConfigMapDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateConfigMapDescriptor) IsCollectionSubject() bool {
+func (d *UpdateConfigMapDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateConfigMapDescriptor) IsPluralSubject() bool {
+func (d *UpdateConfigMapDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateConfigMapDescriptor) HasSubjectResource() bool {
+func (d *UpdateConfigMapDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateConfigMapDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return configMapServiceDescriptor
 }
 
-func (d *UpdateConfigMapDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateConfigMapDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateConfigMapDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &UpdateConfigMapDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateConfigMapRequest) *config_map.Name
+		OverrideExtractResourceName(*UpdateConfigMapRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetConfigMap().GetName()
+	{
+		res := typedMsg.GetConfigMap()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*config_map.Name)(nil)
 }
 
-func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateConfigMapRequest) []*config_map.Name
+		OverrideExtractResourceNames(*UpdateConfigMapRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateConfigMapRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*UpdateConfigMapRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*config_map.ConfigMap) *config_map.Name
+		OverrideExtractResourceName(*config_map.ConfigMap) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*config_map.Name)(nil)
 }
 
-func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*config_map.ConfigMap) []*config_map.Name
+		OverrideExtractResourceNames(*config_map.ConfigMap) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*config_map.ConfigMap)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*config_map.ConfigMap) *config_map.ParentName
+		OverrideExtractCollectionName(*config_map.ConfigMap) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteConfigMapDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteConfigMapDescriptor) IsCollectionSubject() bool {
+func (d *DeleteConfigMapDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteConfigMapDescriptor) IsPluralSubject() bool {
+func (d *DeleteConfigMapDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteConfigMapDescriptor) HasSubjectResource() bool {
+func (d *DeleteConfigMapDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteConfigMapDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return configMapServiceDescriptor
 }
 
-func (d *DeleteConfigMapDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteConfigMapDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return config_map.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteConfigMapDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &DeleteConfigMapDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteConfigMapRequest) *config_map.Name
+		OverrideExtractResourceName(*DeleteConfigMapRequest) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*config_map.Name)(nil)
 }
 
-func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteConfigMapRequest) []*config_map.Name
+		OverrideExtractResourceNames(*DeleteConfigMapRequest) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteConfigMapDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteConfigMapRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteConfigMapRequest) *config_map.ParentName
+		OverrideExtractCollectionName(*DeleteConfigMapRequest) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *config_map.Name
+		OverrideExtractResourceName(*empty.Empty) *config_map.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*config_map.Name
+		OverrideExtractResourceNames(*empty.Empty) []*config_map.Name
 	})
 	if ok {
-		return config_map.ConfigMapNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return config_map.ConfigMapNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteConfigMapDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *config_map.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *config_map.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

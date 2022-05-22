@@ -542,16 +542,13 @@ type BatchGetDistributionsRequest_FieldPath interface {
 type BatchGetDistributionsRequest_FieldPathSelector int32
 
 const (
-	BatchGetDistributionsRequest_FieldPathSelectorParent    BatchGetDistributionsRequest_FieldPathSelector = 0
-	BatchGetDistributionsRequest_FieldPathSelectorNames     BatchGetDistributionsRequest_FieldPathSelector = 1
-	BatchGetDistributionsRequest_FieldPathSelectorFieldMask BatchGetDistributionsRequest_FieldPathSelector = 2
-	BatchGetDistributionsRequest_FieldPathSelectorView      BatchGetDistributionsRequest_FieldPathSelector = 3
+	BatchGetDistributionsRequest_FieldPathSelectorNames     BatchGetDistributionsRequest_FieldPathSelector = 0
+	BatchGetDistributionsRequest_FieldPathSelectorFieldMask BatchGetDistributionsRequest_FieldPathSelector = 1
+	BatchGetDistributionsRequest_FieldPathSelectorView      BatchGetDistributionsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetDistributionsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetDistributionsRequest_FieldPath(fp gotenobject.RawFieldPath) (B
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) Get(source *BatchGetDistributionsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetDistributionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetDistributionsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) GetRaw(source proto.Me
 // GetSingle returns value pointed by specific field of from source BatchGetDistributionsRequest
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) GetSingle(source *BatchGetDistributionsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) GetSingleRaw(source pr
 // GetDefault returns a default value of the field type
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		return (*distribution.Reference)(nil)
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		return ([]*distribution.Reference)(nil)
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) GetDefault() interface
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) ClearValue(item *BatchGetDistributionsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetDistributionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetDistributionsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) ClearValueRaw(item pro
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetDistributionsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetDistributionsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetDistributionsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetDistributionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetDistributionsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetDistributionsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		return &BatchGetDistributionsRequest_FieldTerminalPathValue{BatchGetDistributionsRequest_FieldTerminalPath: *fp, value: value.(*distribution.Reference)}
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		return &BatchGetDistributionsRequest_FieldTerminalPathValue{BatchGetDistributionsRequest_FieldTerminalPath: *fp, value: value.([]*distribution.Reference)}
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetDistributionsRequest_FieldTerminalPath) WithRawIValue(value in
 func (fp *BatchGetDistributionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetDistributionsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues{BatchGetDistributionsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		return &BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues{BatchGetDistributionsRequest_FieldTerminalPath: *fp, values: values.([]*distribution.Reference)}
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		return &BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues{BatchGetDistributionsRequest_FieldTerminalPath: *fp, values: values.([][]*distribution.Reference)}
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetDistributionsRequest_FieldPathValue = (*BatchGetDistributionsReque
 func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) AsParentValue() (*distribution.Reference, bool) {
-	res, ok := fpv.value.(*distribution.Reference)
-	return res, ok
-}
 func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) AsNamesValue() ([]*distribution.Reference, bool) {
 	res, ok := fpv.value.([]*distribution.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) SetTo(target **B
 		*target = new(BatchGetDistributionsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*distribution.Reference)
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*distribution.Reference)
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) SetToRaw(target 
 // CompareWith compares value in the 'BatchGetDistributionsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetDistributionsRequest'.
 func (fpv *BatchGetDistributionsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetDistributionsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*distribution.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetDistributionsRequest_FieldPathArrayOfValues = (*BatchGetDistributi
 
 func (fpaov *BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetDistributionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*distribution.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetDistributionsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*distribution.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues) GetRaw
 		}
 	}
 	return
-}
-func (fpaov *BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*distribution.Reference, bool) {
-	res, ok := fpaov.values.([]*distribution.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*distribution.Reference, bool) {
 	res, ok := fpaov.values.([][]*distribution.Reference)

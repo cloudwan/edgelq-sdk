@@ -102,9 +102,6 @@ type BatchGetAlertsRequestFieldPathBuilder struct{}
 func NewBatchGetAlertsRequestFieldPathBuilder() BatchGetAlertsRequestFieldPathBuilder {
 	return BatchGetAlertsRequestFieldPathBuilder{}
 }
-func (BatchGetAlertsRequestFieldPathBuilder) Parent() BatchGetAlertsRequestPathSelectorParent {
-	return BatchGetAlertsRequestPathSelectorParent{}
-}
 func (BatchGetAlertsRequestFieldPathBuilder) Names() BatchGetAlertsRequestPathSelectorNames {
 	return BatchGetAlertsRequestPathSelectorNames{}
 }
@@ -113,20 +110,6 @@ func (BatchGetAlertsRequestFieldPathBuilder) FieldMask() BatchGetAlertsRequestPa
 }
 func (BatchGetAlertsRequestFieldPathBuilder) View() BatchGetAlertsRequestPathSelectorView {
 	return BatchGetAlertsRequestPathSelectorView{}
-}
-
-type BatchGetAlertsRequestPathSelectorParent struct{}
-
-func (BatchGetAlertsRequestPathSelectorParent) FieldPath() *BatchGetAlertsRequest_FieldTerminalPath {
-	return &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetAlertsRequestPathSelectorParent) WithValue(value *alert.Reference) *BatchGetAlertsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetAlertsRequestPathSelectorParent) WithArrayOfValues(values []*alert.Reference) *BatchGetAlertsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetAlertsRequestPathSelectorNames struct{}

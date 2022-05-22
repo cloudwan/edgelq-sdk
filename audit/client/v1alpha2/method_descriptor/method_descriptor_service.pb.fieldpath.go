@@ -538,16 +538,13 @@ type BatchGetMethodDescriptorsRequest_FieldPath interface {
 type BatchGetMethodDescriptorsRequest_FieldPathSelector int32
 
 const (
-	BatchGetMethodDescriptorsRequest_FieldPathSelectorParent    BatchGetMethodDescriptorsRequest_FieldPathSelector = 0
-	BatchGetMethodDescriptorsRequest_FieldPathSelectorNames     BatchGetMethodDescriptorsRequest_FieldPathSelector = 1
-	BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask BatchGetMethodDescriptorsRequest_FieldPathSelector = 2
-	BatchGetMethodDescriptorsRequest_FieldPathSelectorView      BatchGetMethodDescriptorsRequest_FieldPathSelector = 3
+	BatchGetMethodDescriptorsRequest_FieldPathSelectorNames     BatchGetMethodDescriptorsRequest_FieldPathSelector = 0
+	BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask BatchGetMethodDescriptorsRequest_FieldPathSelector = 1
+	BatchGetMethodDescriptorsRequest_FieldPathSelectorView      BatchGetMethodDescriptorsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetMethodDescriptorsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -565,8 +562,6 @@ func BuildBatchGetMethodDescriptorsRequest_FieldPath(fp gotenobject.RawFieldPath
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -618,10 +613,6 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) JSONString() strin
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) Get(source *BatchGetMethodDescriptorsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -646,9 +637,6 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) GetRaw(source prot
 // GetSingle returns value pointed by specific field of from source BatchGetMethodDescriptorsRequest
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) GetSingle(source *BatchGetMethodDescriptorsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -669,8 +657,6 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) GetSingleRaw(sourc
 // GetDefault returns a default value of the field type
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		return (*method_descriptor.Reference)(nil)
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		return ([]*method_descriptor.Reference)(nil)
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -685,8 +671,6 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) GetDefault() inter
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) ClearValue(item *BatchGetMethodDescriptorsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -705,16 +689,13 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) ClearValueRaw(item
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetMethodDescriptorsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetMethodDescriptorsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetMethodDescriptorsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetMethodDescriptorsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetMethodDescriptorsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		return &BatchGetMethodDescriptorsRequest_FieldTerminalPathValue{BatchGetMethodDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*method_descriptor.Reference)}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		return &BatchGetMethodDescriptorsRequest_FieldTerminalPathValue{BatchGetMethodDescriptorsRequest_FieldTerminalPath: *fp, value: value.([]*method_descriptor.Reference)}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -733,8 +714,6 @@ func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) WithRawIValue(valu
 func (fp *BatchGetMethodDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetMethodDescriptorsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMethodDescriptorsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		return &BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMethodDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*method_descriptor.Reference)}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		return &BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMethodDescriptorsRequest_FieldTerminalPath: *fp, values: values.([][]*method_descriptor.Reference)}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -803,10 +782,6 @@ var _ BatchGetMethodDescriptorsRequest_FieldPathValue = (*BatchGetMethodDescript
 func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) AsParentValue() (*method_descriptor.Reference, bool) {
-	res, ok := fpv.value.(*method_descriptor.Reference)
-	return res, ok
-}
 func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) AsNamesValue() ([]*method_descriptor.Reference, bool) {
 	res, ok := fpv.value.([]*method_descriptor.Reference)
 	return res, ok
@@ -826,8 +801,6 @@ func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) SetTo(target
 		*target = new(BatchGetMethodDescriptorsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*method_descriptor.Reference)
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*method_descriptor.Reference)
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -847,25 +820,6 @@ func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) SetToRaw(tar
 // CompareWith compares value in the 'BatchGetMethodDescriptorsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetMethodDescriptorsRequest'.
 func (fpv *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetMethodDescriptorsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*method_descriptor.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -988,10 +942,6 @@ var _ BatchGetMethodDescriptorsRequest_FieldPathArrayOfValues = (*BatchGetMethod
 
 func (fpaov *BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*method_descriptor.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*method_descriptor.Reference) {
 			values = append(values, v)
@@ -1006,10 +956,6 @@ func (fpaov *BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) Ge
 		}
 	}
 	return
-}
-func (fpaov *BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*method_descriptor.Reference, bool) {
-	res, ok := fpaov.values.([]*method_descriptor.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*method_descriptor.Reference, bool) {
 	res, ok := fpaov.values.([][]*method_descriptor.Reference)

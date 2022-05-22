@@ -66,15 +66,15 @@ func (d *GetMethodDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetMethodDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *GetMethodDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetMethodDescriptorDescriptor) IsPluralSubject() bool {
+func (d *GetMethodDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetMethodDescriptorDescriptor) HasSubjectResource() bool {
+func (d *GetMethodDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -114,7 +114,7 @@ func (d *GetMethodDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *GetMethodDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetMethodDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -126,62 +126,69 @@ func (d *GetMethodDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &GetMethodDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetMethodDescriptorRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*GetMethodDescriptorRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*method_descriptor.Name)(nil)
 }
 
-func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetMethodDescriptorRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*GetMethodDescriptorRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMethodDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
+		OverrideExtractResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
 }
 
-func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
+		OverrideExtractResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMethodDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -215,15 +222,15 @@ func (d *BatchGetMethodDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetMethodDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetMethodDescriptorsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetMethodDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetMethodDescriptorsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetMethodDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetMethodDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -263,7 +270,7 @@ func (d *BatchGetMethodDescriptorsDescriptor) GetApiDescriptor() gotenclient.Api
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *BatchGetMethodDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetMethodDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -275,71 +282,77 @@ func (d *BatchGetMethodDescriptorsDescriptor) GetServerMsgReflectHandle() gotenc
 	return &BatchGetMethodDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMethodDescriptorsRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMethodDescriptorsRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMethodDescriptorsRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMethodDescriptorsRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(method_descriptor.MethodDescriptorNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(method_descriptor.MethodDescriptorNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (method_descriptor.MethodDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMethodDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMethodDescriptorsResponse) *method_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMethodDescriptorsResponse) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMethodDescriptorsResponse) []*method_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMethodDescriptorsResponse) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMethodDescriptors()
-	list := make(method_descriptor.MethodDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetMethodDescriptors(); len(resources) > 0 {
+			list := make(method_descriptor.MethodDescriptorNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (method_descriptor.MethodDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMethodDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -373,15 +386,15 @@ func (d *ListMethodDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListMethodDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *ListMethodDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListMethodDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *ListMethodDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListMethodDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *ListMethodDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -421,7 +434,7 @@ func (d *ListMethodDescriptorsDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *ListMethodDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListMethodDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -433,64 +446,68 @@ func (d *ListMethodDescriptorsDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &ListMethodDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMethodDescriptorsRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*ListMethodDescriptorsRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMethodDescriptorsRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*ListMethodDescriptorsRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMethodDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMethodDescriptorsResponse) *method_descriptor.Name
+		OverrideExtractResourceName(*ListMethodDescriptorsResponse) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMethodDescriptorsResponse) []*method_descriptor.Name
+		OverrideExtractResourceNames(*ListMethodDescriptorsResponse) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMethodDescriptors()
-	list := make(method_descriptor.MethodDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetMethodDescriptors(); len(resources) > 0 {
+			list := make(method_descriptor.MethodDescriptorNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (method_descriptor.MethodDescriptorNameList)(nil)
 }
 
-func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMethodDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -524,15 +541,15 @@ func (d *WatchMethodDescriptorDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMethodDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *WatchMethodDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchMethodDescriptorDescriptor) IsPluralSubject() bool {
+func (d *WatchMethodDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchMethodDescriptorDescriptor) HasSubjectResource() bool {
+func (d *WatchMethodDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -572,7 +589,7 @@ func (d *WatchMethodDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *WatchMethodDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMethodDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -584,74 +601,78 @@ func (d *WatchMethodDescriptorDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &WatchMethodDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMethodDescriptorRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*WatchMethodDescriptorRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*method_descriptor.Name)(nil)
-}
-
-func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMethodDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMethodDescriptorRequest) []*method_descriptor.Name
-	})
-	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchMethodDescriptorResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMethodDescriptorResponse) *method_descriptor.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *method_descriptor.MethodDescriptorChange_Added_:
-			return tResChange.Added.GetMethodDescriptor().GetName()
-		case *method_descriptor.MethodDescriptorChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *method_descriptor.MethodDescriptorChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *method_descriptor.MethodDescriptorChange_Current_:
-			return tResChange.Current.GetMethodDescriptor().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*method_descriptor.Name)(nil)
 }
 
-func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMethodDescriptorResponse)
+func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMethodDescriptorResponse) []*method_descriptor.Name
+		OverrideExtractResourceNames(*WatchMethodDescriptorRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchMethodDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchMethodDescriptorResponse) *method_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *method_descriptor.MethodDescriptorChange_Added_:
+				return tResChange.Added.GetMethodDescriptor().GetName()
+			case *method_descriptor.MethodDescriptorChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *method_descriptor.MethodDescriptorChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *method_descriptor.MethodDescriptorChange_Current_:
+				return tResChange.Current.GetMethodDescriptor().GetName()
+			}
+		}
+	}
+	return (*method_descriptor.Name)(nil)
+}
+
+func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMethodDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchMethodDescriptorResponse) []*method_descriptor.Name
+	})
+	if ok {
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchMethodDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -685,15 +706,15 @@ func (d *WatchMethodDescriptorsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMethodDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *WatchMethodDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchMethodDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *WatchMethodDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchMethodDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *WatchMethodDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -733,7 +754,7 @@ func (d *WatchMethodDescriptorsDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *WatchMethodDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMethodDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -745,73 +766,77 @@ func (d *WatchMethodDescriptorsDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchMethodDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMethodDescriptorsRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*WatchMethodDescriptorsRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMethodDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMethodDescriptorsRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*WatchMethodDescriptorsRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMethodDescriptorsResponse) *method_descriptor.Name
+		OverrideExtractResourceName(*WatchMethodDescriptorsResponse) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMethodDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMethodDescriptorsResponse) []*method_descriptor.Name
+		OverrideExtractResourceNames(*WatchMethodDescriptorsResponse) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetMethodDescriptorChanges()
-	list := make(method_descriptor.MethodDescriptorNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *method_descriptor.MethodDescriptorChange_Added_:
-			list = append(list, tResChange.Added.GetMethodDescriptor().GetName())
-		case *method_descriptor.MethodDescriptorChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *method_descriptor.MethodDescriptorChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *method_descriptor.MethodDescriptorChange_Current_:
-			list = append(list, tResChange.Current.GetMethodDescriptor().GetName())
+	{
+		if resChanges := typedMsg.GetMethodDescriptorChanges(); len(resChanges) > 0 {
+			list := make(method_descriptor.MethodDescriptorNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *method_descriptor.MethodDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetMethodDescriptor().GetName())
+				case *method_descriptor.MethodDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *method_descriptor.MethodDescriptorChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *method_descriptor.MethodDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetMethodDescriptor().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (method_descriptor.MethodDescriptorNameList)(nil)
 }
 
-func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMethodDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -845,15 +870,15 @@ func (d *CreateMethodDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateMethodDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *CreateMethodDescriptorDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateMethodDescriptorDescriptor) IsPluralSubject() bool {
+func (d *CreateMethodDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateMethodDescriptorDescriptor) HasSubjectResource() bool {
+func (d *CreateMethodDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -893,7 +918,7 @@ func (d *CreateMethodDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *CreateMethodDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateMethodDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -905,59 +930,70 @@ func (d *CreateMethodDescriptorDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &CreateMethodDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateMethodDescriptorRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*CreateMethodDescriptorRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMethodDescriptor().GetName()
+	{
+		res := typedMsg.GetMethodDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
 }
 
-func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateMethodDescriptorRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*CreateMethodDescriptorRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMethodDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
+		OverrideExtractResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
 }
 
-func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
+		OverrideExtractResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMethodDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -991,15 +1027,15 @@ func (d *UpdateMethodDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateMethodDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *UpdateMethodDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateMethodDescriptorDescriptor) IsPluralSubject() bool {
+func (d *UpdateMethodDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateMethodDescriptorDescriptor) HasSubjectResource() bool {
+func (d *UpdateMethodDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1039,7 +1075,7 @@ func (d *UpdateMethodDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return methodDescriptorServiceDescriptor
 }
 
-func (d *UpdateMethodDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateMethodDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return method_descriptor.GetDescriptor()
 }
 
@@ -1051,59 +1087,70 @@ func (d *UpdateMethodDescriptorDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &UpdateMethodDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateMethodDescriptorRequest) *method_descriptor.Name
+		OverrideExtractResourceName(*UpdateMethodDescriptorRequest) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMethodDescriptor().GetName()
+	{
+		res := typedMsg.GetMethodDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
 }
 
-func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateMethodDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateMethodDescriptorRequest) []*method_descriptor.Name
+		OverrideExtractResourceNames(*UpdateMethodDescriptorRequest) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMethodDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
+		OverrideExtractResourceName(*method_descriptor.MethodDescriptor) *method_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
 }
 
-func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*method_descriptor.MethodDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
+		OverrideExtractResourceNames(*method_descriptor.MethodDescriptor) []*method_descriptor.Name
 	})
 	if ok {
-		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMethodDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

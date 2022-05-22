@@ -90,9 +90,6 @@ type BatchGetServicesRequestFieldPathBuilder struct{}
 func NewBatchGetServicesRequestFieldPathBuilder() BatchGetServicesRequestFieldPathBuilder {
 	return BatchGetServicesRequestFieldPathBuilder{}
 }
-func (BatchGetServicesRequestFieldPathBuilder) Parent() BatchGetServicesRequestPathSelectorParent {
-	return BatchGetServicesRequestPathSelectorParent{}
-}
 func (BatchGetServicesRequestFieldPathBuilder) Names() BatchGetServicesRequestPathSelectorNames {
 	return BatchGetServicesRequestPathSelectorNames{}
 }
@@ -101,20 +98,6 @@ func (BatchGetServicesRequestFieldPathBuilder) FieldMask() BatchGetServicesReque
 }
 func (BatchGetServicesRequestFieldPathBuilder) View() BatchGetServicesRequestPathSelectorView {
 	return BatchGetServicesRequestPathSelectorView{}
-}
-
-type BatchGetServicesRequestPathSelectorParent struct{}
-
-func (BatchGetServicesRequestPathSelectorParent) FieldPath() *BatchGetServicesRequest_FieldTerminalPath {
-	return &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetServicesRequestPathSelectorParent) WithValue(value *service.Reference) *BatchGetServicesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetServicesRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetServicesRequestPathSelectorParent) WithArrayOfValues(values []*service.Reference) *BatchGetServicesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetServicesRequestPathSelectorNames struct{}

@@ -69,15 +69,15 @@ func (d *GetSecretDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetSecretDescriptor) IsCollectionSubject() bool {
+func (d *GetSecretDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetSecretDescriptor) IsPluralSubject() bool {
+func (d *GetSecretDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetSecretDescriptor) HasSubjectResource() bool {
+func (d *GetSecretDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetSecretDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *GetSecretDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetSecretDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetSecretDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &GetSecretDescriptorServerMsgHandle{}
 }
 
-func (h *GetSecretDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetSecretDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetSecretRequest) *secret.Name
+		OverrideExtractResourceName(*GetSecretRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*secret.Name)(nil)
 }
 
-func (h *GetSecretDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetSecretDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetSecretRequest) []*secret.Name
+		OverrideExtractResourceNames(*GetSecretRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetSecretDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetSecretDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetSecretRequest) *secret.ParentName
+		OverrideExtractCollectionName(*GetSecretRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetSecretDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetSecretDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*secret.Secret) *secret.Name
+		OverrideExtractResourceName(*secret.Secret) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*secret.Name)(nil)
 }
 
-func (h *GetSecretDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetSecretDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*secret.Secret) []*secret.Name
+		OverrideExtractResourceNames(*secret.Secret) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetSecretDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetSecretDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*secret.Secret) *secret.ParentName
+		OverrideExtractCollectionName(*secret.Secret) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetSecretsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetSecretsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetSecretsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetSecretsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetSecretsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetSecretsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetSecretsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetSecretsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return secretServiceDescriptor
 }
 
-func (d *BatchGetSecretsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetSecretsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetSecretsDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &BatchGetSecretsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetSecretsRequest) *secret.Name
+		OverrideExtractResourceName(*BatchGetSecretsRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetSecretsRequest) []*secret.Name
+		OverrideExtractResourceNames(*BatchGetSecretsRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(secret.SecretNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(secret.SecretNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (secret.SecretNameList)(nil)
 }
 
-func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetSecretsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetSecretsRequest) *secret.ParentName
+		OverrideExtractCollectionName(*BatchGetSecretsRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetSecretsResponse) *secret.Name
+		OverrideExtractResourceName(*BatchGetSecretsResponse) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetSecretsResponse) []*secret.Name
+		OverrideExtractResourceNames(*BatchGetSecretsResponse) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetSecrets()
-	list := make(secret.SecretNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetSecrets(); len(resources) > 0 {
+			list := make(secret.SecretNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (secret.SecretNameList)(nil)
 }
 
-func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetSecretsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetSecretsResponse) *secret.ParentName
+		OverrideExtractCollectionName(*BatchGetSecretsResponse) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListSecretsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListSecretsDescriptor) IsCollectionSubject() bool {
+func (d *ListSecretsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListSecretsDescriptor) IsPluralSubject() bool {
+func (d *ListSecretsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListSecretsDescriptor) HasSubjectResource() bool {
+func (d *ListSecretsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListSecretsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *ListSecretsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListSecretsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListSecretsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &ListSecretsDescriptorServerMsgHandle{}
 }
 
-func (h *ListSecretsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListSecretsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListSecretsRequest) *secret.Name
+		OverrideExtractResourceName(*ListSecretsRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListSecretsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListSecretsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListSecretsRequest) []*secret.Name
+		OverrideExtractResourceNames(*ListSecretsRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListSecretsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListSecretsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListSecretsRequest) *secret.ParentName
+		OverrideExtractCollectionName(*ListSecretsRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*secret.ParentName)(nil)
 }
 
-func (h *ListSecretsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListSecretsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListSecretsResponse) *secret.Name
+		OverrideExtractResourceName(*ListSecretsResponse) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListSecretsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListSecretsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListSecretsResponse) []*secret.Name
+		OverrideExtractResourceNames(*ListSecretsResponse) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetSecrets()
-	list := make(secret.SecretNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetSecrets(); len(resources) > 0 {
+			list := make(secret.SecretNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (secret.SecretNameList)(nil)
 }
 
-func (h *ListSecretsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListSecretsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListSecretsResponse) *secret.ParentName
+		OverrideExtractCollectionName(*ListSecretsResponse) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchSecretDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchSecretDescriptor) IsCollectionSubject() bool {
+func (d *WatchSecretDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchSecretDescriptor) IsPluralSubject() bool {
+func (d *WatchSecretDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchSecretDescriptor) HasSubjectResource() bool {
+func (d *WatchSecretDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchSecretDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *WatchSecretDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchSecretDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchSecretDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &WatchSecretDescriptorServerMsgHandle{}
 }
 
-func (h *WatchSecretDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchSecretRequest) *secret.Name
+		OverrideExtractResourceName(*WatchSecretRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*secret.Name)(nil)
-}
-
-func (h *WatchSecretDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchSecretRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchSecretRequest) []*secret.Name
-	})
-	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchSecretDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchSecretRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchSecretRequest) *secret.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchSecretDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchSecretResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchSecretResponse) *secret.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *secret.SecretChange_Added_:
-			return tResChange.Added.GetSecret().GetName()
-		case *secret.SecretChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *secret.SecretChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *secret.SecretChange_Current_:
-			return tResChange.Current.GetSecret().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*secret.Name)(nil)
 }
 
-func (h *WatchSecretDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchSecretResponse)
+func (h *WatchSecretDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchSecretResponse) []*secret.Name
+		OverrideExtractResourceNames(*WatchSecretRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchSecretDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchSecretRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchSecretRequest) *secret.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchSecretDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchSecretResponse) *secret.ParentName
+		OverrideExtractResourceName(*WatchSecretResponse) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *secret.SecretChange_Added_:
+				return tResChange.Added.GetSecret().GetName()
+			case *secret.SecretChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *secret.SecretChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *secret.SecretChange_Current_:
+				return tResChange.Current.GetSecret().GetName()
+			}
+		}
+	}
+	return (*secret.Name)(nil)
+}
+
+func (h *WatchSecretDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchSecretResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchSecretResponse) []*secret.Name
+	})
+	if ok {
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchSecretDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchSecretResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchSecretResponse) *secret.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchSecretsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchSecretsDescriptor) IsCollectionSubject() bool {
+func (d *WatchSecretsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchSecretsDescriptor) IsPluralSubject() bool {
+func (d *WatchSecretsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchSecretsDescriptor) HasSubjectResource() bool {
+func (d *WatchSecretsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchSecretsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *WatchSecretsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchSecretsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchSecretsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &WatchSecretsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchSecretsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchSecretsRequest) *secret.Name
+		OverrideExtractResourceName(*WatchSecretsRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchSecretsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchSecretsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchSecretsRequest) []*secret.Name
+		OverrideExtractResourceNames(*WatchSecretsRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchSecretsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchSecretsRequest) *secret.ParentName
+		OverrideExtractCollectionName(*WatchSecretsRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*secret.ParentName)(nil)
 }
 
-func (h *WatchSecretsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchSecretsResponse) *secret.Name
+		OverrideExtractResourceName(*WatchSecretsResponse) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchSecretsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchSecretsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchSecretsResponse) []*secret.Name
+		OverrideExtractResourceNames(*WatchSecretsResponse) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetSecretChanges()
-	list := make(secret.SecretNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *secret.SecretChange_Added_:
-			list = append(list, tResChange.Added.GetSecret().GetName())
-		case *secret.SecretChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *secret.SecretChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *secret.SecretChange_Current_:
-			list = append(list, tResChange.Current.GetSecret().GetName())
+	{
+		if resChanges := typedMsg.GetSecretChanges(); len(resChanges) > 0 {
+			list := make(secret.SecretNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *secret.SecretChange_Added_:
+					list = append(list, tResChange.Added.GetSecret().GetName())
+				case *secret.SecretChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *secret.SecretChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *secret.SecretChange_Current_:
+					list = append(list, tResChange.Current.GetSecret().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (secret.SecretNameList)(nil)
 }
 
-func (h *WatchSecretsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchSecretsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchSecretsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchSecretsResponse) *secret.ParentName
+		OverrideExtractCollectionName(*WatchSecretsResponse) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateSecretDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateSecretDescriptor) IsCollectionSubject() bool {
+func (d *CreateSecretDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateSecretDescriptor) IsPluralSubject() bool {
+func (d *CreateSecretDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateSecretDescriptor) HasSubjectResource() bool {
+func (d *CreateSecretDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateSecretDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *CreateSecretDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateSecretDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateSecretDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &CreateSecretDescriptorServerMsgHandle{}
 }
 
-func (h *CreateSecretDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateSecretDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateSecretRequest) *secret.Name
+		OverrideExtractResourceName(*CreateSecretRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetSecret().GetName()
+	{
+		res := typedMsg.GetSecret()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*secret.Name)(nil)
 }
 
-func (h *CreateSecretDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateSecretDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateSecretRequest) []*secret.Name
+		OverrideExtractResourceNames(*CreateSecretRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateSecretDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateSecretDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateSecretRequest) *secret.ParentName
+		OverrideExtractCollectionName(*CreateSecretRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*secret.ParentName)(nil)
 }
 
-func (h *CreateSecretDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateSecretDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*secret.Secret) *secret.Name
+		OverrideExtractResourceName(*secret.Secret) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*secret.Name)(nil)
 }
 
-func (h *CreateSecretDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateSecretDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*secret.Secret) []*secret.Name
+		OverrideExtractResourceNames(*secret.Secret) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateSecretDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateSecretDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*secret.Secret) *secret.ParentName
+		OverrideExtractCollectionName(*secret.Secret) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateSecretDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateSecretDescriptor) IsCollectionSubject() bool {
+func (d *UpdateSecretDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateSecretDescriptor) IsPluralSubject() bool {
+func (d *UpdateSecretDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateSecretDescriptor) HasSubjectResource() bool {
+func (d *UpdateSecretDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateSecretDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *UpdateSecretDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateSecretDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateSecretDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &UpdateSecretDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateSecretDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateSecretDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateSecretRequest) *secret.Name
+		OverrideExtractResourceName(*UpdateSecretRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetSecret().GetName()
+	{
+		res := typedMsg.GetSecret()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*secret.Name)(nil)
 }
 
-func (h *UpdateSecretDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateSecretDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateSecretRequest) []*secret.Name
+		OverrideExtractResourceNames(*UpdateSecretRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateSecretDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateSecretDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateSecretRequest) *secret.ParentName
+		OverrideExtractCollectionName(*UpdateSecretRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateSecretDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateSecretDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*secret.Secret) *secret.Name
+		OverrideExtractResourceName(*secret.Secret) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*secret.Name)(nil)
 }
 
-func (h *UpdateSecretDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateSecretDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*secret.Secret) []*secret.Name
+		OverrideExtractResourceNames(*secret.Secret) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateSecretDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateSecretDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*secret.Secret)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*secret.Secret) *secret.ParentName
+		OverrideExtractCollectionName(*secret.Secret) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteSecretDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteSecretDescriptor) IsCollectionSubject() bool {
+func (d *DeleteSecretDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteSecretDescriptor) IsPluralSubject() bool {
+func (d *DeleteSecretDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteSecretDescriptor) HasSubjectResource() bool {
+func (d *DeleteSecretDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteSecretDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return secretServiceDescriptor
 }
 
-func (d *DeleteSecretDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteSecretDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return secret.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteSecretDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &DeleteSecretDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteSecretDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteSecretDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteSecretRequest) *secret.Name
+		OverrideExtractResourceName(*DeleteSecretRequest) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*secret.Name)(nil)
 }
 
-func (h *DeleteSecretDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteSecretDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteSecretRequest) []*secret.Name
+		OverrideExtractResourceNames(*DeleteSecretRequest) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteSecretDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteSecretDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteSecretRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteSecretRequest) *secret.ParentName
+		OverrideExtractCollectionName(*DeleteSecretRequest) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteSecretDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteSecretDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *secret.Name
+		OverrideExtractResourceName(*empty.Empty) *secret.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteSecretDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteSecretDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*secret.Name
+		OverrideExtractResourceNames(*empty.Empty) []*secret.Name
 	})
 	if ok {
-		return secret.SecretNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return secret.SecretNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteSecretDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteSecretDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *secret.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *secret.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

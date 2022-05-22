@@ -544,16 +544,13 @@ type BatchGetGroupsRequest_FieldPath interface {
 type BatchGetGroupsRequest_FieldPathSelector int32
 
 const (
-	BatchGetGroupsRequest_FieldPathSelectorParent    BatchGetGroupsRequest_FieldPathSelector = 0
-	BatchGetGroupsRequest_FieldPathSelectorNames     BatchGetGroupsRequest_FieldPathSelector = 1
-	BatchGetGroupsRequest_FieldPathSelectorFieldMask BatchGetGroupsRequest_FieldPathSelector = 2
-	BatchGetGroupsRequest_FieldPathSelectorView      BatchGetGroupsRequest_FieldPathSelector = 3
+	BatchGetGroupsRequest_FieldPathSelectorNames     BatchGetGroupsRequest_FieldPathSelector = 0
+	BatchGetGroupsRequest_FieldPathSelectorFieldMask BatchGetGroupsRequest_FieldPathSelector = 1
+	BatchGetGroupsRequest_FieldPathSelectorView      BatchGetGroupsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetGroupsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -571,8 +568,6 @@ func BuildBatchGetGroupsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGet
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetGroupsRequest_FieldTerminalPath{selector: BatchGetGroupsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetGroupsRequest_FieldTerminalPath{selector: BatchGetGroupsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -624,10 +619,6 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) Get(source *BatchGetGroupsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetGroupsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetGroupsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -652,9 +643,6 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) GetRaw(source proto.Message) 
 // GetSingle returns value pointed by specific field of from source BatchGetGroupsRequest
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) GetSingle(source *BatchGetGroupsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -675,8 +663,6 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) GetSingleRaw(source proto.Mes
 // GetDefault returns a default value of the field type
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		return (*group.Reference)(nil)
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		return ([]*group.Reference)(nil)
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -691,8 +677,6 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) ClearValue(item *BatchGetGroupsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetGroupsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetGroupsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -711,16 +695,13 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mess
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetGroupsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetGroupsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetGroupsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetGroupsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetGroupsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetGroupsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		return &BatchGetGroupsRequest_FieldTerminalPathValue{BatchGetGroupsRequest_FieldTerminalPath: *fp, value: value.(*group.Reference)}
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		return &BatchGetGroupsRequest_FieldTerminalPathValue{BatchGetGroupsRequest_FieldTerminalPath: *fp, value: value.([]*group.Reference)}
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -739,8 +720,6 @@ func (fp *BatchGetGroupsRequest_FieldTerminalPath) WithRawIValue(value interface
 func (fp *BatchGetGroupsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetGroupsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetGroupsRequest_FieldTerminalPathArrayOfValues{BatchGetGroupsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		return &BatchGetGroupsRequest_FieldTerminalPathArrayOfValues{BatchGetGroupsRequest_FieldTerminalPath: *fp, values: values.([]*group.Reference)}
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		return &BatchGetGroupsRequest_FieldTerminalPathArrayOfValues{BatchGetGroupsRequest_FieldTerminalPath: *fp, values: values.([][]*group.Reference)}
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -809,10 +788,6 @@ var _ BatchGetGroupsRequest_FieldPathValue = (*BatchGetGroupsRequest_FieldTermin
 func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) AsParentValue() (*group.Reference, bool) {
-	res, ok := fpv.value.(*group.Reference)
-	return res, ok
-}
 func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) AsNamesValue() ([]*group.Reference, bool) {
 	res, ok := fpv.value.([]*group.Reference)
 	return res, ok
@@ -832,8 +807,6 @@ func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) SetTo(target **BatchGet
 		*target = new(BatchGetGroupsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*group.Reference)
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*group.Reference)
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -853,25 +826,6 @@ func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) SetToRaw(target proto.M
 // CompareWith compares value in the 'BatchGetGroupsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetGroupsRequest'.
 func (fpv *BatchGetGroupsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetGroupsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*group.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetGroupsRequest_FieldPathSelectorFieldMask:
@@ -994,10 +948,6 @@ var _ BatchGetGroupsRequest_FieldPathArrayOfValues = (*BatchGetGroupsRequest_Fie
 
 func (fpaov *BatchGetGroupsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetGroupsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*group.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetGroupsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*group.Reference) {
 			values = append(values, v)
@@ -1012,10 +962,6 @@ func (fpaov *BatchGetGroupsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		}
 	}
 	return
-}
-func (fpaov *BatchGetGroupsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*group.Reference, bool) {
-	res, ok := fpaov.values.([]*group.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetGroupsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*group.Reference, bool) {
 	res, ok := fpaov.values.([][]*group.Reference)

@@ -542,16 +542,13 @@ type BatchGetOrganizationInvitationsRequest_FieldPath interface {
 type BatchGetOrganizationInvitationsRequest_FieldPathSelector int32
 
 const (
-	BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent    BatchGetOrganizationInvitationsRequest_FieldPathSelector = 0
-	BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames     BatchGetOrganizationInvitationsRequest_FieldPathSelector = 1
-	BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask BatchGetOrganizationInvitationsRequest_FieldPathSelector = 2
-	BatchGetOrganizationInvitationsRequest_FieldPathSelectorView      BatchGetOrganizationInvitationsRequest_FieldPathSelector = 3
+	BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames     BatchGetOrganizationInvitationsRequest_FieldPathSelector = 0
+	BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask BatchGetOrganizationInvitationsRequest_FieldPathSelector = 1
+	BatchGetOrganizationInvitationsRequest_FieldPathSelectorView      BatchGetOrganizationInvitationsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetOrganizationInvitationsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetOrganizationInvitationsRequest_FieldPath(fp gotenobject.RawFie
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) JSONString()
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) Get(source *BatchGetOrganizationInvitationsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) GetRaw(sourc
 // GetSingle returns value pointed by specific field of from source BatchGetOrganizationInvitationsRequest
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) GetSingle(source *BatchGetOrganizationInvitationsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) GetSingleRaw
 // GetDefault returns a default value of the field type
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return (*organization_invitation.Reference)(nil)
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		return ([]*organization_invitation.Reference)(nil)
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) GetDefault()
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) ClearValue(item *BatchGetOrganizationInvitationsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) ClearValueRa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetOrganizationInvitationsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetOrganizationInvitationsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return &BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue{BatchGetOrganizationInvitationsRequest_FieldTerminalPath: *fp, value: value.(*organization_invitation.Reference)}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		return &BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue{BatchGetOrganizationInvitationsRequest_FieldTerminalPath: *fp, value: value.([]*organization_invitation.Reference)}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) WithRawIValu
 func (fp *BatchGetOrganizationInvitationsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetOrganizationInvitationsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationInvitationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		return &BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*organization_invitation.Reference)}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		return &BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues{BatchGetOrganizationInvitationsRequest_FieldTerminalPath: *fp, values: values.([][]*organization_invitation.Reference)}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetOrganizationInvitationsRequest_FieldPathValue = (*BatchGetOrganiza
 func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*organization_invitation.Reference, bool) {
-	res, ok := fpv.value.(*organization_invitation.Reference)
-	return res, ok
-}
 func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) AsNamesValue() ([]*organization_invitation.Reference, bool) {
 	res, ok := fpv.value.([]*organization_invitation.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) SetTo(
 		*target = new(BatchGetOrganizationInvitationsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*organization_invitation.Reference)
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*organization_invitation.Reference)
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) SetToR
 // CompareWith compares value in the 'BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetOrganizationInvitationsRequest'.
 func (fpv *BatchGetOrganizationInvitationsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetOrganizationInvitationsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*organization_invitation.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetOrganizationInvitationsRequest_FieldPathArrayOfValues = (*BatchGet
 
 func (fpaov *BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*organization_invitation.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetOrganizationInvitationsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*organization_invitation.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValu
 		}
 	}
 	return
-}
-func (fpaov *BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*organization_invitation.Reference, bool) {
-	res, ok := fpaov.values.([]*organization_invitation.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*organization_invitation.Reference, bool) {
 	res, ok := fpaov.values.([][]*organization_invitation.Reference)

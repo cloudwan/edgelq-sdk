@@ -69,15 +69,15 @@ func (d *GetPermissionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetPermissionDescriptor) IsCollectionSubject() bool {
+func (d *GetPermissionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetPermissionDescriptor) IsPluralSubject() bool {
+func (d *GetPermissionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetPermissionDescriptor) HasSubjectResource() bool {
+func (d *GetPermissionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetPermissionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return permissionServiceDescriptor
 }
 
-func (d *GetPermissionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetPermissionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -129,62 +129,69 @@ func (d *GetPermissionDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &GetPermissionDescriptorServerMsgHandle{}
 }
 
-func (h *GetPermissionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPermissionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetPermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetPermissionRequest) *permission.Name
+		OverrideExtractResourceName(*GetPermissionRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*permission.Name)(nil)
 }
 
-func (h *GetPermissionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPermissionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetPermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetPermissionRequest) []*permission.Name
+		OverrideExtractResourceNames(*GetPermissionRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPermissionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPermissionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetPermissionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPermissionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*permission.Permission) *permission.Name
+		OverrideExtractResourceName(*permission.Permission) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*permission.Name)(nil)
 }
 
-func (h *GetPermissionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPermissionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*permission.Permission) []*permission.Name
+		OverrideExtractResourceNames(*permission.Permission) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPermissionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPermissionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -218,15 +225,15 @@ func (d *BatchGetPermissionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetPermissionsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetPermissionsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetPermissionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetPermissionsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetPermissionsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetPermissionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -266,7 +273,7 @@ func (d *BatchGetPermissionsDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return permissionServiceDescriptor
 }
 
-func (d *BatchGetPermissionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetPermissionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -278,71 +285,77 @@ func (d *BatchGetPermissionsDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &BatchGetPermissionsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPermissionsRequest) *permission.Name
+		OverrideExtractResourceName(*BatchGetPermissionsRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPermissionsRequest) []*permission.Name
+		OverrideExtractResourceNames(*BatchGetPermissionsRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(permission.PermissionNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(permission.PermissionNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (permission.PermissionNameList)(nil)
 }
 
-func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPermissionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPermissionsResponse) *permission.Name
+		OverrideExtractResourceName(*BatchGetPermissionsResponse) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPermissionsResponse) []*permission.Name
+		OverrideExtractResourceNames(*BatchGetPermissionsResponse) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPermissions()
-	list := make(permission.PermissionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPermissions(); len(resources) > 0 {
+			list := make(permission.PermissionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (permission.PermissionNameList)(nil)
 }
 
-func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPermissionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -376,15 +389,15 @@ func (d *ListPermissionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListPermissionsDescriptor) IsCollectionSubject() bool {
+func (d *ListPermissionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListPermissionsDescriptor) IsPluralSubject() bool {
+func (d *ListPermissionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListPermissionsDescriptor) HasSubjectResource() bool {
+func (d *ListPermissionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -424,7 +437,7 @@ func (d *ListPermissionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return permissionServiceDescriptor
 }
 
-func (d *ListPermissionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListPermissionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -436,64 +449,68 @@ func (d *ListPermissionsDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &ListPermissionsDescriptorServerMsgHandle{}
 }
 
-func (h *ListPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPermissionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPermissionsRequest) *permission.Name
+		OverrideExtractResourceName(*ListPermissionsRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPermissionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPermissionsRequest) []*permission.Name
+		OverrideExtractResourceNames(*ListPermissionsRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListPermissionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPermissionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPermissionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPermissionsResponse) *permission.Name
+		OverrideExtractResourceName(*ListPermissionsResponse) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPermissionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPermissionsResponse) []*permission.Name
+		OverrideExtractResourceNames(*ListPermissionsResponse) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPermissions()
-	list := make(permission.PermissionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPermissions(); len(resources) > 0 {
+			list := make(permission.PermissionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (permission.PermissionNameList)(nil)
 }
 
-func (h *ListPermissionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPermissionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -527,15 +544,15 @@ func (d *WatchPermissionDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPermissionDescriptor) IsCollectionSubject() bool {
+func (d *WatchPermissionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchPermissionDescriptor) IsPluralSubject() bool {
+func (d *WatchPermissionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchPermissionDescriptor) HasSubjectResource() bool {
+func (d *WatchPermissionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -575,7 +592,7 @@ func (d *WatchPermissionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return permissionServiceDescriptor
 }
 
-func (d *WatchPermissionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPermissionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -587,74 +604,78 @@ func (d *WatchPermissionDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &WatchPermissionDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPermissionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPermissionRequest) *permission.Name
+		OverrideExtractResourceName(*WatchPermissionRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*permission.Name)(nil)
-}
-
-func (h *WatchPermissionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPermissionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPermissionRequest) []*permission.Name
-	})
-	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchPermissionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchPermissionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchPermissionResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPermissionResponse) *permission.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *permission.PermissionChange_Added_:
-			return tResChange.Added.GetPermission().GetName()
-		case *permission.PermissionChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *permission.PermissionChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *permission.PermissionChange_Current_:
-			return tResChange.Current.GetPermission().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*permission.Name)(nil)
 }
 
-func (h *WatchPermissionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPermissionResponse)
+func (h *WatchPermissionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPermissionResponse) []*permission.Name
+		OverrideExtractResourceNames(*WatchPermissionRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPermissionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchPermissionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchPermissionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchPermissionResponse) *permission.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *permission.PermissionChange_Added_:
+				return tResChange.Added.GetPermission().GetName()
+			case *permission.PermissionChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *permission.PermissionChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *permission.PermissionChange_Current_:
+				return tResChange.Current.GetPermission().GetName()
+			}
+		}
+	}
+	return (*permission.Name)(nil)
+}
+
+func (h *WatchPermissionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPermissionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchPermissionResponse) []*permission.Name
+	})
+	if ok {
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchPermissionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -688,15 +709,15 @@ func (d *WatchPermissionsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPermissionsDescriptor) IsCollectionSubject() bool {
+func (d *WatchPermissionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchPermissionsDescriptor) IsPluralSubject() bool {
+func (d *WatchPermissionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchPermissionsDescriptor) HasSubjectResource() bool {
+func (d *WatchPermissionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -736,7 +757,7 @@ func (d *WatchPermissionsDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return permissionServiceDescriptor
 }
 
-func (d *WatchPermissionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPermissionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -748,73 +769,77 @@ func (d *WatchPermissionsDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &WatchPermissionsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPermissionsRequest) *permission.Name
+		OverrideExtractResourceName(*WatchPermissionsRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPermissionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPermissionsRequest) []*permission.Name
+		OverrideExtractResourceNames(*WatchPermissionsRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPermissionsResponse) *permission.Name
+		OverrideExtractResourceName(*WatchPermissionsResponse) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPermissionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPermissionsResponse) []*permission.Name
+		OverrideExtractResourceNames(*WatchPermissionsResponse) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetPermissionChanges()
-	list := make(permission.PermissionNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *permission.PermissionChange_Added_:
-			list = append(list, tResChange.Added.GetPermission().GetName())
-		case *permission.PermissionChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *permission.PermissionChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *permission.PermissionChange_Current_:
-			list = append(list, tResChange.Current.GetPermission().GetName())
+	{
+		if resChanges := typedMsg.GetPermissionChanges(); len(resChanges) > 0 {
+			list := make(permission.PermissionNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *permission.PermissionChange_Added_:
+					list = append(list, tResChange.Added.GetPermission().GetName())
+				case *permission.PermissionChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *permission.PermissionChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *permission.PermissionChange_Current_:
+					list = append(list, tResChange.Current.GetPermission().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (permission.PermissionNameList)(nil)
 }
 
-func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPermissionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -848,15 +873,15 @@ func (d *CreatePermissionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreatePermissionDescriptor) IsCollectionSubject() bool {
+func (d *CreatePermissionDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreatePermissionDescriptor) IsPluralSubject() bool {
+func (d *CreatePermissionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreatePermissionDescriptor) HasSubjectResource() bool {
+func (d *CreatePermissionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -896,7 +921,7 @@ func (d *CreatePermissionDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return permissionServiceDescriptor
 }
 
-func (d *CreatePermissionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreatePermissionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -908,59 +933,70 @@ func (d *CreatePermissionDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &CreatePermissionDescriptorServerMsgHandle{}
 }
 
-func (h *CreatePermissionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePermissionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreatePermissionRequest) *permission.Name
+		OverrideExtractResourceName(*CreatePermissionRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetPermission().GetName()
+	{
+		res := typedMsg.GetPermission()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*permission.Name)(nil)
 }
 
-func (h *CreatePermissionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePermissionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreatePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreatePermissionRequest) []*permission.Name
+		OverrideExtractResourceNames(*CreatePermissionRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePermissionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePermissionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreatePermissionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePermissionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*permission.Permission) *permission.Name
+		OverrideExtractResourceName(*permission.Permission) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*permission.Name)(nil)
 }
 
-func (h *CreatePermissionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePermissionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*permission.Permission) []*permission.Name
+		OverrideExtractResourceNames(*permission.Permission) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePermissionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePermissionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -994,15 +1030,15 @@ func (d *UpdatePermissionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdatePermissionDescriptor) IsCollectionSubject() bool {
+func (d *UpdatePermissionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdatePermissionDescriptor) IsPluralSubject() bool {
+func (d *UpdatePermissionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdatePermissionDescriptor) HasSubjectResource() bool {
+func (d *UpdatePermissionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1042,7 +1078,7 @@ func (d *UpdatePermissionDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return permissionServiceDescriptor
 }
 
-func (d *UpdatePermissionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdatePermissionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -1054,59 +1090,70 @@ func (d *UpdatePermissionDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &UpdatePermissionDescriptorServerMsgHandle{}
 }
 
-func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdatePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdatePermissionRequest) *permission.Name
+		OverrideExtractResourceName(*UpdatePermissionRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetPermission().GetName()
+	{
+		res := typedMsg.GetPermission()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*permission.Name)(nil)
 }
 
-func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdatePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdatePermissionRequest) []*permission.Name
+		OverrideExtractResourceNames(*UpdatePermissionRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePermissionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*permission.Permission) *permission.Name
+		OverrideExtractResourceName(*permission.Permission) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*permission.Name)(nil)
 }
 
-func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*permission.Permission)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*permission.Permission) []*permission.Name
+		OverrideExtractResourceNames(*permission.Permission) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdatePermissionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1140,15 +1187,15 @@ func (d *DeletePermissionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeletePermissionDescriptor) IsCollectionSubject() bool {
+func (d *DeletePermissionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeletePermissionDescriptor) IsPluralSubject() bool {
+func (d *DeletePermissionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeletePermissionDescriptor) HasSubjectResource() bool {
+func (d *DeletePermissionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1188,7 +1235,7 @@ func (d *DeletePermissionDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return permissionServiceDescriptor
 }
 
-func (d *DeletePermissionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeletePermissionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return permission.GetDescriptor()
 }
 
@@ -1200,62 +1247,64 @@ func (d *DeletePermissionDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &DeletePermissionDescriptorServerMsgHandle{}
 }
 
-func (h *DeletePermissionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePermissionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeletePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeletePermissionRequest) *permission.Name
+		OverrideExtractResourceName(*DeletePermissionRequest) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*permission.Name)(nil)
 }
 
-func (h *DeletePermissionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePermissionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeletePermissionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeletePermissionRequest) []*permission.Name
+		OverrideExtractResourceNames(*DeletePermissionRequest) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePermissionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePermissionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DeletePermissionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePermissionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *permission.Name
+		OverrideExtractResourceName(*empty.Empty) *permission.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeletePermissionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePermissionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*permission.Name
+		OverrideExtractResourceNames(*empty.Empty) []*permission.Name
 	})
 	if ok {
-		return permission.PermissionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return permission.PermissionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePermissionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePermissionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

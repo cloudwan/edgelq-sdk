@@ -318,7 +318,6 @@ type BatchGetAlertsRequest_FieldMask struct {
 
 func FullBatchGetAlertsRequest_FieldMask() *BatchGetAlertsRequest_FieldMask {
 	res := &BatchGetAlertsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetAlertsRequest_FieldTerminalPath{selector: BatchGetAlertsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetAlertsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetAlertsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetAlertsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetAlertsRequest_FieldMask) Subtract(other *BatchGetAlertsRequest_FieldMask) *BatchGetAlertsRequest_FieldMask {
 	result := &BatchGetAlertsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetAlertsRequest_FieldMask) Project(source *BatchGetAlerts
 		switch tp := p.(type) {
 		case *BatchGetAlertsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetAlertsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetAlertsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetAlertsRequest_FieldPathSelectorFieldMask:

@@ -153,13 +153,13 @@ func (obj *ActivityLog_RequestMetadata) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *ActivityLog_SubjectResource) GotenValidate() error {
+func (obj *ActivityLog_Resource) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
 	if subobj, ok := interface{}(obj.Difference).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("SubjectResource", "difference", obj.Difference, "nested object validation failed", err)
+			return gotenvalidate.NewValidationError("Resource", "difference", obj.Difference, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -199,7 +199,7 @@ func (obj *ActivityLog_Event_ExitEvent) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *ActivityLog_SubjectResource_Difference) GotenValidate() error {
+func (obj *ActivityLog_Resource_Difference) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

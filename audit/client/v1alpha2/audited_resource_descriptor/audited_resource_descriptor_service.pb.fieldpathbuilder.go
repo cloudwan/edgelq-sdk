@@ -92,9 +92,6 @@ type BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder struct{}
 func NewBatchGetAuditedResourceDescriptorsRequestFieldPathBuilder() BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder {
 	return BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder{}
 }
-func (BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder) Parent() BatchGetAuditedResourceDescriptorsRequestPathSelectorParent {
-	return BatchGetAuditedResourceDescriptorsRequestPathSelectorParent{}
-}
 func (BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder) Names() BatchGetAuditedResourceDescriptorsRequestPathSelectorNames {
 	return BatchGetAuditedResourceDescriptorsRequestPathSelectorNames{}
 }
@@ -103,20 +100,6 @@ func (BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder) FieldMask() Bat
 }
 func (BatchGetAuditedResourceDescriptorsRequestFieldPathBuilder) View() BatchGetAuditedResourceDescriptorsRequestPathSelectorView {
 	return BatchGetAuditedResourceDescriptorsRequestPathSelectorView{}
-}
-
-type BatchGetAuditedResourceDescriptorsRequestPathSelectorParent struct{}
-
-func (BatchGetAuditedResourceDescriptorsRequestPathSelectorParent) FieldPath() *BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath {
-	return &BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetAuditedResourceDescriptorsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetAuditedResourceDescriptorsRequestPathSelectorParent) WithValue(value *audited_resource_descriptor.Reference) *BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetAuditedResourceDescriptorsRequestPathSelectorParent) WithArrayOfValues(values []*audited_resource_descriptor.Reference) *BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetAuditedResourceDescriptorsRequestPathSelectorNames struct{}

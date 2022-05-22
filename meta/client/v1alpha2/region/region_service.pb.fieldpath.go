@@ -540,16 +540,13 @@ type BatchGetRegionsRequest_FieldPath interface {
 type BatchGetRegionsRequest_FieldPathSelector int32
 
 const (
-	BatchGetRegionsRequest_FieldPathSelectorParent    BatchGetRegionsRequest_FieldPathSelector = 0
-	BatchGetRegionsRequest_FieldPathSelectorNames     BatchGetRegionsRequest_FieldPathSelector = 1
-	BatchGetRegionsRequest_FieldPathSelectorFieldMask BatchGetRegionsRequest_FieldPathSelector = 2
-	BatchGetRegionsRequest_FieldPathSelectorView      BatchGetRegionsRequest_FieldPathSelector = 3
+	BatchGetRegionsRequest_FieldPathSelectorNames     BatchGetRegionsRequest_FieldPathSelector = 0
+	BatchGetRegionsRequest_FieldPathSelectorFieldMask BatchGetRegionsRequest_FieldPathSelector = 1
+	BatchGetRegionsRequest_FieldPathSelectorView      BatchGetRegionsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetRegionsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetRegionsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGe
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) Get(source *BatchGetRegionsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetRegionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetRegionsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) GetRaw(source proto.Message)
 // GetSingle returns value pointed by specific field of from source BatchGetRegionsRequest
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) GetSingle(source *BatchGetRegionsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) GetSingleRaw(source proto.Me
 // GetDefault returns a default value of the field type
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		return (*region.Reference)(nil)
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		return ([]*region.Reference)(nil)
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) ClearValue(item *BatchGetRegionsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetRegionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetRegionsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetRegionsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetRegionsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetRegionsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetRegionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetRegionsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetRegionsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		return &BatchGetRegionsRequest_FieldTerminalPathValue{BatchGetRegionsRequest_FieldTerminalPath: *fp, value: value.(*region.Reference)}
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		return &BatchGetRegionsRequest_FieldTerminalPathValue{BatchGetRegionsRequest_FieldTerminalPath: *fp, value: value.([]*region.Reference)}
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) WithRawIValue(value interfac
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetRegionsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetRegionsRequest_FieldTerminalPathArrayOfValues{BatchGetRegionsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		return &BatchGetRegionsRequest_FieldTerminalPathArrayOfValues{BatchGetRegionsRequest_FieldTerminalPath: *fp, values: values.([]*region.Reference)}
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		return &BatchGetRegionsRequest_FieldTerminalPathArrayOfValues{BatchGetRegionsRequest_FieldTerminalPath: *fp, values: values.([][]*region.Reference)}
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetRegionsRequest_FieldPathValue = (*BatchGetRegionsRequest_FieldTerm
 func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) AsParentValue() (*region.Reference, bool) {
-	res, ok := fpv.value.(*region.Reference)
-	return res, ok
-}
 func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) AsNamesValue() ([]*region.Reference, bool) {
 	res, ok := fpv.value.([]*region.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) SetTo(target **BatchGe
 		*target = new(BatchGetRegionsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*region.Reference)
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*region.Reference)
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) SetToRaw(target proto.
 // CompareWith compares value in the 'BatchGetRegionsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetRegionsRequest'.
 func (fpv *BatchGetRegionsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetRegionsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*region.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetRegionsRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetRegionsRequest_FieldPathArrayOfValues = (*BatchGetRegionsRequest_F
 
 func (fpaov *BatchGetRegionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetRegionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*region.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*region.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetRegionsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		}
 	}
 	return
-}
-func (fpaov *BatchGetRegionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*region.Reference, bool) {
-	res, ok := fpaov.values.([]*region.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetRegionsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*region.Reference, bool) {
 	res, ok := fpaov.values.([][]*region.Reference)

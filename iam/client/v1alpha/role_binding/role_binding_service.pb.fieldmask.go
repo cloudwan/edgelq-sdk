@@ -320,7 +320,6 @@ type BatchGetRoleBindingsRequest_FieldMask struct {
 
 func FullBatchGetRoleBindingsRequest_FieldMask() *BatchGetRoleBindingsRequest_FieldMask {
 	res := &BatchGetRoleBindingsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorView})
@@ -367,7 +366,7 @@ func (fieldMask *BatchGetRoleBindingsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetRoleBindingsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -397,7 +396,7 @@ func (fieldMask *BatchGetRoleBindingsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetRoleBindingsRequest_FieldMask) Subtract(other *BatchGetRoleBindingsRequest_FieldMask) *BatchGetRoleBindingsRequest_FieldMask {
 	result := &BatchGetRoleBindingsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -551,8 +550,6 @@ func (fieldMask *BatchGetRoleBindingsRequest_FieldMask) Project(source *BatchGet
 		switch tp := p.(type) {
 		case *BatchGetRoleBindingsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:

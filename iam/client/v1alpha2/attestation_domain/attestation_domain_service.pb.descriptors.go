@@ -69,15 +69,15 @@ func (d *GetAttestationDomainDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetAttestationDomainDescriptor) IsCollectionSubject() bool {
+func (d *GetAttestationDomainDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetAttestationDomainDescriptor) IsPluralSubject() bool {
+func (d *GetAttestationDomainDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetAttestationDomainDescriptor) HasSubjectResource() bool {
+func (d *GetAttestationDomainDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetAttestationDomainDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return attestationDomainServiceDescriptor
 }
 
-func (d *GetAttestationDomainDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetAttestationDomainDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetAttestationDomainDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &GetAttestationDomainDescriptorServerMsgHandle{}
 }
 
-func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetAttestationDomainRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*GetAttestationDomainRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*attestation_domain.Name)(nil)
 }
 
-func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetAttestationDomainRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*GetAttestationDomainRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAttestationDomainDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetAttestationDomainRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*GetAttestationDomainRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
+		OverrideExtractResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
+		OverrideExtractResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAttestationDomainDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetAttestationDomainsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetAttestationDomainsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetAttestationDomainsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetAttestationDomainsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetAttestationDomainsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetAttestationDomainsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetAttestationDomainsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetAttestationDomainsDescriptor) GetApiDescriptor() gotenclient.Ap
 	return attestationDomainServiceDescriptor
 }
 
-func (d *BatchGetAttestationDomainsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetAttestationDomainsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetAttestationDomainsDescriptor) GetServerMsgReflectHandle() goten
 	return &BatchGetAttestationDomainsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAttestationDomainsRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*BatchGetAttestationDomainsRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAttestationDomainsRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*BatchGetAttestationDomainsRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(attestation_domain.AttestationDomainNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(attestation_domain.AttestationDomainNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (attestation_domain.AttestationDomainNameList)(nil)
 }
 
-func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAttestationDomainsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAttestationDomainsRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*BatchGetAttestationDomainsRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAttestationDomainsResponse) *attestation_domain.Name
+		OverrideExtractResourceName(*BatchGetAttestationDomainsResponse) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAttestationDomainsResponse) []*attestation_domain.Name
+		OverrideExtractResourceNames(*BatchGetAttestationDomainsResponse) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAttestationDomains()
-	list := make(attestation_domain.AttestationDomainNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAttestationDomains(); len(resources) > 0 {
+			list := make(attestation_domain.AttestationDomainNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (attestation_domain.AttestationDomainNameList)(nil)
 }
 
-func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAttestationDomainsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAttestationDomainsResponse) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*BatchGetAttestationDomainsResponse) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListAttestationDomainsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListAttestationDomainsDescriptor) IsCollectionSubject() bool {
+func (d *ListAttestationDomainsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListAttestationDomainsDescriptor) IsPluralSubject() bool {
+func (d *ListAttestationDomainsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListAttestationDomainsDescriptor) HasSubjectResource() bool {
+func (d *ListAttestationDomainsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListAttestationDomainsDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return attestationDomainServiceDescriptor
 }
 
-func (d *ListAttestationDomainsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListAttestationDomainsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListAttestationDomainsDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &ListAttestationDomainsDescriptorServerMsgHandle{}
 }
 
-func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAttestationDomainsRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*ListAttestationDomainsRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAttestationDomainsRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*ListAttestationDomainsRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAttestationDomainsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAttestationDomainsRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*ListAttestationDomainsRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*attestation_domain.ParentName)(nil)
 }
 
-func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAttestationDomainsResponse) *attestation_domain.Name
+		OverrideExtractResourceName(*ListAttestationDomainsResponse) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAttestationDomainsResponse) []*attestation_domain.Name
+		OverrideExtractResourceNames(*ListAttestationDomainsResponse) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAttestationDomains()
-	list := make(attestation_domain.AttestationDomainNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAttestationDomains(); len(resources) > 0 {
+			list := make(attestation_domain.AttestationDomainNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (attestation_domain.AttestationDomainNameList)(nil)
 }
 
-func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAttestationDomainsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAttestationDomainsResponse) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*ListAttestationDomainsResponse) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchAttestationDomainDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAttestationDomainDescriptor) IsCollectionSubject() bool {
+func (d *WatchAttestationDomainDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchAttestationDomainDescriptor) IsPluralSubject() bool {
+func (d *WatchAttestationDomainDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchAttestationDomainDescriptor) HasSubjectResource() bool {
+func (d *WatchAttestationDomainDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchAttestationDomainDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return attestationDomainServiceDescriptor
 }
 
-func (d *WatchAttestationDomainDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAttestationDomainDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchAttestationDomainDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchAttestationDomainDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAttestationDomainRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*WatchAttestationDomainRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*attestation_domain.Name)(nil)
-}
-
-func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAttestationDomainRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAttestationDomainRequest) []*attestation_domain.Name
-	})
-	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAttestationDomainRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAttestationDomainRequest) *attestation_domain.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAttestationDomainResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAttestationDomainResponse) *attestation_domain.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *attestation_domain.AttestationDomainChange_Added_:
-			return tResChange.Added.GetAttestationDomain().GetName()
-		case *attestation_domain.AttestationDomainChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *attestation_domain.AttestationDomainChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *attestation_domain.AttestationDomainChange_Current_:
-			return tResChange.Current.GetAttestationDomain().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*attestation_domain.Name)(nil)
 }
 
-func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAttestationDomainResponse)
+func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAttestationDomainResponse) []*attestation_domain.Name
+		OverrideExtractResourceNames(*WatchAttestationDomainRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAttestationDomainRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAttestationDomainRequest) *attestation_domain.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAttestationDomainResponse) *attestation_domain.ParentName
+		OverrideExtractResourceName(*WatchAttestationDomainResponse) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *attestation_domain.AttestationDomainChange_Added_:
+				return tResChange.Added.GetAttestationDomain().GetName()
+			case *attestation_domain.AttestationDomainChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *attestation_domain.AttestationDomainChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *attestation_domain.AttestationDomainChange_Current_:
+				return tResChange.Current.GetAttestationDomain().GetName()
+			}
+		}
+	}
+	return (*attestation_domain.Name)(nil)
+}
+
+func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAttestationDomainResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchAttestationDomainResponse) []*attestation_domain.Name
+	})
+	if ok {
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchAttestationDomainDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAttestationDomainResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAttestationDomainResponse) *attestation_domain.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchAttestationDomainsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAttestationDomainsDescriptor) IsCollectionSubject() bool {
+func (d *WatchAttestationDomainsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchAttestationDomainsDescriptor) IsPluralSubject() bool {
+func (d *WatchAttestationDomainsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchAttestationDomainsDescriptor) HasSubjectResource() bool {
+func (d *WatchAttestationDomainsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchAttestationDomainsDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return attestationDomainServiceDescriptor
 }
 
-func (d *WatchAttestationDomainsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAttestationDomainsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchAttestationDomainsDescriptor) GetServerMsgReflectHandle() gotencli
 	return &WatchAttestationDomainsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAttestationDomainsRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*WatchAttestationDomainsRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAttestationDomainsRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*WatchAttestationDomainsRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAttestationDomainsRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*WatchAttestationDomainsRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*attestation_domain.ParentName)(nil)
 }
 
-func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAttestationDomainsResponse) *attestation_domain.Name
+		OverrideExtractResourceName(*WatchAttestationDomainsResponse) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAttestationDomainsResponse) []*attestation_domain.Name
+		OverrideExtractResourceNames(*WatchAttestationDomainsResponse) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetAttestationDomainChanges()
-	list := make(attestation_domain.AttestationDomainNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *attestation_domain.AttestationDomainChange_Added_:
-			list = append(list, tResChange.Added.GetAttestationDomain().GetName())
-		case *attestation_domain.AttestationDomainChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *attestation_domain.AttestationDomainChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *attestation_domain.AttestationDomainChange_Current_:
-			list = append(list, tResChange.Current.GetAttestationDomain().GetName())
+	{
+		if resChanges := typedMsg.GetAttestationDomainChanges(); len(resChanges) > 0 {
+			list := make(attestation_domain.AttestationDomainNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *attestation_domain.AttestationDomainChange_Added_:
+					list = append(list, tResChange.Added.GetAttestationDomain().GetName())
+				case *attestation_domain.AttestationDomainChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *attestation_domain.AttestationDomainChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *attestation_domain.AttestationDomainChange_Current_:
+					list = append(list, tResChange.Current.GetAttestationDomain().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (attestation_domain.AttestationDomainNameList)(nil)
 }
 
-func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAttestationDomainsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAttestationDomainsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAttestationDomainsResponse) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*WatchAttestationDomainsResponse) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateAttestationDomainDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateAttestationDomainDescriptor) IsCollectionSubject() bool {
+func (d *CreateAttestationDomainDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateAttestationDomainDescriptor) IsPluralSubject() bool {
+func (d *CreateAttestationDomainDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateAttestationDomainDescriptor) HasSubjectResource() bool {
+func (d *CreateAttestationDomainDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateAttestationDomainDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return attestationDomainServiceDescriptor
 }
 
-func (d *CreateAttestationDomainDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateAttestationDomainDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateAttestationDomainDescriptor) GetServerMsgReflectHandle() gotencli
 	return &CreateAttestationDomainDescriptorServerMsgHandle{}
 }
 
-func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateAttestationDomainRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*CreateAttestationDomainRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAttestationDomain().GetName()
+	{
+		res := typedMsg.GetAttestationDomain()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateAttestationDomainRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*CreateAttestationDomainRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAttestationDomainDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateAttestationDomainRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*CreateAttestationDomainRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*attestation_domain.ParentName)(nil)
 }
 
-func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
+		OverrideExtractResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
+		OverrideExtractResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAttestationDomainDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateAttestationDomainDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateAttestationDomainDescriptor) IsCollectionSubject() bool {
+func (d *UpdateAttestationDomainDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateAttestationDomainDescriptor) IsPluralSubject() bool {
+func (d *UpdateAttestationDomainDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateAttestationDomainDescriptor) HasSubjectResource() bool {
+func (d *UpdateAttestationDomainDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateAttestationDomainDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return attestationDomainServiceDescriptor
 }
 
-func (d *UpdateAttestationDomainDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateAttestationDomainDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateAttestationDomainDescriptor) GetServerMsgReflectHandle() gotencli
 	return &UpdateAttestationDomainDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateAttestationDomainRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*UpdateAttestationDomainRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAttestationDomain().GetName()
+	{
+		res := typedMsg.GetAttestationDomain()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateAttestationDomainRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*UpdateAttestationDomainRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAttestationDomainDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateAttestationDomainRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*UpdateAttestationDomainRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
+		OverrideExtractResourceName(*attestation_domain.AttestationDomain) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
+		OverrideExtractResourceNames(*attestation_domain.AttestationDomain) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAttestationDomainDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*attestation_domain.AttestationDomain)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*attestation_domain.AttestationDomain) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteAttestationDomainDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteAttestationDomainDescriptor) IsCollectionSubject() bool {
+func (d *DeleteAttestationDomainDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteAttestationDomainDescriptor) IsPluralSubject() bool {
+func (d *DeleteAttestationDomainDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteAttestationDomainDescriptor) HasSubjectResource() bool {
+func (d *DeleteAttestationDomainDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteAttestationDomainDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return attestationDomainServiceDescriptor
 }
 
-func (d *DeleteAttestationDomainDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteAttestationDomainDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteAttestationDomainDescriptor) GetServerMsgReflectHandle() gotencli
 	return &DeleteAttestationDomainDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteAttestationDomainRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*DeleteAttestationDomainRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*attestation_domain.Name)(nil)
 }
 
-func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteAttestationDomainRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*DeleteAttestationDomainRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAttestationDomainDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAttestationDomainRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteAttestationDomainRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*DeleteAttestationDomainRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *attestation_domain.Name
+		OverrideExtractResourceName(*empty.Empty) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*attestation_domain.Name
+		OverrideExtractResourceNames(*empty.Empty) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAttestationDomainDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

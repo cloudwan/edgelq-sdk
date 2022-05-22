@@ -26,7 +26,7 @@ service BrokerService {
   rpc ListenForConnections(stream ListenForConnectionsRequest)
       returns (stream ListenForConnectionsResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/regions/*/devices/"
+      post : "/v1alpha2/{register_listener.device=projects/*/regions/*/devices/"
              "*}:listenForConnections"
     };
   }
@@ -35,7 +35,7 @@ service BrokerService {
   rpc OpenConnectionChannelSocket(stream OpenConnectionChannelSocketRequest)
       returns (stream OpenConnectionChannelSocketResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/regions/*/devices/"
+      post : "/v1alpha2/{register_socket.device=projects/*/regions/*/devices/"
              "*}:openConnectionChannelSocket"
     };
   }
@@ -44,7 +44,8 @@ service BrokerService {
   rpc ConnectToDevice(stream ConnectToDeviceRequest)
       returns (stream ConnectToDeviceResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/regions/*/devices/*}:connectToDevice"
+      post : "/v1alpha2/{open_request.device=projects/*/regions/*/devices/"
+             "*}:connectToDevice"
     };
   }
 }

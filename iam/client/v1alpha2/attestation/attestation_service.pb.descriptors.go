@@ -60,15 +60,15 @@ func (d *VerifyDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *VerifyDescriptor) IsCollectionSubject() bool {
+func (d *VerifyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *VerifyDescriptor) IsPluralSubject() bool {
+func (d *VerifyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *VerifyDescriptor) HasSubjectResource() bool {
+func (d *VerifyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -108,7 +108,7 @@ func (d *VerifyDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return attestationServiceDescriptor
 }
 
-func (d *VerifyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *VerifyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return attestation_domain.GetDescriptor()
 }
 
@@ -120,74 +120,79 @@ func (d *VerifyDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHand
 	return &VerifyDescriptorServerMsgHandle{}
 }
 
-func (h *VerifyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *VerifyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*VerifyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*VerifyRequest) *attestation_domain.Name
+		OverrideExtractResourceName(*VerifyRequest) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetAskForChallenge().GetAttestationDomain(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*attestation_domain.Name)(nil)
 }
 
-func (h *VerifyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *VerifyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*VerifyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*VerifyRequest) []*attestation_domain.Name
+		OverrideExtractResourceNames(*VerifyRequest) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *VerifyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *VerifyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*VerifyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*VerifyRequest) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*VerifyRequest) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *VerifyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *VerifyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*VerifyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*VerifyResponse) *attestation_domain.Name
+		OverrideExtractResourceName(*VerifyResponse) *attestation_domain.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *VerifyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *VerifyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*VerifyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*VerifyResponse) []*attestation_domain.Name
+		OverrideExtractResourceNames(*VerifyResponse) []*attestation_domain.Name
 	})
 	if ok {
-		return attestation_domain.AttestationDomainNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return attestation_domain.AttestationDomainNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *VerifyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *VerifyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*VerifyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*VerifyResponse) *attestation_domain.ParentName
+		OverrideExtractCollectionName(*VerifyResponse) *attestation_domain.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

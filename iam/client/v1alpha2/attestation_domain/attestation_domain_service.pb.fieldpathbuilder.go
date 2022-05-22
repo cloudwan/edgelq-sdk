@@ -110,9 +110,6 @@ type BatchGetAttestationDomainsRequestFieldPathBuilder struct{}
 func NewBatchGetAttestationDomainsRequestFieldPathBuilder() BatchGetAttestationDomainsRequestFieldPathBuilder {
 	return BatchGetAttestationDomainsRequestFieldPathBuilder{}
 }
-func (BatchGetAttestationDomainsRequestFieldPathBuilder) Parent() BatchGetAttestationDomainsRequestPathSelectorParent {
-	return BatchGetAttestationDomainsRequestPathSelectorParent{}
-}
 func (BatchGetAttestationDomainsRequestFieldPathBuilder) Names() BatchGetAttestationDomainsRequestPathSelectorNames {
 	return BatchGetAttestationDomainsRequestPathSelectorNames{}
 }
@@ -121,20 +118,6 @@ func (BatchGetAttestationDomainsRequestFieldPathBuilder) FieldMask() BatchGetAtt
 }
 func (BatchGetAttestationDomainsRequestFieldPathBuilder) View() BatchGetAttestationDomainsRequestPathSelectorView {
 	return BatchGetAttestationDomainsRequestPathSelectorView{}
-}
-
-type BatchGetAttestationDomainsRequestPathSelectorParent struct{}
-
-func (BatchGetAttestationDomainsRequestPathSelectorParent) FieldPath() *BatchGetAttestationDomainsRequest_FieldTerminalPath {
-	return &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetAttestationDomainsRequestPathSelectorParent) WithValue(value *attestation_domain.Reference) *BatchGetAttestationDomainsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetAttestationDomainsRequestPathSelectorParent) WithArrayOfValues(values []*attestation_domain.Reference) *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetAttestationDomainsRequestPathSelectorNames struct{}

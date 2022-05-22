@@ -542,16 +542,13 @@ type BatchGetAlertingPoliciesRequest_FieldPath interface {
 type BatchGetAlertingPoliciesRequest_FieldPathSelector int32
 
 const (
-	BatchGetAlertingPoliciesRequest_FieldPathSelectorParent    BatchGetAlertingPoliciesRequest_FieldPathSelector = 0
-	BatchGetAlertingPoliciesRequest_FieldPathSelectorNames     BatchGetAlertingPoliciesRequest_FieldPathSelector = 1
-	BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask BatchGetAlertingPoliciesRequest_FieldPathSelector = 2
-	BatchGetAlertingPoliciesRequest_FieldPathSelectorView      BatchGetAlertingPoliciesRequest_FieldPathSelector = 3
+	BatchGetAlertingPoliciesRequest_FieldPathSelectorNames     BatchGetAlertingPoliciesRequest_FieldPathSelector = 0
+	BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask BatchGetAlertingPoliciesRequest_FieldPathSelector = 1
+	BatchGetAlertingPoliciesRequest_FieldPathSelectorView      BatchGetAlertingPoliciesRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetAlertingPoliciesRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetAlertingPoliciesRequest_FieldPath(fp gotenobject.RawFieldPath)
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetAlertingPoliciesRequest_FieldTerminalPath{selector: BatchGetAlertingPoliciesRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetAlertingPoliciesRequest_FieldTerminalPath{selector: BatchGetAlertingPoliciesRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) JSONString() string
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) Get(source *BatchGetAlertingPoliciesRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) GetRaw(source proto
 // GetSingle returns value pointed by specific field of from source BatchGetAlertingPoliciesRequest
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) GetSingle(source *BatchGetAlertingPoliciesRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) GetSingleRaw(source
 // GetDefault returns a default value of the field type
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		return (*alerting_policy.Reference)(nil)
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		return ([]*alerting_policy.Reference)(nil)
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) GetDefault() interf
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) ClearValue(item *BatchGetAlertingPoliciesRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) ClearValueRaw(item 
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetAlertingPoliciesRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		return &BatchGetAlertingPoliciesRequest_FieldTerminalPathValue{BatchGetAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(*alerting_policy.Reference)}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		return &BatchGetAlertingPoliciesRequest_FieldTerminalPathValue{BatchGetAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.([]*alerting_policy.Reference)}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) WithRawIValue(value
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetAlertingPoliciesRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{BatchGetAlertingPoliciesRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		return &BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{BatchGetAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*alerting_policy.Reference)}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		return &BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{BatchGetAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([][]*alerting_policy.Reference)}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetAlertingPoliciesRequest_FieldPathValue = (*BatchGetAlertingPolicie
 func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) AsParentValue() (*alerting_policy.Reference, bool) {
-	res, ok := fpv.value.(*alerting_policy.Reference)
-	return res, ok
-}
 func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) AsNamesValue() ([]*alerting_policy.Reference, bool) {
 	res, ok := fpv.value.([]*alerting_policy.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) SetTo(target 
 		*target = new(BatchGetAlertingPoliciesRequest)
 	}
 	switch fpv.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*alerting_policy.Reference)
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*alerting_policy.Reference)
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) SetToRaw(targ
 // CompareWith compares value in the 'BatchGetAlertingPoliciesRequest_FieldTerminalPathValue' with the value under path in 'BatchGetAlertingPoliciesRequest'.
 func (fpv *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue) CompareWith(source *BatchGetAlertingPoliciesRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*alerting_policy.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetAlertingPoliciesRequest_FieldPathArrayOfValues = (*BatchGetAlertin
 
 func (fpaov *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetAlertingPoliciesRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*alerting_policy.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*alerting_policy.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) Get
 		}
 	}
 	return
-}
-func (fpaov *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*alerting_policy.Reference, bool) {
-	res, ok := fpaov.values.([]*alerting_policy.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*alerting_policy.Reference, bool) {
 	res, ok := fpaov.values.([][]*alerting_policy.Reference)

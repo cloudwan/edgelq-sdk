@@ -110,9 +110,6 @@ type BatchGetDistributionsRequestFieldPathBuilder struct{}
 func NewBatchGetDistributionsRequestFieldPathBuilder() BatchGetDistributionsRequestFieldPathBuilder {
 	return BatchGetDistributionsRequestFieldPathBuilder{}
 }
-func (BatchGetDistributionsRequestFieldPathBuilder) Parent() BatchGetDistributionsRequestPathSelectorParent {
-	return BatchGetDistributionsRequestPathSelectorParent{}
-}
 func (BatchGetDistributionsRequestFieldPathBuilder) Names() BatchGetDistributionsRequestPathSelectorNames {
 	return BatchGetDistributionsRequestPathSelectorNames{}
 }
@@ -121,20 +118,6 @@ func (BatchGetDistributionsRequestFieldPathBuilder) FieldMask() BatchGetDistribu
 }
 func (BatchGetDistributionsRequestFieldPathBuilder) View() BatchGetDistributionsRequestPathSelectorView {
 	return BatchGetDistributionsRequestPathSelectorView{}
-}
-
-type BatchGetDistributionsRequestPathSelectorParent struct{}
-
-func (BatchGetDistributionsRequestPathSelectorParent) FieldPath() *BatchGetDistributionsRequest_FieldTerminalPath {
-	return &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetDistributionsRequestPathSelectorParent) WithValue(value *distribution.Reference) *BatchGetDistributionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetDistributionsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetDistributionsRequestPathSelectorParent) WithArrayOfValues(values []*distribution.Reference) *BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDistributionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetDistributionsRequestPathSelectorNames struct{}

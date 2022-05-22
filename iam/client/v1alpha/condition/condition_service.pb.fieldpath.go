@@ -544,16 +544,13 @@ type BatchGetConditionsRequest_FieldPath interface {
 type BatchGetConditionsRequest_FieldPathSelector int32
 
 const (
-	BatchGetConditionsRequest_FieldPathSelectorParent    BatchGetConditionsRequest_FieldPathSelector = 0
-	BatchGetConditionsRequest_FieldPathSelectorNames     BatchGetConditionsRequest_FieldPathSelector = 1
-	BatchGetConditionsRequest_FieldPathSelectorFieldMask BatchGetConditionsRequest_FieldPathSelector = 2
-	BatchGetConditionsRequest_FieldPathSelectorView      BatchGetConditionsRequest_FieldPathSelector = 3
+	BatchGetConditionsRequest_FieldPathSelectorNames     BatchGetConditionsRequest_FieldPathSelector = 0
+	BatchGetConditionsRequest_FieldPathSelectorFieldMask BatchGetConditionsRequest_FieldPathSelector = 1
+	BatchGetConditionsRequest_FieldPathSelectorView      BatchGetConditionsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetConditionsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -571,8 +568,6 @@ func BuildBatchGetConditionsRequest_FieldPath(fp gotenobject.RawFieldPath) (Batc
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -624,10 +619,6 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) Get(source *BatchGetConditionsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetConditionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetConditionsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -652,9 +643,6 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) GetRaw(source proto.Messa
 // GetSingle returns value pointed by specific field of from source BatchGetConditionsRequest
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) GetSingle(source *BatchGetConditionsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -675,8 +663,6 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) GetSingleRaw(source proto
 // GetDefault returns a default value of the field type
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		return (*condition.Reference)(nil)
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		return ([]*condition.Reference)(nil)
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -691,8 +677,6 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) GetDefault() interface{} 
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) ClearValue(item *BatchGetConditionsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetConditionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetConditionsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -711,16 +695,13 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) ClearValueRaw(item proto.
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetConditionsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetConditionsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetConditionsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetConditionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetConditionsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetConditionsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		return &BatchGetConditionsRequest_FieldTerminalPathValue{BatchGetConditionsRequest_FieldTerminalPath: *fp, value: value.(*condition.Reference)}
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		return &BatchGetConditionsRequest_FieldTerminalPathValue{BatchGetConditionsRequest_FieldTerminalPath: *fp, value: value.([]*condition.Reference)}
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -739,8 +720,6 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) WithRawIValue(value inter
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetConditionsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetConditionsRequest_FieldTerminalPathArrayOfValues{BatchGetConditionsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		return &BatchGetConditionsRequest_FieldTerminalPathArrayOfValues{BatchGetConditionsRequest_FieldTerminalPath: *fp, values: values.([]*condition.Reference)}
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		return &BatchGetConditionsRequest_FieldTerminalPathArrayOfValues{BatchGetConditionsRequest_FieldTerminalPath: *fp, values: values.([][]*condition.Reference)}
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -809,10 +788,6 @@ var _ BatchGetConditionsRequest_FieldPathValue = (*BatchGetConditionsRequest_Fie
 func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) AsParentValue() (*condition.Reference, bool) {
-	res, ok := fpv.value.(*condition.Reference)
-	return res, ok
-}
 func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) AsNamesValue() ([]*condition.Reference, bool) {
 	res, ok := fpv.value.([]*condition.Reference)
 	return res, ok
@@ -832,8 +807,6 @@ func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) SetTo(target **Batc
 		*target = new(BatchGetConditionsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*condition.Reference)
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*condition.Reference)
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -853,25 +826,6 @@ func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) SetToRaw(target pro
 // CompareWith compares value in the 'BatchGetConditionsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetConditionsRequest'.
 func (fpv *BatchGetConditionsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetConditionsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*condition.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetConditionsRequest_FieldPathSelectorFieldMask:
@@ -994,10 +948,6 @@ var _ BatchGetConditionsRequest_FieldPathArrayOfValues = (*BatchGetConditionsReq
 
 func (fpaov *BatchGetConditionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetConditionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*condition.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*condition.Reference) {
 			values = append(values, v)
@@ -1012,10 +962,6 @@ func (fpaov *BatchGetConditionsRequest_FieldTerminalPathArrayOfValues) GetRawVal
 		}
 	}
 	return
-}
-func (fpaov *BatchGetConditionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*condition.Reference, bool) {
-	res, ok := fpaov.values.([]*condition.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetConditionsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*condition.Reference, bool) {
 	res, ok := fpaov.values.([][]*condition.Reference)

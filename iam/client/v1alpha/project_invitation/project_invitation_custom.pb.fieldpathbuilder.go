@@ -112,11 +112,11 @@ func (ListMyProjectInvitationsRequestPathSelectorParent) FieldPath() *ListMyProj
 	return &ListMyProjectInvitationsRequest_FieldTerminalPath{selector: ListMyProjectInvitationsRequest_FieldPathSelectorParent}
 }
 
-func (s ListMyProjectInvitationsRequestPathSelectorParent) WithValue(value *project.Name) *ListMyProjectInvitationsRequest_FieldTerminalPathValue {
+func (s ListMyProjectInvitationsRequestPathSelectorParent) WithValue(value *project_invitation.ParentReference) *ListMyProjectInvitationsRequest_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsRequest_FieldTerminalPathValue)
 }
 
-func (s ListMyProjectInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*project.Name) *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues {
+func (s ListMyProjectInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*project_invitation.ParentReference) *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 

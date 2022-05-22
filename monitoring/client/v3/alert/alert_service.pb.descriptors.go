@@ -69,15 +69,15 @@ func (d *GetAlertDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetAlertDescriptor) IsCollectionSubject() bool {
+func (d *GetAlertDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetAlertDescriptor) IsPluralSubject() bool {
+func (d *GetAlertDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetAlertDescriptor) HasSubjectResource() bool {
+func (d *GetAlertDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *GetAlertDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHa
 	return &GetAlertDescriptorServerMsgHandle{}
 }
 
-func (h *GetAlertDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetAlertRequest) *alert.Name
+		OverrideExtractResourceName(*GetAlertRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alert.Name)(nil)
 }
 
-func (h *GetAlertDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetAlertRequest) []*alert.Name
+		OverrideExtractResourceNames(*GetAlertRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetAlertRequest) *alert.ParentName
+		OverrideExtractCollectionName(*GetAlertRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetAlertDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alert.Alert) *alert.Name
+		OverrideExtractResourceName(*alert.Alert) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alert.Name)(nil)
 }
 
-func (h *GetAlertDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alert.Alert) []*alert.Name
+		OverrideExtractResourceNames(*alert.Alert) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alert.Alert) *alert.ParentName
+		OverrideExtractCollectionName(*alert.Alert) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetAlertsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetAlertsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetAlertsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetAlertsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetAlertsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetAlertsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetAlertsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetAlertsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return alertServiceDescriptor
 }
 
-func (d *BatchGetAlertsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetAlertsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetAlertsDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &BatchGetAlertsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertsRequest) *alert.Name
+		OverrideExtractResourceName(*BatchGetAlertsRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertsRequest) []*alert.Name
+		OverrideExtractResourceNames(*BatchGetAlertsRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(alert.AlertNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(alert.AlertNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (alert.AlertNameList)(nil)
 }
 
-func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertsRequest) *alert.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertsRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertsResponse) *alert.Name
+		OverrideExtractResourceName(*BatchGetAlertsResponse) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertsResponse) []*alert.Name
+		OverrideExtractResourceNames(*BatchGetAlertsResponse) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlerts()
-	list := make(alert.AlertNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlerts(); len(resources) > 0 {
+			list := make(alert.AlertNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alert.AlertNameList)(nil)
 }
 
-func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertsResponse) *alert.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertsResponse) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListAlertsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListAlertsDescriptor) IsCollectionSubject() bool {
+func (d *ListAlertsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListAlertsDescriptor) IsPluralSubject() bool {
+func (d *ListAlertsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListAlertsDescriptor) HasSubjectResource() bool {
+func (d *ListAlertsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListAlertsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *ListAlertsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListAlertsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListAlertsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &ListAlertsDescriptorServerMsgHandle{}
 }
 
-func (h *ListAlertsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertsRequest) *alert.Name
+		OverrideExtractResourceName(*ListAlertsRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertsRequest) []*alert.Name
+		OverrideExtractResourceNames(*ListAlertsRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListAlertsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertsRequest) *alert.ParentName
+		OverrideExtractCollectionName(*ListAlertsRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alert.ParentName)(nil)
 }
 
-func (h *ListAlertsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertsResponse) *alert.Name
+		OverrideExtractResourceName(*ListAlertsResponse) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertsResponse) []*alert.Name
+		OverrideExtractResourceNames(*ListAlertsResponse) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlerts()
-	list := make(alert.AlertNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlerts(); len(resources) > 0 {
+			list := make(alert.AlertNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alert.AlertNameList)(nil)
 }
 
-func (h *ListAlertsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertsResponse) *alert.ParentName
+		OverrideExtractCollectionName(*ListAlertsResponse) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchAlertDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchAlertDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchAlertDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *WatchAlertDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &WatchAlertDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertRequest) *alert.Name
+		OverrideExtractResourceName(*WatchAlertRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*alert.Name)(nil)
-}
-
-func (h *WatchAlertDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertRequest) []*alert.Name
-	})
-	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchAlertDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertRequest) *alert.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchAlertDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertResponse) *alert.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *alert.AlertChange_Added_:
-			return tResChange.Added.GetAlert().GetName()
-		case *alert.AlertChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *alert.AlertChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *alert.AlertChange_Current_:
-			return tResChange.Current.GetAlert().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*alert.Name)(nil)
 }
 
-func (h *WatchAlertDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertResponse)
+func (h *WatchAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertResponse) []*alert.Name
+		OverrideExtractResourceNames(*WatchAlertRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertRequest) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertResponse) *alert.ParentName
+		OverrideExtractResourceName(*WatchAlertResponse) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *alert.AlertChange_Added_:
+				return tResChange.Added.GetAlert().GetName()
+			case *alert.AlertChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *alert.AlertChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *alert.AlertChange_Current_:
+				return tResChange.Current.GetAlert().GetName()
+			}
+		}
+	}
+	return (*alert.Name)(nil)
+}
+
+func (h *WatchAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchAlertResponse) []*alert.Name
+	})
+	if ok {
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertResponse) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchAlertsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertsDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchAlertsDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchAlertsDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchAlertsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *WatchAlertsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchAlertsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &WatchAlertsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertsRequest) *alert.Name
+		OverrideExtractResourceName(*WatchAlertsRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertsRequest) []*alert.Name
+		OverrideExtractResourceNames(*WatchAlertsRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertsRequest) *alert.ParentName
+		OverrideExtractCollectionName(*WatchAlertsRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alert.ParentName)(nil)
 }
 
-func (h *WatchAlertsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertsResponse) *alert.Name
+		OverrideExtractResourceName(*WatchAlertsResponse) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertsResponse) []*alert.Name
+		OverrideExtractResourceNames(*WatchAlertsResponse) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetAlertChanges()
-	list := make(alert.AlertNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *alert.AlertChange_Added_:
-			list = append(list, tResChange.Added.GetAlert().GetName())
-		case *alert.AlertChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *alert.AlertChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *alert.AlertChange_Current_:
-			list = append(list, tResChange.Current.GetAlert().GetName())
+	{
+		if resChanges := typedMsg.GetAlertChanges(); len(resChanges) > 0 {
+			list := make(alert.AlertNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *alert.AlertChange_Added_:
+					list = append(list, tResChange.Added.GetAlert().GetName())
+				case *alert.AlertChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *alert.AlertChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *alert.AlertChange_Current_:
+					list = append(list, tResChange.Current.GetAlert().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (alert.AlertNameList)(nil)
 }
 
-func (h *WatchAlertsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertsResponse) *alert.ParentName
+		OverrideExtractCollectionName(*WatchAlertsResponse) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateAlertDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateAlertDescriptor) IsCollectionSubject() bool {
+func (d *CreateAlertDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateAlertDescriptor) IsPluralSubject() bool {
+func (d *CreateAlertDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateAlertDescriptor) HasSubjectResource() bool {
+func (d *CreateAlertDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *CreateAlertDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &CreateAlertDescriptorServerMsgHandle{}
 }
 
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateAlertRequest) *alert.Name
+		OverrideExtractResourceName(*CreateAlertRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlert().GetName()
+	{
+		res := typedMsg.GetAlert()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alert.Name)(nil)
 }
 
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateAlertRequest) []*alert.Name
+		OverrideExtractResourceNames(*CreateAlertRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateAlertRequest) *alert.ParentName
+		OverrideExtractCollectionName(*CreateAlertRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alert.ParentName)(nil)
 }
 
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alert.Alert) *alert.Name
+		OverrideExtractResourceName(*alert.Alert) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alert.Name)(nil)
 }
 
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alert.Alert) []*alert.Name
+		OverrideExtractResourceNames(*alert.Alert) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alert.Alert) *alert.ParentName
+		OverrideExtractCollectionName(*alert.Alert) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateAlertDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateAlertDescriptor) IsCollectionSubject() bool {
+func (d *UpdateAlertDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateAlertDescriptor) IsPluralSubject() bool {
+func (d *UpdateAlertDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateAlertDescriptor) HasSubjectResource() bool {
+func (d *UpdateAlertDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *UpdateAlertDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &UpdateAlertDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateAlertDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateAlertRequest) *alert.Name
+		OverrideExtractResourceName(*UpdateAlertRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlert().GetName()
+	{
+		res := typedMsg.GetAlert()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alert.Name)(nil)
 }
 
-func (h *UpdateAlertDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateAlertRequest) []*alert.Name
+		OverrideExtractResourceNames(*UpdateAlertRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateAlertRequest) *alert.ParentName
+		OverrideExtractCollectionName(*UpdateAlertRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateAlertDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alert.Alert) *alert.Name
+		OverrideExtractResourceName(*alert.Alert) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alert.Name)(nil)
 }
 
-func (h *UpdateAlertDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alert.Alert) []*alert.Name
+		OverrideExtractResourceNames(*alert.Alert) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alert.Alert)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alert.Alert) *alert.ParentName
+		OverrideExtractCollectionName(*alert.Alert) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteAlertDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteAlertDescriptor) IsCollectionSubject() bool {
+func (d *DeleteAlertDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteAlertDescriptor) IsPluralSubject() bool {
+func (d *DeleteAlertDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteAlertDescriptor) HasSubjectResource() bool {
+func (d *DeleteAlertDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return alertServiceDescriptor
 }
 
-func (d *DeleteAlertDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alert.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &DeleteAlertDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteAlertDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteAlertRequest) *alert.Name
+		OverrideExtractResourceName(*DeleteAlertRequest) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alert.Name)(nil)
 }
 
-func (h *DeleteAlertDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteAlertRequest) []*alert.Name
+		OverrideExtractResourceNames(*DeleteAlertRequest) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteAlertRequest) *alert.ParentName
+		OverrideExtractCollectionName(*DeleteAlertRequest) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *alert.Name
+		OverrideExtractResourceName(*empty.Empty) *alert.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*alert.Name
+		OverrideExtractResourceNames(*empty.Empty) []*alert.Name
 	})
 	if ok {
-		return alert.AlertNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *alert.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *alert.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

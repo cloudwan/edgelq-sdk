@@ -542,16 +542,13 @@ type BatchGetProvisioningPolicysRequest_FieldPath interface {
 type BatchGetProvisioningPolicysRequest_FieldPathSelector int32
 
 const (
-	BatchGetProvisioningPolicysRequest_FieldPathSelectorParent    BatchGetProvisioningPolicysRequest_FieldPathSelector = 0
-	BatchGetProvisioningPolicysRequest_FieldPathSelectorNames     BatchGetProvisioningPolicysRequest_FieldPathSelector = 1
-	BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask BatchGetProvisioningPolicysRequest_FieldPathSelector = 2
-	BatchGetProvisioningPolicysRequest_FieldPathSelectorView      BatchGetProvisioningPolicysRequest_FieldPathSelector = 3
+	BatchGetProvisioningPolicysRequest_FieldPathSelectorNames     BatchGetProvisioningPolicysRequest_FieldPathSelector = 0
+	BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask BatchGetProvisioningPolicysRequest_FieldPathSelector = 1
+	BatchGetProvisioningPolicysRequest_FieldPathSelectorView      BatchGetProvisioningPolicysRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetProvisioningPolicysRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetProvisioningPolicysRequest_FieldPath(fp gotenobject.RawFieldPa
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) JSONString() str
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) Get(source *BatchGetProvisioningPolicysRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) GetRaw(source pr
 // GetSingle returns value pointed by specific field of from source BatchGetProvisioningPolicysRequest
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) GetSingle(source *BatchGetProvisioningPolicysRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) GetSingleRaw(sou
 // GetDefault returns a default value of the field type
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		return (*provisioning_policy.Reference)(nil)
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		return ([]*provisioning_policy.Reference)(nil)
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) GetDefault() int
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) ClearValue(item *BatchGetProvisioningPolicysRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) ClearValueRaw(it
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetProvisioningPolicysRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetProvisioningPolicysRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetProvisioningPolicysRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetProvisioningPolicysRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetProvisioningPolicysRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		return &BatchGetProvisioningPolicysRequest_FieldTerminalPathValue{BatchGetProvisioningPolicysRequest_FieldTerminalPath: *fp, value: value.(*provisioning_policy.Reference)}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		return &BatchGetProvisioningPolicysRequest_FieldTerminalPathValue{BatchGetProvisioningPolicysRequest_FieldTerminalPath: *fp, value: value.([]*provisioning_policy.Reference)}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) WithRawIValue(va
 func (fp *BatchGetProvisioningPolicysRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetProvisioningPolicysRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningPolicysRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		return &BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningPolicysRequest_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.Reference)}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		return &BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningPolicysRequest_FieldTerminalPath: *fp, values: values.([][]*provisioning_policy.Reference)}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetProvisioningPolicysRequest_FieldPathValue = (*BatchGetProvisioning
 func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) AsParentValue() (*provisioning_policy.Reference, bool) {
-	res, ok := fpv.value.(*provisioning_policy.Reference)
-	return res, ok
-}
 func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) AsNamesValue() ([]*provisioning_policy.Reference, bool) {
 	res, ok := fpv.value.([]*provisioning_policy.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) SetTo(targ
 		*target = new(BatchGetProvisioningPolicysRequest)
 	}
 	switch fpv.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*provisioning_policy.Reference)
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*provisioning_policy.Reference)
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) SetToRaw(t
 // CompareWith compares value in the 'BatchGetProvisioningPolicysRequest_FieldTerminalPathValue' with the value under path in 'BatchGetProvisioningPolicysRequest'.
 func (fpv *BatchGetProvisioningPolicysRequest_FieldTerminalPathValue) CompareWith(source *BatchGetProvisioningPolicysRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*provisioning_policy.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetProvisioningPolicysRequest_FieldPathArrayOfValues = (*BatchGetProv
 
 func (fpaov *BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*provisioning_policy.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*provisioning_policy.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues) 
 		}
 	}
 	return
-}
-func (fpaov *BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*provisioning_policy.Reference, bool) {
-	res, ok := fpaov.values.([]*provisioning_policy.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetProvisioningPolicysRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*provisioning_policy.Reference, bool) {
 	res, ok := fpaov.values.([][]*provisioning_policy.Reference)

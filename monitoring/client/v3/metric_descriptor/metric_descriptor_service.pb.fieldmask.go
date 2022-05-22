@@ -59,7 +59,6 @@ type BatchGetMetricDescriptorsRequest_FieldMask struct {
 
 func FullBatchGetMetricDescriptorsRequest_FieldMask() *BatchGetMetricDescriptorsRequest_FieldMask {
 	res := &BatchGetMetricDescriptorsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetMetricDescriptorsRequest_FieldTerminalPath{selector: BatchGetMetricDescriptorsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetMetricDescriptorsRequest_FieldTerminalPath{selector: BatchGetMetricDescriptorsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetMetricDescriptorsRequest_FieldTerminalPath{selector: BatchGetMetricDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetMetricDescriptorsRequest_FieldTerminalPath{selector: BatchGetMetricDescriptorsRequest_FieldPathSelectorView})
@@ -106,7 +105,7 @@ func (fieldMask *BatchGetMetricDescriptorsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetMetricDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -136,7 +135,7 @@ func (fieldMask *BatchGetMetricDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetMetricDescriptorsRequest_FieldMask) Subtract(other *BatchGetMetricDescriptorsRequest_FieldMask) *BatchGetMetricDescriptorsRequest_FieldMask {
 	result := &BatchGetMetricDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -290,8 +289,6 @@ func (fieldMask *BatchGetMetricDescriptorsRequest_FieldMask) Project(source *Bat
 		switch tp := p.(type) {
 		case *BatchGetMetricDescriptorsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetMetricDescriptorsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetMetricDescriptorsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetMetricDescriptorsRequest_FieldPathSelectorFieldMask:

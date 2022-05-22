@@ -131,11 +131,11 @@ func (ListMyOrganizationInvitationsRequestPathSelectorParent) FieldPath() *ListM
 	return &ListMyOrganizationInvitationsRequest_FieldTerminalPath{selector: ListMyOrganizationInvitationsRequest_FieldPathSelectorParent}
 }
 
-func (s ListMyOrganizationInvitationsRequestPathSelectorParent) WithValue(value *organization.Reference) *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue {
+func (s ListMyOrganizationInvitationsRequestPathSelectorParent) WithValue(value *organization_invitation.ParentReference) *ListMyOrganizationInvitationsRequest_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsRequest_FieldTerminalPathValue)
 }
 
-func (s ListMyOrganizationInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*organization.Reference) *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues {
+func (s ListMyOrganizationInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*organization_invitation.ParentReference) *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 

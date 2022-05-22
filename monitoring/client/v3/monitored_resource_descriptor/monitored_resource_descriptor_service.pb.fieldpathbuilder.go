@@ -37,9 +37,6 @@ type BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder struct{}
 func NewBatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder() BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder {
 	return BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder{}
 }
-func (BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder) Parent() BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent {
-	return BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent{}
-}
 func (BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder) Names() BatchGetMonitoredResourceDescriptorsRequestPathSelectorNames {
 	return BatchGetMonitoredResourceDescriptorsRequestPathSelectorNames{}
 }
@@ -48,20 +45,6 @@ func (BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder) FieldMask() B
 }
 func (BatchGetMonitoredResourceDescriptorsRequestFieldPathBuilder) View() BatchGetMonitoredResourceDescriptorsRequestPathSelectorView {
 	return BatchGetMonitoredResourceDescriptorsRequestPathSelectorView{}
-}
-
-type BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent struct{}
-
-func (BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent) FieldPath() *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath {
-	return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent) WithValue(value *monitored_resource_descriptor.Reference) *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetMonitoredResourceDescriptorsRequestPathSelectorParent) WithArrayOfValues(values []*monitored_resource_descriptor.Reference) *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetMonitoredResourceDescriptorsRequestPathSelectorNames struct{}

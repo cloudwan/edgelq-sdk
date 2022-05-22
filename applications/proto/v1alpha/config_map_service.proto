@@ -34,9 +34,6 @@ message GetConfigMapRequest {
 // Request message for method
 // [BatchGetConfigMaps][ntt.applications.v1alpha.BatchGetConfigMaps]
 message BatchGetConfigMapsRequest {
-  // Optional parent ntt.applications.v1alpha.ConfigMap
-  string parent = 1;
-
   // Names of ConfigMaps
   repeated string names = 2;
 
@@ -47,6 +44,8 @@ message BatchGetConfigMapsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetConfigMapsResponse
@@ -312,7 +311,7 @@ service ConfigMapService {
   rpc BatchGetConfigMaps(BatchGetConfigMapsRequest)
       returns (BatchGetConfigMapsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha/{parent=projects/*}/configMaps:batchGet"
+      get : "/v1alpha/configMaps:batchGet"
     };
   }
 

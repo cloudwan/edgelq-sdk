@@ -69,15 +69,15 @@ func (d *BatchGetMonitoredResourceDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetMonitoredResourceDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetMonitoredResourceDescriptorsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetMonitoredResourceDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetMonitoredResourceDescriptorsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetMonitoredResourceDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetMonitoredResourceDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *BatchGetMonitoredResourceDescriptorsDescriptor) GetApiDescriptor() gote
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *BatchGetMonitoredResourceDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetMonitoredResourceDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -129,71 +129,77 @@ func (d *BatchGetMonitoredResourceDescriptorsDescriptor) GetServerMsgReflectHand
 	return &BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (monitored_resource_descriptor.MonitoredResourceDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMonitoredResourceDescriptors()
-	list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetMonitoredResourceDescriptors(); len(resources) > 0 {
+			list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (monitored_resource_descriptor.MonitoredResourceDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -227,15 +233,15 @@ func (d *WatchMonitoredResourceDescriptorDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMonitoredResourceDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *WatchMonitoredResourceDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchMonitoredResourceDescriptorDescriptor) IsPluralSubject() bool {
+func (d *WatchMonitoredResourceDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchMonitoredResourceDescriptorDescriptor) HasSubjectResource() bool {
+func (d *WatchMonitoredResourceDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -275,7 +281,7 @@ func (d *WatchMonitoredResourceDescriptorDescriptor) GetApiDescriptor() gotencli
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *WatchMonitoredResourceDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMonitoredResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -287,74 +293,78 @@ func (d *WatchMonitoredResourceDescriptorDescriptor) GetServerMsgReflectHandle()
 	return &WatchMonitoredResourceDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*WatchMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*monitored_resource_descriptor.Name)(nil)
-}
-
-func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMonitoredResourceDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
-	})
-	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchMonitoredResourceDescriptorResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMonitoredResourceDescriptorResponse) *monitored_resource_descriptor.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Added_:
-			return tResChange.Added.GetMonitoredResourceDescriptor().GetName()
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Current_:
-			return tResChange.Current.GetMonitoredResourceDescriptor().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMonitoredResourceDescriptorResponse)
+func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMonitoredResourceDescriptorResponse) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*WatchMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchMonitoredResourceDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchMonitoredResourceDescriptorResponse) *monitored_resource_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Added_:
+				return tResChange.Added.GetMonitoredResourceDescriptor().GetName()
+			case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Current_:
+				return tResChange.Current.GetMonitoredResourceDescriptor().GetName()
+			}
+		}
+	}
+	return (*monitored_resource_descriptor.Name)(nil)
+}
+
+func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMonitoredResourceDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchMonitoredResourceDescriptorResponse) []*monitored_resource_descriptor.Name
+	})
+	if ok {
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -388,15 +398,15 @@ func (d *WatchMonitoredResourceDescriptorsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMonitoredResourceDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *WatchMonitoredResourceDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchMonitoredResourceDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *WatchMonitoredResourceDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchMonitoredResourceDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *WatchMonitoredResourceDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -436,7 +446,7 @@ func (d *WatchMonitoredResourceDescriptorsDescriptor) GetApiDescriptor() gotencl
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *WatchMonitoredResourceDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMonitoredResourceDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -448,73 +458,77 @@ func (d *WatchMonitoredResourceDescriptorsDescriptor) GetServerMsgReflectHandle(
 	return &WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*WatchMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*WatchMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*WatchMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*WatchMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetMonitoredResourceDescriptorChanges()
-	list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Added_:
-			list = append(list, tResChange.Added.GetMonitoredResourceDescriptor().GetName())
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Current_:
-			list = append(list, tResChange.Current.GetMonitoredResourceDescriptor().GetName())
+	{
+		if resChanges := typedMsg.GetMonitoredResourceDescriptorChanges(); len(resChanges) > 0 {
+			list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetMonitoredResourceDescriptor().GetName())
+				case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *monitored_resource_descriptor.MonitoredResourceDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetMonitoredResourceDescriptor().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (monitored_resource_descriptor.MonitoredResourceDescriptorNameList)(nil)
 }
 
-func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -548,15 +562,15 @@ func (d *CreateMonitoredResourceDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateMonitoredResourceDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *CreateMonitoredResourceDescriptorDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateMonitoredResourceDescriptorDescriptor) IsPluralSubject() bool {
+func (d *CreateMonitoredResourceDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateMonitoredResourceDescriptorDescriptor) HasSubjectResource() bool {
+func (d *CreateMonitoredResourceDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -596,7 +610,7 @@ func (d *CreateMonitoredResourceDescriptorDescriptor) GetApiDescriptor() gotencl
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *CreateMonitoredResourceDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateMonitoredResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -608,59 +622,70 @@ func (d *CreateMonitoredResourceDescriptorDescriptor) GetServerMsgReflectHandle(
 	return &CreateMonitoredResourceDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*CreateMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMonitoredResourceDescriptor().GetName()
+	{
+		res := typedMsg.GetMonitoredResourceDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*CreateMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -694,15 +719,15 @@ func (d *UpdateMonitoredResourceDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateMonitoredResourceDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *UpdateMonitoredResourceDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateMonitoredResourceDescriptorDescriptor) IsPluralSubject() bool {
+func (d *UpdateMonitoredResourceDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateMonitoredResourceDescriptorDescriptor) HasSubjectResource() bool {
+func (d *UpdateMonitoredResourceDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -742,7 +767,7 @@ func (d *UpdateMonitoredResourceDescriptorDescriptor) GetApiDescriptor() gotencl
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *UpdateMonitoredResourceDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateMonitoredResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -754,59 +779,70 @@ func (d *UpdateMonitoredResourceDescriptorDescriptor) GetServerMsgReflectHandle(
 	return &UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*UpdateMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMonitoredResourceDescriptor().GetName()
+	{
+		res := typedMsg.GetMonitoredResourceDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*UpdateMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -840,15 +876,15 @@ func (d *DeleteMonitoredResourceDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteMonitoredResourceDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *DeleteMonitoredResourceDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteMonitoredResourceDescriptorDescriptor) IsPluralSubject() bool {
+func (d *DeleteMonitoredResourceDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteMonitoredResourceDescriptorDescriptor) HasSubjectResource() bool {
+func (d *DeleteMonitoredResourceDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -888,7 +924,7 @@ func (d *DeleteMonitoredResourceDescriptorDescriptor) GetApiDescriptor() gotencl
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *DeleteMonitoredResourceDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteMonitoredResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -900,62 +936,64 @@ func (d *DeleteMonitoredResourceDescriptorDescriptor) GetServerMsgReflectHandle(
 	return &DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*DeleteMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*DeleteMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*empty.Empty) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*empty.Empty) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -989,15 +1027,15 @@ func (d *GetMonitoredResourceDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetMonitoredResourceDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *GetMonitoredResourceDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetMonitoredResourceDescriptorDescriptor) IsPluralSubject() bool {
+func (d *GetMonitoredResourceDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetMonitoredResourceDescriptorDescriptor) HasSubjectResource() bool {
+func (d *GetMonitoredResourceDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1037,7 +1075,7 @@ func (d *GetMonitoredResourceDescriptorDescriptor) GetApiDescriptor() gotenclien
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *GetMonitoredResourceDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetMonitoredResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -1049,62 +1087,64 @@ func (d *GetMonitoredResourceDescriptorDescriptor) GetServerMsgReflectHandle() g
 	return &GetMonitoredResourceDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*GetMonitoredResourceDescriptorRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*monitored_resource_descriptor.Name)(nil)
 }
 
-func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetMonitoredResourceDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*GetMonitoredResourceDescriptorRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMonitoredResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*monitored_resource_descriptor.MonitoredResourceDescriptor) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	return typedMsg.GetName()
-}
-
-func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
-	})
-	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*monitored_resource_descriptor.MonitoredResourceDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*monitored_resource_descriptor.MonitoredResourceDescriptor) []*monitored_resource_descriptor.Name
+	})
+	if ok {
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetMonitoredResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1138,15 +1178,15 @@ func (d *ListMonitoredResourceDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListMonitoredResourceDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *ListMonitoredResourceDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListMonitoredResourceDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *ListMonitoredResourceDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListMonitoredResourceDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *ListMonitoredResourceDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1186,7 +1226,7 @@ func (d *ListMonitoredResourceDescriptorsDescriptor) GetApiDescriptor() gotencli
 	return monitoredResourceDescriptorServiceDescriptor
 }
 
-func (d *ListMonitoredResourceDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListMonitoredResourceDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return monitored_resource_descriptor.GetDescriptor()
 }
 
@@ -1198,64 +1238,59 @@ func (d *ListMonitoredResourceDescriptorsDescriptor) GetServerMsgReflectHandle()
 	return &ListMonitoredResourceDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*ListMonitoredResourceDescriptorsRequest) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMonitoredResourceDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*ListMonitoredResourceDescriptorsRequest) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMonitoredResourceDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
+		OverrideExtractResourceName(*ListMonitoredResourceDescriptorsResponse) *monitored_resource_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMonitoredResourceDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
+		OverrideExtractResourceNames(*ListMonitoredResourceDescriptorsResponse) []*monitored_resource_descriptor.Name
 	})
 	if ok {
-		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return monitored_resource_descriptor.MonitoredResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMonitoredResourceDescriptors()
-	list := make(monitored_resource_descriptor.MonitoredResourceDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
-	}
-	return list
+	return nil
 }
 
-func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMonitoredResourceDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

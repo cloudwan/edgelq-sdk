@@ -318,7 +318,6 @@ type BatchGetServiceAccountKeysRequest_FieldMask struct {
 
 func FullBatchGetServiceAccountKeysRequest_FieldMask() *BatchGetServiceAccountKeysRequest_FieldMask {
 	res := &BatchGetServiceAccountKeysRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetServiceAccountKeysRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetServiceAccountKeysRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetServiceAccountKeysRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetServiceAccountKeysRequest_FieldMask) Subtract(other *BatchGetServiceAccountKeysRequest_FieldMask) *BatchGetServiceAccountKeysRequest_FieldMask {
 	result := &BatchGetServiceAccountKeysRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetServiceAccountKeysRequest_FieldMask) Project(source *Ba
 		switch tp := p.(type) {
 		case *BatchGetServiceAccountKeysRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:

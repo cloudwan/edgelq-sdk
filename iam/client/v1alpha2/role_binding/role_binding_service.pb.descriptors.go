@@ -70,15 +70,15 @@ func (d *GetRoleBindingDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetRoleBindingDescriptor) IsCollectionSubject() bool {
+func (d *GetRoleBindingDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetRoleBindingDescriptor) IsPluralSubject() bool {
+func (d *GetRoleBindingDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetRoleBindingDescriptor) HasSubjectResource() bool {
+func (d *GetRoleBindingDescriptor) HasResource() bool {
 	return true
 }
 
@@ -118,7 +118,7 @@ func (d *GetRoleBindingDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return roleBindingServiceDescriptor
 }
 
-func (d *GetRoleBindingDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetRoleBindingDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -130,77 +130,84 @@ func (d *GetRoleBindingDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &GetRoleBindingDescriptorServerMsgHandle{}
 }
 
-func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetRoleBindingRequest) *role_binding.Name
+		OverrideExtractResourceName(*GetRoleBindingRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*role_binding.Name)(nil)
 }
 
-func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetRoleBindingRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*GetRoleBindingRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleBindingDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetRoleBindingRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*GetRoleBindingRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role_binding.RoleBinding) *role_binding.Name
+		OverrideExtractResourceName(*role_binding.RoleBinding) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
 }
 
-func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role_binding.RoleBinding) []*role_binding.Name
+		OverrideExtractResourceNames(*role_binding.RoleBinding) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleBindingDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
+		OverrideExtractCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -235,15 +242,15 @@ func (d *BatchGetRoleBindingsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetRoleBindingsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetRoleBindingsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetRoleBindingsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetRoleBindingsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetRoleBindingsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetRoleBindingsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -283,7 +290,7 @@ func (d *BatchGetRoleBindingsDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return roleBindingServiceDescriptor
 }
 
-func (d *BatchGetRoleBindingsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetRoleBindingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -295,86 +302,92 @@ func (d *BatchGetRoleBindingsDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &BatchGetRoleBindingsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRoleBindingsRequest) *role_binding.Name
+		OverrideExtractResourceName(*BatchGetRoleBindingsRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRoleBindingsRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*BatchGetRoleBindingsRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(role_binding.RoleBindingNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(role_binding.RoleBindingNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (role_binding.RoleBindingNameList)(nil)
 }
 
-func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRoleBindingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetRoleBindingsRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*BatchGetRoleBindingsRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRoleBindingsResponse) *role_binding.Name
+		OverrideExtractResourceName(*BatchGetRoleBindingsResponse) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRoleBindingsResponse) []*role_binding.Name
+		OverrideExtractResourceNames(*BatchGetRoleBindingsResponse) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRoleBindings()
-	list := make(role_binding.RoleBindingNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRoleBindings(); len(resources) > 0 {
+			list := make(role_binding.RoleBindingNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (role_binding.RoleBindingNameList)(nil)
 }
 
-func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRoleBindingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetRoleBindingsResponse) *role_binding.ParentName
+		OverrideExtractCollectionName(*BatchGetRoleBindingsResponse) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -409,15 +422,15 @@ func (d *ListRoleBindingsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListRoleBindingsDescriptor) IsCollectionSubject() bool {
+func (d *ListRoleBindingsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListRoleBindingsDescriptor) IsPluralSubject() bool {
+func (d *ListRoleBindingsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListRoleBindingsDescriptor) HasSubjectResource() bool {
+func (d *ListRoleBindingsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -457,7 +470,7 @@ func (d *ListRoleBindingsDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return roleBindingServiceDescriptor
 }
 
-func (d *ListRoleBindingsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListRoleBindingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -469,79 +482,88 @@ func (d *ListRoleBindingsDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &ListRoleBindingsDescriptorServerMsgHandle{}
 }
 
-func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRoleBindingsRequest) *role_binding.Name
+		OverrideExtractResourceName(*ListRoleBindingsRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRoleBindingsRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*ListRoleBindingsRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRoleBindingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListRoleBindingsRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*ListRoleBindingsRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*role_binding.ParentName)(nil)
 }
 
-func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRoleBindingsResponse) *role_binding.Name
+		OverrideExtractResourceName(*ListRoleBindingsResponse) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRoleBindingsResponse) []*role_binding.Name
+		OverrideExtractResourceNames(*ListRoleBindingsResponse) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRoleBindings()
-	list := make(role_binding.RoleBindingNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRoleBindings(); len(resources) > 0 {
+			list := make(role_binding.RoleBindingNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (role_binding.RoleBindingNameList)(nil)
 }
 
-func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRoleBindingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListRoleBindingsResponse) *role_binding.ParentName
+		OverrideExtractCollectionName(*ListRoleBindingsResponse) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -576,15 +598,15 @@ func (d *WatchRoleBindingDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRoleBindingDescriptor) IsCollectionSubject() bool {
+func (d *WatchRoleBindingDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchRoleBindingDescriptor) IsPluralSubject() bool {
+func (d *WatchRoleBindingDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchRoleBindingDescriptor) HasSubjectResource() bool {
+func (d *WatchRoleBindingDescriptor) HasResource() bool {
 	return true
 }
 
@@ -624,7 +646,7 @@ func (d *WatchRoleBindingDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return roleBindingServiceDescriptor
 }
 
-func (d *WatchRoleBindingDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRoleBindingDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -636,89 +658,93 @@ func (d *WatchRoleBindingDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &WatchRoleBindingDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleBindingRequest) *role_binding.Name
+		OverrideExtractResourceName(*WatchRoleBindingRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*role_binding.Name)(nil)
-}
-
-func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRoleBindingRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleBindingRequest) []*role_binding.Name
-	})
-	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchRoleBindingRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchRoleBindingRequest) *role_binding.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchRoleBindingResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleBindingResponse) *role_binding.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *role_binding.RoleBindingChange_Added_:
-			return tResChange.Added.GetRoleBinding().GetName()
-		case *role_binding.RoleBindingChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *role_binding.RoleBindingChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *role_binding.RoleBindingChange_Current_:
-			return tResChange.Current.GetRoleBinding().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*role_binding.Name)(nil)
 }
 
-func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRoleBindingResponse)
+func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleBindingResponse) []*role_binding.Name
+		OverrideExtractResourceNames(*WatchRoleBindingRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchRoleBindingRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchRoleBindingRequest) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchRoleBindingResponse) *role_binding.ParentName
+		OverrideExtractResourceName(*WatchRoleBindingResponse) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *role_binding.RoleBindingChange_Added_:
+				return tResChange.Added.GetRoleBinding().GetName()
+			case *role_binding.RoleBindingChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *role_binding.RoleBindingChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *role_binding.RoleBindingChange_Current_:
+				return tResChange.Current.GetRoleBinding().GetName()
+			}
+		}
+	}
+	return (*role_binding.Name)(nil)
+}
+
+func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRoleBindingResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchRoleBindingResponse) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchRoleBindingDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchRoleBindingResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchRoleBindingResponse) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -753,15 +779,15 @@ func (d *WatchRoleBindingsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRoleBindingsDescriptor) IsCollectionSubject() bool {
+func (d *WatchRoleBindingsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchRoleBindingsDescriptor) IsPluralSubject() bool {
+func (d *WatchRoleBindingsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchRoleBindingsDescriptor) HasSubjectResource() bool {
+func (d *WatchRoleBindingsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -801,7 +827,7 @@ func (d *WatchRoleBindingsDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return roleBindingServiceDescriptor
 }
 
-func (d *WatchRoleBindingsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRoleBindingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -813,91 +839,97 @@ func (d *WatchRoleBindingsDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &WatchRoleBindingsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleBindingsRequest) *role_binding.Name
+		OverrideExtractResourceName(*WatchRoleBindingsRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleBindingsRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*WatchRoleBindingsRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchRoleBindingsRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*WatchRoleBindingsRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*role_binding.ParentName)(nil)
 }
 
-func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleBindingsResponse) *role_binding.Name
+		OverrideExtractResourceName(*WatchRoleBindingsResponse) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleBindingsResponse) []*role_binding.Name
+		OverrideExtractResourceNames(*WatchRoleBindingsResponse) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetRoleBindingChanges()
-	list := make(role_binding.RoleBindingNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *role_binding.RoleBindingChange_Added_:
-			list = append(list, tResChange.Added.GetRoleBinding().GetName())
-		case *role_binding.RoleBindingChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *role_binding.RoleBindingChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *role_binding.RoleBindingChange_Current_:
-			list = append(list, tResChange.Current.GetRoleBinding().GetName())
+	{
+		if resChanges := typedMsg.GetRoleBindingChanges(); len(resChanges) > 0 {
+			list := make(role_binding.RoleBindingNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *role_binding.RoleBindingChange_Added_:
+					list = append(list, tResChange.Added.GetRoleBinding().GetName())
+				case *role_binding.RoleBindingChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *role_binding.RoleBindingChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *role_binding.RoleBindingChange_Current_:
+					list = append(list, tResChange.Current.GetRoleBinding().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (role_binding.RoleBindingNameList)(nil)
 }
 
-func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleBindingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleBindingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchRoleBindingsResponse) *role_binding.ParentName
+		OverrideExtractCollectionName(*WatchRoleBindingsResponse) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -932,15 +964,15 @@ func (d *CreateRoleBindingDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateRoleBindingDescriptor) IsCollectionSubject() bool {
+func (d *CreateRoleBindingDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateRoleBindingDescriptor) IsPluralSubject() bool {
+func (d *CreateRoleBindingDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateRoleBindingDescriptor) HasSubjectResource() bool {
+func (d *CreateRoleBindingDescriptor) HasResource() bool {
 	return true
 }
 
@@ -980,7 +1012,7 @@ func (d *CreateRoleBindingDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return roleBindingServiceDescriptor
 }
 
-func (d *CreateRoleBindingDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateRoleBindingDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -992,77 +1024,90 @@ func (d *CreateRoleBindingDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &CreateRoleBindingDescriptorServerMsgHandle{}
 }
 
-func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateRoleBindingRequest) *role_binding.Name
+		OverrideExtractResourceName(*CreateRoleBindingRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRoleBinding().GetName()
+	{
+		res := typedMsg.GetRoleBinding()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
 }
 
-func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateRoleBindingRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*CreateRoleBindingRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleBindingDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateRoleBindingRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*CreateRoleBindingRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*role_binding.ParentName)(nil)
 }
 
-func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role_binding.RoleBinding) *role_binding.Name
+		OverrideExtractResourceName(*role_binding.RoleBinding) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
 }
 
-func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role_binding.RoleBinding) []*role_binding.Name
+		OverrideExtractResourceNames(*role_binding.RoleBinding) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleBindingDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
+		OverrideExtractCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1097,15 +1142,15 @@ func (d *UpdateRoleBindingDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateRoleBindingDescriptor) IsCollectionSubject() bool {
+func (d *UpdateRoleBindingDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateRoleBindingDescriptor) IsPluralSubject() bool {
+func (d *UpdateRoleBindingDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateRoleBindingDescriptor) HasSubjectResource() bool {
+func (d *UpdateRoleBindingDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1145,7 +1190,7 @@ func (d *UpdateRoleBindingDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return roleBindingServiceDescriptor
 }
 
-func (d *UpdateRoleBindingDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateRoleBindingDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -1157,74 +1202,85 @@ func (d *UpdateRoleBindingDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &UpdateRoleBindingDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateRoleBindingRequest) *role_binding.Name
+		OverrideExtractResourceName(*UpdateRoleBindingRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRoleBinding().GetName()
+	{
+		res := typedMsg.GetRoleBinding()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
 }
 
-func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateRoleBindingRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*UpdateRoleBindingRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleBindingDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateRoleBindingRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*UpdateRoleBindingRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role_binding.RoleBinding) *role_binding.Name
+		OverrideExtractResourceName(*role_binding.RoleBinding) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
 }
 
-func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role_binding.RoleBinding) []*role_binding.Name
+		OverrideExtractResourceNames(*role_binding.RoleBinding) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleBindingDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
+		OverrideExtractCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1259,15 +1315,15 @@ func (d *DeleteRoleBindingDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteRoleBindingDescriptor) IsCollectionSubject() bool {
+func (d *DeleteRoleBindingDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteRoleBindingDescriptor) IsPluralSubject() bool {
+func (d *DeleteRoleBindingDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteRoleBindingDescriptor) HasSubjectResource() bool {
+func (d *DeleteRoleBindingDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1307,7 +1363,7 @@ func (d *DeleteRoleBindingDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return roleBindingServiceDescriptor
 }
 
-func (d *DeleteRoleBindingDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteRoleBindingDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -1319,77 +1375,79 @@ func (d *DeleteRoleBindingDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &DeleteRoleBindingDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteRoleBindingRequest) *role_binding.Name
+		OverrideExtractResourceName(*DeleteRoleBindingRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*role_binding.Name)(nil)
 }
 
-func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteRoleBindingRequest) []*role_binding.Name
+		OverrideExtractResourceNames(*DeleteRoleBindingRequest) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleBindingDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteRoleBindingRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteRoleBindingRequest) *role_binding.ParentName
+		OverrideExtractCollectionName(*DeleteRoleBindingRequest) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *role_binding.Name
+		OverrideExtractResourceName(*empty.Empty) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*role_binding.Name
+		OverrideExtractResourceNames(*empty.Empty) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleBindingDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *role_binding.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1424,15 +1482,15 @@ func (d *SetupCreateOwnerRoleDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *SetupCreateOwnerRoleDescriptor) IsCollectionSubject() bool {
+func (d *SetupCreateOwnerRoleDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *SetupCreateOwnerRoleDescriptor) IsPluralSubject() bool {
+func (d *SetupCreateOwnerRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *SetupCreateOwnerRoleDescriptor) HasSubjectResource() bool {
+func (d *SetupCreateOwnerRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1472,7 +1530,7 @@ func (d *SetupCreateOwnerRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return roleBindingServiceDescriptor
 }
 
-func (d *SetupCreateOwnerRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *SetupCreateOwnerRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role_binding.GetDescriptor()
 }
 
@@ -1484,77 +1542,85 @@ func (d *SetupCreateOwnerRoleDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &SetupCreateOwnerRoleDescriptorServerMsgHandle{}
 }
 
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*SetupCreateOwnerRoleRequest) *role_binding.Name
+		OverrideExtractResourceName(*SetupCreateOwnerRoleRequest) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		res := typedMsg.GetRoleBinding()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role_binding.Name)(nil)
+}
+
+func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SetupCreateOwnerRoleRequest) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*SetupCreateOwnerRoleRequest) []*role_binding.Name
+		OverrideExtractCollectionName(*SetupCreateOwnerRoleRequest) *role_binding.ParentName
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return nil
-}
-
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*SetupCreateOwnerRoleRequest) *role_binding.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*role_binding.ParentName)(nil)
 }
 
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role_binding.RoleBinding) *role_binding.Name
+		OverrideExtractResourceName(*role_binding.RoleBinding) *role_binding.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role_binding.RoleBinding) []*role_binding.Name
+		OverrideExtractResourceNames(*role_binding.RoleBinding) []*role_binding.Name
 	})
 	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role_binding.RoleBinding)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
+		OverrideExtractCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

@@ -542,16 +542,13 @@ type BatchGetPodsRequest_FieldPath interface {
 type BatchGetPodsRequest_FieldPathSelector int32
 
 const (
-	BatchGetPodsRequest_FieldPathSelectorParent    BatchGetPodsRequest_FieldPathSelector = 0
-	BatchGetPodsRequest_FieldPathSelectorNames     BatchGetPodsRequest_FieldPathSelector = 1
-	BatchGetPodsRequest_FieldPathSelectorFieldMask BatchGetPodsRequest_FieldPathSelector = 2
-	BatchGetPodsRequest_FieldPathSelectorView      BatchGetPodsRequest_FieldPathSelector = 3
+	BatchGetPodsRequest_FieldPathSelectorNames     BatchGetPodsRequest_FieldPathSelector = 0
+	BatchGetPodsRequest_FieldPathSelectorFieldMask BatchGetPodsRequest_FieldPathSelector = 1
+	BatchGetPodsRequest_FieldPathSelectorView      BatchGetPodsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetPodsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetPodsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGetPo
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetPodsRequest_FieldTerminalPath{selector: BatchGetPodsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetPodsRequest_FieldTerminalPath{selector: BatchGetPodsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetPodsRequest_FieldTerminalPath) Get(source *BatchGetPodsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetPodsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetPodsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) GetRaw(source proto.Message) []
 // GetSingle returns value pointed by specific field of from source BatchGetPodsRequest
 func (fp *BatchGetPodsRequest_FieldTerminalPath) GetSingle(source *BatchGetPodsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) GetSingleRaw(source proto.Messa
 // GetDefault returns a default value of the field type
 func (fp *BatchGetPodsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		return (*pod.Reference)(nil)
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		return ([]*pod.Reference)(nil)
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetPodsRequest_FieldTerminalPath) ClearValue(item *BatchGetPodsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetPodsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetPodsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) ClearValueRaw(item proto.Messag
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetPodsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetPodsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetPodsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetPodsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetPodsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetPodsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetPodsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPodsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		return &BatchGetPodsRequest_FieldTerminalPathValue{BatchGetPodsRequest_FieldTerminalPath: *fp, value: value.(*pod.Reference)}
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		return &BatchGetPodsRequest_FieldTerminalPathValue{BatchGetPodsRequest_FieldTerminalPath: *fp, value: value.([]*pod.Reference)}
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) WithRawIValue(value interface{}
 func (fp *BatchGetPodsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetPodsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetPodsRequest_FieldTerminalPathArrayOfValues{BatchGetPodsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		return &BatchGetPodsRequest_FieldTerminalPathArrayOfValues{BatchGetPodsRequest_FieldTerminalPath: *fp, values: values.([]*pod.Reference)}
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		return &BatchGetPodsRequest_FieldTerminalPathArrayOfValues{BatchGetPodsRequest_FieldTerminalPath: *fp, values: values.([][]*pod.Reference)}
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetPodsRequest_FieldPathValue = (*BatchGetPodsRequest_FieldTerminalPa
 func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) AsParentValue() (*pod.Reference, bool) {
-	res, ok := fpv.value.(*pod.Reference)
-	return res, ok
-}
 func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) AsNamesValue() ([]*pod.Reference, bool) {
 	res, ok := fpv.value.([]*pod.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) SetTo(target **BatchGetPo
 		*target = new(BatchGetPodsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*pod.Reference)
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*pod.Reference)
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) SetToRaw(target proto.Mes
 // CompareWith compares value in the 'BatchGetPodsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetPodsRequest'.
 func (fpv *BatchGetPodsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetPodsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*pod.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetPodsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetPodsRequest_FieldPathArrayOfValues = (*BatchGetPodsRequest_FieldTe
 
 func (fpaov *BatchGetPodsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetPodsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*pod.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetPodsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*pod.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetPodsRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		}
 	}
 	return
-}
-func (fpaov *BatchGetPodsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*pod.Reference, bool) {
-	res, ok := fpaov.values.([]*pod.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetPodsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*pod.Reference, bool) {
 	res, ok := fpaov.values.([][]*pod.Reference)

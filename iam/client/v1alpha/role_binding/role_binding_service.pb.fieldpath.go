@@ -544,16 +544,13 @@ type BatchGetRoleBindingsRequest_FieldPath interface {
 type BatchGetRoleBindingsRequest_FieldPathSelector int32
 
 const (
-	BatchGetRoleBindingsRequest_FieldPathSelectorParent    BatchGetRoleBindingsRequest_FieldPathSelector = 0
-	BatchGetRoleBindingsRequest_FieldPathSelectorNames     BatchGetRoleBindingsRequest_FieldPathSelector = 1
-	BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask BatchGetRoleBindingsRequest_FieldPathSelector = 2
-	BatchGetRoleBindingsRequest_FieldPathSelectorView      BatchGetRoleBindingsRequest_FieldPathSelector = 3
+	BatchGetRoleBindingsRequest_FieldPathSelectorNames     BatchGetRoleBindingsRequest_FieldPathSelector = 0
+	BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask BatchGetRoleBindingsRequest_FieldPathSelector = 1
+	BatchGetRoleBindingsRequest_FieldPathSelectorView      BatchGetRoleBindingsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetRoleBindingsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -571,8 +568,6 @@ func BuildBatchGetRoleBindingsRequest_FieldPath(fp gotenobject.RawFieldPath) (Ba
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -624,10 +619,6 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) Get(source *BatchGetRoleBindingsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -652,9 +643,6 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) GetRaw(source proto.Mes
 // GetSingle returns value pointed by specific field of from source BatchGetRoleBindingsRequest
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) GetSingle(source *BatchGetRoleBindingsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -675,8 +663,6 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) GetSingleRaw(source pro
 // GetDefault returns a default value of the field type
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		return (*role_binding.Reference)(nil)
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		return ([]*role_binding.Reference)(nil)
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -691,8 +677,6 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) GetDefault() interface{
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) ClearValue(item *BatchGetRoleBindingsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -711,16 +695,13 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) ClearValueRaw(item prot
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetRoleBindingsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetRoleBindingsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetRoleBindingsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetRoleBindingsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetRoleBindingsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		return &BatchGetRoleBindingsRequest_FieldTerminalPathValue{BatchGetRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(*role_binding.Reference)}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		return &BatchGetRoleBindingsRequest_FieldTerminalPathValue{BatchGetRoleBindingsRequest_FieldTerminalPath: *fp, value: value.([]*role_binding.Reference)}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -739,8 +720,6 @@ func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) WithRawIValue(value int
 func (fp *BatchGetRoleBindingsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetRoleBindingsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues{BatchGetRoleBindingsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		return &BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues{BatchGetRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.Reference)}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		return &BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues{BatchGetRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([][]*role_binding.Reference)}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -809,10 +788,6 @@ var _ BatchGetRoleBindingsRequest_FieldPathValue = (*BatchGetRoleBindingsRequest
 func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) AsParentValue() (*role_binding.Reference, bool) {
-	res, ok := fpv.value.(*role_binding.Reference)
-	return res, ok
-}
 func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) AsNamesValue() ([]*role_binding.Reference, bool) {
 	res, ok := fpv.value.([]*role_binding.Reference)
 	return res, ok
@@ -832,8 +807,6 @@ func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) SetTo(target **Ba
 		*target = new(BatchGetRoleBindingsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*role_binding.Reference)
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*role_binding.Reference)
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -853,25 +826,6 @@ func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) SetToRaw(target p
 // CompareWith compares value in the 'BatchGetRoleBindingsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetRoleBindingsRequest'.
 func (fpv *BatchGetRoleBindingsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetRoleBindingsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*role_binding.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -994,10 +948,6 @@ var _ BatchGetRoleBindingsRequest_FieldPathArrayOfValues = (*BatchGetRoleBinding
 
 func (fpaov *BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetRoleBindingsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*role_binding.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetRoleBindingsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*role_binding.Reference) {
 			values = append(values, v)
@@ -1012,10 +962,6 @@ func (fpaov *BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues) GetRawV
 		}
 	}
 	return
-}
-func (fpaov *BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*role_binding.Reference, bool) {
-	res, ok := fpaov.values.([]*role_binding.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*role_binding.Reference, bool) {
 	res, ok := fpaov.values.([][]*role_binding.Reference)

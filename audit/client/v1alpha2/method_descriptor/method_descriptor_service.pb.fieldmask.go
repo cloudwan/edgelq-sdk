@@ -314,7 +314,6 @@ type BatchGetMethodDescriptorsRequest_FieldMask struct {
 
 func FullBatchGetMethodDescriptorsRequest_FieldMask() *BatchGetMethodDescriptorsRequest_FieldMask {
 	res := &BatchGetMethodDescriptorsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorView})
@@ -361,7 +360,7 @@ func (fieldMask *BatchGetMethodDescriptorsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetMethodDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -391,7 +390,7 @@ func (fieldMask *BatchGetMethodDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetMethodDescriptorsRequest_FieldMask) Subtract(other *BatchGetMethodDescriptorsRequest_FieldMask) *BatchGetMethodDescriptorsRequest_FieldMask {
 	result := &BatchGetMethodDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -545,8 +544,6 @@ func (fieldMask *BatchGetMethodDescriptorsRequest_FieldMask) Project(source *Bat
 		switch tp := p.(type) {
 		case *BatchGetMethodDescriptorsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetMethodDescriptorsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetMethodDescriptorsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetMethodDescriptorsRequest_FieldPathSelectorFieldMask:

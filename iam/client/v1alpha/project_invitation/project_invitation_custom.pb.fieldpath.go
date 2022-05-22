@@ -1603,7 +1603,7 @@ func (fp *ListMyProjectInvitationsRequest_FieldTerminalPath) GetSingleRaw(source
 func (fp *ListMyProjectInvitationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		return (*project.Name)(nil)
+		return (*project_invitation.ParentReference)(nil)
 	case ListMyProjectInvitationsRequest_FieldPathSelectorFilter:
 		return (*project_invitation.Filter)(nil)
 	default:
@@ -1637,7 +1637,7 @@ func (fp *ListMyProjectInvitationsRequest_FieldTerminalPath) IsLeaf() bool {
 func (fp *ListMyProjectInvitationsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyProjectInvitationsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		return &ListMyProjectInvitationsRequest_FieldTerminalPathValue{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(*project.Name)}
+		return &ListMyProjectInvitationsRequest_FieldTerminalPathValue{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.ParentReference)}
 	case ListMyProjectInvitationsRequest_FieldPathSelectorFilter:
 		return &ListMyProjectInvitationsRequest_FieldTerminalPathValue{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.Filter)}
 	default:
@@ -1653,7 +1653,7 @@ func (fp *ListMyProjectInvitationsRequest_FieldTerminalPath) WithIArrayOfValues(
 	fpaov := &ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		return &ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*project.Name)}
+		return &ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.ParentReference)}
 	case ListMyProjectInvitationsRequest_FieldPathSelectorFilter:
 		return &ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListMyProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.Filter)}
 	default:
@@ -1716,8 +1716,8 @@ var _ ListMyProjectInvitationsRequest_FieldPathValue = (*ListMyProjectInvitation
 func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*project.Name, bool) {
-	res, ok := fpv.value.(*project.Name)
+func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) AsParentValue() (*project_invitation.ParentReference, bool) {
+	res, ok := fpv.value.(*project_invitation.ParentReference)
 	return res, ok
 }
 func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) AsFilterValue() (*project_invitation.Filter, bool) {
@@ -1732,7 +1732,7 @@ func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) SetTo(target 
 	}
 	switch fpv.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*project.Name)
+		(*target).Parent = fpv.value.(*project_invitation.ParentReference)
 	case ListMyProjectInvitationsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*project_invitation.Filter)
 	default:
@@ -1749,7 +1749,7 @@ func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) SetToRaw(targ
 func (fpv *ListMyProjectInvitationsRequest_FieldTerminalPathValue) CompareWith(source *ListMyProjectInvitationsRequest) (int, bool) {
 	switch fpv.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*project.Name)
+		leftValue := fpv.value.(*project_invitation.ParentReference)
 		rightValue := source.GetParent()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -1874,7 +1874,7 @@ var _ ListMyProjectInvitationsRequest_FieldPathArrayOfValues = (*ListMyProjectIn
 func (fpaov *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case ListMyProjectInvitationsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*project.Name) {
+		for _, v := range fpaov.values.([]*project_invitation.ParentReference) {
 			values = append(values, v)
 		}
 	case ListMyProjectInvitationsRequest_FieldPathSelectorFilter:
@@ -1884,8 +1884,8 @@ func (fpaov *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues) Get
 	}
 	return
 }
-func (fpaov *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*project.Name, bool) {
-	res, ok := fpaov.values.([]*project.Name)
+func (fpaov *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*project_invitation.ParentReference, bool) {
+	res, ok := fpaov.values.([]*project_invitation.ParentReference)
 	return res, ok
 }
 func (fpaov *ListMyProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*project_invitation.Filter, bool) {

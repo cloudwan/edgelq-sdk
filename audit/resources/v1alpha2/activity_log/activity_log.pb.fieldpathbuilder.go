@@ -492,27 +492,27 @@ func (ActivityLogPathSelectorResource) FieldPath() *ActivityLog_FieldTerminalPat
 	return &ActivityLog_FieldTerminalPath{selector: ActivityLog_FieldPathSelectorResource}
 }
 
-func (s ActivityLogPathSelectorResource) WithValue(value *ActivityLog_SubjectResource) *ActivityLog_FieldTerminalPathValue {
+func (s ActivityLogPathSelectorResource) WithValue(value *ActivityLog_Resource) *ActivityLog_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldTerminalPathValue)
 }
 
-func (s ActivityLogPathSelectorResource) WithArrayOfValues(values []*ActivityLog_SubjectResource) *ActivityLog_FieldTerminalPathArrayOfValues {
+func (s ActivityLogPathSelectorResource) WithArrayOfValues(values []*ActivityLog_Resource) *ActivityLog_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldTerminalPathArrayOfValues)
 }
 
-func (ActivityLogPathSelectorResource) WithSubPath(subPath ActivityLogSubjectResource_FieldPath) *ActivityLog_FieldSubPath {
+func (ActivityLogPathSelectorResource) WithSubPath(subPath ActivityLogResource_FieldPath) *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorResource, subPath: subPath}
 }
 
-func (s ActivityLogPathSelectorResource) WithSubValue(subPathValue ActivityLogSubjectResource_FieldPathValue) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorResource) WithSubValue(subPathValue ActivityLogResource_FieldPathValue) *ActivityLog_FieldSubPathValue {
 	return &ActivityLog_FieldSubPathValue{ActivityLog_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ActivityLogPathSelectorResource) WithSubArrayOfValues(subPathArrayOfValues ActivityLogSubjectResource_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorResource) WithSubArrayOfValues(subPathArrayOfValues ActivityLogResource_FieldPathArrayOfValues) *ActivityLog_FieldSubPathArrayOfValues {
 	return &ActivityLog_FieldSubPathArrayOfValues{ActivityLog_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s ActivityLogPathSelectorResource) WithSubArrayItemValue(subPathArrayItemValue ActivityLogSubjectResource_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
+func (s ActivityLogPathSelectorResource) WithSubArrayItemValue(subPathArrayItemValue ActivityLogResource_FieldPathArrayItemValue) *ActivityLog_FieldSubPathArrayItemValue {
 	return &ActivityLog_FieldSubPathArrayItemValue{ActivityLog_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -529,7 +529,7 @@ type ActivityLogPathSelectorResourceName struct{}
 func (ActivityLogPathSelectorResourceName) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorResource,
-		subPath:  NewActivityLogSubjectResourceFieldPathBuilder().Name().FieldPath(),
+		subPath:  NewActivityLogResourceFieldPathBuilder().Name().FieldPath(),
 	}
 }
 
@@ -546,15 +546,15 @@ type ActivityLogPathSelectorResourceDifference struct{}
 func (ActivityLogPathSelectorResourceDifference) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorResource,
-		subPath:  NewActivityLogSubjectResourceFieldPathBuilder().Difference().FieldPath(),
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().FieldPath(),
 	}
 }
 
-func (s ActivityLogPathSelectorResourceDifference) WithValue(value *ActivityLog_SubjectResource_Difference) *ActivityLog_FieldSubPathValue {
+func (s ActivityLogPathSelectorResourceDifference) WithValue(value *ActivityLog_Resource_Difference) *ActivityLog_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
 }
 
-func (s ActivityLogPathSelectorResourceDifference) WithArrayOfValues(values []*ActivityLog_SubjectResource_Difference) *ActivityLog_FieldSubPathArrayOfValues {
+func (s ActivityLogPathSelectorResourceDifference) WithArrayOfValues(values []*ActivityLog_Resource_Difference) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 
@@ -575,7 +575,7 @@ type ActivityLogPathSelectorResourceDifferenceFields struct{}
 func (ActivityLogPathSelectorResourceDifferenceFields) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorResource,
-		subPath:  NewActivityLogSubjectResourceFieldPathBuilder().Difference().Fields().FieldPath(),
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().Fields().FieldPath(),
 	}
 }
 
@@ -592,7 +592,7 @@ type ActivityLogPathSelectorResourceDifferenceBefore struct{}
 func (ActivityLogPathSelectorResourceDifferenceBefore) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorResource,
-		subPath:  NewActivityLogSubjectResourceFieldPathBuilder().Difference().Before().FieldPath(),
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().Before().FieldPath(),
 	}
 }
 
@@ -609,7 +609,7 @@ type ActivityLogPathSelectorResourceDifferenceAfter struct{}
 func (ActivityLogPathSelectorResourceDifferenceAfter) FieldPath() *ActivityLog_FieldSubPath {
 	return &ActivityLog_FieldSubPath{
 		selector: ActivityLog_FieldPathSelectorResource,
-		subPath:  NewActivityLogSubjectResourceFieldPathBuilder().Difference().After().FieldPath(),
+		subPath:  NewActivityLogResourceFieldPathBuilder().Difference().After().FieldPath(),
 	}
 }
 
@@ -1738,123 +1738,123 @@ func (s ActivityLog_RequestMetadataPathSelectorUserAgent) WithArrayOfValues(valu
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogRequestMetadata_FieldTerminalPathArrayOfValues)
 }
 
-type ActivityLogSubjectResourceFieldPathBuilder struct{}
+type ActivityLogResourceFieldPathBuilder struct{}
 
-func NewActivityLogSubjectResourceFieldPathBuilder() ActivityLogSubjectResourceFieldPathBuilder {
-	return ActivityLogSubjectResourceFieldPathBuilder{}
+func NewActivityLogResourceFieldPathBuilder() ActivityLogResourceFieldPathBuilder {
+	return ActivityLogResourceFieldPathBuilder{}
 }
-func (ActivityLogSubjectResourceFieldPathBuilder) Name() ActivityLog_SubjectResourcePathSelectorName {
-	return ActivityLog_SubjectResourcePathSelectorName{}
+func (ActivityLogResourceFieldPathBuilder) Name() ActivityLog_ResourcePathSelectorName {
+	return ActivityLog_ResourcePathSelectorName{}
 }
-func (ActivityLogSubjectResourceFieldPathBuilder) Difference() ActivityLog_SubjectResourcePathSelectorDifference {
-	return ActivityLog_SubjectResourcePathSelectorDifference{}
-}
-
-type ActivityLog_SubjectResourcePathSelectorName struct{}
-
-func (ActivityLog_SubjectResourcePathSelectorName) FieldPath() *ActivityLogSubjectResource_FieldTerminalPath {
-	return &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorName}
+func (ActivityLogResourceFieldPathBuilder) Difference() ActivityLog_ResourcePathSelectorDifference {
+	return ActivityLog_ResourcePathSelectorDifference{}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorName) WithValue(value string) *ActivityLogSubjectResource_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResource_FieldTerminalPathValue)
+type ActivityLog_ResourcePathSelectorName struct{}
+
+func (ActivityLog_ResourcePathSelectorName) FieldPath() *ActivityLogResource_FieldTerminalPath {
+	return &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorName}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorName) WithArrayOfValues(values []string) *ActivityLogSubjectResource_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResource_FieldTerminalPathArrayOfValues)
+func (s ActivityLog_ResourcePathSelectorName) WithValue(value string) *ActivityLogResource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldTerminalPathValue)
 }
 
-type ActivityLog_SubjectResourcePathSelectorDifference struct{}
-
-func (ActivityLog_SubjectResourcePathSelectorDifference) FieldPath() *ActivityLogSubjectResource_FieldTerminalPath {
-	return &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference}
+func (s ActivityLog_ResourcePathSelectorName) WithArrayOfValues(values []string) *ActivityLogResource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldTerminalPathArrayOfValues)
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifference) WithValue(value *ActivityLog_SubjectResource_Difference) *ActivityLogSubjectResource_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResource_FieldTerminalPathValue)
+type ActivityLog_ResourcePathSelectorDifference struct{}
+
+func (ActivityLog_ResourcePathSelectorDifference) FieldPath() *ActivityLogResource_FieldTerminalPath {
+	return &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorDifference}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifference) WithArrayOfValues(values []*ActivityLog_SubjectResource_Difference) *ActivityLogSubjectResource_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResource_FieldTerminalPathArrayOfValues)
+func (s ActivityLog_ResourcePathSelectorDifference) WithValue(value *ActivityLog_Resource_Difference) *ActivityLogResource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldTerminalPathValue)
 }
 
-func (ActivityLog_SubjectResourcePathSelectorDifference) WithSubPath(subPath ActivityLogSubjectResourceDifference_FieldPath) *ActivityLogSubjectResource_FieldSubPath {
-	return &ActivityLogSubjectResource_FieldSubPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference, subPath: subPath}
+func (s ActivityLog_ResourcePathSelectorDifference) WithArrayOfValues(values []*ActivityLog_Resource_Difference) *ActivityLogResource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldTerminalPathArrayOfValues)
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifference) WithSubValue(subPathValue ActivityLogSubjectResourceDifference_FieldPathValue) *ActivityLogSubjectResource_FieldSubPathValue {
-	return &ActivityLogSubjectResource_FieldSubPathValue{ActivityLogSubjectResource_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (ActivityLog_ResourcePathSelectorDifference) WithSubPath(subPath ActivityLogResourceDifference_FieldPath) *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{selector: ActivityLogResource_FieldPathSelectorDifference, subPath: subPath}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifference) WithSubArrayOfValues(subPathArrayOfValues ActivityLogSubjectResourceDifference_FieldPathArrayOfValues) *ActivityLogSubjectResource_FieldSubPathArrayOfValues {
-	return &ActivityLogSubjectResource_FieldSubPathArrayOfValues{ActivityLogSubjectResource_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s ActivityLog_ResourcePathSelectorDifference) WithSubValue(subPathValue ActivityLogResourceDifference_FieldPathValue) *ActivityLogResource_FieldSubPathValue {
+	return &ActivityLogResource_FieldSubPathValue{ActivityLogResource_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifference) WithSubArrayItemValue(subPathArrayItemValue ActivityLogSubjectResourceDifference_FieldPathArrayItemValue) *ActivityLogSubjectResource_FieldSubPathArrayItemValue {
-	return &ActivityLogSubjectResource_FieldSubPathArrayItemValue{ActivityLogSubjectResource_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (s ActivityLog_ResourcePathSelectorDifference) WithSubArrayOfValues(subPathArrayOfValues ActivityLogResourceDifference_FieldPathArrayOfValues) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return &ActivityLogResource_FieldSubPathArrayOfValues{ActivityLogResource_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (ActivityLog_SubjectResourcePathSelectorDifference) Fields() ActivityLog_SubjectResourcePathSelectorDifferenceFields {
-	return ActivityLog_SubjectResourcePathSelectorDifferenceFields{}
+func (s ActivityLog_ResourcePathSelectorDifference) WithSubArrayItemValue(subPathArrayItemValue ActivityLogResourceDifference_FieldPathArrayItemValue) *ActivityLogResource_FieldSubPathArrayItemValue {
+	return &ActivityLogResource_FieldSubPathArrayItemValue{ActivityLogResource_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (ActivityLog_SubjectResourcePathSelectorDifference) Before() ActivityLog_SubjectResourcePathSelectorDifferenceBefore {
-	return ActivityLog_SubjectResourcePathSelectorDifferenceBefore{}
+func (ActivityLog_ResourcePathSelectorDifference) Fields() ActivityLog_ResourcePathSelectorDifferenceFields {
+	return ActivityLog_ResourcePathSelectorDifferenceFields{}
 }
 
-func (ActivityLog_SubjectResourcePathSelectorDifference) After() ActivityLog_SubjectResourcePathSelectorDifferenceAfter {
-	return ActivityLog_SubjectResourcePathSelectorDifferenceAfter{}
+func (ActivityLog_ResourcePathSelectorDifference) Before() ActivityLog_ResourcePathSelectorDifferenceBefore {
+	return ActivityLog_ResourcePathSelectorDifferenceBefore{}
 }
 
-type ActivityLog_SubjectResourcePathSelectorDifferenceFields struct{}
+func (ActivityLog_ResourcePathSelectorDifference) After() ActivityLog_ResourcePathSelectorDifferenceAfter {
+	return ActivityLog_ResourcePathSelectorDifferenceAfter{}
+}
 
-func (ActivityLog_SubjectResourcePathSelectorDifferenceFields) FieldPath() *ActivityLogSubjectResource_FieldSubPath {
-	return &ActivityLogSubjectResource_FieldSubPath{
-		selector: ActivityLogSubjectResource_FieldPathSelectorDifference,
-		subPath:  NewActivityLogSubjectResourceDifferenceFieldPathBuilder().Fields().FieldPath(),
+type ActivityLog_ResourcePathSelectorDifferenceFields struct{}
+
+func (ActivityLog_ResourcePathSelectorDifferenceFields) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().Fields().FieldPath(),
 	}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceFields) WithValue(value *field_mask.FieldMask) *ActivityLogSubjectResource_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResource_FieldSubPathValue)
+func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithValue(value *field_mask.FieldMask) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogSubjectResource_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResource_FieldSubPathArrayOfValues)
+func (s ActivityLog_ResourcePathSelectorDifferenceFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
-type ActivityLog_SubjectResourcePathSelectorDifferenceBefore struct{}
+type ActivityLog_ResourcePathSelectorDifferenceBefore struct{}
 
-func (ActivityLog_SubjectResourcePathSelectorDifferenceBefore) FieldPath() *ActivityLogSubjectResource_FieldSubPath {
-	return &ActivityLogSubjectResource_FieldSubPath{
-		selector: ActivityLogSubjectResource_FieldPathSelectorDifference,
-		subPath:  NewActivityLogSubjectResourceDifferenceFieldPathBuilder().Before().FieldPath(),
+func (ActivityLog_ResourcePathSelectorDifferenceBefore) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().Before().FieldPath(),
 	}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceBefore) WithValue(value *any.Any) *ActivityLogSubjectResource_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResource_FieldSubPathValue)
+func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithValue(value *any.Any) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceBefore) WithArrayOfValues(values []*any.Any) *ActivityLogSubjectResource_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResource_FieldSubPathArrayOfValues)
+func (s ActivityLog_ResourcePathSelectorDifferenceBefore) WithArrayOfValues(values []*any.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
-type ActivityLog_SubjectResourcePathSelectorDifferenceAfter struct{}
+type ActivityLog_ResourcePathSelectorDifferenceAfter struct{}
 
-func (ActivityLog_SubjectResourcePathSelectorDifferenceAfter) FieldPath() *ActivityLogSubjectResource_FieldSubPath {
-	return &ActivityLogSubjectResource_FieldSubPath{
-		selector: ActivityLogSubjectResource_FieldPathSelectorDifference,
-		subPath:  NewActivityLogSubjectResourceDifferenceFieldPathBuilder().After().FieldPath(),
+func (ActivityLog_ResourcePathSelectorDifferenceAfter) FieldPath() *ActivityLogResource_FieldSubPath {
+	return &ActivityLogResource_FieldSubPath{
+		selector: ActivityLogResource_FieldPathSelectorDifference,
+		subPath:  NewActivityLogResourceDifferenceFieldPathBuilder().After().FieldPath(),
 	}
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceAfter) WithValue(value *any.Any) *ActivityLogSubjectResource_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResource_FieldSubPathValue)
+func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithValue(value *any.Any) *ActivityLogResource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResource_FieldSubPathValue)
 }
 
-func (s ActivityLog_SubjectResourcePathSelectorDifferenceAfter) WithArrayOfValues(values []*any.Any) *ActivityLogSubjectResource_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResource_FieldSubPathArrayOfValues)
+func (s ActivityLog_ResourcePathSelectorDifferenceAfter) WithArrayOfValues(values []*any.Any) *ActivityLogResource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResource_FieldSubPathArrayOfValues)
 }
 
 type ActivityLogEventClientMsgEventFieldPathBuilder struct{}
@@ -2274,59 +2274,59 @@ func (s ActivityLog_Event_ExitEventPathSelectorTime) WithArrayOfValues(values []
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogEventExitEvent_FieldTerminalPathArrayOfValues)
 }
 
-type ActivityLogSubjectResourceDifferenceFieldPathBuilder struct{}
+type ActivityLogResourceDifferenceFieldPathBuilder struct{}
 
-func NewActivityLogSubjectResourceDifferenceFieldPathBuilder() ActivityLogSubjectResourceDifferenceFieldPathBuilder {
-	return ActivityLogSubjectResourceDifferenceFieldPathBuilder{}
+func NewActivityLogResourceDifferenceFieldPathBuilder() ActivityLogResourceDifferenceFieldPathBuilder {
+	return ActivityLogResourceDifferenceFieldPathBuilder{}
 }
-func (ActivityLogSubjectResourceDifferenceFieldPathBuilder) Fields() ActivityLog_SubjectResource_DifferencePathSelectorFields {
-	return ActivityLog_SubjectResource_DifferencePathSelectorFields{}
+func (ActivityLogResourceDifferenceFieldPathBuilder) Fields() ActivityLog_Resource_DifferencePathSelectorFields {
+	return ActivityLog_Resource_DifferencePathSelectorFields{}
 }
-func (ActivityLogSubjectResourceDifferenceFieldPathBuilder) Before() ActivityLog_SubjectResource_DifferencePathSelectorBefore {
-	return ActivityLog_SubjectResource_DifferencePathSelectorBefore{}
+func (ActivityLogResourceDifferenceFieldPathBuilder) Before() ActivityLog_Resource_DifferencePathSelectorBefore {
+	return ActivityLog_Resource_DifferencePathSelectorBefore{}
 }
-func (ActivityLogSubjectResourceDifferenceFieldPathBuilder) After() ActivityLog_SubjectResource_DifferencePathSelectorAfter {
-	return ActivityLog_SubjectResource_DifferencePathSelectorAfter{}
-}
-
-type ActivityLog_SubjectResource_DifferencePathSelectorFields struct{}
-
-func (ActivityLog_SubjectResource_DifferencePathSelectorFields) FieldPath() *ActivityLogSubjectResourceDifference_FieldTerminalPath {
-	return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorFields}
+func (ActivityLogResourceDifferenceFieldPathBuilder) After() ActivityLog_Resource_DifferencePathSelectorAfter {
+	return ActivityLog_Resource_DifferencePathSelectorAfter{}
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorFields) WithValue(value *field_mask.FieldMask) *ActivityLogSubjectResourceDifference_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResourceDifference_FieldTerminalPathValue)
+type ActivityLog_Resource_DifferencePathSelectorFields struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorFields) FieldPath() *ActivityLogResourceDifference_FieldTerminalPath {
+	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields}
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues)
+func (s ActivityLog_Resource_DifferencePathSelectorFields) WithValue(value *field_mask.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
 }
 
-type ActivityLog_SubjectResource_DifferencePathSelectorBefore struct{}
-
-func (ActivityLog_SubjectResource_DifferencePathSelectorBefore) FieldPath() *ActivityLogSubjectResourceDifference_FieldTerminalPath {
-	return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorBefore}
+func (s ActivityLog_Resource_DifferencePathSelectorFields) WithArrayOfValues(values []*field_mask.FieldMask) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorBefore) WithValue(value *any.Any) *ActivityLogSubjectResourceDifference_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResourceDifference_FieldTerminalPathValue)
+type ActivityLog_Resource_DifferencePathSelectorBefore struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorBefore) FieldPath() *ActivityLogResourceDifference_FieldTerminalPath {
+	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore}
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorBefore) WithArrayOfValues(values []*any.Any) *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues)
+func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithValue(value *any.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
 }
 
-type ActivityLog_SubjectResource_DifferencePathSelectorAfter struct{}
-
-func (ActivityLog_SubjectResource_DifferencePathSelectorAfter) FieldPath() *ActivityLogSubjectResourceDifference_FieldTerminalPath {
-	return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorAfter}
+func (s ActivityLog_Resource_DifferencePathSelectorBefore) WithArrayOfValues(values []*any.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorAfter) WithValue(value *any.Any) *ActivityLogSubjectResourceDifference_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*ActivityLogSubjectResourceDifference_FieldTerminalPathValue)
+type ActivityLog_Resource_DifferencePathSelectorAfter struct{}
+
+func (ActivityLog_Resource_DifferencePathSelectorAfter) FieldPath() *ActivityLogResourceDifference_FieldTerminalPath {
+	return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter}
 }
 
-func (s ActivityLog_SubjectResource_DifferencePathSelectorAfter) WithArrayOfValues(values []*any.Any) *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues)
+func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithValue(value *any.Any) *ActivityLogResourceDifference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLogResourceDifference_FieldTerminalPathValue)
+}
+
+func (s ActivityLog_Resource_DifferencePathSelectorAfter) WithArrayOfValues(values []*any.Any) *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)
 }

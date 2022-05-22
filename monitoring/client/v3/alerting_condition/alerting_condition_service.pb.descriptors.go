@@ -69,15 +69,15 @@ func (d *GetAlertingConditionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetAlertingConditionDescriptor) IsCollectionSubject() bool {
+func (d *GetAlertingConditionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetAlertingConditionDescriptor) IsPluralSubject() bool {
+func (d *GetAlertingConditionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetAlertingConditionDescriptor) HasSubjectResource() bool {
+func (d *GetAlertingConditionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetAlertingConditionDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return alertingConditionServiceDescriptor
 }
 
-func (d *GetAlertingConditionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetAlertingConditionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetAlertingConditionDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &GetAlertingConditionDescriptorServerMsgHandle{}
 }
 
-func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetAlertingConditionRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*GetAlertingConditionRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alerting_condition.Name)(nil)
 }
 
-func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetAlertingConditionRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*GetAlertingConditionRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetAlertingConditionRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*GetAlertingConditionRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
+		OverrideExtractResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_condition.Name)(nil)
 }
 
-func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
+		OverrideExtractResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetAlertingConditionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetAlertingConditionsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetAlertingConditionsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetAlertingConditionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetAlertingConditionsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetAlertingConditionsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetAlertingConditionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetAlertingConditionsDescriptor) GetApiDescriptor() gotenclient.Ap
 	return alertingConditionServiceDescriptor
 }
 
-func (d *BatchGetAlertingConditionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetAlertingConditionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetAlertingConditionsDescriptor) GetServerMsgReflectHandle() goten
 	return &BatchGetAlertingConditionsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertingConditionsRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*BatchGetAlertingConditionsRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertingConditionsRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*BatchGetAlertingConditionsRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(alerting_condition.AlertingConditionNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(alerting_condition.AlertingConditionNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (alerting_condition.AlertingConditionNameList)(nil)
 }
 
-func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertingConditionsRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertingConditionsRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertingConditionsResponse) *alerting_condition.Name
+		OverrideExtractResourceName(*BatchGetAlertingConditionsResponse) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertingConditionsResponse) []*alerting_condition.Name
+		OverrideExtractResourceNames(*BatchGetAlertingConditionsResponse) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlertingConditions()
-	list := make(alerting_condition.AlertingConditionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			list := make(alerting_condition.AlertingConditionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alerting_condition.AlertingConditionNameList)(nil)
 }
 
-func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertingConditionsResponse) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertingConditionsResponse) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListAlertingConditionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListAlertingConditionsDescriptor) IsCollectionSubject() bool {
+func (d *ListAlertingConditionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListAlertingConditionsDescriptor) IsPluralSubject() bool {
+func (d *ListAlertingConditionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListAlertingConditionsDescriptor) HasSubjectResource() bool {
+func (d *ListAlertingConditionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListAlertingConditionsDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return alertingConditionServiceDescriptor
 }
 
-func (d *ListAlertingConditionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListAlertingConditionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListAlertingConditionsDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &ListAlertingConditionsDescriptorServerMsgHandle{}
 }
 
-func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertingConditionsRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*ListAlertingConditionsRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertingConditionsRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*ListAlertingConditionsRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertingConditionsRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*ListAlertingConditionsRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alerting_condition.ParentName)(nil)
 }
 
-func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertingConditionsResponse) *alerting_condition.Name
+		OverrideExtractResourceName(*ListAlertingConditionsResponse) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertingConditionsResponse) []*alerting_condition.Name
+		OverrideExtractResourceNames(*ListAlertingConditionsResponse) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlertingConditions()
-	list := make(alerting_condition.AlertingConditionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			list := make(alerting_condition.AlertingConditionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alerting_condition.AlertingConditionNameList)(nil)
 }
 
-func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertingConditionsResponse) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*ListAlertingConditionsResponse) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchAlertingConditionDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertingConditionDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertingConditionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchAlertingConditionDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertingConditionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchAlertingConditionDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertingConditionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchAlertingConditionDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return alertingConditionServiceDescriptor
 }
 
-func (d *WatchAlertingConditionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertingConditionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchAlertingConditionDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchAlertingConditionDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingConditionRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*WatchAlertingConditionRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*alerting_condition.Name)(nil)
-}
-
-func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertingConditionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingConditionRequest) []*alerting_condition.Name
-	})
-	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertingConditionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingConditionRequest) *alerting_condition.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertingConditionResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingConditionResponse) *alerting_condition.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *alerting_condition.AlertingConditionChange_Added_:
-			return tResChange.Added.GetAlertingCondition().GetName()
-		case *alerting_condition.AlertingConditionChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *alerting_condition.AlertingConditionChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *alerting_condition.AlertingConditionChange_Current_:
-			return tResChange.Current.GetAlertingCondition().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*alerting_condition.Name)(nil)
 }
 
-func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertingConditionResponse)
+func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingConditionResponse) []*alerting_condition.Name
+		OverrideExtractResourceNames(*WatchAlertingConditionRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertingConditionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertingConditionRequest) *alerting_condition.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingConditionResponse) *alerting_condition.ParentName
+		OverrideExtractResourceName(*WatchAlertingConditionResponse) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *alerting_condition.AlertingConditionChange_Added_:
+				return tResChange.Added.GetAlertingCondition().GetName()
+			case *alerting_condition.AlertingConditionChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *alerting_condition.AlertingConditionChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *alerting_condition.AlertingConditionChange_Current_:
+				return tResChange.Current.GetAlertingCondition().GetName()
+			}
+		}
+	}
+	return (*alerting_condition.Name)(nil)
+}
+
+func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertingConditionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchAlertingConditionResponse) []*alerting_condition.Name
+	})
+	if ok {
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertingConditionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertingConditionResponse) *alerting_condition.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchAlertingConditionsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertingConditionsDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertingConditionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchAlertingConditionsDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertingConditionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchAlertingConditionsDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertingConditionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchAlertingConditionsDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return alertingConditionServiceDescriptor
 }
 
-func (d *WatchAlertingConditionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertingConditionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchAlertingConditionsDescriptor) GetServerMsgReflectHandle() gotencli
 	return &WatchAlertingConditionsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingConditionsRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*WatchAlertingConditionsRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingConditionsRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*WatchAlertingConditionsRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingConditionsRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*WatchAlertingConditionsRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alerting_condition.ParentName)(nil)
 }
 
-func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingConditionsResponse) *alerting_condition.Name
+		OverrideExtractResourceName(*WatchAlertingConditionsResponse) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingConditionsResponse) []*alerting_condition.Name
+		OverrideExtractResourceNames(*WatchAlertingConditionsResponse) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetAlertingConditionChanges()
-	list := make(alerting_condition.AlertingConditionNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *alerting_condition.AlertingConditionChange_Added_:
-			list = append(list, tResChange.Added.GetAlertingCondition().GetName())
-		case *alerting_condition.AlertingConditionChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *alerting_condition.AlertingConditionChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *alerting_condition.AlertingConditionChange_Current_:
-			list = append(list, tResChange.Current.GetAlertingCondition().GetName())
+	{
+		if resChanges := typedMsg.GetAlertingConditionChanges(); len(resChanges) > 0 {
+			list := make(alerting_condition.AlertingConditionNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *alerting_condition.AlertingConditionChange_Added_:
+					list = append(list, tResChange.Added.GetAlertingCondition().GetName())
+				case *alerting_condition.AlertingConditionChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *alerting_condition.AlertingConditionChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *alerting_condition.AlertingConditionChange_Current_:
+					list = append(list, tResChange.Current.GetAlertingCondition().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (alerting_condition.AlertingConditionNameList)(nil)
 }
 
-func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingConditionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingConditionsResponse) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*WatchAlertingConditionsResponse) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateAlertingConditionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateAlertingConditionDescriptor) IsCollectionSubject() bool {
+func (d *CreateAlertingConditionDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateAlertingConditionDescriptor) IsPluralSubject() bool {
+func (d *CreateAlertingConditionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateAlertingConditionDescriptor) HasSubjectResource() bool {
+func (d *CreateAlertingConditionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateAlertingConditionDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return alertingConditionServiceDescriptor
 }
 
-func (d *CreateAlertingConditionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateAlertingConditionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateAlertingConditionDescriptor) GetServerMsgReflectHandle() gotencli
 	return &CreateAlertingConditionDescriptorServerMsgHandle{}
 }
 
-func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateAlertingConditionRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*CreateAlertingConditionRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlertingCondition().GetName()
+	{
+		res := typedMsg.GetAlertingCondition()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_condition.Name)(nil)
 }
 
-func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateAlertingConditionRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*CreateAlertingConditionRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateAlertingConditionRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*CreateAlertingConditionRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alerting_condition.ParentName)(nil)
 }
 
-func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
+		OverrideExtractResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_condition.Name)(nil)
 }
 
-func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
+		OverrideExtractResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateAlertingConditionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateAlertingConditionDescriptor) IsCollectionSubject() bool {
+func (d *UpdateAlertingConditionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateAlertingConditionDescriptor) IsPluralSubject() bool {
+func (d *UpdateAlertingConditionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateAlertingConditionDescriptor) HasSubjectResource() bool {
+func (d *UpdateAlertingConditionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateAlertingConditionDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return alertingConditionServiceDescriptor
 }
 
-func (d *UpdateAlertingConditionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateAlertingConditionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateAlertingConditionDescriptor) GetServerMsgReflectHandle() gotencli
 	return &UpdateAlertingConditionDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateAlertingConditionRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*UpdateAlertingConditionRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlertingCondition().GetName()
+	{
+		res := typedMsg.GetAlertingCondition()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_condition.Name)(nil)
 }
 
-func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateAlertingConditionRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*UpdateAlertingConditionRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateAlertingConditionRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*UpdateAlertingConditionRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
+		OverrideExtractResourceName(*alerting_condition.AlertingCondition) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_condition.Name)(nil)
 }
 
-func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
+		OverrideExtractResourceNames(*alerting_condition.AlertingCondition) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_condition.AlertingCondition)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*alerting_condition.AlertingCondition) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteAlertingConditionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteAlertingConditionDescriptor) IsCollectionSubject() bool {
+func (d *DeleteAlertingConditionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteAlertingConditionDescriptor) IsPluralSubject() bool {
+func (d *DeleteAlertingConditionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteAlertingConditionDescriptor) HasSubjectResource() bool {
+func (d *DeleteAlertingConditionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteAlertingConditionDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return alertingConditionServiceDescriptor
 }
 
-func (d *DeleteAlertingConditionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteAlertingConditionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_condition.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteAlertingConditionDescriptor) GetServerMsgReflectHandle() gotencli
 	return &DeleteAlertingConditionDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteAlertingConditionRequest) *alerting_condition.Name
+		OverrideExtractResourceName(*DeleteAlertingConditionRequest) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alerting_condition.Name)(nil)
 }
 
-func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteAlertingConditionRequest) []*alerting_condition.Name
+		OverrideExtractResourceNames(*DeleteAlertingConditionRequest) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingConditionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertingConditionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteAlertingConditionRequest) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*DeleteAlertingConditionRequest) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *alerting_condition.Name
+		OverrideExtractResourceName(*empty.Empty) *alerting_condition.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*alerting_condition.Name
+		OverrideExtractResourceNames(*empty.Empty) []*alerting_condition.Name
 	})
 	if ok {
-		return alerting_condition.AlertingConditionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingConditionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *alerting_condition.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *alerting_condition.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

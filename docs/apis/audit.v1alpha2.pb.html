@@ -193,9 +193,9 @@ granted or denied for associated request</p>
 
 <tr>
 <th rowspan="2">resource</th>
-<td class="type"><pre><a href="#message-ActivityLog.SubjectResource">ActivityLog.SubjectResource</a></pre></td>
+<td class="type"><pre><a href="#message-ActivityLog.Resource">ActivityLog.Resource</a></pre></td>
 </tr>
-<tr><td class="description"><p>Subject resource for this activity.</p>
+<tr><td class="description"><p>Primary resource for this activity.</p>
 </td></tr>
 
 <tr>
@@ -362,11 +362,11 @@ In case it contains error, its likely final exit will contain this too.</p>
 
 
 
-<h5 id="message-ActivityLog.SubjectResource">ActivityLog.SubjectResource</h5>
+<h5 id="message-ActivityLog.Resource">ActivityLog.Resource</h5>
 
-<p>Description of the main subject resource activity refers to.
-For standard, goten-generated actions it's same as subject resource
-of the method. For custom actions, in some cases, developer
+<p>Description of the main resource activity refers to.
+For standard, goten-generated actions it's same as resource
+assigned to the the method. For custom actions, in some cases, developer
 may pick however different resource (it is customizable in proto audit
 spec).</p>
 
@@ -383,9 +383,9 @@ spec).</p>
 
 <tr>
 <th rowspan="2">difference</th>
-<td class="type"><pre><a href="#message-ActivityLog.SubjectResource.Difference">ActivityLog.SubjectResource.Difference</a></pre></td>
+<td class="type"><pre><a href="#message-ActivityLog.Resource.Difference">ActivityLog.Resource.Difference</a></pre></td>
 </tr>
-<tr><td class="description"><p>difference contains update information of the subject resource.
+<tr><td class="description"><p>difference contains update information of the resource.
 Left empty if the request described by this activity log did not
 update the resource.</p>
 </td></tr>
@@ -563,7 +563,7 @@ TODO: No use case for now, just placeholder, no server implementation</p>
 
 
 
-<h5 id="message-ActivityLog.SubjectResource.Difference">ActivityLog.SubjectResource.Difference</h5>
+<h5 id="message-ActivityLog.Resource.Difference">ActivityLog.Resource.Difference</h5>
 
 <p>Describes changes (in database) executed on the resource.</p>
 
@@ -1258,13 +1258,6 @@ Additional fields can be amended by request field field_mask</p>
 <table class="fields">
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
-<tr>
-<th rowspan="2">parent</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Optional parent ntt.audit.v1alpha2.AuditedResourceDescriptor</p>
-</td></tr>
-
 <tr>
 <th rowspan="2">names</th>
 <td class="type"><pre>repeated string</pre></td>
@@ -2016,13 +2009,6 @@ Additional fields can be amended by request field field_mask</p>
 <table class="fields">
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
-<tr>
-<th rowspan="2">parent</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Optional parent ntt.audit.v1alpha2.MethodDescriptor</p>
-</td></tr>
-
 <tr>
 <th rowspan="2">names</th>
 <td class="type"><pre>repeated string</pre></td>

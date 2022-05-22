@@ -669,11 +669,11 @@ func (ListActivityLogsResponsePathSelectorActivityLogsResource) FieldPath() *Lis
 	}
 }
 
-func (s ListActivityLogsResponsePathSelectorActivityLogsResource) WithValue(value *activity_log.ActivityLog_SubjectResource) *ListActivityLogsResponse_FieldSubPathValue {
+func (s ListActivityLogsResponsePathSelectorActivityLogsResource) WithValue(value *activity_log.ActivityLog_Resource) *ListActivityLogsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListActivityLogsResponse_FieldSubPathValue)
 }
 
-func (s ListActivityLogsResponsePathSelectorActivityLogsResource) WithArrayOfValues(values []*activity_log.ActivityLog_SubjectResource) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
+func (s ListActivityLogsResponsePathSelectorActivityLogsResource) WithArrayOfValues(values []*activity_log.ActivityLog_Resource) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListActivityLogsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -711,11 +711,11 @@ func (ListActivityLogsResponsePathSelectorActivityLogsResourceDifference) FieldP
 	}
 }
 
-func (s ListActivityLogsResponsePathSelectorActivityLogsResourceDifference) WithValue(value *activity_log.ActivityLog_SubjectResource_Difference) *ListActivityLogsResponse_FieldSubPathValue {
+func (s ListActivityLogsResponsePathSelectorActivityLogsResourceDifference) WithValue(value *activity_log.ActivityLog_Resource_Difference) *ListActivityLogsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListActivityLogsResponse_FieldSubPathValue)
 }
 
-func (s ListActivityLogsResponsePathSelectorActivityLogsResourceDifference) WithArrayOfValues(values []*activity_log.ActivityLog_SubjectResource_Difference) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
+func (s ListActivityLogsResponsePathSelectorActivityLogsResourceDifference) WithArrayOfValues(values []*activity_log.ActivityLog_Resource_Difference) *ListActivityLogsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListActivityLogsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1895,11 +1895,11 @@ func (CreateActivityLogsRequestPathSelectorActivityLogsResource) FieldPath() *Cr
 	}
 }
 
-func (s CreateActivityLogsRequestPathSelectorActivityLogsResource) WithValue(value *activity_log.ActivityLog_SubjectResource) *CreateActivityLogsRequest_FieldSubPathValue {
+func (s CreateActivityLogsRequestPathSelectorActivityLogsResource) WithValue(value *activity_log.ActivityLog_Resource) *CreateActivityLogsRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateActivityLogsRequest_FieldSubPathValue)
 }
 
-func (s CreateActivityLogsRequestPathSelectorActivityLogsResource) WithArrayOfValues(values []*activity_log.ActivityLog_SubjectResource) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
+func (s CreateActivityLogsRequestPathSelectorActivityLogsResource) WithArrayOfValues(values []*activity_log.ActivityLog_Resource) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateActivityLogsRequest_FieldSubPathArrayOfValues)
 }
 
@@ -1937,11 +1937,11 @@ func (CreateActivityLogsRequestPathSelectorActivityLogsResourceDifference) Field
 	}
 }
 
-func (s CreateActivityLogsRequestPathSelectorActivityLogsResourceDifference) WithValue(value *activity_log.ActivityLog_SubjectResource_Difference) *CreateActivityLogsRequest_FieldSubPathValue {
+func (s CreateActivityLogsRequestPathSelectorActivityLogsResourceDifference) WithValue(value *activity_log.ActivityLog_Resource_Difference) *CreateActivityLogsRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateActivityLogsRequest_FieldSubPathValue)
 }
 
-func (s CreateActivityLogsRequestPathSelectorActivityLogsResourceDifference) WithArrayOfValues(values []*activity_log.ActivityLog_SubjectResource_Difference) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
+func (s CreateActivityLogsRequestPathSelectorActivityLogsResourceDifference) WithArrayOfValues(values []*activity_log.ActivityLog_Resource_Difference) *CreateActivityLogsRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateActivityLogsRequest_FieldSubPathArrayOfValues)
 }
 

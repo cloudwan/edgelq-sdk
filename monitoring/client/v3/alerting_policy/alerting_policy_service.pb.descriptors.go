@@ -69,15 +69,15 @@ func (d *GetAlertingPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetAlertingPolicyDescriptor) IsCollectionSubject() bool {
+func (d *GetAlertingPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetAlertingPolicyDescriptor) IsPluralSubject() bool {
+func (d *GetAlertingPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetAlertingPolicyDescriptor) HasSubjectResource() bool {
+func (d *GetAlertingPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetAlertingPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *GetAlertingPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetAlertingPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetAlertingPolicyDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &GetAlertingPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetAlertingPolicyRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*GetAlertingPolicyRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alerting_policy.Name)(nil)
 }
 
-func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetAlertingPolicyRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*GetAlertingPolicyRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetAlertingPolicyRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*GetAlertingPolicyRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
+		OverrideExtractResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_policy.Name)(nil)
 }
 
-func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
+		OverrideExtractResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetAlertingPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetAlertingPoliciesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetAlertingPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetAlertingPoliciesDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetAlertingPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetAlertingPoliciesDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetAlertingPoliciesDescriptor) HasSubjectResource() bool {
+func (d *BatchGetAlertingPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetAlertingPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *BatchGetAlertingPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetAlertingPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetAlertingPoliciesDescriptor) GetServerMsgReflectHandle() gotencl
 	return &BatchGetAlertingPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertingPoliciesRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*BatchGetAlertingPoliciesRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertingPoliciesRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*BatchGetAlertingPoliciesRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(alerting_policy.AlertingPolicyNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(alerting_policy.AlertingPolicyNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (alerting_policy.AlertingPolicyNameList)(nil)
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertingPoliciesRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertingPoliciesRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetAlertingPoliciesResponse) *alerting_policy.Name
+		OverrideExtractResourceName(*BatchGetAlertingPoliciesResponse) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetAlertingPoliciesResponse) []*alerting_policy.Name
+		OverrideExtractResourceNames(*BatchGetAlertingPoliciesResponse) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlertingPolicies()
-	list := make(alerting_policy.AlertingPolicyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlertingPolicies(); len(resources) > 0 {
+			list := make(alerting_policy.AlertingPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alerting_policy.AlertingPolicyNameList)(nil)
 }
 
-func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetAlertingPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetAlertingPoliciesResponse) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*BatchGetAlertingPoliciesResponse) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListAlertingPoliciesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListAlertingPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *ListAlertingPoliciesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListAlertingPoliciesDescriptor) IsPluralSubject() bool {
+func (d *ListAlertingPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListAlertingPoliciesDescriptor) HasSubjectResource() bool {
+func (d *ListAlertingPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListAlertingPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *ListAlertingPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListAlertingPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListAlertingPoliciesDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &ListAlertingPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertingPoliciesRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*ListAlertingPoliciesRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertingPoliciesRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*ListAlertingPoliciesRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertingPoliciesRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*ListAlertingPoliciesRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alerting_policy.ParentName)(nil)
 }
 
-func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListAlertingPoliciesResponse) *alerting_policy.Name
+		OverrideExtractResourceName(*ListAlertingPoliciesResponse) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListAlertingPoliciesResponse) []*alerting_policy.Name
+		OverrideExtractResourceNames(*ListAlertingPoliciesResponse) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetAlertingPolicies()
-	list := make(alerting_policy.AlertingPolicyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetAlertingPolicies(); len(resources) > 0 {
+			list := make(alerting_policy.AlertingPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (alerting_policy.AlertingPolicyNameList)(nil)
 }
 
-func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListAlertingPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListAlertingPoliciesResponse) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*ListAlertingPoliciesResponse) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchAlertingPolicyDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertingPolicyDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertingPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchAlertingPolicyDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertingPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchAlertingPolicyDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertingPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchAlertingPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *WatchAlertingPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertingPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchAlertingPolicyDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &WatchAlertingPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingPolicyRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*WatchAlertingPolicyRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*alerting_policy.Name)(nil)
-}
-
-func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertingPolicyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingPolicyRequest) []*alerting_policy.Name
-	})
-	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertingPolicyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingPolicyRequest) *alerting_policy.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchAlertingPolicyResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingPolicyResponse) *alerting_policy.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *alerting_policy.AlertingPolicyChange_Added_:
-			return tResChange.Added.GetAlertingPolicy().GetName()
-		case *alerting_policy.AlertingPolicyChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *alerting_policy.AlertingPolicyChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *alerting_policy.AlertingPolicyChange_Current_:
-			return tResChange.Current.GetAlertingPolicy().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*alerting_policy.Name)(nil)
 }
 
-func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchAlertingPolicyResponse)
+func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingPolicyResponse) []*alerting_policy.Name
+		OverrideExtractResourceNames(*WatchAlertingPolicyRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertingPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertingPolicyRequest) *alerting_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingPolicyResponse) *alerting_policy.ParentName
+		OverrideExtractResourceName(*WatchAlertingPolicyResponse) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *alerting_policy.AlertingPolicyChange_Added_:
+				return tResChange.Added.GetAlertingPolicy().GetName()
+			case *alerting_policy.AlertingPolicyChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *alerting_policy.AlertingPolicyChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *alerting_policy.AlertingPolicyChange_Current_:
+				return tResChange.Current.GetAlertingPolicy().GetName()
+			}
+		}
+	}
+	return (*alerting_policy.Name)(nil)
+}
+
+func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchAlertingPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchAlertingPolicyResponse) []*alerting_policy.Name
+	})
+	if ok {
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchAlertingPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchAlertingPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchAlertingPolicyResponse) *alerting_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchAlertingPoliciesDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchAlertingPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *WatchAlertingPoliciesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchAlertingPoliciesDescriptor) IsPluralSubject() bool {
+func (d *WatchAlertingPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchAlertingPoliciesDescriptor) HasSubjectResource() bool {
+func (d *WatchAlertingPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchAlertingPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *WatchAlertingPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchAlertingPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchAlertingPoliciesDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &WatchAlertingPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingPoliciesRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*WatchAlertingPoliciesRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingPoliciesRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*WatchAlertingPoliciesRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingPoliciesRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*WatchAlertingPoliciesRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alerting_policy.ParentName)(nil)
 }
 
-func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchAlertingPoliciesResponse) *alerting_policy.Name
+		OverrideExtractResourceName(*WatchAlertingPoliciesResponse) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchAlertingPoliciesResponse) []*alerting_policy.Name
+		OverrideExtractResourceNames(*WatchAlertingPoliciesResponse) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetAlertingPolicyChanges()
-	list := make(alerting_policy.AlertingPolicyNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *alerting_policy.AlertingPolicyChange_Added_:
-			list = append(list, tResChange.Added.GetAlertingPolicy().GetName())
-		case *alerting_policy.AlertingPolicyChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *alerting_policy.AlertingPolicyChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *alerting_policy.AlertingPolicyChange_Current_:
-			list = append(list, tResChange.Current.GetAlertingPolicy().GetName())
+	{
+		if resChanges := typedMsg.GetAlertingPolicyChanges(); len(resChanges) > 0 {
+			list := make(alerting_policy.AlertingPolicyNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *alerting_policy.AlertingPolicyChange_Added_:
+					list = append(list, tResChange.Added.GetAlertingPolicy().GetName())
+				case *alerting_policy.AlertingPolicyChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *alerting_policy.AlertingPolicyChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *alerting_policy.AlertingPolicyChange_Current_:
+					list = append(list, tResChange.Current.GetAlertingPolicy().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (alerting_policy.AlertingPolicyNameList)(nil)
 }
 
-func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchAlertingPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchAlertingPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchAlertingPoliciesResponse) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*WatchAlertingPoliciesResponse) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateAlertingPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateAlertingPolicyDescriptor) IsCollectionSubject() bool {
+func (d *CreateAlertingPolicyDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateAlertingPolicyDescriptor) IsPluralSubject() bool {
+func (d *CreateAlertingPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateAlertingPolicyDescriptor) HasSubjectResource() bool {
+func (d *CreateAlertingPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateAlertingPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *CreateAlertingPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateAlertingPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateAlertingPolicyDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &CreateAlertingPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateAlertingPolicyRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*CreateAlertingPolicyRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlertingPolicy().GetName()
+	{
+		res := typedMsg.GetAlertingPolicy()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_policy.Name)(nil)
 }
 
-func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateAlertingPolicyRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*CreateAlertingPolicyRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateAlertingPolicyRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*CreateAlertingPolicyRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*alerting_policy.ParentName)(nil)
 }
 
-func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
+		OverrideExtractResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_policy.Name)(nil)
 }
 
-func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
+		OverrideExtractResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateAlertingPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateAlertingPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateAlertingPolicyDescriptor) IsCollectionSubject() bool {
+func (d *UpdateAlertingPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateAlertingPolicyDescriptor) IsPluralSubject() bool {
+func (d *UpdateAlertingPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateAlertingPolicyDescriptor) HasSubjectResource() bool {
+func (d *UpdateAlertingPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateAlertingPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *UpdateAlertingPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateAlertingPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateAlertingPolicyDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &UpdateAlertingPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateAlertingPolicyRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*UpdateAlertingPolicyRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetAlertingPolicy().GetName()
+	{
+		res := typedMsg.GetAlertingPolicy()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_policy.Name)(nil)
 }
 
-func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateAlertingPolicyRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*UpdateAlertingPolicyRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateAlertingPolicyRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*UpdateAlertingPolicyRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
+		OverrideExtractResourceName(*alerting_policy.AlertingPolicy) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*alerting_policy.Name)(nil)
 }
 
-func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
+		OverrideExtractResourceNames(*alerting_policy.AlertingPolicy) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateAlertingPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*alerting_policy.AlertingPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*alerting_policy.AlertingPolicy) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteAlertingPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteAlertingPolicyDescriptor) IsCollectionSubject() bool {
+func (d *DeleteAlertingPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteAlertingPolicyDescriptor) IsPluralSubject() bool {
+func (d *DeleteAlertingPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteAlertingPolicyDescriptor) HasSubjectResource() bool {
+func (d *DeleteAlertingPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteAlertingPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return alertingPolicyServiceDescriptor
 }
 
-func (d *DeleteAlertingPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteAlertingPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return alerting_policy.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteAlertingPolicyDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &DeleteAlertingPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteAlertingPolicyRequest) *alerting_policy.Name
+		OverrideExtractResourceName(*DeleteAlertingPolicyRequest) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*alerting_policy.Name)(nil)
 }
 
-func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteAlertingPolicyRequest) []*alerting_policy.Name
+		OverrideExtractResourceNames(*DeleteAlertingPolicyRequest) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteAlertingPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteAlertingPolicyRequest) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*DeleteAlertingPolicyRequest) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *alerting_policy.Name
+		OverrideExtractResourceName(*empty.Empty) *alerting_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*alerting_policy.Name
+		OverrideExtractResourceNames(*empty.Empty) []*alerting_policy.Name
 	})
 	if ok {
-		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteAlertingPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *alerting_policy.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *alerting_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

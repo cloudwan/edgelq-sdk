@@ -542,16 +542,13 @@ type BatchGetDeploymentsRequest_FieldPath interface {
 type BatchGetDeploymentsRequest_FieldPathSelector int32
 
 const (
-	BatchGetDeploymentsRequest_FieldPathSelectorParent    BatchGetDeploymentsRequest_FieldPathSelector = 0
-	BatchGetDeploymentsRequest_FieldPathSelectorNames     BatchGetDeploymentsRequest_FieldPathSelector = 1
-	BatchGetDeploymentsRequest_FieldPathSelectorFieldMask BatchGetDeploymentsRequest_FieldPathSelector = 2
-	BatchGetDeploymentsRequest_FieldPathSelectorView      BatchGetDeploymentsRequest_FieldPathSelector = 3
+	BatchGetDeploymentsRequest_FieldPathSelectorNames     BatchGetDeploymentsRequest_FieldPathSelector = 0
+	BatchGetDeploymentsRequest_FieldPathSelectorFieldMask BatchGetDeploymentsRequest_FieldPathSelector = 1
+	BatchGetDeploymentsRequest_FieldPathSelectorView      BatchGetDeploymentsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetDeploymentsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetDeploymentsRequest_FieldPath(fp gotenobject.RawFieldPath) (Bat
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) Get(source *BatchGetDeploymentsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) GetRaw(source proto.Mess
 // GetSingle returns value pointed by specific field of from source BatchGetDeploymentsRequest
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) GetSingle(source *BatchGetDeploymentsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) GetSingleRaw(source prot
 // GetDefault returns a default value of the field type
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		return (*deployment.Reference)(nil)
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		return ([]*deployment.Reference)(nil)
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) GetDefault() interface{}
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) ClearValue(item *BatchGetDeploymentsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) ClearValueRaw(item proto
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetDeploymentsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetDeploymentsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetDeploymentsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetDeploymentsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetDeploymentsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetDeploymentsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		return &BatchGetDeploymentsRequest_FieldTerminalPathValue{BatchGetDeploymentsRequest_FieldTerminalPath: *fp, value: value.(*deployment.Reference)}
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		return &BatchGetDeploymentsRequest_FieldTerminalPathValue{BatchGetDeploymentsRequest_FieldTerminalPath: *fp, value: value.([]*deployment.Reference)}
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) WithRawIValue(value inte
 func (fp *BatchGetDeploymentsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetDeploymentsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues{BatchGetDeploymentsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		return &BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues{BatchGetDeploymentsRequest_FieldTerminalPath: *fp, values: values.([]*deployment.Reference)}
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		return &BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues{BatchGetDeploymentsRequest_FieldTerminalPath: *fp, values: values.([][]*deployment.Reference)}
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetDeploymentsRequest_FieldPathValue = (*BatchGetDeploymentsRequest_F
 func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) AsParentValue() (*deployment.Reference, bool) {
-	res, ok := fpv.value.(*deployment.Reference)
-	return res, ok
-}
 func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) AsNamesValue() ([]*deployment.Reference, bool) {
 	res, ok := fpv.value.([]*deployment.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) SetTo(target **Bat
 		*target = new(BatchGetDeploymentsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*deployment.Reference)
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*deployment.Reference)
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) SetToRaw(target pr
 // CompareWith compares value in the 'BatchGetDeploymentsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetDeploymentsRequest'.
 func (fpv *BatchGetDeploymentsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetDeploymentsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*deployment.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetDeploymentsRequest_FieldPathArrayOfValues = (*BatchGetDeploymentsR
 
 func (fpaov *BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*deployment.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*deployment.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		}
 	}
 	return
-}
-func (fpaov *BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*deployment.Reference, bool) {
-	res, ok := fpaov.values.([]*deployment.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*deployment.Reference, bool) {
 	res, ok := fpaov.values.([][]*deployment.Reference)

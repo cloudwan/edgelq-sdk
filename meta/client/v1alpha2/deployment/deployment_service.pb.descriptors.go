@@ -69,15 +69,15 @@ func (d *GetDeploymentDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetDeploymentDescriptor) IsCollectionSubject() bool {
+func (d *GetDeploymentDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetDeploymentDescriptor) IsPluralSubject() bool {
+func (d *GetDeploymentDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetDeploymentDescriptor) HasSubjectResource() bool {
+func (d *GetDeploymentDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetDeploymentDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return deploymentServiceDescriptor
 }
 
-func (d *GetDeploymentDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetDeploymentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetDeploymentDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &GetDeploymentDescriptorServerMsgHandle{}
 }
 
-func (h *GetDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetDeploymentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetDeploymentRequest) *deployment.Name
+		OverrideExtractResourceName(*GetDeploymentRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*deployment.Name)(nil)
 }
 
-func (h *GetDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetDeploymentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetDeploymentRequest) []*deployment.Name
+		OverrideExtractResourceNames(*GetDeploymentRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetDeploymentDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetDeploymentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetDeploymentRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*GetDeploymentRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetDeploymentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*deployment.Deployment) *deployment.Name
+		OverrideExtractResourceName(*deployment.Deployment) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*deployment.Name)(nil)
 }
 
-func (h *GetDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetDeploymentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*deployment.Deployment) []*deployment.Name
+		OverrideExtractResourceNames(*deployment.Deployment) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetDeploymentDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetDeploymentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*deployment.Deployment) *deployment.ParentName
+		OverrideExtractCollectionName(*deployment.Deployment) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetDeploymentsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetDeploymentsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetDeploymentsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetDeploymentsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetDeploymentsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetDeploymentsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetDeploymentsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetDeploymentsDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return deploymentServiceDescriptor
 }
 
-func (d *BatchGetDeploymentsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetDeploymentsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetDeploymentsDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &BatchGetDeploymentsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetDeploymentsRequest) *deployment.Name
+		OverrideExtractResourceName(*BatchGetDeploymentsRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetDeploymentsRequest) []*deployment.Name
+		OverrideExtractResourceNames(*BatchGetDeploymentsRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(deployment.DeploymentNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(deployment.DeploymentNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (deployment.DeploymentNameList)(nil)
 }
 
-func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDeploymentsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetDeploymentsRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*BatchGetDeploymentsRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetDeploymentsResponse) *deployment.Name
+		OverrideExtractResourceName(*BatchGetDeploymentsResponse) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetDeploymentsResponse) []*deployment.Name
+		OverrideExtractResourceNames(*BatchGetDeploymentsResponse) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetDeployments()
-	list := make(deployment.DeploymentNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetDeployments(); len(resources) > 0 {
+			list := make(deployment.DeploymentNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (deployment.DeploymentNameList)(nil)
 }
 
-func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDeploymentsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetDeploymentsResponse) *deployment.ParentName
+		OverrideExtractCollectionName(*BatchGetDeploymentsResponse) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListDeploymentsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListDeploymentsDescriptor) IsCollectionSubject() bool {
+func (d *ListDeploymentsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListDeploymentsDescriptor) IsPluralSubject() bool {
+func (d *ListDeploymentsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListDeploymentsDescriptor) HasSubjectResource() bool {
+func (d *ListDeploymentsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListDeploymentsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return deploymentServiceDescriptor
 }
 
-func (d *ListDeploymentsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListDeploymentsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListDeploymentsDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &ListDeploymentsDescriptorServerMsgHandle{}
 }
 
-func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListDeploymentsRequest) *deployment.Name
+		OverrideExtractResourceName(*ListDeploymentsRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListDeploymentsRequest) []*deployment.Name
+		OverrideExtractResourceNames(*ListDeploymentsRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListDeploymentsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListDeploymentsRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*ListDeploymentsRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*deployment.ParentName)(nil)
 }
 
-func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListDeploymentsResponse) *deployment.Name
+		OverrideExtractResourceName(*ListDeploymentsResponse) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListDeploymentsResponse) []*deployment.Name
+		OverrideExtractResourceNames(*ListDeploymentsResponse) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetDeployments()
-	list := make(deployment.DeploymentNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetDeployments(); len(resources) > 0 {
+			list := make(deployment.DeploymentNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (deployment.DeploymentNameList)(nil)
 }
 
-func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListDeploymentsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListDeploymentsResponse) *deployment.ParentName
+		OverrideExtractCollectionName(*ListDeploymentsResponse) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchDeploymentDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchDeploymentDescriptor) IsCollectionSubject() bool {
+func (d *WatchDeploymentDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchDeploymentDescriptor) IsPluralSubject() bool {
+func (d *WatchDeploymentDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchDeploymentDescriptor) HasSubjectResource() bool {
+func (d *WatchDeploymentDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchDeploymentDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return deploymentServiceDescriptor
 }
 
-func (d *WatchDeploymentDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchDeploymentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchDeploymentDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &WatchDeploymentDescriptorServerMsgHandle{}
 }
 
-func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDeploymentRequest) *deployment.Name
+		OverrideExtractResourceName(*WatchDeploymentRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*deployment.Name)(nil)
-}
-
-func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchDeploymentRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDeploymentRequest) []*deployment.Name
-	})
-	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeploymentRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDeploymentRequest) *deployment.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDeploymentResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDeploymentResponse) *deployment.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *deployment.DeploymentChange_Added_:
-			return tResChange.Added.GetDeployment().GetName()
-		case *deployment.DeploymentChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *deployment.DeploymentChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *deployment.DeploymentChange_Current_:
-			return tResChange.Current.GetDeployment().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*deployment.Name)(nil)
 }
 
-func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchDeploymentResponse)
+func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDeploymentResponse) []*deployment.Name
+		OverrideExtractResourceNames(*WatchDeploymentRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchDeploymentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchDeploymentRequest) *deployment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDeploymentResponse) *deployment.ParentName
+		OverrideExtractResourceName(*WatchDeploymentResponse) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *deployment.DeploymentChange_Added_:
+				return tResChange.Added.GetDeployment().GetName()
+			case *deployment.DeploymentChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *deployment.DeploymentChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *deployment.DeploymentChange_Current_:
+				return tResChange.Current.GetDeployment().GetName()
+			}
+		}
+	}
+	return (*deployment.Name)(nil)
+}
+
+func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchDeploymentResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchDeploymentResponse) []*deployment.Name
+	})
+	if ok {
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchDeploymentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchDeploymentResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchDeploymentResponse) *deployment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchDeploymentsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchDeploymentsDescriptor) IsCollectionSubject() bool {
+func (d *WatchDeploymentsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchDeploymentsDescriptor) IsPluralSubject() bool {
+func (d *WatchDeploymentsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchDeploymentsDescriptor) HasSubjectResource() bool {
+func (d *WatchDeploymentsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchDeploymentsDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return deploymentServiceDescriptor
 }
 
-func (d *WatchDeploymentsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchDeploymentsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchDeploymentsDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &WatchDeploymentsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDeploymentsRequest) *deployment.Name
+		OverrideExtractResourceName(*WatchDeploymentsRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDeploymentsRequest) []*deployment.Name
+		OverrideExtractResourceNames(*WatchDeploymentsRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDeploymentsRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*WatchDeploymentsRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*deployment.ParentName)(nil)
 }
 
-func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDeploymentsResponse) *deployment.Name
+		OverrideExtractResourceName(*WatchDeploymentsResponse) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDeploymentsResponse) []*deployment.Name
+		OverrideExtractResourceNames(*WatchDeploymentsResponse) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetDeploymentChanges()
-	list := make(deployment.DeploymentNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *deployment.DeploymentChange_Added_:
-			list = append(list, tResChange.Added.GetDeployment().GetName())
-		case *deployment.DeploymentChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *deployment.DeploymentChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *deployment.DeploymentChange_Current_:
-			list = append(list, tResChange.Current.GetDeployment().GetName())
+	{
+		if resChanges := typedMsg.GetDeploymentChanges(); len(resChanges) > 0 {
+			list := make(deployment.DeploymentNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *deployment.DeploymentChange_Added_:
+					list = append(list, tResChange.Added.GetDeployment().GetName())
+				case *deployment.DeploymentChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *deployment.DeploymentChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *deployment.DeploymentChange_Current_:
+					list = append(list, tResChange.Current.GetDeployment().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (deployment.DeploymentNameList)(nil)
 }
 
-func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDeploymentsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDeploymentsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDeploymentsResponse) *deployment.ParentName
+		OverrideExtractCollectionName(*WatchDeploymentsResponse) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateDeploymentDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateDeploymentDescriptor) IsCollectionSubject() bool {
+func (d *CreateDeploymentDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateDeploymentDescriptor) IsPluralSubject() bool {
+func (d *CreateDeploymentDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateDeploymentDescriptor) HasSubjectResource() bool {
+func (d *CreateDeploymentDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateDeploymentDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return deploymentServiceDescriptor
 }
 
-func (d *CreateDeploymentDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateDeploymentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateDeploymentDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &CreateDeploymentDescriptorServerMsgHandle{}
 }
 
-func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateDeploymentRequest) *deployment.Name
+		OverrideExtractResourceName(*CreateDeploymentRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetDeployment().GetName()
+	{
+		res := typedMsg.GetDeployment()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*deployment.Name)(nil)
 }
 
-func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateDeploymentRequest) []*deployment.Name
+		OverrideExtractResourceNames(*CreateDeploymentRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateDeploymentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateDeploymentRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*CreateDeploymentRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*deployment.ParentName)(nil)
 }
 
-func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*deployment.Deployment) *deployment.Name
+		OverrideExtractResourceName(*deployment.Deployment) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*deployment.Name)(nil)
 }
 
-func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*deployment.Deployment) []*deployment.Name
+		OverrideExtractResourceNames(*deployment.Deployment) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateDeploymentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*deployment.Deployment) *deployment.ParentName
+		OverrideExtractCollectionName(*deployment.Deployment) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateDeploymentDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateDeploymentDescriptor) IsCollectionSubject() bool {
+func (d *UpdateDeploymentDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateDeploymentDescriptor) IsPluralSubject() bool {
+func (d *UpdateDeploymentDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateDeploymentDescriptor) HasSubjectResource() bool {
+func (d *UpdateDeploymentDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateDeploymentDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return deploymentServiceDescriptor
 }
 
-func (d *UpdateDeploymentDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateDeploymentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateDeploymentDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &UpdateDeploymentDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateDeploymentRequest) *deployment.Name
+		OverrideExtractResourceName(*UpdateDeploymentRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetDeployment().GetName()
+	{
+		res := typedMsg.GetDeployment()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*deployment.Name)(nil)
 }
 
-func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateDeploymentRequest) []*deployment.Name
+		OverrideExtractResourceNames(*UpdateDeploymentRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDeploymentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateDeploymentRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*UpdateDeploymentRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*deployment.Deployment) *deployment.Name
+		OverrideExtractResourceName(*deployment.Deployment) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*deployment.Name)(nil)
 }
 
-func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*deployment.Deployment) []*deployment.Name
+		OverrideExtractResourceNames(*deployment.Deployment) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDeploymentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*deployment.Deployment)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*deployment.Deployment) *deployment.ParentName
+		OverrideExtractCollectionName(*deployment.Deployment) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteDeploymentDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteDeploymentDescriptor) IsCollectionSubject() bool {
+func (d *DeleteDeploymentDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteDeploymentDescriptor) IsPluralSubject() bool {
+func (d *DeleteDeploymentDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteDeploymentDescriptor) HasSubjectResource() bool {
+func (d *DeleteDeploymentDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteDeploymentDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return deploymentServiceDescriptor
 }
 
-func (d *DeleteDeploymentDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteDeploymentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return deployment.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteDeploymentDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &DeleteDeploymentDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteDeploymentRequest) *deployment.Name
+		OverrideExtractResourceName(*DeleteDeploymentRequest) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*deployment.Name)(nil)
 }
 
-func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteDeploymentRequest) []*deployment.Name
+		OverrideExtractResourceNames(*DeleteDeploymentRequest) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDeploymentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteDeploymentRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteDeploymentRequest) *deployment.ParentName
+		OverrideExtractCollectionName(*DeleteDeploymentRequest) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *deployment.Name
+		OverrideExtractResourceName(*empty.Empty) *deployment.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*deployment.Name
+		OverrideExtractResourceNames(*empty.Empty) []*deployment.Name
 	})
 	if ok {
-		return deployment.DeploymentNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return deployment.DeploymentNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDeploymentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *deployment.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *deployment.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

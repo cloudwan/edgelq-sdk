@@ -74,15 +74,15 @@ func (d *GetUserDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetUserDescriptor) IsCollectionSubject() bool {
+func (d *GetUserDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetUserDescriptor) IsPluralSubject() bool {
+func (d *GetUserDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetUserDescriptor) HasSubjectResource() bool {
+func (d *GetUserDescriptor) HasResource() bool {
 	return true
 }
 
@@ -122,7 +122,7 @@ func (d *GetUserDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *GetUserDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetUserDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -134,62 +134,69 @@ func (d *GetUserDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHan
 	return &GetUserDescriptorServerMsgHandle{}
 }
 
-func (h *GetUserDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetUserRequest) *user.Name
+		OverrideExtractResourceName(*GetUserRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*user.Name)(nil)
 }
 
-func (h *GetUserDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetUserRequest) []*user.Name
+		OverrideExtractResourceNames(*GetUserRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetUserDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetUserDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*user.User) *user.Name
+		OverrideExtractResourceName(*user.User) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*user.Name)(nil)
 }
 
-func (h *GetUserDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*user.User) []*user.Name
+		OverrideExtractResourceNames(*user.User) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetUserDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -223,15 +230,15 @@ func (d *BatchGetUsersDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetUsersDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetUsersDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetUsersDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetUsersDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetUsersDescriptor) HasSubjectResource() bool {
+func (d *BatchGetUsersDescriptor) HasResource() bool {
 	return true
 }
 
@@ -271,7 +278,7 @@ func (d *BatchGetUsersDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *BatchGetUsersDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetUsersDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -283,71 +290,77 @@ func (d *BatchGetUsersDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &BatchGetUsersDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetUsersRequest) *user.Name
+		OverrideExtractResourceName(*BatchGetUsersRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetUsersRequest) []*user.Name
+		OverrideExtractResourceNames(*BatchGetUsersRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(user.UserNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(user.UserNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (user.UserNameList)(nil)
 }
 
-func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetUsersResponse) *user.Name
+		OverrideExtractResourceName(*BatchGetUsersResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetUsersResponse) []*user.Name
+		OverrideExtractResourceNames(*BatchGetUsersResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetUsers()
-	list := make(user.UserNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetUsers(); len(resources) > 0 {
+			list := make(user.UserNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (user.UserNameList)(nil)
 }
 
-func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -381,15 +394,15 @@ func (d *ListUsersDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListUsersDescriptor) IsCollectionSubject() bool {
+func (d *ListUsersDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListUsersDescriptor) IsPluralSubject() bool {
+func (d *ListUsersDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListUsersDescriptor) HasSubjectResource() bool {
+func (d *ListUsersDescriptor) HasResource() bool {
 	return true
 }
 
@@ -429,7 +442,7 @@ func (d *ListUsersDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *ListUsersDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListUsersDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -441,64 +454,68 @@ func (d *ListUsersDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &ListUsersDescriptorServerMsgHandle{}
 }
 
-func (h *ListUsersDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListUsersDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListUsersRequest) *user.Name
+		OverrideExtractResourceName(*ListUsersRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListUsersDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListUsersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListUsersRequest) []*user.Name
+		OverrideExtractResourceNames(*ListUsersRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListUsersDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListUsersDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListUsersResponse) *user.Name
+		OverrideExtractResourceName(*ListUsersResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListUsersDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListUsersResponse) []*user.Name
+		OverrideExtractResourceNames(*ListUsersResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetUsers()
-	list := make(user.UserNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetUsers(); len(resources) > 0 {
+			list := make(user.UserNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (user.UserNameList)(nil)
 }
 
-func (h *ListUsersDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -532,15 +549,15 @@ func (d *WatchUserDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchUserDescriptor) IsCollectionSubject() bool {
+func (d *WatchUserDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchUserDescriptor) IsPluralSubject() bool {
+func (d *WatchUserDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchUserDescriptor) HasSubjectResource() bool {
+func (d *WatchUserDescriptor) HasResource() bool {
 	return true
 }
 
@@ -580,7 +597,7 @@ func (d *WatchUserDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *WatchUserDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchUserDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -592,74 +609,78 @@ func (d *WatchUserDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &WatchUserDescriptorServerMsgHandle{}
 }
 
-func (h *WatchUserDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchUserRequest) *user.Name
+		OverrideExtractResourceName(*WatchUserRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*user.Name)(nil)
-}
-
-func (h *WatchUserDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchUserRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchUserRequest) []*user.Name
-	})
-	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchUserDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchUserDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchUserResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchUserResponse) *user.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *user.UserChange_Added_:
-			return tResChange.Added.GetUser().GetName()
-		case *user.UserChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *user.UserChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *user.UserChange_Current_:
-			return tResChange.Current.GetUser().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*user.Name)(nil)
 }
 
-func (h *WatchUserDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchUserResponse)
+func (h *WatchUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchUserResponse) []*user.Name
+		OverrideExtractResourceNames(*WatchUserRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchUserDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchUserResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchUserResponse) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *user.UserChange_Added_:
+				return tResChange.Added.GetUser().GetName()
+			case *user.UserChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *user.UserChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *user.UserChange_Current_:
+				return tResChange.Current.GetUser().GetName()
+			}
+		}
+	}
+	return (*user.Name)(nil)
+}
+
+func (h *WatchUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchUserResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchUserResponse) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -693,15 +714,15 @@ func (d *WatchUsersDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchUsersDescriptor) IsCollectionSubject() bool {
+func (d *WatchUsersDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchUsersDescriptor) IsPluralSubject() bool {
+func (d *WatchUsersDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchUsersDescriptor) HasSubjectResource() bool {
+func (d *WatchUsersDescriptor) HasResource() bool {
 	return true
 }
 
@@ -741,7 +762,7 @@ func (d *WatchUsersDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *WatchUsersDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchUsersDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -753,73 +774,77 @@ func (d *WatchUsersDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &WatchUsersDescriptorServerMsgHandle{}
 }
 
-func (h *WatchUsersDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchUsersDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchUsersRequest) *user.Name
+		OverrideExtractResourceName(*WatchUsersRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchUsersDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchUsersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchUsersRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchUsersRequest) []*user.Name
+		OverrideExtractResourceNames(*WatchUsersRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchUsersDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchUsersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchUsersDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchUsersResponse) *user.Name
+		OverrideExtractResourceName(*WatchUsersResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchUsersDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchUsersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchUsersResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchUsersResponse) []*user.Name
+		OverrideExtractResourceNames(*WatchUsersResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetUserChanges()
-	list := make(user.UserNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *user.UserChange_Added_:
-			list = append(list, tResChange.Added.GetUser().GetName())
-		case *user.UserChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *user.UserChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *user.UserChange_Current_:
-			list = append(list, tResChange.Current.GetUser().GetName())
+	{
+		if resChanges := typedMsg.GetUserChanges(); len(resChanges) > 0 {
+			list := make(user.UserNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *user.UserChange_Added_:
+					list = append(list, tResChange.Added.GetUser().GetName())
+				case *user.UserChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *user.UserChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *user.UserChange_Current_:
+					list = append(list, tResChange.Current.GetUser().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (user.UserNameList)(nil)
 }
 
-func (h *WatchUsersDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchUsersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -853,15 +878,15 @@ func (d *CreateUserDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateUserDescriptor) IsCollectionSubject() bool {
+func (d *CreateUserDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateUserDescriptor) IsPluralSubject() bool {
+func (d *CreateUserDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateUserDescriptor) HasSubjectResource() bool {
+func (d *CreateUserDescriptor) HasResource() bool {
 	return true
 }
 
@@ -901,7 +926,7 @@ func (d *CreateUserDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *CreateUserDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateUserDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -913,59 +938,70 @@ func (d *CreateUserDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &CreateUserDescriptorServerMsgHandle{}
 }
 
-func (h *CreateUserDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateUserRequest) *user.Name
+		OverrideExtractResourceName(*CreateUserRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetUser().GetName()
+	{
+		res := typedMsg.GetUser()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*user.Name)(nil)
 }
 
-func (h *CreateUserDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateUserRequest) []*user.Name
+		OverrideExtractResourceNames(*CreateUserRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateUserDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateUserDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*user.User) *user.Name
+		OverrideExtractResourceName(*user.User) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*user.Name)(nil)
 }
 
-func (h *CreateUserDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*user.User) []*user.Name
+		OverrideExtractResourceNames(*user.User) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateUserDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -999,15 +1035,15 @@ func (d *UpdateUserDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateUserDescriptor) IsCollectionSubject() bool {
+func (d *UpdateUserDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateUserDescriptor) IsPluralSubject() bool {
+func (d *UpdateUserDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateUserDescriptor) HasSubjectResource() bool {
+func (d *UpdateUserDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1047,7 +1083,7 @@ func (d *UpdateUserDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *UpdateUserDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateUserDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1059,59 +1095,70 @@ func (d *UpdateUserDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &UpdateUserDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateUserDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateUserRequest) *user.Name
+		OverrideExtractResourceName(*UpdateUserRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetUser().GetName()
+	{
+		res := typedMsg.GetUser()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*user.Name)(nil)
 }
 
-func (h *UpdateUserDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateUserRequest) []*user.Name
+		OverrideExtractResourceNames(*UpdateUserRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateUserDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdateUserDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*user.User) *user.Name
+		OverrideExtractResourceName(*user.User) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*user.Name)(nil)
 }
 
-func (h *UpdateUserDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*user.User) []*user.Name
+		OverrideExtractResourceNames(*user.User) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateUserDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1145,15 +1192,15 @@ func (d *DeleteUserDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteUserDescriptor) IsCollectionSubject() bool {
+func (d *DeleteUserDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteUserDescriptor) IsPluralSubject() bool {
+func (d *DeleteUserDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteUserDescriptor) HasSubjectResource() bool {
+func (d *DeleteUserDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1193,7 +1240,7 @@ func (d *DeleteUserDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *DeleteUserDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteUserDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1205,62 +1252,64 @@ func (d *DeleteUserDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &DeleteUserDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteUserDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteUserDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteUserRequest) *user.Name
+		OverrideExtractResourceName(*DeleteUserRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*user.Name)(nil)
 }
 
-func (h *DeleteUserDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteUserDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteUserRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteUserRequest) []*user.Name
+		OverrideExtractResourceNames(*DeleteUserRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteUserDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteUserDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DeleteUserDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceName(*empty.Empty) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteUserDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteUserDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteUserDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1294,15 +1343,15 @@ func (d *GetUserByEmailDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetUserByEmailDescriptor) IsCollectionSubject() bool {
+func (d *GetUserByEmailDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetUserByEmailDescriptor) IsPluralSubject() bool {
+func (d *GetUserByEmailDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetUserByEmailDescriptor) HasSubjectResource() bool {
+func (d *GetUserByEmailDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1342,7 +1391,7 @@ func (d *GetUserByEmailDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return userServiceDescriptor
 }
 
-func (d *GetUserByEmailDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetUserByEmailDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1354,59 +1403,59 @@ func (d *GetUserByEmailDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &GetUserByEmailDescriptorServerMsgHandle{}
 }
 
-func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetUserByEmailRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetUserByEmailRequest) *user.Name
+		OverrideExtractResourceName(*GetUserByEmailRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetUserByEmailRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetUserByEmailRequest) []*user.Name
+		OverrideExtractResourceNames(*GetUserByEmailRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetUserByEmailDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*user.User) *user.Name
+		OverrideExtractResourceName(*user.User) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*user.User)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*user.User) []*user.Name
+		OverrideExtractResourceNames(*user.User) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetUserByEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1440,15 +1489,15 @@ func (d *BatchGetUsersByEmailDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetUsersByEmailDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetUsersByEmailDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *BatchGetUsersByEmailDescriptor) IsPluralSubject() bool {
+func (d *BatchGetUsersByEmailDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetUsersByEmailDescriptor) HasSubjectResource() bool {
+func (d *BatchGetUsersByEmailDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1488,7 +1537,7 @@ func (d *BatchGetUsersByEmailDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return userServiceDescriptor
 }
 
-func (d *BatchGetUsersByEmailDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetUsersByEmailDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1500,64 +1549,59 @@ func (d *BatchGetUsersByEmailDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &BatchGetUsersByEmailDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetUsersByEmailRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetUsersByEmailRequest) *user.Name
+		OverrideExtractResourceName(*BatchGetUsersByEmailRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetUsersByEmailRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetUsersByEmailRequest) []*user.Name
+		OverrideExtractResourceNames(*BatchGetUsersByEmailRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersByEmailDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetUsersByEmailResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetUsersByEmailResponse) *user.Name
+		OverrideExtractResourceName(*BatchGetUsersByEmailResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetUsersByEmailResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetUsersByEmailResponse) []*user.Name
+		OverrideExtractResourceNames(*BatchGetUsersByEmailResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetUsers()
-	list := make(user.UserNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
-	}
-	return list
+	return nil
 }
 
-func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetUsersByEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1591,15 +1635,15 @@ func (d *GetMySettingsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetMySettingsDescriptor) IsCollectionSubject() bool {
+func (d *GetMySettingsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *GetMySettingsDescriptor) IsPluralSubject() bool {
+func (d *GetMySettingsDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetMySettingsDescriptor) HasSubjectResource() bool {
+func (d *GetMySettingsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1639,7 +1683,7 @@ func (d *GetMySettingsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *GetMySettingsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetMySettingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1651,59 +1695,59 @@ func (d *GetMySettingsDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &GetMySettingsDescriptorServerMsgHandle{}
 }
 
-func (h *GetMySettingsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMySettingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMySettingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetMySettingsRequest) *user.Name
+		OverrideExtractResourceName(*GetMySettingsRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetMySettingsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMySettingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetMySettingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetMySettingsRequest) []*user.Name
+		OverrideExtractResourceNames(*GetMySettingsRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMySettingsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMySettingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetMySettingsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMySettingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetMySettingsResponse) *user.Name
+		OverrideExtractResourceName(*GetMySettingsResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetMySettingsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMySettingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetMySettingsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetMySettingsResponse) []*user.Name
+		OverrideExtractResourceNames(*GetMySettingsResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMySettingsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMySettingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1737,15 +1781,15 @@ func (d *SetMySettingsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *SetMySettingsDescriptor) IsCollectionSubject() bool {
+func (d *SetMySettingsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *SetMySettingsDescriptor) IsPluralSubject() bool {
+func (d *SetMySettingsDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *SetMySettingsDescriptor) HasSubjectResource() bool {
+func (d *SetMySettingsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1785,7 +1829,7 @@ func (d *SetMySettingsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return userServiceDescriptor
 }
 
-func (d *SetMySettingsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *SetMySettingsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1797,59 +1841,59 @@ func (d *SetMySettingsDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &SetMySettingsDescriptorServerMsgHandle{}
 }
 
-func (h *SetMySettingsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetMySettingsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*SetMySettingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*SetMySettingsRequest) *user.Name
+		OverrideExtractResourceName(*SetMySettingsRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetMySettingsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetMySettingsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*SetMySettingsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*SetMySettingsRequest) []*user.Name
+		OverrideExtractResourceNames(*SetMySettingsRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetMySettingsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *SetMySettingsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *SetMySettingsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *user.Name
+		OverrideExtractResourceName(*empty.Empty) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *SetMySettingsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*user.Name
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *SetMySettingsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *SetMySettingsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1883,15 +1927,15 @@ func (d *RefreshUserFromIdTokenDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *RefreshUserFromIdTokenDescriptor) IsCollectionSubject() bool {
+func (d *RefreshUserFromIdTokenDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *RefreshUserFromIdTokenDescriptor) IsPluralSubject() bool {
+func (d *RefreshUserFromIdTokenDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *RefreshUserFromIdTokenDescriptor) HasSubjectResource() bool {
+func (d *RefreshUserFromIdTokenDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1931,7 +1975,7 @@ func (d *RefreshUserFromIdTokenDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return userServiceDescriptor
 }
 
-func (d *RefreshUserFromIdTokenDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *RefreshUserFromIdTokenDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return user.GetDescriptor()
 }
 
@@ -1943,59 +1987,59 @@ func (d *RefreshUserFromIdTokenDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &RefreshUserFromIdTokenDescriptorServerMsgHandle{}
 }
 
-func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RefreshUserFromIdTokenRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RefreshUserFromIdTokenRequest) *user.Name
+		OverrideExtractResourceName(*RefreshUserFromIdTokenRequest) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RefreshUserFromIdTokenRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RefreshUserFromIdTokenRequest) []*user.Name
+		OverrideExtractResourceNames(*RefreshUserFromIdTokenRequest) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RefreshUserFromIdTokenDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RefreshUserFromIdTokenResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RefreshUserFromIdTokenResponse) *user.Name
+		OverrideExtractResourceName(*RefreshUserFromIdTokenResponse) *user.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RefreshUserFromIdTokenResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RefreshUserFromIdTokenResponse) []*user.Name
+		OverrideExtractResourceNames(*RefreshUserFromIdTokenResponse) []*user.Name
 	})
 	if ok {
-		return user.UserNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RefreshUserFromIdTokenDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

@@ -542,16 +542,13 @@ type BatchGetConfigMapsRequest_FieldPath interface {
 type BatchGetConfigMapsRequest_FieldPathSelector int32
 
 const (
-	BatchGetConfigMapsRequest_FieldPathSelectorParent    BatchGetConfigMapsRequest_FieldPathSelector = 0
-	BatchGetConfigMapsRequest_FieldPathSelectorNames     BatchGetConfigMapsRequest_FieldPathSelector = 1
-	BatchGetConfigMapsRequest_FieldPathSelectorFieldMask BatchGetConfigMapsRequest_FieldPathSelector = 2
-	BatchGetConfigMapsRequest_FieldPathSelectorView      BatchGetConfigMapsRequest_FieldPathSelector = 3
+	BatchGetConfigMapsRequest_FieldPathSelectorNames     BatchGetConfigMapsRequest_FieldPathSelector = 0
+	BatchGetConfigMapsRequest_FieldPathSelectorFieldMask BatchGetConfigMapsRequest_FieldPathSelector = 1
+	BatchGetConfigMapsRequest_FieldPathSelectorView      BatchGetConfigMapsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetConfigMapsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetConfigMapsRequest_FieldPath(fp gotenobject.RawFieldPath) (Batc
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetConfigMapsRequest_FieldTerminalPath{selector: BatchGetConfigMapsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetConfigMapsRequest_FieldTerminalPath{selector: BatchGetConfigMapsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) Get(source *BatchGetConfigMapsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) GetRaw(source proto.Messa
 // GetSingle returns value pointed by specific field of from source BatchGetConfigMapsRequest
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) GetSingle(source *BatchGetConfigMapsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) GetSingleRaw(source proto
 // GetDefault returns a default value of the field type
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		return (*config_map.Reference)(nil)
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		return ([]*config_map.Reference)(nil)
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) GetDefault() interface{} 
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) ClearValue(item *BatchGetConfigMapsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) ClearValueRaw(item proto.
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetConfigMapsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetConfigMapsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetConfigMapsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetConfigMapsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetConfigMapsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetConfigMapsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		return &BatchGetConfigMapsRequest_FieldTerminalPathValue{BatchGetConfigMapsRequest_FieldTerminalPath: *fp, value: value.(*config_map.Reference)}
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		return &BatchGetConfigMapsRequest_FieldTerminalPathValue{BatchGetConfigMapsRequest_FieldTerminalPath: *fp, value: value.([]*config_map.Reference)}
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) WithRawIValue(value inter
 func (fp *BatchGetConfigMapsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetConfigMapsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues{BatchGetConfigMapsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		return &BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues{BatchGetConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]*config_map.Reference)}
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		return &BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues{BatchGetConfigMapsRequest_FieldTerminalPath: *fp, values: values.([][]*config_map.Reference)}
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetConfigMapsRequest_FieldPathValue = (*BatchGetConfigMapsRequest_Fie
 func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) AsParentValue() (*config_map.Reference, bool) {
-	res, ok := fpv.value.(*config_map.Reference)
-	return res, ok
-}
 func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) AsNamesValue() ([]*config_map.Reference, bool) {
 	res, ok := fpv.value.([]*config_map.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) SetTo(target **Batc
 		*target = new(BatchGetConfigMapsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*config_map.Reference)
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*config_map.Reference)
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) SetToRaw(target pro
 // CompareWith compares value in the 'BatchGetConfigMapsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetConfigMapsRequest'.
 func (fpv *BatchGetConfigMapsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetConfigMapsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*config_map.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetConfigMapsRequest_FieldPathArrayOfValues = (*BatchGetConfigMapsReq
 
 func (fpaov *BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetConfigMapsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*config_map.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetConfigMapsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*config_map.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues) GetRawVal
 		}
 	}
 	return
-}
-func (fpaov *BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*config_map.Reference, bool) {
-	res, ok := fpaov.values.([]*config_map.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*config_map.Reference, bool) {
 	res, ok := fpaov.values.([][]*config_map.Reference)

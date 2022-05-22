@@ -25,21 +25,21 @@ service BrokerService {
   // Connect
   rpc Connect(stream ConnectRequest) returns (stream ConnectResponse) {
     option (google.api.http) = {
-      post : "/v1alpha/{name=projects/*}:connect"
+      post : "/v1alpha:connect"
     };
   }
 
   // Listen
   rpc Listen(stream ListenRequest) returns (stream ListenResponse) {
     option (google.api.http) = {
-      post : "/v1alpha/{name=projects/*}:listen"
+      post : "/v1alpha:listen"
     };
   }
 
   // Accept
   rpc Accept(stream AcceptRequest) returns (stream AcceptResponse) {
     option (google.api.http) = {
-      post : "/v1alpha/{name=projects/*}:accept"
+      post : "/v1alpha:accept"
     };
   }
 }

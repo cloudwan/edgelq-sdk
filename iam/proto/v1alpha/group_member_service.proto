@@ -33,9 +33,6 @@ message GetGroupMemberRequest {
 // Request message for method
 // [BatchGetGroupMembers][ntt.iam.v1alpha.BatchGetGroupMembers]
 message BatchGetGroupMembersRequest {
-  // Optional parent ntt.iam.v1alpha.GroupMember
-  string parent = 1;
-
   // Names of GroupMembers
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetGroupMembersRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetGroupMembersResponse
@@ -317,13 +316,7 @@ service GroupMemberService {
   rpc BatchGetGroupMembers(BatchGetGroupMembersRequest)
       returns (BatchGetGroupMembersResponse) {
     option (google.api.http) = {
-      get : "/v1alpha/{parent=groups/*}/groupMembers:batchGet"
-      additional_bindings : <
-        get : "/v1alpha/{parent=projects/*/groups/*}/groupMembers:batchGet"
-      >
-      additional_bindings : <
-        get : "/v1alpha/{parent=organizations/*/groups/*}/groupMembers:batchGet"
-      >
+      get : "/v1alpha/groupMembers:batchGet"
     };
   }
 

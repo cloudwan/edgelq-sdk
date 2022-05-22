@@ -316,7 +316,6 @@ type BatchGetServicesRequest_FieldMask struct {
 
 func FullBatchGetServicesRequest_FieldMask() *BatchGetServicesRequest_FieldMask {
 	res := &BatchGetServicesRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetServicesRequest_FieldTerminalPath{selector: BatchGetServicesRequest_FieldPathSelectorView})
@@ -363,7 +362,7 @@ func (fieldMask *BatchGetServicesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetServicesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -393,7 +392,7 @@ func (fieldMask *BatchGetServicesRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetServicesRequest_FieldMask) Subtract(other *BatchGetServicesRequest_FieldMask) *BatchGetServicesRequest_FieldMask {
 	result := &BatchGetServicesRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -547,8 +546,6 @@ func (fieldMask *BatchGetServicesRequest_FieldMask) Project(source *BatchGetServ
 		switch tp := p.(type) {
 		case *BatchGetServicesRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetServicesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetServicesRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetServicesRequest_FieldPathSelectorFieldMask:

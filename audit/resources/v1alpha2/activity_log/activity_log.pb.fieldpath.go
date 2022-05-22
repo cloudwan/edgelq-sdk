@@ -191,7 +191,7 @@ func BuildActivityLog_FieldPath(fp gotenobject.RawFieldPath) (ActivityLog_FieldP
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorRequestMetadata, subPath: subpath}, nil
 			}
 		case "resource":
-			if subpath, err := BuildActivityLogSubjectResource_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildActivityLogResource_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ActivityLog_FieldSubPath{selector: ActivityLog_FieldPathSelectorResource, subPath: subpath}, nil
@@ -368,7 +368,7 @@ func (fp *ActivityLog_FieldTerminalPath) GetDefault() interface{} {
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return (*ActivityLog_RequestMetadata)(nil)
 	case ActivityLog_FieldPathSelectorResource:
-		return (*ActivityLog_SubjectResource)(nil)
+		return (*ActivityLog_Resource)(nil)
 	case ActivityLog_FieldPathSelectorCategory:
 		return ActivityLog_Undefined
 	case ActivityLog_FieldPathSelectorLabels:
@@ -445,7 +445,7 @@ func (fp *ActivityLog_FieldTerminalPath) WithIValue(value interface{}) ActivityL
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_RequestMetadata)}
 	case ActivityLog_FieldPathSelectorResource:
-		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_SubjectResource)}
+		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(*ActivityLog_Resource)}
 	case ActivityLog_FieldPathSelectorCategory:
 		return &ActivityLog_FieldTerminalPathValue{ActivityLog_FieldTerminalPath: *fp, value: value.(ActivityLog_Category)}
 	case ActivityLog_FieldPathSelectorLabels:
@@ -481,7 +481,7 @@ func (fp *ActivityLog_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_RequestMetadata)}
 	case ActivityLog_FieldPathSelectorResource:
-		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_SubjectResource)}
+		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]*ActivityLog_Resource)}
 	case ActivityLog_FieldPathSelectorCategory:
 		return &ActivityLog_FieldTerminalPathArrayOfValues{ActivityLog_FieldTerminalPath: *fp, values: values.([]ActivityLog_Category)}
 	case ActivityLog_FieldPathSelectorLabels:
@@ -669,8 +669,8 @@ func (fps *ActivityLog_FieldSubPath) AsRequestMetadataSubPath() (ActivityLogRequ
 	res, ok := fps.subPath.(ActivityLogRequestMetadata_FieldPath)
 	return res, ok
 }
-func (fps *ActivityLog_FieldSubPath) AsResourceSubPath() (ActivityLogSubjectResource_FieldPath, bool) {
-	res, ok := fps.subPath.(ActivityLogSubjectResource_FieldPath)
+func (fps *ActivityLog_FieldSubPath) AsResourceSubPath() (ActivityLogResource_FieldPath, bool) {
+	res, ok := fps.subPath.(ActivityLogResource_FieldPath)
 	return res, ok
 }
 func (fps *ActivityLog_FieldSubPath) AsEventsSubPath() (ActivityLogEvent_FieldPath, bool) {
@@ -700,8 +700,8 @@ func (fps *ActivityLog_FieldSubPath) Get(source *ActivityLog) (values []interfac
 		values = append(values, asMethodFieldPath.Get(source.GetMethod())...)
 	} else if asRequestMetadataFieldPath, ok := fps.AsRequestMetadataSubPath(); ok {
 		values = append(values, asRequestMetadataFieldPath.Get(source.GetRequestMetadata())...)
-	} else if asSubjectResourceFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asSubjectResourceFieldPath.Get(source.GetResource())...)
+	} else if asResourceFieldPath, ok := fps.AsResourceSubPath(); ok {
+		values = append(values, asResourceFieldPath.Get(source.GetResource())...)
 	} else if asEventFieldPath, ok := fps.AsEventsSubPath(); ok {
 		for _, item := range source.GetEvents() {
 			values = append(values, asEventFieldPath.Get(item)...)
@@ -897,8 +897,8 @@ func (fpv *ActivityLog_FieldTerminalPathValue) AsRequestMetadataValue() (*Activi
 	res, ok := fpv.value.(*ActivityLog_RequestMetadata)
 	return res, ok
 }
-func (fpv *ActivityLog_FieldTerminalPathValue) AsResourceValue() (*ActivityLog_SubjectResource, bool) {
-	res, ok := fpv.value.(*ActivityLog_SubjectResource)
+func (fpv *ActivityLog_FieldTerminalPathValue) AsResourceValue() (*ActivityLog_Resource, bool) {
+	res, ok := fpv.value.(*ActivityLog_Resource)
 	return res, ok
 }
 func (fpv *ActivityLog_FieldTerminalPathValue) AsCategoryValue() (ActivityLog_Category, bool) {
@@ -937,7 +937,7 @@ func (fpv *ActivityLog_FieldTerminalPathValue) SetTo(target **ActivityLog) {
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		(*target).RequestMetadata = fpv.value.(*ActivityLog_RequestMetadata)
 	case ActivityLog_FieldPathSelectorResource:
-		(*target).Resource = fpv.value.(*ActivityLog_SubjectResource)
+		(*target).Resource = fpv.value.(*ActivityLog_Resource)
 	case ActivityLog_FieldPathSelectorCategory:
 		(*target).Category = fpv.value.(ActivityLog_Category)
 	case ActivityLog_FieldPathSelectorLabels:
@@ -1117,8 +1117,8 @@ func (fpvs *ActivityLog_FieldSubPathValue) AsRequestMetadataPathValue() (Activit
 	res, ok := fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue)
 	return res, ok
 }
-func (fpvs *ActivityLog_FieldSubPathValue) AsResourcePathValue() (ActivityLogSubjectResource_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ActivityLogSubjectResource_FieldPathValue)
+func (fpvs *ActivityLog_FieldSubPathValue) AsResourcePathValue() (ActivityLogResource_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ActivityLogResource_FieldPathValue)
 	return res, ok
 }
 func (fpvs *ActivityLog_FieldSubPathValue) AsEventsPathValue() (ActivityLogEvent_FieldPathValue, bool) {
@@ -1142,7 +1142,7 @@ func (fpvs *ActivityLog_FieldSubPathValue) SetTo(target **ActivityLog) {
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue).SetTo(&(*target).RequestMetadata)
 	case ActivityLog_FieldPathSelectorResource:
-		fpvs.subPathValue.(ActivityLogSubjectResource_FieldPathValue).SetTo(&(*target).Resource)
+		fpvs.subPathValue.(ActivityLogResource_FieldPathValue).SetTo(&(*target).Resource)
 	case ActivityLog_FieldPathSelectorEvents:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
@@ -1172,7 +1172,7 @@ func (fpvs *ActivityLog_FieldSubPathValue) CompareWith(source *ActivityLog) (int
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return fpvs.subPathValue.(ActivityLogRequestMetadata_FieldPathValue).CompareWith(source.GetRequestMetadata())
 	case ActivityLog_FieldPathSelectorResource:
-		return fpvs.subPathValue.(ActivityLogSubjectResource_FieldPathValue).CompareWith(source.GetResource())
+		return fpvs.subPathValue.(ActivityLogResource_FieldPathValue).CompareWith(source.GetResource())
 	case ActivityLog_FieldPathSelectorEvents:
 		return 0, false // repeated field
 	default:
@@ -1277,8 +1277,8 @@ func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsRequestMetadataPathItemV
 	res, ok := fpaivs.subPathItemValue.(ActivityLogRequestMetadata_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsResourcePathItemValue() (ActivityLogSubjectResource_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ActivityLogSubjectResource_FieldPathArrayItemValue)
+func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsResourcePathItemValue() (ActivityLogResource_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ActivityLogResource_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) AsEventsPathItemValue() (ActivityLogEvent_FieldPathArrayItemValue, bool) {
@@ -1300,7 +1300,7 @@ func (fpaivs *ActivityLog_FieldSubPathArrayItemValue) ContainsValue(source *Acti
 	case ActivityLog_FieldPathSelectorRequestMetadata:
 		return fpaivs.subPathItemValue.(ActivityLogRequestMetadata_FieldPathArrayItemValue).ContainsValue(source.GetRequestMetadata())
 	case ActivityLog_FieldPathSelectorResource:
-		return fpaivs.subPathItemValue.(ActivityLogSubjectResource_FieldPathArrayItemValue).ContainsValue(source.GetResource())
+		return fpaivs.subPathItemValue.(ActivityLogResource_FieldPathArrayItemValue).ContainsValue(source.GetResource())
 	case ActivityLog_FieldPathSelectorEvents:
 		return false // repeated/map field
 	default:
@@ -1376,7 +1376,7 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorResource:
-		for _, v := range fpaov.values.([]*ActivityLog_SubjectResource) {
+		for _, v := range fpaov.values.([]*ActivityLog_Resource) {
 			values = append(values, v)
 		}
 	case ActivityLog_FieldPathSelectorCategory:
@@ -1426,8 +1426,8 @@ func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsRequestMetadataArrayO
 	res, ok := fpaov.values.([]*ActivityLog_RequestMetadata)
 	return res, ok
 }
-func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*ActivityLog_SubjectResource, bool) {
-	res, ok := fpaov.values.([]*ActivityLog_SubjectResource)
+func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsResourceArrayOfValues() ([]*ActivityLog_Resource, bool) {
+	res, ok := fpaov.values.([]*ActivityLog_Resource)
 	return res, ok
 }
 func (fpaov *ActivityLog_FieldTerminalPathArrayOfValues) AsCategoryArrayOfValues() ([]ActivityLog_Category, bool) {
@@ -1494,8 +1494,8 @@ func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsRequestMetadataPathArrayO
 	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogRequestMetadata_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (ActivityLogSubjectResource_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogSubjectResource_FieldPathArrayOfValues)
+func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsResourcePathArrayOfValues() (ActivityLogResource_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogResource_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *ActivityLog_FieldSubPathArrayOfValues) AsEventsPathArrayOfValues() (ActivityLogEvent_FieldPathArrayOfValues, bool) {
@@ -3258,390 +3258,390 @@ func (fpaov *ActivityLogRequestMetadata_FieldTerminalPathArrayOfValues) AsUserAg
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type ActivityLogSubjectResource_FieldPath interface {
+type ActivityLogResource_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() ActivityLogSubjectResource_FieldPathSelector
-	Get(source *ActivityLog_SubjectResource) []interface{}
-	GetSingle(source *ActivityLog_SubjectResource) (interface{}, bool)
-	ClearValue(item *ActivityLog_SubjectResource)
+	Selector() ActivityLogResource_FieldPathSelector
+	Get(source *ActivityLog_Resource) []interface{}
+	GetSingle(source *ActivityLog_Resource) (interface{}, bool)
+	ClearValue(item *ActivityLog_Resource)
 
-	// Those methods build corresponding ActivityLogSubjectResource_FieldPathValue
+	// Those methods build corresponding ActivityLogResource_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) ActivityLogSubjectResource_FieldPathValue
-	WithIArrayOfValues(values interface{}) ActivityLogSubjectResource_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) ActivityLogSubjectResource_FieldPathArrayItemValue
+	WithIValue(value interface{}) ActivityLogResource_FieldPathValue
+	WithIArrayOfValues(values interface{}) ActivityLogResource_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ActivityLogResource_FieldPathArrayItemValue
 }
 
-type ActivityLogSubjectResource_FieldPathSelector int32
+type ActivityLogResource_FieldPathSelector int32
 
 const (
-	ActivityLogSubjectResource_FieldPathSelectorName       ActivityLogSubjectResource_FieldPathSelector = 0
-	ActivityLogSubjectResource_FieldPathSelectorDifference ActivityLogSubjectResource_FieldPathSelector = 1
+	ActivityLogResource_FieldPathSelectorName       ActivityLogResource_FieldPathSelector = 0
+	ActivityLogResource_FieldPathSelectorDifference ActivityLogResource_FieldPathSelector = 1
 )
 
-func (s ActivityLogSubjectResource_FieldPathSelector) String() string {
+func (s ActivityLogResource_FieldPathSelector) String() string {
 	switch s {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		return "name"
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
+	case ActivityLogResource_FieldPathSelectorDifference:
 		return "difference"
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", s))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", s))
 	}
 }
 
-func BuildActivityLogSubjectResource_FieldPath(fp gotenobject.RawFieldPath) (ActivityLogSubjectResource_FieldPath, error) {
+func BuildActivityLogResource_FieldPath(fp gotenobject.RawFieldPath) (ActivityLogResource_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object ActivityLog_SubjectResource")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ActivityLog_Resource")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "name":
-			return &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorName}, nil
+			return &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorName}, nil
 		case "difference":
-			return &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference}, nil
+			return &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorDifference}, nil
 		}
 	} else {
 		switch fp[0] {
 		case "difference":
-			if subpath, err := BuildActivityLogSubjectResourceDifference_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildActivityLogResourceDifference_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &ActivityLogSubjectResource_FieldSubPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference, subPath: subpath}, nil
+				return &ActivityLogResource_FieldSubPath{selector: ActivityLogResource_FieldPathSelectorDifference, subPath: subpath}, nil
 			}
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_SubjectResource", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Resource", fp)
 }
 
-func ParseActivityLogSubjectResource_FieldPath(rawField string) (ActivityLogSubjectResource_FieldPath, error) {
+func ParseActivityLogResource_FieldPath(rawField string) (ActivityLogResource_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildActivityLogSubjectResource_FieldPath(fp)
+	return BuildActivityLogResource_FieldPath(fp)
 }
 
-func MustParseActivityLogSubjectResource_FieldPath(rawField string) ActivityLogSubjectResource_FieldPath {
-	fp, err := ParseActivityLogSubjectResource_FieldPath(rawField)
+func MustParseActivityLogResource_FieldPath(rawField string) ActivityLogResource_FieldPath {
+	fp, err := ParseActivityLogResource_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type ActivityLogSubjectResource_FieldTerminalPath struct {
-	selector ActivityLogSubjectResource_FieldPathSelector
+type ActivityLogResource_FieldTerminalPath struct {
+	selector ActivityLogResource_FieldPathSelector
 }
 
-var _ ActivityLogSubjectResource_FieldPath = (*ActivityLogSubjectResource_FieldTerminalPath)(nil)
+var _ ActivityLogResource_FieldPath = (*ActivityLogResource_FieldTerminalPath)(nil)
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) Selector() ActivityLogSubjectResource_FieldPathSelector {
+func (fp *ActivityLogResource_FieldTerminalPath) Selector() ActivityLogResource_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) String() string {
+func (fp *ActivityLogResource_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) JSONString() string {
+func (fp *ActivityLogResource_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source ActivityLog_SubjectResource
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) Get(source *ActivityLog_SubjectResource) (values []interface{}) {
+// Get returns all values pointed by specific field from source ActivityLog_Resource
+func (fp *ActivityLogResource_FieldTerminalPath) Get(source *ActivityLog_Resource) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case ActivityLogSubjectResource_FieldPathSelectorName:
+		case ActivityLogResource_FieldPathSelectorName:
 			values = append(values, source.Name)
-		case ActivityLogSubjectResource_FieldPathSelectorDifference:
+		case ActivityLogResource_FieldPathSelectorDifference:
 			if source.Difference != nil {
 				values = append(values, source.Difference)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*ActivityLog_SubjectResource))
+func (fp *ActivityLogResource_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ActivityLog_Resource))
 }
 
-// GetSingle returns value pointed by specific field of from source ActivityLog_SubjectResource
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) GetSingle(source *ActivityLog_SubjectResource) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source ActivityLog_Resource
+func (fp *ActivityLogResource_FieldTerminalPath) GetSingle(source *ActivityLog_Resource) (interface{}, bool) {
 	switch fp.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		return source.GetName(), source != nil
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
+	case ActivityLogResource_FieldPathSelectorDifference:
 		res := source.GetDifference()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*ActivityLog_SubjectResource))
+func (fp *ActivityLogResource_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ActivityLog_Resource))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) GetDefault() interface{} {
+func (fp *ActivityLogResource_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		return ""
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		return (*ActivityLog_SubjectResource_Difference)(nil)
+	case ActivityLogResource_FieldPathSelectorDifference:
+		return (*ActivityLog_Resource_Difference)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) ClearValue(item *ActivityLog_SubjectResource) {
+func (fp *ActivityLogResource_FieldTerminalPath) ClearValue(item *ActivityLog_Resource) {
 	if item != nil {
 		switch fp.selector {
-		case ActivityLogSubjectResource_FieldPathSelectorName:
+		case ActivityLogResource_FieldPathSelectorName:
 			item.Name = ""
-		case ActivityLogSubjectResource_FieldPathSelectorDifference:
+		case ActivityLogResource_FieldPathSelectorDifference:
 			item.Difference = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*ActivityLog_SubjectResource))
+func (fp *ActivityLogResource_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ActivityLog_Resource))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ActivityLogSubjectResource_FieldPathSelectorName
+func (fp *ActivityLogResource_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ActivityLogResource_FieldPathSelectorName
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithIValue(value interface{}) ActivityLogSubjectResource_FieldPathValue {
+func (fp *ActivityLogResource_FieldTerminalPath) WithIValue(value interface{}) ActivityLogResource_FieldPathValue {
 	switch fp.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
-		return &ActivityLogSubjectResource_FieldTerminalPathValue{ActivityLogSubjectResource_FieldTerminalPath: *fp, value: value.(string)}
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		return &ActivityLogSubjectResource_FieldTerminalPathValue{ActivityLogSubjectResource_FieldTerminalPath: *fp, value: value.(*ActivityLog_SubjectResource_Difference)}
+	case ActivityLogResource_FieldPathSelectorName:
+		return &ActivityLogResource_FieldTerminalPathValue{ActivityLogResource_FieldTerminalPath: *fp, value: value.(string)}
+	case ActivityLogResource_FieldPathSelectorDifference:
+		return &ActivityLogResource_FieldTerminalPathValue{ActivityLogResource_FieldTerminalPath: *fp, value: value.(*ActivityLog_Resource_Difference)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *ActivityLogResource_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithIArrayOfValues(values interface{}) ActivityLogSubjectResource_FieldPathArrayOfValues {
-	fpaov := &ActivityLogSubjectResource_FieldTerminalPathArrayOfValues{ActivityLogSubjectResource_FieldTerminalPath: *fp}
+func (fp *ActivityLogResource_FieldTerminalPath) WithIArrayOfValues(values interface{}) ActivityLogResource_FieldPathArrayOfValues {
+	fpaov := &ActivityLogResource_FieldTerminalPathArrayOfValues{ActivityLogResource_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
-		return &ActivityLogSubjectResource_FieldTerminalPathArrayOfValues{ActivityLogSubjectResource_FieldTerminalPath: *fp, values: values.([]string)}
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		return &ActivityLogSubjectResource_FieldTerminalPathArrayOfValues{ActivityLogSubjectResource_FieldTerminalPath: *fp, values: values.([]*ActivityLog_SubjectResource_Difference)}
+	case ActivityLogResource_FieldPathSelectorName:
+		return &ActivityLogResource_FieldTerminalPathArrayOfValues{ActivityLogResource_FieldTerminalPath: *fp, values: values.([]string)}
+	case ActivityLogResource_FieldPathSelectorDifference:
+		return &ActivityLogResource_FieldTerminalPathArrayOfValues{ActivityLogResource_FieldTerminalPath: *fp, values: values.([]*ActivityLog_Resource_Difference)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *ActivityLogResource_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithIArrayItemValue(value interface{}) ActivityLogSubjectResource_FieldPathArrayItemValue {
+func (fp *ActivityLogResource_FieldTerminalPath) WithIArrayItemValue(value interface{}) ActivityLogResource_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResource_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *ActivityLogResource_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-type ActivityLogSubjectResource_FieldSubPath struct {
-	selector ActivityLogSubjectResource_FieldPathSelector
+type ActivityLogResource_FieldSubPath struct {
+	selector ActivityLogResource_FieldPathSelector
 	subPath  gotenobject.FieldPath
 }
 
-var _ ActivityLogSubjectResource_FieldPath = (*ActivityLogSubjectResource_FieldSubPath)(nil)
+var _ ActivityLogResource_FieldPath = (*ActivityLogResource_FieldSubPath)(nil)
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) Selector() ActivityLogSubjectResource_FieldPathSelector {
+func (fps *ActivityLogResource_FieldSubPath) Selector() ActivityLogResource_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ActivityLogSubjectResource_FieldSubPath) AsDifferenceSubPath() (ActivityLogSubjectResourceDifference_FieldPath, bool) {
-	res, ok := fps.subPath.(ActivityLogSubjectResourceDifference_FieldPath)
+func (fps *ActivityLogResource_FieldSubPath) AsDifferenceSubPath() (ActivityLogResourceDifference_FieldPath, bool) {
+	res, ok := fps.subPath.(ActivityLogResourceDifference_FieldPath)
 	return res, ok
 }
 
 // String returns path representation in proto convention
-func (fps *ActivityLogSubjectResource_FieldSubPath) String() string {
+func (fps *ActivityLogResource_FieldSubPath) String() string {
 	return fps.selector.String() + "." + fps.subPath.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fps *ActivityLogSubjectResource_FieldSubPath) JSONString() string {
+func (fps *ActivityLogResource_FieldSubPath) JSONString() string {
 	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
 }
 
-// Get returns all values pointed by selected field from source ActivityLog_SubjectResource
-func (fps *ActivityLogSubjectResource_FieldSubPath) Get(source *ActivityLog_SubjectResource) (values []interface{}) {
+// Get returns all values pointed by selected field from source ActivityLog_Resource
+func (fps *ActivityLogResource_FieldSubPath) Get(source *ActivityLog_Resource) (values []interface{}) {
 	if asDifferenceFieldPath, ok := fps.AsDifferenceSubPath(); ok {
 		values = append(values, asDifferenceFieldPath.Get(source.GetDifference())...)
 	} else {
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fps.selector))
 	}
 	return
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*ActivityLog_SubjectResource))
+func (fps *ActivityLogResource_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ActivityLog_Resource))
 }
 
-// GetSingle returns value of selected field from source ActivityLog_SubjectResource
-func (fps *ActivityLogSubjectResource_FieldSubPath) GetSingle(source *ActivityLog_SubjectResource) (interface{}, bool) {
+// GetSingle returns value of selected field from source ActivityLog_Resource
+func (fps *ActivityLogResource_FieldSubPath) GetSingle(source *ActivityLog_Resource) (interface{}, bool) {
 	switch fps.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
+	case ActivityLogResource_FieldPathSelectorDifference:
 		if source.GetDifference() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetDifference())
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fps.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fps.selector))
 	}
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*ActivityLog_SubjectResource))
+func (fps *ActivityLogResource_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ActivityLog_Resource))
 }
 
 // GetDefault returns a default value of the field type
-func (fps *ActivityLogSubjectResource_FieldSubPath) GetDefault() interface{} {
+func (fps *ActivityLogResource_FieldSubPath) GetDefault() interface{} {
 	return fps.subPath.GetDefault()
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) ClearValue(item *ActivityLog_SubjectResource) {
+func (fps *ActivityLogResource_FieldSubPath) ClearValue(item *ActivityLog_Resource) {
 	if item != nil {
 		switch fps.selector {
-		case ActivityLogSubjectResource_FieldPathSelectorDifference:
+		case ActivityLogResource_FieldPathSelectorDifference:
 			fps.subPath.ClearValueRaw(item.Difference)
 		default:
-			panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fps.selector))
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fps.selector))
 		}
 	}
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*ActivityLog_SubjectResource))
+func (fps *ActivityLogResource_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ActivityLog_Resource))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fps *ActivityLogSubjectResource_FieldSubPath) IsLeaf() bool {
+func (fps *ActivityLogResource_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithIValue(value interface{}) ActivityLogSubjectResource_FieldPathValue {
-	return &ActivityLogSubjectResource_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+func (fps *ActivityLogResource_FieldSubPath) WithIValue(value interface{}) ActivityLogResource_FieldPathValue {
+	return &ActivityLogResource_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fps *ActivityLogResource_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fps.WithIValue(value)
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithIArrayOfValues(values interface{}) ActivityLogSubjectResource_FieldPathArrayOfValues {
-	return &ActivityLogSubjectResource_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+func (fps *ActivityLogResource_FieldSubPath) WithIArrayOfValues(values interface{}) ActivityLogResource_FieldPathArrayOfValues {
+	return &ActivityLogResource_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fps *ActivityLogResource_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fps.WithIArrayOfValues(values)
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithIArrayItemValue(value interface{}) ActivityLogSubjectResource_FieldPathArrayItemValue {
-	return &ActivityLogSubjectResource_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+func (fps *ActivityLogResource_FieldSubPath) WithIArrayItemValue(value interface{}) ActivityLogResource_FieldPathArrayItemValue {
+	return &ActivityLogResource_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
 }
 
-func (fps *ActivityLogSubjectResource_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fps *ActivityLogResource_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fps.WithIArrayItemValue(value)
 }
 
-// ActivityLogSubjectResource_FieldPathValue allows storing values for SubjectResource fields according to their type
-type ActivityLogSubjectResource_FieldPathValue interface {
-	ActivityLogSubjectResource_FieldPath
+// ActivityLogResource_FieldPathValue allows storing values for Resource fields according to their type
+type ActivityLogResource_FieldPathValue interface {
+	ActivityLogResource_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **ActivityLog_SubjectResource)
-	CompareWith(*ActivityLog_SubjectResource) (cmp int, comparable bool)
+	SetTo(target **ActivityLog_Resource)
+	CompareWith(*ActivityLog_Resource) (cmp int, comparable bool)
 }
 
-func ParseActivityLogSubjectResource_FieldPathValue(pathStr, valueStr string) (ActivityLogSubjectResource_FieldPathValue, error) {
-	fp, err := ParseActivityLogSubjectResource_FieldPath(pathStr)
+func ParseActivityLogResource_FieldPathValue(pathStr, valueStr string) (ActivityLogResource_FieldPathValue, error) {
+	fp, err := ParseActivityLogResource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing SubjectResource field path value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Resource field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(ActivityLogSubjectResource_FieldPathValue), nil
+	return fpv.(ActivityLogResource_FieldPathValue), nil
 }
 
-func MustParseActivityLogSubjectResource_FieldPathValue(pathStr, valueStr string) ActivityLogSubjectResource_FieldPathValue {
-	fpv, err := ParseActivityLogSubjectResource_FieldPathValue(pathStr, valueStr)
+func MustParseActivityLogResource_FieldPathValue(pathStr, valueStr string) ActivityLogResource_FieldPathValue {
+	fpv, err := ParseActivityLogResource_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type ActivityLogSubjectResource_FieldTerminalPathValue struct {
-	ActivityLogSubjectResource_FieldTerminalPath
+type ActivityLogResource_FieldTerminalPathValue struct {
+	ActivityLogResource_FieldTerminalPath
 	value interface{}
 }
 
-var _ ActivityLogSubjectResource_FieldPathValue = (*ActivityLogSubjectResource_FieldTerminalPathValue)(nil)
+var _ ActivityLogResource_FieldPathValue = (*ActivityLogResource_FieldTerminalPathValue)(nil)
 
-// GetRawValue returns raw value stored under selected path for 'SubjectResource' as interface{}
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) GetRawValue() interface{} {
+// GetRawValue returns raw value stored under selected path for 'Resource' as interface{}
+func (fpv *ActivityLogResource_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) AsNameValue() (string, bool) {
+func (fpv *ActivityLogResource_FieldTerminalPathValue) AsNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) AsDifferenceValue() (*ActivityLog_SubjectResource_Difference, bool) {
-	res, ok := fpv.value.(*ActivityLog_SubjectResource_Difference)
+func (fpv *ActivityLogResource_FieldTerminalPathValue) AsDifferenceValue() (*ActivityLog_Resource_Difference, bool) {
+	res, ok := fpv.value.(*ActivityLog_Resource_Difference)
 	return res, ok
 }
 
-// SetTo stores value for selected field for object SubjectResource
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) SetTo(target **ActivityLog_SubjectResource) {
+// SetTo stores value for selected field for object Resource
+func (fpv *ActivityLogResource_FieldTerminalPathValue) SetTo(target **ActivityLog_Resource) {
 	if *target == nil {
-		*target = new(ActivityLog_SubjectResource)
+		*target = new(ActivityLog_Resource)
 	}
 	switch fpv.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		(*target).Name = fpv.value.(string)
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		(*target).Difference = fpv.value.(*ActivityLog_SubjectResource_Difference)
+	case ActivityLogResource_FieldPathSelectorDifference:
+		(*target).Difference = fpv.value.(*ActivityLog_Resource_Difference)
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fpv.selector))
 	}
 }
 
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*ActivityLog_SubjectResource)
+func (fpv *ActivityLogResource_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Resource)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'ActivityLogSubjectResource_FieldTerminalPathValue' with the value under path in 'ActivityLog_SubjectResource'.
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) CompareWith(source *ActivityLog_SubjectResource) (int, bool) {
+// CompareWith compares value in the 'ActivityLogResource_FieldTerminalPathValue' with the value under path in 'ActivityLog_Resource'.
+func (fpv *ActivityLogResource_FieldTerminalPathValue) CompareWith(source *ActivityLog_Resource) (int, bool) {
 	switch fpv.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetName()
 		if (leftValue) == (rightValue) {
@@ -3651,115 +3651,115 @@ func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) CompareWith(source
 		} else {
 			return 1, true
 		}
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
+	case ActivityLogResource_FieldPathSelectorDifference:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fpv.selector))
 	}
 }
 
-func (fpv *ActivityLogSubjectResource_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*ActivityLog_SubjectResource))
+func (fpv *ActivityLogResource_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ActivityLog_Resource))
 }
 
-type ActivityLogSubjectResource_FieldSubPathValue struct {
-	ActivityLogSubjectResource_FieldPath
+type ActivityLogResource_FieldSubPathValue struct {
+	ActivityLogResource_FieldPath
 	subPathValue gotenobject.FieldPathValue
 }
 
-var _ ActivityLogSubjectResource_FieldPathValue = (*ActivityLogSubjectResource_FieldSubPathValue)(nil)
+var _ ActivityLogResource_FieldPathValue = (*ActivityLogResource_FieldSubPathValue)(nil)
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) AsDifferencePathValue() (ActivityLogSubjectResourceDifference_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ActivityLogSubjectResourceDifference_FieldPathValue)
+func (fpvs *ActivityLogResource_FieldSubPathValue) AsDifferencePathValue() (ActivityLogResourceDifference_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ActivityLogResourceDifference_FieldPathValue)
 	return res, ok
 }
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) SetTo(target **ActivityLog_SubjectResource) {
+func (fpvs *ActivityLogResource_FieldSubPathValue) SetTo(target **ActivityLog_Resource) {
 	if *target == nil {
-		*target = new(ActivityLog_SubjectResource)
+		*target = new(ActivityLog_Resource)
 	}
 	switch fpvs.Selector() {
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		fpvs.subPathValue.(ActivityLogSubjectResourceDifference_FieldPathValue).SetTo(&(*target).Difference)
+	case ActivityLogResource_FieldPathSelectorDifference:
+		fpvs.subPathValue.(ActivityLogResourceDifference_FieldPathValue).SetTo(&(*target).Difference)
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*ActivityLog_SubjectResource)
+func (fpvs *ActivityLogResource_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Resource)
 	fpvs.SetTo(&typedObject)
 }
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) GetRawValue() interface{} {
+func (fpvs *ActivityLogResource_FieldSubPathValue) GetRawValue() interface{} {
 	return fpvs.subPathValue.GetRawValue()
 }
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) CompareWith(source *ActivityLog_SubjectResource) (int, bool) {
+func (fpvs *ActivityLogResource_FieldSubPathValue) CompareWith(source *ActivityLog_Resource) (int, bool) {
 	switch fpvs.Selector() {
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		return fpvs.subPathValue.(ActivityLogSubjectResourceDifference_FieldPathValue).CompareWith(source.GetDifference())
+	case ActivityLogResource_FieldPathSelectorDifference:
+		return fpvs.subPathValue.(ActivityLogResourceDifference_FieldPathValue).CompareWith(source.GetDifference())
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fpvs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fpvs.Selector()))
 	}
 }
 
-func (fpvs *ActivityLogSubjectResource_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*ActivityLog_SubjectResource))
+func (fpvs *ActivityLogResource_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ActivityLog_Resource))
 }
 
-// ActivityLogSubjectResource_FieldPathArrayItemValue allows storing single item in Path-specific values for SubjectResource according to their type
+// ActivityLogResource_FieldPathArrayItemValue allows storing single item in Path-specific values for Resource according to their type
 // Present only for array (repeated) types.
-type ActivityLogSubjectResource_FieldPathArrayItemValue interface {
+type ActivityLogResource_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	ActivityLogSubjectResource_FieldPath
-	ContainsValue(*ActivityLog_SubjectResource) bool
+	ActivityLogResource_FieldPath
+	ContainsValue(*ActivityLog_Resource) bool
 }
 
-// ParseActivityLogSubjectResource_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseActivityLogSubjectResource_FieldPathArrayItemValue(pathStr, valueStr string) (ActivityLogSubjectResource_FieldPathArrayItemValue, error) {
-	fp, err := ParseActivityLogSubjectResource_FieldPath(pathStr)
+// ParseActivityLogResource_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseActivityLogResource_FieldPathArrayItemValue(pathStr, valueStr string) (ActivityLogResource_FieldPathArrayItemValue, error) {
+	fp, err := ParseActivityLogResource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing SubjectResource field path array item value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Resource field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(ActivityLogSubjectResource_FieldPathArrayItemValue), nil
+	return fpaiv.(ActivityLogResource_FieldPathArrayItemValue), nil
 }
 
-func MustParseActivityLogSubjectResource_FieldPathArrayItemValue(pathStr, valueStr string) ActivityLogSubjectResource_FieldPathArrayItemValue {
-	fpaiv, err := ParseActivityLogSubjectResource_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParseActivityLogResource_FieldPathArrayItemValue(pathStr, valueStr string) ActivityLogResource_FieldPathArrayItemValue {
+	fpaiv, err := ParseActivityLogResource_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type ActivityLogSubjectResource_FieldTerminalPathArrayItemValue struct {
-	ActivityLogSubjectResource_FieldTerminalPath
+type ActivityLogResource_FieldTerminalPathArrayItemValue struct {
+	ActivityLogResource_FieldTerminalPath
 	value interface{}
 }
 
-var _ ActivityLogSubjectResource_FieldPathArrayItemValue = (*ActivityLogSubjectResource_FieldTerminalPathArrayItemValue)(nil)
+var _ ActivityLogResource_FieldPathArrayItemValue = (*ActivityLogResource_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object ActivityLog_SubjectResource as interface{}
-func (fpaiv *ActivityLogSubjectResource_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object ActivityLog_Resource as interface{}
+func (fpaiv *ActivityLogResource_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *ActivityLogSubjectResource_FieldTerminalPathArrayItemValue) GetSingle(source *ActivityLog_SubjectResource) (interface{}, bool) {
+func (fpaiv *ActivityLogResource_FieldTerminalPathArrayItemValue) GetSingle(source *ActivityLog_Resource) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *ActivityLogSubjectResource_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*ActivityLog_SubjectResource))
+func (fpaiv *ActivityLogResource_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ActivityLog_Resource))
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'SubjectResource'
-func (fpaiv *ActivityLogSubjectResource_FieldTerminalPathArrayItemValue) ContainsValue(source *ActivityLog_SubjectResource) bool {
-	slice := fpaiv.ActivityLogSubjectResource_FieldTerminalPath.Get(source)
+// Contains returns a boolean indicating if value that is being held is present in given 'Resource'
+func (fpaiv *ActivityLogResource_FieldTerminalPathArrayItemValue) ContainsValue(source *ActivityLog_Resource) bool {
+	slice := fpaiv.ActivityLogResource_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if reflect.DeepEqual(v, fpaiv.value) {
 			return true
@@ -3768,97 +3768,97 @@ func (fpaiv *ActivityLogSubjectResource_FieldTerminalPathArrayItemValue) Contain
 	return false
 }
 
-type ActivityLogSubjectResource_FieldSubPathArrayItemValue struct {
-	ActivityLogSubjectResource_FieldPath
+type ActivityLogResource_FieldSubPathArrayItemValue struct {
+	ActivityLogResource_FieldPath
 	subPathItemValue gotenobject.FieldPathArrayItemValue
 }
 
 // GetRawValue returns stored array item value
-func (fpaivs *ActivityLogSubjectResource_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+func (fpaivs *ActivityLogResource_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ActivityLogSubjectResource_FieldSubPathArrayItemValue) AsDifferencePathItemValue() (ActivityLogSubjectResourceDifference_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ActivityLogSubjectResourceDifference_FieldPathArrayItemValue)
+func (fpaivs *ActivityLogResource_FieldSubPathArrayItemValue) AsDifferencePathItemValue() (ActivityLogResourceDifference_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ActivityLogResourceDifference_FieldPathArrayItemValue)
 	return res, ok
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'SubjectResource'
-func (fpaivs *ActivityLogSubjectResource_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog_SubjectResource) bool {
+// Contains returns a boolean indicating if value that is being held is present in given 'Resource'
+func (fpaivs *ActivityLogResource_FieldSubPathArrayItemValue) ContainsValue(source *ActivityLog_Resource) bool {
 	switch fpaivs.Selector() {
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		return fpaivs.subPathItemValue.(ActivityLogSubjectResourceDifference_FieldPathArrayItemValue).ContainsValue(source.GetDifference())
+	case ActivityLogResource_FieldPathSelectorDifference:
+		return fpaivs.subPathItemValue.(ActivityLogResourceDifference_FieldPathArrayItemValue).ContainsValue(source.GetDifference())
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource: %d", fpaivs.Selector()))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fpaivs.Selector()))
 	}
 }
 
-// ActivityLogSubjectResource_FieldPathArrayOfValues allows storing slice of values for SubjectResource fields according to their type
-type ActivityLogSubjectResource_FieldPathArrayOfValues interface {
+// ActivityLogResource_FieldPathArrayOfValues allows storing slice of values for Resource fields according to their type
+type ActivityLogResource_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	ActivityLogSubjectResource_FieldPath
+	ActivityLogResource_FieldPath
 }
 
-func ParseActivityLogSubjectResource_FieldPathArrayOfValues(pathStr, valuesStr string) (ActivityLogSubjectResource_FieldPathArrayOfValues, error) {
-	fp, err := ParseActivityLogSubjectResource_FieldPath(pathStr)
+func ParseActivityLogResource_FieldPathArrayOfValues(pathStr, valuesStr string) (ActivityLogResource_FieldPathArrayOfValues, error) {
+	fp, err := ParseActivityLogResource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing SubjectResource field path array of values from %s: %v", valuesStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Resource field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(ActivityLogSubjectResource_FieldPathArrayOfValues), nil
+	return fpaov.(ActivityLogResource_FieldPathArrayOfValues), nil
 }
 
-func MustParseActivityLogSubjectResource_FieldPathArrayOfValues(pathStr, valuesStr string) ActivityLogSubjectResource_FieldPathArrayOfValues {
-	fpaov, err := ParseActivityLogSubjectResource_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParseActivityLogResource_FieldPathArrayOfValues(pathStr, valuesStr string) ActivityLogResource_FieldPathArrayOfValues {
+	fpaov, err := ParseActivityLogResource_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type ActivityLogSubjectResource_FieldTerminalPathArrayOfValues struct {
-	ActivityLogSubjectResource_FieldTerminalPath
+type ActivityLogResource_FieldTerminalPathArrayOfValues struct {
+	ActivityLogResource_FieldTerminalPath
 	values interface{}
 }
 
-var _ ActivityLogSubjectResource_FieldPathArrayOfValues = (*ActivityLogSubjectResource_FieldTerminalPathArrayOfValues)(nil)
+var _ ActivityLogResource_FieldPathArrayOfValues = (*ActivityLogResource_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *ActivityLogSubjectResource_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *ActivityLogResource_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case ActivityLogSubjectResource_FieldPathSelectorName:
+	case ActivityLogResource_FieldPathSelectorName:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case ActivityLogSubjectResource_FieldPathSelectorDifference:
-		for _, v := range fpaov.values.([]*ActivityLog_SubjectResource_Difference) {
+	case ActivityLogResource_FieldPathSelectorDifference:
+		for _, v := range fpaov.values.([]*ActivityLog_Resource_Difference) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *ActivityLogSubjectResource_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+func (fpaov *ActivityLogResource_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *ActivityLogSubjectResource_FieldTerminalPathArrayOfValues) AsDifferenceArrayOfValues() ([]*ActivityLog_SubjectResource_Difference, bool) {
-	res, ok := fpaov.values.([]*ActivityLog_SubjectResource_Difference)
+func (fpaov *ActivityLogResource_FieldTerminalPathArrayOfValues) AsDifferenceArrayOfValues() ([]*ActivityLog_Resource_Difference, bool) {
+	res, ok := fpaov.values.([]*ActivityLog_Resource_Difference)
 	return res, ok
 }
 
-type ActivityLogSubjectResource_FieldSubPathArrayOfValues struct {
-	ActivityLogSubjectResource_FieldPath
+type ActivityLogResource_FieldSubPathArrayOfValues struct {
+	ActivityLogResource_FieldPath
 	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
 }
 
-var _ ActivityLogSubjectResource_FieldPathArrayOfValues = (*ActivityLogSubjectResource_FieldSubPathArrayOfValues)(nil)
+var _ ActivityLogResource_FieldPathArrayOfValues = (*ActivityLogResource_FieldSubPathArrayOfValues)(nil)
 
-func (fpsaov *ActivityLogSubjectResource_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+func (fpsaov *ActivityLogResource_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ActivityLogSubjectResource_FieldSubPathArrayOfValues) AsDifferencePathArrayOfValues() (ActivityLogSubjectResourceDifference_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogSubjectResourceDifference_FieldPathArrayOfValues)
+func (fpsaov *ActivityLogResource_FieldSubPathArrayOfValues) AsDifferencePathArrayOfValues() (ActivityLogResourceDifference_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ActivityLogResourceDifference_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -6486,239 +6486,239 @@ func (fpsaov *ActivityLogEventExitEvent_FieldSubPathArrayOfValues) AsStatusPathA
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type ActivityLogSubjectResourceDifference_FieldPath interface {
+type ActivityLogResourceDifference_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() ActivityLogSubjectResourceDifference_FieldPathSelector
-	Get(source *ActivityLog_SubjectResource_Difference) []interface{}
-	GetSingle(source *ActivityLog_SubjectResource_Difference) (interface{}, bool)
-	ClearValue(item *ActivityLog_SubjectResource_Difference)
+	Selector() ActivityLogResourceDifference_FieldPathSelector
+	Get(source *ActivityLog_Resource_Difference) []interface{}
+	GetSingle(source *ActivityLog_Resource_Difference) (interface{}, bool)
+	ClearValue(item *ActivityLog_Resource_Difference)
 
-	// Those methods build corresponding ActivityLogSubjectResourceDifference_FieldPathValue
+	// Those methods build corresponding ActivityLogResourceDifference_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) ActivityLogSubjectResourceDifference_FieldPathValue
-	WithIArrayOfValues(values interface{}) ActivityLogSubjectResourceDifference_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) ActivityLogSubjectResourceDifference_FieldPathArrayItemValue
+	WithIValue(value interface{}) ActivityLogResourceDifference_FieldPathValue
+	WithIArrayOfValues(values interface{}) ActivityLogResourceDifference_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ActivityLogResourceDifference_FieldPathArrayItemValue
 }
 
-type ActivityLogSubjectResourceDifference_FieldPathSelector int32
+type ActivityLogResourceDifference_FieldPathSelector int32
 
 const (
-	ActivityLogSubjectResourceDifference_FieldPathSelectorFields ActivityLogSubjectResourceDifference_FieldPathSelector = 0
-	ActivityLogSubjectResourceDifference_FieldPathSelectorBefore ActivityLogSubjectResourceDifference_FieldPathSelector = 1
-	ActivityLogSubjectResourceDifference_FieldPathSelectorAfter  ActivityLogSubjectResourceDifference_FieldPathSelector = 2
+	ActivityLogResourceDifference_FieldPathSelectorFields ActivityLogResourceDifference_FieldPathSelector = 0
+	ActivityLogResourceDifference_FieldPathSelectorBefore ActivityLogResourceDifference_FieldPathSelector = 1
+	ActivityLogResourceDifference_FieldPathSelectorAfter  ActivityLogResourceDifference_FieldPathSelector = 2
 )
 
-func (s ActivityLogSubjectResourceDifference_FieldPathSelector) String() string {
+func (s ActivityLogResourceDifference_FieldPathSelector) String() string {
 	switch s {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		return "fields"
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		return "before"
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return "after"
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", s))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", s))
 	}
 }
 
-func BuildActivityLogSubjectResourceDifference_FieldPath(fp gotenobject.RawFieldPath) (ActivityLogSubjectResourceDifference_FieldPath, error) {
+func BuildActivityLogResourceDifference_FieldPath(fp gotenobject.RawFieldPath) (ActivityLogResourceDifference_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object ActivityLog_SubjectResource_Difference")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ActivityLog_Resource_Difference")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "fields":
-			return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorFields}, nil
+			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields}, nil
 		case "before":
-			return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorBefore}, nil
+			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore}, nil
 		case "after":
-			return &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorAfter}, nil
+			return &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter}, nil
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_SubjectResource_Difference", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ActivityLog_Resource_Difference", fp)
 }
 
-func ParseActivityLogSubjectResourceDifference_FieldPath(rawField string) (ActivityLogSubjectResourceDifference_FieldPath, error) {
+func ParseActivityLogResourceDifference_FieldPath(rawField string) (ActivityLogResourceDifference_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildActivityLogSubjectResourceDifference_FieldPath(fp)
+	return BuildActivityLogResourceDifference_FieldPath(fp)
 }
 
-func MustParseActivityLogSubjectResourceDifference_FieldPath(rawField string) ActivityLogSubjectResourceDifference_FieldPath {
-	fp, err := ParseActivityLogSubjectResourceDifference_FieldPath(rawField)
+func MustParseActivityLogResourceDifference_FieldPath(rawField string) ActivityLogResourceDifference_FieldPath {
+	fp, err := ParseActivityLogResourceDifference_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type ActivityLogSubjectResourceDifference_FieldTerminalPath struct {
-	selector ActivityLogSubjectResourceDifference_FieldPathSelector
+type ActivityLogResourceDifference_FieldTerminalPath struct {
+	selector ActivityLogResourceDifference_FieldPathSelector
 }
 
-var _ ActivityLogSubjectResourceDifference_FieldPath = (*ActivityLogSubjectResourceDifference_FieldTerminalPath)(nil)
+var _ ActivityLogResourceDifference_FieldPath = (*ActivityLogResourceDifference_FieldTerminalPath)(nil)
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) Selector() ActivityLogSubjectResourceDifference_FieldPathSelector {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) Selector() ActivityLogResourceDifference_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) String() string {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) JSONString() string {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source ActivityLog_SubjectResource_Difference
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) Get(source *ActivityLog_SubjectResource_Difference) (values []interface{}) {
+// Get returns all values pointed by specific field from source ActivityLog_Resource_Difference
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) Get(source *ActivityLog_Resource_Difference) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+		case ActivityLogResourceDifference_FieldPathSelectorFields:
 			if source.Fields != nil {
 				values = append(values, source.Fields)
 			}
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+		case ActivityLogResourceDifference_FieldPathSelectorBefore:
 			if source.Before != nil {
 				values = append(values, source.Before)
 			}
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+		case ActivityLogResourceDifference_FieldPathSelectorAfter:
 			if source.After != nil {
 				values = append(values, source.After)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*ActivityLog_SubjectResource_Difference))
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ActivityLog_Resource_Difference))
 }
 
-// GetSingle returns value pointed by specific field of from source ActivityLog_SubjectResource_Difference
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) GetSingle(source *ActivityLog_SubjectResource_Difference) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source ActivityLog_Resource_Difference
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetSingle(source *ActivityLog_Resource_Difference) (interface{}, bool) {
 	switch fp.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		res := source.GetFields()
 		return res, res != nil
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		res := source.GetBefore()
 		return res, res != nil
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		res := source.GetAfter()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*ActivityLog_SubjectResource_Difference))
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ActivityLog_Resource_Difference))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) GetDefault() interface{} {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		return (*field_mask.FieldMask)(nil)
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		return (*any.Any)(nil)
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return (*any.Any)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) ClearValue(item *ActivityLog_SubjectResource_Difference) {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) ClearValue(item *ActivityLog_Resource_Difference) {
 	if item != nil {
 		switch fp.selector {
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+		case ActivityLogResourceDifference_FieldPathSelectorFields:
 			item.Fields = nil
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+		case ActivityLogResourceDifference_FieldPathSelectorBefore:
 			item.Before = nil
-		case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+		case ActivityLogResourceDifference_FieldPathSelectorAfter:
 			item.After = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*ActivityLog_SubjectResource_Difference))
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ActivityLog_Resource_Difference))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ActivityLogSubjectResourceDifference_FieldPathSelectorFields ||
-		fp.selector == ActivityLogSubjectResourceDifference_FieldPathSelectorBefore ||
-		fp.selector == ActivityLogSubjectResourceDifference_FieldPathSelectorAfter
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ActivityLogResourceDifference_FieldPathSelectorFields ||
+		fp.selector == ActivityLogResourceDifference_FieldPathSelectorBefore ||
+		fp.selector == ActivityLogResourceDifference_FieldPathSelectorAfter
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithIValue(value interface{}) ActivityLogSubjectResourceDifference_FieldPathValue {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIValue(value interface{}) ActivityLogResourceDifference_FieldPathValue {
 	switch fp.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathValue{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, value: value.(*field_mask.FieldMask)}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathValue{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathValue{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*field_mask.FieldMask)}
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
+		return &ActivityLogResourceDifference_FieldTerminalPathValue{ActivityLogResourceDifference_FieldTerminalPath: *fp, value: value.(*any.Any)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithIArrayOfValues(values interface{}) ActivityLogSubjectResourceDifference_FieldPathArrayOfValues {
-	fpaov := &ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp}
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIArrayOfValues(values interface{}) ActivityLogResourceDifference_FieldPathArrayOfValues {
+	fpaov := &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, values: values.([]*field_mask.FieldMask)}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
-		return &ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogSubjectResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*field_mask.FieldMask)}
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
+		return &ActivityLogResourceDifference_FieldTerminalPathArrayOfValues{ActivityLogResourceDifference_FieldTerminalPath: *fp, values: values.([]*any.Any)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithIArrayItemValue(value interface{}) ActivityLogSubjectResourceDifference_FieldPathArrayItemValue {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithIArrayItemValue(value interface{}) ActivityLogResourceDifference_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fp.selector))
 	}
 }
 
-func (fp *ActivityLogSubjectResourceDifference_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *ActivityLogResourceDifference_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-// ActivityLogSubjectResourceDifference_FieldPathValue allows storing values for Difference fields according to their type
-type ActivityLogSubjectResourceDifference_FieldPathValue interface {
-	ActivityLogSubjectResourceDifference_FieldPath
+// ActivityLogResourceDifference_FieldPathValue allows storing values for Difference fields according to their type
+type ActivityLogResourceDifference_FieldPathValue interface {
+	ActivityLogResourceDifference_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **ActivityLog_SubjectResource_Difference)
-	CompareWith(*ActivityLog_SubjectResource_Difference) (cmp int, comparable bool)
+	SetTo(target **ActivityLog_Resource_Difference)
+	CompareWith(*ActivityLog_Resource_Difference) (cmp int, comparable bool)
 }
 
-func ParseActivityLogSubjectResourceDifference_FieldPathValue(pathStr, valueStr string) (ActivityLogSubjectResourceDifference_FieldPathValue, error) {
-	fp, err := ParseActivityLogSubjectResourceDifference_FieldPath(pathStr)
+func ParseActivityLogResourceDifference_FieldPathValue(pathStr, valueStr string) (ActivityLogResourceDifference_FieldPathValue, error) {
+	fp, err := ParseActivityLogResourceDifference_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -6726,92 +6726,92 @@ func ParseActivityLogSubjectResourceDifference_FieldPathValue(pathStr, valueStr 
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Difference field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(ActivityLogSubjectResourceDifference_FieldPathValue), nil
+	return fpv.(ActivityLogResourceDifference_FieldPathValue), nil
 }
 
-func MustParseActivityLogSubjectResourceDifference_FieldPathValue(pathStr, valueStr string) ActivityLogSubjectResourceDifference_FieldPathValue {
-	fpv, err := ParseActivityLogSubjectResourceDifference_FieldPathValue(pathStr, valueStr)
+func MustParseActivityLogResourceDifference_FieldPathValue(pathStr, valueStr string) ActivityLogResourceDifference_FieldPathValue {
+	fpv, err := ParseActivityLogResourceDifference_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type ActivityLogSubjectResourceDifference_FieldTerminalPathValue struct {
-	ActivityLogSubjectResourceDifference_FieldTerminalPath
+type ActivityLogResourceDifference_FieldTerminalPathValue struct {
+	ActivityLogResourceDifference_FieldTerminalPath
 	value interface{}
 }
 
-var _ ActivityLogSubjectResourceDifference_FieldPathValue = (*ActivityLogSubjectResourceDifference_FieldTerminalPathValue)(nil)
+var _ ActivityLogResourceDifference_FieldPathValue = (*ActivityLogResourceDifference_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'Difference' as interface{}
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) AsFieldsValue() (*field_mask.FieldMask, bool) {
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsFieldsValue() (*field_mask.FieldMask, bool) {
 	res, ok := fpv.value.(*field_mask.FieldMask)
 	return res, ok
 }
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) AsBeforeValue() (*any.Any, bool) {
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsBeforeValue() (*any.Any, bool) {
 	res, ok := fpv.value.(*any.Any)
 	return res, ok
 }
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) AsAfterValue() (*any.Any, bool) {
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) AsAfterValue() (*any.Any, bool) {
 	res, ok := fpv.value.(*any.Any)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object Difference
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) SetTo(target **ActivityLog_SubjectResource_Difference) {
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) SetTo(target **ActivityLog_Resource_Difference) {
 	if *target == nil {
-		*target = new(ActivityLog_SubjectResource_Difference)
+		*target = new(ActivityLog_Resource_Difference)
 	}
 	switch fpv.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		(*target).Fields = fpv.value.(*field_mask.FieldMask)
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		(*target).Before = fpv.value.(*any.Any)
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		(*target).After = fpv.value.(*any.Any)
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpv.selector))
 	}
 }
 
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*ActivityLog_SubjectResource_Difference)
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ActivityLog_Resource_Difference)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'ActivityLogSubjectResourceDifference_FieldTerminalPathValue' with the value under path in 'ActivityLog_SubjectResource_Difference'.
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) CompareWith(source *ActivityLog_SubjectResource_Difference) (int, bool) {
+// CompareWith compares value in the 'ActivityLogResourceDifference_FieldTerminalPathValue' with the value under path in 'ActivityLog_Resource_Difference'.
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) CompareWith(source *ActivityLog_Resource_Difference) (int, bool) {
 	switch fpv.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		return 0, false
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		return 0, false
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for ActivityLog_SubjectResource_Difference: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource_Difference: %d", fpv.selector))
 	}
 }
 
-func (fpv *ActivityLogSubjectResourceDifference_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*ActivityLog_SubjectResource_Difference))
+func (fpv *ActivityLogResourceDifference_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ActivityLog_Resource_Difference))
 }
 
-// ActivityLogSubjectResourceDifference_FieldPathArrayItemValue allows storing single item in Path-specific values for Difference according to their type
+// ActivityLogResourceDifference_FieldPathArrayItemValue allows storing single item in Path-specific values for Difference according to their type
 // Present only for array (repeated) types.
-type ActivityLogSubjectResourceDifference_FieldPathArrayItemValue interface {
+type ActivityLogResourceDifference_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	ActivityLogSubjectResourceDifference_FieldPath
-	ContainsValue(*ActivityLog_SubjectResource_Difference) bool
+	ActivityLogResourceDifference_FieldPath
+	ContainsValue(*ActivityLog_Resource_Difference) bool
 }
 
-// ParseActivityLogSubjectResourceDifference_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseActivityLogSubjectResourceDifference_FieldPathArrayItemValue(pathStr, valueStr string) (ActivityLogSubjectResourceDifference_FieldPathArrayItemValue, error) {
-	fp, err := ParseActivityLogSubjectResourceDifference_FieldPath(pathStr)
+// ParseActivityLogResourceDifference_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseActivityLogResourceDifference_FieldPathArrayItemValue(pathStr, valueStr string) (ActivityLogResourceDifference_FieldPathArrayItemValue, error) {
+	fp, err := ParseActivityLogResourceDifference_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -6819,40 +6819,40 @@ func ParseActivityLogSubjectResourceDifference_FieldPathArrayItemValue(pathStr, 
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Difference field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(ActivityLogSubjectResourceDifference_FieldPathArrayItemValue), nil
+	return fpaiv.(ActivityLogResourceDifference_FieldPathArrayItemValue), nil
 }
 
-func MustParseActivityLogSubjectResourceDifference_FieldPathArrayItemValue(pathStr, valueStr string) ActivityLogSubjectResourceDifference_FieldPathArrayItemValue {
-	fpaiv, err := ParseActivityLogSubjectResourceDifference_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParseActivityLogResourceDifference_FieldPathArrayItemValue(pathStr, valueStr string) ActivityLogResourceDifference_FieldPathArrayItemValue {
+	fpaiv, err := ParseActivityLogResourceDifference_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue struct {
-	ActivityLogSubjectResourceDifference_FieldTerminalPath
+type ActivityLogResourceDifference_FieldTerminalPathArrayItemValue struct {
+	ActivityLogResourceDifference_FieldTerminalPath
 	value interface{}
 }
 
-var _ ActivityLogSubjectResourceDifference_FieldPathArrayItemValue = (*ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue)(nil)
+var _ ActivityLogResourceDifference_FieldPathArrayItemValue = (*ActivityLogResourceDifference_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object ActivityLog_SubjectResource_Difference as interface{}
-func (fpaiv *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object ActivityLog_Resource_Difference as interface{}
+func (fpaiv *ActivityLogResourceDifference_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue) GetSingle(source *ActivityLog_SubjectResource_Difference) (interface{}, bool) {
+func (fpaiv *ActivityLogResourceDifference_FieldTerminalPathArrayItemValue) GetSingle(source *ActivityLog_Resource_Difference) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*ActivityLog_SubjectResource_Difference))
+func (fpaiv *ActivityLogResourceDifference_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ActivityLog_Resource_Difference))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Difference'
-func (fpaiv *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValue) ContainsValue(source *ActivityLog_SubjectResource_Difference) bool {
-	slice := fpaiv.ActivityLogSubjectResourceDifference_FieldTerminalPath.Get(source)
+func (fpaiv *ActivityLogResourceDifference_FieldTerminalPathArrayItemValue) ContainsValue(source *ActivityLog_Resource_Difference) bool {
+	slice := fpaiv.ActivityLogResourceDifference_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if reflect.DeepEqual(v, fpaiv.value) {
 			return true
@@ -6861,14 +6861,14 @@ func (fpaiv *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayItemValu
 	return false
 }
 
-// ActivityLogSubjectResourceDifference_FieldPathArrayOfValues allows storing slice of values for Difference fields according to their type
-type ActivityLogSubjectResourceDifference_FieldPathArrayOfValues interface {
+// ActivityLogResourceDifference_FieldPathArrayOfValues allows storing slice of values for Difference fields according to their type
+type ActivityLogResourceDifference_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	ActivityLogSubjectResourceDifference_FieldPath
+	ActivityLogResourceDifference_FieldPath
 }
 
-func ParseActivityLogSubjectResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr string) (ActivityLogSubjectResourceDifference_FieldPathArrayOfValues, error) {
-	fp, err := ParseActivityLogSubjectResourceDifference_FieldPath(pathStr)
+func ParseActivityLogResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr string) (ActivityLogResourceDifference_FieldPathArrayOfValues, error) {
+	fp, err := ParseActivityLogResourceDifference_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -6876,50 +6876,50 @@ func ParseActivityLogSubjectResourceDifference_FieldPathArrayOfValues(pathStr, v
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing Difference field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(ActivityLogSubjectResourceDifference_FieldPathArrayOfValues), nil
+	return fpaov.(ActivityLogResourceDifference_FieldPathArrayOfValues), nil
 }
 
-func MustParseActivityLogSubjectResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr string) ActivityLogSubjectResourceDifference_FieldPathArrayOfValues {
-	fpaov, err := ParseActivityLogSubjectResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParseActivityLogResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr string) ActivityLogResourceDifference_FieldPathArrayOfValues {
+	fpaov, err := ParseActivityLogResourceDifference_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues struct {
-	ActivityLogSubjectResourceDifference_FieldTerminalPath
+type ActivityLogResourceDifference_FieldTerminalPathArrayOfValues struct {
+	ActivityLogResourceDifference_FieldTerminalPath
 	values interface{}
 }
 
-var _ ActivityLogSubjectResourceDifference_FieldPathArrayOfValues = (*ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues)(nil)
+var _ ActivityLogResourceDifference_FieldPathArrayOfValues = (*ActivityLogResourceDifference_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+	case ActivityLogResourceDifference_FieldPathSelectorFields:
 		for _, v := range fpaov.values.([]*field_mask.FieldMask) {
 			values = append(values, v)
 		}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+	case ActivityLogResourceDifference_FieldPathSelectorBefore:
 		for _, v := range fpaov.values.([]*any.Any) {
 			values = append(values, v)
 		}
-	case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+	case ActivityLogResourceDifference_FieldPathSelectorAfter:
 		for _, v := range fpaov.values.([]*any.Any) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues) AsFieldsArrayOfValues() ([]*field_mask.FieldMask, bool) {
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsFieldsArrayOfValues() ([]*field_mask.FieldMask, bool) {
 	res, ok := fpaov.values.([]*field_mask.FieldMask)
 	return res, ok
 }
-func (fpaov *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues) AsBeforeArrayOfValues() ([]*any.Any, bool) {
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsBeforeArrayOfValues() ([]*any.Any, bool) {
 	res, ok := fpaov.values.([]*any.Any)
 	return res, ok
 }
-func (fpaov *ActivityLogSubjectResourceDifference_FieldTerminalPathArrayOfValues) AsAfterArrayOfValues() ([]*any.Any, bool) {
+func (fpaov *ActivityLogResourceDifference_FieldTerminalPathArrayOfValues) AsAfterArrayOfValues() ([]*any.Any, bool) {
 	res, ok := fpaov.values.([]*any.Any)
 	return res, ok
 }

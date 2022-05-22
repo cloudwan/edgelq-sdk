@@ -542,16 +542,13 @@ type BatchGetAttestationDomainsRequest_FieldPath interface {
 type BatchGetAttestationDomainsRequest_FieldPathSelector int32
 
 const (
-	BatchGetAttestationDomainsRequest_FieldPathSelectorParent    BatchGetAttestationDomainsRequest_FieldPathSelector = 0
-	BatchGetAttestationDomainsRequest_FieldPathSelectorNames     BatchGetAttestationDomainsRequest_FieldPathSelector = 1
-	BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask BatchGetAttestationDomainsRequest_FieldPathSelector = 2
-	BatchGetAttestationDomainsRequest_FieldPathSelectorView      BatchGetAttestationDomainsRequest_FieldPathSelector = 3
+	BatchGetAttestationDomainsRequest_FieldPathSelectorNames     BatchGetAttestationDomainsRequest_FieldPathSelector = 0
+	BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask BatchGetAttestationDomainsRequest_FieldPathSelector = 1
+	BatchGetAttestationDomainsRequest_FieldPathSelectorView      BatchGetAttestationDomainsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetAttestationDomainsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetAttestationDomainsRequest_FieldPath(fp gotenobject.RawFieldPat
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) JSONString() stri
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) Get(source *BatchGetAttestationDomainsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) GetRaw(source pro
 // GetSingle returns value pointed by specific field of from source BatchGetAttestationDomainsRequest
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) GetSingle(source *BatchGetAttestationDomainsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) GetSingleRaw(sour
 // GetDefault returns a default value of the field type
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		return (*attestation_domain.Reference)(nil)
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		return ([]*attestation_domain.Reference)(nil)
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) GetDefault() inte
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) ClearValue(item *BatchGetAttestationDomainsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) ClearValueRaw(ite
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetAttestationDomainsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		return &BatchGetAttestationDomainsRequest_FieldTerminalPathValue{BatchGetAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(*attestation_domain.Reference)}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		return &BatchGetAttestationDomainsRequest_FieldTerminalPathValue{BatchGetAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.([]*attestation_domain.Reference)}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) WithRawIValue(val
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetAttestationDomainsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues{BatchGetAttestationDomainsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		return &BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues{BatchGetAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]*attestation_domain.Reference)}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		return &BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues{BatchGetAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([][]*attestation_domain.Reference)}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetAttestationDomainsRequest_FieldPathValue = (*BatchGetAttestationDo
 func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) AsParentValue() (*attestation_domain.Reference, bool) {
-	res, ok := fpv.value.(*attestation_domain.Reference)
-	return res, ok
-}
 func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) AsNamesValue() ([]*attestation_domain.Reference, bool) {
 	res, ok := fpv.value.([]*attestation_domain.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) SetTo(targe
 		*target = new(BatchGetAttestationDomainsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*attestation_domain.Reference)
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*attestation_domain.Reference)
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) SetToRaw(ta
 // CompareWith compares value in the 'BatchGetAttestationDomainsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetAttestationDomainsRequest'.
 func (fpv *BatchGetAttestationDomainsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetAttestationDomainsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*attestation_domain.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetAttestationDomainsRequest_FieldPathArrayOfValues = (*BatchGetAttes
 
 func (fpaov *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*attestation_domain.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*attestation_domain.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues) G
 		}
 	}
 	return
-}
-func (fpaov *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*attestation_domain.Reference, bool) {
-	res, ok := fpaov.values.([]*attestation_domain.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*attestation_domain.Reference, bool) {
 	res, ok := fpaov.values.([][]*attestation_domain.Reference)

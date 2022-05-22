@@ -45,9 +45,6 @@ type BatchGetMetricDescriptorsRequestFieldPathBuilder struct{}
 func NewBatchGetMetricDescriptorsRequestFieldPathBuilder() BatchGetMetricDescriptorsRequestFieldPathBuilder {
 	return BatchGetMetricDescriptorsRequestFieldPathBuilder{}
 }
-func (BatchGetMetricDescriptorsRequestFieldPathBuilder) Parent() BatchGetMetricDescriptorsRequestPathSelectorParent {
-	return BatchGetMetricDescriptorsRequestPathSelectorParent{}
-}
 func (BatchGetMetricDescriptorsRequestFieldPathBuilder) Names() BatchGetMetricDescriptorsRequestPathSelectorNames {
 	return BatchGetMetricDescriptorsRequestPathSelectorNames{}
 }
@@ -56,20 +53,6 @@ func (BatchGetMetricDescriptorsRequestFieldPathBuilder) FieldMask() BatchGetMetr
 }
 func (BatchGetMetricDescriptorsRequestFieldPathBuilder) View() BatchGetMetricDescriptorsRequestPathSelectorView {
 	return BatchGetMetricDescriptorsRequestPathSelectorView{}
-}
-
-type BatchGetMetricDescriptorsRequestPathSelectorParent struct{}
-
-func (BatchGetMetricDescriptorsRequestPathSelectorParent) FieldPath() *BatchGetMetricDescriptorsRequest_FieldTerminalPath {
-	return &BatchGetMetricDescriptorsRequest_FieldTerminalPath{selector: BatchGetMetricDescriptorsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetMetricDescriptorsRequestPathSelectorParent) WithValue(value *metric_descriptor.Reference) *BatchGetMetricDescriptorsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetMetricDescriptorsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetMetricDescriptorsRequestPathSelectorParent) WithArrayOfValues(values []*metric_descriptor.Reference) *BatchGetMetricDescriptorsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMetricDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetMetricDescriptorsRequestPathSelectorNames struct{}

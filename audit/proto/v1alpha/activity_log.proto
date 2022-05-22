@@ -85,8 +85,8 @@ message ActivityLog {
   // Request metadata
   RequestMetadata request_metadata = 13;
 
-  // Subject resource for this activity.
-  SubjectResource resource = 11;
+  // Primary resource for this activity.
+  Resource resource = 11;
 
   // Category of the activity log.
   Category category = 12;
@@ -156,16 +156,16 @@ message ActivityLog {
     string user_agent = 2;
   }
 
-  // Description of the main subject resource activity refers to.
-  // For standard, goten-generated actions it's same as subject resource
-  // of the method. For custom actions, in some cases, developer
+  // Description of the main resource activity refers to.
+  // For standard, goten-generated actions it's same as resource
+  // assigned to the method. For custom actions, in some cases, developer
   // may pick however different resource (it is customizable in proto audit
   // spec).
-  message SubjectResource {
+  message Resource {
     // full name of the resource
     string name = 1;
 
-    // difference contains update information of the subject resource.
+    // difference contains update information of the resource.
     // Left empty if the request described by this activity log did not
     // update the resource.
     Difference difference = 2;

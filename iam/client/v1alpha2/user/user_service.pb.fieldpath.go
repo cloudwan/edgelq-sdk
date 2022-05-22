@@ -540,16 +540,13 @@ type BatchGetUsersRequest_FieldPath interface {
 type BatchGetUsersRequest_FieldPathSelector int32
 
 const (
-	BatchGetUsersRequest_FieldPathSelectorParent    BatchGetUsersRequest_FieldPathSelector = 0
-	BatchGetUsersRequest_FieldPathSelectorNames     BatchGetUsersRequest_FieldPathSelector = 1
-	BatchGetUsersRequest_FieldPathSelectorFieldMask BatchGetUsersRequest_FieldPathSelector = 2
-	BatchGetUsersRequest_FieldPathSelectorView      BatchGetUsersRequest_FieldPathSelector = 3
+	BatchGetUsersRequest_FieldPathSelectorNames     BatchGetUsersRequest_FieldPathSelector = 0
+	BatchGetUsersRequest_FieldPathSelectorFieldMask BatchGetUsersRequest_FieldPathSelector = 1
+	BatchGetUsersRequest_FieldPathSelectorView      BatchGetUsersRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetUsersRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetUsersRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGetU
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetUsersRequest_FieldTerminalPath{selector: BatchGetUsersRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetUsersRequest_FieldTerminalPath{selector: BatchGetUsersRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetUsersRequest_FieldTerminalPath) Get(source *BatchGetUsersRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetUsersRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetUsersRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) GetRaw(source proto.Message) [
 // GetSingle returns value pointed by specific field of from source BatchGetUsersRequest
 func (fp *BatchGetUsersRequest_FieldTerminalPath) GetSingle(source *BatchGetUsersRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) GetSingleRaw(source proto.Mess
 // GetDefault returns a default value of the field type
 func (fp *BatchGetUsersRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		return (*user.Reference)(nil)
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		return ([]*user.Reference)(nil)
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetUsersRequest_FieldTerminalPath) ClearValue(item *BatchGetUsersRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetUsersRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetUsersRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) ClearValueRaw(item proto.Messa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetUsersRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetUsersRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetUsersRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetUsersRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetUsersRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetUsersRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetUsersRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetUsersRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		return &BatchGetUsersRequest_FieldTerminalPathValue{BatchGetUsersRequest_FieldTerminalPath: *fp, value: value.(*user.Reference)}
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		return &BatchGetUsersRequest_FieldTerminalPathValue{BatchGetUsersRequest_FieldTerminalPath: *fp, value: value.([]*user.Reference)}
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetUsersRequest_FieldTerminalPath) WithRawIValue(value interface{
 func (fp *BatchGetUsersRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetUsersRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetUsersRequest_FieldTerminalPathArrayOfValues{BatchGetUsersRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		return &BatchGetUsersRequest_FieldTerminalPathArrayOfValues{BatchGetUsersRequest_FieldTerminalPath: *fp, values: values.([]*user.Reference)}
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		return &BatchGetUsersRequest_FieldTerminalPathArrayOfValues{BatchGetUsersRequest_FieldTerminalPath: *fp, values: values.([][]*user.Reference)}
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetUsersRequest_FieldPathValue = (*BatchGetUsersRequest_FieldTerminal
 func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) AsParentValue() (*user.Reference, bool) {
-	res, ok := fpv.value.(*user.Reference)
-	return res, ok
-}
 func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) AsNamesValue() ([]*user.Reference, bool) {
 	res, ok := fpv.value.([]*user.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) SetTo(target **BatchGetU
 		*target = new(BatchGetUsersRequest)
 	}
 	switch fpv.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*user.Reference)
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*user.Reference)
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) SetToRaw(target proto.Me
 // CompareWith compares value in the 'BatchGetUsersRequest_FieldTerminalPathValue' with the value under path in 'BatchGetUsersRequest'.
 func (fpv *BatchGetUsersRequest_FieldTerminalPathValue) CompareWith(source *BatchGetUsersRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*user.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetUsersRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetUsersRequest_FieldPathArrayOfValues = (*BatchGetUsersRequest_Field
 
 func (fpaov *BatchGetUsersRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetUsersRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*user.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetUsersRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*user.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetUsersRequest_FieldTerminalPathArrayOfValues) GetRawValues()
 		}
 	}
 	return
-}
-func (fpaov *BatchGetUsersRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*user.Reference, bool) {
-	res, ok := fpaov.values.([]*user.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetUsersRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*user.Reference, bool) {
 	res, ok := fpaov.values.([][]*user.Reference)

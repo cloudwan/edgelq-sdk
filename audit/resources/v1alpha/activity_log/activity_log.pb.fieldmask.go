@@ -153,7 +153,7 @@ func (fieldMask *ActivityLog_FieldMask) Subtract(other *ActivityLog_FieldMask) *
 		ActivityLog_FieldPathSelectorService:         &audit_common.ServiceData_FieldMask{},
 		ActivityLog_FieldPathSelectorMethod:          &ActivityLog_Method_FieldMask{},
 		ActivityLog_FieldPathSelectorRequestMetadata: &ActivityLog_RequestMetadata_FieldMask{},
-		ActivityLog_FieldPathSelectorResource:        &ActivityLog_SubjectResource_FieldMask{},
+		ActivityLog_FieldPathSelectorResource:        &ActivityLog_Resource_FieldMask{},
 		ActivityLog_FieldPathSelectorEvents:          &ActivityLog_Event_FieldMask{},
 	}
 	mySubMasks := map[ActivityLog_FieldPathSelector]gotenobject.FieldMask{
@@ -162,7 +162,7 @@ func (fieldMask *ActivityLog_FieldMask) Subtract(other *ActivityLog_FieldMask) *
 		ActivityLog_FieldPathSelectorService:         &audit_common.ServiceData_FieldMask{},
 		ActivityLog_FieldPathSelectorMethod:          &ActivityLog_Method_FieldMask{},
 		ActivityLog_FieldPathSelectorRequestMetadata: &ActivityLog_RequestMetadata_FieldMask{},
-		ActivityLog_FieldPathSelectorResource:        &ActivityLog_SubjectResource_FieldMask{},
+		ActivityLog_FieldPathSelectorResource:        &ActivityLog_Resource_FieldMask{},
 		ActivityLog_FieldPathSelectorEvents:          &ActivityLog_Event_FieldMask{},
 	}
 
@@ -190,7 +190,7 @@ func (fieldMask *ActivityLog_FieldMask) Subtract(other *ActivityLog_FieldMask) *
 					case ActivityLog_FieldPathSelectorRequestMetadata:
 						mySubMasks[ActivityLog_FieldPathSelectorRequestMetadata] = FullActivityLog_RequestMetadata_FieldMask()
 					case ActivityLog_FieldPathSelectorResource:
-						mySubMasks[ActivityLog_FieldPathSelectorResource] = FullActivityLog_SubjectResource_FieldMask()
+						mySubMasks[ActivityLog_FieldPathSelectorResource] = FullActivityLog_Resource_FieldMask()
 					case ActivityLog_FieldPathSelectorEvents:
 						mySubMasks[ActivityLog_FieldPathSelectorEvents] = FullActivityLog_Event_FieldMask()
 					}
@@ -355,7 +355,7 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 	wholeMethodAccepted := false
 	requestMetadataMask := &ActivityLog_RequestMetadata_FieldMask{}
 	wholeRequestMetadataAccepted := false
-	resourceMask := &ActivityLog_SubjectResource_FieldMask{}
+	resourceMask := &ActivityLog_Resource_FieldMask{}
 	wholeResourceAccepted := false
 	eventsMask := &ActivityLog_Event_FieldMask{}
 	wholeEventsAccepted := false
@@ -412,7 +412,7 @@ func (fieldMask *ActivityLog_FieldMask) Project(source *ActivityLog) *ActivityLo
 			case ActivityLog_FieldPathSelectorRequestMetadata:
 				requestMetadataMask.AppendPath(tp.subPath.(ActivityLogRequestMetadata_FieldPath))
 			case ActivityLog_FieldPathSelectorResource:
-				resourceMask.AppendPath(tp.subPath.(ActivityLogSubjectResource_FieldPath))
+				resourceMask.AppendPath(tp.subPath.(ActivityLogResource_FieldPath))
 			case ActivityLog_FieldPathSelectorEvents:
 				eventsMask.AppendPath(tp.subPath.(ActivityLogEvent_FieldPath))
 			}
@@ -1333,18 +1333,18 @@ func (fieldMask *ActivityLog_RequestMetadata_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type ActivityLog_SubjectResource_FieldMask struct {
-	Paths []ActivityLogSubjectResource_FieldPath
+type ActivityLog_Resource_FieldMask struct {
+	Paths []ActivityLogResource_FieldPath
 }
 
-func FullActivityLog_SubjectResource_FieldMask() *ActivityLog_SubjectResource_FieldMask {
-	res := &ActivityLog_SubjectResource_FieldMask{}
-	res.Paths = append(res.Paths, &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &ActivityLogSubjectResource_FieldTerminalPath{selector: ActivityLogSubjectResource_FieldPathSelectorDifference})
+func FullActivityLog_Resource_FieldMask() *ActivityLog_Resource_FieldMask {
+	res := &ActivityLog_Resource_FieldMask{}
+	res.Paths = append(res.Paths, &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &ActivityLogResource_FieldTerminalPath{selector: ActivityLogResource_FieldPathSelectorDifference})
 	return res
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) String() string {
+func (fieldMask *ActivityLog_Resource_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1356,7 +1356,7 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) String() string {
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *ActivityLog_Resource_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -1369,9 +1369,9 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) EncodeFirestore() (*fire
 	}, nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *ActivityLog_Resource_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseActivityLogSubjectResource_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseActivityLogResource_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -1380,13 +1380,13 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) DecodeFirestore(fpbv *fi
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) IsFull() bool {
+func (fieldMask *ActivityLog_Resource_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*ActivityLogSubjectResource_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*ActivityLogResource_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1398,47 +1398,47 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *ActivityLog_Resource_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseActivityLogSubjectResource_FieldPath(raw)
+		return ParseActivityLogResource_FieldPath(raw)
 	})
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) ProtoMessage() {}
+func (fieldMask *ActivityLog_Resource_FieldMask) ProtoMessage() {}
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Reset() {
+func (fieldMask *ActivityLog_Resource_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Subtract(other *ActivityLog_SubjectResource_FieldMask) *ActivityLog_SubjectResource_FieldMask {
-	result := &ActivityLog_SubjectResource_FieldMask{}
+func (fieldMask *ActivityLog_Resource_FieldMask) Subtract(other *ActivityLog_Resource_FieldMask) *ActivityLog_Resource_FieldMask {
+	result := &ActivityLog_Resource_FieldMask{}
 	removedSelectors := make([]bool, 2)
-	otherSubMasks := map[ActivityLogSubjectResource_FieldPathSelector]gotenobject.FieldMask{
-		ActivityLogSubjectResource_FieldPathSelectorDifference: &ActivityLog_SubjectResource_Difference_FieldMask{},
+	otherSubMasks := map[ActivityLogResource_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogResource_FieldPathSelectorDifference: &ActivityLog_Resource_Difference_FieldMask{},
 	}
-	mySubMasks := map[ActivityLogSubjectResource_FieldPathSelector]gotenobject.FieldMask{
-		ActivityLogSubjectResource_FieldPathSelectorDifference: &ActivityLog_SubjectResource_Difference_FieldMask{},
+	mySubMasks := map[ActivityLogResource_FieldPathSelector]gotenobject.FieldMask{
+		ActivityLogResource_FieldPathSelectorDifference: &ActivityLog_Resource_Difference_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *ActivityLogSubjectResource_FieldTerminalPath:
+		case *ActivityLogResource_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
-		case *ActivityLogSubjectResource_FieldSubPath:
+		case *ActivityLogResource_FieldSubPath:
 			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
 		}
 	}
 	for _, path := range fieldMask.GetPaths() {
 		if !removedSelectors[int(path.Selector())] {
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*ActivityLogSubjectResource_FieldTerminalPath); ok {
+				if tp, ok := path.(*ActivityLogResource_FieldTerminalPath); ok {
 					switch tp.selector {
-					case ActivityLogSubjectResource_FieldPathSelectorDifference:
-						mySubMasks[ActivityLogSubjectResource_FieldPathSelectorDifference] = FullActivityLog_SubjectResource_Difference_FieldMask()
+					case ActivityLogResource_FieldPathSelectorDifference:
+						mySubMasks[ActivityLogResource_FieldPathSelectorDifference] = FullActivityLog_Resource_Difference_FieldMask()
 					}
-				} else if tp, ok := path.(*ActivityLogSubjectResource_FieldSubPath); ok {
+				} else if tp, ok := path.(*ActivityLogResource_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
 				}
 			} else {
@@ -1449,7 +1449,7 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) Subtract(other *Activity
 	for selector, mySubMask := range mySubMasks {
 		if mySubMask.PathsCount() > 0 {
 			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &ActivityLogSubjectResource_FieldSubPath{selector: selector, subPath: allowedPath})
+				result.Paths = append(result.Paths, &ActivityLogResource_FieldSubPath{selector: selector, subPath: allowedPath})
 			}
 		}
 	}
@@ -1460,19 +1460,19 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) Subtract(other *Activity
 	return result
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*ActivityLog_SubjectResource_FieldMask))
+func (fieldMask *ActivityLog_Resource_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ActivityLog_Resource_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) FilterInputFields() *ActivityLog_SubjectResource_FieldMask {
-	result := &ActivityLog_SubjectResource_FieldMask{}
+func (fieldMask *ActivityLog_Resource_FieldMask) FilterInputFields() *ActivityLog_Resource_FieldMask {
+	result := &ActivityLog_Resource_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *ActivityLog_Resource_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -1480,13 +1480,13 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) ToProtoFieldMask() *fiel
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Resource_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]ActivityLogSubjectResource_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]ActivityLogResource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseActivityLogSubjectResource_FieldPath(strPath)
+		path, err := ParseActivityLogResource_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1496,12 +1496,12 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) FromProtoFieldMask(proto
 }
 
 // implement methods required by customType
-func (fieldMask ActivityLog_SubjectResource_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask ActivityLog_Resource_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *ActivityLog_Resource_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1512,15 +1512,15 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) Unmarshal(data []byte) e
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Size() int {
+func (fieldMask *ActivityLog_Resource_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask ActivityLog_SubjectResource_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask ActivityLog_Resource_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *ActivityLog_Resource_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1531,22 +1531,22 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) UnmarshalJSON(data []byt
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) AppendPath(path ActivityLogSubjectResource_FieldPath) {
+func (fieldMask *ActivityLog_Resource_FieldMask) AppendPath(path ActivityLogResource_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(ActivityLogSubjectResource_FieldPath))
+func (fieldMask *ActivityLog_Resource_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ActivityLogResource_FieldPath))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) GetPaths() []ActivityLogSubjectResource_FieldPath {
+func (fieldMask *ActivityLog_Resource_FieldMask) GetPaths() []ActivityLogResource_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *ActivityLog_Resource_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1557,8 +1557,8 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) GetRawPaths() []gotenobj
 	return rawPaths
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseActivityLogSubjectResource_FieldPath(raw)
+func (fieldMask *ActivityLog_Resource_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseActivityLogResource_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1566,7 +1566,7 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) SetFromCliFlag(raw strin
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Set(target, source *ActivityLog_SubjectResource) {
+func (fieldMask *ActivityLog_Resource_FieldMask) Set(target, source *ActivityLog_Resource) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1577,35 +1577,35 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) Set(target, source *Acti
 	}
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*ActivityLog_SubjectResource), source.(*ActivityLog_SubjectResource))
+func (fieldMask *ActivityLog_Resource_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ActivityLog_Resource), source.(*ActivityLog_Resource))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) Project(source *ActivityLog_SubjectResource) *ActivityLog_SubjectResource {
+func (fieldMask *ActivityLog_Resource_FieldMask) Project(source *ActivityLog_Resource) *ActivityLog_Resource {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &ActivityLog_SubjectResource{}
-	differenceMask := &ActivityLog_SubjectResource_Difference_FieldMask{}
+	result := &ActivityLog_Resource{}
+	differenceMask := &ActivityLog_Resource_Difference_FieldMask{}
 	wholeDifferenceAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *ActivityLogSubjectResource_FieldTerminalPath:
+		case *ActivityLogResource_FieldTerminalPath:
 			switch tp.selector {
-			case ActivityLogSubjectResource_FieldPathSelectorName:
+			case ActivityLogResource_FieldPathSelectorName:
 				result.Name = source.Name
-			case ActivityLogSubjectResource_FieldPathSelectorDifference:
+			case ActivityLogResource_FieldPathSelectorDifference:
 				result.Difference = source.Difference
 				wholeDifferenceAccepted = true
 			}
-		case *ActivityLogSubjectResource_FieldSubPath:
+		case *ActivityLogResource_FieldSubPath:
 			switch tp.selector {
-			case ActivityLogSubjectResource_FieldPathSelectorDifference:
-				differenceMask.AppendPath(tp.subPath.(ActivityLogSubjectResourceDifference_FieldPath))
+			case ActivityLogResource_FieldPathSelectorDifference:
+				differenceMask.AppendPath(tp.subPath.(ActivityLogResourceDifference_FieldPath))
 			}
 		}
 	}
@@ -1615,11 +1615,11 @@ func (fieldMask *ActivityLog_SubjectResource_FieldMask) Project(source *Activity
 	return result
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*ActivityLog_SubjectResource))
+func (fieldMask *ActivityLog_Resource_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ActivityLog_Resource))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_FieldMask) PathsCount() int {
+func (fieldMask *ActivityLog_Resource_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -2431,19 +2431,19 @@ func (fieldMask *ActivityLog_Event_ExitEvent_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type ActivityLog_SubjectResource_Difference_FieldMask struct {
-	Paths []ActivityLogSubjectResourceDifference_FieldPath
+type ActivityLog_Resource_Difference_FieldMask struct {
+	Paths []ActivityLogResourceDifference_FieldPath
 }
 
-func FullActivityLog_SubjectResource_Difference_FieldMask() *ActivityLog_SubjectResource_Difference_FieldMask {
-	res := &ActivityLog_SubjectResource_Difference_FieldMask{}
-	res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorFields})
-	res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorBefore})
-	res.Paths = append(res.Paths, &ActivityLogSubjectResourceDifference_FieldTerminalPath{selector: ActivityLogSubjectResourceDifference_FieldPathSelectorAfter})
+func FullActivityLog_Resource_Difference_FieldMask() *ActivityLog_Resource_Difference_FieldMask {
+	res := &ActivityLog_Resource_Difference_FieldMask{}
+	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorFields})
+	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorBefore})
+	res.Paths = append(res.Paths, &ActivityLogResourceDifference_FieldTerminalPath{selector: ActivityLogResourceDifference_FieldPathSelectorAfter})
 	return res
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) String() string {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -2455,7 +2455,7 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) String() stri
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -2468,9 +2468,9 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) EncodeFiresto
 	}, nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseActivityLogSubjectResourceDifference_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseActivityLogResourceDifference_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -2479,13 +2479,13 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) DecodeFiresto
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) IsFull() bool {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*ActivityLogSubjectResourceDifference_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*ActivityLogResourceDifference_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -2497,27 +2497,27 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) IsFull() bool
 	return true
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseActivityLogSubjectResourceDifference_FieldPath(raw)
+		return ParseActivityLogResourceDifference_FieldPath(raw)
 	})
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) ProtoMessage() {}
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ProtoMessage() {}
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Reset() {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Subtract(other *ActivityLog_SubjectResource_Difference_FieldMask) *ActivityLog_SubjectResource_Difference_FieldMask {
-	result := &ActivityLog_SubjectResource_Difference_FieldMask{}
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Subtract(other *ActivityLog_Resource_Difference_FieldMask) *ActivityLog_Resource_Difference_FieldMask {
+	result := &ActivityLog_Resource_Difference_FieldMask{}
 	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *ActivityLogSubjectResourceDifference_FieldTerminalPath:
+		case *ActivityLogResourceDifference_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -2533,19 +2533,19 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Subtract(othe
 	return result
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*ActivityLog_SubjectResource_Difference_FieldMask))
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ActivityLog_Resource_Difference_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) FilterInputFields() *ActivityLog_SubjectResource_Difference_FieldMask {
-	result := &ActivityLog_SubjectResource_Difference_FieldMask{}
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FilterInputFields() *ActivityLog_Resource_Difference_FieldMask {
+	result := &ActivityLog_Resource_Difference_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -2553,13 +2553,13 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) ToProtoFieldM
 	return protoFieldMask
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]ActivityLogSubjectResourceDifference_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]ActivityLogResourceDifference_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseActivityLogSubjectResourceDifference_FieldPath(strPath)
+		path, err := ParseActivityLogResourceDifference_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -2569,12 +2569,12 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) FromProtoFiel
 }
 
 // implement methods required by customType
-func (fieldMask ActivityLog_SubjectResource_Difference_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask ActivityLog_Resource_Difference_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -2585,15 +2585,15 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Unmarshal(dat
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Size() int {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask ActivityLog_SubjectResource_Difference_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask ActivityLog_Resource_Difference_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &fieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -2604,22 +2604,22 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) UnmarshalJSON
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) AppendPath(path ActivityLogSubjectResourceDifference_FieldPath) {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) AppendPath(path ActivityLogResourceDifference_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(ActivityLogSubjectResourceDifference_FieldPath))
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ActivityLogResourceDifference_FieldPath))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) GetPaths() []ActivityLogSubjectResourceDifference_FieldPath {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) GetPaths() []ActivityLogResourceDifference_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -2630,8 +2630,8 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) GetRawPaths()
 	return rawPaths
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseActivityLogSubjectResourceDifference_FieldPath(raw)
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseActivityLogResourceDifference_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -2639,7 +2639,7 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) SetFromCliFla
 	return nil
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Set(target, source *ActivityLog_SubjectResource_Difference) {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Set(target, source *ActivityLog_Resource_Difference) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -2650,28 +2650,28 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Set(target, s
 	}
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*ActivityLog_SubjectResource_Difference), source.(*ActivityLog_SubjectResource_Difference))
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ActivityLog_Resource_Difference), source.(*ActivityLog_Resource_Difference))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Project(source *ActivityLog_SubjectResource_Difference) *ActivityLog_SubjectResource_Difference {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) Project(source *ActivityLog_Resource_Difference) *ActivityLog_Resource_Difference {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &ActivityLog_SubjectResource_Difference{}
+	result := &ActivityLog_Resource_Difference{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *ActivityLogSubjectResourceDifference_FieldTerminalPath:
+		case *ActivityLogResourceDifference_FieldTerminalPath:
 			switch tp.selector {
-			case ActivityLogSubjectResourceDifference_FieldPathSelectorFields:
+			case ActivityLogResourceDifference_FieldPathSelectorFields:
 				result.Fields = source.Fields
-			case ActivityLogSubjectResourceDifference_FieldPathSelectorBefore:
+			case ActivityLogResourceDifference_FieldPathSelectorBefore:
 				result.Before = source.Before
-			case ActivityLogSubjectResourceDifference_FieldPathSelectorAfter:
+			case ActivityLogResourceDifference_FieldPathSelectorAfter:
 				result.After = source.After
 			}
 		}
@@ -2679,11 +2679,11 @@ func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) Project(sourc
 	return result
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*ActivityLog_SubjectResource_Difference))
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ActivityLog_Resource_Difference))
 }
 
-func (fieldMask *ActivityLog_SubjectResource_Difference_FieldMask) PathsCount() int {
+func (fieldMask *ActivityLog_Resource_Difference_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

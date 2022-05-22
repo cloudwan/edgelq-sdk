@@ -32,9 +32,6 @@ message GetRoleRequest {
 
 // Request message for method [BatchGetRoles][ntt.iam.v1alpha.BatchGetRoles]
 message BatchGetRolesRequest {
-  // Optional parent ntt.iam.v1alpha.Role
-  string parent = 1;
-
   // Names of Roles
   repeated string names = 2;
 
@@ -45,6 +42,8 @@ message BatchGetRolesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetRolesResponse

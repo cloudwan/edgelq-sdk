@@ -69,15 +69,15 @@ func (d *GetServiceAccountKeyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetServiceAccountKeyDescriptor) IsCollectionSubject() bool {
+func (d *GetServiceAccountKeyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetServiceAccountKeyDescriptor) IsPluralSubject() bool {
+func (d *GetServiceAccountKeyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetServiceAccountKeyDescriptor) HasSubjectResource() bool {
+func (d *GetServiceAccountKeyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetServiceAccountKeyDescriptor) GetApiDescriptor() gotenclient.ApiDescr
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *GetServiceAccountKeyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetServiceAccountKeyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetServiceAccountKeyDescriptor) GetServerMsgReflectHandle() gotenclient
 	return &GetServiceAccountKeyDescriptorServerMsgHandle{}
 }
 
-func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetServiceAccountKeyRequest) *service_account_key.Name
+		OverrideExtractResourceName(*GetServiceAccountKeyRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*service_account_key.Name)(nil)
 }
 
-func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetServiceAccountKeyRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*GetServiceAccountKeyRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetServiceAccountKeyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetServiceAccountKeyRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*GetServiceAccountKeyRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
+		OverrideExtractResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account_key.Name)(nil)
 }
 
-func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
+		OverrideExtractResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetServiceAccountKeyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
+		OverrideExtractCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetServiceAccountKeysDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetServiceAccountKeysDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetServiceAccountKeysDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetServiceAccountKeysDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetServiceAccountKeysDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetServiceAccountKeysDescriptor) HasSubjectResource() bool {
+func (d *BatchGetServiceAccountKeysDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetServiceAccountKeysDescriptor) GetApiDescriptor() gotenclient.Ap
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *BatchGetServiceAccountKeysDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetServiceAccountKeysDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetServiceAccountKeysDescriptor) GetServerMsgReflectHandle() goten
 	return &BatchGetServiceAccountKeysDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetServiceAccountKeysRequest) *service_account_key.Name
+		OverrideExtractResourceName(*BatchGetServiceAccountKeysRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetServiceAccountKeysRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*BatchGetServiceAccountKeysRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(service_account_key.ServiceAccountKeyNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(service_account_key.ServiceAccountKeyNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (service_account_key.ServiceAccountKeyNameList)(nil)
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetServiceAccountKeysDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetServiceAccountKeysRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*BatchGetServiceAccountKeysRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetServiceAccountKeysResponse) *service_account_key.Name
+		OverrideExtractResourceName(*BatchGetServiceAccountKeysResponse) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetServiceAccountKeysResponse) []*service_account_key.Name
+		OverrideExtractResourceNames(*BatchGetServiceAccountKeysResponse) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetServiceAccountKeys()
-	list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetServiceAccountKeys(); len(resources) > 0 {
+			list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (service_account_key.ServiceAccountKeyNameList)(nil)
 }
 
-func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetServiceAccountKeysDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetServiceAccountKeysResponse) *service_account_key.ParentName
+		OverrideExtractCollectionName(*BatchGetServiceAccountKeysResponse) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListServiceAccountKeysDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListServiceAccountKeysDescriptor) IsCollectionSubject() bool {
+func (d *ListServiceAccountKeysDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListServiceAccountKeysDescriptor) IsPluralSubject() bool {
+func (d *ListServiceAccountKeysDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListServiceAccountKeysDescriptor) HasSubjectResource() bool {
+func (d *ListServiceAccountKeysDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListServiceAccountKeysDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *ListServiceAccountKeysDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListServiceAccountKeysDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListServiceAccountKeysDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &ListServiceAccountKeysDescriptorServerMsgHandle{}
 }
 
-func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListServiceAccountKeysRequest) *service_account_key.Name
+		OverrideExtractResourceName(*ListServiceAccountKeysRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListServiceAccountKeysRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*ListServiceAccountKeysRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListServiceAccountKeysDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListServiceAccountKeysRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*ListServiceAccountKeysRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*service_account_key.ParentName)(nil)
 }
 
-func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListServiceAccountKeysResponse) *service_account_key.Name
+		OverrideExtractResourceName(*ListServiceAccountKeysResponse) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListServiceAccountKeysResponse) []*service_account_key.Name
+		OverrideExtractResourceNames(*ListServiceAccountKeysResponse) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetServiceAccountKeys()
-	list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetServiceAccountKeys(); len(resources) > 0 {
+			list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (service_account_key.ServiceAccountKeyNameList)(nil)
 }
 
-func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListServiceAccountKeysDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListServiceAccountKeysResponse) *service_account_key.ParentName
+		OverrideExtractCollectionName(*ListServiceAccountKeysResponse) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchServiceAccountKeyDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchServiceAccountKeyDescriptor) IsCollectionSubject() bool {
+func (d *WatchServiceAccountKeyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchServiceAccountKeyDescriptor) IsPluralSubject() bool {
+func (d *WatchServiceAccountKeyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchServiceAccountKeyDescriptor) HasSubjectResource() bool {
+func (d *WatchServiceAccountKeyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchServiceAccountKeyDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *WatchServiceAccountKeyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchServiceAccountKeyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchServiceAccountKeyDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchServiceAccountKeyDescriptorServerMsgHandle{}
 }
 
-func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchServiceAccountKeyRequest) *service_account_key.Name
+		OverrideExtractResourceName(*WatchServiceAccountKeyRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*service_account_key.Name)(nil)
-}
-
-func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchServiceAccountKeyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchServiceAccountKeyRequest) []*service_account_key.Name
-	})
-	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchServiceAccountKeyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchServiceAccountKeyRequest) *service_account_key.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchServiceAccountKeyResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchServiceAccountKeyResponse) *service_account_key.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *service_account_key.ServiceAccountKeyChange_Added_:
-			return tResChange.Added.GetServiceAccountKey().GetName()
-		case *service_account_key.ServiceAccountKeyChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *service_account_key.ServiceAccountKeyChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *service_account_key.ServiceAccountKeyChange_Current_:
-			return tResChange.Current.GetServiceAccountKey().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*service_account_key.Name)(nil)
 }
 
-func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchServiceAccountKeyResponse)
+func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchServiceAccountKeyResponse) []*service_account_key.Name
+		OverrideExtractResourceNames(*WatchServiceAccountKeyRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchServiceAccountKeyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchServiceAccountKeyRequest) *service_account_key.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchServiceAccountKeyResponse) *service_account_key.ParentName
+		OverrideExtractResourceName(*WatchServiceAccountKeyResponse) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *service_account_key.ServiceAccountKeyChange_Added_:
+				return tResChange.Added.GetServiceAccountKey().GetName()
+			case *service_account_key.ServiceAccountKeyChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *service_account_key.ServiceAccountKeyChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *service_account_key.ServiceAccountKeyChange_Current_:
+				return tResChange.Current.GetServiceAccountKey().GetName()
+			}
+		}
+	}
+	return (*service_account_key.Name)(nil)
+}
+
+func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchServiceAccountKeyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchServiceAccountKeyResponse) []*service_account_key.Name
+	})
+	if ok {
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchServiceAccountKeyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchServiceAccountKeyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchServiceAccountKeyResponse) *service_account_key.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchServiceAccountKeysDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchServiceAccountKeysDescriptor) IsCollectionSubject() bool {
+func (d *WatchServiceAccountKeysDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchServiceAccountKeysDescriptor) IsPluralSubject() bool {
+func (d *WatchServiceAccountKeysDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchServiceAccountKeysDescriptor) HasSubjectResource() bool {
+func (d *WatchServiceAccountKeysDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchServiceAccountKeysDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *WatchServiceAccountKeysDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchServiceAccountKeysDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchServiceAccountKeysDescriptor) GetServerMsgReflectHandle() gotencli
 	return &WatchServiceAccountKeysDescriptorServerMsgHandle{}
 }
 
-func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchServiceAccountKeysRequest) *service_account_key.Name
+		OverrideExtractResourceName(*WatchServiceAccountKeysRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchServiceAccountKeysRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*WatchServiceAccountKeysRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeysDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeysRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchServiceAccountKeysRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*WatchServiceAccountKeysRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*service_account_key.ParentName)(nil)
 }
 
-func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchServiceAccountKeysResponse) *service_account_key.Name
+		OverrideExtractResourceName(*WatchServiceAccountKeysResponse) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchServiceAccountKeysResponse) []*service_account_key.Name
+		OverrideExtractResourceNames(*WatchServiceAccountKeysResponse) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetServiceAccountKeyChanges()
-	list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *service_account_key.ServiceAccountKeyChange_Added_:
-			list = append(list, tResChange.Added.GetServiceAccountKey().GetName())
-		case *service_account_key.ServiceAccountKeyChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *service_account_key.ServiceAccountKeyChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *service_account_key.ServiceAccountKeyChange_Current_:
-			list = append(list, tResChange.Current.GetServiceAccountKey().GetName())
+	{
+		if resChanges := typedMsg.GetServiceAccountKeyChanges(); len(resChanges) > 0 {
+			list := make(service_account_key.ServiceAccountKeyNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *service_account_key.ServiceAccountKeyChange_Added_:
+					list = append(list, tResChange.Added.GetServiceAccountKey().GetName())
+				case *service_account_key.ServiceAccountKeyChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *service_account_key.ServiceAccountKeyChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *service_account_key.ServiceAccountKeyChange_Current_:
+					list = append(list, tResChange.Current.GetServiceAccountKey().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (service_account_key.ServiceAccountKeyNameList)(nil)
 }
 
-func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchServiceAccountKeysDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchServiceAccountKeysResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchServiceAccountKeysResponse) *service_account_key.ParentName
+		OverrideExtractCollectionName(*WatchServiceAccountKeysResponse) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateServiceAccountKeyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateServiceAccountKeyDescriptor) IsCollectionSubject() bool {
+func (d *CreateServiceAccountKeyDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateServiceAccountKeyDescriptor) IsPluralSubject() bool {
+func (d *CreateServiceAccountKeyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateServiceAccountKeyDescriptor) HasSubjectResource() bool {
+func (d *CreateServiceAccountKeyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateServiceAccountKeyDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *CreateServiceAccountKeyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateServiceAccountKeyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateServiceAccountKeyDescriptor) GetServerMsgReflectHandle() gotencli
 	return &CreateServiceAccountKeyDescriptorServerMsgHandle{}
 }
 
-func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateServiceAccountKeyRequest) *service_account_key.Name
+		OverrideExtractResourceName(*CreateServiceAccountKeyRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetServiceAccountKey().GetName()
+	{
+		res := typedMsg.GetServiceAccountKey()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account_key.Name)(nil)
 }
 
-func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateServiceAccountKeyRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*CreateServiceAccountKeyRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateServiceAccountKeyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateServiceAccountKeyRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*CreateServiceAccountKeyRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*service_account_key.ParentName)(nil)
 }
 
-func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
+		OverrideExtractResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account_key.Name)(nil)
 }
 
-func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
+		OverrideExtractResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateServiceAccountKeyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
+		OverrideExtractCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateServiceAccountKeyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateServiceAccountKeyDescriptor) IsCollectionSubject() bool {
+func (d *UpdateServiceAccountKeyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateServiceAccountKeyDescriptor) IsPluralSubject() bool {
+func (d *UpdateServiceAccountKeyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateServiceAccountKeyDescriptor) HasSubjectResource() bool {
+func (d *UpdateServiceAccountKeyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateServiceAccountKeyDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *UpdateServiceAccountKeyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateServiceAccountKeyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateServiceAccountKeyDescriptor) GetServerMsgReflectHandle() gotencli
 	return &UpdateServiceAccountKeyDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateServiceAccountKeyRequest) *service_account_key.Name
+		OverrideExtractResourceName(*UpdateServiceAccountKeyRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetServiceAccountKey().GetName()
+	{
+		res := typedMsg.GetServiceAccountKey()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account_key.Name)(nil)
 }
 
-func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateServiceAccountKeyRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*UpdateServiceAccountKeyRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateServiceAccountKeyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateServiceAccountKeyRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*UpdateServiceAccountKeyRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
+		OverrideExtractResourceName(*service_account_key.ServiceAccountKey) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account_key.Name)(nil)
 }
 
-func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
+		OverrideExtractResourceNames(*service_account_key.ServiceAccountKey) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateServiceAccountKeyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*service_account_key.ServiceAccountKey)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
+		OverrideExtractCollectionName(*service_account_key.ServiceAccountKey) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteServiceAccountKeyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteServiceAccountKeyDescriptor) IsCollectionSubject() bool {
+func (d *DeleteServiceAccountKeyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteServiceAccountKeyDescriptor) IsPluralSubject() bool {
+func (d *DeleteServiceAccountKeyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteServiceAccountKeyDescriptor) HasSubjectResource() bool {
+func (d *DeleteServiceAccountKeyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteServiceAccountKeyDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return serviceAccountKeyServiceDescriptor
 }
 
-func (d *DeleteServiceAccountKeyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteServiceAccountKeyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return service_account_key.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteServiceAccountKeyDescriptor) GetServerMsgReflectHandle() gotencli
 	return &DeleteServiceAccountKeyDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteServiceAccountKeyRequest) *service_account_key.Name
+		OverrideExtractResourceName(*DeleteServiceAccountKeyRequest) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*service_account_key.Name)(nil)
 }
 
-func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteServiceAccountKeyRequest) []*service_account_key.Name
+		OverrideExtractResourceNames(*DeleteServiceAccountKeyRequest) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteServiceAccountKeyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteServiceAccountKeyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteServiceAccountKeyRequest) *service_account_key.ParentName
+		OverrideExtractCollectionName(*DeleteServiceAccountKeyRequest) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *service_account_key.Name
+		OverrideExtractResourceName(*empty.Empty) *service_account_key.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*service_account_key.Name
+		OverrideExtractResourceNames(*empty.Empty) []*service_account_key.Name
 	})
 	if ok {
-		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return service_account_key.ServiceAccountKeyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteServiceAccountKeyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *service_account_key.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *service_account_key.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

@@ -542,16 +542,13 @@ type BatchGetProvisioningApprovalRequestsRequest_FieldPath interface {
 type BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector int32
 
 const (
-	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent    BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 0
-	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames     BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 1
-	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 2
-	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorView      BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 3
+	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames     BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 0
+	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 1
+	BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorView      BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetProvisioningApprovalRequestsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetProvisioningApprovalRequestsRequest_FieldPath(fp gotenobject.R
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) JSONStr
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) Get(source *BatchGetProvisioningApprovalRequestsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) GetRaw(
 // GetSingle returns value pointed by specific field of from source BatchGetProvisioningApprovalRequestsRequest
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) GetSingle(source *BatchGetProvisioningApprovalRequestsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) GetSing
 // GetDefault returns a default value of the field type
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		return (*provisioning_approval_request.Reference)(nil)
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		return ([]*provisioning_approval_request.Reference)(nil)
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) GetDefa
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) ClearValue(item *BatchGetProvisioningApprovalRequestsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) ClearVa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetProvisioningApprovalRequestsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue{BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath: *fp, value: value.(*provisioning_approval_request.Reference)}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue{BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath: *fp, value: value.([]*provisioning_approval_request.Reference)}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) WithRaw
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetProvisioningApprovalRequestsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath: *fp, values: values.([]*provisioning_approval_request.Reference)}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		return &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues{BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath: *fp, values: values.([][]*provisioning_approval_request.Reference)}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetProvisioningApprovalRequestsRequest_FieldPathValue = (*BatchGetPro
 func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) AsParentValue() (*provisioning_approval_request.Reference, bool) {
-	res, ok := fpv.value.(*provisioning_approval_request.Reference)
-	return res, ok
-}
 func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) AsNamesValue() ([]*provisioning_approval_request.Reference, bool) {
 	res, ok := fpv.value.([]*provisioning_approval_request.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) S
 		*target = new(BatchGetProvisioningApprovalRequestsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*provisioning_approval_request.Reference)
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*provisioning_approval_request.Reference)
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) S
 // CompareWith compares value in the 'BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetProvisioningApprovalRequestsRequest'.
 func (fpv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetProvisioningApprovalRequestsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*provisioning_approval_request.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetProvisioningApprovalRequestsRequest_FieldPathArrayOfValues = (*Bat
 
 func (fpaov *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*provisioning_approval_request.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*provisioning_approval_request.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayO
 		}
 	}
 	return
-}
-func (fpaov *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*provisioning_approval_request.Reference, bool) {
-	res, ok := fpaov.values.([]*provisioning_approval_request.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*provisioning_approval_request.Reference, bool) {
 	res, ok := fpaov.values.([][]*provisioning_approval_request.Reference)

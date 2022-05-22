@@ -318,7 +318,6 @@ type BatchGetDevicesRequest_FieldMask struct {
 
 func FullBatchGetDevicesRequest_FieldMask() *BatchGetDevicesRequest_FieldMask {
 	res := &BatchGetDevicesRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetDevicesRequest_FieldTerminalPath{selector: BatchGetDevicesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetDevicesRequest_FieldTerminalPath{selector: BatchGetDevicesRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetDevicesRequest_FieldTerminalPath{selector: BatchGetDevicesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetDevicesRequest_FieldTerminalPath{selector: BatchGetDevicesRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetDevicesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetDevicesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetDevicesRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetDevicesRequest_FieldMask) Subtract(other *BatchGetDevicesRequest_FieldMask) *BatchGetDevicesRequest_FieldMask {
 	result := &BatchGetDevicesRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetDevicesRequest_FieldMask) Project(source *BatchGetDevic
 		switch tp := p.(type) {
 		case *BatchGetDevicesRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetDevicesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetDevicesRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetDevicesRequest_FieldPathSelectorFieldMask:

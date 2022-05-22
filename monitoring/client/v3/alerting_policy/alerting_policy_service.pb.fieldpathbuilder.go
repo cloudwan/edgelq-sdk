@@ -94,9 +94,6 @@ type BatchGetAlertingPoliciesRequestFieldPathBuilder struct{}
 func NewBatchGetAlertingPoliciesRequestFieldPathBuilder() BatchGetAlertingPoliciesRequestFieldPathBuilder {
 	return BatchGetAlertingPoliciesRequestFieldPathBuilder{}
 }
-func (BatchGetAlertingPoliciesRequestFieldPathBuilder) Parent() BatchGetAlertingPoliciesRequestPathSelectorParent {
-	return BatchGetAlertingPoliciesRequestPathSelectorParent{}
-}
 func (BatchGetAlertingPoliciesRequestFieldPathBuilder) Names() BatchGetAlertingPoliciesRequestPathSelectorNames {
 	return BatchGetAlertingPoliciesRequestPathSelectorNames{}
 }
@@ -105,20 +102,6 @@ func (BatchGetAlertingPoliciesRequestFieldPathBuilder) FieldMask() BatchGetAlert
 }
 func (BatchGetAlertingPoliciesRequestFieldPathBuilder) View() BatchGetAlertingPoliciesRequestPathSelectorView {
 	return BatchGetAlertingPoliciesRequestPathSelectorView{}
-}
-
-type BatchGetAlertingPoliciesRequestPathSelectorParent struct{}
-
-func (BatchGetAlertingPoliciesRequestPathSelectorParent) FieldPath() *BatchGetAlertingPoliciesRequest_FieldTerminalPath {
-	return &BatchGetAlertingPoliciesRequest_FieldTerminalPath{selector: BatchGetAlertingPoliciesRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetAlertingPoliciesRequestPathSelectorParent) WithValue(value *alerting_policy.Reference) *BatchGetAlertingPoliciesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetAlertingPoliciesRequestPathSelectorParent) WithArrayOfValues(values []*alerting_policy.Reference) *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetAlertingPoliciesRequestPathSelectorNames struct{}

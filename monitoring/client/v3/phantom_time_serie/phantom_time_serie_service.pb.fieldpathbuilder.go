@@ -104,9 +104,6 @@ type BatchGetPhantomTimeSeriesRequestFieldPathBuilder struct{}
 func NewBatchGetPhantomTimeSeriesRequestFieldPathBuilder() BatchGetPhantomTimeSeriesRequestFieldPathBuilder {
 	return BatchGetPhantomTimeSeriesRequestFieldPathBuilder{}
 }
-func (BatchGetPhantomTimeSeriesRequestFieldPathBuilder) Parent() BatchGetPhantomTimeSeriesRequestPathSelectorParent {
-	return BatchGetPhantomTimeSeriesRequestPathSelectorParent{}
-}
 func (BatchGetPhantomTimeSeriesRequestFieldPathBuilder) Names() BatchGetPhantomTimeSeriesRequestPathSelectorNames {
 	return BatchGetPhantomTimeSeriesRequestPathSelectorNames{}
 }
@@ -115,20 +112,6 @@ func (BatchGetPhantomTimeSeriesRequestFieldPathBuilder) FieldMask() BatchGetPhan
 }
 func (BatchGetPhantomTimeSeriesRequestFieldPathBuilder) View() BatchGetPhantomTimeSeriesRequestPathSelectorView {
 	return BatchGetPhantomTimeSeriesRequestPathSelectorView{}
-}
-
-type BatchGetPhantomTimeSeriesRequestPathSelectorParent struct{}
-
-func (BatchGetPhantomTimeSeriesRequestPathSelectorParent) FieldPath() *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath {
-	return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetPhantomTimeSeriesRequestPathSelectorParent) WithValue(value *phantom_time_serie.Reference) *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetPhantomTimeSeriesRequestPathSelectorParent) WithArrayOfValues(values []*phantom_time_serie.Reference) *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetPhantomTimeSeriesRequestPathSelectorNames struct{}

@@ -148,9 +148,6 @@ func (o *BatchGetMethodDescriptorsRequest) MakeDiffFieldMask(other *BatchGetMeth
 	}
 
 	res := &BatchGetMethodDescriptorsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -181,16 +178,6 @@ func (o *BatchGetMethodDescriptorsRequest) Clone() *BatchGetMethodDescriptorsReq
 		return nil
 	}
 	result := &BatchGetMethodDescriptorsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &method_descriptor.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*method_descriptor.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -214,18 +201,6 @@ func (o *BatchGetMethodDescriptorsRequest) CloneRaw() gotenobject.GotenObjectExt
 }
 
 func (o *BatchGetMethodDescriptorsRequest) Merge(source *BatchGetMethodDescriptorsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &method_descriptor.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

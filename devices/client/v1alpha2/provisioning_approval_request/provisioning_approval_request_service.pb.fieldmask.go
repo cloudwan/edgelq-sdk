@@ -318,7 +318,6 @@ type BatchGetProvisioningApprovalRequestsRequest_FieldMask struct {
 
 func FullBatchGetProvisioningApprovalRequestsRequest_FieldMask() *BatchGetProvisioningApprovalRequestsRequest_FieldMask {
 	res := &BatchGetProvisioningApprovalRequestsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetProvisioningApprovalRequestsRequest_FieldMask) IsFull()
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetProvisioningApprovalRequestsRequest_FieldMask) Reset() 
 
 func (fieldMask *BatchGetProvisioningApprovalRequestsRequest_FieldMask) Subtract(other *BatchGetProvisioningApprovalRequestsRequest_FieldMask) *BatchGetProvisioningApprovalRequestsRequest_FieldMask {
 	result := &BatchGetProvisioningApprovalRequestsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetProvisioningApprovalRequestsRequest_FieldMask) Project(
 		switch tp := p.(type) {
 		case *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask:

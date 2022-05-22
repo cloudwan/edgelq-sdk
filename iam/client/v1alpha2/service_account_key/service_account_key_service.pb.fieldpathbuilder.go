@@ -100,9 +100,6 @@ type BatchGetServiceAccountKeysRequestFieldPathBuilder struct{}
 func NewBatchGetServiceAccountKeysRequestFieldPathBuilder() BatchGetServiceAccountKeysRequestFieldPathBuilder {
 	return BatchGetServiceAccountKeysRequestFieldPathBuilder{}
 }
-func (BatchGetServiceAccountKeysRequestFieldPathBuilder) Parent() BatchGetServiceAccountKeysRequestPathSelectorParent {
-	return BatchGetServiceAccountKeysRequestPathSelectorParent{}
-}
 func (BatchGetServiceAccountKeysRequestFieldPathBuilder) Names() BatchGetServiceAccountKeysRequestPathSelectorNames {
 	return BatchGetServiceAccountKeysRequestPathSelectorNames{}
 }
@@ -111,20 +108,6 @@ func (BatchGetServiceAccountKeysRequestFieldPathBuilder) FieldMask() BatchGetSer
 }
 func (BatchGetServiceAccountKeysRequestFieldPathBuilder) View() BatchGetServiceAccountKeysRequestPathSelectorView {
 	return BatchGetServiceAccountKeysRequestPathSelectorView{}
-}
-
-type BatchGetServiceAccountKeysRequestPathSelectorParent struct{}
-
-func (BatchGetServiceAccountKeysRequestPathSelectorParent) FieldPath() *BatchGetServiceAccountKeysRequest_FieldTerminalPath {
-	return &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetServiceAccountKeysRequestPathSelectorParent) WithValue(value *service_account_key.Reference) *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountKeysRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetServiceAccountKeysRequestPathSelectorParent) WithArrayOfValues(values []*service_account_key.Reference) *BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetServiceAccountKeysRequestPathSelectorNames struct{}

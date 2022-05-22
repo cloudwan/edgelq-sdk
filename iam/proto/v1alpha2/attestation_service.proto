@@ -25,7 +25,8 @@ service AttestationService {
   // Verify
   rpc Verify(stream VerifyRequest) returns (stream VerifyResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/attestationDomains/*}:verify"
+      post : "/v1alpha2/{ask_for_challenge.attestation_domain=projects/*/"
+             "attestationDomains/*}:verify"
     };
   }
 }

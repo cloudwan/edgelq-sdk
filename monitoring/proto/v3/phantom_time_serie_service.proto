@@ -34,9 +34,6 @@ message GetPhantomTimeSerieRequest {
 // Request message for method
 // [BatchGetPhantomTimeSeries][ntt.monitoring.v3.BatchGetPhantomTimeSeries]
 message BatchGetPhantomTimeSeriesRequest {
-  // Optional parent ntt.monitoring.v3.PhantomTimeSerie
-  string parent = 1;
-
   // Names of PhantomTimeSeries
   repeated string names = 2;
 
@@ -47,6 +44,8 @@ message BatchGetPhantomTimeSeriesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetPhantomTimeSeriesResponse
@@ -284,7 +283,7 @@ service PhantomTimeSerieService {
   rpc BatchGetPhantomTimeSeries(BatchGetPhantomTimeSeriesRequest)
       returns (BatchGetPhantomTimeSeriesResponse) {
     option (google.api.http) = {
-      get : "/v3/{parent=projects/*/regions/*}/phantomTimeSeries:batchGet"
+      get : "/v3/phantomTimeSeries:batchGet"
     };
   }
 

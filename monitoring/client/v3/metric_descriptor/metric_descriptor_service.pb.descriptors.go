@@ -69,15 +69,15 @@ func (d *BatchGetMetricDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetMetricDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetMetricDescriptorsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetMetricDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetMetricDescriptorsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetMetricDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetMetricDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *BatchGetMetricDescriptorsDescriptor) GetApiDescriptor() gotenclient.Api
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *BatchGetMetricDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetMetricDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -129,86 +129,92 @@ func (d *BatchGetMetricDescriptorsDescriptor) GetServerMsgReflectHandle() gotenc
 	return &BatchGetMetricDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMetricDescriptorsRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMetricDescriptorsRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMetricDescriptorsRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMetricDescriptorsRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(metric_descriptor.MetricDescriptorNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(metric_descriptor.MetricDescriptorNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (metric_descriptor.MetricDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetMetricDescriptorsRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*BatchGetMetricDescriptorsRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetMetricDescriptorsResponse) *metric_descriptor.Name
+		OverrideExtractResourceName(*BatchGetMetricDescriptorsResponse) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetMetricDescriptorsResponse) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*BatchGetMetricDescriptorsResponse) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMetricDescriptors()
-	list := make(metric_descriptor.MetricDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetMetricDescriptors(); len(resources) > 0 {
+			list := make(metric_descriptor.MetricDescriptorNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (metric_descriptor.MetricDescriptorNameList)(nil)
 }
 
-func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetMetricDescriptorsResponse) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*BatchGetMetricDescriptorsResponse) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -243,15 +249,15 @@ func (d *WatchMetricDescriptorDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMetricDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *WatchMetricDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchMetricDescriptorDescriptor) IsPluralSubject() bool {
+func (d *WatchMetricDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchMetricDescriptorDescriptor) HasSubjectResource() bool {
+func (d *WatchMetricDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -291,7 +297,7 @@ func (d *WatchMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *WatchMetricDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -303,89 +309,93 @@ func (d *WatchMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &WatchMetricDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMetricDescriptorRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*WatchMetricDescriptorRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*metric_descriptor.Name)(nil)
-}
-
-func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMetricDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMetricDescriptorRequest) []*metric_descriptor.Name
-	})
-	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchMetricDescriptorRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchMetricDescriptorRequest) *metric_descriptor.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchMetricDescriptorResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMetricDescriptorResponse) *metric_descriptor.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *metric_descriptor.MetricDescriptorChange_Added_:
-			return tResChange.Added.GetMetricDescriptor().GetName()
-		case *metric_descriptor.MetricDescriptorChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *metric_descriptor.MetricDescriptorChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *metric_descriptor.MetricDescriptorChange_Current_:
-			return tResChange.Current.GetMetricDescriptor().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchMetricDescriptorResponse)
+func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMetricDescriptorResponse) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*WatchMetricDescriptorRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchMetricDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchMetricDescriptorRequest) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchMetricDescriptorResponse) *metric_descriptor.ParentName
+		OverrideExtractResourceName(*WatchMetricDescriptorResponse) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *metric_descriptor.MetricDescriptorChange_Added_:
+				return tResChange.Added.GetMetricDescriptor().GetName()
+			case *metric_descriptor.MetricDescriptorChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *metric_descriptor.MetricDescriptorChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *metric_descriptor.MetricDescriptorChange_Current_:
+				return tResChange.Current.GetMetricDescriptor().GetName()
+			}
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
+}
+
+func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchMetricDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchMetricDescriptorResponse) []*metric_descriptor.Name
+	})
+	if ok {
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchMetricDescriptorResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchMetricDescriptorResponse) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -420,15 +430,15 @@ func (d *WatchMetricDescriptorsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchMetricDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *WatchMetricDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchMetricDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *WatchMetricDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchMetricDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *WatchMetricDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -468,7 +478,7 @@ func (d *WatchMetricDescriptorsDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *WatchMetricDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchMetricDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -480,91 +490,97 @@ func (d *WatchMetricDescriptorsDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchMetricDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMetricDescriptorsRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*WatchMetricDescriptorsRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMetricDescriptorsRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*WatchMetricDescriptorsRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchMetricDescriptorsRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*WatchMetricDescriptorsRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*metric_descriptor.ParentName)(nil)
 }
 
-func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchMetricDescriptorsResponse) *metric_descriptor.Name
+		OverrideExtractResourceName(*WatchMetricDescriptorsResponse) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchMetricDescriptorsResponse) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*WatchMetricDescriptorsResponse) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetMetricDescriptorChanges()
-	list := make(metric_descriptor.MetricDescriptorNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *metric_descriptor.MetricDescriptorChange_Added_:
-			list = append(list, tResChange.Added.GetMetricDescriptor().GetName())
-		case *metric_descriptor.MetricDescriptorChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *metric_descriptor.MetricDescriptorChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *metric_descriptor.MetricDescriptorChange_Current_:
-			list = append(list, tResChange.Current.GetMetricDescriptor().GetName())
+	{
+		if resChanges := typedMsg.GetMetricDescriptorChanges(); len(resChanges) > 0 {
+			list := make(metric_descriptor.MetricDescriptorNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *metric_descriptor.MetricDescriptorChange_Added_:
+					list = append(list, tResChange.Added.GetMetricDescriptor().GetName())
+				case *metric_descriptor.MetricDescriptorChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *metric_descriptor.MetricDescriptorChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *metric_descriptor.MetricDescriptorChange_Current_:
+					list = append(list, tResChange.Current.GetMetricDescriptor().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (metric_descriptor.MetricDescriptorNameList)(nil)
 }
 
-func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchMetricDescriptorsResponse) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*WatchMetricDescriptorsResponse) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -599,15 +615,15 @@ func (d *UpdateMetricDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateMetricDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *UpdateMetricDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateMetricDescriptorDescriptor) IsPluralSubject() bool {
+func (d *UpdateMetricDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateMetricDescriptorDescriptor) HasSubjectResource() bool {
+func (d *UpdateMetricDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -647,7 +663,7 @@ func (d *UpdateMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *UpdateMetricDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -659,74 +675,85 @@ func (d *UpdateMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &UpdateMetricDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateMetricDescriptorRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*UpdateMetricDescriptorRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMetricDescriptor().GetName()
+	{
+		res := typedMsg.GetMetricDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateMetricDescriptorRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*UpdateMetricDescriptorRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateMetricDescriptorRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*UpdateMetricDescriptorRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
+		OverrideExtractResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -761,15 +788,15 @@ func (d *GetMetricDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetMetricDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *GetMetricDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetMetricDescriptorDescriptor) IsPluralSubject() bool {
+func (d *GetMetricDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetMetricDescriptorDescriptor) HasSubjectResource() bool {
+func (d *GetMetricDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -809,7 +836,7 @@ func (d *GetMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *GetMetricDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -821,77 +848,79 @@ func (d *GetMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &GetMetricDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetMetricDescriptorRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*GetMetricDescriptorRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetMetricDescriptorRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*GetMetricDescriptorRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetMetricDescriptorRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*GetMetricDescriptorRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
+		OverrideExtractResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	return typedMsg.GetName()
-}
-
-func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
-	})
-	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+		OverrideExtractResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -926,15 +955,15 @@ func (d *CreateMetricDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateMetricDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *CreateMetricDescriptorDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateMetricDescriptorDescriptor) IsPluralSubject() bool {
+func (d *CreateMetricDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateMetricDescriptorDescriptor) HasSubjectResource() bool {
+func (d *CreateMetricDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -974,7 +1003,7 @@ func (d *CreateMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *CreateMetricDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -986,77 +1015,85 @@ func (d *CreateMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &CreateMetricDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateMetricDescriptorRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*CreateMetricDescriptorRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetMetricDescriptor().GetName()
+	{
+		res := typedMsg.GetMetricDescriptor()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateMetricDescriptorRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*CreateMetricDescriptorRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateMetricDescriptorRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*CreateMetricDescriptorRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*metric_descriptor.ParentName)(nil)
 }
 
-func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
+		OverrideExtractResourceName(*metric_descriptor.MetricDescriptor) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	return typedMsg.GetName()
-}
-
-func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
-	})
-	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+		OverrideExtractResourceNames(*metric_descriptor.MetricDescriptor) []*metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CreateMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*metric_descriptor.MetricDescriptor)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*metric_descriptor.MetricDescriptor) *metric_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1091,15 +1128,15 @@ func (d *DeleteMetricDescriptorDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteMetricDescriptorDescriptor) IsCollectionSubject() bool {
+func (d *DeleteMetricDescriptorDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteMetricDescriptorDescriptor) IsPluralSubject() bool {
+func (d *DeleteMetricDescriptorDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteMetricDescriptorDescriptor) HasSubjectResource() bool {
+func (d *DeleteMetricDescriptorDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1139,7 +1176,7 @@ func (d *DeleteMetricDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *DeleteMetricDescriptorDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteMetricDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -1151,77 +1188,79 @@ func (d *DeleteMetricDescriptorDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &DeleteMetricDescriptorDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteMetricDescriptorRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*DeleteMetricDescriptorRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*metric_descriptor.Name)(nil)
 }
 
-func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteMetricDescriptorRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*DeleteMetricDescriptorRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMetricDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteMetricDescriptorRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteMetricDescriptorRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*DeleteMetricDescriptorRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *metric_descriptor.Name
+		OverrideExtractResourceName(*empty.Empty) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*empty.Empty) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteMetricDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1256,15 +1295,15 @@ func (d *ListMetricDescriptorsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListMetricDescriptorsDescriptor) IsCollectionSubject() bool {
+func (d *ListMetricDescriptorsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListMetricDescriptorsDescriptor) IsPluralSubject() bool {
+func (d *ListMetricDescriptorsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListMetricDescriptorsDescriptor) HasSubjectResource() bool {
+func (d *ListMetricDescriptorsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1304,7 +1343,7 @@ func (d *ListMetricDescriptorsDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return metricDescriptorServiceDescriptor
 }
 
-func (d *ListMetricDescriptorsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListMetricDescriptorsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return metric_descriptor.GetDescriptor()
 }
 
@@ -1316,79 +1355,79 @@ func (d *ListMetricDescriptorsDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &ListMetricDescriptorsDescriptorServerMsgHandle{}
 }
 
-func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMetricDescriptorsRequest) *metric_descriptor.Name
+		OverrideExtractResourceName(*ListMetricDescriptorsRequest) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMetricDescriptorsRequest) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*ListMetricDescriptorsRequest) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMetricDescriptorsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMetricDescriptorsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListMetricDescriptorsRequest) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*ListMetricDescriptorsRequest) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*metric_descriptor.ParentName)(nil)
 }
 
-func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListMetricDescriptorsResponse) *metric_descriptor.Name
+		OverrideExtractResourceName(*ListMetricDescriptorsResponse) *metric_descriptor.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListMetricDescriptorsResponse) []*metric_descriptor.Name
+		OverrideExtractResourceNames(*ListMetricDescriptorsResponse) []*metric_descriptor.Name
 	})
 	if ok {
-		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return metric_descriptor.MetricDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetMetricDescriptors()
-	list := make(metric_descriptor.MetricDescriptorNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
-	}
-	return list
+	return nil
 }
 
-func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListMetricDescriptorsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListMetricDescriptorsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListMetricDescriptorsResponse) *metric_descriptor.ParentName
+		OverrideExtractCollectionName(*ListMetricDescriptorsResponse) *metric_descriptor.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

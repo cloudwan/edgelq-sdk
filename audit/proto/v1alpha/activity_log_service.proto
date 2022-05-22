@@ -26,10 +26,6 @@ service ActivityLogService {
       returns (ListActivityLogsResponse) {
     option (google.api.http) = {
       get : "/v1alpha/activityLogs"
-      additional_bindings : <get : "/v1alpha/{parent=projects/*}/activityLogs">
-      additional_bindings : <
-        get : "/v1alpha/{parent=organizations/*}/activityLogs"
-      >
     };
   }
 
@@ -39,10 +35,6 @@ service ActivityLogService {
     option (google.api.http) = {
       post : "/v1alpha/activityLogs"
       body : "activity_logs"
-      additional_bindings : <post : "/v1alpha/{parent=projects/*}/activityLogs">
-      additional_bindings : <
-        post : "/v1alpha/{parent=organizations/*}/activityLogs"
-      >
     };
   }
 }

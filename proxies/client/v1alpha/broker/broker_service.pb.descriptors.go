@@ -62,15 +62,15 @@ func (d *ConnectDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *ConnectDescriptor) IsCollectionSubject() bool {
+func (d *ConnectDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ConnectDescriptor) IsPluralSubject() bool {
+func (d *ConnectDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ConnectDescriptor) HasSubjectResource() bool {
+func (d *ConnectDescriptor) HasResource() bool {
 	return true
 }
 
@@ -110,7 +110,7 @@ func (d *ConnectDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return brokerServiceDescriptor
 }
 
-func (d *ConnectDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ConnectDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return project.GetDescriptor()
 }
 
@@ -122,59 +122,69 @@ func (d *ConnectDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHan
 	return &ConnectDescriptorServerMsgHandle{}
 }
 
-func (h *ConnectDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ConnectDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ConnectRequest) *project.Name
+		OverrideExtractResourceName(*ConnectRequest) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetOpenRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	{
+		if ref := typedMsg.GetResumeRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*project.Name)(nil)
 }
 
-func (h *ConnectDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ConnectDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ConnectRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ConnectRequest) []*project.Name
+		OverrideExtractResourceNames(*ConnectRequest) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ConnectDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ConnectDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ConnectDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ConnectDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ConnectResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ConnectResponse) *project.Name
+		OverrideExtractResourceName(*ConnectResponse) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ConnectDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ConnectDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ConnectResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ConnectResponse) []*project.Name
+		OverrideExtractResourceNames(*ConnectResponse) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ConnectDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ConnectDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -208,15 +218,15 @@ func (d *ListenDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *ListenDescriptor) IsCollectionSubject() bool {
+func (d *ListenDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ListenDescriptor) IsPluralSubject() bool {
+func (d *ListenDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ListenDescriptor) HasSubjectResource() bool {
+func (d *ListenDescriptor) HasResource() bool {
 	return true
 }
 
@@ -256,7 +266,7 @@ func (d *ListenDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return brokerServiceDescriptor
 }
 
-func (d *ListenDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListenDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return project.GetDescriptor()
 }
 
@@ -268,59 +278,69 @@ func (d *ListenDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHand
 	return &ListenDescriptorServerMsgHandle{}
 }
 
-func (h *ListenDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListenDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListenRequest) *project.Name
+		OverrideExtractResourceName(*ListenRequest) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetOpenRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	{
+		if ref := typedMsg.GetResumeRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*project.Name)(nil)
 }
 
-func (h *ListenDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListenDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListenRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListenRequest) []*project.Name
+		OverrideExtractResourceNames(*ListenRequest) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListenDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListenDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListenDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListenDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListenResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListenResponse) *project.Name
+		OverrideExtractResourceName(*ListenResponse) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListenDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListenDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListenResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListenResponse) []*project.Name
+		OverrideExtractResourceNames(*ListenResponse) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListenDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListenDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -354,15 +374,15 @@ func (d *AcceptDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *AcceptDescriptor) IsCollectionSubject() bool {
+func (d *AcceptDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *AcceptDescriptor) IsPluralSubject() bool {
+func (d *AcceptDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *AcceptDescriptor) HasSubjectResource() bool {
+func (d *AcceptDescriptor) HasResource() bool {
 	return true
 }
 
@@ -402,7 +422,7 @@ func (d *AcceptDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return brokerServiceDescriptor
 }
 
-func (d *AcceptDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *AcceptDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return project.GetDescriptor()
 }
 
@@ -414,59 +434,69 @@ func (d *AcceptDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHand
 	return &AcceptDescriptorServerMsgHandle{}
 }
 
-func (h *AcceptDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *AcceptDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*AcceptRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*AcceptRequest) *project.Name
+		OverrideExtractResourceName(*AcceptRequest) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return nil
+	{
+		if ref := typedMsg.GetOpenRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	{
+		if ref := typedMsg.GetResumeRequest().GetProject(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*project.Name)(nil)
 }
 
-func (h *AcceptDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *AcceptDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*AcceptRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*AcceptRequest) []*project.Name
+		OverrideExtractResourceNames(*AcceptRequest) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *AcceptDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *AcceptDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *AcceptDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *AcceptDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*AcceptResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*AcceptResponse) *project.Name
+		OverrideExtractResourceName(*AcceptResponse) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *AcceptDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *AcceptDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*AcceptResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*AcceptResponse) []*project.Name
+		OverrideExtractResourceNames(*AcceptResponse) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *AcceptDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *AcceptDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

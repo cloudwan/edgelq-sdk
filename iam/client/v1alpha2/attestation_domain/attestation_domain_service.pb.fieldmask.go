@@ -318,7 +318,6 @@ type BatchGetAttestationDomainsRequest_FieldMask struct {
 
 func FullBatchGetAttestationDomainsRequest_FieldMask() *BatchGetAttestationDomainsRequest_FieldMask {
 	res := &BatchGetAttestationDomainsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetAttestationDomainsRequest_FieldTerminalPath{selector: BatchGetAttestationDomainsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetAttestationDomainsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetAttestationDomainsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetAttestationDomainsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetAttestationDomainsRequest_FieldMask) Subtract(other *BatchGetAttestationDomainsRequest_FieldMask) *BatchGetAttestationDomainsRequest_FieldMask {
 	result := &BatchGetAttestationDomainsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetAttestationDomainsRequest_FieldMask) Project(source *Ba
 		switch tp := p.(type) {
 		case *BatchGetAttestationDomainsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetAttestationDomainsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetAttestationDomainsRequest_FieldPathSelectorFieldMask:

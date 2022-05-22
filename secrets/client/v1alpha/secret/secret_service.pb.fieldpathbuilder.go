@@ -86,9 +86,6 @@ type BatchGetSecretsRequestFieldPathBuilder struct{}
 func NewBatchGetSecretsRequestFieldPathBuilder() BatchGetSecretsRequestFieldPathBuilder {
 	return BatchGetSecretsRequestFieldPathBuilder{}
 }
-func (BatchGetSecretsRequestFieldPathBuilder) Parent() BatchGetSecretsRequestPathSelectorParent {
-	return BatchGetSecretsRequestPathSelectorParent{}
-}
 func (BatchGetSecretsRequestFieldPathBuilder) Names() BatchGetSecretsRequestPathSelectorNames {
 	return BatchGetSecretsRequestPathSelectorNames{}
 }
@@ -97,20 +94,6 @@ func (BatchGetSecretsRequestFieldPathBuilder) FieldMask() BatchGetSecretsRequest
 }
 func (BatchGetSecretsRequestFieldPathBuilder) View() BatchGetSecretsRequestPathSelectorView {
 	return BatchGetSecretsRequestPathSelectorView{}
-}
-
-type BatchGetSecretsRequestPathSelectorParent struct{}
-
-func (BatchGetSecretsRequestPathSelectorParent) FieldPath() *BatchGetSecretsRequest_FieldTerminalPath {
-	return &BatchGetSecretsRequest_FieldTerminalPath{selector: BatchGetSecretsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetSecretsRequestPathSelectorParent) WithValue(value *secret.Reference) *BatchGetSecretsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetSecretsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetSecretsRequestPathSelectorParent) WithArrayOfValues(values []*secret.Reference) *BatchGetSecretsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetSecretsRequestPathSelectorNames struct{}

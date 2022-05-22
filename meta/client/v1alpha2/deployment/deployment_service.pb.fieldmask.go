@@ -318,7 +318,6 @@ type BatchGetDeploymentsRequest_FieldMask struct {
 
 func FullBatchGetDeploymentsRequest_FieldMask() *BatchGetDeploymentsRequest_FieldMask {
 	res := &BatchGetDeploymentsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetDeploymentsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetDeploymentsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetDeploymentsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetDeploymentsRequest_FieldMask) Subtract(other *BatchGetDeploymentsRequest_FieldMask) *BatchGetDeploymentsRequest_FieldMask {
 	result := &BatchGetDeploymentsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetDeploymentsRequest_FieldMask) Project(source *BatchGetD
 		switch tp := p.(type) {
 		case *BatchGetDeploymentsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetDeploymentsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetDeploymentsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetDeploymentsRequest_FieldPathSelectorFieldMask:

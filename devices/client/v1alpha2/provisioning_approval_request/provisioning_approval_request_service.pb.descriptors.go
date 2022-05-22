@@ -70,15 +70,15 @@ func (d *GetProvisioningApprovalRequestDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetProvisioningApprovalRequestDescriptor) IsCollectionSubject() bool {
+func (d *GetProvisioningApprovalRequestDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetProvisioningApprovalRequestDescriptor) IsPluralSubject() bool {
+func (d *GetProvisioningApprovalRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetProvisioningApprovalRequestDescriptor) HasSubjectResource() bool {
+func (d *GetProvisioningApprovalRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -118,7 +118,7 @@ func (d *GetProvisioningApprovalRequestDescriptor) GetApiDescriptor() gotenclien
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *GetProvisioningApprovalRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetProvisioningApprovalRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -130,77 +130,84 @@ func (d *GetProvisioningApprovalRequestDescriptor) GetServerMsgReflectHandle() g
 	return &GetProvisioningApprovalRequestDescriptorServerMsgHandle{}
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*GetProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*GetProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*GetProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -235,15 +242,15 @@ func (d *BatchGetProvisioningApprovalRequestsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetProvisioningApprovalRequestsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetProvisioningApprovalRequestsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetProvisioningApprovalRequestsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetProvisioningApprovalRequestsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetProvisioningApprovalRequestsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetProvisioningApprovalRequestsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -283,7 +290,7 @@ func (d *BatchGetProvisioningApprovalRequestsDescriptor) GetApiDescriptor() gote
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *BatchGetProvisioningApprovalRequestsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetProvisioningApprovalRequestsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -295,86 +302,92 @@ func (d *BatchGetProvisioningApprovalRequestsDescriptor) GetServerMsgReflectHand
 	return &BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*BatchGetProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*BatchGetProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (provisioning_approval_request.ProvisioningApprovalRequestNameList)(nil)
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*BatchGetProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*BatchGetProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*BatchGetProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetProvisioningApprovalRequests()
-	list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetProvisioningApprovalRequests(); len(resources) > 0 {
+			list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (provisioning_approval_request.ProvisioningApprovalRequestNameList)(nil)
 }
 
-func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*BatchGetProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -409,15 +422,15 @@ func (d *ListProvisioningApprovalRequestsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListProvisioningApprovalRequestsDescriptor) IsCollectionSubject() bool {
+func (d *ListProvisioningApprovalRequestsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListProvisioningApprovalRequestsDescriptor) IsPluralSubject() bool {
+func (d *ListProvisioningApprovalRequestsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListProvisioningApprovalRequestsDescriptor) HasSubjectResource() bool {
+func (d *ListProvisioningApprovalRequestsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -457,7 +470,7 @@ func (d *ListProvisioningApprovalRequestsDescriptor) GetApiDescriptor() gotencli
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *ListProvisioningApprovalRequestsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListProvisioningApprovalRequestsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -469,79 +482,88 @@ func (d *ListProvisioningApprovalRequestsDescriptor) GetServerMsgReflectHandle()
 	return &ListProvisioningApprovalRequestsDescriptorServerMsgHandle{}
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*ListProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*ListProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*ListProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*provisioning_approval_request.ParentName)(nil)
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*ListProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*ListProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetProvisioningApprovalRequests()
-	list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetProvisioningApprovalRequests(); len(resources) > 0 {
+			list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (provisioning_approval_request.ProvisioningApprovalRequestNameList)(nil)
 }
 
-func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*ListProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -576,15 +598,15 @@ func (d *WatchProvisioningApprovalRequestDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchProvisioningApprovalRequestDescriptor) IsCollectionSubject() bool {
+func (d *WatchProvisioningApprovalRequestDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchProvisioningApprovalRequestDescriptor) IsPluralSubject() bool {
+func (d *WatchProvisioningApprovalRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchProvisioningApprovalRequestDescriptor) HasSubjectResource() bool {
+func (d *WatchProvisioningApprovalRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -624,7 +646,7 @@ func (d *WatchProvisioningApprovalRequestDescriptor) GetApiDescriptor() gotencli
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *WatchProvisioningApprovalRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchProvisioningApprovalRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -636,89 +658,93 @@ func (d *WatchProvisioningApprovalRequestDescriptor) GetServerMsgReflectHandle()
 	return &WatchProvisioningApprovalRequestDescriptorServerMsgHandle{}
 }
 
-func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*WatchProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*provisioning_approval_request.Name)(nil)
-}
-
-func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
-	})
-	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningApprovalRequestResponse) *provisioning_approval_request.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
-			return tResChange.Added.GetProvisioningApprovalRequest().GetName()
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
-			return tResChange.Current.GetProvisioningApprovalRequest().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
+func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningApprovalRequestResponse) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*WatchProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningApprovalRequestResponse) *provisioning_approval_request.ParentName
+		OverrideExtractResourceName(*WatchProvisioningApprovalRequestResponse) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
+				return tResChange.Added.GetProvisioningApprovalRequest().GetName()
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
+				return tResChange.Current.GetProvisioningApprovalRequest().GetName()
+			}
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchProvisioningApprovalRequestResponse) []*provisioning_approval_request.Name
+	})
+	if ok {
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchProvisioningApprovalRequestResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchProvisioningApprovalRequestResponse) *provisioning_approval_request.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -753,15 +779,15 @@ func (d *WatchProvisioningApprovalRequestsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchProvisioningApprovalRequestsDescriptor) IsCollectionSubject() bool {
+func (d *WatchProvisioningApprovalRequestsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchProvisioningApprovalRequestsDescriptor) IsPluralSubject() bool {
+func (d *WatchProvisioningApprovalRequestsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchProvisioningApprovalRequestsDescriptor) HasSubjectResource() bool {
+func (d *WatchProvisioningApprovalRequestsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -801,7 +827,7 @@ func (d *WatchProvisioningApprovalRequestsDescriptor) GetApiDescriptor() gotencl
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *WatchProvisioningApprovalRequestsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchProvisioningApprovalRequestsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -813,91 +839,97 @@ func (d *WatchProvisioningApprovalRequestsDescriptor) GetServerMsgReflectHandle(
 	return &WatchProvisioningApprovalRequestsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*WatchProvisioningApprovalRequestsRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*WatchProvisioningApprovalRequestsRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*WatchProvisioningApprovalRequestsRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*provisioning_approval_request.ParentName)(nil)
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*WatchProvisioningApprovalRequestsResponse) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*WatchProvisioningApprovalRequestsResponse) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetProvisioningApprovalRequestChanges()
-	list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
-			list = append(list, tResChange.Added.GetProvisioningApprovalRequest().GetName())
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
-			list = append(list, tResChange.Current.GetProvisioningApprovalRequest().GetName())
+	{
+		if resChanges := typedMsg.GetProvisioningApprovalRequestChanges(); len(resChanges) > 0 {
+			list := make(provisioning_approval_request.ProvisioningApprovalRequestNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Added_:
+					list = append(list, tResChange.Added.GetProvisioningApprovalRequest().GetName())
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *provisioning_approval_request.ProvisioningApprovalRequestChange_Current_:
+					list = append(list, tResChange.Current.GetProvisioningApprovalRequest().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (provisioning_approval_request.ProvisioningApprovalRequestNameList)(nil)
 }
 
-func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningApprovalRequestsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningApprovalRequestsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*WatchProvisioningApprovalRequestsResponse) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -932,15 +964,15 @@ func (d *CreateProvisioningApprovalRequestDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateProvisioningApprovalRequestDescriptor) IsCollectionSubject() bool {
+func (d *CreateProvisioningApprovalRequestDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateProvisioningApprovalRequestDescriptor) IsPluralSubject() bool {
+func (d *CreateProvisioningApprovalRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateProvisioningApprovalRequestDescriptor) HasSubjectResource() bool {
+func (d *CreateProvisioningApprovalRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -980,7 +1012,7 @@ func (d *CreateProvisioningApprovalRequestDescriptor) GetApiDescriptor() gotencl
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *CreateProvisioningApprovalRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateProvisioningApprovalRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -992,77 +1024,90 @@ func (d *CreateProvisioningApprovalRequestDescriptor) GetServerMsgReflectHandle(
 	return &CreateProvisioningApprovalRequestDescriptorServerMsgHandle{}
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*CreateProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetProvisioningApprovalRequest().GetName()
+	{
+		res := typedMsg.GetProvisioningApprovalRequest()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*CreateProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*CreateProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*provisioning_approval_request.ParentName)(nil)
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1097,15 +1142,15 @@ func (d *UpdateProvisioningApprovalRequestDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateProvisioningApprovalRequestDescriptor) IsCollectionSubject() bool {
+func (d *UpdateProvisioningApprovalRequestDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateProvisioningApprovalRequestDescriptor) IsPluralSubject() bool {
+func (d *UpdateProvisioningApprovalRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateProvisioningApprovalRequestDescriptor) HasSubjectResource() bool {
+func (d *UpdateProvisioningApprovalRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1145,7 +1190,7 @@ func (d *UpdateProvisioningApprovalRequestDescriptor) GetApiDescriptor() gotencl
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *UpdateProvisioningApprovalRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateProvisioningApprovalRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -1157,74 +1202,85 @@ func (d *UpdateProvisioningApprovalRequestDescriptor) GetServerMsgReflectHandle(
 	return &UpdateProvisioningApprovalRequestDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*UpdateProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetProvisioningApprovalRequest().GetName()
+	{
+		res := typedMsg.GetProvisioningApprovalRequest()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*UpdateProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*UpdateProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*provisioning_approval_request.ProvisioningApprovalRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_approval_request.ProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*provisioning_approval_request.ProvisioningApprovalRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1259,15 +1315,15 @@ func (d *DeleteProvisioningApprovalRequestDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteProvisioningApprovalRequestDescriptor) IsCollectionSubject() bool {
+func (d *DeleteProvisioningApprovalRequestDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteProvisioningApprovalRequestDescriptor) IsPluralSubject() bool {
+func (d *DeleteProvisioningApprovalRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteProvisioningApprovalRequestDescriptor) HasSubjectResource() bool {
+func (d *DeleteProvisioningApprovalRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1307,7 +1363,7 @@ func (d *DeleteProvisioningApprovalRequestDescriptor) GetApiDescriptor() gotencl
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *DeleteProvisioningApprovalRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteProvisioningApprovalRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -1319,77 +1375,79 @@ func (d *DeleteProvisioningApprovalRequestDescriptor) GetServerMsgReflectHandle(
 	return &DeleteProvisioningApprovalRequestDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*DeleteProvisioningApprovalRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*DeleteProvisioningApprovalRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningApprovalRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteProvisioningApprovalRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*DeleteProvisioningApprovalRequestRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*empty.Empty) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*empty.Empty) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningApprovalRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1424,15 +1482,15 @@ func (d *ProvisionDeviceForApprovedRequestDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ProvisionDeviceForApprovedRequestDescriptor) IsCollectionSubject() bool {
+func (d *ProvisionDeviceForApprovedRequestDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ProvisionDeviceForApprovedRequestDescriptor) IsPluralSubject() bool {
+func (d *ProvisionDeviceForApprovedRequestDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ProvisionDeviceForApprovedRequestDescriptor) HasSubjectResource() bool {
+func (d *ProvisionDeviceForApprovedRequestDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1472,7 +1530,7 @@ func (d *ProvisionDeviceForApprovedRequestDescriptor) GetApiDescriptor() gotencl
 	return provisioningApprovalRequestServiceDescriptor
 }
 
-func (d *ProvisionDeviceForApprovedRequestDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ProvisionDeviceForApprovedRequestDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_approval_request.GetDescriptor()
 }
 
@@ -1484,77 +1542,79 @@ func (d *ProvisionDeviceForApprovedRequestDescriptor) GetServerMsgReflectHandle(
 	return &ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle{}
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionDeviceForApprovedRequestRequest) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*ProvisionDeviceForApprovedRequestRequest) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_approval_request.Name)(nil)
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionDeviceForApprovedRequestRequest) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*ProvisionDeviceForApprovedRequestRequest) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceForApprovedRequestDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionDeviceForApprovedRequestRequest) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*ProvisionDeviceForApprovedRequestRequest) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionDeviceForApprovedRequestResponse) *provisioning_approval_request.Name
+		OverrideExtractResourceName(*ProvisionDeviceForApprovedRequestResponse) *provisioning_approval_request.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionDeviceForApprovedRequestResponse) []*provisioning_approval_request.Name
+		OverrideExtractResourceNames(*ProvisionDeviceForApprovedRequestResponse) []*provisioning_approval_request.Name
 	})
 	if ok {
-		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_approval_request.ProvisioningApprovalRequestNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceForApprovedRequestDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceForApprovedRequestResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionDeviceForApprovedRequestResponse) *provisioning_approval_request.ParentName
+		OverrideExtractCollectionName(*ProvisionDeviceForApprovedRequestResponse) *provisioning_approval_request.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

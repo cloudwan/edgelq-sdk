@@ -92,9 +92,6 @@ type BatchGetConfigMapsRequestFieldPathBuilder struct{}
 func NewBatchGetConfigMapsRequestFieldPathBuilder() BatchGetConfigMapsRequestFieldPathBuilder {
 	return BatchGetConfigMapsRequestFieldPathBuilder{}
 }
-func (BatchGetConfigMapsRequestFieldPathBuilder) Parent() BatchGetConfigMapsRequestPathSelectorParent {
-	return BatchGetConfigMapsRequestPathSelectorParent{}
-}
 func (BatchGetConfigMapsRequestFieldPathBuilder) Names() BatchGetConfigMapsRequestPathSelectorNames {
 	return BatchGetConfigMapsRequestPathSelectorNames{}
 }
@@ -103,20 +100,6 @@ func (BatchGetConfigMapsRequestFieldPathBuilder) FieldMask() BatchGetConfigMapsR
 }
 func (BatchGetConfigMapsRequestFieldPathBuilder) View() BatchGetConfigMapsRequestPathSelectorView {
 	return BatchGetConfigMapsRequestPathSelectorView{}
-}
-
-type BatchGetConfigMapsRequestPathSelectorParent struct{}
-
-func (BatchGetConfigMapsRequestPathSelectorParent) FieldPath() *BatchGetConfigMapsRequest_FieldTerminalPath {
-	return &BatchGetConfigMapsRequest_FieldTerminalPath{selector: BatchGetConfigMapsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetConfigMapsRequestPathSelectorParent) WithValue(value *config_map.Reference) *BatchGetConfigMapsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetConfigMapsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetConfigMapsRequestPathSelectorParent) WithArrayOfValues(values []*config_map.Reference) *BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetConfigMapsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetConfigMapsRequestPathSelectorNames struct{}

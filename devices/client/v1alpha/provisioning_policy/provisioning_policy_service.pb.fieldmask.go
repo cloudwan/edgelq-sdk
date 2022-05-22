@@ -318,7 +318,6 @@ type BatchGetProvisioningPolicysRequest_FieldMask struct {
 
 func FullBatchGetProvisioningPolicysRequest_FieldMask() *BatchGetProvisioningPolicysRequest_FieldMask {
 	res := &BatchGetProvisioningPolicysRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetProvisioningPolicysRequest_FieldTerminalPath{selector: BatchGetProvisioningPolicysRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetProvisioningPolicysRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetProvisioningPolicysRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetProvisioningPolicysRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetProvisioningPolicysRequest_FieldMask) Subtract(other *BatchGetProvisioningPolicysRequest_FieldMask) *BatchGetProvisioningPolicysRequest_FieldMask {
 	result := &BatchGetProvisioningPolicysRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetProvisioningPolicysRequest_FieldMask) Project(source *B
 		switch tp := p.(type) {
 		case *BatchGetProvisioningPolicysRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetProvisioningPolicysRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetProvisioningPolicysRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetProvisioningPolicysRequest_FieldPathSelectorFieldMask:

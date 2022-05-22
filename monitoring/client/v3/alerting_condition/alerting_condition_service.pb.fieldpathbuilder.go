@@ -100,9 +100,6 @@ type BatchGetAlertingConditionsRequestFieldPathBuilder struct{}
 func NewBatchGetAlertingConditionsRequestFieldPathBuilder() BatchGetAlertingConditionsRequestFieldPathBuilder {
 	return BatchGetAlertingConditionsRequestFieldPathBuilder{}
 }
-func (BatchGetAlertingConditionsRequestFieldPathBuilder) Parent() BatchGetAlertingConditionsRequestPathSelectorParent {
-	return BatchGetAlertingConditionsRequestPathSelectorParent{}
-}
 func (BatchGetAlertingConditionsRequestFieldPathBuilder) Names() BatchGetAlertingConditionsRequestPathSelectorNames {
 	return BatchGetAlertingConditionsRequestPathSelectorNames{}
 }
@@ -111,20 +108,6 @@ func (BatchGetAlertingConditionsRequestFieldPathBuilder) FieldMask() BatchGetAle
 }
 func (BatchGetAlertingConditionsRequestFieldPathBuilder) View() BatchGetAlertingConditionsRequestPathSelectorView {
 	return BatchGetAlertingConditionsRequestPathSelectorView{}
-}
-
-type BatchGetAlertingConditionsRequestPathSelectorParent struct{}
-
-func (BatchGetAlertingConditionsRequestPathSelectorParent) FieldPath() *BatchGetAlertingConditionsRequest_FieldTerminalPath {
-	return &BatchGetAlertingConditionsRequest_FieldTerminalPath{selector: BatchGetAlertingConditionsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetAlertingConditionsRequestPathSelectorParent) WithValue(value *alerting_condition.Reference) *BatchGetAlertingConditionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetAlertingConditionsRequestPathSelectorParent) WithArrayOfValues(values []*alerting_condition.Reference) *BatchGetAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetAlertingConditionsRequestPathSelectorNames struct{}

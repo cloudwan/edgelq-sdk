@@ -154,9 +154,6 @@ func (o *BatchGetRoleBindingsRequest) MakeDiffFieldMask(other *BatchGetRoleBindi
 	}
 
 	res := &BatchGetRoleBindingsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -187,16 +184,6 @@ func (o *BatchGetRoleBindingsRequest) Clone() *BatchGetRoleBindingsRequest {
 		return nil
 	}
 	result := &BatchGetRoleBindingsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &role_binding.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*role_binding.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -220,18 +207,6 @@ func (o *BatchGetRoleBindingsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *BatchGetRoleBindingsRequest) Merge(source *BatchGetRoleBindingsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &role_binding.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

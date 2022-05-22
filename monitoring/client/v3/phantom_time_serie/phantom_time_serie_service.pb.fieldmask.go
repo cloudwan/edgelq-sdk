@@ -318,7 +318,6 @@ type BatchGetPhantomTimeSeriesRequest_FieldMask struct {
 
 func FullBatchGetPhantomTimeSeriesRequest_FieldMask() *BatchGetPhantomTimeSeriesRequest_FieldMask {
 	res := &BatchGetPhantomTimeSeriesRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetPhantomTimeSeriesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetPhantomTimeSeriesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetPhantomTimeSeriesRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetPhantomTimeSeriesRequest_FieldMask) Subtract(other *BatchGetPhantomTimeSeriesRequest_FieldMask) *BatchGetPhantomTimeSeriesRequest_FieldMask {
 	result := &BatchGetPhantomTimeSeriesRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetPhantomTimeSeriesRequest_FieldMask) Project(source *Bat
 		switch tp := p.(type) {
 		case *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:

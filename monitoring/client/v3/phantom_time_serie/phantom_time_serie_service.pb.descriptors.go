@@ -68,15 +68,15 @@ func (d *GetPhantomTimeSerieDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetPhantomTimeSerieDescriptor) IsCollectionSubject() bool {
+func (d *GetPhantomTimeSerieDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetPhantomTimeSerieDescriptor) IsPluralSubject() bool {
+func (d *GetPhantomTimeSerieDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetPhantomTimeSerieDescriptor) HasSubjectResource() bool {
+func (d *GetPhantomTimeSerieDescriptor) HasResource() bool {
 	return true
 }
 
@@ -116,7 +116,7 @@ func (d *GetPhantomTimeSerieDescriptor) GetApiDescriptor() gotenclient.ApiDescri
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *GetPhantomTimeSerieDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetPhantomTimeSerieDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -128,77 +128,84 @@ func (d *GetPhantomTimeSerieDescriptor) GetServerMsgReflectHandle() gotenclient.
 	return &GetPhantomTimeSerieDescriptorServerMsgHandle{}
 }
 
-func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetPhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetPhantomTimeSerieRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*GetPhantomTimeSerieRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetPhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetPhantomTimeSerieRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*GetPhantomTimeSerieRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetPhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetPhantomTimeSerieRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*GetPhantomTimeSerieRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.Name
+		OverrideExtractResourceName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetPhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -233,15 +240,15 @@ func (d *BatchGetPhantomTimeSeriesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetPhantomTimeSeriesDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetPhantomTimeSeriesDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetPhantomTimeSeriesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetPhantomTimeSeriesDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetPhantomTimeSeriesDescriptor) HasSubjectResource() bool {
+func (d *BatchGetPhantomTimeSeriesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -281,7 +288,7 @@ func (d *BatchGetPhantomTimeSeriesDescriptor) GetApiDescriptor() gotenclient.Api
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *BatchGetPhantomTimeSeriesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetPhantomTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -293,86 +300,92 @@ func (d *BatchGetPhantomTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenc
 	return &BatchGetPhantomTimeSeriesDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPhantomTimeSeriesRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*BatchGetPhantomTimeSeriesRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPhantomTimeSeriesRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*BatchGetPhantomTimeSeriesRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (phantom_time_serie.PhantomTimeSerieNameList)(nil)
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*BatchGetPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetPhantomTimeSeriesResponse) *phantom_time_serie.Name
+		OverrideExtractResourceName(*BatchGetPhantomTimeSeriesResponse) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetPhantomTimeSeriesResponse) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*BatchGetPhantomTimeSeriesResponse) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPhantomTimeSeries()
-	list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPhantomTimeSeries(); len(resources) > 0 {
+			list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (phantom_time_serie.PhantomTimeSerieNameList)(nil)
 }
 
-func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*BatchGetPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -407,15 +420,15 @@ func (d *ListPhantomTimeSeriesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListPhantomTimeSeriesDescriptor) IsCollectionSubject() bool {
+func (d *ListPhantomTimeSeriesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListPhantomTimeSeriesDescriptor) IsPluralSubject() bool {
+func (d *ListPhantomTimeSeriesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListPhantomTimeSeriesDescriptor) HasSubjectResource() bool {
+func (d *ListPhantomTimeSeriesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -455,7 +468,7 @@ func (d *ListPhantomTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *ListPhantomTimeSeriesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListPhantomTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -467,79 +480,88 @@ func (d *ListPhantomTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &ListPhantomTimeSeriesDescriptorServerMsgHandle{}
 }
 
-func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPhantomTimeSeriesRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*ListPhantomTimeSeriesRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPhantomTimeSeriesRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*ListPhantomTimeSeriesRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*ListPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*phantom_time_serie.ParentName)(nil)
 }
 
-func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListPhantomTimeSeriesResponse) *phantom_time_serie.Name
+		OverrideExtractResourceName(*ListPhantomTimeSeriesResponse) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListPhantomTimeSeriesResponse) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*ListPhantomTimeSeriesResponse) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetPhantomTimeSeries()
-	list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetPhantomTimeSeries(); len(resources) > 0 {
+			list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (phantom_time_serie.PhantomTimeSerieNameList)(nil)
 }
 
-func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*ListPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -574,15 +596,15 @@ func (d *WatchPhantomTimeSerieDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPhantomTimeSerieDescriptor) IsCollectionSubject() bool {
+func (d *WatchPhantomTimeSerieDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchPhantomTimeSerieDescriptor) IsPluralSubject() bool {
+func (d *WatchPhantomTimeSerieDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchPhantomTimeSerieDescriptor) HasSubjectResource() bool {
+func (d *WatchPhantomTimeSerieDescriptor) HasResource() bool {
 	return true
 }
 
@@ -622,7 +644,7 @@ func (d *WatchPhantomTimeSerieDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *WatchPhantomTimeSerieDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPhantomTimeSerieDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -634,89 +656,93 @@ func (d *WatchPhantomTimeSerieDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &WatchPhantomTimeSerieDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPhantomTimeSerieRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*WatchPhantomTimeSerieRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*phantom_time_serie.Name)(nil)
-}
-
-func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPhantomTimeSerieRequest) []*phantom_time_serie.Name
-	})
-	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPhantomTimeSerieRequest) *phantom_time_serie.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPhantomTimeSerieResponse) *phantom_time_serie.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *phantom_time_serie.PhantomTimeSerieChange_Added_:
-			return tResChange.Added.GetPhantomTimeSerie().GetName()
-		case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *phantom_time_serie.PhantomTimeSerieChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *phantom_time_serie.PhantomTimeSerieChange_Current_:
-			return tResChange.Current.GetPhantomTimeSerie().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
+func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPhantomTimeSerieResponse) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*WatchPhantomTimeSerieRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchPhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchPhantomTimeSerieRequest) *phantom_time_serie.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPhantomTimeSerieResponse) *phantom_time_serie.ParentName
+		OverrideExtractResourceName(*WatchPhantomTimeSerieResponse) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *phantom_time_serie.PhantomTimeSerieChange_Added_:
+				return tResChange.Added.GetPhantomTimeSerie().GetName()
+			case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *phantom_time_serie.PhantomTimeSerieChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *phantom_time_serie.PhantomTimeSerieChange_Current_:
+				return tResChange.Current.GetPhantomTimeSerie().GetName()
+			}
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
+}
+
+func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchPhantomTimeSerieResponse) []*phantom_time_serie.Name
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchPhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchPhantomTimeSerieResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchPhantomTimeSerieResponse) *phantom_time_serie.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -751,15 +777,15 @@ func (d *WatchPhantomTimeSeriesDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchPhantomTimeSeriesDescriptor) IsCollectionSubject() bool {
+func (d *WatchPhantomTimeSeriesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchPhantomTimeSeriesDescriptor) IsPluralSubject() bool {
+func (d *WatchPhantomTimeSeriesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchPhantomTimeSeriesDescriptor) HasSubjectResource() bool {
+func (d *WatchPhantomTimeSeriesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -799,7 +825,7 @@ func (d *WatchPhantomTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *WatchPhantomTimeSeriesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchPhantomTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -811,91 +837,97 @@ func (d *WatchPhantomTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &WatchPhantomTimeSeriesDescriptorServerMsgHandle{}
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPhantomTimeSeriesRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*WatchPhantomTimeSeriesRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPhantomTimeSeriesRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*WatchPhantomTimeSeriesRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSeriesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*WatchPhantomTimeSeriesRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*phantom_time_serie.ParentName)(nil)
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchPhantomTimeSeriesResponse) *phantom_time_serie.Name
+		OverrideExtractResourceName(*WatchPhantomTimeSeriesResponse) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchPhantomTimeSeriesResponse) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*WatchPhantomTimeSeriesResponse) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetPhantomTimeSerieChanges()
-	list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *phantom_time_serie.PhantomTimeSerieChange_Added_:
-			list = append(list, tResChange.Added.GetPhantomTimeSerie().GetName())
-		case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *phantom_time_serie.PhantomTimeSerieChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *phantom_time_serie.PhantomTimeSerieChange_Current_:
-			list = append(list, tResChange.Current.GetPhantomTimeSerie().GetName())
+	{
+		if resChanges := typedMsg.GetPhantomTimeSerieChanges(); len(resChanges) > 0 {
+			list := make(phantom_time_serie.PhantomTimeSerieNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *phantom_time_serie.PhantomTimeSerieChange_Added_:
+					list = append(list, tResChange.Added.GetPhantomTimeSerie().GetName())
+				case *phantom_time_serie.PhantomTimeSerieChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *phantom_time_serie.PhantomTimeSerieChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *phantom_time_serie.PhantomTimeSerieChange_Current_:
+					list = append(list, tResChange.Current.GetPhantomTimeSerie().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (phantom_time_serie.PhantomTimeSerieNameList)(nil)
 }
 
-func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchPhantomTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchPhantomTimeSeriesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*WatchPhantomTimeSeriesResponse) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -930,15 +962,15 @@ func (d *CreatePhantomTimeSerieDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreatePhantomTimeSerieDescriptor) IsCollectionSubject() bool {
+func (d *CreatePhantomTimeSerieDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreatePhantomTimeSerieDescriptor) IsPluralSubject() bool {
+func (d *CreatePhantomTimeSerieDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreatePhantomTimeSerieDescriptor) HasSubjectResource() bool {
+func (d *CreatePhantomTimeSerieDescriptor) HasResource() bool {
 	return true
 }
 
@@ -978,7 +1010,7 @@ func (d *CreatePhantomTimeSerieDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *CreatePhantomTimeSerieDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreatePhantomTimeSerieDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -990,77 +1022,90 @@ func (d *CreatePhantomTimeSerieDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &CreatePhantomTimeSerieDescriptorServerMsgHandle{}
 }
 
-func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreatePhantomTimeSerieRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*CreatePhantomTimeSerieRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetPhantomTimeSerie().GetName()
+	{
+		res := typedMsg.GetPhantomTimeSerie()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreatePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreatePhantomTimeSerieRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*CreatePhantomTimeSerieRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreatePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreatePhantomTimeSerieRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*CreatePhantomTimeSerieRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*phantom_time_serie.ParentName)(nil)
 }
 
-func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.Name
+		OverrideExtractResourceName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreatePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1095,15 +1140,15 @@ func (d *DeletePhantomTimeSerieDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeletePhantomTimeSerieDescriptor) IsCollectionSubject() bool {
+func (d *DeletePhantomTimeSerieDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeletePhantomTimeSerieDescriptor) IsPluralSubject() bool {
+func (d *DeletePhantomTimeSerieDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeletePhantomTimeSerieDescriptor) HasSubjectResource() bool {
+func (d *DeletePhantomTimeSerieDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1143,7 +1188,7 @@ func (d *DeletePhantomTimeSerieDescriptor) GetApiDescriptor() gotenclient.ApiDes
 	return phantomTimeSerieServiceDescriptor
 }
 
-func (d *DeletePhantomTimeSerieDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeletePhantomTimeSerieDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return phantom_time_serie.GetDescriptor()
 }
 
@@ -1155,77 +1200,79 @@ func (d *DeletePhantomTimeSerieDescriptor) GetServerMsgReflectHandle() gotenclie
 	return &DeletePhantomTimeSerieDescriptorServerMsgHandle{}
 }
 
-func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeletePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeletePhantomTimeSerieRequest) *phantom_time_serie.Name
+		OverrideExtractResourceName(*DeletePhantomTimeSerieRequest) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*phantom_time_serie.Name)(nil)
 }
 
-func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeletePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeletePhantomTimeSerieRequest) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*DeletePhantomTimeSerieRequest) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeletePhantomTimeSerieRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeletePhantomTimeSerieRequest) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*DeletePhantomTimeSerieRequest) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *phantom_time_serie.Name
+		OverrideExtractResourceName(*empty.Empty) *phantom_time_serie.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*phantom_time_serie.Name
+		OverrideExtractResourceNames(*empty.Empty) []*phantom_time_serie.Name
 	})
 	if ok {
-		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeletePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *phantom_time_serie.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *phantom_time_serie.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

@@ -69,15 +69,15 @@ func (d *GetRegionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetRegionDescriptor) IsCollectionSubject() bool {
+func (d *GetRegionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetRegionDescriptor) IsPluralSubject() bool {
+func (d *GetRegionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetRegionDescriptor) HasSubjectResource() bool {
+func (d *GetRegionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetRegionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *GetRegionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetRegionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -129,62 +129,69 @@ func (d *GetRegionDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &GetRegionDescriptorServerMsgHandle{}
 }
 
-func (h *GetRegionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRegionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetRegionRequest) *region.Name
+		OverrideExtractResourceName(*GetRegionRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*region.Name)(nil)
 }
 
-func (h *GetRegionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRegionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetRegionRequest) []*region.Name
+		OverrideExtractResourceNames(*GetRegionRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRegionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRegionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetRegionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRegionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*region.Region) *region.Name
+		OverrideExtractResourceName(*region.Region) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*region.Name)(nil)
 }
 
-func (h *GetRegionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRegionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*region.Region) []*region.Name
+		OverrideExtractResourceNames(*region.Region) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRegionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRegionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -218,15 +225,15 @@ func (d *BatchGetRegionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetRegionsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetRegionsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetRegionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetRegionsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetRegionsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetRegionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -266,7 +273,7 @@ func (d *BatchGetRegionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return regionServiceDescriptor
 }
 
-func (d *BatchGetRegionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetRegionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -278,71 +285,77 @@ func (d *BatchGetRegionsDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &BatchGetRegionsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRegionsRequest) *region.Name
+		OverrideExtractResourceName(*BatchGetRegionsRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRegionsRequest) []*region.Name
+		OverrideExtractResourceNames(*BatchGetRegionsRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(region.RegionNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(region.RegionNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (region.RegionNameList)(nil)
 }
 
-func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRegionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRegionsResponse) *region.Name
+		OverrideExtractResourceName(*BatchGetRegionsResponse) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRegionsResponse) []*region.Name
+		OverrideExtractResourceNames(*BatchGetRegionsResponse) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRegions()
-	list := make(region.RegionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRegions(); len(resources) > 0 {
+			list := make(region.RegionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (region.RegionNameList)(nil)
 }
 
-func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRegionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -376,15 +389,15 @@ func (d *ListRegionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListRegionsDescriptor) IsCollectionSubject() bool {
+func (d *ListRegionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListRegionsDescriptor) IsPluralSubject() bool {
+func (d *ListRegionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListRegionsDescriptor) HasSubjectResource() bool {
+func (d *ListRegionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -424,7 +437,7 @@ func (d *ListRegionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *ListRegionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListRegionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -436,64 +449,68 @@ func (d *ListRegionsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &ListRegionsDescriptorServerMsgHandle{}
 }
 
-func (h *ListRegionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRegionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRegionsRequest) *region.Name
+		OverrideExtractResourceName(*ListRegionsRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRegionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRegionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRegionsRequest) []*region.Name
+		OverrideExtractResourceNames(*ListRegionsRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListRegionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRegionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListRegionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRegionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRegionsResponse) *region.Name
+		OverrideExtractResourceName(*ListRegionsResponse) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRegionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRegionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRegionsResponse) []*region.Name
+		OverrideExtractResourceNames(*ListRegionsResponse) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRegions()
-	list := make(region.RegionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRegions(); len(resources) > 0 {
+			list := make(region.RegionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (region.RegionNameList)(nil)
 }
 
-func (h *ListRegionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRegionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -527,15 +544,15 @@ func (d *WatchRegionDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRegionDescriptor) IsCollectionSubject() bool {
+func (d *WatchRegionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchRegionDescriptor) IsPluralSubject() bool {
+func (d *WatchRegionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchRegionDescriptor) HasSubjectResource() bool {
+func (d *WatchRegionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -575,7 +592,7 @@ func (d *WatchRegionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *WatchRegionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRegionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -587,74 +604,78 @@ func (d *WatchRegionDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &WatchRegionDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRegionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRegionRequest) *region.Name
+		OverrideExtractResourceName(*WatchRegionRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*region.Name)(nil)
-}
-
-func (h *WatchRegionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRegionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRegionRequest) []*region.Name
-	})
-	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchRegionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchRegionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchRegionResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRegionResponse) *region.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *region.RegionChange_Added_:
-			return tResChange.Added.GetRegion().GetName()
-		case *region.RegionChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *region.RegionChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *region.RegionChange_Current_:
-			return tResChange.Current.GetRegion().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*region.Name)(nil)
 }
 
-func (h *WatchRegionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRegionResponse)
+func (h *WatchRegionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRegionResponse) []*region.Name
+		OverrideExtractResourceNames(*WatchRegionRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRegionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchRegionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchRegionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchRegionResponse) *region.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *region.RegionChange_Added_:
+				return tResChange.Added.GetRegion().GetName()
+			case *region.RegionChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *region.RegionChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *region.RegionChange_Current_:
+				return tResChange.Current.GetRegion().GetName()
+			}
+		}
+	}
+	return (*region.Name)(nil)
+}
+
+func (h *WatchRegionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRegionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchRegionResponse) []*region.Name
+	})
+	if ok {
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchRegionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -688,15 +709,15 @@ func (d *WatchRegionsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRegionsDescriptor) IsCollectionSubject() bool {
+func (d *WatchRegionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchRegionsDescriptor) IsPluralSubject() bool {
+func (d *WatchRegionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchRegionsDescriptor) HasSubjectResource() bool {
+func (d *WatchRegionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -736,7 +757,7 @@ func (d *WatchRegionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *WatchRegionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRegionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -748,73 +769,77 @@ func (d *WatchRegionsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &WatchRegionsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRegionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRegionsRequest) *region.Name
+		OverrideExtractResourceName(*WatchRegionsRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRegionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRegionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRegionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRegionsRequest) []*region.Name
+		OverrideExtractResourceNames(*WatchRegionsRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRegionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchRegionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRegionsResponse) *region.Name
+		OverrideExtractResourceName(*WatchRegionsResponse) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRegionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRegionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRegionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRegionsResponse) []*region.Name
+		OverrideExtractResourceNames(*WatchRegionsResponse) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetRegionChanges()
-	list := make(region.RegionNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *region.RegionChange_Added_:
-			list = append(list, tResChange.Added.GetRegion().GetName())
-		case *region.RegionChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *region.RegionChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *region.RegionChange_Current_:
-			list = append(list, tResChange.Current.GetRegion().GetName())
+	{
+		if resChanges := typedMsg.GetRegionChanges(); len(resChanges) > 0 {
+			list := make(region.RegionNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *region.RegionChange_Added_:
+					list = append(list, tResChange.Added.GetRegion().GetName())
+				case *region.RegionChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *region.RegionChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *region.RegionChange_Current_:
+					list = append(list, tResChange.Current.GetRegion().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (region.RegionNameList)(nil)
 }
 
-func (h *WatchRegionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRegionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -848,15 +873,15 @@ func (d *CreateRegionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateRegionDescriptor) IsCollectionSubject() bool {
+func (d *CreateRegionDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateRegionDescriptor) IsPluralSubject() bool {
+func (d *CreateRegionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateRegionDescriptor) HasSubjectResource() bool {
+func (d *CreateRegionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -896,7 +921,7 @@ func (d *CreateRegionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *CreateRegionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateRegionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -908,59 +933,70 @@ func (d *CreateRegionDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &CreateRegionDescriptorServerMsgHandle{}
 }
 
-func (h *CreateRegionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRegionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateRegionRequest) *region.Name
+		OverrideExtractResourceName(*CreateRegionRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRegion().GetName()
+	{
+		res := typedMsg.GetRegion()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*region.Name)(nil)
 }
 
-func (h *CreateRegionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRegionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateRegionRequest) []*region.Name
+		OverrideExtractResourceNames(*CreateRegionRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRegionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRegionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateRegionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRegionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*region.Region) *region.Name
+		OverrideExtractResourceName(*region.Region) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*region.Name)(nil)
 }
 
-func (h *CreateRegionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRegionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*region.Region) []*region.Name
+		OverrideExtractResourceNames(*region.Region) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRegionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRegionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -994,15 +1030,15 @@ func (d *UpdateRegionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateRegionDescriptor) IsCollectionSubject() bool {
+func (d *UpdateRegionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateRegionDescriptor) IsPluralSubject() bool {
+func (d *UpdateRegionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateRegionDescriptor) HasSubjectResource() bool {
+func (d *UpdateRegionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1042,7 +1078,7 @@ func (d *UpdateRegionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *UpdateRegionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateRegionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -1054,59 +1090,70 @@ func (d *UpdateRegionDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &UpdateRegionDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateRegionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRegionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateRegionRequest) *region.Name
+		OverrideExtractResourceName(*UpdateRegionRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRegion().GetName()
+	{
+		res := typedMsg.GetRegion()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*region.Name)(nil)
 }
 
-func (h *UpdateRegionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRegionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateRegionRequest) []*region.Name
+		OverrideExtractResourceNames(*UpdateRegionRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRegionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRegionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdateRegionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRegionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*region.Region) *region.Name
+		OverrideExtractResourceName(*region.Region) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*region.Name)(nil)
 }
 
-func (h *UpdateRegionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRegionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*region.Region)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*region.Region) []*region.Name
+		OverrideExtractResourceNames(*region.Region) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRegionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRegionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1140,15 +1187,15 @@ func (d *DeleteRegionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteRegionDescriptor) IsCollectionSubject() bool {
+func (d *DeleteRegionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteRegionDescriptor) IsPluralSubject() bool {
+func (d *DeleteRegionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteRegionDescriptor) HasSubjectResource() bool {
+func (d *DeleteRegionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1188,7 +1235,7 @@ func (d *DeleteRegionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return regionServiceDescriptor
 }
 
-func (d *DeleteRegionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteRegionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return region.GetDescriptor()
 }
 
@@ -1200,62 +1247,64 @@ func (d *DeleteRegionDescriptor) GetServerMsgReflectHandle() gotenclient.MethodM
 	return &DeleteRegionDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteRegionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRegionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteRegionRequest) *region.Name
+		OverrideExtractResourceName(*DeleteRegionRequest) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*region.Name)(nil)
 }
 
-func (h *DeleteRegionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRegionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteRegionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteRegionRequest) []*region.Name
+		OverrideExtractResourceNames(*DeleteRegionRequest) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRegionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRegionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DeleteRegionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRegionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *region.Name
+		OverrideExtractResourceName(*empty.Empty) *region.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteRegionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRegionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*region.Name
+		OverrideExtractResourceNames(*empty.Empty) []*region.Name
 	})
 	if ok {
-		return region.RegionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return region.RegionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRegionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRegionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

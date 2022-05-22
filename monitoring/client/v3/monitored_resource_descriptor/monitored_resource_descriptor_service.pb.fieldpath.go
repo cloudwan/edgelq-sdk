@@ -78,16 +78,13 @@ type BatchGetMonitoredResourceDescriptorsRequest_FieldPath interface {
 type BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector int32
 
 const (
-	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent    BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 0
-	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames     BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 1
-	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 2
-	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorView      BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 3
+	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames     BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 0
+	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 1
+	BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorView      BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -105,8 +102,6 @@ func BuildBatchGetMonitoredResourceDescriptorsRequest_FieldPath(fp gotenobject.R
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -158,10 +153,6 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) JSONStr
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) Get(source *BatchGetMonitoredResourceDescriptorsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -186,9 +177,6 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetRaw(
 // GetSingle returns value pointed by specific field of from source BatchGetMonitoredResourceDescriptorsRequest
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetSingle(source *BatchGetMonitoredResourceDescriptorsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -209,8 +197,6 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetSing
 // GetDefault returns a default value of the field type
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		return (*monitored_resource_descriptor.Reference)(nil)
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		return ([]*monitored_resource_descriptor.Reference)(nil)
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -225,8 +211,6 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetDefa
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) ClearValue(item *BatchGetMonitoredResourceDescriptorsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -245,16 +229,13 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) ClearVa
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetMonitoredResourceDescriptorsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue{BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*monitored_resource_descriptor.Reference)}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue{BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, value: value.([]*monitored_resource_descriptor.Reference)}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -273,8 +254,6 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithRaw
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetMonitoredResourceDescriptorsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*monitored_resource_descriptor.Reference)}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		return &BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, values: values.([][]*monitored_resource_descriptor.Reference)}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -343,10 +322,6 @@ var _ BatchGetMonitoredResourceDescriptorsRequest_FieldPathValue = (*BatchGetMon
 func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) AsParentValue() (*monitored_resource_descriptor.Reference, bool) {
-	res, ok := fpv.value.(*monitored_resource_descriptor.Reference)
-	return res, ok
-}
 func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) AsNamesValue() ([]*monitored_resource_descriptor.Reference, bool) {
 	res, ok := fpv.value.([]*monitored_resource_descriptor.Reference)
 	return res, ok
@@ -366,8 +341,6 @@ func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) S
 		*target = new(BatchGetMonitoredResourceDescriptorsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*monitored_resource_descriptor.Reference)
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*monitored_resource_descriptor.Reference)
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -387,25 +360,6 @@ func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) S
 // CompareWith compares value in the 'BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetMonitoredResourceDescriptorsRequest'.
 func (fpv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetMonitoredResourceDescriptorsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*monitored_resource_descriptor.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -528,10 +482,6 @@ var _ BatchGetMonitoredResourceDescriptorsRequest_FieldPathArrayOfValues = (*Bat
 
 func (fpaov *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*monitored_resource_descriptor.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*monitored_resource_descriptor.Reference) {
 			values = append(values, v)
@@ -546,10 +496,6 @@ func (fpaov *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayO
 		}
 	}
 	return
-}
-func (fpaov *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*monitored_resource_descriptor.Reference, bool) {
-	res, ok := fpaov.values.([]*monitored_resource_descriptor.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*monitored_resource_descriptor.Reference, bool) {
 	res, ok := fpaov.values.([][]*monitored_resource_descriptor.Reference)

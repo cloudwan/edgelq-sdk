@@ -20,9 +20,6 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // Request message for method
 // [BatchGetMetricDescriptors][ntt.monitoring.v3.BatchGetMetricDescriptors]
 message BatchGetMetricDescriptorsRequest {
-  // Optional parent ntt.monitoring.v3.MetricDescriptor
-  string parent = 1;
-
   // Names of MetricDescriptors
   repeated string names = 2;
 
@@ -33,6 +30,8 @@ message BatchGetMetricDescriptorsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetMetricDescriptorsResponse
@@ -220,7 +219,7 @@ service MetricDescriptorService {
   rpc BatchGetMetricDescriptors(BatchGetMetricDescriptorsRequest)
       returns (BatchGetMetricDescriptorsResponse) {
     option (google.api.http) = {
-      get : "/v3/{parent=projects/*}/metricDescriptors:batchGet"
+      get : "/v3/metricDescriptors:batchGet"
     };
   }
 

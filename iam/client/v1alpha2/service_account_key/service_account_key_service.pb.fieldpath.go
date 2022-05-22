@@ -542,16 +542,13 @@ type BatchGetServiceAccountKeysRequest_FieldPath interface {
 type BatchGetServiceAccountKeysRequest_FieldPathSelector int32
 
 const (
-	BatchGetServiceAccountKeysRequest_FieldPathSelectorParent    BatchGetServiceAccountKeysRequest_FieldPathSelector = 0
-	BatchGetServiceAccountKeysRequest_FieldPathSelectorNames     BatchGetServiceAccountKeysRequest_FieldPathSelector = 1
-	BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask BatchGetServiceAccountKeysRequest_FieldPathSelector = 2
-	BatchGetServiceAccountKeysRequest_FieldPathSelectorView      BatchGetServiceAccountKeysRequest_FieldPathSelector = 3
+	BatchGetServiceAccountKeysRequest_FieldPathSelectorNames     BatchGetServiceAccountKeysRequest_FieldPathSelector = 0
+	BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask BatchGetServiceAccountKeysRequest_FieldPathSelector = 1
+	BatchGetServiceAccountKeysRequest_FieldPathSelectorView      BatchGetServiceAccountKeysRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetServiceAccountKeysRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetServiceAccountKeysRequest_FieldPath(fp gotenobject.RawFieldPat
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetServiceAccountKeysRequest_FieldTerminalPath{selector: BatchGetServiceAccountKeysRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) JSONString() stri
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) Get(source *BatchGetServiceAccountKeysRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) GetRaw(source pro
 // GetSingle returns value pointed by specific field of from source BatchGetServiceAccountKeysRequest
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) GetSingle(source *BatchGetServiceAccountKeysRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) GetSingleRaw(sour
 // GetDefault returns a default value of the field type
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		return (*service_account_key.Reference)(nil)
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		return ([]*service_account_key.Reference)(nil)
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) GetDefault() inte
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) ClearValue(item *BatchGetServiceAccountKeysRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) ClearValueRaw(ite
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetServiceAccountKeysRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetServiceAccountKeysRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetServiceAccountKeysRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetServiceAccountKeysRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetServiceAccountKeysRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		return &BatchGetServiceAccountKeysRequest_FieldTerminalPathValue{BatchGetServiceAccountKeysRequest_FieldTerminalPath: *fp, value: value.(*service_account_key.Reference)}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		return &BatchGetServiceAccountKeysRequest_FieldTerminalPathValue{BatchGetServiceAccountKeysRequest_FieldTerminalPath: *fp, value: value.([]*service_account_key.Reference)}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) WithRawIValue(val
 func (fp *BatchGetServiceAccountKeysRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetServiceAccountKeysRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues{BatchGetServiceAccountKeysRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		return &BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues{BatchGetServiceAccountKeysRequest_FieldTerminalPath: *fp, values: values.([]*service_account_key.Reference)}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		return &BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues{BatchGetServiceAccountKeysRequest_FieldTerminalPath: *fp, values: values.([][]*service_account_key.Reference)}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetServiceAccountKeysRequest_FieldPathValue = (*BatchGetServiceAccoun
 func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) AsParentValue() (*service_account_key.Reference, bool) {
-	res, ok := fpv.value.(*service_account_key.Reference)
-	return res, ok
-}
 func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) AsNamesValue() ([]*service_account_key.Reference, bool) {
 	res, ok := fpv.value.([]*service_account_key.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) SetTo(targe
 		*target = new(BatchGetServiceAccountKeysRequest)
 	}
 	switch fpv.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*service_account_key.Reference)
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*service_account_key.Reference)
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) SetToRaw(ta
 // CompareWith compares value in the 'BatchGetServiceAccountKeysRequest_FieldTerminalPathValue' with the value under path in 'BatchGetServiceAccountKeysRequest'.
 func (fpv *BatchGetServiceAccountKeysRequest_FieldTerminalPathValue) CompareWith(source *BatchGetServiceAccountKeysRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*service_account_key.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetServiceAccountKeysRequest_FieldPathArrayOfValues = (*BatchGetServi
 
 func (fpaov *BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetServiceAccountKeysRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*service_account_key.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetServiceAccountKeysRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*service_account_key.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues) G
 		}
 	}
 	return
-}
-func (fpaov *BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*service_account_key.Reference, bool) {
-	res, ok := fpaov.values.([]*service_account_key.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetServiceAccountKeysRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*service_account_key.Reference, bool) {
 	res, ok := fpaov.values.([][]*service_account_key.Reference)

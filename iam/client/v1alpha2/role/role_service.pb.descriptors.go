@@ -69,15 +69,15 @@ func (d *GetRoleDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetRoleDescriptor) IsCollectionSubject() bool {
+func (d *GetRoleDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetRoleDescriptor) IsPluralSubject() bool {
+func (d *GetRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetRoleDescriptor) HasSubjectResource() bool {
+func (d *GetRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *GetRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -129,62 +129,69 @@ func (d *GetRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHan
 	return &GetRoleDescriptorServerMsgHandle{}
 }
 
-func (h *GetRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetRoleRequest) *role.Name
+		OverrideExtractResourceName(*GetRoleRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*role.Name)(nil)
 }
 
-func (h *GetRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetRoleRequest) []*role.Name
+		OverrideExtractResourceNames(*GetRoleRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *GetRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role.Role) *role.Name
+		OverrideExtractResourceName(*role.Role) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role.Name)(nil)
 }
 
-func (h *GetRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role.Role) []*role.Name
+		OverrideExtractResourceNames(*role.Role) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -218,15 +225,15 @@ func (d *BatchGetRolesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetRolesDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetRolesDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetRolesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetRolesDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetRolesDescriptor) HasSubjectResource() bool {
+func (d *BatchGetRolesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -266,7 +273,7 @@ func (d *BatchGetRolesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *BatchGetRolesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetRolesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -278,71 +285,77 @@ func (d *BatchGetRolesDescriptor) GetServerMsgReflectHandle() gotenclient.Method
 	return &BatchGetRolesDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRolesRequest) *role.Name
+		OverrideExtractResourceName(*BatchGetRolesRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRolesRequest) []*role.Name
+		OverrideExtractResourceNames(*BatchGetRolesRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(role.RoleNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(role.RoleNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (role.RoleNameList)(nil)
 }
 
-func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRolesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetRolesResponse) *role.Name
+		OverrideExtractResourceName(*BatchGetRolesResponse) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetRolesResponse) []*role.Name
+		OverrideExtractResourceNames(*BatchGetRolesResponse) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRoles()
-	list := make(role.RoleNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRoles(); len(resources) > 0 {
+			list := make(role.RoleNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (role.RoleNameList)(nil)
 }
 
-func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetRolesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -376,15 +389,15 @@ func (d *ListRolesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListRolesDescriptor) IsCollectionSubject() bool {
+func (d *ListRolesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListRolesDescriptor) IsPluralSubject() bool {
+func (d *ListRolesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListRolesDescriptor) HasSubjectResource() bool {
+func (d *ListRolesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -424,7 +437,7 @@ func (d *ListRolesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *ListRolesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListRolesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -436,64 +449,68 @@ func (d *ListRolesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &ListRolesDescriptorServerMsgHandle{}
 }
 
-func (h *ListRolesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRolesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRolesRequest) *role.Name
+		OverrideExtractResourceName(*ListRolesRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRolesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRolesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRolesRequest) []*role.Name
+		OverrideExtractResourceNames(*ListRolesRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListRolesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRolesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListRolesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListRolesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListRolesResponse) *role.Name
+		OverrideExtractResourceName(*ListRolesResponse) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListRolesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListRolesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListRolesResponse) []*role.Name
+		OverrideExtractResourceNames(*ListRolesResponse) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetRoles()
-	list := make(role.RoleNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetRoles(); len(resources) > 0 {
+			list := make(role.RoleNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (role.RoleNameList)(nil)
 }
 
-func (h *ListRolesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListRolesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -527,15 +544,15 @@ func (d *WatchRoleDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRoleDescriptor) IsCollectionSubject() bool {
+func (d *WatchRoleDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchRoleDescriptor) IsPluralSubject() bool {
+func (d *WatchRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchRoleDescriptor) HasSubjectResource() bool {
+func (d *WatchRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -575,7 +592,7 @@ func (d *WatchRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *WatchRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -587,74 +604,78 @@ func (d *WatchRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgH
 	return &WatchRoleDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleRequest) *role.Name
+		OverrideExtractResourceName(*WatchRoleRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*role.Name)(nil)
-}
-
-func (h *WatchRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRoleRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleRequest) []*role.Name
-	})
-	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *WatchRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchRoleResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRoleResponse) *role.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *role.RoleChange_Added_:
-			return tResChange.Added.GetRole().GetName()
-		case *role.RoleChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *role.RoleChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *role.RoleChange_Current_:
-			return tResChange.Current.GetRole().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*role.Name)(nil)
 }
 
-func (h *WatchRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchRoleResponse)
+func (h *WatchRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRoleResponse) []*role.Name
+		OverrideExtractResourceNames(*WatchRoleRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchRoleResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*WatchRoleResponse) *role.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *role.RoleChange_Added_:
+				return tResChange.Added.GetRole().GetName()
+			case *role.RoleChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *role.RoleChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *role.RoleChange_Current_:
+				return tResChange.Current.GetRole().GetName()
+			}
+		}
+	}
+	return (*role.Name)(nil)
+}
+
+func (h *WatchRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchRoleResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchRoleResponse) []*role.Name
+	})
+	if ok {
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -688,15 +709,15 @@ func (d *WatchRolesDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchRolesDescriptor) IsCollectionSubject() bool {
+func (d *WatchRolesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchRolesDescriptor) IsPluralSubject() bool {
+func (d *WatchRolesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchRolesDescriptor) HasSubjectResource() bool {
+func (d *WatchRolesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -736,7 +757,7 @@ func (d *WatchRolesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *WatchRolesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchRolesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -748,73 +769,77 @@ func (d *WatchRolesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &WatchRolesDescriptorServerMsgHandle{}
 }
 
-func (h *WatchRolesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRolesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRolesRequest) *role.Name
+		OverrideExtractResourceName(*WatchRolesRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRolesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRolesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRolesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRolesRequest) []*role.Name
+		OverrideExtractResourceNames(*WatchRolesRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchRolesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRolesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *WatchRolesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchRolesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchRolesResponse) *role.Name
+		OverrideExtractResourceName(*WatchRolesResponse) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchRolesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchRolesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchRolesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchRolesResponse) []*role.Name
+		OverrideExtractResourceNames(*WatchRolesResponse) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetRoleChanges()
-	list := make(role.RoleNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *role.RoleChange_Added_:
-			list = append(list, tResChange.Added.GetRole().GetName())
-		case *role.RoleChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *role.RoleChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *role.RoleChange_Current_:
-			list = append(list, tResChange.Current.GetRole().GetName())
+	{
+		if resChanges := typedMsg.GetRoleChanges(); len(resChanges) > 0 {
+			list := make(role.RoleNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *role.RoleChange_Added_:
+					list = append(list, tResChange.Added.GetRole().GetName())
+				case *role.RoleChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *role.RoleChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *role.RoleChange_Current_:
+					list = append(list, tResChange.Current.GetRole().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (role.RoleNameList)(nil)
 }
 
-func (h *WatchRolesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchRolesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -848,15 +873,15 @@ func (d *CreateRoleDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateRoleDescriptor) IsCollectionSubject() bool {
+func (d *CreateRoleDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateRoleDescriptor) IsPluralSubject() bool {
+func (d *CreateRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateRoleDescriptor) HasSubjectResource() bool {
+func (d *CreateRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -896,7 +921,7 @@ func (d *CreateRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *CreateRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -908,59 +933,70 @@ func (d *CreateRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &CreateRoleDescriptorServerMsgHandle{}
 }
 
-func (h *CreateRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateRoleRequest) *role.Name
+		OverrideExtractResourceName(*CreateRoleRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRole().GetName()
+	{
+		res := typedMsg.GetRole()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role.Name)(nil)
 }
 
-func (h *CreateRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateRoleRequest) []*role.Name
+		OverrideExtractResourceNames(*CreateRoleRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role.Role) *role.Name
+		OverrideExtractResourceName(*role.Role) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role.Name)(nil)
 }
 
-func (h *CreateRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role.Role) []*role.Name
+		OverrideExtractResourceNames(*role.Role) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -994,15 +1030,15 @@ func (d *UpdateRoleDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateRoleDescriptor) IsCollectionSubject() bool {
+func (d *UpdateRoleDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateRoleDescriptor) IsPluralSubject() bool {
+func (d *UpdateRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateRoleDescriptor) HasSubjectResource() bool {
+func (d *UpdateRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1042,7 +1078,7 @@ func (d *UpdateRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *UpdateRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -1054,59 +1090,70 @@ func (d *UpdateRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &UpdateRoleDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateRoleRequest) *role.Name
+		OverrideExtractResourceName(*UpdateRoleRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetRole().GetName()
+	{
+		res := typedMsg.GetRole()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role.Name)(nil)
 }
 
-func (h *UpdateRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateRoleRequest) []*role.Name
+		OverrideExtractResourceNames(*UpdateRoleRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *UpdateRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*role.Role) *role.Name
+		OverrideExtractResourceName(*role.Role) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*role.Name)(nil)
 }
 
-func (h *UpdateRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*role.Role)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*role.Role) []*role.Name
+		OverrideExtractResourceNames(*role.Role) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -1140,15 +1187,15 @@ func (d *DeleteRoleDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteRoleDescriptor) IsCollectionSubject() bool {
+func (d *DeleteRoleDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteRoleDescriptor) IsPluralSubject() bool {
+func (d *DeleteRoleDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteRoleDescriptor) HasSubjectResource() bool {
+func (d *DeleteRoleDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1188,7 +1235,7 @@ func (d *DeleteRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return roleServiceDescriptor
 }
 
-func (d *DeleteRoleDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return role.GetDescriptor()
 }
 
@@ -1200,62 +1247,64 @@ func (d *DeleteRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsg
 	return &DeleteRoleDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteRoleDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteRoleRequest) *role.Name
+		OverrideExtractResourceName(*DeleteRoleRequest) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*role.Name)(nil)
 }
 
-func (h *DeleteRoleDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteRoleRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteRoleRequest) []*role.Name
+		OverrideExtractResourceNames(*DeleteRoleRequest) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRoleDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DeleteRoleDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *role.Name
+		OverrideExtractResourceName(*empty.Empty) *role.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteRoleDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*role.Name
+		OverrideExtractResourceNames(*empty.Empty) []*role.Name
 	})
 	if ok {
-		return role.RoleNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteRoleDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

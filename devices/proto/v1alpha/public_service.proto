@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ntt.devices.v1alpha;
 
+import "edgelq-sdk/devices/proto/v1alpha/device.proto";
+import "edgelq-sdk/devices/proto/v1alpha/device_change.proto";
 import "edgelq-sdk/devices/proto/v1alpha/public_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
@@ -24,7 +26,7 @@ service PublicService {
   rpc ListPublicDevices(ListPublicDevicesRequest)
       returns (ListPublicDevicesResponse) {
     option (google.api.http) = {
-      get : "/v1alpha:listPublicDevices"
+      get : "/v1alpha/{parent=projects/*}/devices:listPublicDevices"
     };
   }
 }

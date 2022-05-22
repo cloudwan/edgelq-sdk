@@ -92,9 +92,6 @@ type BatchGetMethodDescriptorsRequestFieldPathBuilder struct{}
 func NewBatchGetMethodDescriptorsRequestFieldPathBuilder() BatchGetMethodDescriptorsRequestFieldPathBuilder {
 	return BatchGetMethodDescriptorsRequestFieldPathBuilder{}
 }
-func (BatchGetMethodDescriptorsRequestFieldPathBuilder) Parent() BatchGetMethodDescriptorsRequestPathSelectorParent {
-	return BatchGetMethodDescriptorsRequestPathSelectorParent{}
-}
 func (BatchGetMethodDescriptorsRequestFieldPathBuilder) Names() BatchGetMethodDescriptorsRequestPathSelectorNames {
 	return BatchGetMethodDescriptorsRequestPathSelectorNames{}
 }
@@ -103,20 +100,6 @@ func (BatchGetMethodDescriptorsRequestFieldPathBuilder) FieldMask() BatchGetMeth
 }
 func (BatchGetMethodDescriptorsRequestFieldPathBuilder) View() BatchGetMethodDescriptorsRequestPathSelectorView {
 	return BatchGetMethodDescriptorsRequestPathSelectorView{}
-}
-
-type BatchGetMethodDescriptorsRequestPathSelectorParent struct{}
-
-func (BatchGetMethodDescriptorsRequestPathSelectorParent) FieldPath() *BatchGetMethodDescriptorsRequest_FieldTerminalPath {
-	return &BatchGetMethodDescriptorsRequest_FieldTerminalPath{selector: BatchGetMethodDescriptorsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetMethodDescriptorsRequestPathSelectorParent) WithValue(value *method_descriptor.Reference) *BatchGetMethodDescriptorsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetMethodDescriptorsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetMethodDescriptorsRequestPathSelectorParent) WithArrayOfValues(values []*method_descriptor.Reference) *BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMethodDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetMethodDescriptorsRequestPathSelectorNames struct{}

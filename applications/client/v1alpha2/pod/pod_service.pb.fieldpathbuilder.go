@@ -124,9 +124,6 @@ type BatchGetPodsRequestFieldPathBuilder struct{}
 func NewBatchGetPodsRequestFieldPathBuilder() BatchGetPodsRequestFieldPathBuilder {
 	return BatchGetPodsRequestFieldPathBuilder{}
 }
-func (BatchGetPodsRequestFieldPathBuilder) Parent() BatchGetPodsRequestPathSelectorParent {
-	return BatchGetPodsRequestPathSelectorParent{}
-}
 func (BatchGetPodsRequestFieldPathBuilder) Names() BatchGetPodsRequestPathSelectorNames {
 	return BatchGetPodsRequestPathSelectorNames{}
 }
@@ -135,20 +132,6 @@ func (BatchGetPodsRequestFieldPathBuilder) FieldMask() BatchGetPodsRequestPathSe
 }
 func (BatchGetPodsRequestFieldPathBuilder) View() BatchGetPodsRequestPathSelectorView {
 	return BatchGetPodsRequestPathSelectorView{}
-}
-
-type BatchGetPodsRequestPathSelectorParent struct{}
-
-func (BatchGetPodsRequestPathSelectorParent) FieldPath() *BatchGetPodsRequest_FieldTerminalPath {
-	return &BatchGetPodsRequest_FieldTerminalPath{selector: BatchGetPodsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetPodsRequestPathSelectorParent) WithValue(value *pod.Reference) *BatchGetPodsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetPodsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetPodsRequestPathSelectorParent) WithArrayOfValues(values []*pod.Reference) *BatchGetPodsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetPodsRequestPathSelectorNames struct{}

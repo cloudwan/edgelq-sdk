@@ -61,15 +61,15 @@ func (d *ListTimeSeriesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListTimeSeriesDescriptor) IsCollectionSubject() bool {
+func (d *ListTimeSeriesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListTimeSeriesDescriptor) IsPluralSubject() bool {
+func (d *ListTimeSeriesDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ListTimeSeriesDescriptor) HasSubjectResource() bool {
+func (d *ListTimeSeriesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -109,7 +109,7 @@ func (d *ListTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor 
 	return timeSerieServiceDescriptor
 }
 
-func (d *ListTimeSeriesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return nil
 }
 
@@ -121,27 +121,27 @@ func (d *ListTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenclient.Metho
 	return &ListTimeSeriesDescriptorServerMsgHandle{}
 }
 
-func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	return nil
 }
 
-func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	return nil
 }
 
-func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -175,15 +175,15 @@ func (d *CreateTimeSeriesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateTimeSeriesDescriptor) IsCollectionSubject() bool {
+func (d *CreateTimeSeriesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateTimeSeriesDescriptor) IsPluralSubject() bool {
+func (d *CreateTimeSeriesDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateTimeSeriesDescriptor) HasSubjectResource() bool {
+func (d *CreateTimeSeriesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -223,7 +223,7 @@ func (d *CreateTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDescripto
 	return timeSerieServiceDescriptor
 }
 
-func (d *CreateTimeSeriesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return nil
 }
 
@@ -235,27 +235,27 @@ func (d *CreateTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenclient.Met
 	return &CreateTimeSeriesDescriptorServerMsgHandle{}
 }
 
-func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	return nil
 }
 
-func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	return nil
 }
 
-func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

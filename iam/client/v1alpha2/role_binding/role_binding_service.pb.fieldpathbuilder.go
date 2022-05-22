@@ -104,9 +104,6 @@ type BatchGetRoleBindingsRequestFieldPathBuilder struct{}
 func NewBatchGetRoleBindingsRequestFieldPathBuilder() BatchGetRoleBindingsRequestFieldPathBuilder {
 	return BatchGetRoleBindingsRequestFieldPathBuilder{}
 }
-func (BatchGetRoleBindingsRequestFieldPathBuilder) Parent() BatchGetRoleBindingsRequestPathSelectorParent {
-	return BatchGetRoleBindingsRequestPathSelectorParent{}
-}
 func (BatchGetRoleBindingsRequestFieldPathBuilder) Names() BatchGetRoleBindingsRequestPathSelectorNames {
 	return BatchGetRoleBindingsRequestPathSelectorNames{}
 }
@@ -115,20 +112,6 @@ func (BatchGetRoleBindingsRequestFieldPathBuilder) FieldMask() BatchGetRoleBindi
 }
 func (BatchGetRoleBindingsRequestFieldPathBuilder) View() BatchGetRoleBindingsRequestPathSelectorView {
 	return BatchGetRoleBindingsRequestPathSelectorView{}
-}
-
-type BatchGetRoleBindingsRequestPathSelectorParent struct{}
-
-func (BatchGetRoleBindingsRequestPathSelectorParent) FieldPath() *BatchGetRoleBindingsRequest_FieldTerminalPath {
-	return &BatchGetRoleBindingsRequest_FieldTerminalPath{selector: BatchGetRoleBindingsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetRoleBindingsRequestPathSelectorParent) WithValue(value *role_binding.Reference) *BatchGetRoleBindingsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetRoleBindingsRequestPathSelectorParent) WithArrayOfValues(values []*role_binding.Reference) *BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetRoleBindingsRequestPathSelectorNames struct{}

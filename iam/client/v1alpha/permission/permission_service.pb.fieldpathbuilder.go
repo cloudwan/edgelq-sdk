@@ -84,9 +84,6 @@ type BatchGetPermissionsRequestFieldPathBuilder struct{}
 func NewBatchGetPermissionsRequestFieldPathBuilder() BatchGetPermissionsRequestFieldPathBuilder {
 	return BatchGetPermissionsRequestFieldPathBuilder{}
 }
-func (BatchGetPermissionsRequestFieldPathBuilder) Parent() BatchGetPermissionsRequestPathSelectorParent {
-	return BatchGetPermissionsRequestPathSelectorParent{}
-}
 func (BatchGetPermissionsRequestFieldPathBuilder) Names() BatchGetPermissionsRequestPathSelectorNames {
 	return BatchGetPermissionsRequestPathSelectorNames{}
 }
@@ -95,20 +92,6 @@ func (BatchGetPermissionsRequestFieldPathBuilder) FieldMask() BatchGetPermission
 }
 func (BatchGetPermissionsRequestFieldPathBuilder) View() BatchGetPermissionsRequestPathSelectorView {
 	return BatchGetPermissionsRequestPathSelectorView{}
-}
-
-type BatchGetPermissionsRequestPathSelectorParent struct{}
-
-func (BatchGetPermissionsRequestPathSelectorParent) FieldPath() *BatchGetPermissionsRequest_FieldTerminalPath {
-	return &BatchGetPermissionsRequest_FieldTerminalPath{selector: BatchGetPermissionsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetPermissionsRequestPathSelectorParent) WithValue(value *permission.Reference) *BatchGetPermissionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetPermissionsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetPermissionsRequestPathSelectorParent) WithArrayOfValues(values []*permission.Reference) *BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetPermissionsRequestPathSelectorNames struct{}

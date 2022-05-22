@@ -152,9 +152,6 @@ func (o *BatchGetProvisioningApprovalRequestsRequest) MakeDiffFieldMask(other *B
 	}
 
 	res := &BatchGetProvisioningApprovalRequestsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -185,16 +182,6 @@ func (o *BatchGetProvisioningApprovalRequestsRequest) Clone() *BatchGetProvision
 		return nil
 	}
 	result := &BatchGetProvisioningApprovalRequestsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &provisioning_approval_request.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*provisioning_approval_request.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -218,18 +205,6 @@ func (o *BatchGetProvisioningApprovalRequestsRequest) CloneRaw() gotenobject.Got
 }
 
 func (o *BatchGetProvisioningApprovalRequestsRequest) Merge(source *BatchGetProvisioningApprovalRequestsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &provisioning_approval_request.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

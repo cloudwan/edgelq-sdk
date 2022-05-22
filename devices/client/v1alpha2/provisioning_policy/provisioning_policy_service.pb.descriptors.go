@@ -73,15 +73,15 @@ func (d *GetProvisioningPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *GetProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *GetProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *GetProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -121,7 +121,7 @@ func (d *GetProvisioningPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *GetProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -133,77 +133,84 @@ func (d *GetProvisioningPolicyDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &GetProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*GetProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*GetProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*GetProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
+		OverrideExtractResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -238,15 +245,15 @@ func (d *BatchGetProvisioningPoliciesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetProvisioningPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetProvisioningPoliciesDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetProvisioningPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetProvisioningPoliciesDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetProvisioningPoliciesDescriptor) HasSubjectResource() bool {
+func (d *BatchGetProvisioningPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -286,7 +293,7 @@ func (d *BatchGetProvisioningPoliciesDescriptor) GetApiDescriptor() gotenclient.
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *BatchGetProvisioningPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetProvisioningPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -298,86 +305,92 @@ func (d *BatchGetProvisioningPoliciesDescriptor) GetServerMsgReflectHandle() got
 	return &BatchGetProvisioningPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetProvisioningPoliciesRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*BatchGetProvisioningPoliciesRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetProvisioningPoliciesRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*BatchGetProvisioningPoliciesRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetProvisioningPoliciesRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*BatchGetProvisioningPoliciesRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetProvisioningPoliciesResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*BatchGetProvisioningPoliciesResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetProvisioningPoliciesResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*BatchGetProvisioningPoliciesResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetProvisioningPolicies()
-	list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
 }
 
-func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetProvisioningPoliciesResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*BatchGetProvisioningPoliciesResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -412,15 +425,15 @@ func (d *ListProvisioningPoliciesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListProvisioningPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *ListProvisioningPoliciesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListProvisioningPoliciesDescriptor) IsPluralSubject() bool {
+func (d *ListProvisioningPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListProvisioningPoliciesDescriptor) HasSubjectResource() bool {
+func (d *ListProvisioningPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -460,7 +473,7 @@ func (d *ListProvisioningPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *ListProvisioningPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListProvisioningPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -472,79 +485,88 @@ func (d *ListProvisioningPoliciesDescriptor) GetServerMsgReflectHandle() gotencl
 	return &ListProvisioningPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListProvisioningPoliciesRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*ListProvisioningPoliciesRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListProvisioningPoliciesRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ListProvisioningPoliciesRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListProvisioningPoliciesRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ListProvisioningPoliciesRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*provisioning_policy.ParentName)(nil)
 }
 
-func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListProvisioningPoliciesResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*ListProvisioningPoliciesResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListProvisioningPoliciesResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ListProvisioningPoliciesResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetProvisioningPolicies()
-	list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetProvisioningPolicies(); len(resources) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
 }
 
-func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListProvisioningPoliciesResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ListProvisioningPoliciesResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -579,15 +601,15 @@ func (d *WatchProvisioningPolicyDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *WatchProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *WatchProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *WatchProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -627,7 +649,7 @@ func (d *WatchProvisioningPolicyDescriptor) GetApiDescriptor() gotenclient.ApiDe
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *WatchProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -639,89 +661,93 @@ func (d *WatchProvisioningPolicyDescriptor) GetServerMsgReflectHandle() gotencli
 	return &WatchProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*WatchProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*provisioning_policy.Name)(nil)
-}
-
-func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchProvisioningPolicyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningPolicyRequest) []*provisioning_policy.Name
-	})
-	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchProvisioningPolicyRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningPolicyRequest) *provisioning_policy.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchProvisioningPolicyResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningPolicyResponse) *provisioning_policy.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *provisioning_policy.ProvisioningPolicyChange_Added_:
-			return tResChange.Added.GetProvisioningPolicy().GetName()
-		case *provisioning_policy.ProvisioningPolicyChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *provisioning_policy.ProvisioningPolicyChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *provisioning_policy.ProvisioningPolicyChange_Current_:
-			return tResChange.Current.GetProvisioningPolicy().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchProvisioningPolicyResponse)
+func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningPolicyResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*WatchProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchProvisioningPolicyRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchProvisioningPolicyRequest) *provisioning_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningPolicyResponse) *provisioning_policy.ParentName
+		OverrideExtractResourceName(*WatchProvisioningPolicyResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *provisioning_policy.ProvisioningPolicyChange_Added_:
+				return tResChange.Added.GetProvisioningPolicy().GetName()
+			case *provisioning_policy.ProvisioningPolicyChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *provisioning_policy.ProvisioningPolicyChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *provisioning_policy.ProvisioningPolicyChange_Current_:
+				return tResChange.Current.GetProvisioningPolicy().GetName()
+			}
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
+}
+
+func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchProvisioningPolicyResponse) []*provisioning_policy.Name
+	})
+	if ok {
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchProvisioningPolicyResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchProvisioningPolicyResponse) *provisioning_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -756,15 +782,15 @@ func (d *WatchProvisioningPoliciesDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchProvisioningPoliciesDescriptor) IsCollectionSubject() bool {
+func (d *WatchProvisioningPoliciesDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchProvisioningPoliciesDescriptor) IsPluralSubject() bool {
+func (d *WatchProvisioningPoliciesDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchProvisioningPoliciesDescriptor) HasSubjectResource() bool {
+func (d *WatchProvisioningPoliciesDescriptor) HasResource() bool {
 	return true
 }
 
@@ -804,7 +830,7 @@ func (d *WatchProvisioningPoliciesDescriptor) GetApiDescriptor() gotenclient.Api
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *WatchProvisioningPoliciesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchProvisioningPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -816,91 +842,97 @@ func (d *WatchProvisioningPoliciesDescriptor) GetServerMsgReflectHandle() gotenc
 	return &WatchProvisioningPoliciesDescriptorServerMsgHandle{}
 }
 
-func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningPoliciesRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*WatchProvisioningPoliciesRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningPoliciesRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*WatchProvisioningPoliciesRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPoliciesRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningPoliciesRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*WatchProvisioningPoliciesRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*provisioning_policy.ParentName)(nil)
 }
 
-func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchProvisioningPoliciesResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*WatchProvisioningPoliciesResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchProvisioningPoliciesResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*WatchProvisioningPoliciesResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetProvisioningPolicyChanges()
-	list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *provisioning_policy.ProvisioningPolicyChange_Added_:
-			list = append(list, tResChange.Added.GetProvisioningPolicy().GetName())
-		case *provisioning_policy.ProvisioningPolicyChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *provisioning_policy.ProvisioningPolicyChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *provisioning_policy.ProvisioningPolicyChange_Current_:
-			list = append(list, tResChange.Current.GetProvisioningPolicy().GetName())
+	{
+		if resChanges := typedMsg.GetProvisioningPolicyChanges(); len(resChanges) > 0 {
+			list := make(provisioning_policy.ProvisioningPolicyNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *provisioning_policy.ProvisioningPolicyChange_Added_:
+					list = append(list, tResChange.Added.GetProvisioningPolicy().GetName())
+				case *provisioning_policy.ProvisioningPolicyChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *provisioning_policy.ProvisioningPolicyChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *provisioning_policy.ProvisioningPolicyChange_Current_:
+					list = append(list, tResChange.Current.GetProvisioningPolicy().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (provisioning_policy.ProvisioningPolicyNameList)(nil)
 }
 
-func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchProvisioningPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchProvisioningPoliciesResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchProvisioningPoliciesResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*WatchProvisioningPoliciesResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -935,15 +967,15 @@ func (d *CreateProvisioningPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *CreateProvisioningPolicyDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *CreateProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *CreateProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -983,7 +1015,7 @@ func (d *CreateProvisioningPolicyDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *CreateProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -995,77 +1027,90 @@ func (d *CreateProvisioningPolicyDescriptor) GetServerMsgReflectHandle() gotencl
 	return &CreateProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*CreateProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetProvisioningPolicy().GetName()
+	{
+		res := typedMsg.GetProvisioningPolicy()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*CreateProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*CreateProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*provisioning_policy.ParentName)(nil)
 }
 
-func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
+		OverrideExtractResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1100,15 +1145,15 @@ func (d *UpdateProvisioningPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *UpdateProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *UpdateProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *UpdateProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1148,7 +1193,7 @@ func (d *UpdateProvisioningPolicyDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *UpdateProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1160,74 +1205,85 @@ func (d *UpdateProvisioningPolicyDescriptor) GetServerMsgReflectHandle() gotencl
 	return &UpdateProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*UpdateProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetProvisioningPolicy().GetName()
+	{
+		res := typedMsg.GetProvisioningPolicy()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*UpdateProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*UpdateProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
+		OverrideExtractResourceName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*provisioning_policy.ProvisioningPolicy) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*provisioning_policy.ProvisioningPolicy)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*provisioning_policy.ProvisioningPolicy) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1262,15 +1318,15 @@ func (d *DeleteProvisioningPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *DeleteProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *DeleteProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *DeleteProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1310,7 +1366,7 @@ func (d *DeleteProvisioningPolicyDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *DeleteProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1322,77 +1378,79 @@ func (d *DeleteProvisioningPolicyDescriptor) GetServerMsgReflectHandle() gotencl
 	return &DeleteProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*DeleteProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*DeleteProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*DeleteProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *provisioning_policy.Name
+		OverrideExtractResourceName(*empty.Empty) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*empty.Empty) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1427,15 +1485,15 @@ func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) IsServerStream()
 	return false
 }
 
-func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1475,7 +1533,7 @@ func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) GetApiDescriptor
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1487,77 +1545,79 @@ func (d *ProvisionServiceAccountToProvisioningPolicyDescriptor) GetServerMsgRefl
 	return &ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionServiceAccountToProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*ProvisionServiceAccountToProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionServiceAccountToProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ProvisionServiceAccountToProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionServiceAccountToProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ProvisionServiceAccountToProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionServiceAccountToProvisioningPolicyResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*ProvisionServiceAccountToProvisioningPolicyResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionServiceAccountToProvisioningPolicyResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ProvisionServiceAccountToProvisioningPolicyResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionServiceAccountToProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionServiceAccountToProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionServiceAccountToProvisioningPolicyResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ProvisionServiceAccountToProvisioningPolicyResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1592,15 +1652,15 @@ func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) IsServerStream() 
 	return false
 }
 
-func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) IsCollectionSubject() bool {
+func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) IsPluralSubject() bool {
+func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) HasSubjectResource() bool {
+func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1640,7 +1700,7 @@ func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) GetApiDescriptor(
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1652,77 +1712,79 @@ func (d *RemoveServiceAccountFromProvisioningPolicyDescriptor) GetServerMsgRefle
 	return &RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RemoveServiceAccountFromProvisioningPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*RemoveServiceAccountFromProvisioningPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RemoveServiceAccountFromProvisioningPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*RemoveServiceAccountFromProvisioningPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*RemoveServiceAccountFromProvisioningPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*RemoveServiceAccountFromProvisioningPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RemoveServiceAccountFromProvisioningPolicyResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*RemoveServiceAccountFromProvisioningPolicyResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RemoveServiceAccountFromProvisioningPolicyResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*RemoveServiceAccountFromProvisioningPolicyResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RemoveServiceAccountFromProvisioningPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RemoveServiceAccountFromProvisioningPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*RemoveServiceAccountFromProvisioningPolicyResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*RemoveServiceAccountFromProvisioningPolicyResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1757,15 +1819,15 @@ func (d *ProvisionDeviceViaPolicyDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ProvisionDeviceViaPolicyDescriptor) IsCollectionSubject() bool {
+func (d *ProvisionDeviceViaPolicyDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *ProvisionDeviceViaPolicyDescriptor) IsPluralSubject() bool {
+func (d *ProvisionDeviceViaPolicyDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *ProvisionDeviceViaPolicyDescriptor) HasSubjectResource() bool {
+func (d *ProvisionDeviceViaPolicyDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1805,7 +1867,7 @@ func (d *ProvisionDeviceViaPolicyDescriptor) GetApiDescriptor() gotenclient.ApiD
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *ProvisionDeviceViaPolicyDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ProvisionDeviceViaPolicyDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1817,77 +1879,79 @@ func (d *ProvisionDeviceViaPolicyDescriptor) GetServerMsgReflectHandle() gotencl
 	return &ProvisionDeviceViaPolicyDescriptorServerMsgHandle{}
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionDeviceViaPolicyRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*ProvisionDeviceViaPolicyRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionDeviceViaPolicyRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ProvisionDeviceViaPolicyRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceViaPolicyDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionDeviceViaPolicyRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ProvisionDeviceViaPolicyRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ProvisionDeviceViaPolicyResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*ProvisionDeviceViaPolicyResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ProvisionDeviceViaPolicyResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*ProvisionDeviceViaPolicyResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ProvisionDeviceViaPolicyDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ProvisionDeviceViaPolicyResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ProvisionDeviceViaPolicyResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*ProvisionDeviceViaPolicyResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1922,15 +1986,15 @@ func (d *RequestProvisioningApprovalDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *RequestProvisioningApprovalDescriptor) IsCollectionSubject() bool {
+func (d *RequestProvisioningApprovalDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *RequestProvisioningApprovalDescriptor) IsPluralSubject() bool {
+func (d *RequestProvisioningApprovalDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *RequestProvisioningApprovalDescriptor) HasSubjectResource() bool {
+func (d *RequestProvisioningApprovalDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1970,7 +2034,7 @@ func (d *RequestProvisioningApprovalDescriptor) GetApiDescriptor() gotenclient.A
 	return provisioningPolicyServiceDescriptor
 }
 
-func (d *RequestProvisioningApprovalDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *RequestProvisioningApprovalDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return provisioning_policy.GetDescriptor()
 }
 
@@ -1982,77 +2046,79 @@ func (d *RequestProvisioningApprovalDescriptor) GetServerMsgReflectHandle() gote
 	return &RequestProvisioningApprovalDescriptorServerMsgHandle{}
 }
 
-func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RequestProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RequestProvisioningApprovalRequest) *provisioning_policy.Name
+		OverrideExtractResourceName(*RequestProvisioningApprovalRequest) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*provisioning_policy.Name)(nil)
 }
 
-func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RequestProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RequestProvisioningApprovalRequest) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*RequestProvisioningApprovalRequest) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RequestProvisioningApprovalDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RequestProvisioningApprovalRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*RequestProvisioningApprovalRequest) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*RequestProvisioningApprovalRequest) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RequestProvisioningApprovalResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*RequestProvisioningApprovalResponse) *provisioning_policy.Name
+		OverrideExtractResourceName(*RequestProvisioningApprovalResponse) *provisioning_policy.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*RequestProvisioningApprovalResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*RequestProvisioningApprovalResponse) []*provisioning_policy.Name
+		OverrideExtractResourceNames(*RequestProvisioningApprovalResponse) []*provisioning_policy.Name
 	})
 	if ok {
-		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return provisioning_policy.ProvisioningPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *RequestProvisioningApprovalDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*RequestProvisioningApprovalResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*RequestProvisioningApprovalResponse) *provisioning_policy.ParentName
+		OverrideExtractCollectionName(*RequestProvisioningApprovalResponse) *provisioning_policy.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

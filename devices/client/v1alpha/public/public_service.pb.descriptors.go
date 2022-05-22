@@ -12,7 +12,9 @@ import (
 )
 
 // proto imports
-import ()
+import (
+	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha/device"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var (
@@ -22,7 +24,9 @@ var (
 )
 
 // make sure we're using proto imports
-var ()
+var (
+	_ = &device.Device{}
+)
 
 var (
 	descriptorsInitialized      bool
@@ -56,16 +60,16 @@ func (d *ListPublicDevicesDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListPublicDevicesDescriptor) IsCollectionSubject() bool {
-	return false
+func (d *ListPublicDevicesDescriptor) IsCollection() bool {
+	return true
 }
 
-func (d *ListPublicDevicesDescriptor) IsPluralSubject() bool {
-	return false
+func (d *ListPublicDevicesDescriptor) IsPlural() bool {
+	return true
 }
 
-func (d *ListPublicDevicesDescriptor) HasSubjectResource() bool {
-	return false
+func (d *ListPublicDevicesDescriptor) HasResource() bool {
+	return true
 }
 
 func (d *ListPublicDevicesDescriptor) RequestHasResourceBody() bool {
@@ -104,8 +108,8 @@ func (d *ListPublicDevicesDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return publicServiceDescriptor
 }
 
-func (d *ListPublicDevicesDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
-	return nil
+func (d *ListPublicDevicesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return device.GetDescriptor()
 }
 
 func (d *ListPublicDevicesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
@@ -116,27 +120,89 @@ func (d *ListPublicDevicesDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &ListPublicDevicesDescriptorServerMsgHandle{}
 }
 
-func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPublicDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListPublicDevicesRequest) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
 	return nil
 }
 
-func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListPublicDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListPublicDevicesRequest) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
 	return nil
 }
 
-func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPublicDevicesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPublicDevicesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListPublicDevicesRequest) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*device.ParentName)(nil)
+}
+
+func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPublicDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListPublicDevicesResponse) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
 	return nil
 }
 
-func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	return nil
+func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListPublicDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListPublicDevicesResponse) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetDevices(); len(resources) > 0 {
+			list := make(device.DeviceNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (device.DeviceNameList)(nil)
 }
 
-func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	return nil
-}
-
-func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListPublicDevicesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPublicDevicesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListPublicDevicesResponse) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
 	return nil
 }
 

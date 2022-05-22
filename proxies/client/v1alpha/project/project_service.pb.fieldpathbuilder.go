@@ -84,9 +84,6 @@ type BatchGetProjectsRequestFieldPathBuilder struct{}
 func NewBatchGetProjectsRequestFieldPathBuilder() BatchGetProjectsRequestFieldPathBuilder {
 	return BatchGetProjectsRequestFieldPathBuilder{}
 }
-func (BatchGetProjectsRequestFieldPathBuilder) Parent() BatchGetProjectsRequestPathSelectorParent {
-	return BatchGetProjectsRequestPathSelectorParent{}
-}
 func (BatchGetProjectsRequestFieldPathBuilder) Names() BatchGetProjectsRequestPathSelectorNames {
 	return BatchGetProjectsRequestPathSelectorNames{}
 }
@@ -95,20 +92,6 @@ func (BatchGetProjectsRequestFieldPathBuilder) FieldMask() BatchGetProjectsReque
 }
 func (BatchGetProjectsRequestFieldPathBuilder) View() BatchGetProjectsRequestPathSelectorView {
 	return BatchGetProjectsRequestPathSelectorView{}
-}
-
-type BatchGetProjectsRequestPathSelectorParent struct{}
-
-func (BatchGetProjectsRequestPathSelectorParent) FieldPath() *BatchGetProjectsRequest_FieldTerminalPath {
-	return &BatchGetProjectsRequest_FieldTerminalPath{selector: BatchGetProjectsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetProjectsRequestPathSelectorParent) WithValue(value *project.Reference) *BatchGetProjectsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetProjectsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetProjectsRequestPathSelectorParent) WithArrayOfValues(values []*project.Reference) *BatchGetProjectsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetProjectsRequestPathSelectorNames struct{}

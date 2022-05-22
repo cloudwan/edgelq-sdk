@@ -34,9 +34,6 @@ message GetAttestationDomainRequest {
 // Request message for method
 // [BatchGetAttestationDomains][ntt.iam.v1alpha2.BatchGetAttestationDomains]
 message BatchGetAttestationDomainsRequest {
-  // Optional parent ntt.iam.v1alpha2.AttestationDomain
-  string parent = 1;
-
   // Names of AttestationDomains
   repeated string names = 2;
 
@@ -47,6 +44,8 @@ message BatchGetAttestationDomainsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetAttestationDomainsResponse
@@ -314,7 +313,7 @@ service AttestationDomainService {
   rpc BatchGetAttestationDomains(BatchGetAttestationDomainsRequest)
       returns (BatchGetAttestationDomainsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*}/attestationDomains:batchGet"
+      get : "/v1alpha2/attestationDomains:batchGet"
     };
   }
 

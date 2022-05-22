@@ -94,9 +94,6 @@ type BatchGetDeploymentsRequestFieldPathBuilder struct{}
 func NewBatchGetDeploymentsRequestFieldPathBuilder() BatchGetDeploymentsRequestFieldPathBuilder {
 	return BatchGetDeploymentsRequestFieldPathBuilder{}
 }
-func (BatchGetDeploymentsRequestFieldPathBuilder) Parent() BatchGetDeploymentsRequestPathSelectorParent {
-	return BatchGetDeploymentsRequestPathSelectorParent{}
-}
 func (BatchGetDeploymentsRequestFieldPathBuilder) Names() BatchGetDeploymentsRequestPathSelectorNames {
 	return BatchGetDeploymentsRequestPathSelectorNames{}
 }
@@ -105,20 +102,6 @@ func (BatchGetDeploymentsRequestFieldPathBuilder) FieldMask() BatchGetDeployment
 }
 func (BatchGetDeploymentsRequestFieldPathBuilder) View() BatchGetDeploymentsRequestPathSelectorView {
 	return BatchGetDeploymentsRequestPathSelectorView{}
-}
-
-type BatchGetDeploymentsRequestPathSelectorParent struct{}
-
-func (BatchGetDeploymentsRequestPathSelectorParent) FieldPath() *BatchGetDeploymentsRequest_FieldTerminalPath {
-	return &BatchGetDeploymentsRequest_FieldTerminalPath{selector: BatchGetDeploymentsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetDeploymentsRequestPathSelectorParent) WithValue(value *deployment.Reference) *BatchGetDeploymentsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetDeploymentsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetDeploymentsRequestPathSelectorParent) WithArrayOfValues(values []*deployment.Reference) *BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDeploymentsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetDeploymentsRequestPathSelectorNames struct{}

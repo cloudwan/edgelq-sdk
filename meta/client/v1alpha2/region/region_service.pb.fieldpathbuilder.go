@@ -90,9 +90,6 @@ type BatchGetRegionsRequestFieldPathBuilder struct{}
 func NewBatchGetRegionsRequestFieldPathBuilder() BatchGetRegionsRequestFieldPathBuilder {
 	return BatchGetRegionsRequestFieldPathBuilder{}
 }
-func (BatchGetRegionsRequestFieldPathBuilder) Parent() BatchGetRegionsRequestPathSelectorParent {
-	return BatchGetRegionsRequestPathSelectorParent{}
-}
 func (BatchGetRegionsRequestFieldPathBuilder) Names() BatchGetRegionsRequestPathSelectorNames {
 	return BatchGetRegionsRequestPathSelectorNames{}
 }
@@ -101,20 +98,6 @@ func (BatchGetRegionsRequestFieldPathBuilder) FieldMask() BatchGetRegionsRequest
 }
 func (BatchGetRegionsRequestFieldPathBuilder) View() BatchGetRegionsRequestPathSelectorView {
 	return BatchGetRegionsRequestPathSelectorView{}
-}
-
-type BatchGetRegionsRequestPathSelectorParent struct{}
-
-func (BatchGetRegionsRequestPathSelectorParent) FieldPath() *BatchGetRegionsRequest_FieldTerminalPath {
-	return &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetRegionsRequestPathSelectorParent) WithValue(value *region.Reference) *BatchGetRegionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetRegionsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetRegionsRequestPathSelectorParent) WithArrayOfValues(values []*region.Reference) *BatchGetRegionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRegionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetRegionsRequestPathSelectorNames struct{}

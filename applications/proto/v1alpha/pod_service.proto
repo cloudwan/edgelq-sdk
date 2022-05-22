@@ -33,9 +33,6 @@ message GetPodRequest {
 // Request message for method
 // [BatchGetPods][ntt.applications.v1alpha.BatchGetPods]
 message BatchGetPodsRequest {
-  // Optional parent ntt.applications.v1alpha.Pod
-  string parent = 1;
-
   // Names of Pods
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetPodsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetPodsResponse
@@ -303,7 +302,7 @@ service PodService {
   // BatchGetPods
   rpc BatchGetPods(BatchGetPodsRequest) returns (BatchGetPodsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha/{parent=projects/*}/pods:batchGet"
+      get : "/v1alpha/pods:batchGet"
     };
   }
 

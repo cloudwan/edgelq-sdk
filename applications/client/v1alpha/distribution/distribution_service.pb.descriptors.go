@@ -69,15 +69,15 @@ func (d *GetDistributionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *GetDistributionDescriptor) IsCollectionSubject() bool {
+func (d *GetDistributionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *GetDistributionDescriptor) IsPluralSubject() bool {
+func (d *GetDistributionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *GetDistributionDescriptor) HasSubjectResource() bool {
+func (d *GetDistributionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -117,7 +117,7 @@ func (d *GetDistributionDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor
 	return distributionServiceDescriptor
 }
 
-func (d *GetDistributionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *GetDistributionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -129,77 +129,84 @@ func (d *GetDistributionDescriptor) GetServerMsgReflectHandle() gotenclient.Meth
 	return &GetDistributionDescriptorServerMsgHandle{}
 }
 
-func (h *GetDistributionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetDistributionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*GetDistributionRequest) *distribution.Name
+		OverrideExtractResourceName(*GetDistributionRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*distribution.Name)(nil)
 }
 
-func (h *GetDistributionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetDistributionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*GetDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*GetDistributionRequest) []*distribution.Name
+		OverrideExtractResourceNames(*GetDistributionRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetDistributionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetDistributionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*GetDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*GetDistributionRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*GetDistributionRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *GetDistributionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *GetDistributionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*distribution.Distribution) *distribution.Name
+		OverrideExtractResourceName(*distribution.Distribution) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*distribution.Name)(nil)
 }
 
-func (h *GetDistributionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *GetDistributionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*distribution.Distribution) []*distribution.Name
+		OverrideExtractResourceNames(*distribution.Distribution) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *GetDistributionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *GetDistributionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*distribution.Distribution) *distribution.ParentName
+		OverrideExtractCollectionName(*distribution.Distribution) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -234,15 +241,15 @@ func (d *BatchGetDistributionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *BatchGetDistributionsDescriptor) IsCollectionSubject() bool {
+func (d *BatchGetDistributionsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *BatchGetDistributionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *BatchGetDistributionsDescriptor) IsPluralSubject() bool {
-	return true
-}
-
-func (d *BatchGetDistributionsDescriptor) HasSubjectResource() bool {
+func (d *BatchGetDistributionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -282,7 +289,7 @@ func (d *BatchGetDistributionsDescriptor) GetApiDescriptor() gotenclient.ApiDesc
 	return distributionServiceDescriptor
 }
 
-func (d *BatchGetDistributionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *BatchGetDistributionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -294,86 +301,92 @@ func (d *BatchGetDistributionsDescriptor) GetServerMsgReflectHandle() gotenclien
 	return &BatchGetDistributionsDescriptorServerMsgHandle{}
 }
 
-func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetDistributionsRequest) *distribution.Name
+		OverrideExtractResourceName(*BatchGetDistributionsRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetDistributionsRequest) []*distribution.Name
+		OverrideExtractResourceNames(*BatchGetDistributionsRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	if refs := typedMsg.GetNames(); len(refs) > 0 {
-		list := make(distribution.DistributionNameList, 0, len(refs))
-		for _, ref := range refs {
-			list = append(list, &ref.Name)
+	{
+		if refs := typedMsg.GetNames(); len(refs) > 0 {
+			list := make(distribution.DistributionNameList, 0, len(refs))
+			for _, ref := range refs {
+				list = append(list, &ref.Name)
+			}
+			return list
 		}
-		return list
 	}
 	return (distribution.DistributionNameList)(nil)
 }
 
-func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDistributionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetDistributionsRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*BatchGetDistributionsRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*BatchGetDistributionsResponse) *distribution.Name
+		OverrideExtractResourceName(*BatchGetDistributionsResponse) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*BatchGetDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*BatchGetDistributionsResponse) []*distribution.Name
+		OverrideExtractResourceNames(*BatchGetDistributionsResponse) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetDistributions()
-	list := make(distribution.DistributionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetDistributions(); len(resources) > 0 {
+			list := make(distribution.DistributionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (distribution.DistributionNameList)(nil)
 }
 
-func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *BatchGetDistributionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*BatchGetDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*BatchGetDistributionsResponse) *distribution.ParentName
+		OverrideExtractCollectionName(*BatchGetDistributionsResponse) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -408,15 +421,15 @@ func (d *ListDistributionsDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *ListDistributionsDescriptor) IsCollectionSubject() bool {
+func (d *ListDistributionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *ListDistributionsDescriptor) IsPluralSubject() bool {
+func (d *ListDistributionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *ListDistributionsDescriptor) HasSubjectResource() bool {
+func (d *ListDistributionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -456,7 +469,7 @@ func (d *ListDistributionsDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return distributionServiceDescriptor
 }
 
-func (d *ListDistributionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *ListDistributionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -468,79 +481,88 @@ func (d *ListDistributionsDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &ListDistributionsDescriptorServerMsgHandle{}
 }
 
-func (h *ListDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListDistributionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListDistributionsRequest) *distribution.Name
+		OverrideExtractResourceName(*ListDistributionsRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListDistributionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListDistributionsRequest) []*distribution.Name
+		OverrideExtractResourceNames(*ListDistributionsRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *ListDistributionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListDistributionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListDistributionsRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*ListDistributionsRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	return typedMsg.GetParent()
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*distribution.ParentName)(nil)
 }
 
-func (h *ListDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *ListDistributionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*ListDistributionsResponse) *distribution.Name
+		OverrideExtractResourceName(*ListDistributionsResponse) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *ListDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *ListDistributionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*ListDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*ListDistributionsResponse) []*distribution.Name
+		OverrideExtractResourceNames(*ListDistributionsResponse) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resources := typedMsg.GetDistributions()
-	list := make(distribution.DistributionNameList, 0, len(resources))
-	for _, res := range resources {
-		list = append(list, res.GetName())
+	{
+		if resources := typedMsg.GetDistributions(); len(resources) > 0 {
+			list := make(distribution.DistributionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
 	}
-	return list
+	return (distribution.DistributionNameList)(nil)
 }
 
-func (h *ListDistributionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *ListDistributionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*ListDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*ListDistributionsResponse) *distribution.ParentName
+		OverrideExtractCollectionName(*ListDistributionsResponse) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -575,15 +597,15 @@ func (d *WatchDistributionDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchDistributionDescriptor) IsCollectionSubject() bool {
+func (d *WatchDistributionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *WatchDistributionDescriptor) IsPluralSubject() bool {
+func (d *WatchDistributionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *WatchDistributionDescriptor) HasSubjectResource() bool {
+func (d *WatchDistributionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -623,7 +645,7 @@ func (d *WatchDistributionDescriptor) GetApiDescriptor() gotenclient.ApiDescript
 	return distributionServiceDescriptor
 }
 
-func (d *WatchDistributionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchDistributionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -635,89 +657,93 @@ func (d *WatchDistributionDescriptor) GetServerMsgReflectHandle() gotenclient.Me
 	return &WatchDistributionDescriptorServerMsgHandle{}
 }
 
-func (h *WatchDistributionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDistributionRequest) *distribution.Name
+		OverrideExtractResourceName(*WatchDistributionRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
-	}
-	return (*distribution.Name)(nil)
-}
-
-func (h *WatchDistributionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchDistributionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDistributionRequest) []*distribution.Name
-	})
-	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *WatchDistributionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDistributionRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDistributionRequest) *distribution.ParentName
-	})
-	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *WatchDistributionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*WatchDistributionResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDistributionResponse) *distribution.Name
-	})
-	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
-	}
-	if typedMsg.GetChange() != nil {
-		switch tResChange := typedMsg.GetChange().ChangeType.(type) {
-		case *distribution.DistributionChange_Added_:
-			return tResChange.Added.GetDistribution().GetName()
-		case *distribution.DistributionChange_Modified_:
-			return tResChange.Modified.GetName()
-		case *distribution.DistributionChange_Removed_:
-			return tResChange.Removed.GetName()
-		case *distribution.DistributionChange_Current_:
-			return tResChange.Current.GetDistribution().GetName()
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
 		}
 	}
 	return (*distribution.Name)(nil)
 }
 
-func (h *WatchDistributionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*WatchDistributionResponse)
+func (h *WatchDistributionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDistributionResponse) []*distribution.Name
+		OverrideExtractResourceNames(*WatchDistributionRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchDistributionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchDistributionRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchDistributionRequest) *distribution.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *WatchDistributionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDistributionResponse) *distribution.ParentName
+		OverrideExtractResourceName(*WatchDistributionResponse) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if resChange := typedMsg.GetChange(); resChange != nil {
+			switch tResChange := resChange.ChangeType.(type) {
+			case *distribution.DistributionChange_Added_:
+				return tResChange.Added.GetDistribution().GetName()
+			case *distribution.DistributionChange_Modified_:
+				return tResChange.Modified.GetName()
+			case *distribution.DistributionChange_Removed_:
+				return tResChange.Removed.GetName()
+			case *distribution.DistributionChange_Current_:
+				return tResChange.Current.GetDistribution().GetName()
+			}
+		}
+	}
+	return (*distribution.Name)(nil)
+}
+
+func (h *WatchDistributionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*WatchDistributionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*WatchDistributionResponse) []*distribution.Name
+	})
+	if ok {
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *WatchDistributionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*WatchDistributionResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*WatchDistributionResponse) *distribution.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -752,15 +778,15 @@ func (d *WatchDistributionsDescriptor) IsServerStream() bool {
 	return true
 }
 
-func (d *WatchDistributionsDescriptor) IsCollectionSubject() bool {
+func (d *WatchDistributionsDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *WatchDistributionsDescriptor) IsPluralSubject() bool {
+func (d *WatchDistributionsDescriptor) IsPlural() bool {
 	return true
 }
 
-func (d *WatchDistributionsDescriptor) HasSubjectResource() bool {
+func (d *WatchDistributionsDescriptor) HasResource() bool {
 	return true
 }
 
@@ -800,7 +826,7 @@ func (d *WatchDistributionsDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return distributionServiceDescriptor
 }
 
-func (d *WatchDistributionsDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *WatchDistributionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -812,91 +838,97 @@ func (d *WatchDistributionsDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &WatchDistributionsDescriptorServerMsgHandle{}
 }
 
-func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDistributionsRequest) *distribution.Name
+		OverrideExtractResourceName(*WatchDistributionsRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDistributionsRequest) []*distribution.Name
+		OverrideExtractResourceNames(*WatchDistributionsRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionsRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDistributionsRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*WatchDistributionsRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*distribution.ParentName)(nil)
 }
 
-func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*WatchDistributionsResponse) *distribution.Name
+		OverrideExtractResourceName(*WatchDistributionsResponse) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*WatchDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*WatchDistributionsResponse) []*distribution.Name
+		OverrideExtractResourceNames(*WatchDistributionsResponse) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
-	resourceChanges := typedMsg.GetDistributionChanges()
-	list := make(distribution.DistributionNameList, 0, len(resourceChanges))
-	for _, resChange := range resourceChanges {
-		switch tResChange := resChange.ChangeType.(type) {
-		case *distribution.DistributionChange_Added_:
-			list = append(list, tResChange.Added.GetDistribution().GetName())
-		case *distribution.DistributionChange_Modified_:
-			list = append(list, tResChange.Modified.GetName())
-		case *distribution.DistributionChange_Removed_:
-			list = append(list, tResChange.Removed.GetName())
-		case *distribution.DistributionChange_Current_:
-			list = append(list, tResChange.Current.GetDistribution().GetName())
+	{
+		if resChanges := typedMsg.GetDistributionChanges(); len(resChanges) > 0 {
+			list := make(distribution.DistributionNameList, 0, len(resChanges))
+			for _, resChange := range resChanges {
+				switch tResChange := resChange.ChangeType.(type) {
+				case *distribution.DistributionChange_Added_:
+					list = append(list, tResChange.Added.GetDistribution().GetName())
+				case *distribution.DistributionChange_Modified_:
+					list = append(list, tResChange.Modified.GetName())
+				case *distribution.DistributionChange_Removed_:
+					list = append(list, tResChange.Removed.GetName())
+				case *distribution.DistributionChange_Current_:
+					list = append(list, tResChange.Current.GetDistribution().GetName())
+				}
+			}
+			return list
 		}
 	}
-	return list
+	return (distribution.DistributionNameList)(nil)
 }
 
-func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *WatchDistributionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*WatchDistributionsResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*WatchDistributionsResponse) *distribution.ParentName
+		OverrideExtractCollectionName(*WatchDistributionsResponse) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -931,15 +963,15 @@ func (d *CreateDistributionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *CreateDistributionDescriptor) IsCollectionSubject() bool {
+func (d *CreateDistributionDescriptor) IsCollection() bool {
 	return true
 }
 
-func (d *CreateDistributionDescriptor) IsPluralSubject() bool {
+func (d *CreateDistributionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *CreateDistributionDescriptor) HasSubjectResource() bool {
+func (d *CreateDistributionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -979,7 +1011,7 @@ func (d *CreateDistributionDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return distributionServiceDescriptor
 }
 
-func (d *CreateDistributionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *CreateDistributionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -991,77 +1023,90 @@ func (d *CreateDistributionDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &CreateDistributionDescriptorServerMsgHandle{}
 }
 
-func (h *CreateDistributionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateDistributionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*CreateDistributionRequest) *distribution.Name
+		OverrideExtractResourceName(*CreateDistributionRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetDistribution().GetName()
+	{
+		res := typedMsg.GetDistribution()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*distribution.Name)(nil)
 }
 
-func (h *CreateDistributionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateDistributionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*CreateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*CreateDistributionRequest) []*distribution.Name
+		OverrideExtractResourceNames(*CreateDistributionRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateDistributionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateDistributionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*CreateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*CreateDistributionRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*CreateDistributionRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
-	if ref := typedMsg.GetParent(); ref != nil {
-		return &ref.ParentName
+	{
+		if ref := typedMsg.GetParent(); ref != nil {
+			return &ref.ParentName
+		}
 	}
 	return (*distribution.ParentName)(nil)
 }
 
-func (h *CreateDistributionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *CreateDistributionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*distribution.Distribution) *distribution.Name
+		OverrideExtractResourceName(*distribution.Distribution) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*distribution.Name)(nil)
 }
 
-func (h *CreateDistributionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *CreateDistributionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*distribution.Distribution) []*distribution.Name
+		OverrideExtractResourceNames(*distribution.Distribution) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *CreateDistributionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *CreateDistributionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*distribution.Distribution) *distribution.ParentName
+		OverrideExtractCollectionName(*distribution.Distribution) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1096,15 +1141,15 @@ func (d *UpdateDistributionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *UpdateDistributionDescriptor) IsCollectionSubject() bool {
+func (d *UpdateDistributionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *UpdateDistributionDescriptor) IsPluralSubject() bool {
+func (d *UpdateDistributionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *UpdateDistributionDescriptor) HasSubjectResource() bool {
+func (d *UpdateDistributionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1144,7 +1189,7 @@ func (d *UpdateDistributionDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return distributionServiceDescriptor
 }
 
-func (d *UpdateDistributionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *UpdateDistributionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -1156,74 +1201,85 @@ func (d *UpdateDistributionDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &UpdateDistributionDescriptorServerMsgHandle{}
 }
 
-func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*UpdateDistributionRequest) *distribution.Name
+		OverrideExtractResourceName(*UpdateDistributionRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetDistribution().GetName()
+	{
+		res := typedMsg.GetDistribution()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*distribution.Name)(nil)
 }
 
-func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*UpdateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*UpdateDistributionRequest) []*distribution.Name
+		OverrideExtractResourceNames(*UpdateDistributionRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDistributionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*UpdateDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*UpdateDistributionRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*UpdateDistributionRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*distribution.Distribution) *distribution.Name
+		OverrideExtractResourceName(*distribution.Distribution) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	return typedMsg.GetName()
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*distribution.Name)(nil)
 }
 
-func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*distribution.Distribution) []*distribution.Name
+		OverrideExtractResourceNames(*distribution.Distribution) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *UpdateDistributionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*distribution.Distribution)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*distribution.Distribution) *distribution.ParentName
+		OverrideExtractCollectionName(*distribution.Distribution) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
@@ -1258,15 +1314,15 @@ func (d *DeleteDistributionDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DeleteDistributionDescriptor) IsCollectionSubject() bool {
+func (d *DeleteDistributionDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DeleteDistributionDescriptor) IsPluralSubject() bool {
+func (d *DeleteDistributionDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DeleteDistributionDescriptor) HasSubjectResource() bool {
+func (d *DeleteDistributionDescriptor) HasResource() bool {
 	return true
 }
 
@@ -1306,7 +1362,7 @@ func (d *DeleteDistributionDescriptor) GetApiDescriptor() gotenclient.ApiDescrip
 	return distributionServiceDescriptor
 }
 
-func (d *DeleteDistributionDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DeleteDistributionDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return distribution.GetDescriptor()
 }
 
@@ -1318,77 +1374,79 @@ func (d *DeleteDistributionDescriptor) GetServerMsgReflectHandle() gotenclient.M
 	return &DeleteDistributionDescriptorServerMsgHandle{}
 }
 
-func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DeleteDistributionRequest) *distribution.Name
+		OverrideExtractResourceName(*DeleteDistributionRequest) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
-	if ref := typedMsg.GetName(); ref != nil {
-		return &ref.Name
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
 	}
 	return (*distribution.Name)(nil)
 }
 
-func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DeleteDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DeleteDistributionRequest) []*distribution.Name
+		OverrideExtractResourceNames(*DeleteDistributionRequest) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDistributionDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DeleteDistributionRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*DeleteDistributionRequest) *distribution.ParentName
+		OverrideExtractCollectionName(*DeleteDistributionRequest) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*empty.Empty) *distribution.Name
+		OverrideExtractResourceName(*empty.Empty) *distribution.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*empty.Empty) []*distribution.Name
+		OverrideExtractResourceNames(*empty.Empty) []*distribution.Name
 	})
 	if ok {
-		return distribution.DistributionNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return distribution.DistributionNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DeleteDistributionDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*empty.Empty)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectCollectionName(*empty.Empty) *distribution.ParentName
+		OverrideExtractCollectionName(*empty.Empty) *distribution.ParentName
 	})
 	if ok {
-		return override.OverrideExtractSubjectCollectionName(typedMsg)
+		return override.OverrideExtractCollectionName(typedMsg)
 	}
 	return nil
 }

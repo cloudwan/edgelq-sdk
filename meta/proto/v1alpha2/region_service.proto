@@ -33,9 +33,6 @@ message GetRegionRequest {
 // Request message for method
 // [BatchGetRegions][ntt.meta.v1alpha2.BatchGetRegions]
 message BatchGetRegionsRequest {
-  // Optional parent ntt.meta.v1alpha2.Region
-  string parent = 1;
-
   // Names of Regions
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetRegionsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetRegionsResponse

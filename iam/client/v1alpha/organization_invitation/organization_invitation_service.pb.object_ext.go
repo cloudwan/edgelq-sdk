@@ -152,9 +152,6 @@ func (o *BatchGetOrganizationInvitationsRequest) MakeDiffFieldMask(other *BatchG
 	}
 
 	res := &BatchGetOrganizationInvitationsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetOrganizationInvitationsRequest_FieldTerminalPath{selector: BatchGetOrganizationInvitationsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -185,16 +182,6 @@ func (o *BatchGetOrganizationInvitationsRequest) Clone() *BatchGetOrganizationIn
 		return nil
 	}
 	result := &BatchGetOrganizationInvitationsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &organization_invitation.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*organization_invitation.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -218,18 +205,6 @@ func (o *BatchGetOrganizationInvitationsRequest) CloneRaw() gotenobject.GotenObj
 }
 
 func (o *BatchGetOrganizationInvitationsRequest) Merge(source *BatchGetOrganizationInvitationsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &organization_invitation.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

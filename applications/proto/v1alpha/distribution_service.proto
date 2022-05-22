@@ -34,9 +34,6 @@ message GetDistributionRequest {
 // Request message for method
 // [BatchGetDistributions][ntt.applications.v1alpha.BatchGetDistributions]
 message BatchGetDistributionsRequest {
-  // Optional parent ntt.applications.v1alpha.Distribution
-  string parent = 1;
-
   // Names of Distributions
   repeated string names = 2;
 
@@ -47,6 +44,8 @@ message BatchGetDistributionsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetDistributionsResponse
@@ -312,7 +311,7 @@ service DistributionService {
   rpc BatchGetDistributions(BatchGetDistributionsRequest)
       returns (BatchGetDistributionsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha/{parent=projects/*}/distributions:batchGet"
+      get : "/v1alpha/distributions:batchGet"
     };
   }
 

@@ -35,9 +35,6 @@ message GetProvisioningApprovalRequestRequest {
 // Request message for method
 // [BatchGetProvisioningApprovalRequests][ntt.devices.v1alpha.BatchGetProvisioningApprovalRequests]
 message BatchGetProvisioningApprovalRequestsRequest {
-  // Optional parent ntt.devices.v1alpha.ProvisioningApprovalRequest
-  string parent = 1;
-
   // Names of ProvisioningApprovalRequests
   repeated string names = 2;
 
@@ -48,6 +45,8 @@ message BatchGetProvisioningApprovalRequestsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetProvisioningApprovalRequestsResponse
@@ -320,8 +319,7 @@ service ProvisioningApprovalRequestService {
       BatchGetProvisioningApprovalRequestsRequest)
       returns (BatchGetProvisioningApprovalRequestsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha/{parent=projects/*/provisioningPolicys/*}/"
-            "provisioningApprovalRequests:batchGet"
+      get : "/v1alpha/provisioningApprovalRequests:batchGet"
     };
   }
 

@@ -540,16 +540,13 @@ type BatchGetPermissionsRequest_FieldPath interface {
 type BatchGetPermissionsRequest_FieldPathSelector int32
 
 const (
-	BatchGetPermissionsRequest_FieldPathSelectorParent    BatchGetPermissionsRequest_FieldPathSelector = 0
-	BatchGetPermissionsRequest_FieldPathSelectorNames     BatchGetPermissionsRequest_FieldPathSelector = 1
-	BatchGetPermissionsRequest_FieldPathSelectorFieldMask BatchGetPermissionsRequest_FieldPathSelector = 2
-	BatchGetPermissionsRequest_FieldPathSelectorView      BatchGetPermissionsRequest_FieldPathSelector = 3
+	BatchGetPermissionsRequest_FieldPathSelectorNames     BatchGetPermissionsRequest_FieldPathSelector = 0
+	BatchGetPermissionsRequest_FieldPathSelectorFieldMask BatchGetPermissionsRequest_FieldPathSelector = 1
+	BatchGetPermissionsRequest_FieldPathSelectorView      BatchGetPermissionsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetPermissionsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetPermissionsRequest_FieldPath(fp gotenobject.RawFieldPath) (Bat
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetPermissionsRequest_FieldTerminalPath{selector: BatchGetPermissionsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetPermissionsRequest_FieldTerminalPath{selector: BatchGetPermissionsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) Get(source *BatchGetPermissionsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetPermissionsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetPermissionsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) GetRaw(source proto.Mess
 // GetSingle returns value pointed by specific field of from source BatchGetPermissionsRequest
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) GetSingle(source *BatchGetPermissionsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) GetSingleRaw(source prot
 // GetDefault returns a default value of the field type
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		return (*permission.Reference)(nil)
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		return ([]*permission.Reference)(nil)
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) GetDefault() interface{}
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) ClearValue(item *BatchGetPermissionsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetPermissionsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetPermissionsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) ClearValueRaw(item proto
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetPermissionsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetPermissionsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetPermissionsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetPermissionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetPermissionsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPermissionsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		return &BatchGetPermissionsRequest_FieldTerminalPathValue{BatchGetPermissionsRequest_FieldTerminalPath: *fp, value: value.(*permission.Reference)}
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		return &BatchGetPermissionsRequest_FieldTerminalPathValue{BatchGetPermissionsRequest_FieldTerminalPath: *fp, value: value.([]*permission.Reference)}
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) WithRawIValue(value inte
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetPermissionsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues{BatchGetPermissionsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		return &BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues{BatchGetPermissionsRequest_FieldTerminalPath: *fp, values: values.([]*permission.Reference)}
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		return &BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues{BatchGetPermissionsRequest_FieldTerminalPath: *fp, values: values.([][]*permission.Reference)}
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetPermissionsRequest_FieldPathValue = (*BatchGetPermissionsRequest_F
 func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) AsParentValue() (*permission.Reference, bool) {
-	res, ok := fpv.value.(*permission.Reference)
-	return res, ok
-}
 func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) AsNamesValue() ([]*permission.Reference, bool) {
 	res, ok := fpv.value.([]*permission.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) SetTo(target **Bat
 		*target = new(BatchGetPermissionsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*permission.Reference)
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*permission.Reference)
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) SetToRaw(target pr
 // CompareWith compares value in the 'BatchGetPermissionsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetPermissionsRequest'.
 func (fpv *BatchGetPermissionsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetPermissionsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*permission.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetPermissionsRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetPermissionsRequest_FieldPathArrayOfValues = (*BatchGetPermissionsR
 
 func (fpaov *BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetPermissionsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*permission.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*permission.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		}
 	}
 	return
-}
-func (fpaov *BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*permission.Reference, bool) {
-	res, ok := fpaov.values.([]*permission.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetPermissionsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*permission.Reference, bool) {
 	res, ok := fpaov.values.([][]*permission.Reference)

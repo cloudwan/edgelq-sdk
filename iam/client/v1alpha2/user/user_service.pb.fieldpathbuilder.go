@@ -90,9 +90,6 @@ type BatchGetUsersRequestFieldPathBuilder struct{}
 func NewBatchGetUsersRequestFieldPathBuilder() BatchGetUsersRequestFieldPathBuilder {
 	return BatchGetUsersRequestFieldPathBuilder{}
 }
-func (BatchGetUsersRequestFieldPathBuilder) Parent() BatchGetUsersRequestPathSelectorParent {
-	return BatchGetUsersRequestPathSelectorParent{}
-}
 func (BatchGetUsersRequestFieldPathBuilder) Names() BatchGetUsersRequestPathSelectorNames {
 	return BatchGetUsersRequestPathSelectorNames{}
 }
@@ -101,20 +98,6 @@ func (BatchGetUsersRequestFieldPathBuilder) FieldMask() BatchGetUsersRequestPath
 }
 func (BatchGetUsersRequestFieldPathBuilder) View() BatchGetUsersRequestPathSelectorView {
 	return BatchGetUsersRequestPathSelectorView{}
-}
-
-type BatchGetUsersRequestPathSelectorParent struct{}
-
-func (BatchGetUsersRequestPathSelectorParent) FieldPath() *BatchGetUsersRequest_FieldTerminalPath {
-	return &BatchGetUsersRequest_FieldTerminalPath{selector: BatchGetUsersRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetUsersRequestPathSelectorParent) WithValue(value *user.Reference) *BatchGetUsersRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetUsersRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetUsersRequestPathSelectorParent) WithArrayOfValues(values []*user.Reference) *BatchGetUsersRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetUsersRequestPathSelectorNames struct{}

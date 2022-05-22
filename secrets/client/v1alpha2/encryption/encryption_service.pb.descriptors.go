@@ -61,15 +61,15 @@ func (d *EncryptDataDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *EncryptDataDescriptor) IsCollectionSubject() bool {
+func (d *EncryptDataDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *EncryptDataDescriptor) IsPluralSubject() bool {
+func (d *EncryptDataDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *EncryptDataDescriptor) HasSubjectResource() bool {
+func (d *EncryptDataDescriptor) HasResource() bool {
 	return true
 }
 
@@ -109,7 +109,7 @@ func (d *EncryptDataDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return encryptionServiceDescriptor
 }
 
-func (d *EncryptDataDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *EncryptDataDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return project.GetDescriptor()
 }
 
@@ -121,59 +121,59 @@ func (d *EncryptDataDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &EncryptDataDescriptorServerMsgHandle{}
 }
 
-func (h *EncryptDataDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *EncryptDataDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*EncryptDataRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*EncryptDataRequest) *project.Name
+		OverrideExtractResourceName(*EncryptDataRequest) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *EncryptDataDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *EncryptDataDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*EncryptDataRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*EncryptDataRequest) []*project.Name
+		OverrideExtractResourceNames(*EncryptDataRequest) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *EncryptDataDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *EncryptDataDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *EncryptDataDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *EncryptDataDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*EncryptDataResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*EncryptDataResponse) *project.Name
+		OverrideExtractResourceName(*EncryptDataResponse) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *EncryptDataDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *EncryptDataDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*EncryptDataResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*EncryptDataResponse) []*project.Name
+		OverrideExtractResourceNames(*EncryptDataResponse) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *EncryptDataDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *EncryptDataDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
@@ -207,15 +207,15 @@ func (d *DecryptDataDescriptor) IsServerStream() bool {
 	return false
 }
 
-func (d *DecryptDataDescriptor) IsCollectionSubject() bool {
+func (d *DecryptDataDescriptor) IsCollection() bool {
 	return false
 }
 
-func (d *DecryptDataDescriptor) IsPluralSubject() bool {
+func (d *DecryptDataDescriptor) IsPlural() bool {
 	return false
 }
 
-func (d *DecryptDataDescriptor) HasSubjectResource() bool {
+func (d *DecryptDataDescriptor) HasResource() bool {
 	return true
 }
 
@@ -255,7 +255,7 @@ func (d *DecryptDataDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
 	return encryptionServiceDescriptor
 }
 
-func (d *DecryptDataDescriptor) GetSubjectResourceDescriptor() gotenresource.Descriptor {
+func (d *DecryptDataDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
 	return project.GetDescriptor()
 }
 
@@ -267,59 +267,59 @@ func (d *DecryptDataDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMs
 	return &DecryptDataDescriptorServerMsgHandle{}
 }
 
-func (h *DecryptDataDescriptorClientMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DecryptDataDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DecryptDataRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DecryptDataRequest) *project.Name
+		OverrideExtractResourceName(*DecryptDataRequest) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DecryptDataDescriptorClientMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DecryptDataDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DecryptDataRequest)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DecryptDataRequest) []*project.Name
+		OverrideExtractResourceNames(*DecryptDataRequest) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DecryptDataDescriptorClientMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DecryptDataDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 
-func (h *DecryptDataDescriptorServerMsgHandle) ExtractSubjectResourceName(msg proto.Message) gotenresource.Name {
+func (h *DecryptDataDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
 	typedMsg := msg.(*DecryptDataResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceName(*DecryptDataResponse) *project.Name
+		OverrideExtractResourceName(*DecryptDataResponse) *project.Name
 	})
 	if ok {
-		return override.OverrideExtractSubjectResourceName(typedMsg)
+		return override.OverrideExtractResourceName(typedMsg)
 	}
 	return nil
 }
 
-func (h *DecryptDataDescriptorServerMsgHandle) ExtractSubjectResourceNames(msg proto.Message) gotenresource.NameList {
+func (h *DecryptDataDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
 	typedMsg := msg.(*DecryptDataResponse)
 	var asInterface interface{} = h
 	override, ok := asInterface.(interface {
-		OverrideExtractSubjectResourceNames(*DecryptDataResponse) []*project.Name
+		OverrideExtractResourceNames(*DecryptDataResponse) []*project.Name
 	})
 	if ok {
-		return project.ProjectNameList(override.OverrideExtractSubjectResourceNames(typedMsg))
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
 	}
 	return nil
 }
 
-func (h *DecryptDataDescriptorServerMsgHandle) ExtractSubjectCollectionName(msg proto.Message) gotenresource.Name {
+func (h *DecryptDataDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
 	return nil
 }
 

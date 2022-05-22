@@ -33,9 +33,6 @@ message GetRoleBindingRequest {
 // Request message for method
 // [BatchGetRoleBindings][ntt.iam.v1alpha.BatchGetRoleBindings]
 message BatchGetRoleBindingsRequest {
-  // Optional parent ntt.iam.v1alpha.RoleBinding
-  string parent = 1;
-
   // Names of RoleBindings
   repeated string names = 2;
 
@@ -46,6 +43,8 @@ message BatchGetRoleBindingsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 4;
+
+  reserved 1;
 }
 
 // BatchGetRoleBindingsResponse
@@ -316,12 +315,6 @@ service RoleBindingService {
       returns (BatchGetRoleBindingsResponse) {
     option (google.api.http) = {
       get : "/v1alpha/roleBindings:batchGet"
-      additional_bindings : <
-        get : "/v1alpha/{parent=projects/*}/roleBindings:batchGet"
-      >
-      additional_bindings : <
-        get : "/v1alpha/{parent=organizations/*}/roleBindings:batchGet"
-      >
     };
   }
 

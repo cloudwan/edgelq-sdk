@@ -542,16 +542,13 @@ type BatchGetSecretsRequest_FieldPath interface {
 type BatchGetSecretsRequest_FieldPathSelector int32
 
 const (
-	BatchGetSecretsRequest_FieldPathSelectorParent    BatchGetSecretsRequest_FieldPathSelector = 0
-	BatchGetSecretsRequest_FieldPathSelectorNames     BatchGetSecretsRequest_FieldPathSelector = 1
-	BatchGetSecretsRequest_FieldPathSelectorFieldMask BatchGetSecretsRequest_FieldPathSelector = 2
-	BatchGetSecretsRequest_FieldPathSelectorView      BatchGetSecretsRequest_FieldPathSelector = 3
+	BatchGetSecretsRequest_FieldPathSelectorNames     BatchGetSecretsRequest_FieldPathSelector = 0
+	BatchGetSecretsRequest_FieldPathSelectorFieldMask BatchGetSecretsRequest_FieldPathSelector = 1
+	BatchGetSecretsRequest_FieldPathSelectorView      BatchGetSecretsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetSecretsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetSecretsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchGe
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetSecretsRequest_FieldTerminalPath{selector: BatchGetSecretsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetSecretsRequest_FieldTerminalPath{selector: BatchGetSecretsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) Get(source *BatchGetSecretsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetSecretsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetSecretsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) GetRaw(source proto.Message)
 // GetSingle returns value pointed by specific field of from source BatchGetSecretsRequest
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) GetSingle(source *BatchGetSecretsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) GetSingleRaw(source proto.Me
 // GetDefault returns a default value of the field type
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		return (*secret.Reference)(nil)
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		return ([]*secret.Reference)(nil)
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) ClearValue(item *BatchGetSecretsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetSecretsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetSecretsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetSecretsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetSecretsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetSecretsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetSecretsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetSecretsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetSecretsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		return &BatchGetSecretsRequest_FieldTerminalPathValue{BatchGetSecretsRequest_FieldTerminalPath: *fp, value: value.(*secret.Reference)}
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		return &BatchGetSecretsRequest_FieldTerminalPathValue{BatchGetSecretsRequest_FieldTerminalPath: *fp, value: value.([]*secret.Reference)}
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetSecretsRequest_FieldTerminalPath) WithRawIValue(value interfac
 func (fp *BatchGetSecretsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetSecretsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetSecretsRequest_FieldTerminalPathArrayOfValues{BatchGetSecretsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		return &BatchGetSecretsRequest_FieldTerminalPathArrayOfValues{BatchGetSecretsRequest_FieldTerminalPath: *fp, values: values.([]*secret.Reference)}
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		return &BatchGetSecretsRequest_FieldTerminalPathArrayOfValues{BatchGetSecretsRequest_FieldTerminalPath: *fp, values: values.([][]*secret.Reference)}
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetSecretsRequest_FieldPathValue = (*BatchGetSecretsRequest_FieldTerm
 func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) AsParentValue() (*secret.Reference, bool) {
-	res, ok := fpv.value.(*secret.Reference)
-	return res, ok
-}
 func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) AsNamesValue() ([]*secret.Reference, bool) {
 	res, ok := fpv.value.([]*secret.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) SetTo(target **BatchGe
 		*target = new(BatchGetSecretsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*secret.Reference)
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*secret.Reference)
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) SetToRaw(target proto.
 // CompareWith compares value in the 'BatchGetSecretsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetSecretsRequest'.
 func (fpv *BatchGetSecretsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetSecretsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*secret.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetSecretsRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetSecretsRequest_FieldPathArrayOfValues = (*BatchGetSecretsRequest_F
 
 func (fpaov *BatchGetSecretsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetSecretsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*secret.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetSecretsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*secret.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetSecretsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		}
 	}
 	return
-}
-func (fpaov *BatchGetSecretsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*secret.Reference, bool) {
-	res, ok := fpaov.values.([]*secret.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetSecretsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*secret.Reference, bool) {
 	res, ok := fpaov.values.([][]*secret.Reference)

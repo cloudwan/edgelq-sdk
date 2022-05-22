@@ -106,9 +106,6 @@ type BatchGetProjectInvitationsRequestFieldPathBuilder struct{}
 func NewBatchGetProjectInvitationsRequestFieldPathBuilder() BatchGetProjectInvitationsRequestFieldPathBuilder {
 	return BatchGetProjectInvitationsRequestFieldPathBuilder{}
 }
-func (BatchGetProjectInvitationsRequestFieldPathBuilder) Parent() BatchGetProjectInvitationsRequestPathSelectorParent {
-	return BatchGetProjectInvitationsRequestPathSelectorParent{}
-}
 func (BatchGetProjectInvitationsRequestFieldPathBuilder) Names() BatchGetProjectInvitationsRequestPathSelectorNames {
 	return BatchGetProjectInvitationsRequestPathSelectorNames{}
 }
@@ -117,20 +114,6 @@ func (BatchGetProjectInvitationsRequestFieldPathBuilder) FieldMask() BatchGetPro
 }
 func (BatchGetProjectInvitationsRequestFieldPathBuilder) View() BatchGetProjectInvitationsRequestPathSelectorView {
 	return BatchGetProjectInvitationsRequestPathSelectorView{}
-}
-
-type BatchGetProjectInvitationsRequestPathSelectorParent struct{}
-
-func (BatchGetProjectInvitationsRequestPathSelectorParent) FieldPath() *BatchGetProjectInvitationsRequest_FieldTerminalPath {
-	return &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetProjectInvitationsRequestPathSelectorParent) WithValue(value *project_invitation.Reference) *BatchGetProjectInvitationsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetProjectInvitationsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetProjectInvitationsRequestPathSelectorParent) WithArrayOfValues(values []*project_invitation.Reference) *BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetProjectInvitationsRequestPathSelectorNames struct{}

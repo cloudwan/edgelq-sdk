@@ -1339,37 +1339,37 @@ type filterCndBuilderResource struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResource) Eq(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Eq(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResource) Neq(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Neq(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResource) Gt(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Gt(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResource) Gte(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Gte(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResource) Lt(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Lt(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResource) Lte(value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) Lte(value *ActivityLog_Resource) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResource) In(values []*ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) In(values []*ActivityLog_Resource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResource) NotIn(values []*ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) NotIn(values []*ActivityLog_Resource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().WithArrayOfValues(values),
 	})
@@ -1387,7 +1387,7 @@ func (b *filterCndBuilderResource) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResource) compare(op gotenfilter.CompareOperator, value *ActivityLog_SubjectResource) *FilterBuilder {
+func (b *filterCndBuilderResource) compare(op gotenfilter.CompareOperator, value *ActivityLog_Resource) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Resource().WithValue(value),
@@ -1465,37 +1465,37 @@ type filterCndBuilderResourceDifference struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderResourceDifference) Eq(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Eq(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderResourceDifference) Neq(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Neq(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderResourceDifference) Gt(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Gt(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderResourceDifference) Gte(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Gte(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderResourceDifference) Lt(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Lt(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderResourceDifference) Lte(value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) Lte(value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderResourceDifference) In(values []*ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) In(values []*ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderResourceDifference) NotIn(values []*ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) NotIn(values []*ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ActivityLog_FieldPathArrayOfValues: NewActivityLogFieldPathBuilder().Resource().Difference().WithArrayOfValues(values),
 	})
@@ -1513,7 +1513,7 @@ func (b *filterCndBuilderResourceDifference) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderResourceDifference) compare(op gotenfilter.CompareOperator, value *ActivityLog_SubjectResource_Difference) *FilterBuilder {
+func (b *filterCndBuilderResourceDifference) compare(op gotenfilter.CompareOperator, value *ActivityLog_Resource_Difference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		ActivityLog_FieldPathValue: NewActivityLogFieldPathBuilder().Resource().Difference().WithValue(value),

@@ -150,9 +150,6 @@ func (o *BatchGetProjectsRequest) MakeDiffFieldMask(other *BatchGetProjectsReque
 	}
 
 	res := &BatchGetProjectsRequest_FieldMask{}
-	if o.GetParent().String() != other.GetParent().String() {
-		res.Paths = append(res.Paths, &BatchGetProjectsRequest_FieldTerminalPath{selector: BatchGetProjectsRequest_FieldPathSelectorParent})
-	}
 
 	if len(o.GetNames()) == len(other.GetNames()) {
 		for i, lValue := range o.GetNames() {
@@ -183,16 +180,6 @@ func (o *BatchGetProjectsRequest) Clone() *BatchGetProjectsRequest {
 		return nil
 	}
 	result := &BatchGetProjectsRequest{}
-	if o.Parent == nil {
-		result.Parent = nil
-	} else if data, err := o.Parent.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Parent = &project.Reference{}
-		if err := result.Parent.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Names = make([]*project.Reference, len(o.Names))
 	for i, sourceValue := range o.Names {
 		if sourceValue == nil {
@@ -216,18 +203,6 @@ func (o *BatchGetProjectsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *BatchGetProjectsRequest) Merge(source *BatchGetProjectsRequest) {
-	if source.GetParent() != nil {
-		if data, err := source.GetParent().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Parent = &project.Reference{}
-			if err := o.Parent.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Parent = nil
-	}
 	for _, sourceValue := range source.GetNames() {
 		exists := false
 		for _, currentValue := range o.Names {

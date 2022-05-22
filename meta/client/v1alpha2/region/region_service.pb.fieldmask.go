@@ -316,7 +316,6 @@ type BatchGetRegionsRequest_FieldMask struct {
 
 func FullBatchGetRegionsRequest_FieldMask() *BatchGetRegionsRequest_FieldMask {
 	res := &BatchGetRegionsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetRegionsRequest_FieldTerminalPath{selector: BatchGetRegionsRequest_FieldPathSelectorView})
@@ -363,7 +362,7 @@ func (fieldMask *BatchGetRegionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetRegionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -393,7 +392,7 @@ func (fieldMask *BatchGetRegionsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetRegionsRequest_FieldMask) Subtract(other *BatchGetRegionsRequest_FieldMask) *BatchGetRegionsRequest_FieldMask {
 	result := &BatchGetRegionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -547,8 +546,6 @@ func (fieldMask *BatchGetRegionsRequest_FieldMask) Project(source *BatchGetRegio
 		switch tp := p.(type) {
 		case *BatchGetRegionsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetRegionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetRegionsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetRegionsRequest_FieldPathSelectorFieldMask:

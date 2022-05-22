@@ -94,9 +94,6 @@ type BatchGetConditionsRequestFieldPathBuilder struct{}
 func NewBatchGetConditionsRequestFieldPathBuilder() BatchGetConditionsRequestFieldPathBuilder {
 	return BatchGetConditionsRequestFieldPathBuilder{}
 }
-func (BatchGetConditionsRequestFieldPathBuilder) Parent() BatchGetConditionsRequestPathSelectorParent {
-	return BatchGetConditionsRequestPathSelectorParent{}
-}
 func (BatchGetConditionsRequestFieldPathBuilder) Names() BatchGetConditionsRequestPathSelectorNames {
 	return BatchGetConditionsRequestPathSelectorNames{}
 }
@@ -105,20 +102,6 @@ func (BatchGetConditionsRequestFieldPathBuilder) FieldMask() BatchGetConditionsR
 }
 func (BatchGetConditionsRequestFieldPathBuilder) View() BatchGetConditionsRequestPathSelectorView {
 	return BatchGetConditionsRequestPathSelectorView{}
-}
-
-type BatchGetConditionsRequestPathSelectorParent struct{}
-
-func (BatchGetConditionsRequestPathSelectorParent) FieldPath() *BatchGetConditionsRequest_FieldTerminalPath {
-	return &BatchGetConditionsRequest_FieldTerminalPath{selector: BatchGetConditionsRequest_FieldPathSelectorParent}
-}
-
-func (s BatchGetConditionsRequestPathSelectorParent) WithValue(value *condition.Reference) *BatchGetConditionsRequest_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetConditionsRequest_FieldTerminalPathValue)
-}
-
-func (s BatchGetConditionsRequestPathSelectorParent) WithArrayOfValues(values []*condition.Reference) *BatchGetConditionsRequest_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetConditionsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type BatchGetConditionsRequestPathSelectorNames struct{}

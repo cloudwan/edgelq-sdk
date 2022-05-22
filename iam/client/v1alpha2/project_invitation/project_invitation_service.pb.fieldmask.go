@@ -318,7 +318,6 @@ type BatchGetProjectInvitationsRequest_FieldMask struct {
 
 func FullBatchGetProjectInvitationsRequest_FieldMask() *BatchGetProjectInvitationsRequest_FieldMask {
 	res := &BatchGetProjectInvitationsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetProjectInvitationsRequest_FieldTerminalPath{selector: BatchGetProjectInvitationsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetProjectInvitationsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetProjectInvitationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetProjectInvitationsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetProjectInvitationsRequest_FieldMask) Subtract(other *BatchGetProjectInvitationsRequest_FieldMask) *BatchGetProjectInvitationsRequest_FieldMask {
 	result := &BatchGetProjectInvitationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetProjectInvitationsRequest_FieldMask) Project(source *Ba
 		switch tp := p.(type) {
 		case *BatchGetProjectInvitationsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetProjectInvitationsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetProjectInvitationsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetProjectInvitationsRequest_FieldPathSelectorFieldMask:

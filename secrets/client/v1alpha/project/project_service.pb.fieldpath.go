@@ -540,16 +540,13 @@ type BatchGetProjectsRequest_FieldPath interface {
 type BatchGetProjectsRequest_FieldPathSelector int32
 
 const (
-	BatchGetProjectsRequest_FieldPathSelectorParent    BatchGetProjectsRequest_FieldPathSelector = 0
-	BatchGetProjectsRequest_FieldPathSelectorNames     BatchGetProjectsRequest_FieldPathSelector = 1
-	BatchGetProjectsRequest_FieldPathSelectorFieldMask BatchGetProjectsRequest_FieldPathSelector = 2
-	BatchGetProjectsRequest_FieldPathSelectorView      BatchGetProjectsRequest_FieldPathSelector = 3
+	BatchGetProjectsRequest_FieldPathSelectorNames     BatchGetProjectsRequest_FieldPathSelector = 0
+	BatchGetProjectsRequest_FieldPathSelectorFieldMask BatchGetProjectsRequest_FieldPathSelector = 1
+	BatchGetProjectsRequest_FieldPathSelectorView      BatchGetProjectsRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetProjectsRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -567,8 +564,6 @@ func BuildBatchGetProjectsRequest_FieldPath(fp gotenobject.RawFieldPath) (BatchG
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetProjectsRequest_FieldTerminalPath{selector: BatchGetProjectsRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetProjectsRequest_FieldTerminalPath{selector: BatchGetProjectsRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -620,10 +615,6 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) JSONString() string {
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) Get(source *BatchGetProjectsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetProjectsRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetProjectsRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -648,9 +639,6 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) GetRaw(source proto.Message
 // GetSingle returns value pointed by specific field of from source BatchGetProjectsRequest
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) GetSingle(source *BatchGetProjectsRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -671,8 +659,6 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) GetSingleRaw(source proto.M
 // GetDefault returns a default value of the field type
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		return (*project.Reference)(nil)
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		return ([]*project.Reference)(nil)
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -687,8 +673,6 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) ClearValue(item *BatchGetProjectsRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetProjectsRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetProjectsRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -707,16 +691,13 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) ClearValueRaw(item proto.Me
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetProjectsRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetProjectsRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetProjectsRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetProjectsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetProjectsRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetProjectsRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		return &BatchGetProjectsRequest_FieldTerminalPathValue{BatchGetProjectsRequest_FieldTerminalPath: *fp, value: value.(*project.Reference)}
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		return &BatchGetProjectsRequest_FieldTerminalPathValue{BatchGetProjectsRequest_FieldTerminalPath: *fp, value: value.([]*project.Reference)}
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -735,8 +716,6 @@ func (fp *BatchGetProjectsRequest_FieldTerminalPath) WithRawIValue(value interfa
 func (fp *BatchGetProjectsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetProjectsRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetProjectsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		return &BatchGetProjectsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectsRequest_FieldTerminalPath: *fp, values: values.([]*project.Reference)}
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		return &BatchGetProjectsRequest_FieldTerminalPathArrayOfValues{BatchGetProjectsRequest_FieldTerminalPath: *fp, values: values.([][]*project.Reference)}
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -805,10 +784,6 @@ var _ BatchGetProjectsRequest_FieldPathValue = (*BatchGetProjectsRequest_FieldTe
 func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) AsParentValue() (*project.Reference, bool) {
-	res, ok := fpv.value.(*project.Reference)
-	return res, ok
-}
 func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) AsNamesValue() ([]*project.Reference, bool) {
 	res, ok := fpv.value.([]*project.Reference)
 	return res, ok
@@ -828,8 +803,6 @@ func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) SetTo(target **BatchG
 		*target = new(BatchGetProjectsRequest)
 	}
 	switch fpv.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*project.Reference)
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*project.Reference)
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -849,25 +822,6 @@ func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) SetToRaw(target proto
 // CompareWith compares value in the 'BatchGetProjectsRequest_FieldTerminalPathValue' with the value under path in 'BatchGetProjectsRequest'.
 func (fpv *BatchGetProjectsRequest_FieldTerminalPathValue) CompareWith(source *BatchGetProjectsRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*project.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetProjectsRequest_FieldPathSelectorFieldMask:
@@ -990,10 +944,6 @@ var _ BatchGetProjectsRequest_FieldPathArrayOfValues = (*BatchGetProjectsRequest
 
 func (fpaov *BatchGetProjectsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetProjectsRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*project.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetProjectsRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*project.Reference) {
 			values = append(values, v)
@@ -1008,10 +958,6 @@ func (fpaov *BatchGetProjectsRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		}
 	}
 	return
-}
-func (fpaov *BatchGetProjectsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*project.Reference, bool) {
-	res, ok := fpaov.values.([]*project.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetProjectsRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*project.Reference, bool) {
 	res, ok := fpaov.values.([][]*project.Reference)

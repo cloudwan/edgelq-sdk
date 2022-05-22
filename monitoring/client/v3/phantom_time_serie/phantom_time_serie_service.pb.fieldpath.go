@@ -542,16 +542,13 @@ type BatchGetPhantomTimeSeriesRequest_FieldPath interface {
 type BatchGetPhantomTimeSeriesRequest_FieldPathSelector int32
 
 const (
-	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent    BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 0
-	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames     BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 1
-	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 2
-	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorView      BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 3
+	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames     BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 0
+	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 1
+	BatchGetPhantomTimeSeriesRequest_FieldPathSelectorView      BatchGetPhantomTimeSeriesRequest_FieldPathSelector = 2
 )
 
 func (s BatchGetPhantomTimeSeriesRequest_FieldPathSelector) String() string {
 	switch s {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		return "parent"
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		return "names"
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -569,8 +566,6 @@ func BuildBatchGetPhantomTimeSeriesRequest_FieldPath(fp gotenobject.RawFieldPath
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "parent":
-			return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent}, nil
 		case "names":
 			return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPath{selector: BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -622,10 +617,6 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) JSONString() strin
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) Get(source *BatchGetPhantomTimeSeriesRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-			if source.Parent != nil {
-				values = append(values, source.Parent)
-			}
 		case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 			for _, value := range source.GetNames() {
 				values = append(values, value)
@@ -650,9 +641,6 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) GetRaw(source prot
 // GetSingle returns value pointed by specific field of from source BatchGetPhantomTimeSeriesRequest
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) GetSingle(source *BatchGetPhantomTimeSeriesRequest) (interface{}, bool) {
 	switch fp.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		res := source.GetParent()
-		return res, res != nil
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		res := source.GetNames()
 		return res, res != nil
@@ -673,8 +661,6 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) GetSingleRaw(sourc
 // GetDefault returns a default value of the field type
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		return (*phantom_time_serie.Reference)(nil)
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		return ([]*phantom_time_serie.Reference)(nil)
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -689,8 +675,6 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) GetDefault() inter
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) ClearValue(item *BatchGetPhantomTimeSeriesRequest) {
 	if item != nil {
 		switch fp.selector {
-		case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-			item.Parent = nil
 		case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 			item.Names = nil
 		case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -709,16 +693,13 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) ClearValueRaw(item
 
 // IsLeaf - whether field path is holds simple value
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent ||
-		fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames ||
+	return fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames ||
 		fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask ||
 		fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorView
 }
 
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPhantomTimeSeriesRequest_FieldPathValue {
 	switch fp.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue{BatchGetPhantomTimeSeriesRequest_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.Reference)}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue{BatchGetPhantomTimeSeriesRequest_FieldTerminalPath: *fp, value: value.([]*phantom_time_serie.Reference)}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -737,8 +718,6 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) WithRawIValue(valu
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) BatchGetPhantomTimeSeriesRequest_FieldPathArrayOfValues {
 	fpaov := &BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{BatchGetPhantomTimeSeriesRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{BatchGetPhantomTimeSeriesRequest_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.Reference)}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		return &BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{BatchGetPhantomTimeSeriesRequest_FieldTerminalPath: *fp, values: values.([][]*phantom_time_serie.Reference)}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -807,10 +786,6 @@ var _ BatchGetPhantomTimeSeriesRequest_FieldPathValue = (*BatchGetPhantomTimeSer
 func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) AsParentValue() (*phantom_time_serie.Reference, bool) {
-	res, ok := fpv.value.(*phantom_time_serie.Reference)
-	return res, ok
-}
 func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) AsNamesValue() ([]*phantom_time_serie.Reference, bool) {
 	res, ok := fpv.value.([]*phantom_time_serie.Reference)
 	return res, ok
@@ -830,8 +805,6 @@ func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) SetTo(target
 		*target = new(BatchGetPhantomTimeSeriesRequest)
 	}
 	switch fpv.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		(*target).Parent = fpv.value.(*phantom_time_serie.Reference)
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		(*target).Names = fpv.value.([]*phantom_time_serie.Reference)
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -851,25 +824,6 @@ func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) SetToRaw(tar
 // CompareWith compares value in the 'BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue' with the value under path in 'BatchGetPhantomTimeSeriesRequest'.
 func (fpv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathValue) CompareWith(source *BatchGetPhantomTimeSeriesRequest) (int, bool) {
 	switch fpv.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		leftValue := fpv.value.(*phantom_time_serie.Reference)
-		rightValue := source.GetParent()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		return 0, false
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorFieldMask:
@@ -992,10 +946,6 @@ var _ BatchGetPhantomTimeSeriesRequest_FieldPathArrayOfValues = (*BatchGetPhanto
 
 func (fpaov *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorParent:
-		for _, v := range fpaov.values.([]*phantom_time_serie.Reference) {
-			values = append(values, v)
-		}
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
 		for _, v := range fpaov.values.([][]*phantom_time_serie.Reference) {
 			values = append(values, v)
@@ -1010,10 +960,6 @@ func (fpaov *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) Ge
 		}
 	}
 	return
-}
-func (fpaov *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*phantom_time_serie.Reference, bool) {
-	res, ok := fpaov.values.([]*phantom_time_serie.Reference)
-	return res, ok
 }
 func (fpaov *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) AsNamesArrayOfValues() ([][]*phantom_time_serie.Reference, bool) {
 	res, ok := fpaov.values.([][]*phantom_time_serie.Reference)

@@ -318,7 +318,6 @@ type BatchGetDistributionsRequest_FieldMask struct {
 
 func FullBatchGetDistributionsRequest_FieldMask() *BatchGetDistributionsRequest_FieldMask {
 	res := &BatchGetDistributionsRequest_FieldMask{}
-	res.Paths = append(res.Paths, &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorParent})
 	res.Paths = append(res.Paths, &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorNames})
 	res.Paths = append(res.Paths, &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &BatchGetDistributionsRequest_FieldTerminalPath{selector: BatchGetDistributionsRequest_FieldPathSelectorView})
@@ -365,7 +364,7 @@ func (fieldMask *BatchGetDistributionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*BatchGetDistributionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -395,7 +394,7 @@ func (fieldMask *BatchGetDistributionsRequest_FieldMask) Reset() {
 
 func (fieldMask *BatchGetDistributionsRequest_FieldMask) Subtract(other *BatchGetDistributionsRequest_FieldMask) *BatchGetDistributionsRequest_FieldMask {
 	result := &BatchGetDistributionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -549,8 +548,6 @@ func (fieldMask *BatchGetDistributionsRequest_FieldMask) Project(source *BatchGe
 		switch tp := p.(type) {
 		case *BatchGetDistributionsRequest_FieldTerminalPath:
 			switch tp.selector {
-			case BatchGetDistributionsRequest_FieldPathSelectorParent:
-				result.Parent = source.Parent
 			case BatchGetDistributionsRequest_FieldPathSelectorNames:
 				result.Names = source.Names
 			case BatchGetDistributionsRequest_FieldPathSelectorFieldMask:
