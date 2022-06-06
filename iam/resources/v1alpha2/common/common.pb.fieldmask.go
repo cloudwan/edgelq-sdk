@@ -318,6 +318,7 @@ func FullInvitation_FieldMask() *Invitation_FieldMask {
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
+	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState})
 	return res
 }
@@ -362,7 +363,7 @@ func (fieldMask *Invitation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Invitation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -392,7 +393,7 @@ func (fieldMask *Invitation_FieldMask) Reset() {
 
 func (fieldMask *Invitation_FieldMask) Subtract(other *Invitation_FieldMask) *Invitation_FieldMask {
 	result := &Invitation_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[Invitation_FieldPathSelector]gotenobject.FieldMask{
 		Invitation_FieldPathSelectorInviterActor: &Actor_FieldMask{},
 	}
@@ -569,6 +570,8 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 	result := &Invitation{}
 	inviterActorMask := &Actor_FieldMask{}
 	wholeInviterActorAccepted := false
+	var extrasMapKeys []string
+	wholeExtrasAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -589,6 +592,9 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 				result.Roles = source.Roles
 			case Invitation_FieldPathSelectorExpirationDate:
 				result.ExpirationDate = source.ExpirationDate
+			case Invitation_FieldPathSelectorExtras:
+				result.Extras = source.Extras
+				wholeExtrasAccepted = true
 			case Invitation_FieldPathSelectorState:
 				result.State = source.State
 			}
@@ -597,10 +603,23 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 			case Invitation_FieldPathSelectorInviterActor:
 				inviterActorMask.AppendPath(tp.subPath.(Actor_FieldPath))
 			}
+		case *Invitation_FieldPathMap:
+			switch tp.selector {
+			case Invitation_FieldPathSelectorExtras:
+				extrasMapKeys = append(extrasMapKeys, tp.key)
+			}
 		}
 	}
 	if wholeInviterActorAccepted == false && len(inviterActorMask.Paths) > 0 {
 		result.InviterActor = inviterActorMask.Project(source.GetInviterActor())
+	}
+	if wholeExtrasAccepted == false && len(extrasMapKeys) > 0 && source.GetExtras() != nil {
+		copiedMap := map[string]string{}
+		sourceMap := source.GetExtras()
+		for _, key := range extrasMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.Extras = copiedMap
 	}
 	return result
 }

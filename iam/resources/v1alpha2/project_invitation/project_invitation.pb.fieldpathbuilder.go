@@ -142,6 +142,10 @@ func (ProjectInvitationPathSelectorInvitation) ExpirationDate() ProjectInvitatio
 	return ProjectInvitationPathSelectorInvitationExpirationDate{}
 }
 
+func (ProjectInvitationPathSelectorInvitation) Extras() ProjectInvitationPathSelectorInvitationExtras {
+	return ProjectInvitationPathSelectorInvitationExtras{}
+}
+
 func (ProjectInvitationPathSelectorInvitation) State() ProjectInvitationPathSelectorInvitationState {
 	return ProjectInvitationPathSelectorInvitationState{}
 }
@@ -308,6 +312,46 @@ func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithValue(value *
 }
 
 func (s ProjectInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+type ProjectInvitationPathSelectorInvitationExtras struct{}
+
+func (ProjectInvitationPathSelectorInvitationExtras) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().FieldPath(),
+	}
+}
+
+func (s ProjectInvitationPathSelectorInvitationExtras) WithValue(value map[string]string) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationPathSelectorInvitationExtras) WithArrayOfValues(values []map[string]string) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+func (ProjectInvitationPathSelectorInvitationExtras) WithKey(key string) ProjectInvitationMapPathSelectorInvitationExtras {
+	return ProjectInvitationMapPathSelectorInvitationExtras{key: key}
+}
+
+type ProjectInvitationMapPathSelectorInvitationExtras struct {
+	key string
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) WithValue(value string) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) WithArrayOfValues(values []string) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 

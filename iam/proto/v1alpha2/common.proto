@@ -4,6 +4,7 @@ package ntt.iam.v1alpha2;
 
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common;iam_common";
@@ -40,6 +41,11 @@ message Invitation {
 
   // Expiration date
   google.protobuf.Timestamp expiration_date = 8;
+
+  // Extra custom fields to further customize invitation experience.
+  // Fields should be agreed between sender (usually UI) and documented in
+  // the template of email service provider.
+  google.protobuf.Struct extras = 12;
 
   // Status of Invitation
   State state = 9 [ (google.api.field_behavior) = OUTPUT_ONLY ];

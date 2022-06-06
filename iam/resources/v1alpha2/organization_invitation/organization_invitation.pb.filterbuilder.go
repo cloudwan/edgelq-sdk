@@ -346,6 +346,10 @@ func (b *filterCndBuilderInvitation) ExpirationDate() *filterCndBuilderInvitatio
 	return &filterCndBuilderInvitationExpirationDate{builder: b.builder}
 }
 
+func (b *filterCndBuilderInvitation) Extras() *filterCndBuilderInvitationExtras {
+	return &filterCndBuilderInvitationExtras{builder: b.builder}
+}
+
 func (b *filterCndBuilderInvitation) State() *filterCndBuilderInvitationState {
 	return &filterCndBuilderInvitationState{builder: b.builder}
 }
@@ -920,6 +924,129 @@ func (b *filterCndBuilderInvitationExpirationDate) compare(op gotenfilter.Compar
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                              op,
 		OrganizationInvitation_FieldPathValue: NewOrganizationInvitationFieldPathBuilder().Invitation().ExpirationDate().WithValue(value),
+	})
+}
+
+type filterCndBuilderInvitationExtras struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderInvitationExtras) Eq(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) Neq(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) Gt(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) Gte(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) Lt(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) Lte(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderInvitationExtras) In(values []map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		OrganizationInvitation_FieldPathArrayOfValues: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationExtras) NotIn(values []map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		OrganizationInvitation_FieldPathArrayOfValues: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationExtras) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationExtras) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationExtras) compare(op gotenfilter.CompareOperator, value map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                              op,
+		OrganizationInvitation_FieldPathValue: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderInvitationExtras) WithKey(key string) *mapFilterCndBuilderInvitationExtras {
+	return &mapFilterCndBuilderInvitationExtras{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderInvitationExtras struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		OrganizationInvitation_FieldPathArrayOfValues: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		OrganizationInvitation_FieldPathArrayOfValues: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderInvitationExtras) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                              op,
+		OrganizationInvitation_FieldPathValue: NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithValue(value),
 	})
 }
 

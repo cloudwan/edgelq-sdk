@@ -125,6 +125,10 @@ func (OrganizationInvitationPathSelectorInvitation) ExpirationDate() Organizatio
 	return OrganizationInvitationPathSelectorInvitationExpirationDate{}
 }
 
+func (OrganizationInvitationPathSelectorInvitation) Extras() OrganizationInvitationPathSelectorInvitationExtras {
+	return OrganizationInvitationPathSelectorInvitationExtras{}
+}
+
 func (OrganizationInvitationPathSelectorInvitation) State() OrganizationInvitationPathSelectorInvitationState {
 	return OrganizationInvitationPathSelectorInvitationState{}
 }
@@ -291,6 +295,46 @@ func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithValue(va
 }
 
 func (s OrganizationInvitationPathSelectorInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+type OrganizationInvitationPathSelectorInvitationExtras struct{}
+
+func (OrganizationInvitationPathSelectorInvitationExtras) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorInvitationExtras) WithValue(value map[string]string) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorInvitationExtras) WithArrayOfValues(values []map[string]string) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+func (OrganizationInvitationPathSelectorInvitationExtras) WithKey(key string) OrganizationInvitationMapPathSelectorInvitationExtras {
+	return OrganizationInvitationMapPathSelectorInvitationExtras{key: key}
+}
+
+type OrganizationInvitationMapPathSelectorInvitationExtras struct {
+	key string
+}
+
+func (s OrganizationInvitationMapPathSelectorInvitationExtras) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationMapPathSelectorInvitationExtras) WithValue(value string) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationMapPathSelectorInvitationExtras) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 

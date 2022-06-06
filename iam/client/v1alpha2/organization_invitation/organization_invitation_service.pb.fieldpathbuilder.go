@@ -287,6 +287,10 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate{}
 }
 
+func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Extras() BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras {
+	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras{}
+}
+
 func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) State() BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState {
 	return BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState{}
 }
@@ -453,6 +457,46 @@ func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitatio
 }
 
 func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras struct{}
+
+func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *BatchGetOrganizationInvitationsResponse_FieldSubPath {
+	return &BatchGetOrganizationInvitationsResponse_FieldSubPath{
+		selector: BatchGetOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
+	return BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
+}
+
+type BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
+	key string
+}
+
+func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *BatchGetOrganizationInvitationsResponse_FieldSubPath {
+	return &BatchGetOrganizationInvitationsResponse_FieldSubPath{
+		selector: BatchGetOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1235,6 +1279,10 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate{}
 }
 
+func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Extras() ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras {
+	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras{}
+}
+
 func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) State() ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState {
 	return ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState{}
 }
@@ -1401,6 +1449,46 @@ func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 }
 
 func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras struct{}
+
+func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListOrganizationInvitationsResponse_FieldSubPath {
+	return &ListOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
+	return ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
+}
+
+type ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
+	key string
+}
+
+func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListOrganizationInvitationsResponse_FieldSubPath {
+	return &ListOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2559,6 +2647,10 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExpirationDate{}
 }
 
+func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) Extras() CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras {
+	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras{}
+}
+
 func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) State() CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState {
 	return CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState{}
 }
@@ -2725,6 +2817,46 @@ func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInv
 }
 
 func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras struct{}
+
+func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *CreateOrganizationInvitationRequest_FieldSubPath {
+	return &CreateOrganizationInvitationRequest_FieldSubPath{
+		selector: CreateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value map[string]string) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []map[string]string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithKey(key string) CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras {
+	return CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras{key: key}
+}
+
+type CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras struct {
+	key string
+}
+
+func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *CreateOrganizationInvitationRequest_FieldSubPath {
+	return &CreateOrganizationInvitationRequest_FieldSubPath{
+		selector: CreateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithValue(value string) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3361,6 +3493,10 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExpirationDate{}
 }
 
+func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) Extras() UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras {
+	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras{}
+}
+
 func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) State() UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState {
 	return UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState{}
 }
@@ -3527,6 +3663,46 @@ func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInv
 }
 
 func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras struct{}
+
+func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras {
+	return UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras{key: key}
+}
+
+type UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras struct {
+	key string
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4187,6 +4363,10 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExpirationDate{}
 }
 
+func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) Extras() UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras {
+	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras{}
+}
+
 func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) State() UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState {
 	return UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState{}
 }
@@ -4353,6 +4533,46 @@ func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvita
 }
 
 func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras struct{}
+
+func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateOrganizationInvitationRequestCASFieldPathBuilder().ConditionalState().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras {
+	return UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras{key: key}
+}
+
+type UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras struct {
+	key string
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
+	return &UpdateOrganizationInvitationRequest_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateOrganizationInvitationRequestCASFieldPathBuilder().ConditionalState().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5003,6 +5223,10 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExpirationDate{}
 }
 
+func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) Extras() UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras {
+	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras{}
+}
+
 func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) State() UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState {
 	return UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState{}
 }
@@ -5169,6 +5393,46 @@ func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvit
 }
 
 func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras struct{}
+
+func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequestCAS_FieldSubPath {
+	return &UpdateOrganizationInvitationRequestCAS_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras {
+	return UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras{key: key}
+}
+
+type UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras struct {
+	key string
+}
+
+func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequestCAS_FieldSubPath {
+	return &UpdateOrganizationInvitationRequestCAS_FieldSubPath{
+		selector: UpdateOrganizationInvitationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

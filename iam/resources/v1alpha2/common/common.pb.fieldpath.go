@@ -520,7 +520,8 @@ const (
 	Invitation_FieldPathSelectorLanguageCode    Invitation_FieldPathSelector = 4
 	Invitation_FieldPathSelectorRoles           Invitation_FieldPathSelector = 5
 	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 6
-	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 7
+	Invitation_FieldPathSelectorExtras          Invitation_FieldPathSelector = 7
+	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 8
 )
 
 func (s Invitation_FieldPathSelector) String() string {
@@ -539,6 +540,8 @@ func (s Invitation_FieldPathSelector) String() string {
 		return "roles"
 	case Invitation_FieldPathSelectorExpirationDate:
 		return "expiration_date"
+	case Invitation_FieldPathSelectorExtras:
+		return "extras"
 	case Invitation_FieldPathSelectorState:
 		return "state"
 	default:
@@ -566,6 +569,8 @@ func BuildInvitation_FieldPath(fp gotenobject.RawFieldPath) (Invitation_FieldPat
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles}, nil
 		case "expiration_date", "expirationDate", "expiration-date":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate}, nil
+		case "extras":
+			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras}, nil
 		case "state":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState}, nil
 		}
@@ -577,6 +582,11 @@ func BuildInvitation_FieldPath(fp gotenobject.RawFieldPath) (Invitation_FieldPat
 			} else {
 				return &Invitation_FieldSubPath{selector: Invitation_FieldPathSelectorInviterActor, subPath: subpath}, nil
 			}
+		case "extras":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object Invitation)", fp)
+			}
+			return &Invitation_FieldPathMap{selector: Invitation_FieldPathSelectorExtras, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Invitation", fp)
@@ -642,6 +652,8 @@ func (fp *Invitation_FieldTerminalPath) Get(source *Invitation) (values []interf
 			if source.ExpirationDate != nil {
 				values = append(values, source.ExpirationDate)
 			}
+		case Invitation_FieldPathSelectorExtras:
+			values = append(values, source.Extras)
 		case Invitation_FieldPathSelectorState:
 			values = append(values, source.State)
 		default:
@@ -675,6 +687,9 @@ func (fp *Invitation_FieldTerminalPath) GetSingle(source *Invitation) (interface
 	case Invitation_FieldPathSelectorExpirationDate:
 		res := source.GetExpirationDate()
 		return res, res != nil
+	case Invitation_FieldPathSelectorExtras:
+		res := source.GetExtras()
+		return res, res != nil
 	case Invitation_FieldPathSelectorState:
 		return source.GetState(), source != nil
 	default:
@@ -703,6 +718,8 @@ func (fp *Invitation_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*role.Reference)(nil)
 	case Invitation_FieldPathSelectorExpirationDate:
 		return (*timestamp.Timestamp)(nil)
+	case Invitation_FieldPathSelectorExtras:
+		return (map[string]string)(nil)
 	case Invitation_FieldPathSelectorState:
 		return Invitation_STATE_UNSPECIFIED
 	default:
@@ -727,6 +744,8 @@ func (fp *Invitation_FieldTerminalPath) ClearValue(item *Invitation) {
 			item.Roles = nil
 		case Invitation_FieldPathSelectorExpirationDate:
 			item.ExpirationDate = nil
+		case Invitation_FieldPathSelectorExtras:
+			item.Extras = nil
 		case Invitation_FieldPathSelectorState:
 			item.State = Invitation_STATE_UNSPECIFIED
 		default:
@@ -747,6 +766,7 @@ func (fp *Invitation_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Invitation_FieldPathSelectorLanguageCode ||
 		fp.selector == Invitation_FieldPathSelectorRoles ||
 		fp.selector == Invitation_FieldPathSelectorExpirationDate ||
+		fp.selector == Invitation_FieldPathSelectorExtras ||
 		fp.selector == Invitation_FieldPathSelectorState
 }
 
@@ -766,6 +786,8 @@ func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*role.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+	case Invitation_FieldPathSelectorExtras:
+		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case Invitation_FieldPathSelectorState:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(Invitation_State)}
 	default:
@@ -794,6 +816,8 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayOfValues(values interface{}) I
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*role.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+	case Invitation_FieldPathSelectorExtras:
+		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case Invitation_FieldPathSelectorState:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]Invitation_State)}
 	default:
@@ -817,6 +841,134 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayItemValue(value interface{}) I
 
 func (fp *Invitation_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type Invitation_FieldPathMap struct {
+	key      string
+	selector Invitation_FieldPathSelector
+}
+
+var _ Invitation_FieldPath = (*Invitation_FieldPathMap)(nil)
+
+func (fpm *Invitation_FieldPathMap) Selector() Invitation_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *Invitation_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *Invitation_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *Invitation_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source Invitation
+func (fpm *Invitation_FieldPathMap) Get(source *Invitation) (values []interface{}) {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		if value, ok := source.GetExtras()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *Invitation_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*Invitation))
+}
+
+// GetSingle returns value by selected field map key from source Invitation
+func (fpm *Invitation_FieldPathMap) GetSingle(source *Invitation) (interface{}, bool) {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		res, ok := source.GetExtras()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*Invitation))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *Invitation_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		var v string
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) ClearValue(item *Invitation) {
+	if item != nil {
+		switch fpm.selector {
+		case Invitation_FieldPathSelectorExtras:
+			delete(item.Extras, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*Invitation))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *Invitation_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		return true
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) WithIValue(value interface{}) Invitation_FieldPathValue {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		return &Invitation_FieldPathMapValue{Invitation_FieldPathMap: *fpm, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *Invitation_FieldPathMap) WithIArrayOfValues(values interface{}) Invitation_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case Invitation_FieldPathSelectorExtras:
+		return &Invitation_FieldPathMapArrayOfValues{Invitation_FieldPathMap: *fpm, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
+	}
+}
+
+func (fpm *Invitation_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *Invitation_FieldPathMap) WithIArrayItemValue(value interface{}) Invitation_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *Invitation_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
 }
 
 type Invitation_FieldSubPath struct {
@@ -991,6 +1143,10 @@ func (fpv *Invitation_FieldTerminalPathValue) AsExpirationDateValue() (*timestam
 	res, ok := fpv.value.(*timestamp.Timestamp)
 	return res, ok
 }
+func (fpv *Invitation_FieldTerminalPathValue) AsExtrasValue() (map[string]string, bool) {
+	res, ok := fpv.value.(map[string]string)
+	return res, ok
+}
 func (fpv *Invitation_FieldTerminalPathValue) AsStateValue() (Invitation_State, bool) {
 	res, ok := fpv.value.(Invitation_State)
 	return res, ok
@@ -1016,6 +1172,8 @@ func (fpv *Invitation_FieldTerminalPathValue) SetTo(target **Invitation) {
 		(*target).Roles = fpv.value.([]*role.Reference)
 	case Invitation_FieldPathSelectorExpirationDate:
 		(*target).ExpirationDate = fpv.value.(*timestamp.Timestamp)
+	case Invitation_FieldPathSelectorExtras:
+		(*target).Extras = fpv.value.(map[string]string)
 	case Invitation_FieldPathSelectorState:
 		(*target).State = fpv.value.(Invitation_State)
 	default:
@@ -1094,6 +1252,8 @@ func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (i
 		} else {
 			return 1, true
 		}
+	case Invitation_FieldPathSelectorExtras:
+		return 0, false
 	case Invitation_FieldPathSelectorState:
 		leftValue := fpv.value.(Invitation_State)
 		rightValue := source.GetState()
@@ -1111,6 +1271,65 @@ func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (i
 
 func (fpv *Invitation_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*Invitation))
+}
+
+type Invitation_FieldPathMapValue struct {
+	Invitation_FieldPathMap
+	value interface{}
+}
+
+var _ Invitation_FieldPathValue = (*Invitation_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in Invitation as interface{}
+func (fpmv *Invitation_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *Invitation_FieldPathMapValue) AsExtrasElementValue() (string, bool) {
+	res, ok := fpmv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field in Invitation
+func (fpmv *Invitation_FieldPathMapValue) SetTo(target **Invitation) {
+	if *target == nil {
+		*target = new(Invitation)
+	}
+	switch fpmv.selector {
+	case Invitation_FieldPathSelectorExtras:
+		if (*target).Extras == nil {
+			(*target).Extras = make(map[string]string)
+		}
+		(*target).Extras[fpmv.key] = fpmv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *Invitation_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Invitation)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Invitation_FieldPathMapValue' with the value under path in 'Invitation'.
+func (fpmv *Invitation_FieldPathMapValue) CompareWith(source *Invitation) (int, bool) {
+	switch fpmv.selector {
+	case Invitation_FieldPathSelectorExtras:
+		leftValue := fpmv.value.(string)
+		rightValue := source.GetExtras()[fpmv.key]
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *Invitation_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*Invitation))
 }
 
 type Invitation_FieldSubPathValue struct {
@@ -1310,6 +1529,10 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
 			values = append(values, v)
 		}
+	case Invitation_FieldPathSelectorExtras:
+		for _, v := range fpaov.values.([]map[string]string) {
+			values = append(values, v)
+		}
 	case Invitation_FieldPathSelectorState:
 		for _, v := range fpaov.values.([]Invitation_State) {
 			values = append(values, v)
@@ -1345,8 +1568,33 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExpirationDateArrayOfV
 	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
+func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExtrasArrayOfValues() ([]map[string]string, bool) {
+	res, ok := fpaov.values.([]map[string]string)
+	return res, ok
+}
 func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsStateArrayOfValues() ([]Invitation_State, bool) {
 	res, ok := fpaov.values.([]Invitation_State)
+	return res, ok
+}
+
+type Invitation_FieldPathMapArrayOfValues struct {
+	Invitation_FieldPathMap
+	values interface{}
+}
+
+var _ Invitation_FieldPathArrayOfValues = (*Invitation_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *Invitation_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case Invitation_FieldPathSelectorExtras:
+		for _, v := range fpmaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *Invitation_FieldPathMapArrayOfValues) AsExtrasArrayOfElementValues() ([]string, bool) {
+	res, ok := fpmaov.values.([]string)
 	return res, ok
 }
 

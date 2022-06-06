@@ -192,6 +192,18 @@ func (o *Invitation) MakeDiffFieldMask(other *Invitation) *Invitation_FieldMask 
 	if !proto.Equal(o.GetExpirationDate(), other.GetExpirationDate()) {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
 	}
+
+	if len(o.GetExtras()) == len(other.GetExtras()) {
+		for i, lValue := range o.GetExtras() {
+			rValue := other.GetExtras()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
+	}
 	if o.GetState() != other.GetState() {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState})
 	}
@@ -226,6 +238,10 @@ func (o *Invitation) Clone() *Invitation {
 		}
 	}
 	result.ExpirationDate = proto.Clone(o.ExpirationDate).(*timestamp.Timestamp)
+	result.Extras = map[string]string{}
+	for key, sourceValue := range o.Extras {
+		result.Extras[key] = sourceValue
+	}
 	result.State = o.State
 	return result
 }
@@ -276,6 +292,14 @@ func (o *Invitation) Merge(source *Invitation) {
 			o.ExpirationDate = new(timestamp.Timestamp)
 		}
 		proto.Merge(o.ExpirationDate, source.GetExpirationDate())
+	}
+	if source.GetExtras() != nil {
+		if o.Extras == nil {
+			o.Extras = make(map[string]string, len(source.GetExtras()))
+		}
+		for key, sourceValue := range source.GetExtras() {
+			o.Extras[key] = sourceValue
+		}
 	}
 	o.State = source.GetState()
 }

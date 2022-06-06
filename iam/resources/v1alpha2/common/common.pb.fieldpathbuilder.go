@@ -102,6 +102,9 @@ func (InvitationFieldPathBuilder) Roles() InvitationPathSelectorRoles {
 func (InvitationFieldPathBuilder) ExpirationDate() InvitationPathSelectorExpirationDate {
 	return InvitationPathSelectorExpirationDate{}
 }
+func (InvitationFieldPathBuilder) Extras() InvitationPathSelectorExtras {
+	return InvitationPathSelectorExtras{}
+}
 func (InvitationFieldPathBuilder) State() InvitationPathSelectorState {
 	return InvitationPathSelectorState{}
 }
@@ -264,6 +267,40 @@ func (s InvitationPathSelectorExpirationDate) WithValue(value *timestamp.Timesta
 
 func (s InvitationPathSelectorExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *Invitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
+}
+
+type InvitationPathSelectorExtras struct{}
+
+func (InvitationPathSelectorExtras) FieldPath() *Invitation_FieldTerminalPath {
+	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras}
+}
+
+func (s InvitationPathSelectorExtras) WithValue(value map[string]string) *Invitation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
+}
+
+func (s InvitationPathSelectorExtras) WithArrayOfValues(values []map[string]string) *Invitation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
+}
+
+func (InvitationPathSelectorExtras) WithKey(key string) InvitationMapPathSelectorExtras {
+	return InvitationMapPathSelectorExtras{key: key}
+}
+
+type InvitationMapPathSelectorExtras struct {
+	key string
+}
+
+func (s InvitationMapPathSelectorExtras) FieldPath() *Invitation_FieldPathMap {
+	return &Invitation_FieldPathMap{selector: Invitation_FieldPathSelectorExtras, key: s.key}
+}
+
+func (s InvitationMapPathSelectorExtras) WithValue(value string) *Invitation_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*Invitation_FieldPathMapValue)
+}
+
+func (s InvitationMapPathSelectorExtras) WithArrayOfValues(values []string) *Invitation_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldPathMapArrayOfValues)
 }
 
 type InvitationPathSelectorState struct{}

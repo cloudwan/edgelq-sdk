@@ -24,7 +24,7 @@ service TimeSerieService {
   // ListTimeSeries
   rpc ListTimeSeries(ListTimeSeriesRequest) returns (ListTimeSeriesResponse) {
     option (google.api.http) = {
-      get : "/v3/timeSeries"
+      get : "/v3/{parent=projects/*}/timeSeries"
     };
   }
 
@@ -32,7 +32,7 @@ service TimeSerieService {
   rpc CreateTimeSeries(CreateTimeSeriesRequest)
       returns (CreateTimeSeriesResponse) {
     option (google.api.http) = {
-      post : "/v3/timeSeries"
+      post : "/v3/{parent=projects/*}/timeSeries"
       body : "time_series"
     };
   }

@@ -273,6 +273,10 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate{}
 }
 
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) Extras() ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras {
+	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras{}
+}
+
 func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) State() ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState {
 	return ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState{}
 }
@@ -439,6 +443,46 @@ func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 }
 
 func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras struct{}
+
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListMyOrganizationInvitationsResponse_FieldSubPath {
+	return &ListMyOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
+	return ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
+}
+
+type ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
+	key string
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListMyOrganizationInvitationsResponse_FieldSubPath {
+	return &ListMyOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
