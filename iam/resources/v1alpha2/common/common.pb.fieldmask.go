@@ -23,6 +23,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -46,6 +47,7 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -570,8 +572,6 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 	result := &Invitation{}
 	inviterActorMask := &Actor_FieldMask{}
 	wholeInviterActorAccepted := false
-	var extrasMapKeys []string
-	wholeExtrasAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -594,7 +594,6 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 				result.ExpirationDate = source.ExpirationDate
 			case Invitation_FieldPathSelectorExtras:
 				result.Extras = source.Extras
-				wholeExtrasAccepted = true
 			case Invitation_FieldPathSelectorState:
 				result.State = source.State
 			}
@@ -603,23 +602,10 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 			case Invitation_FieldPathSelectorInviterActor:
 				inviterActorMask.AppendPath(tp.subPath.(Actor_FieldPath))
 			}
-		case *Invitation_FieldPathMap:
-			switch tp.selector {
-			case Invitation_FieldPathSelectorExtras:
-				extrasMapKeys = append(extrasMapKeys, tp.key)
-			}
 		}
 	}
 	if wholeInviterActorAccepted == false && len(inviterActorMask.Paths) > 0 {
 		result.InviterActor = inviterActorMask.Project(source.GetInviterActor())
-	}
-	if wholeExtrasAccepted == false && len(extrasMapKeys) > 0 && source.GetExtras() != nil {
-		copiedMap := map[string]string{}
-		sourceMap := source.GetExtras()
-		for _, key := range extrasMapKeys {
-			copiedMap[key] = sourceMap[key]
-		}
-		result.Extras = copiedMap
 	}
 	return result
 }

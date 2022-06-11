@@ -26,6 +26,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -49,6 +50,7 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 

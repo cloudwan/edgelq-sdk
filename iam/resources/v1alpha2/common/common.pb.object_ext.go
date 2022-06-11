@@ -19,6 +19,7 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -38,6 +39,7 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -192,16 +194,7 @@ func (o *Invitation) MakeDiffFieldMask(other *Invitation) *Invitation_FieldMask 
 	if !proto.Equal(o.GetExpirationDate(), other.GetExpirationDate()) {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
 	}
-
-	if len(o.GetExtras()) == len(other.GetExtras()) {
-		for i, lValue := range o.GetExtras() {
-			rValue := other.GetExtras()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
-				break
-			}
-		}
-	} else {
+	if !proto.Equal(o.GetExtras(), other.GetExtras()) {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
 	}
 	if o.GetState() != other.GetState() {
@@ -238,10 +231,7 @@ func (o *Invitation) Clone() *Invitation {
 		}
 	}
 	result.ExpirationDate = proto.Clone(o.ExpirationDate).(*timestamp.Timestamp)
-	result.Extras = map[string]string{}
-	for key, sourceValue := range o.Extras {
-		result.Extras[key] = sourceValue
-	}
+	result.Extras = proto.Clone(o.Extras).(*structpb.Struct)
 	result.State = o.State
 	return result
 }
@@ -295,11 +285,9 @@ func (o *Invitation) Merge(source *Invitation) {
 	}
 	if source.GetExtras() != nil {
 		if o.Extras == nil {
-			o.Extras = make(map[string]string, len(source.GetExtras()))
+			o.Extras = new(structpb.Struct)
 		}
-		for key, sourceValue := range source.GetExtras() {
-			o.Extras[key] = sourceValue
-		}
+		proto.Merge(o.Extras, source.GetExtras())
 	}
 	o.State = source.GetState()
 }

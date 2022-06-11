@@ -25,6 +25,7 @@ import (
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
 	duration "github.com/golang/protobuf/ptypes/duration"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -51,6 +52,7 @@ var (
 	_ = &secrets_secret.Secret{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 

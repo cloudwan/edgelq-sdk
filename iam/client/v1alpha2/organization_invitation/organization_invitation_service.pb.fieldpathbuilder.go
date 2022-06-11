@@ -23,6 +23,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -45,6 +46,7 @@ var (
 	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -469,34 +471,11 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	}
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value *structpb.Struct) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
-}
-
-func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
-	return BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
-}
-
-type BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
-	key string
-}
-
-func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *BatchGetOrganizationInvitationsResponse_FieldSubPath {
-	return &BatchGetOrganizationInvitationsResponse_FieldSubPath{
-		selector: BatchGetOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
-		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1461,34 +1440,11 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	}
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value *structpb.Struct) *ListOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
-	return ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
-}
-
-type ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
-	key string
-}
-
-func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListOrganizationInvitationsResponse_FieldSubPath {
-	return &ListOrganizationInvitationsResponse_FieldSubPath{
-		selector: ListOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
-		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *ListOrganizationInvitationsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
-}
-
-func (s ListOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2829,34 +2785,11 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value map[string]string) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value *structpb.Struct) *CreateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []map[string]string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
-}
-
-func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithKey(key string) CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras {
-	return CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras{key: key}
-}
-
-type CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras struct {
-	key string
-}
-
-func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *CreateOrganizationInvitationRequest_FieldSubPath {
-	return &CreateOrganizationInvitationRequest_FieldSubPath{
-		selector: CreateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
-		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithValue(value string) *CreateOrganizationInvitationRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
-}
-
-func (s CreateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []string) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3675,34 +3608,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithValue(value *structpb.Struct) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
-}
-
-func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras {
-	return UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras{key: key}
-}
-
-type UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras struct {
-	key string
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
-	return &UpdateOrganizationInvitationRequest_FieldSubPath{
-		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorOrganizationInvitation,
-		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4545,34 +4455,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithValue(value *structpb.Struct) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
-}
-
-func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras {
-	return UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras{key: key}
-}
-
-type UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras struct {
-	key string
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequest_FieldSubPath {
-	return &UpdateOrganizationInvitationRequest_FieldSubPath{
-		selector: UpdateOrganizationInvitationRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateOrganizationInvitationRequestCASFieldPathBuilder().ConditionalState().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
-}
-
-func (s UpdateOrganizationInvitationRequestMapPathSelectorCasConditionalStateInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5405,34 +5292,11 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	}
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithValue(value map[string]string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithValue(value *structpb.Struct) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithArrayOfValues(values []map[string]string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
-}
-
-func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithKey(key string) UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras {
-	return UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras{key: key}
-}
-
-type UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras struct {
-	key string
-}
-
-func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) FieldPath() *UpdateOrganizationInvitationRequestCAS_FieldSubPath {
-	return &UpdateOrganizationInvitationRequestCAS_FieldSubPath{
-		selector: UpdateOrganizationInvitationRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
-	}
-}
-
-func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) WithValue(value string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateOrganizationInvitationRequest_CASMapPathSelectorConditionalStateInvitationExtras) WithArrayOfValues(values []string) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

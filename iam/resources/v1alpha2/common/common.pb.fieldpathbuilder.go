@@ -17,6 +17,7 @@ import (
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -33,6 +34,7 @@ var (
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -275,32 +277,12 @@ func (InvitationPathSelectorExtras) FieldPath() *Invitation_FieldTerminalPath {
 	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras}
 }
 
-func (s InvitationPathSelectorExtras) WithValue(value map[string]string) *Invitation_FieldTerminalPathValue {
+func (s InvitationPathSelectorExtras) WithValue(value *structpb.Struct) *Invitation_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
 }
 
-func (s InvitationPathSelectorExtras) WithArrayOfValues(values []map[string]string) *Invitation_FieldTerminalPathArrayOfValues {
+func (s InvitationPathSelectorExtras) WithArrayOfValues(values []*structpb.Struct) *Invitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-func (InvitationPathSelectorExtras) WithKey(key string) InvitationMapPathSelectorExtras {
-	return InvitationMapPathSelectorExtras{key: key}
-}
-
-type InvitationMapPathSelectorExtras struct {
-	key string
-}
-
-func (s InvitationMapPathSelectorExtras) FieldPath() *Invitation_FieldPathMap {
-	return &Invitation_FieldPathMap{selector: Invitation_FieldPathSelectorExtras, key: s.key}
-}
-
-func (s InvitationMapPathSelectorExtras) WithValue(value string) *Invitation_FieldPathMapValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldPathMapValue)
-}
-
-func (s InvitationMapPathSelectorExtras) WithArrayOfValues(values []string) *Invitation_FieldPathMapArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldPathMapArrayOfValues)
 }
 
 type InvitationPathSelectorState struct{}

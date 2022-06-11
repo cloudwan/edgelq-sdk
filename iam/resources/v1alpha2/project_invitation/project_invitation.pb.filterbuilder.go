@@ -23,6 +23,7 @@ import (
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -46,6 +47,7 @@ var (
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -994,37 +996,37 @@ type filterCndBuilderInvitationExtras struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderInvitationExtras) Eq(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Eq(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) Neq(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Neq(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) Gt(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Gt(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) Gte(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Gte(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) Lt(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Lt(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) Lte(value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) Lte(value *structpb.Struct) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderInvitationExtras) In(values []map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) In(values []*structpb.Struct) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderInvitationExtras) NotIn(values []map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) NotIn(values []*structpb.Struct) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithArrayOfValues(values),
 	})
@@ -1042,74 +1044,10 @@ func (b *filterCndBuilderInvitationExtras) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderInvitationExtras) compare(op gotenfilter.CompareOperator, value map[string]string) *FilterBuilder {
+func (b *filterCndBuilderInvitationExtras) compare(op gotenfilter.CompareOperator, value *structpb.Struct) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderInvitationExtras) WithKey(key string) *mapFilterCndBuilderInvitationExtras {
-	return &mapFilterCndBuilderInvitationExtras{builder: b.builder, key: key}
-}
-
-type mapFilterCndBuilderInvitationExtras struct {
-	builder *FilterBuilder
-	key     string
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithArrayOfValues(values),
-	})
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithArrayOfValues(values),
-	})
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).FieldPath(),
-	})
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).FieldPath(),
-	})
-}
-
-func (b *mapFilterCndBuilderInvitationExtras) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                         op,
-		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(b.key).WithValue(value),
 	})
 }
 
