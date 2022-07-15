@@ -20,7 +20,6 @@ import (
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -40,7 +39,6 @@ var (
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -457,11 +455,34 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	}
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value *structpb.Struct) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithValue(value map[string]string) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationExtras) WithKey(key string) ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras {
+	return ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras{key: key}
+}
+
+type ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras struct {
+	key string
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) FieldPath() *ListMyOrganizationInvitationsResponse_FieldSubPath {
+	return &ListMyOrganizationInvitationsResponse_FieldSubPath{
+		selector: ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations,
+		subPath:  organization_invitation.NewOrganizationInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithValue(value string) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationInvitationsResponseMapPathSelectorOrganizationInvitationsInvitationExtras) WithArrayOfValues(values []string) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 

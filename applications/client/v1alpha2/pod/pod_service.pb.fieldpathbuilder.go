@@ -29,7 +29,6 @@ import (
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	empty "github.com/golang/protobuf/ptypes/empty"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -58,7 +57,6 @@ var (
 	_ = &duration.Duration{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)

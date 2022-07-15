@@ -45,7 +45,7 @@ message Invitation {
   // Extra custom fields to further customize invitation experience.
   // Fields should be agreed between sender (usually UI) and documented in
   // the template of email service provider.
-  google.protobuf.Struct extras = 12;
+  map<string, string> extras = 12;
 
   // Status of Invitation
   State state = 9 [ (google.api.field_behavior) = OUTPUT_ONLY ];

@@ -18,7 +18,6 @@ import (
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -36,7 +35,6 @@ var (
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -326,11 +324,34 @@ func (ProjectInvitationPathSelectorInvitationExtras) FieldPath() *ProjectInvitat
 	}
 }
 
-func (s ProjectInvitationPathSelectorInvitationExtras) WithValue(value *structpb.Struct) *ProjectInvitation_FieldSubPathValue {
+func (s ProjectInvitationPathSelectorInvitationExtras) WithValue(value map[string]string) *ProjectInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
 }
 
-func (s ProjectInvitationPathSelectorInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *ProjectInvitation_FieldSubPathArrayOfValues {
+func (s ProjectInvitationPathSelectorInvitationExtras) WithArrayOfValues(values []map[string]string) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+func (ProjectInvitationPathSelectorInvitationExtras) WithKey(key string) ProjectInvitationMapPathSelectorInvitationExtras {
+	return ProjectInvitationMapPathSelectorInvitationExtras{key: key}
+}
+
+type ProjectInvitationMapPathSelectorInvitationExtras struct {
+	key string
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) WithValue(value string) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationMapPathSelectorInvitationExtras) WithArrayOfValues(values []string) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 

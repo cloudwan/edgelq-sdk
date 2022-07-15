@@ -19,7 +19,6 @@ import (
 	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -38,7 +37,6 @@ var (
 	_ = &policy.Policy{}
 	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -459,11 +457,34 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationEx
 	}
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationExtras) WithValue(value *structpb.Struct) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationExtras) WithValue(value map[string]string) *ListMyProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationExtras) WithArrayOfValues(values []map[string]string) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationExtras) WithKey(key string) ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras {
+	return ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras{key: key}
+}
+
+type ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras struct {
+	key string
+}
+
+func (s ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras) FieldPath() *ListMyProjectInvitationsResponse_FieldSubPath {
+	return &ListMyProjectInvitationsResponse_FieldSubPath{
+		selector: ListMyProjectInvitationsResponse_FieldPathSelectorProjectInvitations,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras) WithValue(value string) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectInvitationsResponseMapPathSelectorProjectInvitationsInvitationExtras) WithArrayOfValues(values []string) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1320,11 +1341,34 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtr
 	}
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtras) WithValue(value *structpb.Struct) *ResendProjectInvitationResponse_FieldSubPathValue {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtras) WithValue(value map[string]string) *ResendProjectInvitationResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtras) WithArrayOfValues(values []*structpb.Struct) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtras) WithArrayOfValues(values []map[string]string) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
+}
+
+func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationExtras) WithKey(key string) ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras {
+	return ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras{key: key}
+}
+
+type ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras struct {
+	key string
+}
+
+func (s ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras) FieldPath() *ResendProjectInvitationResponse_FieldSubPath {
+	return &ResendProjectInvitationResponse_FieldSubPath{
+		selector: ResendProjectInvitationResponse_FieldPathSelectorProjectInvitation,
+		subPath:  project_invitation.NewProjectInvitationFieldPathBuilder().Invitation().Extras().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras) WithValue(value string) *ResendProjectInvitationResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
+}
+
+func (s ResendProjectInvitationResponseMapPathSelectorProjectInvitationInvitationExtras) WithArrayOfValues(values []string) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 
