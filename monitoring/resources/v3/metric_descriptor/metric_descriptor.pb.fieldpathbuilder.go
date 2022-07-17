@@ -8,8 +8,7 @@ package metric_descriptor
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
@@ -21,8 +20,7 @@ import (
 var (
 	_ = api.LaunchStage(0)
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
@@ -537,11 +535,11 @@ func (MetricDescriptorPathSelectorMetadataSyncing) FieldPath() *MetricDescriptor
 	}
 }
 
-func (s MetricDescriptorPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 

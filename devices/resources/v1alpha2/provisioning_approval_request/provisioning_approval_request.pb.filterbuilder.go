@@ -12,6 +12,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_policy"
@@ -24,8 +25,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -41,6 +40,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
@@ -53,8 +53,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -1854,37 +1852,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ProvisioningApprovalRequest_FieldPathArrayOfValues: NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ProvisioningApprovalRequest_FieldPathArrayOfValues: NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1902,7 +1900,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator: op,
 		ProvisioningApprovalRequest_FieldPathValue: NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Syncing().WithValue(value),

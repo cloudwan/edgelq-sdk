@@ -13,7 +13,6 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role_binding"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -30,7 +29,6 @@ var (
 	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &role_binding.RoleBinding{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -864,11 +862,11 @@ func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) Field
 	}
 }
 
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetRoleBindingsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1772,11 +1770,11 @@ func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) FieldPath
 	}
 }
 
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListRoleBindingsResponse_FieldSubPathValue {
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListRoleBindingsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
 }
 
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3056,11 +3054,11 @@ func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) FieldPath(
 	}
 }
 
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateRoleBindingRequest_FieldSubPathValue {
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3818,11 +3816,11 @@ func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) FieldPath(
 	}
 }
 
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathValue {
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4604,11 +4602,11 @@ func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing) Fi
 	}
 }
 
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathValue {
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5380,11 +5378,11 @@ func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing) F
 	}
 }
 
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 

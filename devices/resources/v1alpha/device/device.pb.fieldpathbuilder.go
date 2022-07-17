@@ -11,7 +11,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -24,7 +23,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -524,11 +522,11 @@ func (DevicePathSelectorMetadataSyncing) FieldPath() *Device_FieldSubPath {
 	}
 }
 
-func (s DevicePathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Device_FieldSubPathValue {
+func (s DevicePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 

@@ -12,7 +12,6 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -27,7 +26,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &region.Region{}
 	_ = &service.Service{}
 	_ = &timestamp.Timestamp{}
@@ -176,8 +174,8 @@ func (b *filterCndBuilder) Name() *filterCndBuilderName {
 	return &filterCndBuilderName{builder: b.builder}
 }
 
-func (b *filterCndBuilder) Region() *filterCndBuilderRegion {
-	return &filterCndBuilderRegion{builder: b.builder}
+func (b *filterCndBuilder) Service() *filterCndBuilderService {
+	return &filterCndBuilderService{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
@@ -243,62 +241,62 @@ func (b *filterCndBuilderName) compare(op gotenfilter.CompareOperator, value *Na
 	})
 }
 
-type filterCndBuilderRegion struct {
+type filterCndBuilderService struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderRegion) Eq(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Eq(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderRegion) Neq(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Neq(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderRegion) Gt(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Gt(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderRegion) Gte(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Gte(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderRegion) Lt(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Lt(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderRegion) Lte(value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) Lte(value *service.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderRegion) In(values []*region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) In(values []*service.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Region().WithArrayOfValues(values),
+		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Service().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderRegion) NotIn(values []*region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) NotIn(values []*service.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Region().WithArrayOfValues(values),
+		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Service().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderRegion) IsNull() *FilterBuilder {
+func (b *filterCndBuilderService) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		FieldPath: NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderRegion) IsNan() *FilterBuilder {
+func (b *filterCndBuilderService) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		FieldPath: NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderRegion) compare(op gotenfilter.CompareOperator, value *region.Reference) *FilterBuilder {
+func (b *filterCndBuilderService) compare(op gotenfilter.CompareOperator, value *service.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                  op,
-		Deployment_FieldPathValue: NewDeploymentFieldPathBuilder().Region().WithValue(value),
+		Deployment_FieldPathValue: NewDeploymentFieldPathBuilder().Service().WithValue(value),
 	})
 }
 
@@ -1637,37 +1635,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Deployment_FieldPathArrayOfValues: NewDeploymentFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1685,7 +1683,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                  op,
 		Deployment_FieldPathValue: NewDeploymentFieldPathBuilder().Metadata().Syncing().WithValue(value),

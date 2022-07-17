@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request;plan_assignment_request";
+option java_multiple_files = true;
+option java_outer_classname = "PlanAssignmentRequestProto";
+option java_package = "com.ntt.meta.pb.v1alpha2";
+
+// PlanAssignmentRequest gives administrator a way to modify their
+// PlanAssignment instances in a safe way, with respect to parent
+// organization/system limits.
+// PlanAssignmentRequest can be used to:
+// * Assign/Reassign new plan for specific service
+// * Extend specific resource limits for existing PlanAssignment
+// * Redistribute limits across regions (available for project PlanAssignments)
+// * Unassign existing PlanAssignment
+// Certain requests may be automatically approved by system (for example, if
+// they would result in lowering limits), other require higher administrator
+// consent. User creating request should check status field after operation
+// to check if request was automatically approved.
+message PlanAssignmentRequest {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/PlanAssignmentRequest"
+    pattern : "projects/{project}/planAssignmentRequests/"
+              "{plan_assignment_request}"
+    pattern : "organizations/{organization}/planAssignmentRequests/"
+              "{plan_assignment_request}"
+  };
+
+  // Name of PlanAssignmentRequest
+  string name = 1;
+
+  // Purpose of this request
+  Request request = 2;
+
+  // Service associated with this request.
+  string service = 3;
+
+  // Approver
+  string approver = 4;
+
+  Status status = 5;
+
+  // Metadata
+  ntt.types.Meta metadata = 6;
+
+  // Status
+  message Status {
+    // Conclusion
+    Conclusion conclusion = 1;
+
+    // Optional message with reason
+    string reason = 2;
+
+    enum Conclusion {
+      UNDEFINED = 0;
+
+      PENDING = 1;
+
+      APPROVED = 2;
+
+      REJECTED = 3;
+    }
+  }
+
+  // Request describes what should change in existing PlanAssignment, optionally
+  // if new one should be created.
+  message Request {
+    oneof request {
+      // Assign request
+      Assign assign = 1;
+
+      // Extend request
+      Extend extend = 2;
+
+      // Redistribute request
+      Redistribute redistribute = 3;
+
+      // Unassign request
+      Unassign unassign = 4;
+    }
+
+    // Assign request requests for new PlanAssignment instance. If there
+    // already is a plan for same service, then previous record is overwritten.
+    // In other words, this request can also be used to upgrade/downgrade
+    // existing plan.
+    message Assign {
+      // Plan to apply
+      string plan = 1;
+
+      // List of all extensions over basic plan
+      repeated Allowance extensions = 2;
+
+      // Optional list of distributions across regions. This field
+      // can only be used for project plans only.
+      // It may be provided fully or partially by user - system will
+      // automatically distribute remaining limits equally across
+      // all regions.
+      repeated RegionalDistribution regional_distributions = 3;
+    }
+
+    // Extend request should be used in order to increase (optionally
+    // decrease) limits from existing plan assignment.
+    message Extend {
+      // Reference to existing plan assignment
+      string assignment = 1;
+
+      // List of limits to merge within existing assignment
+      repeated Allowance additions = 2;
+
+      // Distributions of NEW (only!) limits across regions.
+      // It does not allow for redistribution of existing limits before.
+      // It is optional, but can be provided only for project plans.
+      // May be provided fully or partially, system will distribute
+      // remaining limits on its own.
+      repeated RegionalDistribution regional_distributions = 3;
+    }
+
+    // Redistribute request is used to move existing limits across
+    // regions. It cannot change total values.
+    message Redistribute {
+      // Reference to existing assignment
+      string assignment = 1;
+
+      // List of regional distributions. It should contain
+      // only those regions where limits are moved from/to.
+      repeated RegionalDistribution regional_distributions = 2;
+    }
+
+    // Unassign is used to remove existing PlanAssignment. This will
+    // always be automatically approved unless limits are in use by
+    // existing resources.
+    message Unassign { string assignment = 1; }
+  }
+}

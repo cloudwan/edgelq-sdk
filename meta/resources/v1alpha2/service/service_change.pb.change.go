@@ -92,7 +92,7 @@ func (c *ServiceChange) GetService() *Service {
 	return nil
 }
 
-func (c *ServiceChange) GetResource() gotenresource.Resource {
+func (c *ServiceChange) GetRawResource() gotenresource.Resource {
 	return c.GetService()
 }
 

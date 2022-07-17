@@ -10,6 +10,7 @@ import (
 	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -21,8 +22,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
@@ -40,6 +39,7 @@ var (
 	_ = &pod.Pod{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -51,8 +51,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
@@ -724,11 +722,11 @@ func (BatchGetDistributionsResponsePathSelectorDistributionsMetadataSyncing) Fie
 	}
 }
 
-func (s BatchGetDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathValue {
+func (s BatchGetDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetDistributionsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDistributionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1424,11 +1422,11 @@ func (BatchGetDistributionsResponsePathSelectorDistributionsSpecTemplateMetadata
 	}
 }
 
-func (s BatchGetDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathValue {
+func (s BatchGetDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetDistributionsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetDistributionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDistributionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3714,11 +3712,11 @@ func (ListDistributionsResponsePathSelectorDistributionsMetadataSyncing) FieldPa
 	}
 }
 
-func (s ListDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathValue {
+func (s ListDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListDistributionsResponse_FieldSubPathValue)
 }
 
-func (s ListDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathArrayOfValues {
+func (s ListDistributionsResponsePathSelectorDistributionsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4414,11 +4412,11 @@ func (ListDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSync
 	}
 }
 
-func (s ListDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathValue {
+func (s ListDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListDistributionsResponse_FieldSubPathValue)
 }
 
-func (s ListDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathArrayOfValues {
+func (s ListDistributionsResponsePathSelectorDistributionsSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListDistributionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -7080,11 +7078,11 @@ func (CreateDistributionRequestPathSelectorDistributionMetadataSyncing) FieldPat
 	}
 }
 
-func (s CreateDistributionRequestPathSelectorDistributionMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathValue {
+func (s CreateDistributionRequestPathSelectorDistributionMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateDistributionRequest_FieldSubPathValue)
 }
 
-func (s CreateDistributionRequestPathSelectorDistributionMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathArrayOfValues {
+func (s CreateDistributionRequestPathSelectorDistributionMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7780,11 +7778,11 @@ func (CreateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSynci
 	}
 }
 
-func (s CreateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathValue {
+func (s CreateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateDistributionRequest_FieldSubPathValue)
 }
 
-func (s CreateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathArrayOfValues {
+func (s CreateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -9924,11 +9922,11 @@ func (UpdateDistributionRequestPathSelectorDistributionMetadataSyncing) FieldPat
 	}
 }
 
-func (s UpdateDistributionRequestPathSelectorDistributionMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
+func (s UpdateDistributionRequestPathSelectorDistributionMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequest_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequestPathSelectorDistributionMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequestPathSelectorDistributionMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -10624,11 +10622,11 @@ func (UpdateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSynci
 	}
 }
 
-func (s UpdateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
+func (s UpdateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequest_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequestPathSelectorDistributionSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -12792,11 +12790,11 @@ func (UpdateDistributionRequestPathSelectorCasConditionalStateMetadataSyncing) F
 	}
 }
 
-func (s UpdateDistributionRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
+func (s UpdateDistributionRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequest_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13492,11 +13490,11 @@ func (UpdateDistributionRequestPathSelectorCasConditionalStateSpecTemplateMetada
 	}
 }
 
-func (s UpdateDistributionRequestPathSelectorCasConditionalStateSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
+func (s UpdateDistributionRequestPathSelectorCasConditionalStateSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequest_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequestPathSelectorCasConditionalStateSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequestPathSelectorCasConditionalStateSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -15650,11 +15648,11 @@ func (UpdateDistributionRequest_CASPathSelectorConditionalStateMetadataSyncing) 
 	}
 }
 
-func (s UpdateDistributionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathValue {
+func (s UpdateDistributionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -16350,11 +16348,11 @@ func (UpdateDistributionRequest_CASPathSelectorConditionalStateSpecTemplateMetad
 	}
 }
 
-func (s UpdateDistributionRequest_CASPathSelectorConditionalStateSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathValue {
+func (s UpdateDistributionRequest_CASPathSelectorConditionalStateSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDistributionRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateDistributionRequest_CASPathSelectorConditionalStateSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateDistributionRequest_CASPathSelectorConditionalStateSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDistributionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDistributionRequestCAS_FieldSubPathArrayOfValues)
 }
 

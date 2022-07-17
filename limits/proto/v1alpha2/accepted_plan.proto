@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan;accepted_plan";
+option java_multiple_files = true;
+option java_outer_classname = "AcceptedPlanProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// AcceptedPlan shows a plan accepted by assigner (system or organization)
+// for project, organization and system - with all additional information
+// like extensions or regional distributions.
+// It is in relation 1-1 with PlanAssignment, BUT:
+// * PlanAssignment is read-only and represents information for Assignee.
+// Name pattern indicates to WHOM plan is assigned.
+// * AcceptedPlan contains accepted configuration and represents information
+// for assigner. Name pattern indicates WHO ASSIGNED a plan. It is modifiable,
+// BUT modifications of accepted plans may result in increased usage of
+// allowed limit pools - Organization/System cannot accept plans to sub-entities
+// without limits (however, system is allowed to assign plan to itself without
+// limits, which makes system admin fully responsible).
+message AcceptedPlan {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/AcceptedPlan"
+    pattern : "acceptedPlans/{accepted_plan}"
+    pattern : "organizations/{organization}/acceptedPlans/{accepted_plan}"
+  };
+
+  // Name of AcceptedPlan
+  string name = 1;
+
+  // Plan with resource limits
+  string plan = 2;
+
+  // Service indicates by plan.
+  string service = 3;
+
+  // Optional extensions over standard plan
+  repeated Allowance extensions = 4;
+
+  // Distribution of limits by regions. It does not need
+  // to be populated by user in Create/Update requests -
+  // system automatically distributes limits across regions
+  // equally. Returned AcceptedPlan instance from Create/Update
+  // will contain this field populated.
+  // If user wants to have some specific resource distributed in
+  // certain way, they can do it by partially populating this field
+  // too. System will distribute automatically only remaining numbers.
+  repeated RegionalDistribution regional_distributions = 5;
+
+  // Plan assignee
+  Assignee assignee = 6;
+
+  // Metadata
+  ntt.types.Meta metadata = 7;
+
+  // Assignee indicates for whom plan was accepted for.
+  message Assignee {
+    oneof assignee {
+      // Project for whom plan is for.
+      string project_assignee = 1;
+
+      // Organization for whom plan is for.
+      string organization_assignee = 2;
+
+      // If true, it means plan is for system itself.
+      bool system_assignee = 3;
+    }
+  }
+}

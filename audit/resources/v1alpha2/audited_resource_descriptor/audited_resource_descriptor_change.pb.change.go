@@ -92,7 +92,7 @@ func (c *AuditedResourceDescriptorChange) GetAuditedResourceDescriptor() *Audite
 	return nil
 }
 
-func (c *AuditedResourceDescriptorChange) GetResource() gotenresource.Resource {
+func (c *AuditedResourceDescriptorChange) GetRawResource() gotenresource.Resource {
 	return c.GetAuditedResourceDescriptor()
 }
 

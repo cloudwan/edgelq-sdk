@@ -23,7 +23,7 @@ var (
 )
 
 const (
-	NamePattern_Service = "services/{service}/deployments/{deployment}"
+	NamePattern_Region = "regions/{region}/deployments/{deployment}"
 )
 
 type NamePattern struct {
@@ -41,7 +41,7 @@ func NewNameBuilder() *NameBuilder {
 			ParentName: ParentName{
 				NamePattern: NamePattern{
 					// Set default pattern - just first.
-					Pattern: NamePattern_Service,
+					Pattern: NamePattern_Region,
 				},
 			},
 		},
@@ -71,24 +71,24 @@ func (b *NameBuilder) SetId(id string) *NameBuilder {
 	return b
 }
 
-func (b *NameBuilder) SetService(parent *service.Name) *NameBuilder {
+func (b *NameBuilder) SetRegion(parent *region.Name) *NameBuilder {
 	parentName := &b.nameObj.ParentName
 
 	switch parent.Pattern {
-	case service.NamePattern_Nil:
-		parentName.Pattern = NamePattern_Service
+	case region.NamePattern_Nil:
+		parentName.Pattern = NamePattern_Region
 	}
-	parentName.ServiceId = parent.ServiceId
+	parentName.RegionId = parent.RegionId
 	return b
 }
 
-func (b *NameBuilder) SetServiceId(id string) *NameBuilder {
+func (b *NameBuilder) SetRegionId(id string) *NameBuilder {
 	parentName := &b.nameObj.ParentName
-	parentName.ServiceId = id
+	parentName.RegionId = id
 
 	// Set pattern if something matches for this set of IDs
-	if parentName.ServiceId != "" {
-		parentName.Pattern = NamePattern_Service
+	if parentName.RegionId != "" {
+		parentName.Pattern = NamePattern_Region
 	}
 	return b
 }

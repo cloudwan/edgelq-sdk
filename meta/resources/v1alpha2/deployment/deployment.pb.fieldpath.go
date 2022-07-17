@@ -75,7 +75,7 @@ type Deployment_FieldPathSelector int32
 
 const (
 	Deployment_FieldPathSelectorName     Deployment_FieldPathSelector = 0
-	Deployment_FieldPathSelectorRegion   Deployment_FieldPathSelector = 1
+	Deployment_FieldPathSelectorService  Deployment_FieldPathSelector = 1
 	Deployment_FieldPathSelectorMetadata Deployment_FieldPathSelector = 2
 )
 
@@ -83,8 +83,8 @@ func (s Deployment_FieldPathSelector) String() string {
 	switch s {
 	case Deployment_FieldPathSelectorName:
 		return "name"
-	case Deployment_FieldPathSelectorRegion:
-		return "region"
+	case Deployment_FieldPathSelectorService:
+		return "service"
 	case Deployment_FieldPathSelectorMetadata:
 		return "metadata"
 	default:
@@ -100,8 +100,8 @@ func BuildDeployment_FieldPath(fp gotenobject.RawFieldPath) (Deployment_FieldPat
 		switch fp[0] {
 		case "name":
 			return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName}, nil
-		case "region":
-			return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorRegion}, nil
+		case "service":
+			return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorService}, nil
 		case "metadata":
 			return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorMetadata}, nil
 		}
@@ -162,9 +162,9 @@ func (fp *Deployment_FieldTerminalPath) Get(source *Deployment) (values []interf
 			if source.Name != nil {
 				values = append(values, source.Name)
 			}
-		case Deployment_FieldPathSelectorRegion:
-			if source.Region != nil {
-				values = append(values, source.Region)
+		case Deployment_FieldPathSelectorService:
+			if source.Service != nil {
+				values = append(values, source.Service)
 			}
 		case Deployment_FieldPathSelectorMetadata:
 			if source.Metadata != nil {
@@ -187,8 +187,8 @@ func (fp *Deployment_FieldTerminalPath) GetSingle(source *Deployment) (interface
 	case Deployment_FieldPathSelectorName:
 		res := source.GetName()
 		return res, res != nil
-	case Deployment_FieldPathSelectorRegion:
-		res := source.GetRegion()
+	case Deployment_FieldPathSelectorService:
+		res := source.GetService()
 		return res, res != nil
 	case Deployment_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
@@ -207,8 +207,8 @@ func (fp *Deployment_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case Deployment_FieldPathSelectorName:
 		return (*Name)(nil)
-	case Deployment_FieldPathSelectorRegion:
-		return (*region.Reference)(nil)
+	case Deployment_FieldPathSelectorService:
+		return (*service.Reference)(nil)
 	case Deployment_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -221,8 +221,8 @@ func (fp *Deployment_FieldTerminalPath) ClearValue(item *Deployment) {
 		switch fp.selector {
 		case Deployment_FieldPathSelectorName:
 			item.Name = nil
-		case Deployment_FieldPathSelectorRegion:
-			item.Region = nil
+		case Deployment_FieldPathSelectorService:
+			item.Service = nil
 		case Deployment_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		default:
@@ -238,15 +238,15 @@ func (fp *Deployment_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *Deployment_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Deployment_FieldPathSelectorName ||
-		fp.selector == Deployment_FieldPathSelectorRegion
+		fp.selector == Deployment_FieldPathSelectorService
 }
 
 func (fp *Deployment_FieldTerminalPath) WithIValue(value interface{}) Deployment_FieldPathValue {
 	switch fp.selector {
 	case Deployment_FieldPathSelectorName:
 		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*Name)}
-	case Deployment_FieldPathSelectorRegion:
-		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*region.Reference)}
+	case Deployment_FieldPathSelectorService:
+		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*service.Reference)}
 	case Deployment_FieldPathSelectorMetadata:
 		return &Deployment_FieldTerminalPathValue{Deployment_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -263,8 +263,8 @@ func (fp *Deployment_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 	switch fp.selector {
 	case Deployment_FieldPathSelectorName:
 		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*Name)}
-	case Deployment_FieldPathSelectorRegion:
-		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*region.Reference)}
+	case Deployment_FieldPathSelectorService:
+		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*service.Reference)}
 	case Deployment_FieldPathSelectorMetadata:
 		return &Deployment_FieldTerminalPathArrayOfValues{Deployment_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -436,8 +436,8 @@ func (fpv *Deployment_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *Deployment_FieldTerminalPathValue) AsRegionValue() (*region.Reference, bool) {
-	res, ok := fpv.value.(*region.Reference)
+func (fpv *Deployment_FieldTerminalPathValue) AsServiceValue() (*service.Reference, bool) {
+	res, ok := fpv.value.(*service.Reference)
 	return res, ok
 }
 func (fpv *Deployment_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
@@ -453,8 +453,8 @@ func (fpv *Deployment_FieldTerminalPathValue) SetTo(target **Deployment) {
 	switch fpv.selector {
 	case Deployment_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
-	case Deployment_FieldPathSelectorRegion:
-		(*target).Region = fpv.value.(*region.Reference)
+	case Deployment_FieldPathSelectorService:
+		(*target).Service = fpv.value.(*service.Reference)
 	case Deployment_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -489,9 +489,9 @@ func (fpv *Deployment_FieldTerminalPathValue) CompareWith(source *Deployment) (i
 		} else {
 			return 1, true
 		}
-	case Deployment_FieldPathSelectorRegion:
-		leftValue := fpv.value.(*region.Reference)
-		rightValue := source.GetRegion()
+	case Deployment_FieldPathSelectorService:
+		leftValue := fpv.value.(*service.Reference)
+		rightValue := source.GetService()
 		if leftValue == nil {
 			if rightValue != nil {
 				return -1, true
@@ -688,8 +688,8 @@ func (fpaov *Deployment_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*Name) {
 			values = append(values, v)
 		}
-	case Deployment_FieldPathSelectorRegion:
-		for _, v := range fpaov.values.([]*region.Reference) {
+	case Deployment_FieldPathSelectorService:
+		for _, v := range fpaov.values.([]*service.Reference) {
 			values = append(values, v)
 		}
 	case Deployment_FieldPathSelectorMetadata:
@@ -703,8 +703,8 @@ func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsRegionArrayOfValues() ([]*region.Reference, bool) {
-	res, ok := fpaov.values.([]*region.Reference)
+func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*service.Reference, bool) {
+	res, ok := fpaov.values.([]*service.Reference)
 	return res, ok
 }
 func (fpaov *Deployment_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {

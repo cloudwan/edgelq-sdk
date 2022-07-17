@@ -13,9 +13,11 @@ import (
 import (
 	deployment_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/deployment"
 	region_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/region"
+	resource_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/resource"
 	service_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/service"
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
+	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
@@ -31,6 +33,8 @@ var (
 	_ = &deployment_client.GetDeploymentRequest{}
 	_ = &region.Region{}
 	_ = &region_client.GetRegionRequest{}
+	_ = &resource.Resource{}
+	_ = &resource_client.GetResourceRequest{}
 	_ = &service.Service{}
 	_ = &service_client.GetServiceRequest{}
 )
@@ -63,6 +67,7 @@ func (d *MetaDescriptor) AllResourceDescriptors() []gotenresource.Descriptor {
 	return []gotenresource.Descriptor{
 		deployment.GetDescriptor(),
 		region.GetDescriptor(),
+		resource.GetDescriptor(),
 		service.GetDescriptor(),
 	}
 }
@@ -71,6 +76,7 @@ func (d *MetaDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
 		deployment_client.GetDeploymentServiceDescriptor(),
 		region_client.GetRegionServiceDescriptor(),
+		resource_client.GetResourceServiceDescriptor(),
 		service_client.GetServiceServiceDescriptor(),
 	}
 }

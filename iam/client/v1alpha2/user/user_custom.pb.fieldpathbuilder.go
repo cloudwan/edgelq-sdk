@@ -8,7 +8,6 @@ package user_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -18,7 +17,6 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &user.User{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
@@ -730,11 +728,11 @@ func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing) FieldPath() 
 	}
 }
 
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetUsersByEmailResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
 }
 
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 

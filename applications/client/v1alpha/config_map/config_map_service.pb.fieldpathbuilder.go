@@ -9,7 +9,6 @@ import (
 	config_map "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/config_map"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -22,7 +21,6 @@ var (
 	_ = &config_map.ConfigMap{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -690,11 +688,11 @@ func (BatchGetConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) FieldPath
 	}
 }
 
-func (s BatchGetConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetConfigMapsResponse_FieldSubPathValue {
+func (s BatchGetConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetConfigMapsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetConfigMapsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetConfigMapsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetConfigMapsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetConfigMapsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1512,11 +1510,11 @@ func (ListConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s ListConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListConfigMapsResponse_FieldSubPathValue {
+func (s ListConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListConfigMapsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListConfigMapsResponse_FieldSubPathValue)
 }
 
-func (s ListConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListConfigMapsResponse_FieldSubPathArrayOfValues {
+func (s ListConfigMapsResponsePathSelectorConfigMapsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListConfigMapsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2710,11 +2708,11 @@ func (CreateConfigMapRequestPathSelectorConfigMapMetadataSyncing) FieldPath() *C
 	}
 }
 
-func (s CreateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateConfigMapRequest_FieldSubPathValue {
+func (s CreateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateConfigMapRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateConfigMapRequest_FieldSubPathValue)
 }
 
-func (s CreateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateConfigMapRequest_FieldSubPathArrayOfValues {
+func (s CreateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateConfigMapRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateConfigMapRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3386,11 +3384,11 @@ func (UpdateConfigMapRequestPathSelectorConfigMapMetadataSyncing) FieldPath() *U
 	}
 }
 
-func (s UpdateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathValue {
+func (s UpdateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateConfigMapRequest_FieldSubPathValue)
 }
 
-func (s UpdateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathArrayOfValues {
+func (s UpdateConfigMapRequestPathSelectorConfigMapMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConfigMapRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4086,11 +4084,11 @@ func (UpdateConfigMapRequestPathSelectorCasConditionalStateMetadataSyncing) Fiel
 	}
 }
 
-func (s UpdateConfigMapRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathValue {
+func (s UpdateConfigMapRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateConfigMapRequest_FieldSubPathValue)
 }
 
-func (s UpdateConfigMapRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathArrayOfValues {
+func (s UpdateConfigMapRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateConfigMapRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConfigMapRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4776,11 +4774,11 @@ func (UpdateConfigMapRequest_CASPathSelectorConditionalStateMetadataSyncing) Fie
 	}
 }
 
-func (s UpdateConfigMapRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateConfigMapRequestCAS_FieldSubPathValue {
+func (s UpdateConfigMapRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateConfigMapRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateConfigMapRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateConfigMapRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateConfigMapRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateConfigMapRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateConfigMapRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateConfigMapRequestCAS_FieldSubPathArrayOfValues)
 }
 

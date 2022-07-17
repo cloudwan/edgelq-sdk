@@ -7,9 +7,8 @@ package organization_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -17,9 +16,8 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &organization.Organization{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
@@ -666,11 +664,11 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) Field
 	}
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListMyOrganizationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListMyOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -729,11 +727,11 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy) Fie
 	}
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy) WithValue(value *policy.Policy) *ListMyOrganizationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *ListMyOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -796,15 +794,15 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCrite
 	}
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathArrayItemValue {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListMyOrganizationsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyOrganizationsResponse_FieldSubPathArrayItemValue)
 }
 

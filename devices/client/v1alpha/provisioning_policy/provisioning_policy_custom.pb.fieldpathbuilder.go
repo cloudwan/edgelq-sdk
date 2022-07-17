@@ -15,7 +15,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -32,7 +31,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -2808,11 +2806,11 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) FieldPa
 	}
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -15953,11 +15951,11 @@ func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) Fie
 	}
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 

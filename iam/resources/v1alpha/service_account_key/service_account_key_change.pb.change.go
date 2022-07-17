@@ -94,7 +94,7 @@ func (c *ServiceAccountKeyChange) GetServiceAccountKey() *ServiceAccountKey {
 	return nil
 }
 
-func (c *ServiceAccountKeyChange) GetResource() gotenresource.Resource {
+func (c *ServiceAccountKeyChange) GetRawResource() gotenresource.Resource {
 	return c.GetServiceAccountKey()
 }
 

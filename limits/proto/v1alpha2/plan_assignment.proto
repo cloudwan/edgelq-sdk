@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment;plan_assignment";
+option java_multiple_files = true;
+option java_outer_classname = "PlanAssignmentProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// PlanAssignment binds plan (with optional customizations) with specific
+// entity (assignee - either system, organization or project).
+// Plan assignments (sum of them) are used to compute configured size of
+// limit pools (system and organizations) AND limits (projects).
+// They are not modifiable - limits are passed from system to projects,
+// so each PlanAssignment must be agreed by higher instance (parent organization
+// or system). System recognizes acceptance by existence of AcceptedPlan
+// instances - it synchronizes PlanAssignment instances with them.
+message PlanAssignment {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/PlanAssignment"
+    pattern : "planAssignments/{plan_assignment}"
+    pattern : "projects/{project}/planAssignments/{plan_assignment}"
+    pattern : "organizations/{organization}/planAssignments/{plan_assignment}"
+  };
+
+  // Name of PlanAssignment
+  string name = 1;
+
+  // Plan with basic set of limits
+  string plan = 2;
+
+  // Service associated with plan
+  string service = 3;
+
+  // Additional extensions (but may be negative) on top of regular plan.
+  repeated Allowance extensions = 4;
+
+  // Regional distributions across regions. This field makes sense only
+  // for projects, because limit pools are regionless.
+  repeated RegionalDistribution regional_distributions = 5;
+
+  // Source with which this PlanAssignment is synchronized.
+  string source = 6;
+
+  // Metadata
+  ntt.types.Meta metadata = 7;
+}

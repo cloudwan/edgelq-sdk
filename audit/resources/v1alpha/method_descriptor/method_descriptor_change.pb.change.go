@@ -92,7 +92,7 @@ func (c *MethodDescriptorChange) GetMethodDescriptor() *MethodDescriptor {
 	return nil
 }
 
-func (c *MethodDescriptorChange) GetResource() gotenresource.Resource {
+func (c *MethodDescriptorChange) GetRawResource() gotenresource.Resource {
 	return c.GetMethodDescriptor()
 }
 

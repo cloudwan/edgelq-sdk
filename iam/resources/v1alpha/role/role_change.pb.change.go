@@ -92,7 +92,7 @@ func (c *RoleChange) GetRole() *Role {
 	return nil
 }
 
-func (c *RoleChange) GetResource() gotenresource.Resource {
+func (c *RoleChange) GetRawResource() gotenresource.Resource {
 	return c.GetRole()
 }
 

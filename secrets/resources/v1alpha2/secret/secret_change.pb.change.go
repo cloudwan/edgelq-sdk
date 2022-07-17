@@ -94,7 +94,7 @@ func (c *SecretChange) GetSecret() *Secret {
 	return nil
 }
 
-func (c *SecretChange) GetResource() gotenresource.Resource {
+func (c *SecretChange) GetRawResource() gotenresource.Resource {
 	return c.GetSecret()
 }
 

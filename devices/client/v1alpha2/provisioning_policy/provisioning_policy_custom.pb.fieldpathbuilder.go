@@ -8,6 +8,7 @@ package provisioning_policy_client
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	provisioning_approval_request "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/provisioning_approval_request"
@@ -21,8 +22,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -33,6 +32,7 @@ import (
 var (
 	_ = &api.Account{}
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_approval_request.ProvisioningApprovalRequest{}
@@ -46,8 +46,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -3142,11 +3140,11 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) FieldPa
 	}
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -16518,11 +16516,11 @@ func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) Fie
 	}
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 

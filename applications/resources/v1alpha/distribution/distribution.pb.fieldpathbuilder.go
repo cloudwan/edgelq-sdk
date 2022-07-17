@@ -14,7 +14,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/secret"
 	duration "github.com/golang/protobuf/ptypes/duration"
@@ -32,7 +31,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &duration.Duration{}
@@ -545,11 +543,11 @@ func (DistributionPathSelectorMetadataSyncing) FieldPath() *Distribution_FieldSu
 	}
 }
 
-func (s DistributionPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1258,11 +1256,11 @@ func (DistributionPathSelectorSpecTemplateMetadataSyncing) FieldPath() *Distribu
 	}
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Distribution_FieldSubPathValue {
+func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Distribution_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
 }
 
-func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
+func (s DistributionPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -3532,11 +3530,11 @@ func (Distribution_SpecPathSelectorTemplateMetadataSyncing) FieldPath() *Distrib
 	}
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *DistributionSpec_FieldSubPathValue {
+func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *DistributionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
 }
 
-func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *DistributionSpec_FieldSubPathArrayOfValues {
+func (s Distribution_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -5591,11 +5589,11 @@ func (Distribution_Spec_TemplatePathSelectorMetadataSyncing) FieldPath() *Distri
 	}
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathValue {
+func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
 }
 
-func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+func (s Distribution_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 

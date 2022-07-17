@@ -7,7 +7,6 @@ package monitored_resource_descriptor
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -16,7 +15,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &duration.Duration{}
 	_ = &timestamp.Timestamp{}
@@ -778,11 +776,11 @@ func (MonitoredResourceDescriptorPathSelectorMetadataSyncing) FieldPath() *Monit
 	}
 }
 
-func (s MonitoredResourceDescriptorPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *MonitoredResourceDescriptor_FieldSubPathValue {
+func (s MonitoredResourceDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *MonitoredResourceDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MonitoredResourceDescriptor_FieldSubPathValue)
 }
 
-func (s MonitoredResourceDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *MonitoredResourceDescriptor_FieldSubPathArrayOfValues {
+func (s MonitoredResourceDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *MonitoredResourceDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MonitoredResourceDescriptor_FieldSubPathArrayOfValues)
 }
 

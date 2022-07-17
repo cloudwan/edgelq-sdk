@@ -8,6 +8,7 @@ package pod
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -19,8 +20,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
@@ -33,6 +32,7 @@ import (
 var (
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -44,8 +44,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
@@ -559,11 +557,11 @@ func (PodPathSelectorMetadataSyncing) FieldPath() *Pod_FieldSubPath {
 	}
 }
 
-func (s PodPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 

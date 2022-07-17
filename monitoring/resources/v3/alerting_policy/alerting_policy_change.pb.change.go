@@ -94,7 +94,7 @@ func (c *AlertingPolicyChange) GetAlertingPolicy() *AlertingPolicy {
 	return nil
 }
 
-func (c *AlertingPolicyChange) GetResource() gotenresource.Resource {
+func (c *AlertingPolicyChange) GetRawResource() gotenresource.Resource {
 	return c.GetAlertingPolicy()
 }
 

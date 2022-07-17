@@ -3,7 +3,7 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
 
@@ -41,7 +41,7 @@ message Project {
   ntt.types.Meta metadata = 6;
 
   // Multi region policy
-  ntt.meta.multi_region.Policy multi_region_policy = 7;
+  ntt.types.MultiRegionPolicy multi_region_policy = 7;
 
   // Enabled services. This field is checked only for non-core edgelq services.
   repeated string enabled_services = 8;

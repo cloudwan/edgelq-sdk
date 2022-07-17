@@ -11,7 +11,6 @@ import (
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/group_member"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -26,7 +25,6 @@ var (
 	_ = &group_member.GroupMember{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -732,11 +730,11 @@ func (BatchGetGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) Field
 	}
 }
 
-func (s BatchGetGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetGroupMembersResponse_FieldSubPathValue {
+func (s BatchGetGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetGroupMembersResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetGroupMembersResponse_FieldSubPathValue)
 }
 
-func (s BatchGetGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetGroupMembersResponse_FieldSubPathArrayOfValues {
+func (s BatchGetGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetGroupMembersResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetGroupMembersResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1512,11 +1510,11 @@ func (ListGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) FieldPath
 	}
 }
 
-func (s ListGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListGroupMembersResponse_FieldSubPathValue {
+func (s ListGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListGroupMembersResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListGroupMembersResponse_FieldSubPathValue)
 }
 
-func (s ListGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListGroupMembersResponse_FieldSubPathArrayOfValues {
+func (s ListGroupMembersResponsePathSelectorGroupMembersMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListGroupMembersResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2668,11 +2666,11 @@ func (CreateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) FieldPath(
 	}
 }
 
-func (s CreateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateGroupMemberRequest_FieldSubPathValue {
+func (s CreateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateGroupMemberRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateGroupMemberRequest_FieldSubPathValue)
 }
 
-func (s CreateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateGroupMemberRequest_FieldSubPathArrayOfValues {
+func (s CreateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateGroupMemberRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateGroupMemberRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3302,11 +3300,11 @@ func (UpdateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) FieldPath(
 	}
 }
 
-func (s UpdateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathValue {
+func (s UpdateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateGroupMemberRequest_FieldSubPathValue)
 }
 
-func (s UpdateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathArrayOfValues {
+func (s UpdateGroupMemberRequestPathSelectorGroupMemberMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateGroupMemberRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3960,11 +3958,11 @@ func (UpdateGroupMemberRequestPathSelectorCasConditionalStateMetadataSyncing) Fi
 	}
 }
 
-func (s UpdateGroupMemberRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathValue {
+func (s UpdateGroupMemberRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateGroupMemberRequest_FieldSubPathValue)
 }
 
-func (s UpdateGroupMemberRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathArrayOfValues {
+func (s UpdateGroupMemberRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateGroupMemberRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateGroupMemberRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4608,11 +4606,11 @@ func (UpdateGroupMemberRequest_CASPathSelectorConditionalStateMetadataSyncing) F
 	}
 }
 
-func (s UpdateGroupMemberRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateGroupMemberRequestCAS_FieldSubPathValue {
+func (s UpdateGroupMemberRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateGroupMemberRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateGroupMemberRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateGroupMemberRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateGroupMemberRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateGroupMemberRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateGroupMemberRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateGroupMemberRequestCAS_FieldSubPathArrayOfValues)
 }
 

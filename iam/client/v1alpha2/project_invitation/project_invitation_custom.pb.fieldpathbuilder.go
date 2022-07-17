@@ -7,6 +7,7 @@ package project_invitation_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -16,8 +17,6 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -25,6 +24,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.Actor{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -34,8 +34,6 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
@@ -948,11 +946,11 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSync
 	}
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListMyProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1832,11 +1830,11 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationMetadataSyncin
 	}
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ResendProjectInvitationResponse_FieldSubPathValue {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ResendProjectInvitationResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 

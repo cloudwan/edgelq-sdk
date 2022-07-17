@@ -7,7 +7,6 @@ package monitored_resource_descriptor_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
@@ -21,7 +20,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &duration.Duration{}
@@ -870,11 +868,11 @@ func (BatchGetMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceD
 	}
 }
 
-func (s BatchGetMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathValue {
+func (s BatchGetMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2179,11 +2177,11 @@ func (CreateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescr
 	}
 }
 
-func (s CreateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateMonitoredResourceDescriptorRequest_FieldSubPathValue {
+func (s CreateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateMonitoredResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateMonitoredResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s CreateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s CreateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3010,11 +3008,11 @@ func (UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescr
 	}
 }
 
-func (s UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue {
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorMonitoredResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3865,11 +3863,11 @@ func (UpdateMonitoredResourceDescriptorRequestPathSelectorCasConditionalStateMet
 	}
 }
 
-func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue {
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMonitoredResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMonitoredResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMonitoredResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4710,11 +4708,11 @@ func (UpdateMonitoredResourceDescriptorRequest_CASPathSelectorConditionalStateMe
 	}
 }
 
-func (s UpdateMonitoredResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathValue {
+func (s UpdateMonitoredResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateMonitoredResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateMonitoredResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 

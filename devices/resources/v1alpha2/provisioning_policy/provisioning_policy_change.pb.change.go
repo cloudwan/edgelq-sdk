@@ -94,7 +94,7 @@ func (c *ProvisioningPolicyChange) GetProvisioningPolicy() *ProvisioningPolicy {
 	return nil
 }
 
-func (c *ProvisioningPolicyChange) GetResource() gotenresource.Resource {
+func (c *ProvisioningPolicyChange) GetRawResource() gotenresource.Resource {
 	return c.GetProvisioningPolicy()
 }
 

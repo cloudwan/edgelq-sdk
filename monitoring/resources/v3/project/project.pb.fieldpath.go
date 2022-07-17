@@ -25,7 +25,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -50,7 +50,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 // FieldPath provides implementation to handle
@@ -117,7 +117,7 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 				return &Project_FieldSubPath{selector: Project_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "multi_region_policy", "multiRegionPolicy", "multi-region-policy":
-			if subpath, err := policy.BuildPolicy_FieldPath(fp[1:]); err != nil {
+			if subpath, err := multi_region_policy.BuildMultiRegionPolicy_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Project_FieldSubPath{selector: Project_FieldPathSelectorMultiRegionPolicy, subPath: subpath}, nil
@@ -225,7 +225,7 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 	case Project_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		return (*policy.Policy)(nil)
+		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -267,7 +267,7 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 	case Project_FieldPathSelectorMetadata:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*policy.Policy)}
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -287,7 +287,7 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 	case Project_FieldPathSelectorMetadata:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*policy.Policy)}
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -323,8 +323,8 @@ func (fps *Project_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, b
 	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *Project_FieldSubPath) AsMultiRegionPolicySubPath() (policy.Policy_FieldPath, bool) {
-	res, ok := fps.subPath.(policy.Policy_FieldPath)
+func (fps *Project_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_policy.MultiRegionPolicy_FieldPath, bool) {
+	res, ok := fps.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath)
 	return res, ok
 }
 
@@ -342,8 +342,8 @@ func (fps *Project_FieldSubPath) JSONString() string {
 func (fps *Project_FieldSubPath) Get(source *Project) (values []interface{}) {
 	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
 		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
-		values = append(values, asPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
+	} else if asMultiRegionPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
+		values = append(values, asMultiRegionPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
 	} else {
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fps.selector))
 	}
@@ -478,8 +478,8 @@ func (fpv *Project_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bo
 	res, ok := fpv.value.(*ntt_meta.Meta)
 	return res, ok
 }
-func (fpv *Project_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*policy.Policy, bool) {
-	res, ok := fpv.value.(*policy.Policy)
+func (fpv *Project_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*multi_region_policy.MultiRegionPolicy, bool) {
+	res, ok := fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	return res, ok
 }
 
@@ -496,7 +496,7 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 	case Project_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		(*target).MultiRegionPolicy = fpv.value.(*policy.Policy)
+		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -563,8 +563,8 @@ func (fpvs *Project_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_Fiel
 	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Project_FieldSubPathValue) AsMultiRegionPolicyPathValue() (policy.Policy_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(policy.Policy_FieldPathValue)
+func (fpvs *Project_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_region_policy.MultiRegionPolicy_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue)
 	return res, ok
 }
 
@@ -576,7 +576,7 @@ func (fpvs *Project_FieldSubPathValue) SetTo(target **Project) {
 	case Project_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		fpvs.subPathValue.(policy.Policy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
+		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpvs.Selector()))
 	}
@@ -596,7 +596,7 @@ func (fpvs *Project_FieldSubPathValue) CompareWith(source *Project) (int, bool) 
 	case Project_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		return fpvs.subPathValue.(policy.Policy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
+		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpvs.Selector()))
 	}
@@ -679,8 +679,8 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt
 	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (policy.Policy_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(policy.Policy_FieldPathArrayItemValue)
+func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -690,7 +690,7 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) ContainsValue(source *Project)
 	case Project_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		return fpaivs.subPathItemValue.(policy.Policy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
+		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpaivs.Selector()))
 	}
@@ -744,7 +744,7 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 			values = append(values, v)
 		}
 	case Project_FieldPathSelectorMultiRegionPolicy:
-		for _, v := range fpaov.values.([]*policy.Policy) {
+		for _, v := range fpaov.values.([]*multi_region_policy.MultiRegionPolicy) {
 			values = append(values, v)
 		}
 	}
@@ -762,8 +762,8 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() (
 	res, ok := fpaov.values.([]*ntt_meta.Meta)
 	return res, ok
 }
-func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*policy.Policy, bool) {
-	res, ok := fpaov.values.([]*policy.Policy)
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*multi_region_policy.MultiRegionPolicy, bool) {
+	res, ok := fpaov.values.([]*multi_region_policy.MultiRegionPolicy)
 	return res, ok
 }
 
@@ -781,7 +781,7 @@ func (fpsaov *Project_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (
 	res, ok := fpsaov.subPathArrayOfValues.(ntt_meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *Project_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (policy.Policy_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(policy.Policy_FieldPathArrayOfValues)
+func (fpsaov *Project_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues)
 	return res, ok
 }

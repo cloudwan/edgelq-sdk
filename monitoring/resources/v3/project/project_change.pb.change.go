@@ -92,7 +92,7 @@ func (c *ProjectChange) GetProject() *Project {
 	return nil
 }
 
-func (c *ProjectChange) GetResource() gotenresource.Resource {
+func (c *ProjectChange) GetRawResource() gotenresource.Resource {
 	return c.GetProject()
 }
 

@@ -6,13 +6,11 @@ package ntt_meta
 
 // proto imports
 import (
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -410,27 +408,27 @@ func (MetaPathSelectorSyncing) FieldPath() *Meta_FieldTerminalPath {
 	return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorSyncing}
 }
 
-func (s MetaPathSelectorSyncing) WithValue(value *syncing_meta.SyncingMeta) *Meta_FieldTerminalPathValue {
+func (s MetaPathSelectorSyncing) WithValue(value *SyncingMeta) *Meta_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Meta_FieldTerminalPathValue)
 }
 
-func (s MetaPathSelectorSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Meta_FieldTerminalPathArrayOfValues {
+func (s MetaPathSelectorSyncing) WithArrayOfValues(values []*SyncingMeta) *Meta_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldTerminalPathArrayOfValues)
 }
 
-func (MetaPathSelectorSyncing) WithSubPath(subPath syncing_meta.SyncingMeta_FieldPath) *Meta_FieldSubPath {
+func (MetaPathSelectorSyncing) WithSubPath(subPath SyncingMeta_FieldPath) *Meta_FieldSubPath {
 	return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorSyncing, subPath: subPath}
 }
 
-func (s MetaPathSelectorSyncing) WithSubValue(subPathValue syncing_meta.SyncingMeta_FieldPathValue) *Meta_FieldSubPathValue {
+func (s MetaPathSelectorSyncing) WithSubValue(subPathValue SyncingMeta_FieldPathValue) *Meta_FieldSubPathValue {
 	return &Meta_FieldSubPathValue{Meta_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s MetaPathSelectorSyncing) WithSubArrayOfValues(subPathArrayOfValues syncing_meta.SyncingMeta_FieldPathArrayOfValues) *Meta_FieldSubPathArrayOfValues {
+func (s MetaPathSelectorSyncing) WithSubArrayOfValues(subPathArrayOfValues SyncingMeta_FieldPathArrayOfValues) *Meta_FieldSubPathArrayOfValues {
 	return &Meta_FieldSubPathArrayOfValues{Meta_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s MetaPathSelectorSyncing) WithSubArrayItemValue(subPathArrayItemValue syncing_meta.SyncingMeta_FieldPathArrayItemValue) *Meta_FieldSubPathArrayItemValue {
+func (s MetaPathSelectorSyncing) WithSubArrayItemValue(subPathArrayItemValue SyncingMeta_FieldPathArrayItemValue) *Meta_FieldSubPathArrayItemValue {
 	return &Meta_FieldSubPathArrayItemValue{Meta_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -447,7 +445,7 @@ type MetaPathSelectorSyncingOwningRegion struct{}
 func (MetaPathSelectorSyncingOwningRegion) FieldPath() *Meta_FieldSubPath {
 	return &Meta_FieldSubPath{
 		selector: Meta_FieldPathSelectorSyncing,
-		subPath:  syncing_meta.NewSyncingMetaFieldPathBuilder().OwningRegion().FieldPath(),
+		subPath:  NewSyncingMetaFieldPathBuilder().OwningRegion().FieldPath(),
 	}
 }
 
@@ -464,7 +462,7 @@ type MetaPathSelectorSyncingRegions struct{}
 func (MetaPathSelectorSyncingRegions) FieldPath() *Meta_FieldSubPath {
 	return &Meta_FieldSubPath{
 		selector: Meta_FieldPathSelectorSyncing,
-		subPath:  syncing_meta.NewSyncingMetaFieldPathBuilder().Regions().FieldPath(),
+		subPath:  NewSyncingMetaFieldPathBuilder().Regions().FieldPath(),
 	}
 }
 
@@ -793,4 +791,48 @@ func (s OwnerReferencePathSelectorBlockOwnerDeletion) WithValue(value bool) *Own
 
 func (s OwnerReferencePathSelectorBlockOwnerDeletion) WithArrayOfValues(values []bool) *OwnerReference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
+}
+
+type SyncingMetaFieldPathBuilder struct{}
+
+func NewSyncingMetaFieldPathBuilder() SyncingMetaFieldPathBuilder {
+	return SyncingMetaFieldPathBuilder{}
+}
+func (SyncingMetaFieldPathBuilder) OwningRegion() SyncingMetaPathSelectorOwningRegion {
+	return SyncingMetaPathSelectorOwningRegion{}
+}
+func (SyncingMetaFieldPathBuilder) Regions() SyncingMetaPathSelectorRegions {
+	return SyncingMetaPathSelectorRegions{}
+}
+
+type SyncingMetaPathSelectorOwningRegion struct{}
+
+func (SyncingMetaPathSelectorOwningRegion) FieldPath() *SyncingMeta_FieldTerminalPath {
+	return &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorOwningRegion}
+}
+
+func (s SyncingMetaPathSelectorOwningRegion) WithValue(value string) *SyncingMeta_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SyncingMeta_FieldTerminalPathValue)
+}
+
+func (s SyncingMetaPathSelectorOwningRegion) WithArrayOfValues(values []string) *SyncingMeta_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SyncingMeta_FieldTerminalPathArrayOfValues)
+}
+
+type SyncingMetaPathSelectorRegions struct{}
+
+func (SyncingMetaPathSelectorRegions) FieldPath() *SyncingMeta_FieldTerminalPath {
+	return &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorRegions}
+}
+
+func (s SyncingMetaPathSelectorRegions) WithValue(value []string) *SyncingMeta_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SyncingMeta_FieldTerminalPathValue)
+}
+
+func (s SyncingMetaPathSelectorRegions) WithArrayOfValues(values [][]string) *SyncingMeta_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SyncingMeta_FieldTerminalPathArrayOfValues)
+}
+
+func (s SyncingMetaPathSelectorRegions) WithItemValue(value string) *SyncingMeta_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SyncingMeta_FieldTerminalPathArrayItemValue)
 }

@@ -7,6 +7,7 @@ package project_invitation_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -16,8 +17,6 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
@@ -29,6 +28,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &iam_common.Actor{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -38,8 +38,6 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
@@ -979,11 +977,11 @@ func (BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSy
 	}
 }
 
-func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetProjectInvitationsResponse_FieldSubPathValue {
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1992,11 +1990,11 @@ func (ListProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncin
 	}
 }
 
-func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListProjectInvitationsResponse_FieldSubPathValue {
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListProjectInvitationsResponsePathSelectorProjectInvitationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3381,11 +3379,11 @@ func (CreateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing
 	}
 }
 
-func (s CreateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateProjectInvitationRequest_FieldSubPathValue {
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateProjectInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProjectInvitationRequest_FieldSubPathValue)
 }
 
-func (s CreateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
+func (s CreateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4248,11 +4246,11 @@ func (UpdateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing
 	}
 }
 
-func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathValue {
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectInvitationRequestPathSelectorProjectInvitationMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5139,11 +5137,11 @@ func (UpdateProjectInvitationRequestPathSelectorCasConditionalStateMetadataSynci
 	}
 }
 
-func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathValue {
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectInvitationRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6020,11 +6018,11 @@ func (UpdateProjectInvitationRequest_CASPathSelectorConditionalStateMetadataSync
 	}
 }
 
-func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectInvitationRequestCAS_FieldSubPathValue {
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectInvitationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectInvitationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProjectInvitationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

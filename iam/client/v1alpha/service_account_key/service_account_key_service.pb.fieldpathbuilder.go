@@ -11,7 +11,6 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account_key"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -26,7 +25,6 @@ var (
 	_ = &project.Project{}
 	_ = &service_account.ServiceAccount{}
 	_ = &service_account_key.ServiceAccountKey{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

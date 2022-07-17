@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
+import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding_change.proto";
-import "edgelq-sdk/meta/multi_region/proto/policy.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/role_binding;role_binding_client";
 option java_multiple_files = false;
@@ -25,5 +25,5 @@ message SetupCreateOwnerRoleRequest {
   RoleBinding role_binding = 2;
 
   // Policy created with this project
-  ntt.meta.multi_region.Policy multi_region_policy = 3;
+  ntt.types.MultiRegionPolicy multi_region_policy = 3;
 }

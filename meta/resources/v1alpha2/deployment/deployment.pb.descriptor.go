@@ -153,8 +153,8 @@ func initDeploymentDescriptor() {
 		nameDescriptor: gotenresource.NewNameDescriptor(
 			&Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName},
 			"pattern", "deploymentId",
-			[]string{"serviceId"},
-			[]gotenresource.NamePattern{NamePattern_Service}),
+			[]string{"regionId"},
+			[]gotenresource.NamePattern{NamePattern_Region}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

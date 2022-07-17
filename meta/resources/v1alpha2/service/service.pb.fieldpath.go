@@ -70,14 +70,23 @@ type Service_FieldPath interface {
 type Service_FieldPathSelector int32
 
 const (
-	Service_FieldPathSelectorName     Service_FieldPathSelector = 0
-	Service_FieldPathSelectorMetadata Service_FieldPathSelector = 1
+	Service_FieldPathSelectorName           Service_FieldPathSelector = 0
+	Service_FieldPathSelectorDisplayName    Service_FieldPathSelector = 1
+	Service_FieldPathSelectorCurrentVersion Service_FieldPathSelector = 2
+	Service_FieldPathSelectorAllVersions    Service_FieldPathSelector = 3
+	Service_FieldPathSelectorMetadata       Service_FieldPathSelector = 4
 )
 
 func (s Service_FieldPathSelector) String() string {
 	switch s {
 	case Service_FieldPathSelectorName:
 		return "name"
+	case Service_FieldPathSelectorDisplayName:
+		return "display_name"
+	case Service_FieldPathSelectorCurrentVersion:
+		return "current_version"
+	case Service_FieldPathSelectorAllVersions:
+		return "all_versions"
 	case Service_FieldPathSelectorMetadata:
 		return "metadata"
 	default:
@@ -93,6 +102,12 @@ func BuildService_FieldPath(fp gotenobject.RawFieldPath) (Service_FieldPath, err
 		switch fp[0] {
 		case "name":
 			return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorName}, nil
+		case "display_name", "displayName", "display-name":
+			return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorDisplayName}, nil
+		case "current_version", "currentVersion", "current-version":
+			return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorCurrentVersion}, nil
+		case "all_versions", "allVersions", "all-versions":
+			return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorAllVersions}, nil
 		case "metadata":
 			return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorMetadata}, nil
 		}
@@ -153,6 +168,14 @@ func (fp *Service_FieldTerminalPath) Get(source *Service) (values []interface{})
 			if source.Name != nil {
 				values = append(values, source.Name)
 			}
+		case Service_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
+		case Service_FieldPathSelectorCurrentVersion:
+			values = append(values, source.CurrentVersion)
+		case Service_FieldPathSelectorAllVersions:
+			for _, value := range source.GetAllVersions() {
+				values = append(values, value)
+			}
 		case Service_FieldPathSelectorMetadata:
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
@@ -174,6 +197,13 @@ func (fp *Service_FieldTerminalPath) GetSingle(source *Service) (interface{}, bo
 	case Service_FieldPathSelectorName:
 		res := source.GetName()
 		return res, res != nil
+	case Service_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
+	case Service_FieldPathSelectorCurrentVersion:
+		return source.GetCurrentVersion(), source != nil
+	case Service_FieldPathSelectorAllVersions:
+		res := source.GetAllVersions()
+		return res, res != nil
 	case Service_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
@@ -191,6 +221,12 @@ func (fp *Service_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case Service_FieldPathSelectorName:
 		return (*Name)(nil)
+	case Service_FieldPathSelectorDisplayName:
+		return ""
+	case Service_FieldPathSelectorCurrentVersion:
+		return ""
+	case Service_FieldPathSelectorAllVersions:
+		return ([]string)(nil)
 	case Service_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -203,6 +239,12 @@ func (fp *Service_FieldTerminalPath) ClearValue(item *Service) {
 		switch fp.selector {
 		case Service_FieldPathSelectorName:
 			item.Name = nil
+		case Service_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
+		case Service_FieldPathSelectorCurrentVersion:
+			item.CurrentVersion = ""
+		case Service_FieldPathSelectorAllVersions:
+			item.AllVersions = nil
 		case Service_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		default:
@@ -217,13 +259,22 @@ func (fp *Service_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *Service_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == Service_FieldPathSelectorName
+	return fp.selector == Service_FieldPathSelectorName ||
+		fp.selector == Service_FieldPathSelectorDisplayName ||
+		fp.selector == Service_FieldPathSelectorCurrentVersion ||
+		fp.selector == Service_FieldPathSelectorAllVersions
 }
 
 func (fp *Service_FieldTerminalPath) WithIValue(value interface{}) Service_FieldPathValue {
 	switch fp.selector {
 	case Service_FieldPathSelectorName:
 		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(*Name)}
+	case Service_FieldPathSelectorDisplayName:
+		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(string)}
+	case Service_FieldPathSelectorCurrentVersion:
+		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(string)}
+	case Service_FieldPathSelectorAllVersions:
+		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.([]string)}
 	case Service_FieldPathSelectorMetadata:
 		return &Service_FieldTerminalPathValue{Service_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -240,6 +291,12 @@ func (fp *Service_FieldTerminalPath) WithIArrayOfValues(values interface{}) Serv
 	switch fp.selector {
 	case Service_FieldPathSelectorName:
 		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]*Name)}
+	case Service_FieldPathSelectorDisplayName:
+		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]string)}
+	case Service_FieldPathSelectorCurrentVersion:
+		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]string)}
+	case Service_FieldPathSelectorAllVersions:
+		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([][]string)}
 	case Service_FieldPathSelectorMetadata:
 		return &Service_FieldTerminalPathArrayOfValues{Service_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -254,6 +311,8 @@ func (fp *Service_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) g
 
 func (fp *Service_FieldTerminalPath) WithIArrayItemValue(value interface{}) Service_FieldPathArrayItemValue {
 	switch fp.selector {
+	case Service_FieldPathSelectorAllVersions:
+		return &Service_FieldTerminalPathArrayItemValue{Service_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Service: %d", fp.selector))
 	}
@@ -411,6 +470,18 @@ func (fpv *Service_FieldTerminalPathValue) AsNameValue() (*Name, bool) {
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
+func (fpv *Service_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Service_FieldTerminalPathValue) AsCurrentVersionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Service_FieldTerminalPathValue) AsAllVersionsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
 func (fpv *Service_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
 	res, ok := fpv.value.(*ntt_meta.Meta)
 	return res, ok
@@ -424,6 +495,12 @@ func (fpv *Service_FieldTerminalPathValue) SetTo(target **Service) {
 	switch fpv.selector {
 	case Service_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
+	case Service_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
+	case Service_FieldPathSelectorCurrentVersion:
+		(*target).CurrentVersion = fpv.value.(string)
+	case Service_FieldPathSelectorAllVersions:
+		(*target).AllVersions = fpv.value.([]string)
 	case Service_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -458,6 +535,28 @@ func (fpv *Service_FieldTerminalPathValue) CompareWith(source *Service) (int, bo
 		} else {
 			return 1, true
 		}
+	case Service_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Service_FieldPathSelectorCurrentVersion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetCurrentVersion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Service_FieldPathSelectorAllVersions:
+		return 0, false
 	case Service_FieldPathSelectorMetadata:
 		return 0, false
 	default:
@@ -555,6 +654,10 @@ var _ Service_FieldPathArrayItemValue = (*Service_FieldTerminalPathArrayItemValu
 func (fpaiv *Service_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
+func (fpaiv *Service_FieldTerminalPathArrayItemValue) AsAllVersionsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
 
 func (fpaiv *Service_FieldTerminalPathArrayItemValue) GetSingle(source *Service) (interface{}, bool) {
 	return nil, false
@@ -638,6 +741,18 @@ func (fpaov *Service_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([]*Name) {
 			values = append(values, v)
 		}
+	case Service_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Service_FieldPathSelectorCurrentVersion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Service_FieldPathSelectorAllVersions:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
 	case Service_FieldPathSelectorMetadata:
 		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
 			values = append(values, v)
@@ -647,6 +762,18 @@ func (fpaov *Service_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 }
 func (fpaov *Service_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Name, bool) {
 	res, ok := fpaov.values.([]*Name)
+	return res, ok
+}
+func (fpaov *Service_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Service_FieldTerminalPathArrayOfValues) AsCurrentVersionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Service_FieldTerminalPathArrayOfValues) AsAllVersionsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 func (fpaov *Service_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {

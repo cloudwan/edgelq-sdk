@@ -12,7 +12,6 @@ import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -28,7 +27,6 @@ var (
 	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &role.Role{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

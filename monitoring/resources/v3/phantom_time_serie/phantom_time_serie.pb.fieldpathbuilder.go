@@ -8,8 +8,7 @@ package phantom_time_serie
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
@@ -22,8 +21,7 @@ import (
 var (
 	_ = api.LaunchStage(0)
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
@@ -521,11 +519,11 @@ func (PhantomTimeSeriePathSelectorMetadataSyncing) FieldPath() *PhantomTimeSerie
 	}
 }
 
-func (s PhantomTimeSeriePathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *PhantomTimeSerie_FieldSubPathValue {
+func (s PhantomTimeSeriePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *PhantomTimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriePathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -2037,11 +2035,11 @@ func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -3477,11 +3475,11 @@ func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing) FieldPath()
 	}
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 

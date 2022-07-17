@@ -92,7 +92,7 @@ func (c *RegionChange) GetRegion() *Region {
 	return nil
 }
 
-func (c *RegionChange) GetResource() gotenresource.Resource {
+func (c *RegionChange) GetRawResource() gotenresource.Resource {
 	return c.GetRegion()
 }
 

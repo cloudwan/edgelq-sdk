@@ -14,7 +14,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	duration "github.com/golang/protobuf/ptypes/duration"
@@ -33,7 +32,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &duration.Duration{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
@@ -757,11 +755,11 @@ func (BatchGetProvisioningApprovalRequestsResponsePathSelectorProvisioningApprov
 	}
 }
 
-func (s BatchGetProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetProvisioningApprovalRequestsResponse_FieldSubPathValue {
+func (s BatchGetProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetProvisioningApprovalRequestsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProvisioningApprovalRequestsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1554,11 +1552,11 @@ func (ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRe
 	}
 }
 
-func (s ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListProvisioningApprovalRequestsResponse_FieldSubPathValue {
+func (s ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListProvisioningApprovalRequestsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProvisioningApprovalRequestsResponse_FieldSubPathValue)
 }
 
-func (s ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues {
+func (s ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequestsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2727,11 +2725,11 @@ func (CreateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRe
 	}
 }
 
-func (s CreateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateProvisioningApprovalRequestRequest_FieldSubPathValue {
+func (s CreateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateProvisioningApprovalRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProvisioningApprovalRequestRequest_FieldSubPathValue)
 }
 
-func (s CreateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
+func (s CreateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3378,11 +3376,11 @@ func (UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRe
 	}
 }
 
-func (s UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathValue {
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProvisioningApprovalRequestRequest_FieldSubPathValue)
 }
 
-func (s UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorProvisioningApprovalRequestMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4053,11 +4051,11 @@ func (UpdateProvisioningApprovalRequestRequestPathSelectorCasConditionalStateMet
 	}
 }
 
-func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathValue {
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProvisioningApprovalRequestRequest_FieldSubPathValue)
 }
 
-func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
+func (s UpdateProvisioningApprovalRequestRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProvisioningApprovalRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4718,11 +4716,11 @@ func (UpdateProvisioningApprovalRequestRequest_CASPathSelectorConditionalStateMe
 	}
 }
 
-func (s UpdateProvisioningApprovalRequestRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathValue {
+func (s UpdateProvisioningApprovalRequestRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProvisioningApprovalRequestRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProvisioningApprovalRequestRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProvisioningApprovalRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 

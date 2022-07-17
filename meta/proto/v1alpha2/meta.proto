@@ -6,6 +6,8 @@ import "edgelq-sdk/meta/proto/v1alpha2/deployment.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/deployment_service.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/region.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/region_service.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/resource.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/resource_service.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service_service.proto";
 import "google/api/annotations.proto";

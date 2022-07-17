@@ -7,16 +7,14 @@ package organization
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -577,11 +575,11 @@ func (OrganizationPathSelectorMetadataSyncing) FieldPath() *Organization_FieldSu
 	}
 }
 
-func (s OrganizationPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Organization_FieldSubPathValue {
+func (s OrganizationPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Organization_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Organization_FieldSubPathValue)
 }
 
-func (s OrganizationPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Organization_FieldSubPathArrayOfValues {
+func (s OrganizationPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Organization_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldSubPathArrayOfValues)
 }
 
@@ -637,27 +635,27 @@ func (OrganizationPathSelectorMultiRegionPolicy) FieldPath() *Organization_Field
 	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorMultiRegionPolicy}
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicy) WithValue(value *policy.Policy) *Organization_FieldTerminalPathValue {
+func (s OrganizationPathSelectorMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *Organization_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *Organization_FieldTerminalPathArrayOfValues {
+func (s OrganizationPathSelectorMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *Organization_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
 }
 
-func (OrganizationPathSelectorMultiRegionPolicy) WithSubPath(subPath policy.Policy_FieldPath) *Organization_FieldSubPath {
+func (OrganizationPathSelectorMultiRegionPolicy) WithSubPath(subPath multi_region_policy.MultiRegionPolicy_FieldPath) *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{selector: Organization_FieldPathSelectorMultiRegionPolicy, subPath: subPath}
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicy) WithSubValue(subPathValue policy.Policy_FieldPathValue) *Organization_FieldSubPathValue {
+func (s OrganizationPathSelectorMultiRegionPolicy) WithSubValue(subPathValue multi_region_policy.MultiRegionPolicy_FieldPathValue) *Organization_FieldSubPathValue {
 	return &Organization_FieldSubPathValue{Organization_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicy) WithSubArrayOfValues(subPathArrayOfValues policy.Policy_FieldPathArrayOfValues) *Organization_FieldSubPathArrayOfValues {
+func (s OrganizationPathSelectorMultiRegionPolicy) WithSubArrayOfValues(subPathArrayOfValues multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues) *Organization_FieldSubPathArrayOfValues {
 	return &Organization_FieldSubPathArrayOfValues{Organization_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicy) WithSubArrayItemValue(subPathArrayItemValue policy.Policy_FieldPathArrayItemValue) *Organization_FieldSubPathArrayItemValue {
+func (s OrganizationPathSelectorMultiRegionPolicy) WithSubArrayItemValue(subPathArrayItemValue multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue) *Organization_FieldSubPathArrayItemValue {
 	return &Organization_FieldSubPathArrayItemValue{Organization_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -678,7 +676,7 @@ type OrganizationPathSelectorMultiRegionPolicyEnabledRegions struct{}
 func (OrganizationPathSelectorMultiRegionPolicyEnabledRegions) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().EnabledRegions().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().EnabledRegions().FieldPath(),
 	}
 }
 
@@ -699,7 +697,7 @@ type OrganizationPathSelectorMultiRegionPolicyDefaultControlRegion struct{}
 func (OrganizationPathSelectorMultiRegionPolicyDefaultControlRegion) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().DefaultControlRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().DefaultControlRegion().FieldPath(),
 	}
 }
 
@@ -716,19 +714,19 @@ type OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync struct{}
 func (OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().FieldPath(),
 	}
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *Organization_FieldSubPathValue {
+func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *Organization_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Organization_FieldSubPathValue)
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *Organization_FieldSubPathArrayOfValues {
+func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *Organization_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldSubPathArrayOfValues)
 }
 
-func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *Organization_FieldSubPathArrayItemValue {
+func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *Organization_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Organization_FieldSubPathArrayItemValue)
 }
 
@@ -749,7 +747,7 @@ type OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncResourceTyp
 func (OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncResourceTypeName) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().ResourceTypeName().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().ResourceTypeName().FieldPath(),
 	}
 }
 
@@ -766,7 +764,7 @@ type OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncSourceRegio
 func (OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncSourceRegion) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().SourceRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().SourceRegion().FieldPath(),
 	}
 }
 
@@ -783,7 +781,7 @@ type OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion 
 func (OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion) FieldPath() *Organization_FieldSubPath {
 	return &Organization_FieldSubPath{
 		selector: Organization_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().DestRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().DestRegion().FieldPath(),
 	}
 }
 

@@ -1,0 +1,6287 @@
+
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+body {
+  padding: 1em;
+}
+h2 {
+  margin-top: 1em;
+}
+h3 {
+  margin-top: 1em;
+}
+h4 {
+  margin-top: 1em;
+}
+h5 {
+  margin-top: 1em;
+}
+div.operation {
+  background: #f0f0f0;
+}
+div.operation h5 {
+  padding: 0.2em;
+  background: #e0e0e0;
+}
+div.operation .signature {
+  font-weight: bold;
+  padding: 0.2em;
+}
+div.operation .description {
+  padding: 0.2em;
+}
+table th,
+table td {
+  padding: 0.2em;
+}
+table.fields {
+  width: 100%;
+}
+table.fields thead tr th {
+  background: #c0c0c0;
+}
+table.fields tbody tr th {
+  background: #e0e0e0;
+  vertical-align: top;
+  border-bottom: 1px solid #ababab;
+  width: 25%;
+}
+table.fields tbody tr td.type {
+  font-weight: bold;
+}
+table.fields tbody tr td.type pre {
+  margin: 0px;
+}
+table.fields tbody tr td.description {
+  border-bottom: 1px solid #ababab;
+}
+table.fields tbody tr td.description *:last-child {
+  margin-bottom: 0px;
+}
+table.fields tbody tr td.none {
+  border-bottom: 1px solid #ababab;
+}
+</style>
+</head>
+<body>
+<h1>Service: Limits (ntt.limits.v1alpha2 - v1alpha2)</h1>
+
+<p>Service Limits</p>
+
+<h2>Index</h2>
+
+<ul>
+
+<li><a href="#resource-AcceptedPlan">AcceptedPlan</a></li>
+
+<li><a href="#resource-Limit">Limit</a></li>
+
+<li><a href="#resource-LimitPool">LimitPool</a></li>
+
+<li><a href="#resource-Plan">Plan</a></li>
+
+<li><a href="#resource-PlanAssignment">PlanAssignment</a></li>
+
+<li><a href="#resource-PlanAssignmentRequest">PlanAssignmentRequest</a></li> 
+
+<li><a href="#shared-resources">Shared Resources</a></li>
+</ul>
+
+<h2>Resources</h2>
+
+
+<h3 id="resource-AcceptedPlan"><span id="message-AcceptedPlan">AcceptedPlan</span></h3>
+
+<p>AcceptedPlan shows a plan accepted by assigner (system or organization)
+for project, organization and system - with all additional information
+like extensions or regional distributions.
+It is in relation 1-1 with PlanAssignment, BUT:</p>
+<ul>
+<li>PlanAssignment is read-only and represents information for Assignee.
+Name pattern indicates to WHOM plan is assigned.</li>
+<li>AcceptedPlan contains accepted configuration and represents information
+for assigner. Name pattern indicates WHO ASSIGNED a plan. It is modifiable,
+BUT modifications of accepted plans may result in increased usage of
+allowed limit pools - Organization/System cannot accept plans to sub-entities
+without limits (however, system is allowed to assign plan to itself without
+limits, which makes system admin fully responsible).</li>
+</ul>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Plan with resource limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service indicates by plan.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">extensions</th>
+<td class="type"><pre>repeated <a href="#message-Allowance">Allowance</a></pre></td>
+</tr>
+<tr><td class="description"><p>Optional extensions over standard plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_distributions</th>
+<td class="type"><pre>repeated <a href="#message-RegionalDistribution">RegionalDistribution</a></pre></td>
+</tr>
+<tr><td class="description"><p>Distribution of limits by regions. It does not need
+to be populated by user in Create/Update requests -
+system automatically distributes limits across regions
+equally. Returned AcceptedPlan instance from Create/Update
+will contain this field populated.
+If user wants to have some specific resource distributed in
+certain way, they can do it by partially populating this field
+too. System will distribute automatically only remaining numbers.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">assignee</th>
+<td class="type"><pre><a href="#message-AcceptedPlan.Assignee">AcceptedPlan.Assignee</a></pre></td>
+</tr>
+<tr><td class="description"><p>Plan assignee</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetAcceptedPlan">GetAcceptedPlan</h5>
+
+<pre class="signature">rpc GetAcceptedPlan(<a href="#message-GetAcceptedPlanRequest">GetAcceptedPlanRequest</a>) returns (<a href="#message-AcceptedPlan">AcceptedPlan</a>)</pre>
+
+<div class="description">
+<p>GetAcceptedPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetAcceptedPlans">BatchGetAcceptedPlans</h5>
+
+<pre class="signature">rpc BatchGetAcceptedPlans(<a href="#message-BatchGetAcceptedPlansRequest">BatchGetAcceptedPlansRequest</a>) returns (<a href="#message-BatchGetAcceptedPlansResponse">BatchGetAcceptedPlansResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetAcceptedPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListAcceptedPlans">ListAcceptedPlans</h5>
+
+<pre class="signature">rpc ListAcceptedPlans(<a href="#message-ListAcceptedPlansRequest">ListAcceptedPlansRequest</a>) returns (<a href="#message-ListAcceptedPlansResponse">ListAcceptedPlansResponse</a>)</pre>
+
+<div class="description">
+<p>ListAcceptedPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchAcceptedPlan">WatchAcceptedPlan</h5>
+
+<pre class="signature">rpc WatchAcceptedPlan(<a href="#message-WatchAcceptedPlanRequest">WatchAcceptedPlanRequest</a>) returns (<a href="#message-WatchAcceptedPlanResponse">WatchAcceptedPlanResponse</a>)</pre>
+
+<div class="description">
+<p>WatchAcceptedPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchAcceptedPlans">WatchAcceptedPlans</h5>
+
+<pre class="signature">rpc WatchAcceptedPlans(<a href="#message-WatchAcceptedPlansRequest">WatchAcceptedPlansRequest</a>) returns (<a href="#message-WatchAcceptedPlansResponse">WatchAcceptedPlansResponse</a>)</pre>
+
+<div class="description">
+<p>WatchAcceptedPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateAcceptedPlan">CreateAcceptedPlan</h5>
+
+<pre class="signature">rpc CreateAcceptedPlan(<a href="#message-CreateAcceptedPlanRequest">CreateAcceptedPlanRequest</a>) returns (<a href="#message-AcceptedPlan">AcceptedPlan</a>)</pre>
+
+<div class="description">
+<p>CreateAcceptedPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateAcceptedPlan">UpdateAcceptedPlan</h5>
+
+<pre class="signature">rpc UpdateAcceptedPlan(<a href="#message-UpdateAcceptedPlanRequest">UpdateAcceptedPlanRequest</a>) returns (<a href="#message-AcceptedPlan">AcceptedPlan</a>)</pre>
+
+<div class="description">
+<p>UpdateAcceptedPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteAcceptedPlan">DeleteAcceptedPlan</h5>
+
+<pre class="signature">rpc DeleteAcceptedPlan(<a href="#message-DeleteAcceptedPlanRequest">DeleteAcceptedPlanRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteAcceptedPlan</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-AcceptedPlan.Assignee">AcceptedPlan.Assignee</h5>
+
+<p>Assignee indicates for whom plan was accepted for.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">project_assignee</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Project for whom plan is for.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">organization_assignee</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Organization for whom plan is for.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">system_assignee</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If true, it means plan is for system itself.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetAcceptedPlanRequest">GetAcceptedPlanRequest</h5>
+
+<p>Request message for method
+[GetAcceptedPlan][ntt.limits.v1alpha2.GetAcceptedPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetAcceptedPlansRequest">BatchGetAcceptedPlansRequest</h5>
+
+<p>Request message for method
+[BatchGetAcceptedPlans][ntt.limits.v1alpha2.BatchGetAcceptedPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of AcceptedPlans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetAcceptedPlansResponse">BatchGetAcceptedPlansResponse</h5>
+
+<p>BatchGetAcceptedPlansResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plans</th>
+<td class="type"><pre>repeated <a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>found AcceptedPlans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found AcceptedPlans</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListAcceptedPlansRequest">ListAcceptedPlansRequest</h5>
+
+<p>Request message for method
+[ListAcceptedPlans][ntt.limits.v1alpha2.ListAcceptedPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AcceptedPlans than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListAcceptedPlansResponse.next_page_token][ntt.limits.v1alpha2.ListAcceptedPlansResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListAcceptedPlansResponse">ListAcceptedPlansResponse</h5>
+
+<p>Request message for method
+[ListAcceptedPlans][ntt.limits.v1alpha2.ListAcceptedPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plans</th>
+<td class="type"><pre>repeated <a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of AcceptedPlans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListAcceptedPlansRequest.page_token][ntt.limits.v1alpha2.ListAcceptedPlansRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListAcceptedPlansRequest.page_token][ntt.limits.v1alpha2.ListAcceptedPlansRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAcceptedPlanRequest">WatchAcceptedPlanRequest</h5>
+
+<p>Request message for method
+[WatchAcceptedPlan][ntt.limits.v1alpha2.WatchAcceptedPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAcceptedPlanResponse">WatchAcceptedPlanResponse</h5>
+
+<p>WatchAcceptedPlanResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-AcceptedPlanChange">AcceptedPlanChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAcceptedPlansRequest">WatchAcceptedPlansRequest</h5>
+
+<p>Request message for method
+[WatchAcceptedPlans][ntt.limits.v1alpha2.WatchAcceptedPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AcceptedPlans than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to AcceptedPlan that don't
+affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+AcceptedPlan that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAcceptedPlansResponse">WatchAcceptedPlansResponse</h5>
+
+<p>WatchAcceptedPlansResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plan_changes</th>
+<td class="type"><pre>repeated <a href="#message-AcceptedPlanChange">AcceptedPlanChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of AcceptedPlans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All AcceptedPlans will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchAcceptedPlansResponse.PageTokenChange">WatchAcceptedPlansResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (AcceptedPlans will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchAcceptedPlansResponse.PageTokenChange">WatchAcceptedPlansResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateAcceptedPlanRequest">CreateAcceptedPlanRequest</h5>
+
+<p>Request message for method
+[CreateAcceptedPlan][ntt.limits.v1alpha2.CreateAcceptedPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>AcceptedPlan resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateAcceptedPlanRequest">UpdateAcceptedPlanRequest</h5>
+
+<p>Request message for method
+[UpdateAcceptedPlan][ntt.limits.v1alpha2.UpdateAcceptedPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>AcceptedPlan resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateAcceptedPlanRequest.CAS">UpdateAcceptedPlanRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateAcceptedPlanRequest.CAS">UpdateAcceptedPlanRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteAcceptedPlanRequest">DeleteAcceptedPlanRequest</h5>
+
+<p>Request message for method
+[DeleteAcceptedPlan][ntt.limits.v1alpha2.DeleteAcceptedPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.AcceptedPlan</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-Limit"><span id="message-Limit">Limit</span></h3>
+
+<p>Limit resource represents usage/limit of specific resource
+in specific project and region - however instances of those
+resources are managed by primary region of project. This
+ensures consistency and allows modification of project limits
+in one database transaction.
+Limit instances cannot be created or deleted. They cannot be
+also be modified (there are only some state fields controlled
+by system). Limits are created/modified along with
+PlanAssignment instances.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of Limit, it has following format:
+projects/{project}/limits/{regionId}/{resourceType}</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Referenced service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Referenced resource type</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">region</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Region ID to which this limit applies. This may be different
+compared to default project region, because projects themselves
+can be multi-regional.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">configured_limit</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Configured limit - it is always in sync with limits
+predicted by PlanAssignment instances.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">active_limit</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Active limit - it is always equal to configured limit with exceptions:</p>
+<ul>
+<li>If configured limit has just changed, then active limit will for
+a moment contain old value before synchronization.</li>
+<li>If it turns out that usage increased in the very same moment
+when configured limit decreased, then active limit will hold
+old value indicating problem.
+It is important to note that, because projects may be multi-regional,
+limits are tracked by their FINAL region (See region field).
+State fields (active limit and usage) are synced asynchronously.
+From user perspective this field can be hidden if in line with
+configured limit.</li>
+</ul>
+</td></tr>
+
+<tr>
+<th rowspan="2">usage</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Number of resources currently in existence.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">source</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>LimitPool source that gave birth to this Limit. Any change
+in configured/active value in current Limit increases/decreases
+reserved field in source LimitPool.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetLimit">GetLimit</h5>
+
+<pre class="signature">rpc GetLimit(<a href="#message-GetLimitRequest">GetLimitRequest</a>) returns (<a href="#message-Limit">Limit</a>)</pre>
+
+<div class="description">
+<p>GetLimit</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetLimits">BatchGetLimits</h5>
+
+<pre class="signature">rpc BatchGetLimits(<a href="#message-BatchGetLimitsRequest">BatchGetLimitsRequest</a>) returns (<a href="#message-BatchGetLimitsResponse">BatchGetLimitsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetLimits</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListLimits">ListLimits</h5>
+
+<pre class="signature">rpc ListLimits(<a href="#message-ListLimitsRequest">ListLimitsRequest</a>) returns (<a href="#message-ListLimitsResponse">ListLimitsResponse</a>)</pre>
+
+<div class="description">
+<p>ListLimits</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLimit">WatchLimit</h5>
+
+<pre class="signature">rpc WatchLimit(<a href="#message-WatchLimitRequest">WatchLimitRequest</a>) returns (<a href="#message-WatchLimitResponse">WatchLimitResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLimit</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLimits">WatchLimits</h5>
+
+<pre class="signature">rpc WatchLimits(<a href="#message-WatchLimitsRequest">WatchLimitsRequest</a>) returns (<a href="#message-WatchLimitsResponse">WatchLimitsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLimits</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateLimit">UpdateLimit</h5>
+
+<pre class="signature">rpc UpdateLimit(<a href="#message-UpdateLimitRequest">UpdateLimitRequest</a>) returns (<a href="#message-Limit">Limit</a>)</pre>
+
+<div class="description">
+<p>UpdateLimit</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetLimitRequest">GetLimitRequest</h5>
+
+<p>Request message for method [GetLimit][ntt.limits.v1alpha2.GetLimit]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLimitsRequest">BatchGetLimitsRequest</h5>
+
+<p>Request message for method
+[BatchGetLimits][ntt.limits.v1alpha2.BatchGetLimits]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of Limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLimitsResponse">BatchGetLimitsResponse</h5>
+
+<p>BatchGetLimitsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limits</th>
+<td class="type"><pre>repeated <a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"><p>found Limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found Limits</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLimitsRequest">ListLimitsRequest</h5>
+
+<p>Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Limits than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListLimitsResponse.next_page_token][ntt.limits.v1alpha2.ListLimitsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLimitsResponse">ListLimitsResponse</h5>
+
+<p>Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limits</th>
+<td class="type"><pre>repeated <a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of Limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitRequest">WatchLimitRequest</h5>
+
+<p>Request message for method [WatchLimit][ntt.limits.v1alpha2.WatchLimit]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitResponse">WatchLimitResponse</h5>
+
+<p>WatchLimitResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-LimitChange">LimitChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitsRequest">WatchLimitsRequest</h5>
+
+<p>Request message for method [WatchLimits][ntt.limits.v1alpha2.WatchLimits]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Limits than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to Limit that don't affect any
+of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+Limit that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitsResponse">WatchLimitsResponse</h5>
+
+<p>WatchLimitsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_changes</th>
+<td class="type"><pre>repeated <a href="#message-LimitChange">LimitChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of Limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All Limits will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchLimitsResponse.PageTokenChange">WatchLimitsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (Limits will contains changes of
+type Current only). Any resume tokens should be discarded as well. This
+field should be checked only for stateless watch. In stateful those kind of
+errors are handled by the server side. Will never be sent along with
+is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitsResponse.PageTokenChange">WatchLimitsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLimitRequest">UpdateLimitRequest</h5>
+
+<p>Request message for method [UpdateLimit][ntt.limits.v1alpha2.UpdateLimit]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit</th>
+<td class="type"><pre><a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"><p>Limit resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateLimitRequest.CAS">UpdateLimitRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLimitRequest.CAS">UpdateLimitRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-LimitPool"><span id="message-LimitPool">LimitPool</span></h3>
+
+<p>LimitPool represents a pool from which next LimitPool
+or final Limit instances are allocated from. LimitPool
+can either belong to a system (first pool, without parent) or
+organization (which got pool from system or parent organization).
+Size of child limit or limit pools must not exceed parent
+limit pool.
+LimitPool is in a way similar to Limit - it has scope and
+associated resource but:</p>
+<ul>
+<li>LimitPool is non-final object. It cannot be used to
+allocate resources directly. It need child Limit first. So
+field with values in LimitPool are configured size, active
+size and reserved. Fields in Limit are configured limit,
+active limit and usage - they need different interpretation.</li>
+<li>LimitPool is not regional, because it may feed limits in
+other regions. Limit has extra tracker in their final region
+for state synchronization purpose.
+Because LimitPool instances within one scope (system, organization)
+are managed by primary region of that scope, changes in them
+are done with only single transaction.
+LimitPool instances cannot be created or deleted. They cannot be
+also be modified (there are only some state fields controlled
+by system). LimitPools are created/modified along with
+PlanAssignment instances.</li>
+</ul>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Referenced service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Referenced resource type</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">configured_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Configured size of pool according to PlanAssignment instances
+belonging to same scope (system or organization).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">active_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Active pool size. It will be normally equal to configured size.
+However, if configured size goes down below reserved value,
+then active size will be equal to that &quot;reserved&quot;.
+It will also prevent parent LimitPool (if any) from getting
+limit value back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">reserved</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Configured OR Active Size of all child Limit and LimitPool instances -
+whichever is bigger.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">source</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>LimitPool source that gave birth to this LimitPool. Any change
+in configured/active value in current LimitPool increases/decreases
+reserved field in source LimitPool.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetLimitPool">GetLimitPool</h5>
+
+<pre class="signature">rpc GetLimitPool(<a href="#message-GetLimitPoolRequest">GetLimitPoolRequest</a>) returns (<a href="#message-LimitPool">LimitPool</a>)</pre>
+
+<div class="description">
+<p>GetLimitPool</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetLimitPools">BatchGetLimitPools</h5>
+
+<pre class="signature">rpc BatchGetLimitPools(<a href="#message-BatchGetLimitPoolsRequest">BatchGetLimitPoolsRequest</a>) returns (<a href="#message-BatchGetLimitPoolsResponse">BatchGetLimitPoolsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetLimitPools</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListLimitPools">ListLimitPools</h5>
+
+<pre class="signature">rpc ListLimitPools(<a href="#message-ListLimitPoolsRequest">ListLimitPoolsRequest</a>) returns (<a href="#message-ListLimitPoolsResponse">ListLimitPoolsResponse</a>)</pre>
+
+<div class="description">
+<p>ListLimitPools</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLimitPool">WatchLimitPool</h5>
+
+<pre class="signature">rpc WatchLimitPool(<a href="#message-WatchLimitPoolRequest">WatchLimitPoolRequest</a>) returns (<a href="#message-WatchLimitPoolResponse">WatchLimitPoolResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLimitPool</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLimitPools">WatchLimitPools</h5>
+
+<pre class="signature">rpc WatchLimitPools(<a href="#message-WatchLimitPoolsRequest">WatchLimitPoolsRequest</a>) returns (<a href="#message-WatchLimitPoolsResponse">WatchLimitPoolsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLimitPools</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateLimitPool">UpdateLimitPool</h5>
+
+<pre class="signature">rpc UpdateLimitPool(<a href="#message-UpdateLimitPoolRequest">UpdateLimitPoolRequest</a>) returns (<a href="#message-LimitPool">LimitPool</a>)</pre>
+
+<div class="description">
+<p>UpdateLimitPool</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetLimitPoolRequest">GetLimitPoolRequest</h5>
+
+<p>Request message for method [GetLimitPool][ntt.limits.v1alpha2.GetLimitPool]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLimitPoolsRequest">BatchGetLimitPoolsRequest</h5>
+
+<p>Request message for method
+[BatchGetLimitPools][ntt.limits.v1alpha2.BatchGetLimitPools]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of LimitPools</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLimitPoolsResponse">BatchGetLimitPoolsResponse</h5>
+
+<p>BatchGetLimitPoolsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pools</th>
+<td class="type"><pre>repeated <a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"><p>found LimitPools</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found LimitPools</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLimitPoolsRequest">ListLimitPoolsRequest</h5>
+
+<p>Request message for method
+[ListLimitPools][ntt.limits.v1alpha2.ListLimitPools]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.v1alpha2.LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer LimitPools than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListLimitPoolsResponse.next_page_token][ntt.limits.v1alpha2.ListLimitPoolsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLimitPoolsResponse">ListLimitPoolsResponse</h5>
+
+<p>Request message for method
+[ListLimitPools][ntt.limits.v1alpha2.ListLimitPools]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pools</th>
+<td class="type"><pre>repeated <a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of LimitPools</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListLimitPoolsRequest.page_token][ntt.limits.v1alpha2.ListLimitPoolsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListLimitPoolsRequest.page_token][ntt.limits.v1alpha2.ListLimitPoolsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitPoolRequest">WatchLimitPoolRequest</h5>
+
+<p>Request message for method
+[WatchLimitPool][ntt.limits.v1alpha2.WatchLimitPool]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitPoolResponse">WatchLimitPoolResponse</h5>
+
+<p>WatchLimitPoolResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-LimitPoolChange">LimitPoolChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitPoolsRequest">WatchLimitPoolsRequest</h5>
+
+<p>Request message for method
+[WatchLimitPools][ntt.limits.v1alpha2.WatchLimitPools]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer LimitPools than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to LimitPool that don't affect
+any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+LimitPool that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitPoolsResponse">WatchLimitPoolsResponse</h5>
+
+<p>WatchLimitPoolsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pool_changes</th>
+<td class="type"><pre>repeated <a href="#message-LimitPoolChange">LimitPoolChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of LimitPools</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All LimitPools will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchLimitPoolsResponse.PageTokenChange">WatchLimitPoolsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (LimitPools will contains changes
+of type Current only). Any resume tokens should be discarded as well. This
+field should be checked only for stateless watch. In stateful those kind of
+errors are handled by the server side. Will never be sent along with
+is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLimitPoolsResponse.PageTokenChange">WatchLimitPoolsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLimitPoolRequest">UpdateLimitPoolRequest</h5>
+
+<p>Request message for method
+[UpdateLimitPool][ntt.limits.v1alpha2.UpdateLimitPool]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pool</th>
+<td class="type"><pre><a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"><p>LimitPool resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateLimitPoolRequest.CAS">UpdateLimitPoolRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLimitPoolRequest.CAS">UpdateLimitPoolRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-Plan"><span id="message-Plan">Plan</span></h3>
+
+<p>Plan is a bundle with set of limits for various resources.
+Those resources should be mostly from service plan references,
+but it can also include resources from imported services too.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of Plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">display_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Primary service to which this plan applies</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource_limits</th>
+<td class="type"><pre>repeated <a href="#message-Allowance">Allowance</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of limits per each resource. Resources may belong to different
+services (dependant services)</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetPlan">GetPlan</h5>
+
+<pre class="signature">rpc GetPlan(<a href="#message-GetPlanRequest">GetPlanRequest</a>) returns (<a href="#message-Plan">Plan</a>)</pre>
+
+<div class="description">
+<p>GetPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetPlans">BatchGetPlans</h5>
+
+<pre class="signature">rpc BatchGetPlans(<a href="#message-BatchGetPlansRequest">BatchGetPlansRequest</a>) returns (<a href="#message-BatchGetPlansResponse">BatchGetPlansResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListPlans">ListPlans</h5>
+
+<pre class="signature">rpc ListPlans(<a href="#message-ListPlansRequest">ListPlansRequest</a>) returns (<a href="#message-ListPlansResponse">ListPlansResponse</a>)</pre>
+
+<div class="description">
+<p>ListPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlan">WatchPlan</h5>
+
+<pre class="signature">rpc WatchPlan(<a href="#message-WatchPlanRequest">WatchPlanRequest</a>) returns (<a href="#message-WatchPlanResponse">WatchPlanResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlans">WatchPlans</h5>
+
+<pre class="signature">rpc WatchPlans(<a href="#message-WatchPlansRequest">WatchPlansRequest</a>) returns (<a href="#message-WatchPlansResponse">WatchPlansResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlans</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreatePlan">CreatePlan</h5>
+
+<pre class="signature">rpc CreatePlan(<a href="#message-CreatePlanRequest">CreatePlanRequest</a>) returns (<a href="#message-Plan">Plan</a>)</pre>
+
+<div class="description">
+<p>CreatePlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdatePlan">UpdatePlan</h5>
+
+<pre class="signature">rpc UpdatePlan(<a href="#message-UpdatePlanRequest">UpdatePlanRequest</a>) returns (<a href="#message-Plan">Plan</a>)</pre>
+
+<div class="description">
+<p>UpdatePlan</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeletePlan">DeletePlan</h5>
+
+<pre class="signature">rpc DeletePlan(<a href="#message-DeletePlanRequest">DeletePlanRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeletePlan</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetPlanRequest">GetPlanRequest</h5>
+
+<p>Request message for method [GetPlan][ntt.limits.v1alpha2.GetPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.Plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlansRequest">BatchGetPlansRequest</h5>
+
+<p>Request message for method [BatchGetPlans][ntt.limits.v1alpha2.BatchGetPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of Plans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlansResponse">BatchGetPlansResponse</h5>
+
+<p>BatchGetPlansResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plans</th>
+<td class="type"><pre>repeated <a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>found Plans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found Plans</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlansRequest">ListPlansRequest</h5>
+
+<p>Request message for method [ListPlans][ntt.limits.v1alpha2.ListPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Plans than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListPlansResponse.next_page_token][ntt.limits.v1alpha2.ListPlansResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlansResponse">ListPlansResponse</h5>
+
+<p>Request message for method [ListPlans][ntt.limits.v1alpha2.ListPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plans</th>
+<td class="type"><pre>repeated <a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of Plans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListPlansRequest.page_token][ntt.limits.v1alpha2.ListPlansRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListPlansRequest.page_token][ntt.limits.v1alpha2.ListPlansRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanRequest">WatchPlanRequest</h5>
+
+<p>Request message for method [WatchPlan][ntt.limits.v1alpha2.WatchPlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.Plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanResponse">WatchPlanResponse</h5>
+
+<p>WatchPlanResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-PlanChange">PlanChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlansRequest">WatchPlansRequest</h5>
+
+<p>Request message for method [WatchPlans][ntt.limits.v1alpha2.WatchPlans]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Plans than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to Plan that don't affect any
+of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+Plan that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlansResponse">WatchPlansResponse</h5>
+
+<p>WatchPlansResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_changes</th>
+<td class="type"><pre>repeated <a href="#message-PlanChange">PlanChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of Plans</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All Plans will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchPlansResponse.PageTokenChange">WatchPlansResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (Plans will contains changes of
+type Current only). Any resume tokens should be discarded as well. This
+field should be checked only for stateless watch. In stateful those kind of
+errors are handled by the server side. Will never be sent along with
+is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlansResponse.PageTokenChange">WatchPlansResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreatePlanRequest">CreatePlanRequest</h5>
+
+<p>Request message for method [CreatePlan][ntt.limits.v1alpha2.CreatePlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>Plan resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanRequest">UpdatePlanRequest</h5>
+
+<p>Request message for method [UpdatePlan][ntt.limits.v1alpha2.UpdatePlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>Plan resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdatePlanRequest.CAS">UpdatePlanRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanRequest.CAS">UpdatePlanRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeletePlanRequest">DeletePlanRequest</h5>
+
+<p>Request message for method [DeletePlan][ntt.limits.v1alpha2.DeletePlan]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.Plan</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-PlanAssignment"><span id="message-PlanAssignment">PlanAssignment</span></h3>
+
+<p>PlanAssignment binds plan (with optional customizations) with specific
+entity (assignee - either system, organization or project).
+Plan assignments (sum of them) are used to compute configured size of
+limit pools (system and organizations) AND limits (projects).
+They are not modifiable - limits are passed from system to projects,
+so each PlanAssignment must be agreed by higher instance (parent organization
+or system). System recognizes acceptance by existence of AcceptedPlan
+instances - it synchronizes PlanAssignment instances with them.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Plan with basic set of limits</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service associated with plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">extensions</th>
+<td class="type"><pre>repeated <a href="#message-Allowance">Allowance</a></pre></td>
+</tr>
+<tr><td class="description"><p>Additional extensions (but may be negative) on top of regular plan.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_distributions</th>
+<td class="type"><pre>repeated <a href="#message-RegionalDistribution">RegionalDistribution</a></pre></td>
+</tr>
+<tr><td class="description"><p>Regional distributions across regions. This field makes sense only
+for projects, because limit pools are regionless.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">source</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Source with which this PlanAssignment is synchronized.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetPlanAssignment">GetPlanAssignment</h5>
+
+<pre class="signature">rpc GetPlanAssignment(<a href="#message-GetPlanAssignmentRequest">GetPlanAssignmentRequest</a>) returns (<a href="#message-PlanAssignment">PlanAssignment</a>)</pre>
+
+<div class="description">
+<p>GetPlanAssignment</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetPlanAssignments">BatchGetPlanAssignments</h5>
+
+<pre class="signature">rpc BatchGetPlanAssignments(<a href="#message-BatchGetPlanAssignmentsRequest">BatchGetPlanAssignmentsRequest</a>) returns (<a href="#message-BatchGetPlanAssignmentsResponse">BatchGetPlanAssignmentsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetPlanAssignments</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListPlanAssignments">ListPlanAssignments</h5>
+
+<pre class="signature">rpc ListPlanAssignments(<a href="#message-ListPlanAssignmentsRequest">ListPlanAssignmentsRequest</a>) returns (<a href="#message-ListPlanAssignmentsResponse">ListPlanAssignmentsResponse</a>)</pre>
+
+<div class="description">
+<p>ListPlanAssignments</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlanAssignment">WatchPlanAssignment</h5>
+
+<pre class="signature">rpc WatchPlanAssignment(<a href="#message-WatchPlanAssignmentRequest">WatchPlanAssignmentRequest</a>) returns (<a href="#message-WatchPlanAssignmentResponse">WatchPlanAssignmentResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlanAssignment</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlanAssignments">WatchPlanAssignments</h5>
+
+<pre class="signature">rpc WatchPlanAssignments(<a href="#message-WatchPlanAssignmentsRequest">WatchPlanAssignmentsRequest</a>) returns (<a href="#message-WatchPlanAssignmentsResponse">WatchPlanAssignmentsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlanAssignments</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreatePlanAssignment">CreatePlanAssignment</h5>
+
+<pre class="signature">rpc CreatePlanAssignment(<a href="#message-CreatePlanAssignmentRequest">CreatePlanAssignmentRequest</a>) returns (<a href="#message-PlanAssignment">PlanAssignment</a>)</pre>
+
+<div class="description">
+<p>CreatePlanAssignment</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdatePlanAssignment">UpdatePlanAssignment</h5>
+
+<pre class="signature">rpc UpdatePlanAssignment(<a href="#message-UpdatePlanAssignmentRequest">UpdatePlanAssignmentRequest</a>) returns (<a href="#message-PlanAssignment">PlanAssignment</a>)</pre>
+
+<div class="description">
+<p>UpdatePlanAssignment</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeletePlanAssignment">DeletePlanAssignment</h5>
+
+<pre class="signature">rpc DeletePlanAssignment(<a href="#message-DeletePlanAssignmentRequest">DeletePlanAssignmentRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeletePlanAssignment</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetPlanAssignmentRequest">GetPlanAssignmentRequest</h5>
+
+<p>Request message for method
+[GetPlanAssignment][ntt.limits.v1alpha2.GetPlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlanAssignmentsRequest">BatchGetPlanAssignmentsRequest</h5>
+
+<p>Request message for method
+[BatchGetPlanAssignments][ntt.limits.v1alpha2.BatchGetPlanAssignments]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of PlanAssignments</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlanAssignmentsResponse">BatchGetPlanAssignmentsResponse</h5>
+
+<p>BatchGetPlanAssignmentsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignments</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>found PlanAssignments</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found PlanAssignments</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlanAssignmentsRequest">ListPlanAssignmentsRequest</h5>
+
+<p>Request message for method
+[ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer PlanAssignments than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListPlanAssignmentsResponse.next_page_token][ntt.limits.v1alpha2.ListPlanAssignmentsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlanAssignmentsResponse">ListPlanAssignmentsResponse</h5>
+
+<p>Request message for method
+[ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignments</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of PlanAssignments</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequest">WatchPlanAssignmentRequest</h5>
+
+<p>Request message for method
+[WatchPlanAssignment][ntt.limits.v1alpha2.WatchPlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentResponse">WatchPlanAssignmentResponse</h5>
+
+<p>WatchPlanAssignmentResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-PlanAssignmentChange">PlanAssignmentChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentsRequest">WatchPlanAssignmentsRequest</h5>
+
+<p>Request message for method
+[WatchPlanAssignments][ntt.limits.v1alpha2.WatchPlanAssignments]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer PlanAssignments than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to PlanAssignment that don't
+affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+PlanAssignment that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentsResponse">WatchPlanAssignmentsResponse</h5>
+
+<p>WatchPlanAssignmentsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_changes</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignmentChange">PlanAssignmentChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of PlanAssignments</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All PlanAssignments will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchPlanAssignmentsResponse.PageTokenChange">WatchPlanAssignmentsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (PlanAssignments will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentsResponse.PageTokenChange">WatchPlanAssignmentsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreatePlanAssignmentRequest">CreatePlanAssignmentRequest</h5>
+
+<p>Request message for method
+[CreatePlanAssignment][ntt.limits.v1alpha2.CreatePlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>PlanAssignment resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanAssignmentRequest">UpdatePlanAssignmentRequest</h5>
+
+<p>Request message for method
+[UpdatePlanAssignment][ntt.limits.v1alpha2.UpdatePlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>PlanAssignment resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdatePlanAssignmentRequest.CAS">UpdatePlanAssignmentRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanAssignmentRequest.CAS">UpdatePlanAssignmentRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeletePlanAssignmentRequest">DeletePlanAssignmentRequest</h5>
+
+<p>Request message for method
+[DeletePlanAssignment][ntt.limits.v1alpha2.DeletePlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.PlanAssignment</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+
+<h3 id="resource-PlanAssignmentRequest"><span id="message-PlanAssignmentRequest">PlanAssignmentRequest</span></h3>
+
+<p>PlanAssignmentRequest gives administrator a way to modify their
+PlanAssignment instances in a safe way, with respect to parent
+organization/system limits.
+PlanAssignmentRequest can be used to:</p>
+<ul>
+<li>Assign/Reassign new plan for specific service</li>
+<li>Extend specific resource limits for existing PlanAssignment</li>
+<li>Redistribute limits across regions (available for project PlanAssignments)</li>
+<li>Unassign existing PlanAssignment
+Certain requests may be automatically approved by system (for example, if
+they would result in lowering limits), other require higher administrator
+consent. User creating request should check status field after operation
+to check if request was automatically approved.</li>
+</ul>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Request">PlanAssignmentRequest.Request</a></pre></td>
+</tr>
+<tr><td class="description"><p>Purpose of this request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service associated with this request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">approver</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Approver</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">status</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Status">PlanAssignmentRequest.Status</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetPlanAssignmentRequest">GetPlanAssignmentRequest</h5>
+
+<pre class="signature">rpc GetPlanAssignmentRequest(<a href="#message-GetPlanAssignmentRequestRequest">GetPlanAssignmentRequestRequest</a>) returns (<a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a>)</pre>
+
+<div class="description">
+<p>GetPlanAssignmentRequest</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetPlanAssignmentRequests">BatchGetPlanAssignmentRequests</h5>
+
+<pre class="signature">rpc BatchGetPlanAssignmentRequests(<a href="#message-BatchGetPlanAssignmentRequestsRequest">BatchGetPlanAssignmentRequestsRequest</a>) returns (<a href="#message-BatchGetPlanAssignmentRequestsResponse">BatchGetPlanAssignmentRequestsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetPlanAssignmentRequests</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListPlanAssignmentRequests">ListPlanAssignmentRequests</h5>
+
+<pre class="signature">rpc ListPlanAssignmentRequests(<a href="#message-ListPlanAssignmentRequestsRequest">ListPlanAssignmentRequestsRequest</a>) returns (<a href="#message-ListPlanAssignmentRequestsResponse">ListPlanAssignmentRequestsResponse</a>)</pre>
+
+<div class="description">
+<p>ListPlanAssignmentRequests</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlanAssignmentRequest">WatchPlanAssignmentRequest</h5>
+
+<pre class="signature">rpc WatchPlanAssignmentRequest(<a href="#message-WatchPlanAssignmentRequestRequest">WatchPlanAssignmentRequestRequest</a>) returns (<a href="#message-WatchPlanAssignmentRequestResponse">WatchPlanAssignmentRequestResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlanAssignmentRequest</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchPlanAssignmentRequests">WatchPlanAssignmentRequests</h5>
+
+<pre class="signature">rpc WatchPlanAssignmentRequests(<a href="#message-WatchPlanAssignmentRequestsRequest">WatchPlanAssignmentRequestsRequest</a>) returns (<a href="#message-WatchPlanAssignmentRequestsResponse">WatchPlanAssignmentRequestsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchPlanAssignmentRequests</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreatePlanAssignmentRequest">CreatePlanAssignmentRequest</h5>
+
+<pre class="signature">rpc CreatePlanAssignmentRequest(<a href="#message-CreatePlanAssignmentRequestRequest">CreatePlanAssignmentRequestRequest</a>) returns (<a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a>)</pre>
+
+<div class="description">
+<p>CreatePlanAssignmentRequest</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdatePlanAssignmentRequest">UpdatePlanAssignmentRequest</h5>
+
+<pre class="signature">rpc UpdatePlanAssignmentRequest(<a href="#message-UpdatePlanAssignmentRequestRequest">UpdatePlanAssignmentRequestRequest</a>) returns (<a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a>)</pre>
+
+<div class="description">
+<p>UpdatePlanAssignmentRequest</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeletePlanAssignmentRequest">DeletePlanAssignmentRequest</h5>
+
+<pre class="signature">rpc DeletePlanAssignmentRequest(<a href="#message-DeletePlanAssignmentRequestRequest">DeletePlanAssignmentRequestRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeletePlanAssignmentRequest</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-AcceptPlanAssignment">AcceptPlanAssignment</h5>
+
+<pre class="signature">rpc AcceptPlanAssignment(<a href="#message-AcceptPlanAssignmentRequest">AcceptPlanAssignmentRequest</a>) returns (<a href="#message-AcceptPlanAssignmentResponse">AcceptPlanAssignmentResponse</a>)</pre>
+
+<div class="description">
+<p>AcceptPlanAssignment</p>
+
+</div>
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeclinePlanAssignment">DeclinePlanAssignment</h5>
+
+<pre class="signature">rpc DeclinePlanAssignment(<a href="#message-DeclinePlanAssignmentRequest">DeclinePlanAssignmentRequest</a>) returns (<a href="#message-DeclinePlanAssignmentResponse">DeclinePlanAssignmentResponse</a>)</pre>
+
+<div class="description">
+<p>DeclinePlanAssignment</p>
+
+</div>
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Status">PlanAssignmentRequest.Status</h5>
+
+<p>Status</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conclusion</th>
+<td class="type"><pre><a href="#enum-PlanAssignmentRequest.Status.Conclusion">PlanAssignmentRequest.Status.Conclusion</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conclusion</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">reason</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional message with reason</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Request">PlanAssignmentRequest.Request</h5>
+
+<p>Request describes what should change in existing PlanAssignment, optionally
+if new one should be created.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">assign</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Request.Assign">PlanAssignmentRequest.Request.Assign</a></pre></td>
+</tr>
+<tr><td class="description"><p>Assign request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">extend</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Request.Extend">PlanAssignmentRequest.Request.Extend</a></pre></td>
+</tr>
+<tr><td class="description"><p>Extend request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">redistribute</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Request.Redistribute">PlanAssignmentRequest.Request.Redistribute</a></pre></td>
+</tr>
+<tr><td class="description"><p>Redistribute request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">unassign</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest.Request.Unassign">PlanAssignmentRequest.Request.Unassign</a></pre></td>
+</tr>
+<tr><td class="description"><p>Unassign request</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Request.Assign">PlanAssignmentRequest.Request.Assign</h5>
+
+<p>Assign request requests for new PlanAssignment instance. If there
+already is a plan for same service, then previous record is overwritten.
+In other words, this request can also be used to upgrade/downgrade
+existing plan.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Plan to apply</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">extensions</th>
+<td class="type"><pre>repeated <a href="#message-Allowance">Allowance</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of all extensions over basic plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_distributions</th>
+<td class="type"><pre>repeated <a href="#message-RegionalDistribution">RegionalDistribution</a></pre></td>
+</tr>
+<tr><td class="description"><p>Optional list of distributions across regions. This field
+can only be used for project plans only.
+It may be provided fully or partially by user - system will
+automatically distribute remaining limits equally across
+all regions.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Request.Extend">PlanAssignmentRequest.Request.Extend</h5>
+
+<p>Extend request should be used in order to increase (optionally
+decrease) limits from existing plan assignment.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">assignment</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to existing plan assignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">additions</th>
+<td class="type"><pre>repeated <a href="#message-Allowance">Allowance</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of limits to merge within existing assignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_distributions</th>
+<td class="type"><pre>repeated <a href="#message-RegionalDistribution">RegionalDistribution</a></pre></td>
+</tr>
+<tr><td class="description"><p>Distributions of NEW (only!) limits across regions.
+It does not allow for redistribution of existing limits before.
+It is optional, but can be provided only for project plans.
+May be provided fully or partially, system will distribute
+remaining limits on its own.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Request.Redistribute">PlanAssignmentRequest.Request.Redistribute</h5>
+
+<p>Redistribute request is used to move existing limits across
+regions. It cannot change total values.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">assignment</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to existing assignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">regional_distributions</th>
+<td class="type"><pre>repeated <a href="#message-RegionalDistribution">RegionalDistribution</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of regional distributions. It should contain
+only those regions where limits are moved from/to.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequest.Request.Unassign">PlanAssignmentRequest.Request.Unassign</h5>
+
+<p>Unassign is used to remove existing PlanAssignment. This will
+always be automatically approved unless limits are in use by
+existing resources.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">assignment</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetPlanAssignmentRequestRequest">GetPlanAssignmentRequestRequest</h5>
+
+<p>Request message for method
+[GetPlanAssignmentRequest][ntt.limits.v1alpha2.GetPlanAssignmentRequest]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlanAssignmentRequestsRequest">BatchGetPlanAssignmentRequestsRequest</h5>
+
+<p>Request message for method
+[BatchGetPlanAssignmentRequests][ntt.limits.v1alpha2.BatchGetPlanAssignmentRequests]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of PlanAssignmentRequests</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetPlanAssignmentRequestsResponse">BatchGetPlanAssignmentRequestsResponse</h5>
+
+<p>BatchGetPlanAssignmentRequestsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_requests</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>found PlanAssignmentRequests</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found PlanAssignmentRequests</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlanAssignmentRequestsRequest">ListPlanAssignmentRequestsRequest</h5>
+
+<p>Request message for method
+[ListPlanAssignmentRequests][ntt.limits.v1alpha2.ListPlanAssignmentRequests]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer PlanAssignmentRequests than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListPlanAssignmentRequestsResponse.next_page_token][ntt.limits.v1alpha2.ListPlanAssignmentRequestsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListPlanAssignmentRequestsResponse">ListPlanAssignmentRequestsResponse</h5>
+
+<p>Request message for method
+[ListPlanAssignmentRequests][ntt.limits.v1alpha2.ListPlanAssignmentRequests]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_requests</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of PlanAssignmentRequests</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListPlanAssignmentRequestsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentRequestsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListPlanAssignmentRequestsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentRequestsRequest.page_token]</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequestRequest">WatchPlanAssignmentRequestRequest</h5>
+
+<p>Request message for method
+[WatchPlanAssignmentRequest][ntt.limits.v1alpha2.WatchPlanAssignmentRequest]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequestResponse">WatchPlanAssignmentRequestResponse</h5>
+
+<p>WatchPlanAssignmentRequestResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequestChange">PlanAssignmentRequestChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequestsRequest">WatchPlanAssignmentRequestsRequest</h5>
+
+<p>Request message for method
+[WatchPlanAssignmentRequests][ntt.limits.v1alpha2.WatchPlanAssignmentRequests]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer PlanAssignmentRequests than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to PlanAssignmentRequest that
+don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+PlanAssignmentRequest that don't affect any of masked fields won't be sent
+back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequestsResponse">WatchPlanAssignmentRequestsResponse</h5>
+
+<p>WatchPlanAssignmentRequestsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_request_changes</th>
+<td class="type"><pre>repeated <a href="#message-PlanAssignmentRequestChange">PlanAssignmentRequestChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of PlanAssignmentRequests</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All PlanAssignmentRequests will be of
+type Added/Current (depending on watch_type specified in the request).
+Further responses will be incremental - however messages may still be
+chunked and is_current logic still applies. is_current is always true for
+stateful watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchPlanAssignmentRequestsResponse.PageTokenChange">WatchPlanAssignmentRequestsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (PlanAssignmentRequests will
+contains changes of type Current only). Any resume tokens should be
+discarded as well. This field should be checked only for stateless watch.
+In stateful those kind of errors are handled by the server side. Will never
+be sent along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchPlanAssignmentRequestsResponse.PageTokenChange">WatchPlanAssignmentRequestsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreatePlanAssignmentRequestRequest">CreatePlanAssignmentRequestRequest</h5>
+
+<p>Request message for method
+[CreatePlanAssignmentRequest][ntt.limits.v1alpha2.CreatePlanAssignmentRequest]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan_assignment_request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>PlanAssignmentRequest resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanAssignmentRequestRequest">UpdatePlanAssignmentRequestRequest</h5>
+
+<p>Request message for method
+[UpdatePlanAssignmentRequest][ntt.limits.v1alpha2.UpdatePlanAssignmentRequest]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>PlanAssignmentRequest resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdatePlanAssignmentRequestRequest.CAS">UpdatePlanAssignmentRequestRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePlanAssignmentRequestRequest.CAS">UpdatePlanAssignmentRequestRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeletePlanAssignmentRequestRequest">DeletePlanAssignmentRequestRequest</h5>
+
+<p>Request message for method
+[DeletePlanAssignmentRequest][ntt.limits.v1alpha2.DeletePlanAssignmentRequest]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptPlanAssignmentRequest">AcceptPlanAssignmentRequest</h5>
+
+<p>Request message for method
+[AcceptPlanAssignment][ntt.limits.v1alpha2.AcceptPlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.limits.v1alpha2.PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">approver</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Entity approving plan assignment. It can be left empty if the one approving
+uses system-level privileges.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptPlanAssignmentResponse">AcceptPlanAssignmentResponse</h5>
+
+<p>Response message for method
+[AcceptAssignment][ntt.limits.v1alpha2.AcceptAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeclinePlanAssignmentRequest">DeclinePlanAssignmentRequest</h5>
+
+<p>Request message for method
+[DeclineAssignment][ntt.limits.v1alpha2.DeclineAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.limits.v1alpha2.AssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">approver</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Entity approving plan assignment. It must match approver in
+PlanAssignmentRequest.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">reason</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeclinePlanAssignmentResponse">DeclinePlanAssignmentResponse</h5>
+
+<p>Response message for method
+[DeclinePlanAssignment][ntt.limits.v1alpha2.DeclinePlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-PlanAssignmentRequest.Status.Conclusion">PlanAssignmentRequest.Status.Conclusion</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>PENDING</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>APPROVED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>REJECTED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
+
+
+ 
+
+<h4 id="shared-resources">Shared Resources</h4>
+
+<h5>Operations</h5>
+
+ 
+
+
+<h5>Messages<h5>
+
+<h5 id="message-AcceptedPlanChange">AcceptedPlanChange</h5>
+
+<p>AcceptedPlanChange is used by Watch notifications Responses to describe
+change of single AcceptedPlan One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-AcceptedPlanChange.Added">AcceptedPlanChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-AcceptedPlanChange.Modified">AcceptedPlanChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-AcceptedPlanChange.Current">AcceptedPlanChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-AcceptedPlanChange.Removed">AcceptedPlanChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when AcceptedPlan is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptedPlanChange.Added">AcceptedPlanChange.Added</h5>
+
+<p>AcceptedPlan has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added AcceptedPlan in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptedPlanChange.Current">AcceptedPlanChange.Current</h5>
+
+<p>AcceptedPlan has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptedPlanChange.Modified">AcceptedPlanChange.Modified</h5>
+
+<p>AcceptedPlan changed some of it's fields - contains either full document or
+masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified AcceptedPlan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">accepted_plan</th>
+<td class="type"><pre><a href="#message-AcceptedPlan">AcceptedPlan</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of AcceptedPlan or masked difference, depending on
+mask_changes instrumentation of issued [WatchAcceptedPlanRequest] or
+[WatchAcceptedPlansRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified AcceptedPlan.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying AcceptedPlan new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-AcceptedPlanChange.Removed">AcceptedPlanChange.Removed</h5>
+
+<p>Removed is returned when AcceptedPlan is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed AcceptedPlan index. Not populated in stateless
+watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Allowance">Allowance</h5>
+
+<p>Allowance informs how many instances of resource for given type are
+permitted.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">value</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Limit or extension for given resource.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitChange">LimitChange</h5>
+
+<p>LimitChange is used by Watch notifications Responses to describe change of
+single Limit One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-LimitChange.Added">LimitChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-LimitChange.Modified">LimitChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-LimitChange.Current">LimitChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-LimitChange.Removed">LimitChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when Limit is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitChange.Added">LimitChange.Added</h5>
+
+<p>Limit has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit</th>
+<td class="type"><pre><a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added Limit in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitChange.Current">LimitChange.Current</h5>
+
+<p>Limit has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit</th>
+<td class="type"><pre><a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitChange.Modified">LimitChange.Modified</h5>
+
+<p>Limit changed some of it's fields - contains either full document or masked
+change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified Limit</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">limit</th>
+<td class="type"><pre><a href="#message-Limit">Limit</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of Limit or masked difference, depending on mask_changes
+instrumentation of issued [WatchLimitRequest] or [WatchLimitsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified Limit.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying Limit new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitChange.Removed">LimitChange.Removed</h5>
+
+<p>Removed is returned when Limit is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed Limit index. Not populated in stateless watch
+type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitPoolChange">LimitPoolChange</h5>
+
+<p>LimitPoolChange is used by Watch notifications Responses to describe change
+of single LimitPool One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-LimitPoolChange.Added">LimitPoolChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-LimitPoolChange.Modified">LimitPoolChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-LimitPoolChange.Current">LimitPoolChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-LimitPoolChange.Removed">LimitPoolChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when LimitPool is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitPoolChange.Added">LimitPoolChange.Added</h5>
+
+<p>LimitPool has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pool</th>
+<td class="type"><pre><a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added LimitPool in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitPoolChange.Current">LimitPoolChange.Current</h5>
+
+<p>LimitPool has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">limit_pool</th>
+<td class="type"><pre><a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitPoolChange.Modified">LimitPoolChange.Modified</h5>
+
+<p>LimitPool changed some of it's fields - contains either full document or
+masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified LimitPool</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">limit_pool</th>
+<td class="type"><pre><a href="#message-LimitPool">LimitPool</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of LimitPool or masked difference, depending on mask_changes
+instrumentation of issued [WatchLimitPoolRequest] or
+[WatchLimitPoolsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified LimitPool.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying LimitPool new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LimitPoolChange.Removed">LimitPoolChange.Removed</h5>
+
+<p>Removed is returned when LimitPool is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed LimitPool index. Not populated in stateless
+watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentChange">PlanAssignmentChange</h5>
+
+<p>PlanAssignmentChange is used by Watch notifications Responses to describe
+change of single PlanAssignment One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-PlanAssignmentChange.Added">PlanAssignmentChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-PlanAssignmentChange.Modified">PlanAssignmentChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-PlanAssignmentChange.Current">PlanAssignmentChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-PlanAssignmentChange.Removed">PlanAssignmentChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when PlanAssignment is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentChange.Added">PlanAssignmentChange.Added</h5>
+
+<p>PlanAssignment has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added PlanAssignment in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentChange.Current">PlanAssignmentChange.Current</h5>
+
+<p>PlanAssignment has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentChange.Modified">PlanAssignmentChange.Modified</h5>
+
+<p>PlanAssignment changed some of it's fields - contains either full document
+or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified PlanAssignment</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of PlanAssignment or masked difference, depending on
+mask_changes instrumentation of issued [WatchPlanAssignmentRequest] or
+[WatchPlanAssignmentsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+PlanAssignment. When modification doesn't affect sorted order, value will
+remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying PlanAssignment new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentChange.Removed">PlanAssignmentChange.Removed</h5>
+
+<p>Removed is returned when PlanAssignment is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed PlanAssignment index. Not populated in
+stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequestChange">PlanAssignmentRequestChange</h5>
+
+<p>PlanAssignmentRequestChange is used by Watch notifications Responses to
+describe change of single PlanAssignmentRequest One of Added, Modified,
+Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequestChange.Added">PlanAssignmentRequestChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequestChange.Modified">PlanAssignmentRequestChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequestChange.Current">PlanAssignmentRequestChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequestChange.Removed">PlanAssignmentRequestChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when PlanAssignmentRequest is deleted or leaves Query
+view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequestChange.Added">PlanAssignmentRequestChange.Added</h5>
+
+<p>PlanAssignmentRequest has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added PlanAssignmentRequest in resulting
+query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequestChange.Current">PlanAssignmentRequestChange.Current</h5>
+
+<p>PlanAssignmentRequest has been added or modified in a query view. Version
+used for stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment_request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequestChange.Modified">PlanAssignmentRequestChange.Modified</h5>
+
+<p>PlanAssignmentRequest changed some of it's fields - contains either full
+document or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified PlanAssignmentRequest</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan_assignment_request</th>
+<td class="type"><pre><a href="#message-PlanAssignmentRequest">PlanAssignmentRequest</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of PlanAssignmentRequest or masked difference, depending on
+mask_changes instrumentation of issued
+[WatchPlanAssignmentRequestRequest] or
+[WatchPlanAssignmentRequestsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+PlanAssignmentRequest. When modification doesn't affect sorted order,
+value will remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying PlanAssignmentRequest new index in resulting query
+view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanAssignmentRequestChange.Removed">PlanAssignmentRequestChange.Removed</h5>
+
+<p>Removed is returned when PlanAssignmentRequest is deleted or leaves Query
+view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed PlanAssignmentRequest index. Not populated in
+stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanChange">PlanChange</h5>
+
+<p>PlanChange is used by Watch notifications Responses to describe change of
+single Plan One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-PlanChange.Added">PlanChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-PlanChange.Modified">PlanChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-PlanChange.Current">PlanChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-PlanChange.Removed">PlanChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when Plan is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanChange.Added">PlanChange.Added</h5>
+
+<p>Plan has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added Plan in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanChange.Current">PlanChange.Current</h5>
+
+<p>Plan has been added or modified in a query view. Version used for stateless
+watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanChange.Modified">PlanChange.Modified</h5>
+
+<p>Plan changed some of it's fields - contains either full document or masked
+change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified Plan</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan</th>
+<td class="type"><pre><a href="#message-Plan">Plan</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of Plan or masked difference, depending on mask_changes
+instrumentation of issued [WatchPlanRequest] or [WatchPlansRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified Plan.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying Plan new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-PlanChange.Removed">PlanChange.Removed</h5>
+
+<p>Removed is returned when Plan is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed Plan index. Not populated in stateless watch
+type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-RegionalDistribution">RegionalDistribution</h5>
+
+<p>RegionalDistribution shows distribution of certain resource allowances
+across regions.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">limits_by_region</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Limit per region.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+
+
+</body>
+</html>

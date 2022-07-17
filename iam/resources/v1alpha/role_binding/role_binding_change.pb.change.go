@@ -96,7 +96,7 @@ func (c *RoleBindingChange) GetRoleBinding() *RoleBinding {
 	return nil
 }
 
-func (c *RoleBindingChange) GetResource() gotenresource.Resource {
+func (c *RoleBindingChange) GetRawResource() gotenresource.Resource {
 	return c.GetRoleBinding()
 }
 

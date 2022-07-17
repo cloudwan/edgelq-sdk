@@ -92,7 +92,7 @@ func (c *OrganizationChange) GetOrganization() *Organization {
 	return nil
 }
 
-func (c *OrganizationChange) GetResource() gotenresource.Resource {
+func (c *OrganizationChange) GetRawResource() gotenresource.Resource {
 	return c.GetOrganization()
 }
 

@@ -12,7 +12,6 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -25,7 +24,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -172,6 +170,18 @@ func (b *filterCndBuilder) Name() *filterCndBuilderName {
 	return &filterCndBuilderName{builder: b.builder}
 }
 
+func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
+	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilder) CurrentVersion() *filterCndBuilderCurrentVersion {
+	return &filterCndBuilderCurrentVersion{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AllVersions() *filterCndBuilderAllVersions {
+	return &filterCndBuilderAllVersions{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 	return &filterCndBuilderMetadata{builder: b.builder}
 }
@@ -232,6 +242,217 @@ func (b *filterCndBuilderName) compare(op gotenfilter.CompareOperator, value *Na
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Service_FieldPathValue: NewServiceFieldPathBuilder().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Service_FieldPathValue: NewServiceFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderCurrentVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCurrentVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCurrentVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().CurrentVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCurrentVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().CurrentVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCurrentVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCurrentVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCurrentVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Service_FieldPathValue: NewServiceFieldPathBuilder().CurrentVersion().WithValue(value),
+	})
+}
+
+type filterCndBuilderAllVersions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAllVersions) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAllVersions) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAllVersions) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAllVersions) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAllVersions) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAllVersions) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAllVersions) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().AllVersions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllVersions) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().AllVersions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllVersions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllVersions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllVersions) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+		Value:     NewServiceFieldPathBuilder().AllVersions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAllVersions) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewServiceFieldPathBuilder().AllVersions()
+	itemValues := make([]Service_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllVersions) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewServiceFieldPathBuilder().AllVersions()
+	itemValues := make([]Service_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllVersions) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:               op,
+		Service_FieldPathValue: NewServiceFieldPathBuilder().AllVersions().WithValue(value),
 	})
 }
 
@@ -1570,37 +1791,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Service_FieldPathArrayOfValues: NewServiceFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1618,7 +1839,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Service_FieldPathValue: NewServiceFieldPathBuilder().Metadata().Syncing().WithValue(value),

@@ -7,8 +7,7 @@ package alerting_condition
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
@@ -19,8 +18,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &alerting_policy.AlertingPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &project.Project{}
@@ -522,11 +520,11 @@ func (AlertingConditionPathSelectorMetadataSyncing) FieldPath() *AlertingConditi
 	}
 }
 
-func (s AlertingConditionPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *AlertingCondition_FieldSubPathValue {
+func (s AlertingConditionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *AlertingCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
 }
 
-func (s AlertingConditionPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *AlertingCondition_FieldSubPathArrayOfValues {
+func (s AlertingConditionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *AlertingCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 

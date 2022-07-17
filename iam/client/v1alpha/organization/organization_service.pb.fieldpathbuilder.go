@@ -8,7 +8,6 @@ package organization_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -20,7 +19,6 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -747,11 +745,11 @@ func (BatchGetOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) Fie
 	}
 }
 
-func (s BatchGetOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetOrganizationsResponse_FieldSubPathValue {
+func (s BatchGetOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1531,11 +1529,11 @@ func (ListOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) FieldPa
 	}
 }
 
-func (s ListOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListOrganizationsResponse_FieldSubPathValue {
+func (s ListOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s ListOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s ListOrganizationsResponsePathSelectorOrganizationsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2674,11 +2672,11 @@ func (CreateOrganizationRequestPathSelectorOrganizationMetadataSyncing) FieldPat
 	}
 }
 
-func (s CreateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateOrganizationRequest_FieldSubPathValue {
+func (s CreateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateOrganizationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateOrganizationRequest_FieldSubPathValue)
 }
 
-func (s CreateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateOrganizationRequest_FieldSubPathArrayOfValues {
+func (s CreateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateOrganizationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3329,11 +3327,11 @@ func (UpdateOrganizationRequestPathSelectorOrganizationMetadataSyncing) FieldPat
 	}
 }
 
-func (s UpdateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathValue {
+func (s UpdateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationRequestPathSelectorOrganizationMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4008,11 +4006,11 @@ func (UpdateOrganizationRequestPathSelectorCasConditionalStateMetadataSyncing) F
 	}
 }
 
-func (s UpdateOrganizationRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathValue {
+func (s UpdateOrganizationRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateOrganizationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4677,11 +4675,11 @@ func (UpdateOrganizationRequest_CASPathSelectorConditionalStateMetadataSyncing) 
 	}
 }
 
-func (s UpdateOrganizationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateOrganizationRequestCAS_FieldSubPathValue {
+func (s UpdateOrganizationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateOrganizationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateOrganizationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateOrganizationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationRequestCAS_FieldSubPathArrayOfValues)
 }
 

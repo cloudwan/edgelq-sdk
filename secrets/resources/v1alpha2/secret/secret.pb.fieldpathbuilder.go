@@ -7,8 +7,7 @@ package secret
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -16,8 +15,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &project.Project{}
 	_ = &timestamp.Timestamp{}
 )
@@ -558,11 +556,11 @@ func (SecretPathSelectorMetadataSyncing) FieldPath() *Secret_FieldSubPath {
 	}
 }
 
-func (s SecretPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Secret_FieldSubPathValue {
+func (s SecretPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Secret_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
 }
 
-func (s SecretPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Secret_FieldSubPathArrayOfValues {
+func (s SecretPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 

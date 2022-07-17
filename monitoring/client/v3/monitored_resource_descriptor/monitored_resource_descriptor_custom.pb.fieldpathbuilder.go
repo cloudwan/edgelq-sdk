@@ -7,7 +7,6 @@ package monitored_resource_descriptor_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
@@ -19,7 +18,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &duration.Duration{}
@@ -973,11 +971,11 @@ func (ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescr
 	}
 }
 
-func (s ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListMonitoredResourceDescriptorsResponse_FieldSubPathValue {
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListMonitoredResourceDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMonitoredResourceDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 

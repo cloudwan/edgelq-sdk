@@ -92,7 +92,7 @@ func (c *UserChange) GetUser() *User {
 	return nil
 }
 
-func (c *UserChange) GetResource() gotenresource.Resource {
+func (c *UserChange) GetRawResource() gotenresource.Resource {
 	return c.GetUser()
 }
 

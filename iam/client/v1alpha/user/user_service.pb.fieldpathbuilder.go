@@ -8,7 +8,6 @@ package user_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/user"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -20,7 +19,6 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &user.User{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -700,11 +698,11 @@ func (BatchGetUsersResponsePathSelectorUsersMetadataSyncing) FieldPath() *BatchG
 	}
 }
 
-func (s BatchGetUsersResponsePathSelectorUsersMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetUsersResponse_FieldSubPathValue {
+func (s BatchGetUsersResponsePathSelectorUsersMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetUsersResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetUsersResponse_FieldSubPathValue)
 }
 
-func (s BatchGetUsersResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetUsersResponse_FieldSubPathArrayOfValues {
+func (s BatchGetUsersResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetUsersResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1587,11 +1585,11 @@ func (ListUsersResponsePathSelectorUsersMetadataSyncing) FieldPath() *ListUsersR
 	}
 }
 
-func (s ListUsersResponsePathSelectorUsersMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListUsersResponse_FieldSubPathValue {
+func (s ListUsersResponsePathSelectorUsersMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListUsersResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListUsersResponse_FieldSubPathValue)
 }
 
-func (s ListUsersResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListUsersResponse_FieldSubPathArrayOfValues {
+func (s ListUsersResponsePathSelectorUsersMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListUsersResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListUsersResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2833,11 +2831,11 @@ func (CreateUserRequestPathSelectorUserMetadataSyncing) FieldPath() *CreateUserR
 	}
 }
 
-func (s CreateUserRequestPathSelectorUserMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateUserRequest_FieldSubPathValue {
+func (s CreateUserRequestPathSelectorUserMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateUserRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateUserRequest_FieldSubPathValue)
 }
 
-func (s CreateUserRequestPathSelectorUserMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateUserRequest_FieldSubPathArrayOfValues {
+func (s CreateUserRequestPathSelectorUserMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateUserRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateUserRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3591,11 +3589,11 @@ func (UpdateUserRequestPathSelectorUserMetadataSyncing) FieldPath() *UpdateUserR
 	}
 }
 
-func (s UpdateUserRequestPathSelectorUserMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathValue {
+func (s UpdateUserRequestPathSelectorUserMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateUserRequest_FieldSubPathValue)
 }
 
-func (s UpdateUserRequestPathSelectorUserMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathArrayOfValues {
+func (s UpdateUserRequestPathSelectorUserMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateUserRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4373,11 +4371,11 @@ func (UpdateUserRequestPathSelectorCasConditionalStateMetadataSyncing) FieldPath
 	}
 }
 
-func (s UpdateUserRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathValue {
+func (s UpdateUserRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateUserRequest_FieldSubPathValue)
 }
 
-func (s UpdateUserRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathArrayOfValues {
+func (s UpdateUserRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateUserRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateUserRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5145,11 +5143,11 @@ func (UpdateUserRequest_CASPathSelectorConditionalStateMetadataSyncing) FieldPat
 	}
 }
 
-func (s UpdateUserRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateUserRequestCAS_FieldSubPathValue {
+func (s UpdateUserRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateUserRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateUserRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateUserRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateUserRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateUserRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateUserRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateUserRequestCAS_FieldSubPathArrayOfValues)
 }
 

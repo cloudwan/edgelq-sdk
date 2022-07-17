@@ -10,7 +10,6 @@ import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -24,7 +23,6 @@ var (
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

@@ -50,6 +50,9 @@ type Service_FieldMask struct {
 func FullService_FieldMask() *Service_FieldMask {
 	res := &Service_FieldMask{}
 	res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorCurrentVersion})
+	res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorAllVersions})
 	res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorMetadata})
 	return res
 }
@@ -94,7 +97,7 @@ func (fieldMask *Service_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Service_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -124,7 +127,7 @@ func (fieldMask *Service_FieldMask) Reset() {
 
 func (fieldMask *Service_FieldMask) Subtract(other *Service_FieldMask) *Service_FieldMask {
 	result := &Service_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[Service_FieldPathSelector]gotenobject.FieldMask{
 		Service_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
 	}
@@ -326,6 +329,12 @@ func (fieldMask *Service_FieldMask) Project(source *Service) *Service {
 			switch tp.selector {
 			case Service_FieldPathSelectorName:
 				result.Name = source.Name
+			case Service_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
+			case Service_FieldPathSelectorCurrentVersion:
+				result.CurrentVersion = source.CurrentVersion
+			case Service_FieldPathSelectorAllVersions:
+				result.AllVersions = source.AllVersions
 			case Service_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true

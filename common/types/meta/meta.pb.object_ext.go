@@ -16,7 +16,6 @@ import (
 
 // proto imports
 import (
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -33,7 +32,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -268,7 +266,7 @@ func (o *Meta) Merge(source *Meta) {
 	}
 	if source.GetSyncing() != nil {
 		if o.Syncing == nil {
-			o.Syncing = new(syncing_meta.SyncingMeta)
+			o.Syncing = new(SyncingMeta)
 		}
 		o.Syncing.Merge(source.GetSyncing())
 	}
@@ -539,4 +537,85 @@ func (o *OwnerReference) Merge(source *OwnerReference) {
 
 func (o *OwnerReference) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*OwnerReference))
+}
+
+func (o *SyncingMeta) GotenObjectExt() {}
+
+func (o *SyncingMeta) MakeFullFieldMask() *SyncingMeta_FieldMask {
+	return FullSyncingMeta_FieldMask()
+}
+
+func (o *SyncingMeta) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSyncingMeta_FieldMask()
+}
+
+func (o *SyncingMeta) MakeDiffFieldMask(other *SyncingMeta) *SyncingMeta_FieldMask {
+	if o == nil && other == nil {
+		return &SyncingMeta_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSyncingMeta_FieldMask()
+	}
+
+	res := &SyncingMeta_FieldMask{}
+	if o.GetOwningRegion() != other.GetOwningRegion() {
+		res.Paths = append(res.Paths, &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorOwningRegion})
+	}
+
+	if len(o.GetRegions()) == len(other.GetRegions()) {
+		for i, lValue := range o.GetRegions() {
+			rValue := other.GetRegions()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorRegions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorRegions})
+	}
+	return res
+}
+
+func (o *SyncingMeta) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SyncingMeta))
+}
+
+func (o *SyncingMeta) Clone() *SyncingMeta {
+	if o == nil {
+		return nil
+	}
+	result := &SyncingMeta{}
+	result.OwningRegion = o.OwningRegion
+	result.Regions = make([]string, len(o.Regions))
+	for i, sourceValue := range o.Regions {
+		result.Regions[i] = sourceValue
+	}
+	return result
+}
+
+func (o *SyncingMeta) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SyncingMeta) Merge(source *SyncingMeta) {
+	o.OwningRegion = source.GetOwningRegion()
+	for _, sourceValue := range source.GetRegions() {
+		exists := false
+		for _, currentValue := range o.Regions {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Regions = append(o.Regions, newDstElement)
+		}
+	}
+
+}
+
+func (o *SyncingMeta) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SyncingMeta))
 }

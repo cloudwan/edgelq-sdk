@@ -94,7 +94,7 @@ func (c *ProvisioningApprovalRequestChange) GetProvisioningApprovalRequest() *Pr
 	return nil
 }
 
-func (c *ProvisioningApprovalRequestChange) GetResource() gotenresource.Resource {
+func (c *ProvisioningApprovalRequestChange) GetRawResource() gotenresource.Resource {
 	return c.GetProvisioningApprovalRequest()
 }
 

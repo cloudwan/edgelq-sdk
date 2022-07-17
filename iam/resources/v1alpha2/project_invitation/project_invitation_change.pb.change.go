@@ -94,7 +94,7 @@ func (c *ProjectInvitationChange) GetProjectInvitation() *ProjectInvitation {
 	return nil
 }
 
-func (c *ProjectInvitationChange) GetResource() gotenresource.Resource {
+func (c *ProjectInvitationChange) GetRawResource() gotenresource.Resource {
 	return c.GetProjectInvitation()
 }
 

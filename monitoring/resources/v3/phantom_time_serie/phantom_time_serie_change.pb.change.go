@@ -94,7 +94,7 @@ func (c *PhantomTimeSerieChange) GetPhantomTimeSerie() *PhantomTimeSerie {
 	return nil
 }
 
-func (c *PhantomTimeSerieChange) GetResource() gotenresource.Resource {
+func (c *PhantomTimeSerieChange) GetRawResource() gotenresource.Resource {
 	return c.GetPhantomTimeSerie()
 }
 

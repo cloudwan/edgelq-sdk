@@ -20,7 +20,6 @@ import (
 
 // proto imports
 import (
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -41,7 +40,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -138,11 +136,11 @@ func (fieldMask *Meta_FieldMask) Subtract(other *Meta_FieldMask) *Meta_FieldMask
 	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[Meta_FieldPathSelector]gotenobject.FieldMask{
 		Meta_FieldPathSelectorOwnerReferences: &OwnerReference_FieldMask{},
-		Meta_FieldPathSelectorSyncing:         &syncing_meta.SyncingMeta_FieldMask{},
+		Meta_FieldPathSelectorSyncing:         &SyncingMeta_FieldMask{},
 	}
 	mySubMasks := map[Meta_FieldPathSelector]gotenobject.FieldMask{
 		Meta_FieldPathSelectorOwnerReferences: &OwnerReference_FieldMask{},
-		Meta_FieldPathSelectorSyncing:         &syncing_meta.SyncingMeta_FieldMask{},
+		Meta_FieldPathSelectorSyncing:         &SyncingMeta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -161,7 +159,7 @@ func (fieldMask *Meta_FieldMask) Subtract(other *Meta_FieldMask) *Meta_FieldMask
 					case Meta_FieldPathSelectorOwnerReferences:
 						mySubMasks[Meta_FieldPathSelectorOwnerReferences] = FullOwnerReference_FieldMask()
 					case Meta_FieldPathSelectorSyncing:
-						mySubMasks[Meta_FieldPathSelectorSyncing] = syncing_meta.FullSyncingMeta_FieldMask()
+						mySubMasks[Meta_FieldPathSelectorSyncing] = FullSyncingMeta_FieldMask()
 					}
 				} else if tp, ok := path.(*Meta_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -325,7 +323,7 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 	result := &Meta{}
 	ownerReferencesMask := &OwnerReference_FieldMask{}
 	wholeOwnerReferencesAccepted := false
-	syncingMask := &syncing_meta.SyncingMeta_FieldMask{}
+	syncingMask := &SyncingMeta_FieldMask{}
 	wholeSyncingAccepted := false
 	var labelsMapKeys []string
 	wholeLabelsAccepted := false
@@ -371,7 +369,7 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 			case Meta_FieldPathSelectorOwnerReferences:
 				ownerReferencesMask.AppendPath(tp.subPath.(OwnerReference_FieldPath))
 			case Meta_FieldPathSelectorSyncing:
-				syncingMask.AppendPath(tp.subPath.(syncing_meta.SyncingMeta_FieldPath))
+				syncingMask.AppendPath(tp.subPath.(SyncingMeta_FieldPath))
 			}
 		case *Meta_FieldPathMap:
 			switch tp.selector {
@@ -1262,6 +1260,262 @@ func (fieldMask *OwnerReference_FieldMask) ProjectRaw(source gotenobject.GotenOb
 }
 
 func (fieldMask *OwnerReference_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type SyncingMeta_FieldMask struct {
+	Paths []SyncingMeta_FieldPath
+}
+
+func FullSyncingMeta_FieldMask() *SyncingMeta_FieldMask {
+	res := &SyncingMeta_FieldMask{}
+	res.Paths = append(res.Paths, &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorOwningRegion})
+	res.Paths = append(res.Paths, &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorRegions})
+	return res
+}
+
+func (fieldMask *SyncingMeta_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *SyncingMeta_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *SyncingMeta_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseSyncingMeta_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *SyncingMeta_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*SyncingMeta_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *SyncingMeta_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseSyncingMeta_FieldPath(raw)
+	})
+}
+
+func (fieldMask *SyncingMeta_FieldMask) ProtoMessage() {}
+
+func (fieldMask *SyncingMeta_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *SyncingMeta_FieldMask) Subtract(other *SyncingMeta_FieldMask) *SyncingMeta_FieldMask {
+	result := &SyncingMeta_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *SyncingMeta_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *SyncingMeta_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*SyncingMeta_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *SyncingMeta_FieldMask) FilterInputFields() *SyncingMeta_FieldMask {
+	result := &SyncingMeta_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *SyncingMeta_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *SyncingMeta_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]SyncingMeta_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseSyncingMeta_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask SyncingMeta_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *SyncingMeta_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SyncingMeta_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask SyncingMeta_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *SyncingMeta_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SyncingMeta_FieldMask) AppendPath(path SyncingMeta_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *SyncingMeta_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(SyncingMeta_FieldPath))
+}
+
+func (fieldMask *SyncingMeta_FieldMask) GetPaths() []SyncingMeta_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *SyncingMeta_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *SyncingMeta_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseSyncingMeta_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *SyncingMeta_FieldMask) Set(target, source *SyncingMeta) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *SyncingMeta_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*SyncingMeta), source.(*SyncingMeta))
+}
+
+func (fieldMask *SyncingMeta_FieldMask) Project(source *SyncingMeta) *SyncingMeta {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &SyncingMeta{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *SyncingMeta_FieldTerminalPath:
+			switch tp.selector {
+			case SyncingMeta_FieldPathSelectorOwningRegion:
+				result.OwningRegion = source.OwningRegion
+			case SyncingMeta_FieldPathSelectorRegions:
+				result.Regions = source.Regions
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *SyncingMeta_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*SyncingMeta))
+}
+
+func (fieldMask *SyncingMeta_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

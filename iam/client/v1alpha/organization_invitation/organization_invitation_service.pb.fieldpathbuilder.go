@@ -17,7 +17,6 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/user"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -38,7 +37,6 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}

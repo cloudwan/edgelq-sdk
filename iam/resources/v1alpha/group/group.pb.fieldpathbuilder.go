@@ -9,7 +9,6 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -18,7 +17,6 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -538,11 +536,11 @@ func (GroupPathSelectorMetadataSyncing) FieldPath() *Group_FieldSubPath {
 	}
 }
 
-func (s GroupPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Group_FieldSubPathValue {
+func (s GroupPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Group_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Group_FieldSubPathValue)
 }
 
-func (s GroupPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Group_FieldSubPathArrayOfValues {
+func (s GroupPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Group_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Group_FieldSubPathArrayOfValues)
 }
 

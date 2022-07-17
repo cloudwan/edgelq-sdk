@@ -16,7 +16,6 @@ import (
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/user"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -32,7 +31,6 @@ var (
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 

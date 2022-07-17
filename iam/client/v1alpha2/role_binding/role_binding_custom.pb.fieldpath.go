@@ -24,10 +24,10 @@ import (
 
 // proto imports
 import (
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 )
 
 // ensure the imports are used
@@ -51,10 +51,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &role_binding.RoleBinding{}
-	_ = &policy.Policy{}
 )
 
 // FieldPath provides implementation to handle
@@ -116,7 +116,7 @@ func BuildSetupCreateOwnerRoleRequest_FieldPath(fp gotenobject.RawFieldPath) (Se
 				return &SetupCreateOwnerRoleRequest_FieldSubPath{selector: SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding, subPath: subpath}, nil
 			}
 		case "multi_region_policy", "multiRegionPolicy", "multi-region-policy":
-			if subpath, err := policy.BuildPolicy_FieldPath(fp[1:]); err != nil {
+			if subpath, err := multi_region_policy.BuildMultiRegionPolicy_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &SetupCreateOwnerRoleRequest_FieldSubPath{selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy, subPath: subpath}, nil
@@ -218,7 +218,7 @@ func (fp *SetupCreateOwnerRoleRequest_FieldTerminalPath) GetDefault() interface{
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		return (*role_binding.RoleBinding)(nil)
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		return (*policy.Policy)(nil)
+		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fp.selector))
 	}
@@ -255,7 +255,7 @@ func (fp *SetupCreateOwnerRoleRequest_FieldTerminalPath) WithIValue(value interf
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		return &SetupCreateOwnerRoleRequest_FieldTerminalPathValue{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, value: value.(*role_binding.RoleBinding)}
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		return &SetupCreateOwnerRoleRequest_FieldTerminalPathValue{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, value: value.(*policy.Policy)}
+		return &SetupCreateOwnerRoleRequest_FieldTerminalPathValue{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fp.selector))
 	}
@@ -273,7 +273,7 @@ func (fp *SetupCreateOwnerRoleRequest_FieldTerminalPath) WithIArrayOfValues(valu
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		return &SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.RoleBinding)}
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		return &SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, values: values.([]*policy.Policy)}
+		return &SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues{SetupCreateOwnerRoleRequest_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fp.selector))
 	}
@@ -309,8 +309,8 @@ func (fps *SetupCreateOwnerRoleRequest_FieldSubPath) AsRoleBindingSubPath() (rol
 	res, ok := fps.subPath.(role_binding.RoleBinding_FieldPath)
 	return res, ok
 }
-func (fps *SetupCreateOwnerRoleRequest_FieldSubPath) AsMultiRegionPolicySubPath() (policy.Policy_FieldPath, bool) {
-	res, ok := fps.subPath.(policy.Policy_FieldPath)
+func (fps *SetupCreateOwnerRoleRequest_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_policy.MultiRegionPolicy_FieldPath, bool) {
+	res, ok := fps.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath)
 	return res, ok
 }
 
@@ -328,8 +328,8 @@ func (fps *SetupCreateOwnerRoleRequest_FieldSubPath) JSONString() string {
 func (fps *SetupCreateOwnerRoleRequest_FieldSubPath) Get(source *SetupCreateOwnerRoleRequest) (values []interface{}) {
 	if asRoleBindingFieldPath, ok := fps.AsRoleBindingSubPath(); ok {
 		values = append(values, asRoleBindingFieldPath.Get(source.GetRoleBinding())...)
-	} else if asPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
-		values = append(values, asPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
+	} else if asMultiRegionPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
+		values = append(values, asMultiRegionPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
 	} else {
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fps.selector))
 	}
@@ -460,8 +460,8 @@ func (fpv *SetupCreateOwnerRoleRequest_FieldTerminalPathValue) AsRoleBindingValu
 	res, ok := fpv.value.(*role_binding.RoleBinding)
 	return res, ok
 }
-func (fpv *SetupCreateOwnerRoleRequest_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*policy.Policy, bool) {
-	res, ok := fpv.value.(*policy.Policy)
+func (fpv *SetupCreateOwnerRoleRequest_FieldTerminalPathValue) AsMultiRegionPolicyValue() (*multi_region_policy.MultiRegionPolicy, bool) {
+	res, ok := fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	return res, ok
 }
 
@@ -476,7 +476,7 @@ func (fpv *SetupCreateOwnerRoleRequest_FieldTerminalPathValue) SetTo(target **Se
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		(*target).RoleBinding = fpv.value.(*role_binding.RoleBinding)
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		(*target).MultiRegionPolicy = fpv.value.(*policy.Policy)
+		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fpv.selector))
 	}
@@ -533,8 +533,8 @@ func (fpvs *SetupCreateOwnerRoleRequest_FieldSubPathValue) AsRoleBindingPathValu
 	res, ok := fpvs.subPathValue.(role_binding.RoleBinding_FieldPathValue)
 	return res, ok
 }
-func (fpvs *SetupCreateOwnerRoleRequest_FieldSubPathValue) AsMultiRegionPolicyPathValue() (policy.Policy_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(policy.Policy_FieldPathValue)
+func (fpvs *SetupCreateOwnerRoleRequest_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_region_policy.MultiRegionPolicy_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue)
 	return res, ok
 }
 
@@ -546,7 +546,7 @@ func (fpvs *SetupCreateOwnerRoleRequest_FieldSubPathValue) SetTo(target **SetupC
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		fpvs.subPathValue.(role_binding.RoleBinding_FieldPathValue).SetTo(&(*target).RoleBinding)
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		fpvs.subPathValue.(policy.Policy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
+		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fpvs.Selector()))
 	}
@@ -566,7 +566,7 @@ func (fpvs *SetupCreateOwnerRoleRequest_FieldSubPathValue) CompareWith(source *S
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		return fpvs.subPathValue.(role_binding.RoleBinding_FieldPathValue).CompareWith(source.GetRoleBinding())
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		return fpvs.subPathValue.(policy.Policy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
+		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fpvs.Selector()))
 	}
@@ -649,8 +649,8 @@ func (fpaivs *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue) AsRoleBind
 	res, ok := fpaivs.subPathItemValue.(role_binding.RoleBinding_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (policy.Policy_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(policy.Policy_FieldPathArrayItemValue)
+func (fpaivs *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemValue() (multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -660,7 +660,7 @@ func (fpaivs *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue) ContainsVa
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 		return fpaivs.subPathItemValue.(role_binding.RoleBinding_FieldPathArrayItemValue).ContainsValue(source.GetRoleBinding())
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		return fpaivs.subPathItemValue.(policy.Policy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
+		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
 	default:
 		panic(fmt.Sprintf("Invalid selector for SetupCreateOwnerRoleRequest: %d", fpaivs.Selector()))
 	}
@@ -710,7 +710,7 @@ func (fpaov *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues) GetRawV
 			values = append(values, v)
 		}
 	case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-		for _, v := range fpaov.values.([]*policy.Policy) {
+		for _, v := range fpaov.values.([]*multi_region_policy.MultiRegionPolicy) {
 			values = append(values, v)
 		}
 	}
@@ -724,8 +724,8 @@ func (fpaov *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues) AsRoleB
 	res, ok := fpaov.values.([]*role_binding.RoleBinding)
 	return res, ok
 }
-func (fpaov *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*policy.Policy, bool) {
-	res, ok := fpaov.values.([]*policy.Policy)
+func (fpaov *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues) AsMultiRegionPolicyArrayOfValues() ([]*multi_region_policy.MultiRegionPolicy, bool) {
+	res, ok := fpaov.values.([]*multi_region_policy.MultiRegionPolicy)
 	return res, ok
 }
 
@@ -743,7 +743,7 @@ func (fpsaov *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues) AsRoleBindi
 	res, ok := fpsaov.subPathArrayOfValues.(role_binding.RoleBinding_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (policy.Policy_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(policy.Policy_FieldPathArrayOfValues)
+func (fpsaov *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues)
 	return res, ok
 }

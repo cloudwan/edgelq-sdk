@@ -7,14 +7,13 @@ package role_binding_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -22,14 +21,13 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &role_binding.RoleBinding{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
@@ -756,11 +754,11 @@ func (SetupCreateOwnerRoleRequestPathSelectorRoleBindingMetadataSyncing) FieldPa
 	}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorRoleBindingMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SetupCreateOwnerRoleRequest_FieldSubPathValue)
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
+func (s SetupCreateOwnerRoleRequestPathSelectorRoleBindingMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues)
 }
 
@@ -816,27 +814,27 @@ func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) FieldPath() *Set
 	return &SetupCreateOwnerRoleRequest_FieldTerminalPath{selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithValue(value *policy.Policy) *SetupCreateOwnerRoleRequest_FieldTerminalPathValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *SetupCreateOwnerRoleRequest_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*SetupCreateOwnerRoleRequest_FieldTerminalPathValue)
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SetupCreateOwnerRoleRequest_FieldTerminalPathArrayOfValues)
 }
 
-func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubPath(subPath policy.Policy_FieldPath) *SetupCreateOwnerRoleRequest_FieldSubPath {
+func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubPath(subPath multi_region_policy.MultiRegionPolicy_FieldPath) *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy, subPath: subPath}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubValue(subPathValue policy.Policy_FieldPathValue) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubValue(subPathValue multi_region_policy.MultiRegionPolicy_FieldPathValue) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
 	return &SetupCreateOwnerRoleRequest_FieldSubPathValue{SetupCreateOwnerRoleRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubArrayOfValues(subPathArrayOfValues policy.Policy_FieldPathArrayOfValues) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubArrayOfValues(subPathArrayOfValues multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
 	return &SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues{SetupCreateOwnerRoleRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubArrayItemValue(subPathArrayItemValue policy.Policy_FieldPathArrayItemValue) *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicy) WithSubArrayItemValue(subPathArrayItemValue multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue) *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue {
 	return &SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue{SetupCreateOwnerRoleRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -857,7 +855,7 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyEnabledRegions stru
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyEnabledRegions) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().EnabledRegions().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().EnabledRegions().FieldPath(),
 	}
 }
 
@@ -878,7 +876,7 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyDefaultControlRegio
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyDefaultControlRegion) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().DefaultControlRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().DefaultControlRegion().FieldPath(),
 	}
 }
 
@@ -895,19 +893,19 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabled
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().FieldPath(),
 	}
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SetupCreateOwnerRoleRequest_FieldSubPathValue)
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SetupCreateOwnerRoleRequest_FieldSubPathArrayOfValues)
 }
 
-func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue {
+func (s SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*SetupCreateOwnerRoleRequest_FieldSubPathArrayItemValue)
 }
 
@@ -928,7 +926,7 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabled
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSyncResourceTypeName) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().ResourceTypeName().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().ResourceTypeName().FieldPath(),
 	}
 }
 
@@ -945,7 +943,7 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabled
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSyncSourceRegion) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().SourceRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().SourceRegion().FieldPath(),
 	}
 }
 
@@ -962,7 +960,7 @@ type SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabled
 func (SetupCreateOwnerRoleRequestPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion) FieldPath() *SetupCreateOwnerRoleRequest_FieldSubPath {
 	return &SetupCreateOwnerRoleRequest_FieldSubPath{
 		selector: SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy,
-		subPath:  policy.NewPolicyFieldPathBuilder().CriteriaForDisabledSync().DestRegion().FieldPath(),
+		subPath:  multi_region_policy.NewMultiRegionPolicyFieldPathBuilder().CriteriaForDisabledSync().DestRegion().FieldPath(),
 	}
 }
 

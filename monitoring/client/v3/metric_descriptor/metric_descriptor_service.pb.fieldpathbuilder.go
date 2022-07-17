@@ -8,8 +8,7 @@ package metric_descriptor_client
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
@@ -26,8 +25,7 @@ import (
 var (
 	_ = api.LaunchStage(0)
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
@@ -649,11 +647,11 @@ func (BatchGetMetricDescriptorsResponsePathSelectorMetricDescriptorsMetadataSync
 	}
 }
 
-func (s BatchGetMetricDescriptorsResponsePathSelectorMetricDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetMetricDescriptorsResponse_FieldSubPathValue {
+func (s BatchGetMetricDescriptorsResponsePathSelectorMetricDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetMetricDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetMetricDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetMetricDescriptorsResponsePathSelectorMetricDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetMetricDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetMetricDescriptorsResponsePathSelectorMetricDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetMetricDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMetricDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2593,11 +2591,11 @@ func (UpdateMetricDescriptorRequestPathSelectorMetricDescriptorMetadataSyncing) 
 	}
 }
 
-func (s UpdateMetricDescriptorRequestPathSelectorMetricDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathValue {
+func (s UpdateMetricDescriptorRequestPathSelectorMetricDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMetricDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMetricDescriptorRequestPathSelectorMetricDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMetricDescriptorRequestPathSelectorMetricDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4060,11 +4058,11 @@ func (UpdateMetricDescriptorRequestPathSelectorCasConditionalStateMetadataSyncin
 	}
 }
 
-func (s UpdateMetricDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathValue {
+func (s UpdateMetricDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMetricDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMetricDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMetricDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMetricDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5517,11 +5515,11 @@ func (UpdateMetricDescriptorRequest_CASPathSelectorConditionalStateMetadataSynci
 	}
 }
 
-func (s UpdateMetricDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequestCAS_FieldSubPathValue {
+func (s UpdateMetricDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMetricDescriptorRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateMetricDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMetricDescriptorRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateMetricDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMetricDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMetricDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 

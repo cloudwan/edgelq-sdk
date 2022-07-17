@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan;plan";
+option java_multiple_files = true;
+option java_outer_classname = "PlanProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// Plan is a bundle with set of limits for various resources.
+// Those resources should be mostly from service plan references,
+// but it can also include resources from imported services too.
+message Plan {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/Plan"
+    pattern : "plans/{plan}"
+  };
+
+  // Name of Plan
+  string name = 1;
+
+  string display_name = 2;
+
+  // Primary service to which this plan applies
+  string service = 3;
+
+  // List of limits per each resource. Resources may belong to different
+  // services (dependant services)
+  repeated Allowance resource_limits = 4;
+
+  // Metadata
+  ntt.types.Meta metadata = 5;
+}

@@ -94,7 +94,7 @@ func (c *AttestationDomainChange) GetAttestationDomain() *AttestationDomain {
 	return nil
 }
 
-func (c *AttestationDomainChange) GetResource() gotenresource.Resource {
+func (c *AttestationDomainChange) GetRawResource() gotenresource.Resource {
 	return c.GetAttestationDomain()
 }
 

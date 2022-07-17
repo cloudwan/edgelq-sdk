@@ -3,7 +3,7 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization;organization";
@@ -46,5 +46,5 @@ message Organization {
   ntt.types.Meta metadata = 6;
 
   // Multi region policy for child resources
-  ntt.meta.multi_region.Policy multi_region_policy = 7;
+  ntt.types.MultiRegionPolicy multi_region_policy = 7;
 }

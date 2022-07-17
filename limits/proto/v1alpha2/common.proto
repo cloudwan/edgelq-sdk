@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/meta/proto/v1alpha2/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common;common";
+option java_multiple_files = true;
+option java_outer_classname = "CommonProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// Allowance informs how many instances of resource for given type are
+// permitted.
+message Allowance {
+  // Reference to resource
+  string resource = 1;
+
+  // Limit or extension for given resource.
+  int64 value = 2;
+}
+
+// RegionalDistribution shows distribution of certain resource allowances
+// across regions.
+message RegionalDistribution {
+  // Reference to resource
+  string resource = 1;
+
+  // Limit per region.
+  map<string, int64> limits_by_region = 2;
+}

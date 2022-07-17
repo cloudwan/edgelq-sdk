@@ -8,7 +8,6 @@ package audited_resource_descriptor
 import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -17,7 +16,6 @@ import (
 var (
 	_ = &audit_common.Authentication{}
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &any.Any{}
 	_ = &timestamp.Timestamp{}
 )
@@ -790,11 +788,11 @@ func (AuditedResourceDescriptorPathSelectorMetadataSyncing) FieldPath() *Audited
 	}
 }
 
-func (s AuditedResourceDescriptorPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *AuditedResourceDescriptor_FieldSubPathValue {
+func (s AuditedResourceDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *AuditedResourceDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AuditedResourceDescriptor_FieldSubPathValue)
 }
 
-func (s AuditedResourceDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *AuditedResourceDescriptor_FieldSubPathArrayOfValues {
+func (s AuditedResourceDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *AuditedResourceDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AuditedResourceDescriptor_FieldSubPathArrayOfValues)
 }
 

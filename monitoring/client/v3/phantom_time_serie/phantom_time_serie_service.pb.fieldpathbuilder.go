@@ -8,8 +8,7 @@ package phantom_time_serie_client
 import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
@@ -27,8 +26,7 @@ import (
 var (
 	_ = api.LaunchStage(0)
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
@@ -684,11 +682,11 @@ func (BatchGetPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSync
 	}
 }
 
-func (s BatchGetPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetPhantomTimeSeriesResponse_FieldSubPathValue {
+func (s BatchGetPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetPhantomTimeSeriesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPhantomTimeSeriesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetPhantomTimeSeriesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetPhantomTimeSeriesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPhantomTimeSeriesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2282,11 +2280,11 @@ func (ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing)
 	}
 }
 
-func (s ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListPhantomTimeSeriesResponse_FieldSubPathValue {
+func (s ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListPhantomTimeSeriesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPhantomTimeSeriesResponse_FieldSubPathValue)
 }
 
-func (s ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListPhantomTimeSeriesResponse_FieldSubPathArrayOfValues {
+func (s ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeriesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListPhantomTimeSeriesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4256,11 +4254,11 @@ func (CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) 
 	}
 }
 
-func (s CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreatePhantomTimeSerieRequest_FieldSubPathValue {
+func (s CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreatePhantomTimeSerieRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePhantomTimeSerieRequest_FieldSubPathValue)
 }
 
-func (s CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+func (s CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
 }
 

@@ -20,10 +20,10 @@ import (
 
 // proto imports
 import (
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 )
 
 // ensure the imports are used
@@ -43,10 +43,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &role_binding.RoleBinding{}
-	_ = &policy.Policy{}
 )
 
 type SetupCreateOwnerRoleRequest_FieldMask struct {
@@ -134,11 +134,11 @@ func (fieldMask *SetupCreateOwnerRoleRequest_FieldMask) Subtract(other *SetupCre
 	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[SetupCreateOwnerRoleRequest_FieldPathSelector]gotenobject.FieldMask{
 		SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:       &role_binding.RoleBinding_FieldMask{},
-		SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy: &policy.Policy_FieldMask{},
+		SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 	mySubMasks := map[SetupCreateOwnerRoleRequest_FieldPathSelector]gotenobject.FieldMask{
 		SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:       &role_binding.RoleBinding_FieldMask{},
-		SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy: &policy.Policy_FieldMask{},
+		SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -157,7 +157,7 @@ func (fieldMask *SetupCreateOwnerRoleRequest_FieldMask) Subtract(other *SetupCre
 					case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 						mySubMasks[SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding] = role_binding.FullRoleBinding_FieldMask()
 					case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-						mySubMasks[SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy] = policy.FullPolicy_FieldMask()
+						mySubMasks[SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
 					}
 				} else if tp, ok := path.(*SetupCreateOwnerRoleRequest_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -330,7 +330,7 @@ func (fieldMask *SetupCreateOwnerRoleRequest_FieldMask) Project(source *SetupCre
 	result := &SetupCreateOwnerRoleRequest{}
 	roleBindingMask := &role_binding.RoleBinding_FieldMask{}
 	wholeRoleBindingAccepted := false
-	multiRegionPolicyMask := &policy.Policy_FieldMask{}
+	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -351,7 +351,7 @@ func (fieldMask *SetupCreateOwnerRoleRequest_FieldMask) Project(source *SetupCre
 			case SetupCreateOwnerRoleRequest_FieldPathSelectorRoleBinding:
 				roleBindingMask.AppendPath(tp.subPath.(role_binding.RoleBinding_FieldPath))
 			case SetupCreateOwnerRoleRequest_FieldPathSelectorMultiRegionPolicy:
-				multiRegionPolicyMask.AppendPath(tp.subPath.(policy.Policy_FieldPath))
+				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
 			}
 		}
 	}

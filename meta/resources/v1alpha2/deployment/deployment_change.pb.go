@@ -17,7 +17,7 @@ import (
 
 // proto imports
 import (
-	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -35,7 +35,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &service.Service{}
+	_ = &region.Region{}
 	_ = &field_mask.FieldMask{}
 )
 

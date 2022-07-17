@@ -7,8 +7,7 @@ package alert_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
@@ -25,8 +24,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &alert.Alert{}
 	_ = &alerting_condition.AlertingCondition{}
 	_ = &alerting_policy.AlertingPolicy{}
@@ -683,11 +681,11 @@ func (BatchGetAlertsResponsePathSelectorAlertsMetadataSyncing) FieldPath() *Batc
 	}
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetAlertsResponse_FieldSubPathValue {
+func (s BatchGetAlertsResponsePathSelectorAlertsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertsResponsePathSelectorAlertsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2040,11 +2038,11 @@ func (ListAlertsResponsePathSelectorAlertsMetadataSyncing) FieldPath() *ListAler
 	}
 }
 
-func (s ListAlertsResponsePathSelectorAlertsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListAlertsResponse_FieldSubPathValue {
+func (s ListAlertsResponsePathSelectorAlertsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
 }
 
-func (s ListAlertsResponsePathSelectorAlertsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListAlertsResponse_FieldSubPathArrayOfValues {
+func (s ListAlertsResponsePathSelectorAlertsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3773,11 +3771,11 @@ func (CreateAlertRequestPathSelectorAlertMetadataSyncing) FieldPath() *CreateAle
 	}
 }
 
-func (s CreateAlertRequestPathSelectorAlertMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateAlertRequest_FieldSubPathValue {
+func (s CreateAlertRequestPathSelectorAlertMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertRequestPathSelectorAlertMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateAlertRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertRequestPathSelectorAlertMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4984,11 +4982,11 @@ func (UpdateAlertRequestPathSelectorAlertMetadataSyncing) FieldPath() *UpdateAle
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorAlertMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorAlertMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorAlertMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorAlertMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6219,11 +6217,11 @@ func (UpdateAlertRequestPathSelectorCasConditionalStateMetadataSyncing) FieldPat
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7444,11 +7442,11 @@ func (UpdateAlertRequest_CASPathSelectorConditionalStateMetadataSyncing) FieldPa
 	}
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertRequestCAS_FieldSubPathValue {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
 }
 

@@ -9,7 +9,6 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -19,7 +18,6 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
@@ -662,11 +660,11 @@ func (ListMyProjectsResponsePathSelectorProjectsMetadataSyncing) FieldPath() *Li
 	}
 }
 
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListMyProjectsResponse_FieldSubPathValue {
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListMyProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 

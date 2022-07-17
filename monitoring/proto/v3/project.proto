@@ -3,7 +3,7 @@ syntax = "proto3";
 package ntt.monitoring.v3;
 
 import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/meta/multi_region/proto/policy.proto";
+import "edgelq-sdk/common/types/multi_region_policy.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project;project";
@@ -27,5 +27,5 @@ message Project {
   ntt.types.Meta metadata = 3;
 
   // Multi region policy
-  ntt.meta.multi_region.Policy multi_region_policy = 4;
+  ntt.types.MultiRegionPolicy multi_region_policy = 4;
 }

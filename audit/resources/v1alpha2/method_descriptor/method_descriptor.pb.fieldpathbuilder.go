@@ -8,7 +8,6 @@ package method_descriptor
 import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -17,7 +16,6 @@ import (
 var (
 	_ = &audit_common.Authentication{}
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &any.Any{}
 	_ = &timestamp.Timestamp{}
 )
@@ -727,11 +725,11 @@ func (MethodDescriptorPathSelectorMetadataSyncing) FieldPath() *MethodDescriptor
 	}
 }
 
-func (s MethodDescriptorPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *MethodDescriptor_FieldSubPathValue {
+func (s MethodDescriptorPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *MethodDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
 }
 
-func (s MethodDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *MethodDescriptor_FieldSubPathArrayOfValues {
+func (s MethodDescriptorPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 

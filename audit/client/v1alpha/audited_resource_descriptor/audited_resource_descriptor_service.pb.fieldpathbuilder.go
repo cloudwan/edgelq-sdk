@@ -9,7 +9,6 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha"
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/audited_resource_descriptor"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	any "github.com/golang/protobuf/ptypes/any"
@@ -22,7 +21,6 @@ var (
 	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
 	_ = &audit_common.Authentication{}
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &any.Any{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -949,11 +947,11 @@ func (BatchGetAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescr
 	}
 }
 
-func (s BatchGetAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetAuditedResourceDescriptorsResponse_FieldSubPathValue {
+func (s BatchGetAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetAuditedResourceDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAuditedResourceDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1933,11 +1931,11 @@ func (ListAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescripto
 	}
 }
 
-func (s ListAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListAuditedResourceDescriptorsResponse_FieldSubPathValue {
+func (s ListAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListAuditedResourceDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAuditedResourceDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s ListAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s ListAuditedResourceDescriptorsResponsePathSelectorAuditedResourceDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAuditedResourceDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3276,11 +3274,11 @@ func (CreateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescripto
 	}
 }
 
-func (s CreateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateAuditedResourceDescriptorRequest_FieldSubPathValue {
+func (s CreateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateAuditedResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAuditedResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s CreateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s CreateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4131,11 +4129,11 @@ func (UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescripto
 	}
 }
 
-func (s UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathValue {
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAuditedResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorAuditedResourceDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5010,11 +5008,11 @@ func (UpdateAuditedResourceDescriptorRequestPathSelectorCasConditionalStateMetad
 	}
 }
 
-func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathValue {
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAuditedResourceDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateAuditedResourceDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAuditedResourceDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5879,11 +5877,11 @@ func (UpdateAuditedResourceDescriptorRequest_CASPathSelectorConditionalStateMeta
 	}
 }
 
-func (s UpdateAuditedResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathValue {
+func (s UpdateAuditedResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAuditedResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAuditedResourceDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAuditedResourceDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 

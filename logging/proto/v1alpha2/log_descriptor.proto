@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package ntt.logging.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/logging/proto/v1alpha2/common.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log_descriptor;log_descriptor";
+option java_multiple_files = true;
+option java_outer_classname = "LogDescriptorProto";
+option java_package = "com.ntt.logging.pb.v1alpha2";
+
+// LogDescriptor Resource
+message LogDescriptor {
+  option (google.api.resource) = {
+    type : "logging.edgelq.com/LogDescriptor"
+    pattern : "logDescriptors/{log_descriptor}"
+    pattern : "projects/{project}/logDescriptors/{log_descriptor}"
+    pattern : "organizations/{organization}/logDescriptors/{log_descriptor}"
+  };
+
+  // Name of LogDescriptor - contains service name followed by name defined
+  // by developer, separated by '/' sign. Example name:
+  // "devices.edgelq.com/DeviceFailure"
+  string name = 1;
+
+  // Optional. A concise name for the log type that might be
+  // displayed in user interfaces. It should be a Title Cased Noun Phrase,
+  // without any article or other determiners.
+  string display_name = 2;
+
+  // Optional. A detailed description of the log type that might
+  // be used in documentation.
+  string description = 3;
+
+  // A set of labels used to describe instances of this log type.
+  repeated LabelDescriptor labels = 4;
+
+  // Promoted Label Key Sets allow defining multiple indexing rules for
+  // underlying backend enabling query optimizations.
+  repeated LabelKeySet promoted_label_key_sets = 5;
+
+  // Metadata
+  ntt.types.Meta metadata = 6;
+}

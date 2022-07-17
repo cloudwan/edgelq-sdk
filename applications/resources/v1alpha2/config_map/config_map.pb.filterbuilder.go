@@ -13,8 +13,7 @@ import (
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -28,8 +27,7 @@ var (
 var (
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -1645,37 +1643,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ConfigMap_FieldPathArrayOfValues: NewConfigMapFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ConfigMap_FieldPathArrayOfValues: NewConfigMapFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1693,7 +1691,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		ConfigMap_FieldPathValue: NewConfigMapFieldPathBuilder().Metadata().Syncing().WithValue(value),

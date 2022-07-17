@@ -8,8 +8,7 @@ package config_map
 import (
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -17,8 +16,7 @@ import (
 var (
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -527,11 +525,11 @@ func (ConfigMapPathSelectorMetadataSyncing) FieldPath() *ConfigMap_FieldSubPath 
 	}
 }
 
-func (s ConfigMapPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ConfigMap_FieldSubPathValue {
+func (s ConfigMapPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ConfigMap_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
 }
 
-func (s ConfigMapPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ConfigMap_FieldSubPathArrayOfValues {
+func (s ConfigMapPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 

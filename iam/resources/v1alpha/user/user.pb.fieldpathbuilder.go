@@ -7,14 +7,12 @@ package user
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -532,11 +530,11 @@ func (UserPathSelectorMetadataSyncing) FieldPath() *User_FieldSubPath {
 	}
 }
 
-func (s UserPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *User_FieldSubPathValue {
+func (s UserPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *User_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
 }
 
-func (s UserPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *User_FieldSubPathArrayOfValues {
+func (s UserPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *User_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 

@@ -96,7 +96,7 @@ func (c *ConditionChange) GetCondition() *Condition {
 	return nil
 }
 
-func (c *ConditionChange) GetResource() gotenresource.Resource {
+func (c *ConditionChange) GetRawResource() gotenresource.Resource {
 	return c.GetCondition()
 }
 

@@ -19,7 +19,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/secret"
 	duration "github.com/golang/protobuf/ptypes/duration"
@@ -43,7 +42,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &duration.Duration{}
@@ -1663,37 +1661,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1711,7 +1709,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -3853,37 +3851,37 @@ type filterCndBuilderSpecTemplateMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -3901,7 +3899,7 @@ func (b *filterCndBuilderSpecTemplateMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().Syncing().WithValue(value),

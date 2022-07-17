@@ -94,7 +94,7 @@ func (c *MetricDescriptorChange) GetMetricDescriptor() *MetricDescriptor {
 	return nil
 }
 
-func (c *MetricDescriptorChange) GetResource() gotenresource.Resource {
+func (c *MetricDescriptorChange) GetRawResource() gotenresource.Resource {
 	return c.GetMetricDescriptor()
 }
 

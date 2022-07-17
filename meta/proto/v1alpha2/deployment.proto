@@ -15,14 +15,14 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 message Deployment {
   option (google.api.resource) = {
     type : "meta.edgelq.com/Deployment"
-    pattern : "services/{service}/deployments/{deployment}"
+    pattern : "regions/{region}/deployments/{deployment}"
   };
 
   // Name of Deployment
   string name = 1;
 
-  // Region where service is deployed
-  string region = 2;
+  // Deployed service
+  string service = 2;
 
   // Metadata
   ntt.types.Meta metadata = 3;

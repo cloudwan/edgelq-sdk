@@ -14,7 +14,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
@@ -30,7 +29,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -2803,11 +2801,11 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing
 	}
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

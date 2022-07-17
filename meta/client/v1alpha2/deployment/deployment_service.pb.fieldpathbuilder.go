@@ -7,7 +7,6 @@ package deployment_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
@@ -21,7 +20,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &deployment.Deployment{}
 	_ = &region.Region{}
 	_ = &service.Service{}
@@ -199,8 +197,8 @@ func (BatchGetDeploymentsResponsePathSelectorDeployments) Name() BatchGetDeploym
 	return BatchGetDeploymentsResponsePathSelectorDeploymentsName{}
 }
 
-func (BatchGetDeploymentsResponsePathSelectorDeployments) Region() BatchGetDeploymentsResponsePathSelectorDeploymentsRegion {
-	return BatchGetDeploymentsResponsePathSelectorDeploymentsRegion{}
+func (BatchGetDeploymentsResponsePathSelectorDeployments) Service() BatchGetDeploymentsResponsePathSelectorDeploymentsService {
+	return BatchGetDeploymentsResponsePathSelectorDeploymentsService{}
 }
 
 func (BatchGetDeploymentsResponsePathSelectorDeployments) Metadata() BatchGetDeploymentsResponsePathSelectorDeploymentsMetadata {
@@ -224,20 +222,20 @@ func (s BatchGetDeploymentsResponsePathSelectorDeploymentsName) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetDeploymentsResponsePathSelectorDeploymentsRegion struct{}
+type BatchGetDeploymentsResponsePathSelectorDeploymentsService struct{}
 
-func (BatchGetDeploymentsResponsePathSelectorDeploymentsRegion) FieldPath() *BatchGetDeploymentsResponse_FieldSubPath {
+func (BatchGetDeploymentsResponsePathSelectorDeploymentsService) FieldPath() *BatchGetDeploymentsResponse_FieldSubPath {
 	return &BatchGetDeploymentsResponse_FieldSubPath{
 		selector: BatchGetDeploymentsResponse_FieldPathSelectorDeployments,
-		subPath:  deployment.NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		subPath:  deployment.NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	}
 }
 
-func (s BatchGetDeploymentsResponsePathSelectorDeploymentsRegion) WithValue(value *region.Reference) *BatchGetDeploymentsResponse_FieldSubPathValue {
+func (s BatchGetDeploymentsResponsePathSelectorDeploymentsService) WithValue(value *service.Reference) *BatchGetDeploymentsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetDeploymentsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetDeploymentsResponsePathSelectorDeploymentsRegion) WithArrayOfValues(values []*region.Reference) *BatchGetDeploymentsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetDeploymentsResponsePathSelectorDeploymentsService) WithArrayOfValues(values []*service.Reference) *BatchGetDeploymentsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -684,11 +682,11 @@ func (BatchGetDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) FieldPa
 	}
 }
 
-func (s BatchGetDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetDeploymentsResponse_FieldSubPathValue {
+func (s BatchGetDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetDeploymentsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetDeploymentsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetDeploymentsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetDeploymentsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -933,8 +931,8 @@ func (ListDeploymentsResponsePathSelectorDeployments) Name() ListDeploymentsResp
 	return ListDeploymentsResponsePathSelectorDeploymentsName{}
 }
 
-func (ListDeploymentsResponsePathSelectorDeployments) Region() ListDeploymentsResponsePathSelectorDeploymentsRegion {
-	return ListDeploymentsResponsePathSelectorDeploymentsRegion{}
+func (ListDeploymentsResponsePathSelectorDeployments) Service() ListDeploymentsResponsePathSelectorDeploymentsService {
+	return ListDeploymentsResponsePathSelectorDeploymentsService{}
 }
 
 func (ListDeploymentsResponsePathSelectorDeployments) Metadata() ListDeploymentsResponsePathSelectorDeploymentsMetadata {
@@ -958,20 +956,20 @@ func (s ListDeploymentsResponsePathSelectorDeploymentsName) WithArrayOfValues(va
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListDeploymentsResponsePathSelectorDeploymentsRegion struct{}
+type ListDeploymentsResponsePathSelectorDeploymentsService struct{}
 
-func (ListDeploymentsResponsePathSelectorDeploymentsRegion) FieldPath() *ListDeploymentsResponse_FieldSubPath {
+func (ListDeploymentsResponsePathSelectorDeploymentsService) FieldPath() *ListDeploymentsResponse_FieldSubPath {
 	return &ListDeploymentsResponse_FieldSubPath{
 		selector: ListDeploymentsResponse_FieldPathSelectorDeployments,
-		subPath:  deployment.NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		subPath:  deployment.NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	}
 }
 
-func (s ListDeploymentsResponsePathSelectorDeploymentsRegion) WithValue(value *region.Reference) *ListDeploymentsResponse_FieldSubPathValue {
+func (s ListDeploymentsResponsePathSelectorDeploymentsService) WithValue(value *service.Reference) *ListDeploymentsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListDeploymentsResponse_FieldSubPathValue)
 }
 
-func (s ListDeploymentsResponsePathSelectorDeploymentsRegion) WithArrayOfValues(values []*region.Reference) *ListDeploymentsResponse_FieldSubPathArrayOfValues {
+func (s ListDeploymentsResponsePathSelectorDeploymentsService) WithArrayOfValues(values []*service.Reference) *ListDeploymentsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1418,11 +1416,11 @@ func (ListDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) FieldPath()
 	}
 }
 
-func (s ListDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListDeploymentsResponse_FieldSubPathValue {
+func (s ListDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListDeploymentsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListDeploymentsResponse_FieldSubPathValue)
 }
 
-func (s ListDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListDeploymentsResponse_FieldSubPathArrayOfValues {
+func (s ListDeploymentsResponsePathSelectorDeploymentsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListDeploymentsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2043,8 +2041,8 @@ func (CreateDeploymentRequestPathSelectorDeployment) Name() CreateDeploymentRequ
 	return CreateDeploymentRequestPathSelectorDeploymentName{}
 }
 
-func (CreateDeploymentRequestPathSelectorDeployment) Region() CreateDeploymentRequestPathSelectorDeploymentRegion {
-	return CreateDeploymentRequestPathSelectorDeploymentRegion{}
+func (CreateDeploymentRequestPathSelectorDeployment) Service() CreateDeploymentRequestPathSelectorDeploymentService {
+	return CreateDeploymentRequestPathSelectorDeploymentService{}
 }
 
 func (CreateDeploymentRequestPathSelectorDeployment) Metadata() CreateDeploymentRequestPathSelectorDeploymentMetadata {
@@ -2068,20 +2066,20 @@ func (s CreateDeploymentRequestPathSelectorDeploymentName) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateDeploymentRequestPathSelectorDeploymentRegion struct{}
+type CreateDeploymentRequestPathSelectorDeploymentService struct{}
 
-func (CreateDeploymentRequestPathSelectorDeploymentRegion) FieldPath() *CreateDeploymentRequest_FieldSubPath {
+func (CreateDeploymentRequestPathSelectorDeploymentService) FieldPath() *CreateDeploymentRequest_FieldSubPath {
 	return &CreateDeploymentRequest_FieldSubPath{
 		selector: CreateDeploymentRequest_FieldPathSelectorDeployment,
-		subPath:  deployment.NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		subPath:  deployment.NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	}
 }
 
-func (s CreateDeploymentRequestPathSelectorDeploymentRegion) WithValue(value *region.Reference) *CreateDeploymentRequest_FieldSubPathValue {
+func (s CreateDeploymentRequestPathSelectorDeploymentService) WithValue(value *service.Reference) *CreateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s CreateDeploymentRequestPathSelectorDeploymentRegion) WithArrayOfValues(values []*region.Reference) *CreateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s CreateDeploymentRequestPathSelectorDeploymentService) WithArrayOfValues(values []*service.Reference) *CreateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2528,11 +2526,11 @@ func (CreateDeploymentRequestPathSelectorDeploymentMetadataSyncing) FieldPath() 
 	}
 }
 
-func (s CreateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateDeploymentRequest_FieldSubPathValue {
+func (s CreateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s CreateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s CreateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2631,8 +2629,8 @@ func (UpdateDeploymentRequestPathSelectorDeployment) Name() UpdateDeploymentRequ
 	return UpdateDeploymentRequestPathSelectorDeploymentName{}
 }
 
-func (UpdateDeploymentRequestPathSelectorDeployment) Region() UpdateDeploymentRequestPathSelectorDeploymentRegion {
-	return UpdateDeploymentRequestPathSelectorDeploymentRegion{}
+func (UpdateDeploymentRequestPathSelectorDeployment) Service() UpdateDeploymentRequestPathSelectorDeploymentService {
+	return UpdateDeploymentRequestPathSelectorDeploymentService{}
 }
 
 func (UpdateDeploymentRequestPathSelectorDeployment) Metadata() UpdateDeploymentRequestPathSelectorDeploymentMetadata {
@@ -2656,20 +2654,20 @@ func (s UpdateDeploymentRequestPathSelectorDeploymentName) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateDeploymentRequestPathSelectorDeploymentRegion struct{}
+type UpdateDeploymentRequestPathSelectorDeploymentService struct{}
 
-func (UpdateDeploymentRequestPathSelectorDeploymentRegion) FieldPath() *UpdateDeploymentRequest_FieldSubPath {
+func (UpdateDeploymentRequestPathSelectorDeploymentService) FieldPath() *UpdateDeploymentRequest_FieldSubPath {
 	return &UpdateDeploymentRequest_FieldSubPath{
 		selector: UpdateDeploymentRequest_FieldPathSelectorDeployment,
-		subPath:  deployment.NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		subPath:  deployment.NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	}
 }
 
-func (s UpdateDeploymentRequestPathSelectorDeploymentRegion) WithValue(value *region.Reference) *UpdateDeploymentRequest_FieldSubPathValue {
+func (s UpdateDeploymentRequestPathSelectorDeploymentService) WithValue(value *service.Reference) *UpdateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequestPathSelectorDeploymentRegion) WithArrayOfValues(values []*region.Reference) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequestPathSelectorDeploymentService) WithArrayOfValues(values []*service.Reference) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3116,11 +3114,11 @@ func (UpdateDeploymentRequestPathSelectorDeploymentMetadataSyncing) FieldPath() 
 	}
 }
 
-func (s UpdateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathValue {
+func (s UpdateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequestPathSelectorDeploymentMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3243,8 +3241,8 @@ func (UpdateDeploymentRequestPathSelectorCasConditionalState) Name() UpdateDeplo
 	return UpdateDeploymentRequestPathSelectorCasConditionalStateName{}
 }
 
-func (UpdateDeploymentRequestPathSelectorCasConditionalState) Region() UpdateDeploymentRequestPathSelectorCasConditionalStateRegion {
-	return UpdateDeploymentRequestPathSelectorCasConditionalStateRegion{}
+func (UpdateDeploymentRequestPathSelectorCasConditionalState) Service() UpdateDeploymentRequestPathSelectorCasConditionalStateService {
+	return UpdateDeploymentRequestPathSelectorCasConditionalStateService{}
 }
 
 func (UpdateDeploymentRequestPathSelectorCasConditionalState) Metadata() UpdateDeploymentRequestPathSelectorCasConditionalStateMetadata {
@@ -3268,20 +3266,20 @@ func (s UpdateDeploymentRequestPathSelectorCasConditionalStateName) WithArrayOfV
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateDeploymentRequestPathSelectorCasConditionalStateRegion struct{}
+type UpdateDeploymentRequestPathSelectorCasConditionalStateService struct{}
 
-func (UpdateDeploymentRequestPathSelectorCasConditionalStateRegion) FieldPath() *UpdateDeploymentRequest_FieldSubPath {
+func (UpdateDeploymentRequestPathSelectorCasConditionalStateService) FieldPath() *UpdateDeploymentRequest_FieldSubPath {
 	return &UpdateDeploymentRequest_FieldSubPath{
 		selector: UpdateDeploymentRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateDeploymentRequestCASFieldPathBuilder().ConditionalState().Region().FieldPath(),
+		subPath:  NewUpdateDeploymentRequestCASFieldPathBuilder().ConditionalState().Service().FieldPath(),
 	}
 }
 
-func (s UpdateDeploymentRequestPathSelectorCasConditionalStateRegion) WithValue(value *region.Reference) *UpdateDeploymentRequest_FieldSubPathValue {
+func (s UpdateDeploymentRequestPathSelectorCasConditionalStateService) WithValue(value *service.Reference) *UpdateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequestPathSelectorCasConditionalStateRegion) WithArrayOfValues(values []*region.Reference) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequestPathSelectorCasConditionalStateService) WithArrayOfValues(values []*service.Reference) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3728,11 +3726,11 @@ func (UpdateDeploymentRequestPathSelectorCasConditionalStateMetadataSyncing) Fie
 	}
 }
 
-func (s UpdateDeploymentRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathValue {
+func (s UpdateDeploymentRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequest_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDeploymentRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3845,8 +3843,8 @@ func (UpdateDeploymentRequest_CASPathSelectorConditionalState) Name() UpdateDepl
 	return UpdateDeploymentRequest_CASPathSelectorConditionalStateName{}
 }
 
-func (UpdateDeploymentRequest_CASPathSelectorConditionalState) Region() UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion {
-	return UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion{}
+func (UpdateDeploymentRequest_CASPathSelectorConditionalState) Service() UpdateDeploymentRequest_CASPathSelectorConditionalStateService {
+	return UpdateDeploymentRequest_CASPathSelectorConditionalStateService{}
 }
 
 func (UpdateDeploymentRequest_CASPathSelectorConditionalState) Metadata() UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadata {
@@ -3870,20 +3868,20 @@ func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateName) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion struct{}
+type UpdateDeploymentRequest_CASPathSelectorConditionalStateService struct{}
 
-func (UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion) FieldPath() *UpdateDeploymentRequestCAS_FieldSubPath {
+func (UpdateDeploymentRequest_CASPathSelectorConditionalStateService) FieldPath() *UpdateDeploymentRequestCAS_FieldSubPath {
 	return &UpdateDeploymentRequestCAS_FieldSubPath{
 		selector: UpdateDeploymentRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  deployment.NewDeploymentFieldPathBuilder().Region().FieldPath(),
+		subPath:  deployment.NewDeploymentFieldPathBuilder().Service().FieldPath(),
 	}
 }
 
-func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion) WithValue(value *region.Reference) *UpdateDeploymentRequestCAS_FieldSubPathValue {
+func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateService) WithValue(value *service.Reference) *UpdateDeploymentRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateRegion) WithArrayOfValues(values []*region.Reference) *UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateService) WithArrayOfValues(values []*service.Reference) *UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4330,11 +4328,11 @@ func (UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadataSyncing) Fi
 	}
 }
 
-func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateDeploymentRequestCAS_FieldSubPathValue {
+func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateDeploymentRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateDeploymentRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateDeploymentRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateDeploymentRequestCAS_FieldSubPathArrayOfValues)
 }
 

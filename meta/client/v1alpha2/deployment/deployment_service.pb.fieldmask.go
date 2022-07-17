@@ -21,7 +21,7 @@ import (
 // proto imports
 import (
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
-	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -46,7 +46,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &deployment.Deployment{}
-	_ = &service.Service{}
+	_ = &region.Region{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = view.View(0)

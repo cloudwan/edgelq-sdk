@@ -9,10 +9,12 @@ import (
 
 	deployment_access "github.com/cloudwan/edgelq-sdk/meta/access/v1alpha2/deployment"
 	region_access "github.com/cloudwan/edgelq-sdk/meta/access/v1alpha2/region"
+	resource_access "github.com/cloudwan/edgelq-sdk/meta/access/v1alpha2/resource"
 	service_access "github.com/cloudwan/edgelq-sdk/meta/access/v1alpha2/service"
 	meta_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/meta"
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
+	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
@@ -21,6 +23,7 @@ type MetaApiAccess interface {
 
 	deployment.DeploymentAccess
 	region.RegionAccess
+	resource.ResourceAccess
 	service.ServiceAccess
 }
 
@@ -29,6 +32,7 @@ type apiMetaAccess struct {
 
 	deployment.DeploymentAccess
 	region.RegionAccess
+	resource.ResourceAccess
 	service.ServiceAccess
 }
 
@@ -36,6 +40,7 @@ func NewApiAccess(client meta_client.MetaClient) MetaApiAccess {
 
 	deploymentAccess := deployment_access.NewApiDeploymentAccess(client)
 	regionAccess := region_access.NewApiRegionAccess(client)
+	resourceAccess := resource_access.NewApiResourceAccess(client)
 	serviceAccess := service_access.NewApiServiceAccess(client)
 
 	return &apiMetaAccess{
@@ -43,11 +48,13 @@ func NewApiAccess(client meta_client.MetaClient) MetaApiAccess {
 
 			deployment.AsAnyCastAccess(deploymentAccess),
 			region.AsAnyCastAccess(regionAccess),
+			resource.AsAnyCastAccess(resourceAccess),
 			service.AsAnyCastAccess(serviceAccess),
 		),
 
 		DeploymentAccess: deploymentAccess,
 		RegionAccess:     regionAccess,
+		ResourceAccess:   resourceAccess,
 		ServiceAccess:    serviceAccess,
 	}
 }

@@ -10,7 +10,6 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -24,7 +23,6 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -705,11 +703,11 @@ func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing)
 	}
 }
 
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetServiceAccountsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1460,11 +1458,11 @@ func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) Fie
 	}
 }
 
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListServiceAccountsResponse_FieldSubPathValue {
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListServiceAccountsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
 }
 
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2591,11 +2589,11 @@ func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) Fiel
 	}
 }
 
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateServiceAccountRequest_FieldSubPathValue {
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3200,11 +3198,11 @@ func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) Fiel
 	}
 }
 
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathValue {
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3833,11 +3831,11 @@ func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing)
 	}
 }
 
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathValue {
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4456,11 +4454,11 @@ func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing
 	}
 }
 
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 

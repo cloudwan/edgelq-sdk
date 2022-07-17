@@ -94,7 +94,7 @@ func (c *GroupMemberChange) GetGroupMember() *GroupMember {
 	return nil
 }
 
-func (c *GroupMemberChange) GetResource() gotenresource.Resource {
+func (c *GroupMemberChange) GetRawResource() gotenresource.Resource {
 	return c.GetGroupMember()
 }
 

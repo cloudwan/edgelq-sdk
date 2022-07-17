@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ntt.meta.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource;resource";
+option java_multiple_files = true;
+option java_outer_classname = "ResourceProto";
+option java_package = "com.ntt.meta.pb.v1alpha2";
+
+// Resource Resource
+message Resource {
+  option (google.api.resource) = {
+    type : "meta.edgelq.com/Resource"
+    pattern : "services/{service}/resources/{resource}"
+  };
+
+  // Name of Resource in CamelCase, for example "Device"
+  string name = 1;
+
+  // Plural name of resource in CamelForm, for example "Devices"
+  string plural_name = 2;
+
+  // Fully qualified name, for example devices.edgelq.com/Device.
+  // It can also be derived from name too.
+  string fqn = 3;
+
+  // Whether resource is regional
+  bool is_regional = 4;
+
+  // Metadata
+  ntt.types.Meta metadata = 5;
+}

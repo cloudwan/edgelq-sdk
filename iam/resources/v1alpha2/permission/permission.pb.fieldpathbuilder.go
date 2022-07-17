@@ -7,14 +7,12 @@ package permission
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -534,11 +532,11 @@ func (PermissionPathSelectorMetadataSyncing) FieldPath() *Permission_FieldSubPat
 	}
 }
 
-func (s PermissionPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Permission_FieldSubPathValue {
+func (s PermissionPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Permission_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
 }
 
-func (s PermissionPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Permission_FieldSubPathArrayOfValues {
+func (s PermissionPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 

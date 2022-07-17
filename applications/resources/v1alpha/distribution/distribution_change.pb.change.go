@@ -94,7 +94,7 @@ func (c *DistributionChange) GetDistribution() *Distribution {
 	return nil
 }
 
-func (c *DistributionChange) GetResource() gotenresource.Resource {
+func (c *DistributionChange) GetRawResource() gotenresource.Resource {
 	return c.GetDistribution()
 }
 

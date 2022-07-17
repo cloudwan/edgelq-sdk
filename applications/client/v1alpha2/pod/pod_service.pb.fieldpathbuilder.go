@@ -9,6 +9,7 @@ import (
 	pod "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/pod"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1alpha2/project"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -20,8 +21,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
@@ -38,6 +37,7 @@ var (
 	_ = &pod.Pod{}
 	_ = &project.Project{}
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -49,8 +49,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
@@ -722,11 +720,11 @@ func (BatchGetPodsResponsePathSelectorPodsMetadataSyncing) FieldPath() *BatchGet
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3373,11 +3371,11 @@ func (ListPodsResponsePathSelectorPodsMetadataSyncing) FieldPath() *ListPodsResp
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -6400,11 +6398,11 @@ func (CreatePodRequestPathSelectorPodMetadataSyncing) FieldPath() *CreatePodRequ
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8905,11 +8903,11 @@ func (UpdatePodRequestPathSelectorPodMetadataSyncing) FieldPath() *UpdatePodRequ
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11434,11 +11432,11 @@ func (UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing) FieldPath(
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -13953,11 +13951,11 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing) FieldPath
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 

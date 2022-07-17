@@ -302,7 +302,7 @@ service DeploymentService {
   // GetDeployment
   rpc GetDeployment(GetDeploymentRequest) returns (Deployment) {
     option (google.api.http) = {
-      get : "/v1alpha2/{name=services/*/deployments/*}"
+      get : "/v1alpha2/{name=regions/*/deployments/*}"
     };
   }
 
@@ -318,7 +318,7 @@ service DeploymentService {
   rpc ListDeployments(ListDeploymentsRequest)
       returns (ListDeploymentsResponse) {
     option (google.api.http) = {
-      get : "/v1alpha2/{parent=services/*}/deployments"
+      get : "/v1alpha2/{parent=regions/*}/deployments"
     };
   }
 
@@ -326,7 +326,7 @@ service DeploymentService {
   rpc WatchDeployment(WatchDeploymentRequest)
       returns (stream WatchDeploymentResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{name=services/*/deployments/*}:watch"
+      post : "/v1alpha2/{name=regions/*/deployments/*}:watch"
     };
   }
 
@@ -334,14 +334,14 @@ service DeploymentService {
   rpc WatchDeployments(WatchDeploymentsRequest)
       returns (stream WatchDeploymentsResponse) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=services/*}/deployments:watch"
+      post : "/v1alpha2/{parent=regions/*}/deployments:watch"
     };
   }
 
   // CreateDeployment
   rpc CreateDeployment(CreateDeploymentRequest) returns (Deployment) {
     option (google.api.http) = {
-      post : "/v1alpha2/{parent=services/*}/deployments"
+      post : "/v1alpha2/{parent=regions/*}/deployments"
       body : "deployment"
     };
   }
@@ -349,7 +349,7 @@ service DeploymentService {
   // UpdateDeployment
   rpc UpdateDeployment(UpdateDeploymentRequest) returns (Deployment) {
     option (google.api.http) = {
-      put : "/v1alpha2/{deployment.name=services/*/deployments/*}"
+      put : "/v1alpha2/{deployment.name=regions/*/deployments/*}"
       body : "deployment"
     };
   }
@@ -358,7 +358,7 @@ service DeploymentService {
   rpc DeleteDeployment(DeleteDeploymentRequest)
       returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete : "/v1alpha2/{name=services/*/deployments/*}"
+      delete : "/v1alpha2/{name=regions/*/deployments/*}"
     };
   }
 }

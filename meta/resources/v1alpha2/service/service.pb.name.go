@@ -45,8 +45,8 @@ var (
 	_ = &ntt_meta.Meta{}
 )
 
-var service_RegexpId = regexp.MustCompile("^(?P<service_id>[\\w][\\w.-]{0,127})$")
-var regexPath = regexp.MustCompile("^services/(?P<service_id>-|[\\w][\\w.-]{0,127})$")
+var service_RegexpId = regexp.MustCompile("^(?P<service_id>[a-zA-Z0-9-.]{1,128})$")
+var regexPath = regexp.MustCompile("^services/(?P<service_id>-|[a-zA-Z0-9-.]{1,128})$")
 
 func (r *Service) MaybePopulateDefaults() error {
 	serviceInterface := interface{}(r)

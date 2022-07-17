@@ -1,0 +1,410 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/runtime/api/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan_assignment;plan_assignment_client";
+option java_multiple_files = false;
+option java_outer_classname = "PlanAssignmentServiceProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// Request message for method
+// [GetPlanAssignment][ntt.limits.v1alpha2.GetPlanAssignment]
+message GetPlanAssignmentRequest {
+  // Reference of ntt.limits.v1alpha2.PlanAssignment
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// Request message for method
+// [BatchGetPlanAssignments][ntt.limits.v1alpha2.BatchGetPlanAssignments]
+message BatchGetPlanAssignmentsRequest {
+  // Names of PlanAssignments
+  repeated string names = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+
+  reserved 1;
+}
+
+// BatchGetPlanAssignmentsResponse
+message BatchGetPlanAssignmentsResponse {
+  // found PlanAssignments
+  repeated PlanAssignment plan_assignments = 1;
+
+  // list of not found PlanAssignments
+  repeated string missing = 2;
+}
+
+// Request message for method
+// [ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]
+message ListPlanAssignmentsRequest {
+  // Parent name of ntt.limits.v1alpha2.PlanAssignment
+  string parent = 1;
+
+  // Requested page size. Server may return fewer PlanAssignments than
+  // requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListPlanAssignmentsResponse.next_page_token][ntt.limits.v1alpha2.ListPlanAssignmentsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+}
+
+// Request message for method
+// [ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]
+message ListPlanAssignmentsResponse {
+  // The list of PlanAssignments
+  repeated PlanAssignment plan_assignments = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]
+  string next_page_token = 4;
+}
+
+// Request message for method
+// [WatchPlanAssignment][ntt.limits.v1alpha2.WatchPlanAssignment]
+message WatchPlanAssignmentRequest {
+  // Reference to ntt.limits.v1alpha2.PlanAssignment
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 2;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// WatchPlanAssignmentResponse
+message WatchPlanAssignmentResponse { PlanAssignmentChange change = 1; }
+
+// Request message for method
+// [WatchPlanAssignments][ntt.limits.v1alpha2.WatchPlanAssignments]
+message WatchPlanAssignmentsRequest {
+  // Type of a watch. Identifies how server stream data to a client, which
+  // fields in a request are allowed and which fields in response are relevant.
+  goten.watch_type.WatchType type = 9;
+
+  // Parent reference of ntt.limits.v1alpha2.PlanAssignment
+  string parent = 1;
+
+  // Requested page size. Server may return fewer PlanAssignments than
+  // requested. If unspecified, server will pick an appropriate default. Can be
+  // populated only for stateful watch type.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Can be populated only for stateful watch type.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
+  // populated only for stateful watch type.
+  string order_by = 4;
+
+  // A token identifying watch resume point from previous session.
+  // Can be populated only for stateless watch type.
+  string resume_token = 10;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view Changes to PlanAssignment that don't
+  // affect any of masked fields won't be sent back.
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask Changes to
+  // PlanAssignment that don't affect any of masked fields won't be sent back.
+  goten.view.View view = 8;
+
+  // Maximum amount of changes in each response message. Query result response
+  // is divided on the server side into chunks with size of a specified amount
+  // to limit memory footprint of each message. Responses will hold information
+  // whether more elements will continue for the actual change. If unspecified,
+  // server will pick an appropriate default.
+  int32 max_chunk_size = 11;
+}
+
+// WatchPlanAssignmentsResponse
+message WatchPlanAssignmentsResponse {
+  // Changes of PlanAssignments
+  repeated PlanAssignmentChange plan_assignment_changes = 2;
+
+  // If request specified max_chunk_size (or this limit was enforced if
+  // stateless watch has been chosen), then responses with "full changeset" will
+  // be divided into chunks. Client should keep receiving messages and, once
+  // is_current has value true, combine this recent message with all previous
+  // ones where is_current is false. If this is the first is_current in a whole
+  // watch stream, then it means that client should have, at this moment,
+  // contain snapshot of the current situation (or more accurately, snapshot of
+  // situation at the moment of request). All PlanAssignments will be of type
+  // Added/Current (depending on watch_type specified in the request). Further
+  // responses will be incremental - however messages may still be chunked and
+  // is_current logic still applies. is_current is always true for stateful
+  // watch if max_chunk_size was left to 0.
+  bool is_current = 4;
+
+  // When present, PageTokens used for page navigation should be updated.
+  // Present only if is_current is true (last chunk).
+  PageTokenChange page_token_change = 3;
+
+  // Token that can be used if current connection drops and client needs to
+  // reconnect. Populated only for stateless watch type. Present only if
+  // is_current is true (last chunk).
+  string resume_token = 5;
+
+  // Server may occasionally send information how many resources should client
+  // have in its state so far (response message without any changes, but with
+  // snapshot_size field specified). If client has different value than the one
+  // sent by the server, then it should be treated by a client as an error and
+  // should reconnect. If value is smaller then 0, then client should ignore
+  // this field as unpopulated. This field should be checked only for stateless
+  // watch. In stateful those kind of errors are handled by the server side.
+  // Will be never sent together with is_current, is_soft_reset and
+  // is_hard_reset flags.
+  int64 snapshot_size = 6;
+
+  // In case of internal issue server may send response message with this flag.
+  // It indicates that client should drop all changes from recent responses
+  // where is_current is false only! If last message had is_current set to true,
+  // client should do nothing and process normally. Resume token received before
+  // is still valid. This field should be checked only for stateless watch. In
+  // stateful those kind of errors are handled by the server side. Will never be
+  // sent along with is_current, is_hard_reset or snapshot_size.
+  bool is_soft_reset = 7;
+
+  // In case of internal issue server may send response message with this flag.
+  // After receiving, client should clear whole state (drop all changes received
+  // so far) as server will send new snapshot (PlanAssignments will contains
+  // changes of type Current only). Any resume tokens should be discarded as
+  // well. This field should be checked only for stateless watch. In stateful
+  // those kind of errors are handled by the server side. Will never be sent
+  // along with is_current, is_soft_reset or snapshot_size.
+  bool is_hard_reset = 8;
+
+  message PageTokenChange {
+    // New token to retrieve previous page of results.
+    string prev_page_token = 1;
+
+    // New token to retrieve next page of results.
+    string next_page_token = 2;
+  }
+}
+
+// Request message for method
+// [CreatePlanAssignment][ntt.limits.v1alpha2.CreatePlanAssignment]
+message CreatePlanAssignmentRequest {
+  // Parent reference of ntt.limits.v1alpha2.PlanAssignment
+  string parent = 1;
+
+  // PlanAssignment resource body
+  PlanAssignment plan_assignment = 2;
+}
+
+// Request message for method
+// [UpdatePlanAssignment][ntt.limits.v1alpha2.UpdatePlanAssignment]
+message UpdatePlanAssignmentRequest {
+  // PlanAssignment resource body
+  PlanAssignment plan_assignment = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    PlanAssignment conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+}
+
+// Request message for method
+// [DeletePlanAssignment][ntt.limits.v1alpha2.DeletePlanAssignment]
+message DeletePlanAssignmentRequest {
+  // Reference of ntt.limits.v1alpha2.PlanAssignment
+  string name = 1;
+}
+
+// PlanAssignment service API for Limits
+service PlanAssignmentService {
+  option (google.api.default_host) = "limits.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // GetPlanAssignment
+  rpc GetPlanAssignment(GetPlanAssignmentRequest) returns (PlanAssignment) {
+    option (google.api.http) = {
+      get : "/v1alpha2/{name=planAssignments/*}"
+      additional_bindings : <
+        get : "/v1alpha2/{name=projects/*/planAssignments/*}"
+      >
+      additional_bindings : <
+        get : "/v1alpha2/{name=organizations/*/planAssignments/*}"
+      >
+    };
+  }
+
+  // BatchGetPlanAssignments
+  rpc BatchGetPlanAssignments(BatchGetPlanAssignmentsRequest)
+      returns (BatchGetPlanAssignmentsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/planAssignments:batchGet"
+    };
+  }
+
+  // ListPlanAssignments
+  rpc ListPlanAssignments(ListPlanAssignmentsRequest)
+      returns (ListPlanAssignmentsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/planAssignments"
+      additional_bindings : <
+        get : "/v1alpha2/{parent=projects/*}/planAssignments"
+      >
+      additional_bindings : <
+        get : "/v1alpha2/{parent=organizations/*}/planAssignments"
+      >
+    };
+  }
+
+  // WatchPlanAssignment
+  rpc WatchPlanAssignment(WatchPlanAssignmentRequest)
+      returns (stream WatchPlanAssignmentResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=planAssignments/*}:watch"
+      additional_bindings : <
+        post : "/v1alpha2/{name=projects/*/planAssignments/*}:watch"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{name=organizations/*/planAssignments/*}:watch"
+      >
+    };
+  }
+
+  // WatchPlanAssignments
+  rpc WatchPlanAssignments(WatchPlanAssignmentsRequest)
+      returns (stream WatchPlanAssignmentsResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/planAssignments:watch"
+      additional_bindings : <
+        post : "/v1alpha2/{parent=projects/*}/planAssignments:watch"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{parent=organizations/*}/planAssignments:watch"
+      >
+    };
+  }
+
+  // CreatePlanAssignment
+  rpc CreatePlanAssignment(CreatePlanAssignmentRequest)
+      returns (PlanAssignment) {
+    option (google.api.http) = {
+      post : "/v1alpha2/planAssignments"
+      body : "plan_assignment"
+      additional_bindings : <
+        post : "/v1alpha2/{parent=projects/*}/planAssignments"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{parent=organizations/*}/planAssignments"
+      >
+    };
+  }
+
+  // UpdatePlanAssignment
+  rpc UpdatePlanAssignment(UpdatePlanAssignmentRequest)
+      returns (PlanAssignment) {
+    option (google.api.http) = {
+      put : "/v1alpha2/{plan_assignment.name=planAssignments/*}"
+      body : "plan_assignment"
+      additional_bindings : <
+        put : "/v1alpha2/{plan_assignment.name=projects/*/planAssignments/*}"
+      >
+      additional_bindings : <
+        put : "/v1alpha2/{plan_assignment.name=organizations/*/planAssignments/"
+              "*}"
+      >
+    };
+  }
+
+  // DeletePlanAssignment
+  rpc DeletePlanAssignment(DeletePlanAssignmentRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1alpha2/{name=planAssignments/*}"
+      additional_bindings : <
+        delete : "/v1alpha2/{name=projects/*/planAssignments/*}"
+      >
+      additional_bindings : <
+        delete : "/v1alpha2/{name=organizations/*/planAssignments/*}"
+      >
+    };
+  }
+}

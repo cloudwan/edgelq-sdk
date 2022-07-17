@@ -17,7 +17,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -34,7 +34,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 func (o *Organization) GotenObjectExt() {}
@@ -237,7 +237,7 @@ func (o *Organization) Merge(source *Organization) {
 	}
 	if source.GetMultiRegionPolicy() != nil {
 		if o.MultiRegionPolicy == nil {
-			o.MultiRegionPolicy = new(policy.Policy)
+			o.MultiRegionPolicy = new(multi_region_policy.MultiRegionPolicy)
 		}
 		o.MultiRegionPolicy.Merge(source.GetMultiRegionPolicy())
 	}

@@ -94,7 +94,7 @@ func (c *AlertingConditionChange) GetAlertingCondition() *AlertingCondition {
 	return nil
 }
 
-func (c *AlertingConditionChange) GetResource() gotenresource.Resource {
+func (c *AlertingConditionChange) GetRawResource() gotenresource.Resource {
 	return c.GetAlertingCondition()
 }
 

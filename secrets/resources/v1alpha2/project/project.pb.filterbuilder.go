@@ -12,8 +12,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -26,8 +25,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -1576,37 +1574,37 @@ type filterCndBuilderMetadataSyncing struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataSyncing) Eq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Eq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Neq(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Neq(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Gte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Gte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lt(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lt(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) Lte(value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) Lte(value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataSyncing) In(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) In(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) NotIn(values []*syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) NotIn(values []*ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().Metadata().Syncing().WithArrayOfValues(values),
 	})
@@ -1624,7 +1622,7 @@ func (b *filterCndBuilderMetadataSyncing) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *syncing_meta.SyncingMeta) *FilterBuilder {
+func (b *filterCndBuilderMetadataSyncing) compare(op gotenfilter.CompareOperator, value *ntt_meta.SyncingMeta) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().Metadata().Syncing().WithValue(value),
@@ -1795,37 +1793,37 @@ type filterCndBuilderMultiRegionPolicy struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Eq(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Eq(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Neq(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Neq(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Gt(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Gt(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Gte(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Gte(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Lt(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Lt(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) Lte(value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) Lte(value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) In(values []*policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) In(values []*multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().MultiRegionPolicy().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) NotIn(values []*policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) NotIn(values []*multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().MultiRegionPolicy().WithArrayOfValues(values),
 	})
@@ -1843,7 +1841,7 @@ func (b *filterCndBuilderMultiRegionPolicy) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicy) compare(op gotenfilter.CompareOperator, value *policy.Policy) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicy) compare(op gotenfilter.CompareOperator, value *multi_region_policy.MultiRegionPolicy) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().MultiRegionPolicy().WithValue(value),
@@ -2018,37 +2016,37 @@ type filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Eq(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Eq(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Neq(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Neq(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Gt(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Gt(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Gte(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Gte(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Lt(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Lt(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Lte(value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Lte(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) In(values [][]*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) In(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) NotIn(values [][]*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) NotIn(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Project_FieldPathArrayOfValues: NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().WithArrayOfValues(values),
 	})
@@ -2066,7 +2064,7 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) IsNan() *Filt
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Contains(value *policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Contains(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().FieldPath(),
@@ -2074,7 +2072,7 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) Contains(valu
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAnyOf(values []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAnyOf(values []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	pathSelector := NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync()
 	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2087,7 +2085,7 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAnyOf
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAll(values []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAll(values []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	pathSelector := NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync()
 	itemValues := make([]Project_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2100,7 +2098,7 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) ContainsAll(v
 	})
 }
 
-func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) compare(op gotenfilter.CompareOperator, value []*policy.Policy_CriteriaForDisabledSync) *FilterBuilder {
+func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSync) compare(op gotenfilter.CompareOperator, value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		Project_FieldPathValue: NewProjectFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().WithValue(value),

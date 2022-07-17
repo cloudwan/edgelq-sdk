@@ -7,6 +7,7 @@ package provisioning_policy
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1alpha2/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
@@ -18,8 +19,6 @@ import (
 	iam_role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
 	iam_user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -29,6 +28,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -40,8 +40,6 @@ var (
 	_ = &iam_role.Role{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &iam_user.User{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &meta_service.Service{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
@@ -705,11 +703,11 @@ func (ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) FieldPath() *Pr
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorSpecTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -11543,11 +11541,11 @@ func (ProvisioningPolicyPathSelectorMetadataSyncing) FieldPath() *ProvisioningPo
 	}
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
+func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicyPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -12188,11 +12186,11 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) FieldPath() *P
 	}
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathValue {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_SpecPathSelectorTemplateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -23008,11 +23006,11 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
 }
 
-func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

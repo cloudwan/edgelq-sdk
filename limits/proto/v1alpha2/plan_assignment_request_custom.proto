@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/accepted_plan.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan_assignment_request;plan_assignment_request_client";
+option java_multiple_files = false;
+option java_outer_classname = "PlanAssignmentRequestCustomProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// Request message for method
+// [AcceptPlanAssignment][ntt.limits.v1alpha2.AcceptPlanAssignment]
+message AcceptPlanAssignmentRequest {
+  // reference of ntt.limits.v1alpha2.PlanAssignmentRequest
+  string name = 1;
+
+  // Entity approving plan assignment. It can be left empty if the one approving
+  // uses system-level privileges.
+  string approver = 2;
+}
+
+// Response message for method
+// [AcceptAssignment][ntt.limits.v1alpha2.AcceptAssignment]
+message AcceptPlanAssignmentResponse { AcceptedPlan accepted_plan = 1; }
+
+// Request message for method
+// [DeclineAssignment][ntt.limits.v1alpha2.DeclineAssignment]
+message DeclinePlanAssignmentRequest {
+  //  reference of ntt.limits.v1alpha2.AssignmentRequest
+  string name = 1;
+
+  // Entity approving plan assignment. It must match approver in
+  // PlanAssignmentRequest.
+  string approver = 2;
+
+  string reason = 3;
+}
+
+// Response message for method
+// [DeclinePlanAssignment][ntt.limits.v1alpha2.DeclinePlanAssignment]
+message DeclinePlanAssignmentResponse {}

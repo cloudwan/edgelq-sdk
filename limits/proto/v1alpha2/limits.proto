@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/iam/proto/v1alpha2/iam.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/accepted_plan.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/accepted_plan_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit_pool.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit_pool_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request_custom.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_request_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_service.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_service.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/meta.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/limits;limits_client";
+option java_multiple_files = true;
+option java_outer_classname = "LimitsProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";

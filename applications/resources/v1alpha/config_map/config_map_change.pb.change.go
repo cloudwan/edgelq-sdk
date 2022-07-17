@@ -94,7 +94,7 @@ func (c *ConfigMapChange) GetConfigMap() *ConfigMap {
 	return nil
 }
 
-func (c *ConfigMapChange) GetResource() gotenresource.Resource {
+func (c *ConfigMapChange) GetRawResource() gotenresource.Resource {
 	return c.GetConfigMap()
 }
 

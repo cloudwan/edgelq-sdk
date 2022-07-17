@@ -94,7 +94,7 @@ func (c *PodChange) GetPod() *Pod {
 	return nil
 }
 
-func (c *PodChange) GetResource() gotenresource.Resource {
+func (c *PodChange) GetRawResource() gotenresource.Resource {
 	return c.GetPod()
 }
 

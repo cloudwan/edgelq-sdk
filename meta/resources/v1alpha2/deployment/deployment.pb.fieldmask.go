@@ -54,7 +54,7 @@ type Deployment_FieldMask struct {
 func FullDeployment_FieldMask() *Deployment_FieldMask {
 	res := &Deployment_FieldMask{}
 	res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorRegion})
+	res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorService})
 	res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorMetadata})
 	return res
 }
@@ -331,8 +331,8 @@ func (fieldMask *Deployment_FieldMask) Project(source *Deployment) *Deployment {
 			switch tp.selector {
 			case Deployment_FieldPathSelectorName:
 				result.Name = source.Name
-			case Deployment_FieldPathSelectorRegion:
-				result.Region = source.Region
+			case Deployment_FieldPathSelectorService:
+				result.Service = source.Service
 			case Deployment_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true

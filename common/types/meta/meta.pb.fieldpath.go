@@ -24,7 +24,6 @@ import (
 
 // proto imports
 import (
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -49,7 +48,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -152,7 +150,7 @@ func BuildMeta_FieldPath(fp gotenobject.RawFieldPath) (Meta_FieldPath, error) {
 				return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorOwnerReferences, subPath: subpath}, nil
 			}
 		case "syncing":
-			if subpath, err := syncing_meta.BuildSyncingMeta_FieldPath(fp[1:]); err != nil {
+			if subpath, err := BuildSyncingMeta_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorSyncing, subPath: subpath}, nil
@@ -326,7 +324,7 @@ func (fp *Meta_FieldTerminalPath) GetDefault() interface{} {
 	case Meta_FieldPathSelectorShards:
 		return (map[string]int64)(nil)
 	case Meta_FieldPathSelectorSyncing:
-		return (*syncing_meta.SyncingMeta)(nil)
+		return (*SyncingMeta)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -403,7 +401,7 @@ func (fp *Meta_FieldTerminalPath) WithIValue(value interface{}) Meta_FieldPathVa
 	case Meta_FieldPathSelectorShards:
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(map[string]int64)}
 	case Meta_FieldPathSelectorSyncing:
-		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*syncing_meta.SyncingMeta)}
+		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*SyncingMeta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -437,7 +435,7 @@ func (fp *Meta_FieldTerminalPath) WithIArrayOfValues(values interface{}) Meta_Fi
 	case Meta_FieldPathSelectorShards:
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]map[string]int64)}
 	case Meta_FieldPathSelectorSyncing:
-		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*syncing_meta.SyncingMeta)}
+		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*SyncingMeta)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -641,8 +639,8 @@ func (fps *Meta_FieldSubPath) AsOwnerReferencesSubPath() (OwnerReference_FieldPa
 	res, ok := fps.subPath.(OwnerReference_FieldPath)
 	return res, ok
 }
-func (fps *Meta_FieldSubPath) AsSyncingSubPath() (syncing_meta.SyncingMeta_FieldPath, bool) {
-	res, ok := fps.subPath.(syncing_meta.SyncingMeta_FieldPath)
+func (fps *Meta_FieldSubPath) AsSyncingSubPath() (SyncingMeta_FieldPath, bool) {
+	res, ok := fps.subPath.(SyncingMeta_FieldPath)
 	return res, ok
 }
 
@@ -828,8 +826,8 @@ func (fpv *Meta_FieldTerminalPathValue) AsShardsValue() (map[string]int64, bool)
 	res, ok := fpv.value.(map[string]int64)
 	return res, ok
 }
-func (fpv *Meta_FieldTerminalPathValue) AsSyncingValue() (*syncing_meta.SyncingMeta, bool) {
-	res, ok := fpv.value.(*syncing_meta.SyncingMeta)
+func (fpv *Meta_FieldTerminalPathValue) AsSyncingValue() (*SyncingMeta, bool) {
+	res, ok := fpv.value.(*SyncingMeta)
 	return res, ok
 }
 
@@ -860,7 +858,7 @@ func (fpv *Meta_FieldTerminalPathValue) SetTo(target **Meta) {
 	case Meta_FieldPathSelectorShards:
 		(*target).Shards = fpv.value.(map[string]int64)
 	case Meta_FieldPathSelectorSyncing:
-		(*target).Syncing = fpv.value.(*syncing_meta.SyncingMeta)
+		(*target).Syncing = fpv.value.(*SyncingMeta)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpv.selector))
 	}
@@ -1071,8 +1069,8 @@ func (fpvs *Meta_FieldSubPathValue) AsOwnerReferencesPathValue() (OwnerReference
 	res, ok := fpvs.subPathValue.(OwnerReference_FieldPathValue)
 	return res, ok
 }
-func (fpvs *Meta_FieldSubPathValue) AsSyncingPathValue() (syncing_meta.SyncingMeta_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(syncing_meta.SyncingMeta_FieldPathValue)
+func (fpvs *Meta_FieldSubPathValue) AsSyncingPathValue() (SyncingMeta_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(SyncingMeta_FieldPathValue)
 	return res, ok
 }
 
@@ -1084,7 +1082,7 @@ func (fpvs *Meta_FieldSubPathValue) SetTo(target **Meta) {
 	case Meta_FieldPathSelectorOwnerReferences:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Meta_FieldPathSelectorSyncing:
-		fpvs.subPathValue.(syncing_meta.SyncingMeta_FieldPathValue).SetTo(&(*target).Syncing)
+		fpvs.subPathValue.(SyncingMeta_FieldPathValue).SetTo(&(*target).Syncing)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpvs.Selector()))
 	}
@@ -1104,7 +1102,7 @@ func (fpvs *Meta_FieldSubPathValue) CompareWith(source *Meta) (int, bool) {
 	case Meta_FieldPathSelectorOwnerReferences:
 		return 0, false // repeated field
 	case Meta_FieldPathSelectorSyncing:
-		return fpvs.subPathValue.(syncing_meta.SyncingMeta_FieldPathValue).CompareWith(source.GetSyncing())
+		return fpvs.subPathValue.(SyncingMeta_FieldPathValue).CompareWith(source.GetSyncing())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpvs.Selector()))
 	}
@@ -1195,8 +1193,8 @@ func (fpaivs *Meta_FieldSubPathArrayItemValue) AsOwnerReferencesPathItemValue() 
 	res, ok := fpaivs.subPathItemValue.(OwnerReference_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *Meta_FieldSubPathArrayItemValue) AsSyncingPathItemValue() (syncing_meta.SyncingMeta_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(syncing_meta.SyncingMeta_FieldPathArrayItemValue)
+func (fpaivs *Meta_FieldSubPathArrayItemValue) AsSyncingPathItemValue() (SyncingMeta_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(SyncingMeta_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -1206,7 +1204,7 @@ func (fpaivs *Meta_FieldSubPathArrayItemValue) ContainsValue(source *Meta) bool 
 	case Meta_FieldPathSelectorOwnerReferences:
 		return false // repeated/map field
 	case Meta_FieldPathSelectorSyncing:
-		return fpaivs.subPathItemValue.(syncing_meta.SyncingMeta_FieldPathArrayItemValue).ContainsValue(source.GetSyncing())
+		return fpaivs.subPathItemValue.(SyncingMeta_FieldPathArrayItemValue).ContainsValue(source.GetSyncing())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpaivs.Selector()))
 	}
@@ -1288,7 +1286,7 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 			values = append(values, v)
 		}
 	case Meta_FieldPathSelectorSyncing:
-		for _, v := range fpaov.values.([]*syncing_meta.SyncingMeta) {
+		for _, v := range fpaov.values.([]*SyncingMeta) {
 			values = append(values, v)
 		}
 	}
@@ -1334,8 +1332,8 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsShardsArrayOfValues() ([]map
 	res, ok := fpaov.values.([]map[string]int64)
 	return res, ok
 }
-func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsSyncingArrayOfValues() ([]*syncing_meta.SyncingMeta, bool) {
-	res, ok := fpaov.values.([]*syncing_meta.SyncingMeta)
+func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsSyncingArrayOfValues() ([]*SyncingMeta, bool) {
+	res, ok := fpaov.values.([]*SyncingMeta)
 	return res, ok
 }
 
@@ -1390,8 +1388,8 @@ func (fpsaov *Meta_FieldSubPathArrayOfValues) AsOwnerReferencesPathArrayOfValues
 	res, ok := fpsaov.subPathArrayOfValues.(OwnerReference_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *Meta_FieldSubPathArrayOfValues) AsSyncingPathArrayOfValues() (syncing_meta.SyncingMeta_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(syncing_meta.SyncingMeta_FieldPathArrayOfValues)
+func (fpsaov *Meta_FieldSubPathArrayOfValues) AsSyncingPathArrayOfValues() (SyncingMeta_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(SyncingMeta_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -3251,5 +3249,419 @@ func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsControllerArrayOfV
 }
 func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsBlockOwnerDeletionArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SyncingMeta_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SyncingMeta_FieldPathSelector
+	Get(source *SyncingMeta) []interface{}
+	GetSingle(source *SyncingMeta) (interface{}, bool)
+	ClearValue(item *SyncingMeta)
+
+	// Those methods build corresponding SyncingMeta_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SyncingMeta_FieldPathValue
+	WithIArrayOfValues(values interface{}) SyncingMeta_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SyncingMeta_FieldPathArrayItemValue
+}
+
+type SyncingMeta_FieldPathSelector int32
+
+const (
+	SyncingMeta_FieldPathSelectorOwningRegion SyncingMeta_FieldPathSelector = 0
+	SyncingMeta_FieldPathSelectorRegions      SyncingMeta_FieldPathSelector = 1
+)
+
+func (s SyncingMeta_FieldPathSelector) String() string {
+	switch s {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		return "owning_region"
+	case SyncingMeta_FieldPathSelectorRegions:
+		return "regions"
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", s))
+	}
+}
+
+func BuildSyncingMeta_FieldPath(fp gotenobject.RawFieldPath) (SyncingMeta_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SyncingMeta")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "owning_region", "owningRegion", "owning-region":
+			return &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorOwningRegion}, nil
+		case "regions":
+			return &SyncingMeta_FieldTerminalPath{selector: SyncingMeta_FieldPathSelectorRegions}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SyncingMeta", fp)
+}
+
+func ParseSyncingMeta_FieldPath(rawField string) (SyncingMeta_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSyncingMeta_FieldPath(fp)
+}
+
+func MustParseSyncingMeta_FieldPath(rawField string) SyncingMeta_FieldPath {
+	fp, err := ParseSyncingMeta_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SyncingMeta_FieldTerminalPath struct {
+	selector SyncingMeta_FieldPathSelector
+}
+
+var _ SyncingMeta_FieldPath = (*SyncingMeta_FieldTerminalPath)(nil)
+
+func (fp *SyncingMeta_FieldTerminalPath) Selector() SyncingMeta_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SyncingMeta_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SyncingMeta_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SyncingMeta
+func (fp *SyncingMeta_FieldTerminalPath) Get(source *SyncingMeta) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case SyncingMeta_FieldPathSelectorOwningRegion:
+			values = append(values, source.OwningRegion)
+		case SyncingMeta_FieldPathSelectorRegions:
+			for _, value := range source.GetRegions() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SyncingMeta))
+}
+
+// GetSingle returns value pointed by specific field of from source SyncingMeta
+func (fp *SyncingMeta_FieldTerminalPath) GetSingle(source *SyncingMeta) (interface{}, bool) {
+	switch fp.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		return source.GetOwningRegion(), source != nil
+	case SyncingMeta_FieldPathSelectorRegions:
+		res := source.GetRegions()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+	}
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SyncingMeta))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SyncingMeta_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		return ""
+	case SyncingMeta_FieldPathSelectorRegions:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+	}
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) ClearValue(item *SyncingMeta) {
+	if item != nil {
+		switch fp.selector {
+		case SyncingMeta_FieldPathSelectorOwningRegion:
+			item.OwningRegion = ""
+		case SyncingMeta_FieldPathSelectorRegions:
+			item.Regions = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SyncingMeta))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SyncingMeta_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == SyncingMeta_FieldPathSelectorOwningRegion ||
+		fp.selector == SyncingMeta_FieldPathSelectorRegions
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithIValue(value interface{}) SyncingMeta_FieldPathValue {
+	switch fp.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		return &SyncingMeta_FieldTerminalPathValue{SyncingMeta_FieldTerminalPath: *fp, value: value.(string)}
+	case SyncingMeta_FieldPathSelectorRegions:
+		return &SyncingMeta_FieldTerminalPathValue{SyncingMeta_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+	}
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithIArrayOfValues(values interface{}) SyncingMeta_FieldPathArrayOfValues {
+	fpaov := &SyncingMeta_FieldTerminalPathArrayOfValues{SyncingMeta_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		return &SyncingMeta_FieldTerminalPathArrayOfValues{SyncingMeta_FieldTerminalPath: *fp, values: values.([]string)}
+	case SyncingMeta_FieldPathSelectorRegions:
+		return &SyncingMeta_FieldTerminalPathArrayOfValues{SyncingMeta_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithIArrayItemValue(value interface{}) SyncingMeta_FieldPathArrayItemValue {
+	switch fp.selector {
+	case SyncingMeta_FieldPathSelectorRegions:
+		return &SyncingMeta_FieldTerminalPathArrayItemValue{SyncingMeta_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fp.selector))
+	}
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// SyncingMeta_FieldPathValue allows storing values for SyncingMeta fields according to their type
+type SyncingMeta_FieldPathValue interface {
+	SyncingMeta_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SyncingMeta)
+	CompareWith(*SyncingMeta) (cmp int, comparable bool)
+}
+
+func ParseSyncingMeta_FieldPathValue(pathStr, valueStr string) (SyncingMeta_FieldPathValue, error) {
+	fp, err := ParseSyncingMeta_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SyncingMeta field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SyncingMeta_FieldPathValue), nil
+}
+
+func MustParseSyncingMeta_FieldPathValue(pathStr, valueStr string) SyncingMeta_FieldPathValue {
+	fpv, err := ParseSyncingMeta_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SyncingMeta_FieldTerminalPathValue struct {
+	SyncingMeta_FieldTerminalPath
+	value interface{}
+}
+
+var _ SyncingMeta_FieldPathValue = (*SyncingMeta_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'SyncingMeta' as interface{}
+func (fpv *SyncingMeta_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *SyncingMeta_FieldTerminalPathValue) AsOwningRegionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *SyncingMeta_FieldTerminalPathValue) AsRegionsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object SyncingMeta
+func (fpv *SyncingMeta_FieldTerminalPathValue) SetTo(target **SyncingMeta) {
+	if *target == nil {
+		*target = new(SyncingMeta)
+	}
+	switch fpv.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		(*target).OwningRegion = fpv.value.(string)
+	case SyncingMeta_FieldPathSelectorRegions:
+		(*target).Regions = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fpv.selector))
+	}
+}
+
+func (fpv *SyncingMeta_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SyncingMeta)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SyncingMeta_FieldTerminalPathValue' with the value under path in 'SyncingMeta'.
+func (fpv *SyncingMeta_FieldTerminalPathValue) CompareWith(source *SyncingMeta) (int, bool) {
+	switch fpv.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetOwningRegion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SyncingMeta_FieldPathSelectorRegions:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for SyncingMeta: %d", fpv.selector))
+	}
+}
+
+func (fpv *SyncingMeta_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SyncingMeta))
+}
+
+// SyncingMeta_FieldPathArrayItemValue allows storing single item in Path-specific values for SyncingMeta according to their type
+// Present only for array (repeated) types.
+type SyncingMeta_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SyncingMeta_FieldPath
+	ContainsValue(*SyncingMeta) bool
+}
+
+// ParseSyncingMeta_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSyncingMeta_FieldPathArrayItemValue(pathStr, valueStr string) (SyncingMeta_FieldPathArrayItemValue, error) {
+	fp, err := ParseSyncingMeta_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SyncingMeta field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SyncingMeta_FieldPathArrayItemValue), nil
+}
+
+func MustParseSyncingMeta_FieldPathArrayItemValue(pathStr, valueStr string) SyncingMeta_FieldPathArrayItemValue {
+	fpaiv, err := ParseSyncingMeta_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SyncingMeta_FieldTerminalPathArrayItemValue struct {
+	SyncingMeta_FieldTerminalPath
+	value interface{}
+}
+
+var _ SyncingMeta_FieldPathArrayItemValue = (*SyncingMeta_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SyncingMeta as interface{}
+func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) AsRegionsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) GetSingle(source *SyncingMeta) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SyncingMeta))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SyncingMeta'
+func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) ContainsValue(source *SyncingMeta) bool {
+	slice := fpaiv.SyncingMeta_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// SyncingMeta_FieldPathArrayOfValues allows storing slice of values for SyncingMeta fields according to their type
+type SyncingMeta_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SyncingMeta_FieldPath
+}
+
+func ParseSyncingMeta_FieldPathArrayOfValues(pathStr, valuesStr string) (SyncingMeta_FieldPathArrayOfValues, error) {
+	fp, err := ParseSyncingMeta_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SyncingMeta field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SyncingMeta_FieldPathArrayOfValues), nil
+}
+
+func MustParseSyncingMeta_FieldPathArrayOfValues(pathStr, valuesStr string) SyncingMeta_FieldPathArrayOfValues {
+	fpaov, err := ParseSyncingMeta_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SyncingMeta_FieldTerminalPathArrayOfValues struct {
+	SyncingMeta_FieldTerminalPath
+	values interface{}
+}
+
+var _ SyncingMeta_FieldPathArrayOfValues = (*SyncingMeta_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SyncingMeta_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case SyncingMeta_FieldPathSelectorOwningRegion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case SyncingMeta_FieldPathSelectorRegions:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *SyncingMeta_FieldTerminalPathArrayOfValues) AsOwningRegionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *SyncingMeta_FieldTerminalPathArrayOfValues) AsRegionsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }

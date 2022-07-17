@@ -13,7 +13,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/project"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha/secret"
 	duration "github.com/golang/protobuf/ptypes/duration"
@@ -30,7 +29,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &secrets_project.Project{}
 	_ = &secrets_secret.Secret{}
 	_ = &duration.Duration{}
@@ -543,11 +541,11 @@ func (PodPathSelectorMetadataSyncing) FieldPath() *Pod_FieldSubPath {
 	}
 }
 
-func (s PodPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Pod_FieldSubPathValue {
+func (s PodPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Pod_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
 }
 
-func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
+func (s PodPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Pod_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 

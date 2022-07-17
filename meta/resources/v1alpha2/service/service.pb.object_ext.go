@@ -57,6 +57,24 @@ func (o *Service) MakeDiffFieldMask(other *Service) *Service_FieldMask {
 	if o.GetName().String() != other.GetName().String() {
 		res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorName})
 	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorDisplayName})
+	}
+	if o.GetCurrentVersion() != other.GetCurrentVersion() {
+		res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorCurrentVersion})
+	}
+
+	if len(o.GetAllVersions()) == len(other.GetAllVersions()) {
+		for i, lValue := range o.GetAllVersions() {
+			rValue := other.GetAllVersions()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorAllVersions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Service_FieldTerminalPath{selector: Service_FieldPathSelectorAllVersions})
+	}
 	{
 		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
 		if subMask.IsFull() {
@@ -89,6 +107,12 @@ func (o *Service) Clone() *Service {
 			panic(err)
 		}
 	}
+	result.DisplayName = o.DisplayName
+	result.CurrentVersion = o.CurrentVersion
+	result.AllVersions = make([]string, len(o.AllVersions))
+	for i, sourceValue := range o.AllVersions {
+		result.AllVersions[i] = sourceValue
+	}
 	result.Metadata = o.Metadata.Clone()
 	return result
 }
@@ -110,6 +134,23 @@ func (o *Service) Merge(source *Service) {
 	} else {
 		o.Name = nil
 	}
+	o.DisplayName = source.GetDisplayName()
+	o.CurrentVersion = source.GetCurrentVersion()
+	for _, sourceValue := range source.GetAllVersions() {
+		exists := false
+		for _, currentValue := range o.AllVersions {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.AllVersions = append(o.AllVersions, newDstElement)
+		}
+	}
+
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
 			o.Metadata = new(ntt_meta.Meta)

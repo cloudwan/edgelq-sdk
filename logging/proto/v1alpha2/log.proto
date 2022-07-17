@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package ntt.logging.v1alpha2;
+
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/resources/v1alpha2/log;log";
+option java_multiple_files = true;
+option java_outer_classname = "LogProto";
+option java_package = "com.ntt.logging.pb.v1alpha2";
+
+// Log Resource
+message Log {
+  option (google.api.resource) = {
+    type : "logging.edgelq.com/Log"
+    pattern : "logs/{log}"
+    pattern : "projects/{project}/logs/{log}"
+    pattern : "organizations/{organization}/logs/{log}"
+  };
+
+  // Name of Log. It contains scope + ID of the log.
+  // ID is a base64 encoded unique key that identifies tuple:
+  //   scope
+  //   service
+  //   region_id
+  //   version
+  //   log_descriptor
+  //   labels
+  //
+  // Key is not to be decoded outside of service, but treated as opaque string
+  string name = 1;
+
+  // Contains scope from name field without resource ID.
+  // Used for internal purpose for filtering (logs are using custom store).
+  // Example formats are:
+  // - organization/umbrella
+  // - projects/mars_exploration
+  // - <system>
+  string scope = 2;
+
+  // Service name, for example "devices.edgelq.com"
+  string service = 3;
+
+  // Region of the service to which log is assigned, for example "us-west2"
+  string region = 4;
+
+  // Associated service version, for example "v1alpha2"
+  string version = 5;
+
+  // Associated log descriptor
+  string log_descriptor = 6;
+
+  // List of query-able labels
+  map<string, string> labels = 7;
+
+  // Log timestamp
+  google.protobuf.Timestamp time = 8;
+
+  // Log payload
+  google.protobuf.Struct payload = 9;
+}

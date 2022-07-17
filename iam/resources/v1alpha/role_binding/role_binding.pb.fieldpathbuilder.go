@@ -12,7 +12,6 @@ import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/role"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -24,7 +23,6 @@ var (
 	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &role.Role{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -720,11 +718,11 @@ func (RoleBindingPathSelectorMetadataSyncing) FieldPath() *RoleBinding_FieldSubP
 	}
 }
 
-func (s RoleBindingPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *RoleBinding_FieldSubPathValue {
+func (s RoleBindingPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *RoleBinding_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
 }
 
-func (s RoleBindingPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *RoleBinding_FieldSubPathArrayOfValues {
+func (s RoleBindingPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *RoleBinding_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
 }
 

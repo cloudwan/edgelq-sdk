@@ -92,7 +92,7 @@ func (c *MonitoredResourceDescriptorChange) GetMonitoredResourceDescriptor() *Mo
 	return nil
 }
 
-func (c *MonitoredResourceDescriptorChange) GetResource() gotenresource.Resource {
+func (c *MonitoredResourceDescriptorChange) GetRawResource() gotenresource.Resource {
 	return c.GetMonitoredResourceDescriptor()
 }
 

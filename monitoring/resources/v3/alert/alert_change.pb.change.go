@@ -94,7 +94,7 @@ func (c *AlertChange) GetAlert() *Alert {
 	return nil
 }
 
-func (c *AlertChange) GetResource() gotenresource.Resource {
+func (c *AlertChange) GetRawResource() gotenresource.Resource {
 	return c.GetAlert()
 }
 

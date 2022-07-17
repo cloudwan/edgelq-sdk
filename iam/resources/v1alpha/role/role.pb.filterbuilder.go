@@ -16,7 +16,6 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -33,7 +32,6 @@ var (
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 

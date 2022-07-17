@@ -12,7 +12,6 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/project"
 	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -27,7 +26,6 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &iam_service_account.ServiceAccount{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -691,11 +689,11 @@ func (ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 

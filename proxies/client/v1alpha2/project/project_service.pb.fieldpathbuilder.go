@@ -7,8 +7,7 @@ package project_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	project "github.com/cloudwan/edgelq-sdk/proxies/resources/v1alpha2/project"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
@@ -20,8 +19,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
@@ -665,11 +663,11 @@ func (BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetProjectsResponse_FieldSubPathValue {
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -728,11 +726,11 @@ func (BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy) FieldPath()
 	}
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithValue(value *policy.Policy) *BatchGetProjectsResponse_FieldSubPathValue {
+func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *BatchGetProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -795,15 +793,15 @@ func (BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDi
 	}
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathValue {
+func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathArrayItemValue {
+func (s BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *BatchGetProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetProjectsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -1516,11 +1514,11 @@ func (ListProjectsResponsePathSelectorProjectsMetadataSyncing) FieldPath() *List
 	}
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListProjectsResponse_FieldSubPathValue {
+func (s ListProjectsResponsePathSelectorProjectsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListProjectsResponsePathSelectorProjectsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1579,11 +1577,11 @@ func (ListProjectsResponsePathSelectorProjectsMultiRegionPolicy) FieldPath() *Li
 	}
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithValue(value *policy.Policy) *ListProjectsResponse_FieldSubPathValue {
+func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *ListProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *ListProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1646,15 +1644,15 @@ func (ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabl
 	}
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathValue {
+func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathArrayItemValue {
+func (s ListProjectsResponsePathSelectorProjectsMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *ListProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListProjectsResponse_FieldSubPathArrayItemValue)
 }
 
@@ -2726,11 +2724,11 @@ func (CreateProjectRequestPathSelectorProjectMetadataSyncing) FieldPath() *Creat
 	}
 }
 
-func (s CreateProjectRequestPathSelectorProjectMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateProjectRequest_FieldSubPathValue {
+func (s CreateProjectRequestPathSelectorProjectMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
 }
 
-func (s CreateProjectRequestPathSelectorProjectMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateProjectRequest_FieldSubPathArrayOfValues {
+func (s CreateProjectRequestPathSelectorProjectMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2789,11 +2787,11 @@ func (CreateProjectRequestPathSelectorProjectMultiRegionPolicy) FieldPath() *Cre
 	}
 }
 
-func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicy) WithValue(value *policy.Policy) *CreateProjectRequest_FieldSubPathValue {
+func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *CreateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
 }
 
-func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *CreateProjectRequest_FieldSubPathArrayOfValues {
+func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2856,15 +2854,15 @@ func (CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisable
 	}
 }
 
-func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathValue {
+func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
 }
 
-func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathArrayOfValues {
+func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathArrayItemValue {
+func (s CreateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *CreateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateProjectRequest_FieldSubPathArrayItemValue)
 }
 
@@ -3448,11 +3446,11 @@ func (UpdateProjectRequestPathSelectorProjectMetadataSyncing) FieldPath() *Updat
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorProjectMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorProjectMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3511,11 +3509,11 @@ func (UpdateProjectRequestPathSelectorProjectMultiRegionPolicy) FieldPath() *Upd
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicy) WithValue(value *policy.Policy) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3578,15 +3576,15 @@ func (UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisable
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayItemValue {
+func (s UpdateProjectRequestPathSelectorProjectMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
 }
 
@@ -4194,11 +4192,11 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing) FieldP
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4257,11 +4255,11 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy) Fiel
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy) WithValue(value *policy.Policy) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4324,15 +4322,15 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriter
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayItemValue {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
 }
 
@@ -4930,11 +4928,11 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing) Field
 	}
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateProjectRequestCAS_FieldSubPathValue {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateProjectRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4993,11 +4991,11 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy) Fie
 	}
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy) WithValue(value *policy.Policy) *UpdateProjectRequestCAS_FieldSubPathValue {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy) WithValue(value *multi_region_policy.MultiRegionPolicy) *UpdateProjectRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy) WithArrayOfValues(values []*policy.Policy) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy) WithArrayOfValues(values []*multi_region_policy.MultiRegionPolicy) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5060,15 +5058,15 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCrite
 	}
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathValue {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithValue(value []*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithArrayOfValues(values [][]*multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *policy.Policy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicyCriteriaForDisabledSync) WithItemValue(value *multi_region_policy.MultiRegionPolicy_CriteriaForDisabledSync) *UpdateProjectRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequestCAS_FieldSubPathArrayItemValue)
 }
 

@@ -9,7 +9,6 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/method_descriptor"
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	any "github.com/golang/protobuf/ptypes/any"
@@ -22,7 +21,6 @@ var (
 	_ = &audit_common.Authentication{}
 	_ = &method_descriptor.MethodDescriptor{}
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &any.Any{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -874,11 +872,11 @@ func (BatchGetMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSync
 	}
 }
 
-func (s BatchGetMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetMethodDescriptorsResponse_FieldSubPathValue {
+func (s BatchGetMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetMethodDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetMethodDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetMethodDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetMethodDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetMethodDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1783,11 +1781,11 @@ func (ListMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing)
 	}
 }
 
-func (s ListMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListMethodDescriptorsResponse_FieldSubPathValue {
+func (s ListMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListMethodDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMethodDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s ListMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListMethodDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s ListMethodDescriptorsResponsePathSelectorMethodDescriptorsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListMethodDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3051,11 +3049,11 @@ func (CreateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) 
 	}
 }
 
-func (s CreateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateMethodDescriptorRequest_FieldSubPathValue {
+func (s CreateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateMethodDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateMethodDescriptorRequest_FieldSubPathValue)
 }
 
-func (s CreateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateMethodDescriptorRequest_FieldSubPathArrayOfValues {
+func (s CreateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateMethodDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateMethodDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3831,11 +3829,11 @@ func (UpdateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) 
 	}
 }
 
-func (s UpdateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathValue {
+func (s UpdateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMethodDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMethodDescriptorRequestPathSelectorMethodDescriptorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4635,11 +4633,11 @@ func (UpdateMethodDescriptorRequestPathSelectorCasConditionalStateMetadataSyncin
 	}
 }
 
-func (s UpdateMethodDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathValue {
+func (s UpdateMethodDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMethodDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateMethodDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateMethodDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMethodDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5429,11 +5427,11 @@ func (UpdateMethodDescriptorRequest_CASPathSelectorConditionalStateMetadataSynci
 	}
 }
 
-func (s UpdateMethodDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequestCAS_FieldSubPathValue {
+func (s UpdateMethodDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateMethodDescriptorRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateMethodDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateMethodDescriptorRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateMethodDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateMethodDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateMethodDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 

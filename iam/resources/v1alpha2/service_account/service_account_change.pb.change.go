@@ -94,7 +94,7 @@ func (c *ServiceAccountChange) GetServiceAccount() *ServiceAccount {
 	return nil
 }
 
-func (c *ServiceAccountChange) GetResource() gotenresource.Resource {
+func (c *ServiceAccountChange) GetRawResource() gotenresource.Resource {
 	return c.GetServiceAccount()
 }
 

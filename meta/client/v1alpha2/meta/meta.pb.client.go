@@ -12,9 +12,11 @@ import (
 import (
 	deployment_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/deployment"
 	region_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/region"
+	resource_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/resource"
 	service_client "github.com/cloudwan/edgelq-sdk/meta/client/v1alpha2/service"
 	deployment "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/deployment"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
+	resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
@@ -29,6 +31,8 @@ var (
 	_ = &deployment_client.GetDeploymentRequest{}
 	_ = &region.Region{}
 	_ = &region_client.GetRegionRequest{}
+	_ = &resource.Resource{}
+	_ = &resource_client.GetResourceRequest{}
 	_ = &service.Service{}
 	_ = &service_client.GetServiceRequest{}
 )
@@ -36,12 +40,14 @@ var (
 type MetaClient interface {
 	deployment_client.DeploymentServiceClient
 	region_client.RegionServiceClient
+	resource_client.ResourceServiceClient
 	service_client.ServiceServiceClient
 }
 
 type metaClient struct {
 	deployment_client.DeploymentServiceClient
 	region_client.RegionServiceClient
+	resource_client.ResourceServiceClient
 	service_client.ServiceServiceClient
 }
 
@@ -49,6 +55,7 @@ func NewMetaClient(cc grpc.ClientConnInterface) MetaClient {
 	return &metaClient{
 		DeploymentServiceClient: deployment_client.NewDeploymentServiceClient(cc),
 		RegionServiceClient:     region_client.NewRegionServiceClient(cc),
+		ResourceServiceClient:   resource_client.NewResourceServiceClient(cc),
 		ServiceServiceClient:    service_client.NewServiceServiceClient(cc),
 	}
 }

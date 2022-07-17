@@ -21,7 +21,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 )
 
 // ensure the imports are used
@@ -42,7 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 )
 
 type Project_FieldMask struct {
@@ -130,11 +130,11 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
-		Project_FieldPathSelectorMultiRegionPolicy: &policy.Policy_FieldMask{},
+		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 	mySubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
-		Project_FieldPathSelectorMultiRegionPolicy: &policy.Policy_FieldMask{},
+		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -153,7 +153,7 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 					case Project_FieldPathSelectorMetadata:
 						mySubMasks[Project_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
 					case Project_FieldPathSelectorMultiRegionPolicy:
-						mySubMasks[Project_FieldPathSelectorMultiRegionPolicy] = policy.FullPolicy_FieldMask()
+						mySubMasks[Project_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
 					}
 				} else if tp, ok := path.(*Project_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -326,7 +326,7 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 	result := &Project{}
 	metadataMask := &ntt_meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	multiRegionPolicyMask := &policy.Policy_FieldMask{}
+	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -347,7 +347,7 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 			case Project_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
 			case Project_FieldPathSelectorMultiRegionPolicy:
-				multiRegionPolicyMask.AppendPath(tp.subPath.(policy.Policy_FieldPath))
+				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
 			}
 		}
 	}

@@ -61,8 +61,8 @@ func (o *Deployment) MakeDiffFieldMask(other *Deployment) *Deployment_FieldMask 
 	if o.GetName().String() != other.GetName().String() {
 		res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorName})
 	}
-	if o.GetRegion().String() != other.GetRegion().String() {
-		res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorRegion})
+	if o.GetService().String() != other.GetService().String() {
+		res.Paths = append(res.Paths, &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorService})
 	}
 	{
 		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
@@ -96,13 +96,13 @@ func (o *Deployment) Clone() *Deployment {
 			panic(err)
 		}
 	}
-	if o.Region == nil {
-		result.Region = nil
-	} else if data, err := o.Region.ProtoString(); err != nil {
+	if o.Service == nil {
+		result.Service = nil
+	} else if data, err := o.Service.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Region = &region.Reference{}
-		if err := result.Region.ParseProtoString(data); err != nil {
+		result.Service = &service.Reference{}
+		if err := result.Service.ParseProtoString(data); err != nil {
 			panic(err)
 		}
 	}
@@ -127,17 +127,17 @@ func (o *Deployment) Merge(source *Deployment) {
 	} else {
 		o.Name = nil
 	}
-	if source.GetRegion() != nil {
-		if data, err := source.GetRegion().ProtoString(); err != nil {
+	if source.GetService() != nil {
+		if data, err := source.GetService().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Region = &region.Reference{}
-			if err := o.Region.ParseProtoString(data); err != nil {
+			o.Service = &service.Reference{}
+			if err := o.Service.ParseProtoString(data); err != nil {
 				panic(err)
 			}
 		}
 	} else {
-		o.Region = nil
+		o.Service = nil
 	}
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {

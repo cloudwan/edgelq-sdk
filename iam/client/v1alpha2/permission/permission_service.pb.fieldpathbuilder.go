@@ -8,7 +8,6 @@ package permission_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
@@ -20,7 +19,6 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &permission.Permission{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
@@ -701,11 +699,11 @@ func (BatchGetPermissionsResponsePathSelectorPermissionsMetadataSyncing) FieldPa
 	}
 }
 
-func (s BatchGetPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetPermissionsResponse_FieldSubPathValue {
+func (s BatchGetPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetPermissionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPermissionsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetPermissionsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetPermissionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPermissionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1439,11 +1437,11 @@ func (ListPermissionsResponsePathSelectorPermissionsMetadataSyncing) FieldPath()
 	}
 }
 
-func (s ListPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListPermissionsResponse_FieldSubPathValue {
+func (s ListPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListPermissionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPermissionsResponse_FieldSubPathValue)
 }
 
-func (s ListPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListPermissionsResponse_FieldSubPathArrayOfValues {
+func (s ListPermissionsResponsePathSelectorPermissionsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListPermissionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2536,11 +2534,11 @@ func (CreatePermissionRequestPathSelectorPermissionMetadataSyncing) FieldPath() 
 	}
 }
 
-func (s CreatePermissionRequestPathSelectorPermissionMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreatePermissionRequest_FieldSubPathValue {
+func (s CreatePermissionRequestPathSelectorPermissionMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreatePermissionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePermissionRequest_FieldSubPathValue)
 }
 
-func (s CreatePermissionRequestPathSelectorPermissionMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreatePermissionRequest_FieldSubPathArrayOfValues {
+func (s CreatePermissionRequestPathSelectorPermissionMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreatePermissionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePermissionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3145,11 +3143,11 @@ func (UpdatePermissionRequestPathSelectorPermissionMetadataSyncing) FieldPath() 
 	}
 }
 
-func (s UpdatePermissionRequestPathSelectorPermissionMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathValue {
+func (s UpdatePermissionRequestPathSelectorPermissionMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePermissionRequest_FieldSubPathValue)
 }
 
-func (s UpdatePermissionRequestPathSelectorPermissionMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathArrayOfValues {
+func (s UpdatePermissionRequestPathSelectorPermissionMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePermissionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3778,11 +3776,11 @@ func (UpdatePermissionRequestPathSelectorCasConditionalStateMetadataSyncing) Fie
 	}
 }
 
-func (s UpdatePermissionRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathValue {
+func (s UpdatePermissionRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePermissionRequest_FieldSubPathValue)
 }
 
-func (s UpdatePermissionRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathArrayOfValues {
+func (s UpdatePermissionRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePermissionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePermissionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4401,11 +4399,11 @@ func (UpdatePermissionRequest_CASPathSelectorConditionalStateMetadataSyncing) Fi
 	}
 }
 
-func (s UpdatePermissionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdatePermissionRequestCAS_FieldSubPathValue {
+func (s UpdatePermissionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePermissionRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePermissionRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePermissionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdatePermissionRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePermissionRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePermissionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePermissionRequestCAS_FieldSubPathArrayOfValues)
 }
 

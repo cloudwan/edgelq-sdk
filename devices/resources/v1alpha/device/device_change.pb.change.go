@@ -94,7 +94,7 @@ func (c *DeviceChange) GetDevice() *Device {
 	return nil
 }
 
-func (c *DeviceChange) GetResource() gotenresource.Resource {
+func (c *DeviceChange) GetRawResource() gotenresource.Resource {
 	return c.GetDevice()
 }
 

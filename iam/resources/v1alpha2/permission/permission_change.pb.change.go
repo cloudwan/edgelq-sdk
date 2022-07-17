@@ -92,7 +92,7 @@ func (c *PermissionChange) GetPermission() *Permission {
 	return nil
 }
 
-func (c *PermissionChange) GetResource() gotenresource.Resource {
+func (c *PermissionChange) GetRawResource() gotenresource.Resource {
 	return c.GetPermission()
 }
 

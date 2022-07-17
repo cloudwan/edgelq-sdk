@@ -23,10 +23,10 @@ import (
 
 // proto imports
 import (
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role_binding "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role_binding"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
 )
 
 var (
@@ -46,10 +46,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &role_binding.RoleBinding{}
-	_ = &policy.Policy{}
 )
 
 func (obj *SetupCreateOwnerRoleRequest) GotenValidate() error {

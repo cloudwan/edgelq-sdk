@@ -7,8 +7,7 @@ package alerting_policy_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
@@ -21,8 +20,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &alerting_policy.AlertingPolicy{}
 	_ = &project.Project{}
 	_ = &empty.Empty{}
@@ -679,11 +677,11 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncin
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1690,11 +1688,11 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) F
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3077,11 +3075,11 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) Fiel
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3942,11 +3940,11 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) Fiel
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4831,11 +4829,11 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing)
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5710,11 +5708,11 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 

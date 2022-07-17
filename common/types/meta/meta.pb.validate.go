@@ -23,7 +23,6 @@ import (
 
 // proto imports
 import (
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -44,7 +43,6 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -116,6 +114,15 @@ func (obj *LabelSelectorRequirement) GotenValidate() error {
 	return nil
 }
 func (obj *OwnerReference) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SyncingMeta) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

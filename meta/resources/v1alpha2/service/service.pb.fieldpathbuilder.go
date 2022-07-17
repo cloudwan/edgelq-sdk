@@ -7,14 +7,12 @@ package service
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -25,6 +23,15 @@ func NewServiceFieldPathBuilder() ServiceFieldPathBuilder {
 }
 func (ServiceFieldPathBuilder) Name() ServicePathSelectorName {
 	return ServicePathSelectorName{}
+}
+func (ServiceFieldPathBuilder) DisplayName() ServicePathSelectorDisplayName {
+	return ServicePathSelectorDisplayName{}
+}
+func (ServiceFieldPathBuilder) CurrentVersion() ServicePathSelectorCurrentVersion {
+	return ServicePathSelectorCurrentVersion{}
+}
+func (ServiceFieldPathBuilder) AllVersions() ServicePathSelectorAllVersions {
+	return ServicePathSelectorAllVersions{}
 }
 func (ServiceFieldPathBuilder) Metadata() ServicePathSelectorMetadata {
 	return ServicePathSelectorMetadata{}
@@ -42,6 +49,52 @@ func (s ServicePathSelectorName) WithValue(value *Name) *Service_FieldTerminalPa
 
 func (s ServicePathSelectorName) WithArrayOfValues(values []*Name) *Service_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldTerminalPathArrayOfValues)
+}
+
+type ServicePathSelectorDisplayName struct{}
+
+func (ServicePathSelectorDisplayName) FieldPath() *Service_FieldTerminalPath {
+	return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorDisplayName}
+}
+
+func (s ServicePathSelectorDisplayName) WithValue(value string) *Service_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldTerminalPathValue)
+}
+
+func (s ServicePathSelectorDisplayName) WithArrayOfValues(values []string) *Service_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldTerminalPathArrayOfValues)
+}
+
+type ServicePathSelectorCurrentVersion struct{}
+
+func (ServicePathSelectorCurrentVersion) FieldPath() *Service_FieldTerminalPath {
+	return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorCurrentVersion}
+}
+
+func (s ServicePathSelectorCurrentVersion) WithValue(value string) *Service_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldTerminalPathValue)
+}
+
+func (s ServicePathSelectorCurrentVersion) WithArrayOfValues(values []string) *Service_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldTerminalPathArrayOfValues)
+}
+
+type ServicePathSelectorAllVersions struct{}
+
+func (ServicePathSelectorAllVersions) FieldPath() *Service_FieldTerminalPath {
+	return &Service_FieldTerminalPath{selector: Service_FieldPathSelectorAllVersions}
+}
+
+func (s ServicePathSelectorAllVersions) WithValue(value []string) *Service_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldTerminalPathValue)
+}
+
+func (s ServicePathSelectorAllVersions) WithArrayOfValues(values [][]string) *Service_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldTerminalPathArrayOfValues)
+}
+
+func (s ServicePathSelectorAllVersions) WithItemValue(value string) *Service_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Service_FieldTerminalPathArrayItemValue)
 }
 
 type ServicePathSelectorMetadata struct{}
@@ -500,11 +553,11 @@ func (ServicePathSelectorMetadataSyncing) FieldPath() *Service_FieldSubPath {
 	}
 }
 
-func (s ServicePathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Service_FieldSubPathValue {
+func (s ServicePathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Service_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
 }
 
-func (s ServicePathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Service_FieldSubPathArrayOfValues {
+func (s ServicePathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Service_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 

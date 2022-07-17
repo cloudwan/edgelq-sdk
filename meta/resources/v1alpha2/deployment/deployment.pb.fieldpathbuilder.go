@@ -7,7 +7,6 @@ package deployment
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	region "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/region"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -16,7 +15,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &region.Region{}
 	_ = &service.Service{}
 	_ = &timestamp.Timestamp{}
@@ -30,8 +28,8 @@ func NewDeploymentFieldPathBuilder() DeploymentFieldPathBuilder {
 func (DeploymentFieldPathBuilder) Name() DeploymentPathSelectorName {
 	return DeploymentPathSelectorName{}
 }
-func (DeploymentFieldPathBuilder) Region() DeploymentPathSelectorRegion {
-	return DeploymentPathSelectorRegion{}
+func (DeploymentFieldPathBuilder) Service() DeploymentPathSelectorService {
+	return DeploymentPathSelectorService{}
 }
 func (DeploymentFieldPathBuilder) Metadata() DeploymentPathSelectorMetadata {
 	return DeploymentPathSelectorMetadata{}
@@ -51,17 +49,17 @@ func (s DeploymentPathSelectorName) WithArrayOfValues(values []*Name) *Deploymen
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldTerminalPathArrayOfValues)
 }
 
-type DeploymentPathSelectorRegion struct{}
+type DeploymentPathSelectorService struct{}
 
-func (DeploymentPathSelectorRegion) FieldPath() *Deployment_FieldTerminalPath {
-	return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorRegion}
+func (DeploymentPathSelectorService) FieldPath() *Deployment_FieldTerminalPath {
+	return &Deployment_FieldTerminalPath{selector: Deployment_FieldPathSelectorService}
 }
 
-func (s DeploymentPathSelectorRegion) WithValue(value *region.Reference) *Deployment_FieldTerminalPathValue {
+func (s DeploymentPathSelectorService) WithValue(value *service.Reference) *Deployment_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldTerminalPathValue)
 }
 
-func (s DeploymentPathSelectorRegion) WithArrayOfValues(values []*region.Reference) *Deployment_FieldTerminalPathArrayOfValues {
+func (s DeploymentPathSelectorService) WithArrayOfValues(values []*service.Reference) *Deployment_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldTerminalPathArrayOfValues)
 }
 
@@ -521,11 +519,11 @@ func (DeploymentPathSelectorMetadataSyncing) FieldPath() *Deployment_FieldSubPat
 	}
 }
 
-func (s DeploymentPathSelectorMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *Deployment_FieldSubPathValue {
+func (s DeploymentPathSelectorMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *Deployment_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
 }
 
-func (s DeploymentPathSelectorMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *Deployment_FieldSubPathArrayOfValues {
+func (s DeploymentPathSelectorMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 

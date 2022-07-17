@@ -7,7 +7,6 @@ package service_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
 	service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
@@ -19,7 +18,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &syncing_meta.SyncingMeta{}
 	_ = &service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
@@ -195,6 +193,18 @@ func (BatchGetServicesResponsePathSelectorServices) Name() BatchGetServicesRespo
 	return BatchGetServicesResponsePathSelectorServicesName{}
 }
 
+func (BatchGetServicesResponsePathSelectorServices) DisplayName() BatchGetServicesResponsePathSelectorServicesDisplayName {
+	return BatchGetServicesResponsePathSelectorServicesDisplayName{}
+}
+
+func (BatchGetServicesResponsePathSelectorServices) CurrentVersion() BatchGetServicesResponsePathSelectorServicesCurrentVersion {
+	return BatchGetServicesResponsePathSelectorServicesCurrentVersion{}
+}
+
+func (BatchGetServicesResponsePathSelectorServices) AllVersions() BatchGetServicesResponsePathSelectorServicesAllVersions {
+	return BatchGetServicesResponsePathSelectorServicesAllVersions{}
+}
+
 func (BatchGetServicesResponsePathSelectorServices) Metadata() BatchGetServicesResponsePathSelectorServicesMetadata {
 	return BatchGetServicesResponsePathSelectorServicesMetadata{}
 }
@@ -214,6 +224,61 @@ func (s BatchGetServicesResponsePathSelectorServicesName) WithValue(value *servi
 
 func (s BatchGetServicesResponsePathSelectorServicesName) WithArrayOfValues(values []*service.Name) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServicesResponsePathSelectorServicesDisplayName struct{}
+
+func (BatchGetServicesResponsePathSelectorServicesDisplayName) FieldPath() *BatchGetServicesResponse_FieldSubPath {
+	return &BatchGetServicesResponse_FieldSubPath{
+		selector: BatchGetServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesDisplayName) WithValue(value string) *BatchGetServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServicesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesDisplayName) WithArrayOfValues(values []string) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServicesResponsePathSelectorServicesCurrentVersion struct{}
+
+func (BatchGetServicesResponsePathSelectorServicesCurrentVersion) FieldPath() *BatchGetServicesResponse_FieldSubPath {
+	return &BatchGetServicesResponse_FieldSubPath{
+		selector: BatchGetServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesCurrentVersion) WithValue(value string) *BatchGetServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServicesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesCurrentVersion) WithArrayOfValues(values []string) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServicesResponsePathSelectorServicesAllVersions struct{}
+
+func (BatchGetServicesResponsePathSelectorServicesAllVersions) FieldPath() *BatchGetServicesResponse_FieldSubPath {
+	return &BatchGetServicesResponse_FieldSubPath{
+		selector: BatchGetServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	}
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesAllVersions) WithValue(value []string) *BatchGetServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServicesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesAllVersions) WithArrayOfValues(values [][]string) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s BatchGetServicesResponsePathSelectorServicesAllVersions) WithItemValue(value string) *BatchGetServicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetServicesResponse_FieldSubPathArrayItemValue)
 }
 
 type BatchGetServicesResponsePathSelectorServicesMetadata struct{}
@@ -659,11 +724,11 @@ func (BatchGetServicesResponsePathSelectorServicesMetadataSyncing) FieldPath() *
 	}
 }
 
-func (s BatchGetServicesResponsePathSelectorServicesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetServicesResponse_FieldSubPathValue {
+func (s BatchGetServicesResponsePathSelectorServicesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetServicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetServicesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetServicesResponsePathSelectorServicesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetServicesResponsePathSelectorServicesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetServicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -891,6 +956,18 @@ func (ListServicesResponsePathSelectorServices) Name() ListServicesResponsePathS
 	return ListServicesResponsePathSelectorServicesName{}
 }
 
+func (ListServicesResponsePathSelectorServices) DisplayName() ListServicesResponsePathSelectorServicesDisplayName {
+	return ListServicesResponsePathSelectorServicesDisplayName{}
+}
+
+func (ListServicesResponsePathSelectorServices) CurrentVersion() ListServicesResponsePathSelectorServicesCurrentVersion {
+	return ListServicesResponsePathSelectorServicesCurrentVersion{}
+}
+
+func (ListServicesResponsePathSelectorServices) AllVersions() ListServicesResponsePathSelectorServicesAllVersions {
+	return ListServicesResponsePathSelectorServicesAllVersions{}
+}
+
 func (ListServicesResponsePathSelectorServices) Metadata() ListServicesResponsePathSelectorServicesMetadata {
 	return ListServicesResponsePathSelectorServicesMetadata{}
 }
@@ -910,6 +987,61 @@ func (s ListServicesResponsePathSelectorServicesName) WithValue(value *service.N
 
 func (s ListServicesResponsePathSelectorServicesName) WithArrayOfValues(values []*service.Name) *ListServicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServicesResponsePathSelectorServicesDisplayName struct{}
+
+func (ListServicesResponsePathSelectorServicesDisplayName) FieldPath() *ListServicesResponse_FieldSubPath {
+	return &ListServicesResponse_FieldSubPath{
+		selector: ListServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s ListServicesResponsePathSelectorServicesDisplayName) WithValue(value string) *ListServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldSubPathValue)
+}
+
+func (s ListServicesResponsePathSelectorServicesDisplayName) WithArrayOfValues(values []string) *ListServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServicesResponsePathSelectorServicesCurrentVersion struct{}
+
+func (ListServicesResponsePathSelectorServicesCurrentVersion) FieldPath() *ListServicesResponse_FieldSubPath {
+	return &ListServicesResponse_FieldSubPath{
+		selector: ListServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s ListServicesResponsePathSelectorServicesCurrentVersion) WithValue(value string) *ListServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldSubPathValue)
+}
+
+func (s ListServicesResponsePathSelectorServicesCurrentVersion) WithArrayOfValues(values []string) *ListServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServicesResponsePathSelectorServicesAllVersions struct{}
+
+func (ListServicesResponsePathSelectorServicesAllVersions) FieldPath() *ListServicesResponse_FieldSubPath {
+	return &ListServicesResponse_FieldSubPath{
+		selector: ListServicesResponse_FieldPathSelectorServices,
+		subPath:  service.NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	}
+}
+
+func (s ListServicesResponsePathSelectorServicesAllVersions) WithValue(value []string) *ListServicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldSubPathValue)
+}
+
+func (s ListServicesResponsePathSelectorServicesAllVersions) WithArrayOfValues(values [][]string) *ListServicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListServicesResponsePathSelectorServicesAllVersions) WithItemValue(value string) *ListServicesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListServicesResponse_FieldSubPathArrayItemValue)
 }
 
 type ListServicesResponsePathSelectorServicesMetadata struct{}
@@ -1355,11 +1487,11 @@ func (ListServicesResponsePathSelectorServicesMetadataSyncing) FieldPath() *List
 	}
 }
 
-func (s ListServicesResponsePathSelectorServicesMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListServicesResponse_FieldSubPathValue {
+func (s ListServicesResponsePathSelectorServicesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListServicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldSubPathValue)
 }
 
-func (s ListServicesResponsePathSelectorServicesMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListServicesResponse_FieldSubPathArrayOfValues {
+func (s ListServicesResponsePathSelectorServicesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListServicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1946,6 +2078,18 @@ func (CreateServiceRequestPathSelectorService) Name() CreateServiceRequestPathSe
 	return CreateServiceRequestPathSelectorServiceName{}
 }
 
+func (CreateServiceRequestPathSelectorService) DisplayName() CreateServiceRequestPathSelectorServiceDisplayName {
+	return CreateServiceRequestPathSelectorServiceDisplayName{}
+}
+
+func (CreateServiceRequestPathSelectorService) CurrentVersion() CreateServiceRequestPathSelectorServiceCurrentVersion {
+	return CreateServiceRequestPathSelectorServiceCurrentVersion{}
+}
+
+func (CreateServiceRequestPathSelectorService) AllVersions() CreateServiceRequestPathSelectorServiceAllVersions {
+	return CreateServiceRequestPathSelectorServiceAllVersions{}
+}
+
 func (CreateServiceRequestPathSelectorService) Metadata() CreateServiceRequestPathSelectorServiceMetadata {
 	return CreateServiceRequestPathSelectorServiceMetadata{}
 }
@@ -1965,6 +2109,61 @@ func (s CreateServiceRequestPathSelectorServiceName) WithValue(value *service.Na
 
 func (s CreateServiceRequestPathSelectorServiceName) WithArrayOfValues(values []*service.Name) *CreateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceRequestPathSelectorServiceDisplayName struct{}
+
+func (CreateServiceRequestPathSelectorServiceDisplayName) FieldPath() *CreateServiceRequest_FieldSubPath {
+	return &CreateServiceRequest_FieldSubPath{
+		selector: CreateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s CreateServiceRequestPathSelectorServiceDisplayName) WithValue(value string) *CreateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceRequestPathSelectorServiceDisplayName) WithArrayOfValues(values []string) *CreateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceRequestPathSelectorServiceCurrentVersion struct{}
+
+func (CreateServiceRequestPathSelectorServiceCurrentVersion) FieldPath() *CreateServiceRequest_FieldSubPath {
+	return &CreateServiceRequest_FieldSubPath{
+		selector: CreateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s CreateServiceRequestPathSelectorServiceCurrentVersion) WithValue(value string) *CreateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceRequestPathSelectorServiceCurrentVersion) WithArrayOfValues(values []string) *CreateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceRequestPathSelectorServiceAllVersions struct{}
+
+func (CreateServiceRequestPathSelectorServiceAllVersions) FieldPath() *CreateServiceRequest_FieldSubPath {
+	return &CreateServiceRequest_FieldSubPath{
+		selector: CreateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	}
+}
+
+func (s CreateServiceRequestPathSelectorServiceAllVersions) WithValue(value []string) *CreateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceRequestPathSelectorServiceAllVersions) WithArrayOfValues(values [][]string) *CreateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+func (s CreateServiceRequestPathSelectorServiceAllVersions) WithItemValue(value string) *CreateServiceRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CreateServiceRequest_FieldSubPathArrayItemValue)
 }
 
 type CreateServiceRequestPathSelectorServiceMetadata struct{}
@@ -2410,11 +2609,11 @@ func (CreateServiceRequestPathSelectorServiceMetadataSyncing) FieldPath() *Creat
 	}
 }
 
-func (s CreateServiceRequestPathSelectorServiceMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateServiceRequest_FieldSubPathValue {
+func (s CreateServiceRequestPathSelectorServiceMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateServiceRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateServiceRequest_FieldSubPathValue)
 }
 
-func (s CreateServiceRequestPathSelectorServiceMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateServiceRequest_FieldSubPathArrayOfValues {
+func (s CreateServiceRequestPathSelectorServiceMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2513,6 +2712,18 @@ func (UpdateServiceRequestPathSelectorService) Name() UpdateServiceRequestPathSe
 	return UpdateServiceRequestPathSelectorServiceName{}
 }
 
+func (UpdateServiceRequestPathSelectorService) DisplayName() UpdateServiceRequestPathSelectorServiceDisplayName {
+	return UpdateServiceRequestPathSelectorServiceDisplayName{}
+}
+
+func (UpdateServiceRequestPathSelectorService) CurrentVersion() UpdateServiceRequestPathSelectorServiceCurrentVersion {
+	return UpdateServiceRequestPathSelectorServiceCurrentVersion{}
+}
+
+func (UpdateServiceRequestPathSelectorService) AllVersions() UpdateServiceRequestPathSelectorServiceAllVersions {
+	return UpdateServiceRequestPathSelectorServiceAllVersions{}
+}
+
 func (UpdateServiceRequestPathSelectorService) Metadata() UpdateServiceRequestPathSelectorServiceMetadata {
 	return UpdateServiceRequestPathSelectorServiceMetadata{}
 }
@@ -2532,6 +2743,61 @@ func (s UpdateServiceRequestPathSelectorServiceName) WithValue(value *service.Na
 
 func (s UpdateServiceRequestPathSelectorServiceName) WithArrayOfValues(values []*service.Name) *UpdateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorServiceDisplayName struct{}
+
+func (UpdateServiceRequestPathSelectorServiceDisplayName) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorServiceDisplayName) WithValue(value string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorServiceDisplayName) WithArrayOfValues(values []string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorServiceCurrentVersion struct{}
+
+func (UpdateServiceRequestPathSelectorServiceCurrentVersion) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorServiceCurrentVersion) WithValue(value string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorServiceCurrentVersion) WithArrayOfValues(values []string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorServiceAllVersions struct{}
+
+func (UpdateServiceRequestPathSelectorServiceAllVersions) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorService,
+		subPath:  service.NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorServiceAllVersions) WithValue(value []string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorServiceAllVersions) WithArrayOfValues(values [][]string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateServiceRequestPathSelectorServiceAllVersions) WithItemValue(value string) *UpdateServiceRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceRequest_FieldSubPathArrayItemValue)
 }
 
 type UpdateServiceRequestPathSelectorServiceMetadata struct{}
@@ -2977,11 +3243,11 @@ func (UpdateServiceRequestPathSelectorServiceMetadataSyncing) FieldPath() *Updat
 	}
 }
 
-func (s UpdateServiceRequestPathSelectorServiceMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathValue {
+func (s UpdateServiceRequestPathSelectorServiceMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceRequestPathSelectorServiceMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceRequestPathSelectorServiceMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3104,6 +3370,18 @@ func (UpdateServiceRequestPathSelectorCasConditionalState) Name() UpdateServiceR
 	return UpdateServiceRequestPathSelectorCasConditionalStateName{}
 }
 
+func (UpdateServiceRequestPathSelectorCasConditionalState) DisplayName() UpdateServiceRequestPathSelectorCasConditionalStateDisplayName {
+	return UpdateServiceRequestPathSelectorCasConditionalStateDisplayName{}
+}
+
+func (UpdateServiceRequestPathSelectorCasConditionalState) CurrentVersion() UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion {
+	return UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion{}
+}
+
+func (UpdateServiceRequestPathSelectorCasConditionalState) AllVersions() UpdateServiceRequestPathSelectorCasConditionalStateAllVersions {
+	return UpdateServiceRequestPathSelectorCasConditionalStateAllVersions{}
+}
+
 func (UpdateServiceRequestPathSelectorCasConditionalState) Metadata() UpdateServiceRequestPathSelectorCasConditionalStateMetadata {
 	return UpdateServiceRequestPathSelectorCasConditionalStateMetadata{}
 }
@@ -3123,6 +3401,61 @@ func (s UpdateServiceRequestPathSelectorCasConditionalStateName) WithValue(value
 
 func (s UpdateServiceRequestPathSelectorCasConditionalStateName) WithArrayOfValues(values []*service.Name) *UpdateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorCasConditionalStateDisplayName struct{}
+
+func (UpdateServiceRequestPathSelectorCasConditionalStateDisplayName) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceRequestCASFieldPathBuilder().ConditionalState().DisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateDisplayName) WithValue(value string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateDisplayName) WithArrayOfValues(values []string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion struct{}
+
+func (UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceRequestCASFieldPathBuilder().ConditionalState().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion) WithValue(value string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateCurrentVersion) WithArrayOfValues(values []string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequestPathSelectorCasConditionalStateAllVersions struct{}
+
+func (UpdateServiceRequestPathSelectorCasConditionalStateAllVersions) FieldPath() *UpdateServiceRequest_FieldSubPath {
+	return &UpdateServiceRequest_FieldSubPath{
+		selector: UpdateServiceRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceRequestCASFieldPathBuilder().ConditionalState().AllVersions().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateAllVersions) WithValue(value []string) *UpdateServiceRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateAllVersions) WithArrayOfValues(values [][]string) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateServiceRequestPathSelectorCasConditionalStateAllVersions) WithItemValue(value string) *UpdateServiceRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceRequest_FieldSubPathArrayItemValue)
 }
 
 type UpdateServiceRequestPathSelectorCasConditionalStateMetadata struct{}
@@ -3568,11 +3901,11 @@ func (UpdateServiceRequestPathSelectorCasConditionalStateMetadataSyncing) FieldP
 	}
 }
 
-func (s UpdateServiceRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathValue {
+func (s UpdateServiceRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3685,6 +4018,18 @@ func (UpdateServiceRequest_CASPathSelectorConditionalState) Name() UpdateService
 	return UpdateServiceRequest_CASPathSelectorConditionalStateName{}
 }
 
+func (UpdateServiceRequest_CASPathSelectorConditionalState) DisplayName() UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName {
+	return UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName{}
+}
+
+func (UpdateServiceRequest_CASPathSelectorConditionalState) CurrentVersion() UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion {
+	return UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion{}
+}
+
+func (UpdateServiceRequest_CASPathSelectorConditionalState) AllVersions() UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions {
+	return UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions{}
+}
+
 func (UpdateServiceRequest_CASPathSelectorConditionalState) Metadata() UpdateServiceRequest_CASPathSelectorConditionalStateMetadata {
 	return UpdateServiceRequest_CASPathSelectorConditionalStateMetadata{}
 }
@@ -3704,6 +4049,61 @@ func (s UpdateServiceRequest_CASPathSelectorConditionalStateName) WithValue(valu
 
 func (s UpdateServiceRequest_CASPathSelectorConditionalStateName) WithArrayOfValues(values []*service.Name) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName struct{}
+
+func (UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName) FieldPath() *UpdateServiceRequestCAS_FieldSubPath {
+	return &UpdateServiceRequestCAS_FieldSubPath{
+		selector: UpdateServiceRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service.NewServiceFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName) WithValue(value string) *UpdateServiceRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateDisplayName) WithArrayOfValues(values []string) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion struct{}
+
+func (UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion) FieldPath() *UpdateServiceRequestCAS_FieldSubPath {
+	return &UpdateServiceRequestCAS_FieldSubPath{
+		selector: UpdateServiceRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service.NewServiceFieldPathBuilder().CurrentVersion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion) WithValue(value string) *UpdateServiceRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateCurrentVersion) WithArrayOfValues(values []string) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions struct{}
+
+func (UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions) FieldPath() *UpdateServiceRequestCAS_FieldSubPath {
+	return &UpdateServiceRequestCAS_FieldSubPath{
+		selector: UpdateServiceRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service.NewServiceFieldPathBuilder().AllVersions().FieldPath(),
+	}
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions) WithValue(value []string) *UpdateServiceRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions) WithArrayOfValues(values [][]string) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateAllVersions) WithItemValue(value string) *UpdateServiceRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceRequestCAS_FieldSubPathArrayItemValue)
 }
 
 type UpdateServiceRequest_CASPathSelectorConditionalStateMetadata struct{}
@@ -4149,11 +4549,11 @@ func (UpdateServiceRequest_CASPathSelectorConditionalStateMetadataSyncing) Field
 	}
 }
 
-func (s UpdateServiceRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateServiceRequestCAS_FieldSubPathValue {
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateServiceRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateServiceRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateServiceRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateServiceRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceRequestCAS_FieldSubPathArrayOfValues)
 }
 

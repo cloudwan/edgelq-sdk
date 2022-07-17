@@ -1,0 +1,407 @@
+syntax = "proto3";
+
+package ntt.logging.v1alpha2;
+
+import "edgelq-sdk/logging/proto/v1alpha2/log_descriptor.proto";
+import "edgelq-sdk/logging/proto/v1alpha2/log_descriptor_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/runtime/api/view.proto";
+import "goten-sdk/runtime/api/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/logging/client/v1alpha2/log_descriptor;log_descriptor_client";
+option java_multiple_files = false;
+option java_outer_classname = "LogDescriptorServiceProto";
+option java_package = "com.ntt.logging.pb.v1alpha2";
+
+// Request message for method
+// [GetLogDescriptor][ntt.logging.v1alpha2.GetLogDescriptor]
+message GetLogDescriptorRequest {
+  // Reference of ntt.logging.v1alpha2.LogDescriptor
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// Request message for method
+// [BatchGetLogDescriptors][ntt.logging.v1alpha2.BatchGetLogDescriptors]
+message BatchGetLogDescriptorsRequest {
+  // Names of LogDescriptors
+  repeated string names = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+
+  reserved 1;
+}
+
+// BatchGetLogDescriptorsResponse
+message BatchGetLogDescriptorsResponse {
+  // found LogDescriptors
+  repeated LogDescriptor log_descriptors = 1;
+
+  // list of not found LogDescriptors
+  repeated string missing = 2;
+}
+
+// Request message for method
+// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+message ListLogDescriptorsRequest {
+  // Parent name of ntt.logging.v1alpha2.LogDescriptor
+  string parent = 1;
+
+  // Requested page size. Server may return fewer LogDescriptors than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListLogDescriptorsResponse.next_page_token][ntt.logging.v1alpha2.ListLogDescriptorsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+}
+
+// Request message for method
+// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+message ListLogDescriptorsResponse {
+  // The list of LogDescriptors
+  repeated LogDescriptor log_descriptors = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+  string next_page_token = 4;
+}
+
+// Request message for method
+// [WatchLogDescriptor][ntt.logging.v1alpha2.WatchLogDescriptor]
+message WatchLogDescriptorRequest {
+  // Reference to ntt.logging.v1alpha2.LogDescriptor
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 2;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 4;
+}
+
+// WatchLogDescriptorResponse
+message WatchLogDescriptorResponse { LogDescriptorChange change = 1; }
+
+// Request message for method
+// [WatchLogDescriptors][ntt.logging.v1alpha2.WatchLogDescriptors]
+message WatchLogDescriptorsRequest {
+  // Type of a watch. Identifies how server stream data to a client, which
+  // fields in a request are allowed and which fields in response are relevant.
+  goten.watch_type.WatchType type = 9;
+
+  // Parent reference of ntt.logging.v1alpha2.LogDescriptor
+  string parent = 1;
+
+  // Requested page size. Server may return fewer LogDescriptors than requested.
+  // If unspecified, server will pick an appropriate default.
+  // Can be populated only for stateful watch type.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Can be populated only for stateful watch type.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
+  // populated only for stateful watch type.
+  string order_by = 4;
+
+  // A token identifying watch resume point from previous session.
+  // Can be populated only for stateless watch type.
+  string resume_token = 10;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view Changes to LogDescriptor that don't
+  // affect any of masked fields won't be sent back.
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask Changes to
+  // LogDescriptor that don't affect any of masked fields won't be sent back.
+  goten.view.View view = 8;
+
+  // Maximum amount of changes in each response message. Query result response
+  // is divided on the server side into chunks with size of a specified amount
+  // to limit memory footprint of each message. Responses will hold information
+  // whether more elements will continue for the actual change. If unspecified,
+  // server will pick an appropriate default.
+  int32 max_chunk_size = 11;
+}
+
+// WatchLogDescriptorsResponse
+message WatchLogDescriptorsResponse {
+  // Changes of LogDescriptors
+  repeated LogDescriptorChange log_descriptor_changes = 2;
+
+  // If request specified max_chunk_size (or this limit was enforced if
+  // stateless watch has been chosen), then responses with "full changeset" will
+  // be divided into chunks. Client should keep receiving messages and, once
+  // is_current has value true, combine this recent message with all previous
+  // ones where is_current is false. If this is the first is_current in a whole
+  // watch stream, then it means that client should have, at this moment,
+  // contain snapshot of the current situation (or more accurately, snapshot of
+  // situation at the moment of request). All LogDescriptors will be of type
+  // Added/Current (depending on watch_type specified in the request). Further
+  // responses will be incremental - however messages may still be chunked and
+  // is_current logic still applies. is_current is always true for stateful
+  // watch if max_chunk_size was left to 0.
+  bool is_current = 4;
+
+  // When present, PageTokens used for page navigation should be updated.
+  // Present only if is_current is true (last chunk).
+  PageTokenChange page_token_change = 3;
+
+  // Token that can be used if current connection drops and client needs to
+  // reconnect. Populated only for stateless watch type. Present only if
+  // is_current is true (last chunk).
+  string resume_token = 5;
+
+  // Server may occasionally send information how many resources should client
+  // have in its state so far (response message without any changes, but with
+  // snapshot_size field specified). If client has different value than the one
+  // sent by the server, then it should be treated by a client as an error and
+  // should reconnect. If value is smaller then 0, then client should ignore
+  // this field as unpopulated. This field should be checked only for stateless
+  // watch. In stateful those kind of errors are handled by the server side.
+  // Will be never sent together with is_current, is_soft_reset and
+  // is_hard_reset flags.
+  int64 snapshot_size = 6;
+
+  // In case of internal issue server may send response message with this flag.
+  // It indicates that client should drop all changes from recent responses
+  // where is_current is false only! If last message had is_current set to true,
+  // client should do nothing and process normally. Resume token received before
+  // is still valid. This field should be checked only for stateless watch. In
+  // stateful those kind of errors are handled by the server side. Will never be
+  // sent along with is_current, is_hard_reset or snapshot_size.
+  bool is_soft_reset = 7;
+
+  // In case of internal issue server may send response message with this flag.
+  // After receiving, client should clear whole state (drop all changes received
+  // so far) as server will send new snapshot (LogDescriptors will contains
+  // changes of type Current only). Any resume tokens should be discarded as
+  // well. This field should be checked only for stateless watch. In stateful
+  // those kind of errors are handled by the server side. Will never be sent
+  // along with is_current, is_soft_reset or snapshot_size.
+  bool is_hard_reset = 8;
+
+  message PageTokenChange {
+    // New token to retrieve previous page of results.
+    string prev_page_token = 1;
+
+    // New token to retrieve next page of results.
+    string next_page_token = 2;
+  }
+}
+
+// Request message for method
+// [CreateLogDescriptor][ntt.logging.v1alpha2.CreateLogDescriptor]
+message CreateLogDescriptorRequest {
+  // Parent reference of ntt.logging.v1alpha2.LogDescriptor
+  string parent = 1;
+
+  // LogDescriptor resource body
+  LogDescriptor log_descriptor = 2;
+}
+
+// Request message for method
+// [UpdateLogDescriptor][ntt.logging.v1alpha2.UpdateLogDescriptor]
+message UpdateLogDescriptorRequest {
+  // LogDescriptor resource body
+  LogDescriptor log_descriptor = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    LogDescriptor conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+}
+
+// Request message for method
+// [DeleteLogDescriptor][ntt.logging.v1alpha2.DeleteLogDescriptor]
+message DeleteLogDescriptorRequest {
+  // Reference of ntt.logging.v1alpha2.LogDescriptor
+  string name = 1;
+}
+
+// LogDescriptor service API for Logging
+service LogDescriptorService {
+  option (google.api.default_host) = "logging.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // GetLogDescriptor
+  rpc GetLogDescriptor(GetLogDescriptorRequest) returns (LogDescriptor) {
+    option (google.api.http) = {
+      get : "/v1alpha2/{name=logDescriptors/*}"
+      additional_bindings : <
+        get : "/v1alpha2/{name=projects/*/logDescriptors/*}"
+      >
+      additional_bindings : <
+        get : "/v1alpha2/{name=organizations/*/logDescriptors/*}"
+      >
+    };
+  }
+
+  // BatchGetLogDescriptors
+  rpc BatchGetLogDescriptors(BatchGetLogDescriptorsRequest)
+      returns (BatchGetLogDescriptorsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/logDescriptors:batchGet"
+    };
+  }
+
+  // ListLogDescriptors
+  rpc ListLogDescriptors(ListLogDescriptorsRequest)
+      returns (ListLogDescriptorsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/logDescriptors"
+      additional_bindings : <
+        get : "/v1alpha2/{parent=projects/*}/logDescriptors"
+      >
+      additional_bindings : <
+        get : "/v1alpha2/{parent=organizations/*}/logDescriptors"
+      >
+    };
+  }
+
+  // WatchLogDescriptor
+  rpc WatchLogDescriptor(WatchLogDescriptorRequest)
+      returns (stream WatchLogDescriptorResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=logDescriptors/*}:watch"
+      additional_bindings : <
+        post : "/v1alpha2/{name=projects/*/logDescriptors/*}:watch"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{name=organizations/*/logDescriptors/*}:watch"
+      >
+    };
+  }
+
+  // WatchLogDescriptors
+  rpc WatchLogDescriptors(WatchLogDescriptorsRequest)
+      returns (stream WatchLogDescriptorsResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/logDescriptors:watch"
+      additional_bindings : <
+        post : "/v1alpha2/{parent=projects/*}/logDescriptors:watch"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{parent=organizations/*}/logDescriptors:watch"
+      >
+    };
+  }
+
+  // CreateLogDescriptor
+  rpc CreateLogDescriptor(CreateLogDescriptorRequest) returns (LogDescriptor) {
+    option (google.api.http) = {
+      post : "/v1alpha2/logDescriptors"
+      body : "log_descriptor"
+      additional_bindings : <
+        post : "/v1alpha2/{parent=projects/*}/logDescriptors"
+      >
+      additional_bindings : <
+        post : "/v1alpha2/{parent=organizations/*}/logDescriptors"
+      >
+    };
+  }
+
+  // UpdateLogDescriptor
+  rpc UpdateLogDescriptor(UpdateLogDescriptorRequest) returns (LogDescriptor) {
+    option (google.api.http) = {
+      put : "/v1alpha2/{log_descriptor.name=logDescriptors/*}"
+      body : "log_descriptor"
+      additional_bindings : <
+        put : "/v1alpha2/{log_descriptor.name=projects/*/logDescriptors/*}"
+      >
+      additional_bindings : <
+        put : "/v1alpha2/{log_descriptor.name=organizations/*/logDescriptors/*}"
+      >
+    };
+  }
+
+  // DeleteLogDescriptor
+  rpc DeleteLogDescriptor(DeleteLogDescriptorRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1alpha2/{name=logDescriptors/*}"
+      additional_bindings : <
+        delete : "/v1alpha2/{name=projects/*/logDescriptors/*}"
+      >
+      additional_bindings : <
+        delete : "/v1alpha2/{name=organizations/*/logDescriptors/*}"
+      >
+    };
+  }
+}

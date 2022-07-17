@@ -50,7 +50,7 @@ var (
 )
 
 var deployment_RegexpId = regexp.MustCompile("^(?P<deployment_id>[\\w][\\w.-]{0,127})$")
-var regexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[\\w][\\w.-]{0,127})/deployments/(?P<deployment_id>-|[\\w][\\w.-]{0,127})$")
+var regexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[\\w][\\w.-]{0,127})/deployments/(?P<deployment_id>-|[\\w][\\w.-]{0,127})$")
 
 func (r *Deployment) MaybePopulateDefaults() error {
 	deploymentInterface := interface{}(r)
@@ -75,9 +75,9 @@ type Name struct {
 
 func ParseName(name string) (*Name, error) {
 	var matches []string
-	if matches = regexPath_Service.FindStringSubmatch(name); matches != nil {
+	if matches = regexPath_Region.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
-			SetServiceId(matches[1]).
+			SetRegionId(matches[1]).
 			SetId(matches[2]).
 			Name(), nil
 	}
@@ -119,11 +119,11 @@ func (name *Name) SetFromSegments(segments gotenresource.NameSegments) error {
 	return nil
 }
 
-func (name *Name) GetServiceName() *service.Name {
+func (name *Name) GetRegionName() *region.Name {
 	if name == nil {
 		return nil
 	}
-	return name.ParentName.GetServiceName()
+	return name.ParentName.GetRegionName()
 }
 
 func (name *Name) IsSpecified() bool {
@@ -186,12 +186,12 @@ func (name *Name) GetPattern() gotenresource.NamePattern {
 func (name *Name) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"serviceId":    name.ServiceId,
+			"regionId":     name.RegionId,
 			"deploymentId": name.DeploymentId,
 		}
 	}
 	return map[string]string{
-		"serviceId":    "",
+		"regionId":     "",
 		"deploymentId": "",
 	}
 }
@@ -450,7 +450,7 @@ func (ref *Reference) GetIdParts() map[string]string {
 		return ref.Name.GetIdParts()
 	}
 	return map[string]string{
-		"serviceId":    "",
+		"regionId":     "",
 		"deploymentId": "",
 	}
 }

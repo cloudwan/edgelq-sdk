@@ -17,8 +17,19 @@ message Service {
     pattern : "services/{service}"
   };
 
-  // Name of Service
+  // Name of Service - it has form of service domain, for example
+  // devices.edgelq.com, so full reference name would be like
+  // services/devices.edgelq.com
   string name = 1;
+
+  // Display name, for example "Devices" - CamelVersion
+  string display_name = 3;
+
+  // Current version of the service, for example "v1alpha2"
+  string current_version = 4;
+
+  // All version in order from newest (index 0) to oldest
+  repeated string all_versions = 5;
 
   // Metadata
   ntt.types.Meta metadata = 2;

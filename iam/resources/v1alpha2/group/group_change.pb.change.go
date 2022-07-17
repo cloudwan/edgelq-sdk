@@ -96,7 +96,7 @@ func (c *GroupChange) GetGroup() *Group {
 	return nil
 }
 
-func (c *GroupChange) GetResource() gotenresource.Resource {
+func (c *GroupChange) GetRawResource() gotenresource.Resource {
 	return c.GetGroup()
 }
 

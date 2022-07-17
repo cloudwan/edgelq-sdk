@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
+import "google/api/resource.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool;limit_pool";
+option java_multiple_files = true;
+option java_outer_classname = "LimitPoolProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// LimitPool represents a pool from which next LimitPool
+// or final Limit instances are allocated from. LimitPool
+// can either belong to a system (first pool, without parent) or
+// organization (which got pool from system or parent organization).
+// Size of child limit or limit pools must not exceed parent
+// limit pool.
+// LimitPool is in a way similar to Limit - it has scope and
+// associated resource but:
+// * LimitPool is non-final object. It cannot be used to
+// allocate resources directly. It need child Limit first. So
+// field with values in LimitPool are configured size, active
+// size and reserved. Fields in Limit are configured limit,
+// active limit and usage - they need different interpretation.
+// * LimitPool is not regional, because it may feed limits in
+// other regions. Limit has extra tracker in their final region
+// for state synchronization purpose.
+// Because LimitPool instances within one scope (system, organization)
+// are managed by primary region of that scope, changes in them
+// are done with only single transaction.
+// LimitPool instances cannot be created or deleted. They cannot be
+// also be modified (there are only some state fields controlled
+// by system). LimitPools are created/modified along with
+// PlanAssignment instances.
+message LimitPool {
+  option (google.api.resource) = {
+    type : "limits.edgelq.com/LimitPool"
+    pattern : "limitPools/{limit_pool}"
+    pattern : "organizations/{organization}/limitPools/{limit_pool}"
+  };
+
+  // Name of LimitPool
+  string name = 1;
+
+  // Referenced service
+  string service = 2;
+
+  // Referenced resource type
+  string resource = 3;
+
+  // Configured size of pool according to PlanAssignment instances
+  // belonging to same scope (system or organization).
+  int64 configured_size = 4;
+
+  // Active pool size. It will be normally equal to configured size.
+  // However, if configured size goes down below reserved value,
+  // then active size will be equal to that "reserved".
+  // It will also prevent parent LimitPool (if any) from getting
+  // limit value back.
+  int64 active_size = 5;
+
+  // Configured OR Active Size of all child Limit and LimitPool instances -
+  // whichever is bigger.
+  int64 reserved = 6;
+
+  // LimitPool source that gave birth to this LimitPool. Any change
+  // in configured/active value in current LimitPool increases/decreases
+  // reserved field in source LimitPool.
+  string source = 7;
+
+  // Metadata
+  ntt.types.Meta metadata = 8;
+}

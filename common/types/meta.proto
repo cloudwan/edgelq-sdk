@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ntt.types;
 
-import "edgelq-sdk/meta/multi_region/proto/syncing_meta.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -58,7 +57,7 @@ message Meta {
   map<string, int64> shards = 14;
 
   // Information about resource region and synchronization
-  ntt.meta.multi_region.SyncingMeta syncing = 15;
+  SyncingMeta syncing = 15;
 }
 
 // A label selector is a label query over a set of resources. The result of
@@ -125,4 +124,19 @@ message OwnerReference {
   // To set this field, a user needs "delete" permission of the owner,
   // otherwise 422 (Unprocessable Entity) will be returned.
   bool block_owner_deletion = 7;
+}
+
+// SyncingMeta is a helper object associated with each resource that is either
+// regional or is governed by Policy object. This object is used for internal
+// purposes like Sync controller which ensures data synchronization of all
+// resources across multiple regions.
+message SyncingMeta {
+  // For regional resources (or their descendants) it is equal to the region ID
+  // (present in resource name). Otherwise it is equal to the region as defined
+  // in Policy object under default_control_region field.
+  string owning_region = 1;
+
+  // List of regions where owning resource can be present. If can be present in
+  // all regions, will contain "*".
+  repeated string regions = 2;
 }

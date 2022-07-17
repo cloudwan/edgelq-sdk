@@ -7,8 +7,7 @@ package secret_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	policy "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/policy"
-	syncing_meta "github.com/cloudwan/edgelq-sdk/meta/multi_region/proto/syncing_meta"
+	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/project"
 	secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1alpha2/secret"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
@@ -21,8 +20,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &policy.Policy{}
-	_ = &syncing_meta.SyncingMeta{}
+	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &project.Project{}
 	_ = &secret.Secret{}
 	_ = &empty.Empty{}
@@ -728,11 +726,11 @@ func (BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing) FieldPath() *Ba
 	}
 }
 
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *BatchGetSecretsResponse_FieldSubPathValue {
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *BatchGetSecretsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1506,11 +1504,11 @@ func (ListSecretsResponsePathSelectorSecretsMetadataSyncing) FieldPath() *ListSe
 	}
 }
 
-func (s ListSecretsResponsePathSelectorSecretsMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *ListSecretsResponse_FieldSubPathValue {
+func (s ListSecretsResponsePathSelectorSecretsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *ListSecretsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
 }
 
-func (s ListSecretsResponsePathSelectorSecretsMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *ListSecretsResponse_FieldSubPathArrayOfValues {
+func (s ListSecretsResponsePathSelectorSecretsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *ListSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2660,11 +2658,11 @@ func (CreateSecretRequestPathSelectorSecretMetadataSyncing) FieldPath() *CreateS
 	}
 }
 
-func (s CreateSecretRequestPathSelectorSecretMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *CreateSecretRequest_FieldSubPathValue {
+func (s CreateSecretRequestPathSelectorSecretMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *CreateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
 }
 
-func (s CreateSecretRequestPathSelectorSecretMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *CreateSecretRequest_FieldSubPathArrayOfValues {
+func (s CreateSecretRequestPathSelectorSecretMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *CreateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3292,11 +3290,11 @@ func (UpdateSecretRequestPathSelectorSecretMetadataSyncing) FieldPath() *UpdateS
 	}
 }
 
-func (s UpdateSecretRequestPathSelectorSecretMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathValue {
+func (s UpdateSecretRequestPathSelectorSecretMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequestPathSelectorSecretMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequestPathSelectorSecretMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3948,11 +3946,11 @@ func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing) FieldPa
 	}
 }
 
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathValue {
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4594,11 +4592,11 @@ func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing) FieldP
 	}
 }
 
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *syncing_meta.SyncingMeta) *UpdateSecretRequestCAS_FieldSubPathValue {
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdateSecretRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*syncing_meta.SyncingMeta) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 

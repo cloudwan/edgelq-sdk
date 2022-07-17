@@ -46,18 +46,18 @@ var (
 	_ = &service.Service{}
 )
 
-var parentRegexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[\\w][\\w.-]{0,127})$")
+var parentRegexPath_Region = regexp.MustCompile("^regions/(?P<region_id>-|[\\w][\\w.-]{0,127})$")
 
 type ParentName struct {
 	NamePattern
-	ServiceId string `firestore:"serviceId"`
+	RegionId string `firestore:"regionId"`
 }
 
 func ParseParentName(name string) (*ParentName, error) {
 	var matches []string
-	if matches = parentRegexPath_Service.FindStringSubmatch(name); matches != nil {
+	if matches = parentRegexPath_Region.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
-			SetServiceId(matches[1]).
+			SetRegionId(matches[1]).
 			Parent(), nil
 	}
 
@@ -73,23 +73,23 @@ func MustParseParentName(name string) *ParentName {
 }
 
 func (name *ParentName) SetFromSegments(segments gotenresource.NameSegments) error {
-	if len(segments) == 1 && segments[0].CollectionLowerJson == "services" {
-		name.Pattern = NamePattern_Service
-		name.ServiceId = segments[0].Id
+	if len(segments) == 1 && segments[0].CollectionLowerJson == "regions" {
+		name.Pattern = NamePattern_Region
+		name.RegionId = segments[0].Id
 		return nil
 	}
 	return status.Errorf(codes.InvalidArgument, "unable to use segments %s to form Deployment parent name", segments)
 }
 
-func (name *ParentName) GetServiceName() *service.Name {
+func (name *ParentName) GetRegionName() *region.Name {
 	if name == nil {
 		return nil
 	}
 
 	switch name.Pattern {
-	case NamePattern_Service:
-		return service.NewNameBuilder().
-			SetId(name.ServiceId).
+	case NamePattern_Region:
+		return region.NewNameBuilder().
+			SetId(name.RegionId).
 			Name()
 	default:
 		return nil
@@ -101,8 +101,8 @@ func (name *ParentName) IsSpecified() bool {
 		return false
 	}
 	switch name.Pattern {
-	case NamePattern_Service:
-		return name.ServiceId != ""
+	case NamePattern_Region:
+		return name.RegionId != ""
 	}
 	return false
 }
@@ -113,8 +113,8 @@ func (name *ParentName) IsFullyQualified() bool {
 	}
 
 	switch name.Pattern {
-	case NamePattern_Service:
-		return name.ServiceId != "" && name.ServiceId != gotenresource.WildcardId
+	case NamePattern_Region:
+		return name.RegionId != "" && name.RegionId != gotenresource.WildcardId
 	}
 
 	return false
@@ -141,11 +141,11 @@ func (name *ParentName) GetPattern() gotenresource.NamePattern {
 func (name *ParentName) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"serviceId": name.ServiceId,
+			"regionId": name.RegionId,
 		}
 	}
 	return map[string]string{
-		"serviceId": "",
+		"regionId": "",
 	}
 }
 
@@ -155,11 +155,11 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 	}
 
 	switch name.Pattern {
-	case NamePattern_Service:
+	case NamePattern_Region:
 		return gotenresource.NameSegments{
 			gotenresource.NameSegment{
-				CollectionLowerJson: "services",
-				Id:                  name.ServiceId,
+				CollectionLowerJson: "regions",
+				Id:                  name.RegionId,
 			},
 		}
 	}
@@ -184,8 +184,8 @@ func (name *ParentName) DescendsFrom(ancestor string) bool {
 	}
 
 	switch name.Pattern {
-	case NamePattern_Service:
-		return ancestor == "services"
+	case NamePattern_Region:
+		return ancestor == "regions"
 	}
 
 	return false
@@ -206,8 +206,8 @@ func (name *ParentName) ProtoString() (string, error) {
 		return "", nil
 	}
 	switch name.Pattern {
-	case NamePattern_Service:
-		return "services/" + name.ServiceId, nil
+	case NamePattern_Region:
+		return "regions/" + name.RegionId, nil
 	}
 	return "", nil
 }
@@ -240,7 +240,7 @@ func (name *ParentName) GotenEqual(other interface{}) bool {
 	} else if name == nil {
 		return false
 	}
-	if name.ServiceId != other1.ServiceId {
+	if name.RegionId != other1.RegionId {
 		return false
 	}
 	if name.Pattern != other1.Pattern {
@@ -274,9 +274,9 @@ func (name *ParentName) Matches(other interface{}) bool {
 		return false
 	}
 	switch name.Pattern {
-	case NamePattern_Service:
-		if name.ServiceId != other1.ServiceId &&
-			name.ServiceId != gotenresource.WildcardId {
+	case NamePattern_Region:
+		if name.RegionId != other1.RegionId &&
+			name.RegionId != gotenresource.WildcardId {
 			return false
 		}
 	}
@@ -296,7 +296,7 @@ func (name *ParentName) SetFromCliFlag(raw string) error {
 
 type ParentReference struct {
 	ParentName
-	service *service.Service
+	region *region.Region
 }
 
 func MakeParentReference(name *ParentName) (*ParentReference, error) {
@@ -320,15 +320,15 @@ func MustParseParentReference(name string) *ParentReference {
 	}
 	return result
 }
-func (ref *ParentReference) GetServiceReference() *service.Reference {
+func (ref *ParentReference) GetRegionReference() *region.Reference {
 	if ref == nil {
 		return nil
 	}
 
 	switch ref.Pattern {
-	case NamePattern_Service:
-		return service.NewNameBuilder().
-			SetId(ref.ServiceId).
+	case NamePattern_Region:
+		return region.NewNameBuilder().
+			SetId(ref.RegionId).
 			Reference()
 	default:
 		return nil
@@ -339,9 +339,9 @@ func (ref *ParentReference) GetUnderlyingReference() gotenresource.Reference {
 	if ref == nil {
 		return nil
 	}
-	serviceRef := ref.GetServiceReference()
-	if serviceRef != nil {
-		return serviceRef
+	regionRef := ref.GetRegionReference()
+	if regionRef != nil {
+		return regionRef
 	}
 
 	return nil
@@ -349,11 +349,11 @@ func (ref *ParentReference) GetUnderlyingReference() gotenresource.Reference {
 
 func (ref *ParentReference) ResolveRaw(res gotenresource.Resource) error {
 	switch typedRes := res.(type) {
-	case *service.Service:
-		if name := ref.GetServiceName(); name == nil {
-			return status.Errorf(codes.InvalidArgument, "cannot set Service as parent of Deployment, because pattern does not match")
+	case *region.Region:
+		if name := ref.GetRegionName(); name == nil {
+			return status.Errorf(codes.InvalidArgument, "cannot set Region as parent of Deployment, because pattern does not match")
 		}
-		ref.service = typedRes
+		ref.region = typedRes
 		return nil
 	default:
 		return status.Errorf(codes.Internal, "Invalid parent type for Deployment, got %s", reflect.TypeOf(res).Elem().Name())
@@ -361,26 +361,26 @@ func (ref *ParentReference) ResolveRaw(res gotenresource.Resource) error {
 }
 
 func (ref *ParentReference) Resolved() bool {
-	if name := ref.GetServiceName(); name != nil {
-		return ref.service != nil
+	if name := ref.GetRegionName(); name != nil {
+		return ref.region != nil
 	}
 	return true
 }
 
 func (ref *ParentReference) ClearCached() {
-	ref.service = nil
+	ref.region = nil
 }
 
-func (ref *ParentReference) GetService() *service.Service {
+func (ref *ParentReference) GetRegion() *region.Region {
 	if ref == nil {
 		return nil
 	}
-	return ref.service
+	return ref.region
 }
 
 func (ref *ParentReference) GetRawResource() gotenresource.Resource {
-	if name := ref.ParentName.GetServiceName(); name != nil {
-		return ref.service
+	if name := ref.ParentName.GetRegionName(); name != nil {
+		return ref.region
 	}
 	return nil
 }
@@ -415,7 +415,7 @@ func (ref *ParentReference) GetIdParts() map[string]string {
 		return ref.ParentName.GetIdParts()
 	}
 	return map[string]string{
-		"serviceId": "",
+		"regionId": "",
 	}
 }
 
@@ -470,7 +470,7 @@ func (ref *ParentReference) GotenEqual(other interface{}) bool {
 	} else if ref == nil {
 		return false
 	}
-	if ref.service != other1.service {
+	if ref.region != other1.region {
 		return false
 	}
 

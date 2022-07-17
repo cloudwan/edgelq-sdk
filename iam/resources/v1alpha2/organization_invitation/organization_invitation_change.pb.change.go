@@ -94,7 +94,7 @@ func (c *OrganizationInvitationChange) GetOrganizationInvitation() *Organization
 	return nil
 }
 
-func (c *OrganizationInvitationChange) GetResource() gotenresource.Resource {
+func (c *OrganizationInvitationChange) GetRawResource() gotenresource.Resource {
 	return c.GetOrganizationInvitation()
 }
 

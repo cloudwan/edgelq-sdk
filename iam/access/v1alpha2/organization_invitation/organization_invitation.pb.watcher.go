@@ -264,7 +264,7 @@ func (pw *Watcher) resetFilters(ctx context.Context, filters []*WatcherFilterPar
 		}()
 	}
 
-	// if all in sync (possible if queries were eliminated with resetQueries call), send snapshot, otherwise
+	// if all in sync (possible if queries were eliminated with ResetFilters call), send snapshot, otherwise
 	// communicate "lost sync"
 	if pw.allInSync() {
 		pw.processSnapshot(ctx)
