@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Logging (ntt.logging.v1alpha2 - v1alpha2)</h1>
 
@@ -189,6 +200,17 @@ Example formats are:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/logs </pre>
+
+</div>
+
+
 </div>
 
 
@@ -202,6 +224,17 @@ Example formats are:</p>
 <p>CreateLogs</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/logs (BODY: logs)</pre>
+
+</div>
+
 
 </div>
 
@@ -491,6 +524,21 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=logDescriptors/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/logDescriptors/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/logDescriptors/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -504,6 +552,17 @@ underlying backend enabling query optimizations.</p>
 <p>BatchGetLogDescriptors</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/logDescriptors:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -519,6 +578,21 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/logDescriptors </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*}/logDescriptors </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/logDescriptors </pre>
+
+</div>
+
+
 </div>
 
 
@@ -532,6 +606,21 @@ underlying backend enabling query optimizations.</p>
 <p>WatchLogDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=logDescriptors/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/logDescriptors/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/logDescriptors/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -547,6 +636,21 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/logDescriptors:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/logDescriptors:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/logDescriptors:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -560,6 +664,21 @@ underlying backend enabling query optimizations.</p>
 <p>CreateLogDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/logDescriptors (BODY: log_descriptor)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/logDescriptors </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/logDescriptors </pre>
+
+</div>
+
 
 </div>
 
@@ -575,6 +694,21 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{log_descriptor.name=logDescriptors/*} (BODY: log_descriptor)</pre>
+
+<pre>PUT /v1alpha2/{log_descriptor.name=projects/*/logDescriptors/*} </pre>
+
+<pre>PUT /v1alpha2/{log_descriptor.name=organizations/*/logDescriptors/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -588,6 +722,21 @@ underlying backend enabling query optimizations.</p>
 <p>DeleteLogDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=logDescriptors/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/logDescriptors/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/logDescriptors/*} </pre>
+
+</div>
+
 
 </div>
 

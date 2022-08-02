@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Limits (ntt.limits.v1alpha2 - v1alpha2)</h1>
 
@@ -187,6 +198,19 @@ too. System will distribute automatically only remaining numbers.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=acceptedPlans/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/acceptedPlans/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -200,6 +224,17 @@ too. System will distribute automatically only remaining numbers.</p>
 <p>BatchGetAcceptedPlans</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/acceptedPlans:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -215,6 +250,19 @@ too. System will distribute automatically only remaining numbers.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/acceptedPlans </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/acceptedPlans </pre>
+
+</div>
+
+
 </div>
 
 
@@ -228,6 +276,19 @@ too. System will distribute automatically only remaining numbers.</p>
 <p>WatchAcceptedPlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=acceptedPlans/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/acceptedPlans/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -243,6 +304,19 @@ too. System will distribute automatically only remaining numbers.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/acceptedPlans:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/acceptedPlans:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -256,6 +330,19 @@ too. System will distribute automatically only remaining numbers.</p>
 <p>CreateAcceptedPlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/acceptedPlans (BODY: accepted_plan)</pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/acceptedPlans </pre>
+
+</div>
+
 
 </div>
 
@@ -271,6 +358,19 @@ too. System will distribute automatically only remaining numbers.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{accepted_plan.name=acceptedPlans/*} (BODY: accepted_plan)</pre>
+
+<pre>PUT /v1alpha2/{accepted_plan.name=organizations/*/acceptedPlans/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -284,6 +384,19 @@ too. System will distribute automatically only remaining numbers.</p>
 <p>DeleteAcceptedPlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=acceptedPlans/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/acceptedPlans/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -1058,6 +1171,17 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/limits/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1071,6 +1195,17 @@ reserved field in source LimitPool.</p>
 <p>BatchGetLimits</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/limits:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1086,6 +1221,17 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*}/limits </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1099,6 +1245,17 @@ reserved field in source LimitPool.</p>
 <p>WatchLimit</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/limits/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1114,6 +1271,17 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/limits:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1127,6 +1295,17 @@ reserved field in source LimitPool.</p>
 <p>UpdateLimit</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{limit.name=projects/*/limits/*} (BODY: limit)</pre>
+
+</div>
+
 
 </div>
 
@@ -1811,6 +1990,19 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=limitPools/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/limitPools/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1824,6 +2016,17 @@ reserved field in source LimitPool.</p>
 <p>BatchGetLimitPools</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/limitPools:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1839,6 +2042,19 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/limitPools </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/limitPools </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1852,6 +2068,19 @@ reserved field in source LimitPool.</p>
 <p>WatchLimitPool</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=limitPools/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/limitPools/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1867,6 +2096,19 @@ reserved field in source LimitPool.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/limitPools:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/limitPools:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1880,6 +2122,19 @@ reserved field in source LimitPool.</p>
 <p>UpdateLimitPool</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{limit_pool.name=limitPools/*} (BODY: limit_pool)</pre>
+
+<pre>PUT /v1alpha2/{limit_pool.name=organizations/*/limitPools/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -2518,6 +2773,17 @@ services (dependant services)</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=plans/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2531,6 +2797,17 @@ services (dependant services)</p>
 <p>BatchGetPlans</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/plans:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -2546,6 +2823,17 @@ services (dependant services)</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/plans </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2559,6 +2847,17 @@ services (dependant services)</p>
 <p>WatchPlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=plans/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -2574,6 +2873,17 @@ services (dependant services)</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/plans:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2587,6 +2897,17 @@ services (dependant services)</p>
 <p>CreatePlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/plans (BODY: plan)</pre>
+
+</div>
+
 
 </div>
 
@@ -2602,6 +2923,17 @@ services (dependant services)</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{plan.name=plans/*} (BODY: plan)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -2615,6 +2947,17 @@ services (dependant services)</p>
 <p>DeletePlan</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=plans/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -3293,6 +3636,21 @@ for projects, because limit pools are regionless.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=planAssignments/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/planAssignments/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/planAssignments/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3306,6 +3664,17 @@ for projects, because limit pools are regionless.</p>
 <p>BatchGetPlanAssignments</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/planAssignments:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -3321,6 +3690,21 @@ for projects, because limit pools are regionless.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/planAssignments </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*}/planAssignments </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/planAssignments </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3334,6 +3718,21 @@ for projects, because limit pools are regionless.</p>
 <p>WatchPlanAssignment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=planAssignments/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/planAssignments/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/planAssignments/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -3349,6 +3748,21 @@ for projects, because limit pools are regionless.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/planAssignments:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/planAssignments:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/planAssignments:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3362,6 +3776,21 @@ for projects, because limit pools are regionless.</p>
 <p>CreatePlanAssignment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/planAssignments (BODY: plan_assignment)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/planAssignments </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/planAssignments </pre>
+
+</div>
+
 
 </div>
 
@@ -3377,6 +3806,21 @@ for projects, because limit pools are regionless.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{plan_assignment.name=planAssignments/*} (BODY: plan_assignment)</pre>
+
+<pre>PUT /v1alpha2/{plan_assignment.name=projects/*/planAssignments/*} </pre>
+
+<pre>PUT /v1alpha2/{plan_assignment.name=organizations/*/planAssignments/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3390,6 +3834,21 @@ for projects, because limit pools are regionless.</p>
 <p>DeletePlanAssignment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=planAssignments/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/planAssignments/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/planAssignments/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -4095,6 +4554,19 @@ to check if request was automatically approved.</li>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/planAssignmentRequests/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/planAssignmentRequests/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4108,6 +4580,17 @@ to check if request was automatically approved.</li>
 <p>BatchGetPlanAssignmentRequests</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/planAssignmentRequests:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -4123,6 +4606,19 @@ to check if request was automatically approved.</li>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*}/planAssignmentRequests </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/planAssignmentRequests </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4136,6 +4632,19 @@ to check if request was automatically approved.</li>
 <p>WatchPlanAssignmentRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/planAssignmentRequests/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/planAssignmentRequests/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -4151,6 +4660,19 @@ to check if request was automatically approved.</li>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/planAssignmentRequests:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/planAssignmentRequests:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4164,6 +4686,19 @@ to check if request was automatically approved.</li>
 <p>CreatePlanAssignmentRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/planAssignmentRequests (BODY: plan_assignment_request)</pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/planAssignmentRequests </pre>
+
+</div>
+
 
 </div>
 
@@ -4179,6 +4714,19 @@ to check if request was automatically approved.</li>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{plan_assignment_request.name=projects/*/planAssignmentRequests/*} (BODY: plan_assignment_request)</pre>
+
+<pre>PUT /v1alpha2/{plan_assignment_request.name=organizations/*/planAssignmentRequests/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4192,6 +4740,19 @@ to check if request was automatically approved.</li>
 <p>DeletePlanAssignmentRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/planAssignmentRequests/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/planAssignmentRequests/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -4207,6 +4768,19 @@ to check if request was automatically approved.</li>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/planAssignmentRequests/*}:accept </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/planAssignmentRequests/*}:accept </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4220,6 +4794,19 @@ to check if request was automatically approved.</li>
 <p>DeclinePlanAssignment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/planAssignmentRequests/*}:decline </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/planAssignmentRequests/*}:decline </pre>
+
+</div>
+
 
 </div>
 

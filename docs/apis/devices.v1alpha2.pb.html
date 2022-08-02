@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Devices (ntt.devices.v1alpha2 - v1alpha2)</h1>
 
@@ -155,6 +166,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{register_listener.device=projects/*/regions/*/devices/*}:listenForConnections </pre>
+
+</div>
+
+
 </div>
 
 
@@ -168,6 +190,17 @@ table.fields tbody tr td.none {
 <p>OpenConnectionChannelSocket</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{register_socket.device=projects/*/regions/*/devices/*}:openConnectionChannelSocket </pre>
+
+</div>
+
 
 </div>
 
@@ -183,6 +216,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{open_request.device=projects/*/regions/*/devices/*}:connectToDevice </pre>
+
+</div>
+
+
 </div>
 
 
@@ -196,6 +240,17 @@ table.fields tbody tr td.none {
 <p>GetDevice</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/devices/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -211,6 +266,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/devices:batchGet </pre>
+
+</div>
+
+
 </div>
 
 
@@ -224,6 +290,17 @@ table.fields tbody tr td.none {
 <p>ListDevices</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/devices </pre>
+
+</div>
+
 
 </div>
 
@@ -239,6 +316,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/devices/*}:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -252,6 +340,17 @@ table.fields tbody tr td.none {
 <p>WatchDevices</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/devices:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -267,6 +366,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/devices (BODY: device)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -280,6 +390,17 @@ table.fields tbody tr td.none {
 <p>UpdateDevice</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{device.name=projects/*/regions/*/devices/*} (BODY: device)</pre>
+
+</div>
+
 
 </div>
 
@@ -295,6 +416,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/devices/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -308,6 +440,17 @@ table.fields tbody tr td.none {
 <p>ProvisionServiceAccountToDevice</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/devices/*}:provisionServiceAccountToDevice </pre>
+
+</div>
+
 
 </div>
 
@@ -323,6 +466,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/devices/*}:removeServiceAccountFromDevice </pre>
+
+</div>
+
+
 </div>
 
 
@@ -336,6 +490,17 @@ table.fields tbody tr td.none {
 <p>ListPublicDevices</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/devices:listPublicDevices </pre>
+
+</div>
+
 
 </div>
 
@@ -3822,6 +3987,17 @@ Additional fields can be amended by request field field_mask</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3835,6 +4011,17 @@ Additional fields can be amended by request field field_mask</p>
 <p>BatchGetProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -3850,6 +4037,17 @@ Additional fields can be amended by request field field_mask</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3863,6 +4061,17 @@ Additional fields can be amended by request field field_mask</p>
 <p>WatchProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -3878,6 +4087,17 @@ Additional fields can be amended by request field field_mask</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3891,6 +4111,17 @@ Additional fields can be amended by request field field_mask</p>
 <p>CreateProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects (BODY: project)</pre>
+
+</div>
+
 
 </div>
 
@@ -3906,6 +4137,17 @@ Additional fields can be amended by request field field_mask</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{project.name=projects/*} (BODY: project)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -3919,6 +4161,17 @@ Additional fields can be amended by request field field_mask</p>
 <p>DeleteProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -4570,6 +4823,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4583,6 +4847,17 @@ compare.</p>
 <p>BatchGetProvisioningApprovalRequests</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/provisioningApprovalRequests:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -4598,6 +4873,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4611,6 +4897,17 @@ compare.</p>
 <p>WatchProvisioningApprovalRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -4626,6 +4923,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4639,6 +4947,17 @@ compare.</p>
 <p>CreateProvisioningApprovalRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests (BODY: provisioning_approval_request)</pre>
+
+</div>
+
 
 </div>
 
@@ -4654,6 +4973,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{provisioning_approval_request.name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*} (BODY: provisioning_approval_request)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -4668,6 +4998,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4681,6 +5022,17 @@ compare.</p>
 <p>ProvisionDeviceForApprovedRequest</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}:provisionDeviceForApprovedRequest </pre>
+
+</div>
+
 
 </div>
 
@@ -5480,6 +5832,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5493,6 +5856,17 @@ compare.</p>
 <p>BatchGetProvisioningPolicies</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/provisioningPolicies:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -5508,6 +5882,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/provisioningPolicies </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5521,6 +5906,17 @@ compare.</p>
 <p>WatchProvisioningPolicy</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -5536,6 +5932,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/provisioningPolicies:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5549,6 +5956,17 @@ compare.</p>
 <p>CreateProvisioningPolicy</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/provisioningPolicies (BODY: provisioning_policy)</pre>
+
+</div>
+
 
 </div>
 
@@ -5564,6 +5982,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{provisioning_policy.name=projects/*/regions/*/provisioningPolicies/*} (BODY: provisioning_policy)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -5577,6 +6006,17 @@ compare.</p>
 <p>DeleteProvisioningPolicy</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -5592,6 +6032,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*}:provisionServiceAccountToProvisioningPolicy </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5605,6 +6056,17 @@ compare.</p>
 <p>RemoveServiceAccountFromProvisioningPolicy</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*}:removeServiceAccountFromProvisioningPolicy </pre>
+
+</div>
+
 
 </div>
 
@@ -5620,6 +6082,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*}:provisionDeviceViaPolicy </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5633,6 +6106,17 @@ compare.</p>
 <p>RequestProvisioningApproval</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*}:requestProvisioningApproval </pre>
+
+</div>
+
 
 </div>
 

@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Meta (ntt.meta.v1alpha2 - v1alpha2)</h1>
 
@@ -136,6 +147,17 @@ Service.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=regions/*/deployments/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -149,6 +171,17 @@ Service.</p>
 <p>BatchGetDeployments</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/deployments:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -164,6 +197,17 @@ Service.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=regions/*}/deployments </pre>
+
+</div>
+
+
 </div>
 
 
@@ -177,6 +221,17 @@ Service.</p>
 <p>WatchDeployment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=regions/*/deployments/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -192,6 +247,17 @@ Service.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=regions/*}/deployments:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -205,6 +271,17 @@ Service.</p>
 <p>CreateDeployment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=regions/*}/deployments (BODY: deployment)</pre>
+
+</div>
+
 
 </div>
 
@@ -220,6 +297,17 @@ Service.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{deployment.name=regions/*/deployments/*} (BODY: deployment)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -233,6 +321,17 @@ Service.</p>
 <p>DeleteDeployment</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=regions/*/deployments/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -932,6 +1031,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=regions/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -945,6 +1055,17 @@ compare.</p>
 <p>BatchGetRegions</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/regions:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -960,6 +1081,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/regions </pre>
+
+</div>
+
+
 </div>
 
 
@@ -973,6 +1105,17 @@ compare.</p>
 <p>WatchRegion</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=regions/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -988,6 +1131,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/regions:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1001,6 +1155,17 @@ compare.</p>
 <p>CreateRegion</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/regions (BODY: region)</pre>
+
+</div>
+
 
 </div>
 
@@ -1016,6 +1181,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{region.name=regions/*} (BODY: region)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1029,6 +1205,17 @@ compare.</p>
 <p>DeleteRegion</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=regions/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -1758,6 +1945,17 @@ It can also be derived from name too.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=services/*/resources/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1771,6 +1969,17 @@ It can also be derived from name too.</p>
 <p>BatchGetResources</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/resources:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1786,6 +1995,17 @@ It can also be derived from name too.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=services/*}/resources </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1799,6 +2019,17 @@ It can also be derived from name too.</p>
 <p>WatchResource</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=services/*/resources/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1814,6 +2045,17 @@ It can also be derived from name too.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=services/*}/resources:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1827,6 +2069,17 @@ It can also be derived from name too.</p>
 <p>CreateResource</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=services/*}/resources (BODY: resource)</pre>
+
+</div>
+
 
 </div>
 
@@ -1842,6 +2095,17 @@ It can also be derived from name too.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{resource.name=services/*/resources/*} (BODY: resource)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1855,6 +2119,17 @@ It can also be derived from name too.</p>
 <p>DeleteResource</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=services/*/resources/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -2535,6 +2810,17 @@ services/devices.edgelq.com</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=services/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2548,6 +2834,17 @@ services/devices.edgelq.com</p>
 <p>BatchGetServices</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/services:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -2563,6 +2860,17 @@ services/devices.edgelq.com</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/services </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2576,6 +2884,17 @@ services/devices.edgelq.com</p>
 <p>WatchService</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=services/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -2591,6 +2910,17 @@ services/devices.edgelq.com</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/services:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2604,6 +2934,17 @@ services/devices.edgelq.com</p>
 <p>CreateService</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/services (BODY: service)</pre>
+
+</div>
+
 
 </div>
 
@@ -2619,6 +2960,17 @@ services/devices.edgelq.com</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{service.name=services/*} (BODY: service)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -2632,6 +2984,17 @@ services/devices.edgelq.com</p>
 <p>DeleteService</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=services/*} </pre>
+
+</div>
+
 
 </div>
 

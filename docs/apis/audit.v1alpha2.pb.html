@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Audit (ntt.audit.v1alpha2 - v1alpha2)</h1>
 
@@ -236,6 +247,17 @@ granted or denied for associated request</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/activityLogs </pre>
+
+</div>
+
+
 </div>
 
 
@@ -249,6 +271,17 @@ granted or denied for associated request</p>
 <p>CreateActivityLogs</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/activityLogs (BODY: activity_logs)</pre>
+
+</div>
+
 
 </div>
 
@@ -1120,6 +1153,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=auditedResourceDescriptors/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1133,6 +1177,17 @@ underlying backend enabling query optimizations.</p>
 <p>BatchGetAuditedResourceDescriptors</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/auditedResourceDescriptors:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1148,6 +1203,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/auditedResourceDescriptors </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1161,6 +1227,17 @@ underlying backend enabling query optimizations.</p>
 <p>WatchAuditedResourceDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=auditedResourceDescriptors/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1176,6 +1253,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/auditedResourceDescriptors:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1190,6 +1278,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/auditedResourceDescriptors (BODY: audited_resource_descriptor)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1203,6 +1302,17 @@ underlying backend enabling query optimizations.</p>
 <p>UpdateAuditedResourceDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{audited_resource_descriptor.name=auditedResourceDescriptors/*} (BODY: audited_resource_descriptor)</pre>
+
+</div>
+
 
 </div>
 
@@ -1871,6 +1981,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=methodDescriptors/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1884,6 +2005,17 @@ underlying backend enabling query optimizations.</p>
 <p>BatchGetMethodDescriptors</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/methodDescriptors:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1899,6 +2031,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/methodDescriptors </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1912,6 +2055,17 @@ underlying backend enabling query optimizations.</p>
 <p>WatchMethodDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=methodDescriptors/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1927,6 +2081,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/methodDescriptors:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1941,6 +2106,17 @@ underlying backend enabling query optimizations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/methodDescriptors (BODY: method_descriptor)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1954,6 +2130,17 @@ underlying backend enabling query optimizations.</p>
 <p>UpdateMethodDescriptor</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{method_descriptor.name=methodDescriptors/*} (BODY: method_descriptor)</pre>
+
+</div>
+
 
 </div>
 
@@ -2648,6 +2835,17 @@ in the associated activity log.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/resourceChangeLogs </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2662,6 +2860,17 @@ in the associated activity log.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/resourceChangeLogs </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2675,6 +2884,17 @@ in the associated activity log.</p>
 <p>SetResourceChangeLogsCommitState</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/resourceChangeLogs </pre>
+
+</div>
+
 
 </div>
 

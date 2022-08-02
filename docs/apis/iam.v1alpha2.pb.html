@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: IAM (ntt.iam.v1alpha2 - v1alpha2)</h1>
 
@@ -187,6 +198,17 @@ enrollment_list.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/attestationDomains/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -200,6 +222,17 @@ enrollment_list.</p>
 <p>BatchGetAttestationDomains</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/attestationDomains:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -215,6 +248,17 @@ enrollment_list.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*}/attestationDomains </pre>
+
+</div>
+
+
 </div>
 
 
@@ -228,6 +272,17 @@ enrollment_list.</p>
 <p>WatchAttestationDomain</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/attestationDomains/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -243,6 +298,17 @@ enrollment_list.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/attestationDomains:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -256,6 +322,17 @@ enrollment_list.</p>
 <p>CreateAttestationDomain</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/attestationDomains (BODY: attestation_domain)</pre>
+
+</div>
+
 
 </div>
 
@@ -271,6 +348,17 @@ enrollment_list.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{attestation_domain.name=projects/*/attestationDomains/*} (BODY: attestation_domain)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -285,6 +373,17 @@ enrollment_list.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/attestationDomains/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -298,6 +397,17 @@ enrollment_list.</p>
 <p>Verify</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{ask_for_challenge.attestation_domain=projects/*/attestationDomains/*}:verify </pre>
+
+</div>
+
 
 </div>
 
@@ -1424,6 +1534,21 @@ must correspond to declarations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=conditions/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/conditions/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/conditions/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1437,6 +1562,17 @@ must correspond to declarations.</p>
 <p>BatchGetConditions</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/conditions:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1452,6 +1588,21 @@ must correspond to declarations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/conditions </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*}/conditions </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/conditions </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1465,6 +1616,21 @@ must correspond to declarations.</p>
 <p>WatchCondition</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=conditions/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/conditions/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/conditions/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1480,6 +1646,21 @@ must correspond to declarations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/conditions:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/conditions:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/conditions:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1493,6 +1674,21 @@ must correspond to declarations.</p>
 <p>CreateCondition</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/conditions (BODY: condition)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/conditions </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/conditions </pre>
+
+</div>
+
 
 </div>
 
@@ -1508,6 +1704,21 @@ must correspond to declarations.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{condition.name=conditions/*} (BODY: condition)</pre>
+
+<pre>PUT /v1alpha2/{condition.name=projects/*/conditions/*} </pre>
+
+<pre>PUT /v1alpha2/{condition.name=organizations/*/conditions/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1521,6 +1732,21 @@ must correspond to declarations.</p>
 <p>DeleteCondition</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=conditions/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/conditions/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/conditions/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -2289,6 +2515,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=groups/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/groups/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/groups/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2302,6 +2543,17 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 <p>BatchGetGroups</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/groups:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -2317,6 +2569,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/groups </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*}/groups </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/groups </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2330,6 +2597,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 <p>WatchGroup</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=groups/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/groups/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/groups/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -2345,6 +2627,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/groups:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/groups:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/groups:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2358,6 +2655,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 <p>CreateGroup</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/groups (BODY: group)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/groups </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/groups </pre>
+
+</div>
+
 
 </div>
 
@@ -2373,6 +2685,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{group.name=groups/*} (BODY: group)</pre>
+
+<pre>PUT /v1alpha2/{group.name=projects/*/groups/*} </pre>
+
+<pre>PUT /v1alpha2/{group.name=organizations/*/groups/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -2386,6 +2713,21 @@ through via [email][ntt.iam.v1alpha2.Group.email] in
 <p>DeleteGroup</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=groups/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/groups/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/groups/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -3081,6 +3423,21 @@ it.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=groups/*/groupMembers/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/groups/*/groupMembers/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/groups/*/groupMembers/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3094,6 +3451,17 @@ it.</p>
 <p>BatchGetGroupMembers</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/groupMembers:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -3109,6 +3477,21 @@ it.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=groups/*}/groupMembers </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*/groups/*}/groupMembers </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*/groups/*}/groupMembers </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3122,6 +3505,21 @@ it.</p>
 <p>WatchGroupMember</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=groups/*/groupMembers/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/groups/*/groupMembers/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/groups/*/groupMembers/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -3137,6 +3535,21 @@ it.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=groups/*}/groupMembers:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*/groups/*}/groupMembers:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*/groups/*}/groupMembers:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3150,6 +3563,21 @@ it.</p>
 <p>CreateGroupMember</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=groups/*}/groupMembers (BODY: group_member)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*/groups/*}/groupMembers </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*/groups/*}/groupMembers </pre>
+
+</div>
+
 
 </div>
 
@@ -3165,6 +3593,21 @@ it.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{group_member.name=groups/*/groupMembers/*} (BODY: group_member)</pre>
+
+<pre>PUT /v1alpha2/{group_member.name=projects/*/groups/*/groupMembers/*} </pre>
+
+<pre>PUT /v1alpha2/{group_member.name=organizations/*/groups/*/groupMembers/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3178,6 +3621,21 @@ it.</p>
 <p>DeleteGroupMember</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=groups/*/groupMembers/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/groups/*/groupMembers/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/groups/*/groupMembers/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -3882,6 +4340,17 @@ descendants.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=organizations/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3895,6 +4364,17 @@ descendants.</p>
 <p>BatchGetOrganizations</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/organizations:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -3910,6 +4390,17 @@ descendants.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/organizations </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3923,6 +4414,17 @@ descendants.</p>
 <p>WatchOrganization</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=organizations/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -3938,6 +4440,17 @@ descendants.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/organizations:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3951,6 +4464,17 @@ descendants.</p>
 <p>CreateOrganization</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/organizations (BODY: organization)</pre>
+
+</div>
+
 
 </div>
 
@@ -3966,6 +4490,17 @@ descendants.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{organization.name=organizations/*} (BODY: organization)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -3980,6 +4515,17 @@ descendants.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=organizations/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3993,6 +4539,17 @@ descendants.</p>
 <p>ListMyOrganizations</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/organizations:listMy </pre>
+
+</div>
+
 
 </div>
 
@@ -4699,6 +5256,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=organizations/*/organizationInvitations/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4712,6 +5280,17 @@ will cause response items to contain all present fields.</p>
 <p>BatchGetOrganizationInvitations</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/organizationInvitations:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -4727,6 +5306,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=organizations/*}/organizationInvitations </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4740,6 +5330,17 @@ will cause response items to contain all present fields.</p>
 <p>WatchOrganizationInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=organizations/*/organizationInvitations/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -4755,6 +5356,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=organizations/*}/organizationInvitations:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4768,6 +5380,17 @@ will cause response items to contain all present fields.</p>
 <p>CreateOrganizationInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=organizations/*}/organizationInvitations (BODY: organization_invitation)</pre>
+
+</div>
+
 
 </div>
 
@@ -4783,6 +5406,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{organization_invitation.name=organizations/*/organizationInvitations/*} (BODY: organization_invitation)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -4796,6 +5430,17 @@ will cause response items to contain all present fields.</p>
 <p>DeleteOrganizationInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=organizations/*/organizationInvitations/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -4811,6 +5456,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=organizations/*/organizationInvitations/*}:accept </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4825,6 +5481,17 @@ will cause response items to contain all present fields.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=organizations/*/organizationInvitations/*}:decline </pre>
+
+</div>
+
+
 </div>
 
 
@@ -4838,6 +5505,17 @@ will cause response items to contain all present fields.</p>
 <p>ListMyOrganizationInvitations</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=organizations/*}/organizationInvitations:listMy </pre>
+
+</div>
+
 
 </div>
 
@@ -5649,6 +6327,17 @@ Example: liquid.site.create</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/permissions:check (BODY: *)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -5662,6 +6351,17 @@ Example: liquid.site.create</p>
 <p>CheckMyPermissions</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/permissions:checkMy (BODY: *)</pre>
+
+</div>
+
 
 </div>
 
@@ -5677,6 +6377,17 @@ Example: liquid.site.create</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=permissions/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5690,6 +6401,17 @@ Example: liquid.site.create</p>
 <p>BatchGetPermissions</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/permissions:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -5705,6 +6427,17 @@ Example: liquid.site.create</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/permissions </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5718,6 +6451,17 @@ Example: liquid.site.create</p>
 <p>WatchPermission</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=permissions/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -5733,6 +6477,17 @@ Example: liquid.site.create</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/permissions:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -5746,6 +6501,17 @@ Example: liquid.site.create</p>
 <p>CreatePermission</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/permissions (BODY: permission)</pre>
+
+</div>
+
 
 </div>
 
@@ -5761,6 +6527,17 @@ Example: liquid.site.create</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{permission.name=permissions/*} (BODY: permission)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -5774,6 +6551,17 @@ Example: liquid.site.create</p>
 <p>DeletePermission</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=permissions/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -6571,6 +7359,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -6584,6 +7383,17 @@ compare.</p>
 <p>BatchGetProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -6599,6 +7409,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects </pre>
+
+</div>
+
+
 </div>
 
 
@@ -6612,6 +7433,17 @@ compare.</p>
 <p>WatchProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -6627,6 +7459,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -6640,6 +7483,17 @@ compare.</p>
 <p>CreateProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects (BODY: project)</pre>
+
+</div>
+
 
 </div>
 
@@ -6655,6 +7509,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{project.name=projects/*} (BODY: project)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -6669,6 +7534,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -6682,6 +7558,17 @@ compare.</p>
 <p>ListMyProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects:listMy </pre>
+
+</div>
+
 
 </div>
 
@@ -7386,6 +8273,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/projectInvitations/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -7399,6 +8297,17 @@ yet permission to fetch related project.</p>
 <p>BatchGetProjectInvitations</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projectInvitations:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -7414,6 +8323,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*}/projectInvitations </pre>
+
+</div>
+
+
 </div>
 
 
@@ -7427,6 +8347,17 @@ yet permission to fetch related project.</p>
 <p>WatchProjectInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/projectInvitations/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -7442,6 +8373,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/projectInvitations:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -7455,6 +8397,17 @@ yet permission to fetch related project.</p>
 <p>CreateProjectInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/projectInvitations (BODY: project_invitation)</pre>
+
+</div>
+
 
 </div>
 
@@ -7470,6 +8423,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{project_invitation.name=projects/*/projectInvitations/*} (BODY: project_invitation)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -7483,6 +8447,17 @@ yet permission to fetch related project.</p>
 <p>DeleteProjectInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/projectInvitations/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -7498,6 +8473,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/projectInvitations/*}:accept </pre>
+
+</div>
+
+
 </div>
 
 
@@ -7511,6 +8497,17 @@ yet permission to fetch related project.</p>
 <p>DeclineProjectInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/projectInvitations/*}:decline </pre>
+
+</div>
+
 
 </div>
 
@@ -7526,6 +8523,17 @@ yet permission to fetch related project.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/projectInvitations:listMy </pre>
+
+</div>
+
+
 </div>
 
 
@@ -7539,6 +8547,17 @@ yet permission to fetch related project.</p>
 <p>ResendProjectInvitation</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/projectInvitations/*}:resend </pre>
+
+</div>
+
 
 </div>
 
@@ -8389,6 +9408,17 @@ Permissions.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=roles/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -8402,6 +9432,17 @@ Permissions.</p>
 <p>BatchGetRoles</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/roles:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -8417,6 +9458,17 @@ Permissions.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/roles </pre>
+
+</div>
+
+
 </div>
 
 
@@ -8430,6 +9482,17 @@ Permissions.</p>
 <p>WatchRole</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=roles/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -8445,6 +9508,17 @@ Permissions.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roles:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -8458,6 +9532,17 @@ Permissions.</p>
 <p>CreateRole</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roles (BODY: role)</pre>
+
+</div>
+
 
 </div>
 
@@ -8473,6 +9558,17 @@ Permissions.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{role.name=roles/*} (BODY: role)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -8486,6 +9582,17 @@ Permissions.</p>
 <p>DeleteRole</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=roles/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -9169,6 +10276,21 @@ Format of the string is one of:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=roleBindings/*} </pre>
+
+<pre>GET /v1alpha2/{name=projects/*/roleBindings/*} </pre>
+
+<pre>GET /v1alpha2/{name=organizations/*/roleBindings/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -9182,6 +10304,17 @@ Format of the string is one of:</p>
 <p>BatchGetRoleBindings</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/roleBindings:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -9197,6 +10330,21 @@ Format of the string is one of:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/roleBindings </pre>
+
+<pre>GET /v1alpha2/{parent=projects/*}/roleBindings </pre>
+
+<pre>GET /v1alpha2/{parent=organizations/*}/roleBindings </pre>
+
+</div>
+
+
 </div>
 
 
@@ -9210,6 +10358,21 @@ Format of the string is one of:</p>
 <p>WatchRoleBinding</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=roleBindings/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=projects/*/roleBindings/*}:watch </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/roleBindings/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -9225,6 +10388,21 @@ Format of the string is one of:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roleBindings:watch </pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/roleBindings:watch </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/roleBindings:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -9238,6 +10416,21 @@ Format of the string is one of:</p>
 <p>CreateRoleBinding</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roleBindings (BODY: role_binding)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/roleBindings </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/roleBindings </pre>
+
+</div>
+
 
 </div>
 
@@ -9253,6 +10446,21 @@ Format of the string is one of:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{role_binding.name=roleBindings/*} (BODY: role_binding)</pre>
+
+<pre>PUT /v1alpha2/{role_binding.name=projects/*/roleBindings/*} </pre>
+
+<pre>PUT /v1alpha2/{role_binding.name=organizations/*/roleBindings/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -9267,6 +10475,21 @@ Format of the string is one of:</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=roleBindings/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=projects/*/roleBindings/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/roleBindings/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -9280,6 +10503,21 @@ Format of the string is one of:</p>
 <p>SetupCreateOwnerRole</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roleBindings (BODY: role_binding)</pre>
+
+<pre>POST /v1alpha2/{parent=projects/*}/roleBindings </pre>
+
+<pre>POST /v1alpha2/{parent=organizations/*}/roleBindings </pre>
+
+</div>
+
 
 </div>
 
@@ -10027,6 +11265,17 @@ checks if create owner role binding already exists.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10040,6 +11289,17 @@ checks if create owner role binding already exists.</p>
 <p>BatchGetServiceAccounts</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/serviceAccounts:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -10055,6 +11315,17 @@ checks if create owner role binding already exists.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/serviceAccounts </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10068,6 +11339,17 @@ checks if create owner role binding already exists.</p>
 <p>WatchServiceAccount</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -10083,6 +11365,17 @@ checks if create owner role binding already exists.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/serviceAccounts:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10096,6 +11389,17 @@ checks if create owner role binding already exists.</p>
 <p>CreateServiceAccount</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/serviceAccounts (BODY: service_account)</pre>
+
+</div>
+
 
 </div>
 
@@ -10111,6 +11415,17 @@ checks if create owner role binding already exists.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{service_account.name=projects/*/regions/*/serviceAccounts/*} (BODY: service_account)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -10124,6 +11439,17 @@ checks if create owner role binding already exists.</p>
 <p>DeleteServiceAccount</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -10833,6 +12159,17 @@ server.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*/serviceAccountKeys/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10846,6 +12183,17 @@ server.</p>
 <p>BatchGetServiceAccountKeys</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/serviceAccountKeys:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -10861,6 +12209,17 @@ server.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*/serviceAccounts/*}/serviceAccountKeys </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10874,6 +12233,17 @@ server.</p>
 <p>WatchServiceAccountKey</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*/serviceAccountKeys/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -10889,6 +12259,17 @@ server.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*/serviceAccounts/*}/serviceAccountKeys:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -10902,6 +12283,17 @@ server.</p>
 <p>CreateServiceAccountKey</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*/serviceAccounts/*}/serviceAccountKeys (BODY: service_account_key)</pre>
+
+</div>
+
 
 </div>
 
@@ -10917,6 +12309,17 @@ server.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{service_account_key.name=projects/*/regions/*/serviceAccounts/*/serviceAccountKeys/*} (BODY: service_account_key)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -10930,6 +12333,17 @@ server.</p>
 <p>DeleteServiceAccountKey</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/serviceAccounts/*/serviceAccountKeys/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -11676,6 +13090,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=users/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11689,6 +13114,17 @@ compare.</p>
 <p>BatchGetUsers</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/users:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -11704,6 +13140,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/users </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11717,6 +13164,17 @@ compare.</p>
 <p>WatchUser</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=users/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -11732,6 +13190,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11745,6 +13214,17 @@ compare.</p>
 <p>CreateUser</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users (BODY: user)</pre>
+
+</div>
+
 
 </div>
 
@@ -11760,6 +13240,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{user.name=users/*} (BODY: user)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -11773,6 +13264,17 @@ compare.</p>
 <p>DeleteUser</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=users/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -11788,6 +13290,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2:getByEmail </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11801,6 +13314,17 @@ compare.</p>
 <p>BatchGetUsersByEmail</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:batchGetByEmail </pre>
+
+</div>
+
 
 </div>
 
@@ -11816,6 +13340,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:getMySettings </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11830,6 +13365,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:setMySettings </pre>
+
+</div>
+
+
 </div>
 
 
@@ -11843,6 +13389,17 @@ compare.</p>
 <p>RefreshUserFromIdToken</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:refreshUserFromIdToken </pre>
+
+</div>
+
 
 </div>
 

@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Proxies (ntt.proxies.v1alpha2 - v1alpha2)</h1>
 
@@ -129,6 +140,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2:connect </pre>
+
+</div>
+
+
 </div>
 
 
@@ -142,6 +164,17 @@ table.fields tbody tr td.none {
 <p>Listen</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2:listen </pre>
+
+</div>
+
 
 </div>
 
@@ -157,6 +190,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2:accept </pre>
+
+</div>
+
+
 </div>
 
 
@@ -170,6 +214,17 @@ table.fields tbody tr td.none {
 <p>GetProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -185,6 +240,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects:batchGet </pre>
+
+</div>
+
+
 </div>
 
 
@@ -198,6 +264,17 @@ table.fields tbody tr td.none {
 <p>ListProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects </pre>
+
+</div>
+
 
 </div>
 
@@ -213,6 +290,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*}:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -226,6 +314,17 @@ table.fields tbody tr td.none {
 <p>WatchProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -241,6 +340,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects (BODY: project)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -255,6 +365,17 @@ table.fields tbody tr td.none {
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{project.name=projects/*} (BODY: project)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -268,6 +389,17 @@ table.fields tbody tr td.none {
 <p>DeleteProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
 
 </div>
 

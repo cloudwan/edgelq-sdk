@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: Applications (ntt.applications.v1alpha2 - v1alpha2)</h1>
 
@@ -160,6 +171,17 @@ kubelet.
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/configMaps/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -173,6 +195,17 @@ kubelet.
 <p>BatchGetConfigMaps</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/configMaps:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -188,6 +221,17 @@ kubelet.
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/configMaps </pre>
+
+</div>
+
+
 </div>
 
 
@@ -201,6 +245,17 @@ kubelet.
 <p>WatchConfigMap</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/configMaps/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -216,6 +271,17 @@ kubelet.
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/configMaps:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -229,6 +295,17 @@ kubelet.
 <p>CreateConfigMap</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/configMaps (BODY: config_map)</pre>
+
+</div>
+
 
 </div>
 
@@ -244,6 +321,17 @@ kubelet.
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{config_map.name=projects/*/regions/*/configMaps/*} (BODY: config_map)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -257,6 +345,17 @@ kubelet.
 <p>DeleteConfigMap</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/configMaps/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -940,6 +1039,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/distributions/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -953,6 +1063,17 @@ compare.</p>
 <p>BatchGetDistributions</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/distributions:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -968,6 +1089,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*}/distributions </pre>
+
+</div>
+
+
 </div>
 
 
@@ -981,6 +1113,17 @@ compare.</p>
 <p>WatchDistribution</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/distributions/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -996,6 +1139,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/distributions:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1009,6 +1163,17 @@ compare.</p>
 <p>CreateDistribution</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*}/distributions (BODY: distribution)</pre>
+
+</div>
+
 
 </div>
 
@@ -1024,6 +1189,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{distribution.name=projects/*/distributions/*} (BODY: distribution)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1037,6 +1213,17 @@ compare.</p>
 <p>DeleteDistribution</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/distributions/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -1783,6 +1970,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*/regions/*/pods/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1796,6 +1994,17 @@ compare.</p>
 <p>BatchGetPods</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/pods:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -1811,6 +2020,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{parent=projects/*/regions/*}/pods </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1824,6 +2044,17 @@ compare.</p>
 <p>WatchPod</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/regions/*/pods/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -1839,6 +2070,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/pods:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -1852,6 +2094,17 @@ compare.</p>
 <p>CreatePod</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{parent=projects/*/regions/*}/pods (BODY: pod)</pre>
+
+</div>
+
 
 </div>
 
@@ -1867,6 +2120,17 @@ compare.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{pod.name=projects/*/regions/*/pods/*} (BODY: pod)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -1880,6 +2144,17 @@ compare.</p>
 <p>DeletePod</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/regions/*/pods/*} </pre>
+
+</div>
+
 
 </div>
 
@@ -3054,6 +3329,17 @@ of the container are not running.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3067,6 +3353,17 @@ of the container are not running.</p>
 <p>BatchGetProjects</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -3082,6 +3379,17 @@ of the container are not running.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/projects </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3095,6 +3403,17 @@ of the container are not running.</p>
 <p>WatchProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -3110,6 +3429,17 @@ of the container are not running.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -3123,6 +3453,17 @@ of the container are not running.</p>
 <p>CreateProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/projects (BODY: project)</pre>
+
+</div>
+
 
 </div>
 
@@ -3138,6 +3479,17 @@ of the container are not running.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{project.name=projects/*} (BODY: project)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -3151,6 +3503,17 @@ of the container are not running.</p>
 <p>DeleteProject</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*} </pre>
+
+</div>
+
 
 </div>
 

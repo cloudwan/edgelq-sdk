@@ -33,6 +33,15 @@ div.operation .signature {
 div.operation .description {
   padding: 0.2em;
 }
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
 table th,
 table td {
   padding: 0.2em;
@@ -66,6 +75,8 @@ table.fields tbody tr td.none {
 }
 </style>
 </head>
+
+
 <body>
 <h1>Service: LimitsMixin (ntt.limits.mixin.v1alpha2 - v1alpha2)</h1>
 
@@ -179,6 +190,17 @@ final region.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*} </pre>
+
+</div>
+
+
 </div>
 
 
@@ -192,6 +214,17 @@ final region.</p>
 <p>BatchGetLocalLimitTrackers</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/localLimitTrackers:batchGet </pre>
+
+</div>
+
 
 </div>
 
@@ -207,6 +240,17 @@ final region.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers </pre>
+
+</div>
+
+
 </div>
 
 
@@ -220,6 +264,17 @@ final region.</p>
 <p>WatchLocalLimitTracker</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*}:watch </pre>
+
+</div>
+
 
 </div>
 
@@ -235,6 +290,17 @@ final region.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers:watch </pre>
+
+</div>
+
+
 </div>
 
 
@@ -248,6 +314,17 @@ final region.</p>
 <p>CreateLocalLimitTracker</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers (BODY: local_limit_tracker)</pre>
+
+</div>
+
 
 </div>
 
@@ -263,6 +340,17 @@ final region.</p>
 
 </div>
 
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /limits-mixin/v1alpha2/{local_limit_tracker.name=regions/*/localLimitTrackers/*} (BODY: local_limit_tracker)</pre>
+
+</div>
+
+
 </div>
 
 
@@ -276,6 +364,17 @@ final region.</p>
 <p>DeleteLocalLimitTracker</p>
 
 </div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*} </pre>
+
+</div>
+
 
 </div>
 
