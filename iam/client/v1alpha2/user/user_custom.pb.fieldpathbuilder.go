@@ -1091,3 +1091,9 @@ type RefreshUserFromIdTokenResponseFieldPathBuilder struct{}
 func NewRefreshUserFromIdTokenResponseFieldPathBuilder() RefreshUserFromIdTokenResponseFieldPathBuilder {
 	return RefreshUserFromIdTokenResponseFieldPathBuilder{}
 }
+
+type ResendVerificationEmailRequestFieldPathBuilder struct{}
+
+func NewResendVerificationEmailRequestFieldPathBuilder() ResendVerificationEmailRequestFieldPathBuilder {
+	return ResendVerificationEmailRequestFieldPathBuilder{}
+}

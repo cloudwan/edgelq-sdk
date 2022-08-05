@@ -377,4 +377,12 @@ service UserService {
       post : "/v1alpha2/users:refreshUserFromIdToken"
     };
   }
+
+  // ResendVerificationEmail
+  rpc ResendVerificationEmail(ResendVerificationEmailRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1alpha2/users:resendVerificationEmail"
+    };
+  }
 }

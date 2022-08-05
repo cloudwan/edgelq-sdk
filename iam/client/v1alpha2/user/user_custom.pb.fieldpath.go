@@ -3886,3 +3886,330 @@ func (fpaov *RefreshUserFromIdTokenResponse_FieldTerminalPathArrayOfValues) GetR
 	}
 	return
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ResendVerificationEmailRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ResendVerificationEmailRequest_FieldPathSelector
+	Get(source *ResendVerificationEmailRequest) []interface{}
+	GetSingle(source *ResendVerificationEmailRequest) (interface{}, bool)
+	ClearValue(item *ResendVerificationEmailRequest)
+
+	// Those methods build corresponding ResendVerificationEmailRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ResendVerificationEmailRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) ResendVerificationEmailRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ResendVerificationEmailRequest_FieldPathArrayItemValue
+}
+
+type ResendVerificationEmailRequest_FieldPathSelector int32
+
+func (s ResendVerificationEmailRequest_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", s))
+	}
+}
+
+func BuildResendVerificationEmailRequest_FieldPath(fp gotenobject.RawFieldPath) (ResendVerificationEmailRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ResendVerificationEmailRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ResendVerificationEmailRequest", fp)
+}
+
+func ParseResendVerificationEmailRequest_FieldPath(rawField string) (ResendVerificationEmailRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildResendVerificationEmailRequest_FieldPath(fp)
+}
+
+func MustParseResendVerificationEmailRequest_FieldPath(rawField string) ResendVerificationEmailRequest_FieldPath {
+	fp, err := ParseResendVerificationEmailRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ResendVerificationEmailRequest_FieldTerminalPath struct {
+	selector ResendVerificationEmailRequest_FieldPathSelector
+}
+
+var _ ResendVerificationEmailRequest_FieldPath = (*ResendVerificationEmailRequest_FieldTerminalPath)(nil)
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) Selector() ResendVerificationEmailRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ResendVerificationEmailRequest
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) Get(source *ResendVerificationEmailRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ResendVerificationEmailRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source ResendVerificationEmailRequest
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) GetSingle(source *ResendVerificationEmailRequest) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ResendVerificationEmailRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) ClearValue(item *ResendVerificationEmailRequest) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ResendVerificationEmailRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithIValue(value interface{}) ResendVerificationEmailRequest_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ResendVerificationEmailRequest_FieldPathArrayOfValues {
+	fpaov := &ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues{ResendVerificationEmailRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) ResendVerificationEmailRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResendVerificationEmailRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ResendVerificationEmailRequest_FieldPathValue allows storing values for ResendVerificationEmailRequest fields according to their type
+type ResendVerificationEmailRequest_FieldPathValue interface {
+	ResendVerificationEmailRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ResendVerificationEmailRequest)
+	CompareWith(*ResendVerificationEmailRequest) (cmp int, comparable bool)
+}
+
+func ParseResendVerificationEmailRequest_FieldPathValue(pathStr, valueStr string) (ResendVerificationEmailRequest_FieldPathValue, error) {
+	fp, err := ParseResendVerificationEmailRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendVerificationEmailRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ResendVerificationEmailRequest_FieldPathValue), nil
+}
+
+func MustParseResendVerificationEmailRequest_FieldPathValue(pathStr, valueStr string) ResendVerificationEmailRequest_FieldPathValue {
+	fpv, err := ParseResendVerificationEmailRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ResendVerificationEmailRequest_FieldTerminalPathValue struct {
+	ResendVerificationEmailRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendVerificationEmailRequest_FieldPathValue = (*ResendVerificationEmailRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ResendVerificationEmailRequest' as interface{}
+func (fpv *ResendVerificationEmailRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object ResendVerificationEmailRequest
+func (fpv *ResendVerificationEmailRequest_FieldTerminalPathValue) SetTo(target **ResendVerificationEmailRequest) {
+	if *target == nil {
+		*target = new(ResendVerificationEmailRequest)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendVerificationEmailRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResendVerificationEmailRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ResendVerificationEmailRequest_FieldTerminalPathValue' with the value under path in 'ResendVerificationEmailRequest'.
+func (fpv *ResendVerificationEmailRequest_FieldTerminalPathValue) CompareWith(source *ResendVerificationEmailRequest) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResendVerificationEmailRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResendVerificationEmailRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ResendVerificationEmailRequest))
+}
+
+// ResendVerificationEmailRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for ResendVerificationEmailRequest according to their type
+// Present only for array (repeated) types.
+type ResendVerificationEmailRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ResendVerificationEmailRequest_FieldPath
+	ContainsValue(*ResendVerificationEmailRequest) bool
+}
+
+// ParseResendVerificationEmailRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseResendVerificationEmailRequest_FieldPathArrayItemValue(pathStr, valueStr string) (ResendVerificationEmailRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseResendVerificationEmailRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendVerificationEmailRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ResendVerificationEmailRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseResendVerificationEmailRequest_FieldPathArrayItemValue(pathStr, valueStr string) ResendVerificationEmailRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseResendVerificationEmailRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue struct {
+	ResendVerificationEmailRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResendVerificationEmailRequest_FieldPathArrayItemValue = (*ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ResendVerificationEmailRequest as interface{}
+func (fpaiv *ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue) GetSingle(source *ResendVerificationEmailRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ResendVerificationEmailRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ResendVerificationEmailRequest'
+func (fpaiv *ResendVerificationEmailRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ResendVerificationEmailRequest) bool {
+	slice := fpaiv.ResendVerificationEmailRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ResendVerificationEmailRequest_FieldPathArrayOfValues allows storing slice of values for ResendVerificationEmailRequest fields according to their type
+type ResendVerificationEmailRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ResendVerificationEmailRequest_FieldPath
+}
+
+func ParseResendVerificationEmailRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (ResendVerificationEmailRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseResendVerificationEmailRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResendVerificationEmailRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ResendVerificationEmailRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseResendVerificationEmailRequest_FieldPathArrayOfValues(pathStr, valuesStr string) ResendVerificationEmailRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseResendVerificationEmailRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues struct {
+	ResendVerificationEmailRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ ResendVerificationEmailRequest_FieldPathArrayOfValues = (*ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
+}

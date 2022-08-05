@@ -629,3 +629,48 @@ func (o *RefreshUserFromIdTokenResponse) Merge(source *RefreshUserFromIdTokenRes
 func (o *RefreshUserFromIdTokenResponse) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*RefreshUserFromIdTokenResponse))
 }
+
+func (o *ResendVerificationEmailRequest) GotenObjectExt() {}
+
+func (o *ResendVerificationEmailRequest) MakeFullFieldMask() *ResendVerificationEmailRequest_FieldMask {
+	return FullResendVerificationEmailRequest_FieldMask()
+}
+
+func (o *ResendVerificationEmailRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullResendVerificationEmailRequest_FieldMask()
+}
+
+func (o *ResendVerificationEmailRequest) MakeDiffFieldMask(other *ResendVerificationEmailRequest) *ResendVerificationEmailRequest_FieldMask {
+	if o == nil && other == nil {
+		return &ResendVerificationEmailRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullResendVerificationEmailRequest_FieldMask()
+	}
+
+	res := &ResendVerificationEmailRequest_FieldMask{}
+	return res
+}
+
+func (o *ResendVerificationEmailRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ResendVerificationEmailRequest))
+}
+
+func (o *ResendVerificationEmailRequest) Clone() *ResendVerificationEmailRequest {
+	if o == nil {
+		return nil
+	}
+	result := &ResendVerificationEmailRequest{}
+	return result
+}
+
+func (o *ResendVerificationEmailRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ResendVerificationEmailRequest) Merge(source *ResendVerificationEmailRequest) {
+}
+
+func (o *ResendVerificationEmailRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ResendVerificationEmailRequest))
+}

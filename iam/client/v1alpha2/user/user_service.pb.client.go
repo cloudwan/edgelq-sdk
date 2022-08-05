@@ -62,6 +62,7 @@ type UserServiceClient interface {
 	GetMySettings(ctx context.Context, in *GetMySettingsRequest, opts ...grpc.CallOption) (*GetMySettingsResponse, error)
 	SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFromIdTokenRequest, opts ...grpc.CallOption) (*RefreshUserFromIdTokenResponse, error)
+	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -239,6 +240,15 @@ func (c *client) SetMySettings(ctx context.Context, in *SetMySettingsRequest, op
 func (c *client) RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFromIdTokenRequest, opts ...grpc.CallOption) (*RefreshUserFromIdTokenResponse, error) {
 	out := new(RefreshUserFromIdTokenResponse)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/RefreshUserFromIdToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResendVerificationEmail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

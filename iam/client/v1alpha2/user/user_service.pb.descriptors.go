@@ -31,21 +31,22 @@ var (
 )
 
 var (
-	descriptorsInitialized           bool
-	userServiceDescriptor            *UserServiceDescriptor
-	getUserDescriptor                *GetUserDescriptor
-	batchGetUsersDescriptor          *BatchGetUsersDescriptor
-	listUsersDescriptor              *ListUsersDescriptor
-	watchUserDescriptor              *WatchUserDescriptor
-	watchUsersDescriptor             *WatchUsersDescriptor
-	createUserDescriptor             *CreateUserDescriptor
-	updateUserDescriptor             *UpdateUserDescriptor
-	deleteUserDescriptor             *DeleteUserDescriptor
-	getUserByEmailDescriptor         *GetUserByEmailDescriptor
-	batchGetUsersByEmailDescriptor   *BatchGetUsersByEmailDescriptor
-	getMySettingsDescriptor          *GetMySettingsDescriptor
-	setMySettingsDescriptor          *SetMySettingsDescriptor
-	refreshUserFromIdTokenDescriptor *RefreshUserFromIdTokenDescriptor
+	descriptorsInitialized            bool
+	userServiceDescriptor             *UserServiceDescriptor
+	getUserDescriptor                 *GetUserDescriptor
+	batchGetUsersDescriptor           *BatchGetUsersDescriptor
+	listUsersDescriptor               *ListUsersDescriptor
+	watchUserDescriptor               *WatchUserDescriptor
+	watchUsersDescriptor              *WatchUsersDescriptor
+	createUserDescriptor              *CreateUserDescriptor
+	updateUserDescriptor              *UpdateUserDescriptor
+	deleteUserDescriptor              *DeleteUserDescriptor
+	getUserByEmailDescriptor          *GetUserByEmailDescriptor
+	batchGetUsersByEmailDescriptor    *BatchGetUsersByEmailDescriptor
+	getMySettingsDescriptor           *GetMySettingsDescriptor
+	setMySettingsDescriptor           *SetMySettingsDescriptor
+	refreshUserFromIdTokenDescriptor  *RefreshUserFromIdTokenDescriptor
+	resendVerificationEmailDescriptor *ResendVerificationEmailDescriptor
 )
 
 type GetUserDescriptor struct{}
@@ -2047,6 +2048,152 @@ func GetRefreshUserFromIdTokenDescriptor() *RefreshUserFromIdTokenDescriptor {
 	return refreshUserFromIdTokenDescriptor
 }
 
+type ResendVerificationEmailDescriptor struct{}
+
+type ResendVerificationEmailDescriptorClientMsgHandle struct{}
+
+type ResendVerificationEmailDescriptorServerMsgHandle struct{}
+
+func (d *ResendVerificationEmailDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ResendVerificationEmailRequest{}
+}
+
+func (d *ResendVerificationEmailDescriptor) NewEmptyServerMsg() proto.Message {
+	return &empty.Empty{}
+}
+
+func (d *ResendVerificationEmailDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ResendVerificationEmailDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ResendVerificationEmailDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ResendVerificationEmailDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ResendVerificationEmailDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ResendVerificationEmailDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ResendVerificationEmailDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ResendVerificationEmailDescriptor) GetVerb() string {
+	return "resendVerificationEmail"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetMethodName() string {
+	return "ResendVerificationEmail"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.UserService/ResendVerificationEmail"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *ResendVerificationEmailDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *ResendVerificationEmailDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *ResendVerificationEmailDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResendVerificationEmailDescriptorClientMsgHandle{}
+}
+
+func (d *ResendVerificationEmailDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResendVerificationEmailDescriptorServerMsgHandle{}
+}
+
+func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResendVerificationEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ResendVerificationEmailRequest) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ResendVerificationEmailRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ResendVerificationEmailRequest) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*empty.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResendVerificationEmailDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func GetResendVerificationEmailDescriptor() *ResendVerificationEmailDescriptor {
+	return resendVerificationEmailDescriptor
+}
+
 type UserServiceDescriptor struct{}
 
 func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2064,6 +2211,7 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		getMySettingsDescriptor,
 		setMySettingsDescriptor,
 		refreshUserFromIdTokenDescriptor,
+		resendVerificationEmailDescriptor,
 	}
 }
 
@@ -2106,6 +2254,7 @@ func initDescriptors() {
 	getMySettingsDescriptor = &GetMySettingsDescriptor{}
 	setMySettingsDescriptor = &SetMySettingsDescriptor{}
 	refreshUserFromIdTokenDescriptor = &RefreshUserFromIdTokenDescriptor{}
+	resendVerificationEmailDescriptor = &ResendVerificationEmailDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getUserDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetUsersDescriptor)
@@ -2120,6 +2269,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getMySettingsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setMySettingsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(refreshUserFromIdTokenDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(resendVerificationEmailDescriptor)
 }
 
 func init() {

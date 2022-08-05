@@ -85,3 +85,7 @@ message RefreshUserFromIdTokenRequest {
 // Response message for method
 // [RefreshUserFromIdToken][ntt.iam.v1alpha2.RefreshUserFromIdToken]
 message RefreshUserFromIdTokenResponse {}
+
+// Request message for method
+// [ResendVerificationEmail][ntt.iam.v1alpha2.ResendVerificationEmail]
+message ResendVerificationEmailRequest {}
