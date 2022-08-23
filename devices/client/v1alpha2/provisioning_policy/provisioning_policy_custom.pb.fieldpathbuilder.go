@@ -3243,6 +3243,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) DisableDeviceDisco
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) LoggingConfig() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -13375,6 +13379,90 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDisco
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) WithValue(value *device.Device_Spec_LoggingConfig) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) WithArrayOfValues(values []*device.Device_Spec_LoggingConfig) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) Priority() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) Units() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig) EnableJournalExport() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().Priority().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority) WithValue(value int32) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigPriority) WithArrayOfValues(values []int32) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().Units().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits) WithValue(value []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits) WithArrayOfValues(values [][]string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigUnits) WithItemValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().EnableJournalExport().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithValue(value bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

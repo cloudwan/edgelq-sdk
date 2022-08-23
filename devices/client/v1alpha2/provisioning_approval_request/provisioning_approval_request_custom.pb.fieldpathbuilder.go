@@ -3029,6 +3029,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) DisableDe
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) LoggingConfig() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig{}
+}
+
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
@@ -13161,6 +13165,90 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDe
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecDisableDeviceDiscovery) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) WithValue(value *device.Device_Spec_LoggingConfig) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) WithArrayOfValues(values []*device.Device_Spec_LoggingConfig) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) Priority() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) Units() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig) EnableJournalExport() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport{}
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().Priority().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority) WithValue(value int32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigPriority) WithArrayOfValues(values []int32) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().Units().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits) WithValue(value []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits) WithArrayOfValues(values [][]string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigUnits) WithItemValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().LoggingConfig().EnableJournalExport().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithValue(value bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

@@ -2374,6 +2374,10 @@ func (b *filterCndBuilderSpecTemplateSpec) DisableDeviceDiscovery() *filterCndBu
 	return &filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) LoggingConfig() *filterCndBuilderSpecTemplateSpecLoggingConfig {
+	return &filterCndBuilderSpecTemplateSpecLoggingConfig{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -33896,6 +33900,288 @@ func (b *filterCndBuilderSpecTemplateSpecDisableDeviceDiscovery) compare(op gote
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableDeviceDiscovery().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecLoggingConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Eq(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Neq(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Gt(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Gte(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Lt(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Lte(value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) In(values []*device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) NotIn(values []*device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) compare(op gotenfilter.CompareOperator, value *device.Device_Spec_LoggingConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Priority() *filterCndBuilderSpecTemplateSpecLoggingConfigPriority {
+	return &filterCndBuilderSpecTemplateSpecLoggingConfigPriority{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) Units() *filterCndBuilderSpecTemplateSpecLoggingConfigUnits {
+	return &filterCndBuilderSpecTemplateSpecLoggingConfigUnits{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfig) EnableJournalExport() *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport {
+	return &filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateSpecLoggingConfigPriority struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Priority().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Priority().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Priority().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Priority().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigPriority) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Priority().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecLoggingConfigUnits struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().FieldPath(),
+		Value:     NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigUnits) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().Units().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().WithValue(value),
 	})
 }
 

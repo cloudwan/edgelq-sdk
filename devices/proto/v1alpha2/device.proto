@@ -75,6 +75,8 @@ message Device {
     // acquires an IP address with DHCP.
     bool disable_device_discovery = 8;
 
+    LoggingConfig logging_config = 9;
+
     // NetworkConfig defines the network configuration of the Device.
     // These fields are subset of the netplan configuration.
     message NetworkConfig {
@@ -439,6 +441,22 @@ message Device {
       // insecure_skip_manufacturer_ekcert_verification should be probably set
       // to true).
       int32 insecure_use_tpm_simulator_seed = 3;
+    }
+
+    message LoggingConfig {
+      // Log priority as understood by systemd (0 - emergency, 1 - alert, 2 -
+      // critical, 3 - error, 4 - warning, 5 - notice, 6 - informational, 7 -
+      // debug). Journal logs with this priority and higher will be uploaded to
+      // the server.
+      int32 priority = 1;
+
+      // List of systemd unit names to monitor for logs, e.g.
+      // NetworkManager.service, docker.service.
+      // Leave empty to export all journald logs.
+      repeated string units = 2;
+
+      // Whether the journald log exporter is enabled.
+      bool enable_journal_export = 3;
     }
   }
 

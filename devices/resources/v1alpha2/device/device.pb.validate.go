@@ -108,6 +108,11 @@ func (obj *Device_Spec) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Spec", "attestationConfig", obj.AttestationConfig, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.LoggingConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Spec", "loggingConfig", obj.LoggingConfig, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -225,6 +230,15 @@ func (obj *Device_Spec_SSHConfig) GotenValidate() error {
 	return nil
 }
 func (obj *Device_Spec_AttestationConfig) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_LoggingConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

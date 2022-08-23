@@ -256,6 +256,16 @@ func (o *Device_Spec) MakeDiffFieldMask(other *Device_Spec) *Device_Spec_FieldMa
 	if o.GetDisableDeviceDiscovery() != other.GetDisableDeviceDiscovery() {
 		res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery})
 	}
+	{
+		subMask := o.GetLoggingConfig().MakeDiffFieldMask(other.GetLoggingConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceSpec_FieldSubPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -285,6 +295,7 @@ func (o *Device_Spec) Clone() *Device_Spec {
 	result.SshConfig = o.SshConfig.Clone()
 	result.AttestationConfig = o.AttestationConfig.Clone()
 	result.DisableDeviceDiscovery = o.DisableDeviceDiscovery
+	result.LoggingConfig = o.LoggingConfig.Clone()
 	return result
 }
 
@@ -327,6 +338,12 @@ func (o *Device_Spec) Merge(source *Device_Spec) {
 		o.AttestationConfig.Merge(source.GetAttestationConfig())
 	}
 	o.DisableDeviceDiscovery = source.GetDisableDeviceDiscovery()
+	if source.GetLoggingConfig() != nil {
+		if o.LoggingConfig == nil {
+			o.LoggingConfig = new(Device_Spec_LoggingConfig)
+		}
+		o.LoggingConfig.Merge(source.GetLoggingConfig())
+	}
 }
 
 func (o *Device_Spec) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -1058,6 +1075,92 @@ func (o *Device_Spec_AttestationConfig) Merge(source *Device_Spec_AttestationCon
 
 func (o *Device_Spec_AttestationConfig) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Spec_AttestationConfig))
+}
+
+func (o *Device_Spec_LoggingConfig) GotenObjectExt() {}
+
+func (o *Device_Spec_LoggingConfig) MakeFullFieldMask() *Device_Spec_LoggingConfig_FieldMask {
+	return FullDevice_Spec_LoggingConfig_FieldMask()
+}
+
+func (o *Device_Spec_LoggingConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Spec_LoggingConfig_FieldMask()
+}
+
+func (o *Device_Spec_LoggingConfig) MakeDiffFieldMask(other *Device_Spec_LoggingConfig) *Device_Spec_LoggingConfig_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Spec_LoggingConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Spec_LoggingConfig_FieldMask()
+	}
+
+	res := &Device_Spec_LoggingConfig_FieldMask{}
+	if o.GetPriority() != other.GetPriority() {
+		res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorPriority})
+	}
+
+	if len(o.GetUnits()) == len(other.GetUnits()) {
+		for i, lValue := range o.GetUnits() {
+			rValue := other.GetUnits()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorUnits})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorUnits})
+	}
+	if o.GetEnableJournalExport() != other.GetEnableJournalExport() {
+		res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport})
+	}
+	return res
+}
+
+func (o *Device_Spec_LoggingConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Spec_LoggingConfig))
+}
+
+func (o *Device_Spec_LoggingConfig) Clone() *Device_Spec_LoggingConfig {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Spec_LoggingConfig{}
+	result.Priority = o.Priority
+	result.Units = make([]string, len(o.Units))
+	for i, sourceValue := range o.Units {
+		result.Units[i] = sourceValue
+	}
+	result.EnableJournalExport = o.EnableJournalExport
+	return result
+}
+
+func (o *Device_Spec_LoggingConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Spec_LoggingConfig) Merge(source *Device_Spec_LoggingConfig) {
+	o.Priority = source.GetPriority()
+	for _, sourceValue := range source.GetUnits() {
+		exists := false
+		for _, currentValue := range o.Units {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Units = append(o.Units, newDstElement)
+		}
+	}
+
+	o.EnableJournalExport = source.GetEnableJournalExport()
+}
+
+func (o *Device_Spec_LoggingConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Spec_LoggingConfig))
 }
 
 func (o *Device_Spec_NetworkConfig_CommonOpts) GotenObjectExt() {}
