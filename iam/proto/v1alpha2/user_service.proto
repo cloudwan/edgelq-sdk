@@ -385,4 +385,12 @@ service UserService {
       post : "/v1alpha2/users:resendVerificationEmail"
     };
   }
+
+  // ResetMFAIfRecoveryKeyUsed
+  rpc ResetMFAIfRecoveryKeyUsed(ResetMFAIfRecoveryKeyUsedRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1alpha2/users:resetMFAIfRecoveryKeyUsed"
+    };
+  }
 }

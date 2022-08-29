@@ -13428,6 +13428,31 @@ Equivalent REST API:
 
 </div>
 
+
+
+<div class="operation">
+<h5 id="operation-ResetMFAIfRecoveryKeyUsed">ResetMFAIfRecoveryKeyUsed</h5>
+
+<pre class="signature">rpc ResetMFAIfRecoveryKeyUsed(<a href="#message-ResetMFAIfRecoveryKeyUsedRequest">ResetMFAIfRecoveryKeyUsedRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>ResetMFAIfRecoveryKeyUsed</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:resetMFAIfRecoveryKeyUsed </pre>
+
+</div>
+
+
+</div>
+
  
 
 <h4>Messages</h4>
@@ -14261,6 +14286,22 @@ Additional fields can be amended by request field field_mask</p>
 
 <p>Request message for method
 [ResendVerificationEmail][ntt.iam.v1alpha2.ResendVerificationEmail]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResetMFAIfRecoveryKeyUsedRequest">ResetMFAIfRecoveryKeyUsedRequest</h5>
+
+<p>Request message for method
+[ResetMFAIfRecoveryKeyUsed][ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsed]</p>
 
 
 <table class="fields">

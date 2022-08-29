@@ -4213,3 +4213,330 @@ func (fpaov *ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues) GetR
 	}
 	return
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ResetMFAIfRecoveryKeyUsedRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector
+	Get(source *ResetMFAIfRecoveryKeyUsedRequest) []interface{}
+	GetSingle(source *ResetMFAIfRecoveryKeyUsedRequest) (interface{}, bool)
+	ClearValue(item *ResetMFAIfRecoveryKeyUsedRequest)
+
+	// Those methods build corresponding ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue
+}
+
+type ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector int32
+
+func (s ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", s))
+	}
+}
+
+func BuildResetMFAIfRecoveryKeyUsedRequest_FieldPath(fp gotenobject.RawFieldPath) (ResetMFAIfRecoveryKeyUsedRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ResetMFAIfRecoveryKeyUsedRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ResetMFAIfRecoveryKeyUsedRequest", fp)
+}
+
+func ParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(rawField string) (ResetMFAIfRecoveryKeyUsedRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildResetMFAIfRecoveryKeyUsedRequest_FieldPath(fp)
+}
+
+func MustParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(rawField string) ResetMFAIfRecoveryKeyUsedRequest_FieldPath {
+	fp, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath struct {
+	selector ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector
+}
+
+var _ ResetMFAIfRecoveryKeyUsedRequest_FieldPath = (*ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath)(nil)
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) Selector() ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ResetMFAIfRecoveryKeyUsedRequest
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) Get(source *ResetMFAIfRecoveryKeyUsedRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source ResetMFAIfRecoveryKeyUsedRequest
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) GetSingle(source *ResetMFAIfRecoveryKeyUsedRequest) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) ClearValue(item *ResetMFAIfRecoveryKeyUsedRequest) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithIValue(value interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues {
+	fpaov := &ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayOfValues{ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue allows storing values for ResetMFAIfRecoveryKeyUsedRequest fields according to their type
+type ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue interface {
+	ResetMFAIfRecoveryKeyUsedRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ResetMFAIfRecoveryKeyUsedRequest)
+	CompareWith(*ResetMFAIfRecoveryKeyUsedRequest) (cmp int, comparable bool)
+}
+
+func ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathValue(pathStr, valueStr string) (ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue, error) {
+	fp, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResetMFAIfRecoveryKeyUsedRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue), nil
+}
+
+func MustParseResetMFAIfRecoveryKeyUsedRequest_FieldPathValue(pathStr, valueStr string) ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue {
+	fpv, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue struct {
+	ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResetMFAIfRecoveryKeyUsedRequest_FieldPathValue = (*ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ResetMFAIfRecoveryKeyUsedRequest' as interface{}
+func (fpv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object ResetMFAIfRecoveryKeyUsedRequest
+func (fpv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue) SetTo(target **ResetMFAIfRecoveryKeyUsedRequest) {
+	if *target == nil {
+		*target = new(ResetMFAIfRecoveryKeyUsedRequest)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResetMFAIfRecoveryKeyUsedRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue' with the value under path in 'ResetMFAIfRecoveryKeyUsedRequest'.
+func (fpv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue) CompareWith(source *ResetMFAIfRecoveryKeyUsedRequest) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResetMFAIfRecoveryKeyUsedRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+// ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for ResetMFAIfRecoveryKeyUsedRequest according to their type
+// Present only for array (repeated) types.
+type ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ResetMFAIfRecoveryKeyUsedRequest_FieldPath
+	ContainsValue(*ResetMFAIfRecoveryKeyUsedRequest) bool
+}
+
+// ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue(pathStr, valueStr string) (ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResetMFAIfRecoveryKeyUsedRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue(pathStr, valueStr string) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue struct {
+	ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayItemValue = (*ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ResetMFAIfRecoveryKeyUsedRequest as interface{}
+func (fpaiv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue) GetSingle(source *ResetMFAIfRecoveryKeyUsedRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ResetMFAIfRecoveryKeyUsedRequest'
+func (fpaiv *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ResetMFAIfRecoveryKeyUsedRequest) bool {
+	slice := fpaiv.ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues allows storing slice of values for ResetMFAIfRecoveryKeyUsedRequest fields according to their type
+type ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ResetMFAIfRecoveryKeyUsedRequest_FieldPath
+}
+
+func ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ResetMFAIfRecoveryKeyUsedRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues(pathStr, valuesStr string) ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayOfValues struct {
+	ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ ResetMFAIfRecoveryKeyUsedRequest_FieldPathArrayOfValues = (*ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
+}

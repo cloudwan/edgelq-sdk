@@ -1097,3 +1097,9 @@ type ResendVerificationEmailRequestFieldPathBuilder struct{}
 func NewResendVerificationEmailRequestFieldPathBuilder() ResendVerificationEmailRequestFieldPathBuilder {
 	return ResendVerificationEmailRequestFieldPathBuilder{}
 }
+
+type ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder struct{}
+
+func NewResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder() ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder {
+	return ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder{}
+}

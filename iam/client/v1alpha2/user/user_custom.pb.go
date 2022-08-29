@@ -794,6 +794,64 @@ func (m *ResendVerificationEmailRequest) UnmarshalJSON(data []byte) error {
 	return protojson.Unmarshal(data, m)
 }
 
+// Request message for method
+// [ResetMFAIfRecoveryKeyUsed][ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsed]
+type ResetMFAIfRecoveryKeyUsedRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) Reset() {
+	*m = ResetMFAIfRecoveryKeyUsedRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1alpha2_user_custom_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*ResetMFAIfRecoveryKeyUsedRequest) ProtoMessage() {}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1alpha2_user_custom_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*ResetMFAIfRecoveryKeyUsedRequest) GotenMessage() {}
+
+// Deprecated, Use ResetMFAIfRecoveryKeyUsedRequest.ProtoReflect.Descriptor instead.
+func (*ResetMFAIfRecoveryKeyUsedRequest) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1alpha2_user_custom_proto_rawDescGZIP(), []int{9}
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *ResetMFAIfRecoveryKeyUsedRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
 var edgelq_iam_proto_v1alpha2_user_custom_proto preflect.FileDescriptor
 
 var edgelq_iam_proto_v1alpha2_user_custom_proto_rawDesc = []byte{
@@ -887,19 +945,21 @@ var edgelq_iam_proto_v1alpha2_user_custom_proto_rawDesc = []byte{
 	0x72, 0x6f, 0x6d, 0x49, 0x64, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x22, 0x20, 0x0a, 0x1e, 0x52, 0x65, 0x73, 0x65, 0x6e, 0x64, 0x56, 0x65, 0x72, 0x69,
 	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x42, 0xbc, 0x01, 0xe8, 0xde, 0x21, 0x01, 0x0a, 0x17, 0x63, 0x6f, 0x6d,
-	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x61, 0x6c,
-	0x70, 0x68, 0x61, 0x32, 0x42, 0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d,
-	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
-	0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67,
-	0x65, 0x6c, 0x71, 0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76,
-	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x3b, 0x75, 0x73, 0x65,
-	0x72, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0xd2, 0x84, 0xd1, 0x02, 0x46, 0x0a, 0x0d, 0x61,
-	0x75, 0x64, 0x69, 0x74, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x72, 0x73, 0x12, 0x35, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61,
-	0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x61, 0x75, 0x64,
-	0x69, 0x74, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x72, 0x73, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70,
-	0x68, 0x61, 0x32, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x22, 0x0a, 0x20, 0x52, 0x65, 0x73, 0x65, 0x74, 0x4d, 0x46, 0x41,
+	0x49, 0x66, 0x52, 0x65, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x79, 0x4b, 0x65, 0x79, 0x55, 0x73, 0x65,
+	0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42, 0xbc, 0x01, 0xe8, 0xde, 0x21, 0x01, 0x0a,
+	0x17, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e,
+	0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x42, 0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x75,
+	0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x3f, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e,
+	0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65,
+	0x6e, 0x74, 0x2f, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x2f, 0x75, 0x73, 0x65, 0x72,
+	0x3b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0xd2, 0x84, 0xd1, 0x02,
+	0x46, 0x0a, 0x0d, 0x61, 0x75, 0x64, 0x69, 0x74, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x72, 0x73,
+	0x12, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f,
+	0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69, 0x61, 0x6d,
+	0x2f, 0x61, 0x75, 0x64, 0x69, 0x74, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x72, 0x73, 0x2f, 0x76,
+	0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -914,31 +974,32 @@ func edgelq_iam_proto_v1alpha2_user_custom_proto_rawDescGZIP() []byte {
 	return edgelq_iam_proto_v1alpha2_user_custom_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1alpha2_user_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var edgelq_iam_proto_v1alpha2_user_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var edgelq_iam_proto_v1alpha2_user_custom_proto_goTypes = []interface{}{
-	(*GetUserByEmailRequest)(nil),          // 0: ntt.iam.v1alpha2.GetUserByEmailRequest
-	(*BatchGetUsersByEmailRequest)(nil),    // 1: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest
-	(*BatchGetUsersByEmailResponse)(nil),   // 2: ntt.iam.v1alpha2.BatchGetUsersByEmailResponse
-	(*GetMySettingsRequest)(nil),           // 3: ntt.iam.v1alpha2.GetMySettingsRequest
-	(*GetMySettingsResponse)(nil),          // 4: ntt.iam.v1alpha2.GetMySettingsResponse
-	(*SetMySettingsRequest)(nil),           // 5: ntt.iam.v1alpha2.SetMySettingsRequest
-	(*RefreshUserFromIdTokenRequest)(nil),  // 6: ntt.iam.v1alpha2.RefreshUserFromIdTokenRequest
-	(*RefreshUserFromIdTokenResponse)(nil), // 7: ntt.iam.v1alpha2.RefreshUserFromIdTokenResponse
-	(*ResendVerificationEmailRequest)(nil), // 8: ntt.iam.v1alpha2.ResendVerificationEmailRequest
-	nil,                                    // 9: ntt.iam.v1alpha2.GetMySettingsResponse.SettingsEntry
-	nil,                                    // 10: ntt.iam.v1alpha2.SetMySettingsRequest.SettingsEntry
-	(*user.User_FieldMask)(nil),            // 11: ntt.iam.v1alpha2.User_FieldMask
-	(view.View)(0),                         // 12: goten.view.View
-	(*user.User)(nil),                      // 13: ntt.iam.v1alpha2.User
+	(*GetUserByEmailRequest)(nil),            // 0: ntt.iam.v1alpha2.GetUserByEmailRequest
+	(*BatchGetUsersByEmailRequest)(nil),      // 1: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest
+	(*BatchGetUsersByEmailResponse)(nil),     // 2: ntt.iam.v1alpha2.BatchGetUsersByEmailResponse
+	(*GetMySettingsRequest)(nil),             // 3: ntt.iam.v1alpha2.GetMySettingsRequest
+	(*GetMySettingsResponse)(nil),            // 4: ntt.iam.v1alpha2.GetMySettingsResponse
+	(*SetMySettingsRequest)(nil),             // 5: ntt.iam.v1alpha2.SetMySettingsRequest
+	(*RefreshUserFromIdTokenRequest)(nil),    // 6: ntt.iam.v1alpha2.RefreshUserFromIdTokenRequest
+	(*RefreshUserFromIdTokenResponse)(nil),   // 7: ntt.iam.v1alpha2.RefreshUserFromIdTokenResponse
+	(*ResendVerificationEmailRequest)(nil),   // 8: ntt.iam.v1alpha2.ResendVerificationEmailRequest
+	(*ResetMFAIfRecoveryKeyUsedRequest)(nil), // 9: ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsedRequest
+	nil,                                      // 10: ntt.iam.v1alpha2.GetMySettingsResponse.SettingsEntry
+	nil,                                      // 11: ntt.iam.v1alpha2.SetMySettingsRequest.SettingsEntry
+	(*user.User_FieldMask)(nil),              // 12: ntt.iam.v1alpha2.User_FieldMask
+	(view.View)(0),                           // 13: goten.view.View
+	(*user.User)(nil),                        // 14: ntt.iam.v1alpha2.User
 }
 var edgelq_iam_proto_v1alpha2_user_custom_proto_depIdxs = []int32{
-	11, // 0: ntt.iam.v1alpha2.GetUserByEmailRequest.field_mask:type_name -> ntt.iam.v1alpha2.User_FieldMask
-	12, // 1: ntt.iam.v1alpha2.GetUserByEmailRequest.view:type_name -> goten.view.View
-	11, // 2: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest.field_mask:type_name -> ntt.iam.v1alpha2.User_FieldMask
-	12, // 3: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest.view:type_name -> goten.view.View
-	13, // 4: ntt.iam.v1alpha2.BatchGetUsersByEmailResponse.users:type_name -> ntt.iam.v1alpha2.User
-	9,  // 5: ntt.iam.v1alpha2.GetMySettingsResponse.settings:type_name -> ntt.iam.v1alpha2.GetMySettingsResponse.SettingsEntry
-	10, // 6: ntt.iam.v1alpha2.SetMySettingsRequest.settings:type_name -> ntt.iam.v1alpha2.SetMySettingsRequest.SettingsEntry
+	12, // 0: ntt.iam.v1alpha2.GetUserByEmailRequest.field_mask:type_name -> ntt.iam.v1alpha2.User_FieldMask
+	13, // 1: ntt.iam.v1alpha2.GetUserByEmailRequest.view:type_name -> goten.view.View
+	12, // 2: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest.field_mask:type_name -> ntt.iam.v1alpha2.User_FieldMask
+	13, // 3: ntt.iam.v1alpha2.BatchGetUsersByEmailRequest.view:type_name -> goten.view.View
+	14, // 4: ntt.iam.v1alpha2.BatchGetUsersByEmailResponse.users:type_name -> ntt.iam.v1alpha2.User
+	10, // 5: ntt.iam.v1alpha2.GetMySettingsResponse.settings:type_name -> ntt.iam.v1alpha2.GetMySettingsResponse.SettingsEntry
+	11, // 6: ntt.iam.v1alpha2.SetMySettingsRequest.settings:type_name -> ntt.iam.v1alpha2.SetMySettingsRequest.SettingsEntry
 	7,  // [7:7] is the sub-list for method output_type
 	7,  // [7:7] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
@@ -1061,6 +1122,18 @@ func edgelq_iam_proto_v1alpha2_user_custom_proto_init() {
 				return nil
 			}
 		}
+		edgelq_iam_proto_v1alpha2_user_custom_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResetMFAIfRecoveryKeyUsedRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
 	type x struct{}
@@ -1069,7 +1142,7 @@ func edgelq_iam_proto_v1alpha2_user_custom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1alpha2_user_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

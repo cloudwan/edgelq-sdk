@@ -31,22 +31,23 @@ var (
 )
 
 var (
-	descriptorsInitialized            bool
-	userServiceDescriptor             *UserServiceDescriptor
-	getUserDescriptor                 *GetUserDescriptor
-	batchGetUsersDescriptor           *BatchGetUsersDescriptor
-	listUsersDescriptor               *ListUsersDescriptor
-	watchUserDescriptor               *WatchUserDescriptor
-	watchUsersDescriptor              *WatchUsersDescriptor
-	createUserDescriptor              *CreateUserDescriptor
-	updateUserDescriptor              *UpdateUserDescriptor
-	deleteUserDescriptor              *DeleteUserDescriptor
-	getUserByEmailDescriptor          *GetUserByEmailDescriptor
-	batchGetUsersByEmailDescriptor    *BatchGetUsersByEmailDescriptor
-	getMySettingsDescriptor           *GetMySettingsDescriptor
-	setMySettingsDescriptor           *SetMySettingsDescriptor
-	refreshUserFromIdTokenDescriptor  *RefreshUserFromIdTokenDescriptor
-	resendVerificationEmailDescriptor *ResendVerificationEmailDescriptor
+	descriptorsInitialized              bool
+	userServiceDescriptor               *UserServiceDescriptor
+	getUserDescriptor                   *GetUserDescriptor
+	batchGetUsersDescriptor             *BatchGetUsersDescriptor
+	listUsersDescriptor                 *ListUsersDescriptor
+	watchUserDescriptor                 *WatchUserDescriptor
+	watchUsersDescriptor                *WatchUsersDescriptor
+	createUserDescriptor                *CreateUserDescriptor
+	updateUserDescriptor                *UpdateUserDescriptor
+	deleteUserDescriptor                *DeleteUserDescriptor
+	getUserByEmailDescriptor            *GetUserByEmailDescriptor
+	batchGetUsersByEmailDescriptor      *BatchGetUsersByEmailDescriptor
+	getMySettingsDescriptor             *GetMySettingsDescriptor
+	setMySettingsDescriptor             *SetMySettingsDescriptor
+	refreshUserFromIdTokenDescriptor    *RefreshUserFromIdTokenDescriptor
+	resendVerificationEmailDescriptor   *ResendVerificationEmailDescriptor
+	resetMFAIfRecoveryKeyUsedDescriptor *ResetMFAIfRecoveryKeyUsedDescriptor
 )
 
 type GetUserDescriptor struct{}
@@ -2194,6 +2195,152 @@ func GetResendVerificationEmailDescriptor() *ResendVerificationEmailDescriptor {
 	return resendVerificationEmailDescriptor
 }
 
+type ResetMFAIfRecoveryKeyUsedDescriptor struct{}
+
+type ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle struct{}
+
+type ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle struct{}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ResetMFAIfRecoveryKeyUsedRequest{}
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) NewEmptyServerMsg() proto.Message {
+	return &empty.Empty{}
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetVerb() string {
+	return "resetMFAIfRecoveryKeyUsed"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetMethodName() string {
+	return "ResetMFAIfRecoveryKeyUsed"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.UserService/ResetMFAIfRecoveryKeyUsed"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle{}
+}
+
+func (d *ResetMFAIfRecoveryKeyUsedDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle{}
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ResetMFAIfRecoveryKeyUsedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ResetMFAIfRecoveryKeyUsedRequest) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ResetMFAIfRecoveryKeyUsedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ResetMFAIfRecoveryKeyUsedRequest) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*empty.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ResetMFAIfRecoveryKeyUsedDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func GetResetMFAIfRecoveryKeyUsedDescriptor() *ResetMFAIfRecoveryKeyUsedDescriptor {
+	return resetMFAIfRecoveryKeyUsedDescriptor
+}
+
 type UserServiceDescriptor struct{}
 
 func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2212,6 +2359,7 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		setMySettingsDescriptor,
 		refreshUserFromIdTokenDescriptor,
 		resendVerificationEmailDescriptor,
+		resetMFAIfRecoveryKeyUsedDescriptor,
 	}
 }
 
@@ -2255,6 +2403,7 @@ func initDescriptors() {
 	setMySettingsDescriptor = &SetMySettingsDescriptor{}
 	refreshUserFromIdTokenDescriptor = &RefreshUserFromIdTokenDescriptor{}
 	resendVerificationEmailDescriptor = &ResendVerificationEmailDescriptor{}
+	resetMFAIfRecoveryKeyUsedDescriptor = &ResetMFAIfRecoveryKeyUsedDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getUserDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetUsersDescriptor)
@@ -2270,6 +2419,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setMySettingsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(refreshUserFromIdTokenDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resendVerificationEmailDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(resetMFAIfRecoveryKeyUsedDescriptor)
 }
 
 func init() {

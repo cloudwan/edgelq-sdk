@@ -674,3 +674,48 @@ func (o *ResendVerificationEmailRequest) Merge(source *ResendVerificationEmailRe
 func (o *ResendVerificationEmailRequest) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ResendVerificationEmailRequest))
 }
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) GotenObjectExt() {}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) MakeFullFieldMask() *ResetMFAIfRecoveryKeyUsedRequest_FieldMask {
+	return FullResetMFAIfRecoveryKeyUsedRequest_FieldMask()
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullResetMFAIfRecoveryKeyUsedRequest_FieldMask()
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) MakeDiffFieldMask(other *ResetMFAIfRecoveryKeyUsedRequest) *ResetMFAIfRecoveryKeyUsedRequest_FieldMask {
+	if o == nil && other == nil {
+		return &ResetMFAIfRecoveryKeyUsedRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullResetMFAIfRecoveryKeyUsedRequest_FieldMask()
+	}
+
+	res := &ResetMFAIfRecoveryKeyUsedRequest_FieldMask{}
+	return res
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ResetMFAIfRecoveryKeyUsedRequest))
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) Clone() *ResetMFAIfRecoveryKeyUsedRequest {
+	if o == nil {
+		return nil
+	}
+	result := &ResetMFAIfRecoveryKeyUsedRequest{}
+	return result
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) Merge(source *ResetMFAIfRecoveryKeyUsedRequest) {
+}
+
+func (o *ResetMFAIfRecoveryKeyUsedRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ResetMFAIfRecoveryKeyUsedRequest))
+}

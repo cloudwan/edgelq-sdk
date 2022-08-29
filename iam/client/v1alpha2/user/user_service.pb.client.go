@@ -63,6 +63,7 @@ type UserServiceClient interface {
 	SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFromIdTokenRequest, opts ...grpc.CallOption) (*RefreshUserFromIdTokenResponse, error)
 	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type client struct {
@@ -249,6 +250,15 @@ func (c *client) RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFrom
 func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResendVerificationEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResetMFAIfRecoveryKeyUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
