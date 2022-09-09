@@ -191,6 +191,10 @@ func (fp *Project_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Project_FieldPathSelectorName
 }
 
+func (fp *Project_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_FieldPathValue {
 	switch fp.selector {
 	case Project_FieldPathSelectorName:
@@ -376,7 +380,11 @@ func (fpaiv *Project_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.
 func (fpaiv *Project_FieldTerminalPathArrayItemValue) ContainsValue(source *Project) bool {
 	slice := fpaiv.Project_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -257,6 +257,10 @@ func (fp *Secret_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Secret_FieldPathSelectorData
 }
 
+func (fp *Secret_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Secret_FieldTerminalPath) WithIValue(value interface{}) Secret_FieldPathValue {
 	switch fp.selector {
 	case Secret_FieldPathSelectorName:
@@ -402,6 +406,10 @@ func (fpm *Secret_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *Secret_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *Secret_FieldPathMap) WithIValue(value interface{}) Secret_FieldPathValue {
 	switch fpm.selector {
 	case Secret_FieldPathSelectorData:
@@ -515,6 +523,12 @@ func (fps *Secret_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Secret_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Secret_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Secret_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Secret_FieldSubPath) WithIValue(value interface{}) Secret_FieldPathValue {
@@ -816,7 +830,11 @@ func (fpaiv *Secret_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.M
 func (fpaiv *Secret_FieldTerminalPathArrayItemValue) ContainsValue(source *Secret) bool {
 	slice := fpaiv.Secret_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

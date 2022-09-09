@@ -351,6 +351,10 @@ func (fp *PhantomTimeSerie_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == PhantomTimeSerie_FieldPathSelectorValueType
 }
 
+func (fp *PhantomTimeSerie_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *PhantomTimeSerie_FieldTerminalPath) WithIValue(value interface{}) PhantomTimeSerie_FieldPathValue {
 	switch fp.selector {
 	case PhantomTimeSerie_FieldPathSelectorMetadata:
@@ -540,6 +544,12 @@ func (fps *PhantomTimeSerie_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *PhantomTimeSerie_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *PhantomTimeSerie_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PhantomTimeSerie_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *PhantomTimeSerie_FieldSubPath) WithIValue(value interface{}) PhantomTimeSerie_FieldPathValue {
@@ -870,7 +880,11 @@ func (fpaiv *PhantomTimeSerie_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *PhantomTimeSerie_FieldTerminalPathArrayItemValue) ContainsValue(source *PhantomTimeSerie) bool {
 	slice := fpaiv.PhantomTimeSerie_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1294,6 +1308,10 @@ func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime
 }
 
+func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *PhantomTimeSeriesBulkChange_FieldTerminalPath) WithIValue(value interface{}) PhantomTimeSeriesBulkChange_FieldPathValue {
 	switch fp.selector {
 	case PhantomTimeSeriesBulkChange_FieldPathSelectorResync:
@@ -1457,6 +1475,12 @@ func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) WithIValue(value interface{}) PhantomTimeSeriesBulkChange_FieldPathValue {
@@ -1756,7 +1780,11 @@ func (fpaiv *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *PhantomTimeSeriesBulkChange_FieldTerminalPathArrayItemValue) ContainsValue(source *PhantomTimeSeriesBulkChange) bool {
 	slice := fpaiv.PhantomTimeSeriesBulkChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

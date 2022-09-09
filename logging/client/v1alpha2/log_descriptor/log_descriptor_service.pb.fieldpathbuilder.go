@@ -408,6 +408,10 @@ func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) UpdateTi
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTime{}
 }
 
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) DeleteTime() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime{}
+}
+
 func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Uuid() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUuid {
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUuid{}
 }
@@ -444,6 +448,10 @@ func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Syncing(
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncing{}
 }
 
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Lifecycle() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle{}
+}
+
 type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataCreateTime struct{}
 
 func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataCreateTime) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
@@ -475,6 +483,23 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTi
 }
 
 func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -651,20 +676,20 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerRef
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) ApiVersion() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion {
-	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Kind() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind {
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Version() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Name() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesName {
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Uid() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid {
-	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid{}
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Region() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Controller() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesController {
@@ -675,21 +700,8 @@ func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerRefer
 	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
-	return &BatchGetLogDescriptorsResponse_FieldSubPath{
-		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) RequiresOwnerReference() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind struct{}
@@ -706,6 +718,23 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerRef
 }
 
 func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -726,20 +755,20 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerRef
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid struct{}
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
 	return &BatchGetLogDescriptorsResponse_FieldSubPath{
 		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -774,6 +803,23 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerRef
 }
 
 func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -878,6 +924,65 @@ func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncingR
 
 func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncingRegions) WithItemValue(value string) *BatchGetLogDescriptorsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) State() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState{}
+}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) BlockDeletion() BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion {
+	return BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetLogDescriptorsResponse_FieldSubPath {
+	return &BatchGetLogDescriptorsResponse_FieldSubPath{
+		selector: BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetLogDescriptorsResponsePathSelectorMissing struct{}
@@ -1280,6 +1385,10 @@ func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) UpdateTime()
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTime{}
 }
 
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) DeleteTime() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime{}
+}
+
 func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Uuid() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUuid {
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUuid{}
 }
@@ -1316,6 +1425,10 @@ func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Syncing() Li
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncing{}
 }
 
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadata) Lifecycle() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle{}
+}
+
 type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataCreateTime struct{}
 
 func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataCreateTime) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
@@ -1347,6 +1460,23 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTime) 
 }
 
 func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1523,20 +1653,20 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayItemValue(value).(*ListLogDescriptorsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) ApiVersion() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion {
-	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Kind() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind {
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind{}
+}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Version() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion{}
 }
 
 func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Name() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesName {
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesName{}
 }
 
-func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Uid() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid {
-	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid{}
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Region() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion{}
 }
 
 func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) Controller() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesController {
@@ -1547,21 +1677,8 @@ func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReference
 	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
-	return &ListLogDescriptorsResponse_FieldSubPath{
-		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListLogDescriptorsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
-}
-
-func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferences) RequiresOwnerReference() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind struct{}
@@ -1578,6 +1695,23 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferen
 }
 
 func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) WithValue(value string) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1598,20 +1732,20 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid struct{}
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion struct{}
 
-func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
 	return &ListLogDescriptorsResponse_FieldSubPath{
 		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) WithValue(value string) *ListLogDescriptorsResponse_FieldSubPathValue {
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) WithValue(value string) *ListLogDescriptorsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
 }
 
-func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1646,6 +1780,23 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferen
 }
 
 func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1750,6 +1901,65 @@ func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncingRegio
 
 func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataSyncingRegions) WithItemValue(value string) *ListLogDescriptorsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListLogDescriptorsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) State() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState{}
+}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycle) BlockDeletion() ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion {
+	return ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion{}
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion struct{}
+
+func (ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) FieldPath() *ListLogDescriptorsResponse_FieldSubPath {
+	return &ListLogDescriptorsResponse_FieldSubPath{
+		selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListLogDescriptorsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldSubPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorLogDescriptorsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListLogDescriptorsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListLogDescriptorsResponsePathSelectorPrevPageToken struct{}
@@ -2528,6 +2738,10 @@ func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadata) UpdateTime() 
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime{}
 }
 
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadata) DeleteTime() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime{}
+}
+
 func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Uuid() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataUuid {
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataUuid{}
 }
@@ -2564,6 +2778,10 @@ func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Syncing() Cre
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncing{}
 }
 
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Lifecycle() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle{}
+}
+
 type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataCreateTime struct{}
 
 func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataCreateTime) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
@@ -2595,6 +2813,23 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime) W
 }
 
 func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2771,20 +3006,20 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateLogDescriptorRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) ApiVersion() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion {
-	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Kind() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind {
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind{}
+}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Version() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion{}
 }
 
 func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Name() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesName {
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesName{}
 }
 
-func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Uid() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid {
-	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid{}
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Region() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion{}
 }
 
 func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Controller() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesController {
@@ -2795,21 +3030,8 @@ func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences
 	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
-	return &CreateLogDescriptorRequest_FieldSubPath{
-		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateLogDescriptorRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
-}
-
-func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) RequiresOwnerReference() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind struct{}
@@ -2826,6 +3048,23 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 }
 
 func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) WithValue(value string) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2846,20 +3085,20 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid struct{}
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion struct{}
 
-func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
 	return &CreateLogDescriptorRequest_FieldSubPath{
 		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) WithValue(value string) *CreateLogDescriptorRequest_FieldSubPathValue {
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) WithValue(value string) *CreateLogDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
 }
 
-func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2894,6 +3133,23 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 }
 
 func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2998,6 +3254,65 @@ func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncingRegion
 
 func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncingRegions) WithItemValue(value string) *CreateLogDescriptorRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateLogDescriptorRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) State() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState{}
+}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) BlockDeletion() CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion {
+	return CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion{}
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion struct{}
+
+func (CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) FieldPath() *CreateLogDescriptorRequest_FieldSubPath {
+	return &CreateLogDescriptorRequest_FieldSubPath{
+		selector: CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s CreateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateLogDescriptorRequestFieldPathBuilder struct{}
@@ -3254,6 +3569,10 @@ func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadata) UpdateTime() 
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime{}
 }
 
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadata) DeleteTime() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime{}
+}
+
 func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Uuid() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataUuid {
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataUuid{}
 }
@@ -3290,6 +3609,10 @@ func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Syncing() Upd
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncing{}
 }
 
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadata) Lifecycle() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle{}
+}
+
 type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataCreateTime struct{}
 
 func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataCreateTime) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
@@ -3321,6 +3644,23 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime) W
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3497,20 +3837,20 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) ApiVersion() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion {
-	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Kind() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind {
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Version() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Name() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesName {
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesName{}
 }
 
-func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Uid() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid {
-	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid{}
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Region() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) Controller() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesController {
@@ -3521,21 +3861,8 @@ func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences
 	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
-	return &UpdateLogDescriptorRequest_FieldSubPath{
-		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
-}
-
-func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferences) RequiresOwnerReference() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind struct{}
@@ -3552,6 +3879,23 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3572,20 +3916,20 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid struct{}
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
 	return &UpdateLogDescriptorRequest_FieldSubPath{
 		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3620,6 +3964,23 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferenc
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3724,6 +4085,65 @@ func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncingRegion
 
 func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataSyncingRegions) WithItemValue(value string) *UpdateLogDescriptorRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) State() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState{}
+}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycle) BlockDeletion() UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion {
+	return UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorLogDescriptorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateLogDescriptorRequestPathSelectorUpdateMask struct{}
@@ -4004,6 +4424,10 @@ func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadata) UpdateT
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -4040,6 +4464,10 @@ func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadata) Syncing
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
@@ -4071,6 +4499,23 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataUpdateT
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4247,20 +4692,20 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerRe
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -4271,21 +4716,8 @@ func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerRefe
 	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
-	return &UpdateLogDescriptorRequest_FieldSubPath{
-		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
-}
-
-func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4302,6 +4734,23 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerRe
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4322,20 +4771,20 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerRe
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
 	return &UpdateLogDescriptorRequest_FieldSubPath{
 		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLogDescriptorRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
 }
 
-func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4370,6 +4819,23 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerRe
 }
 
 func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4474,6 +4940,65 @@ func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataSyncing
 
 func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateLogDescriptorRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateLogDescriptorRequest_FieldSubPath {
+	return &UpdateLogDescriptorRequest_FieldSubPath{
+		selector: UpdateLogDescriptorRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLogDescriptorRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLogDescriptorRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequest_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateLogDescriptorRequestPathSelectorCasFieldMask struct{}
@@ -4744,6 +5269,10 @@ func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadata) Update
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -4780,6 +5309,10 @@ func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadata) Syncin
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
@@ -4811,6 +5344,23 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataUpdate
 }
 
 func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4987,20 +5537,20 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -5011,21 +5561,8 @@ func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerRef
 	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
-	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
-		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -5042,6 +5579,23 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerR
 }
 
 func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5062,20 +5616,20 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
 	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
 		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5110,6 +5664,23 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerR
 }
 
 func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5214,6 +5785,65 @@ func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncin
 
 func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateLogDescriptorRequestCAS_FieldSubPath {
+	return &UpdateLogDescriptorRequestCAS_FieldSubPath{
+		selector: UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  log_descriptor.NewLogDescriptorFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLogDescriptorRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLogDescriptorRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLogDescriptorRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLogDescriptorRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateLogDescriptorRequest_CASPathSelectorFieldMask struct{}

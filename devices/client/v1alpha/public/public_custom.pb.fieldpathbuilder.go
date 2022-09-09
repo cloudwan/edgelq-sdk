@@ -271,6 +271,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesMetadata) UpdateTime() ListPub
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataUpdateTime{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesMetadata) DeleteTime() ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime{}
+}
+
 func (ListPublicDevicesResponsePathSelectorDevicesMetadata) Uuid() ListPublicDevicesResponsePathSelectorDevicesMetadataUuid {
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataUuid{}
 }
@@ -307,6 +311,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesMetadata) Syncing() ListPublic
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataSyncing{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesMetadata) Lifecycle() ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesMetadataCreateTime struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesMetadataCreateTime) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -338,6 +346,23 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataUpdateTime) WithValu
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -514,20 +539,20 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Wit
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) ApiVersion() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion {
-	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Kind() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesKind {
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesKind{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Version() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion{}
 }
 
 func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Name() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesName {
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesName{}
 }
 
-func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Uid() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid {
-	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid{}
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Region() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion{}
 }
 
 func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Controller() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesController {
@@ -538,21 +563,8 @@ func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) Block
 	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion struct{}
-
-func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
-	return &ListPublicDevicesResponse_FieldSubPath{
-		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
-}
-
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferences) RequiresOwnerReference() ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesKind struct{}
@@ -569,6 +581,23 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesKind)
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -589,20 +618,20 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesName)
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid struct{}
+type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion struct{}
 
-func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
 	return &ListPublicDevicesResponse_FieldSubPath{
 		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
 }
 
-func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -637,6 +666,23 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesBlock
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -741,6 +787,65 @@ func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncingRegions) With
 
 func (s ListPublicDevicesResponsePathSelectorDevicesMetadataSyncingRegions) WithItemValue(value string) *ListPublicDevicesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPublicDevicesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle) State() ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycle) BlockDeletion() ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion {
+	return ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion) WithValue(value bool) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
 type ListPublicDevicesResponsePathSelectorDevicesSpec struct{}

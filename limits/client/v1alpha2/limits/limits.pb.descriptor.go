@@ -93,6 +93,19 @@ func (d *LimitsDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *LimitsDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{
+		{
+			Domain:  "iam.edgelq.com",
+			Version: "v1alpha2",
+		},
+		{
+			Domain:  "meta.edgelq.com",
+			Version: "v1alpha2",
+		},
+	}
+}
+
 func GetLimitsDescriptor() *LimitsDescriptor {
 	return limitsDescriptor
 }

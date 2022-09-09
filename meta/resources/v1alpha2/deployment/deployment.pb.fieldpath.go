@@ -241,6 +241,10 @@ func (fp *Deployment_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Deployment_FieldPathSelectorService
 }
 
+func (fp *Deployment_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Deployment_FieldTerminalPath) WithIValue(value interface{}) Deployment_FieldPathValue {
 	switch fp.selector {
 	case Deployment_FieldPathSelectorName:
@@ -367,6 +371,12 @@ func (fps *Deployment_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Deployment_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Deployment_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Deployment_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Deployment_FieldSubPath) WithIValue(value interface{}) Deployment_FieldPathValue {
@@ -618,7 +628,11 @@ func (fpaiv *Deployment_FieldTerminalPathArrayItemValue) GetSingleRaw(source pro
 func (fpaiv *Deployment_FieldTerminalPathArrayItemValue) ContainsValue(source *Deployment) bool {
 	slice := fpaiv.Deployment_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

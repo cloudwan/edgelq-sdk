@@ -105,7 +105,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 	if limit_RegexpId.MatchString(nameOrId) {
 		return &Name{LimitId: nameOrId}, nil
 	} else {
-		return nil, fmt.Errorf("unable to parse '%s' as Limit name or id", name)
+		return nil, fmt.Errorf("unable to parse '%s' as Limit name or id", nameOrId)
 	}
 }
 
@@ -209,6 +209,20 @@ func (name *Name) GetSegments() gotenresource.NameSegments {
 		CollectionLowerJson: "limits",
 		Id:                  name.LimitId,
 	})
+}
+
+func (name *Name) GetIParentName() gotenresource.Name {
+	if name == nil {
+		return (*ParentName)(nil)
+	}
+	return &name.ParentName
+}
+
+func (name *Name) GetIUnderlyingParentName() gotenresource.Name {
+	if parentName := name.GetProjectName(); parentName != nil {
+		return parentName
+	}
+	return nil
 }
 
 // implement methods required by protobuf-go library for string-struct conversion
@@ -462,6 +476,20 @@ func (ref *Reference) GetIdParts() map[string]string {
 func (ref *Reference) GetSegments() gotenresource.NameSegments {
 	if ref != nil {
 		return ref.Name.GetSegments()
+	}
+	return nil
+}
+
+func (ref *Reference) GetIParentName() gotenresource.Name {
+	if ref == nil {
+		return (*ParentName)(nil)
+	}
+	return ref.Name.GetIParentName()
+}
+
+func (ref *Reference) GetIUnderlyingParentName() gotenresource.Name {
+	if ref != nil {
+		return ref.Name.GetIUnderlyingParentName()
 	}
 	return nil
 }

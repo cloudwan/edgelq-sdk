@@ -203,6 +203,10 @@ func (fp *EncryptDataRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == EncryptDataRequest_FieldPathSelectorData
 }
 
+func (fp *EncryptDataRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *EncryptDataRequest_FieldTerminalPath) WithIValue(value interface{}) EncryptDataRequest_FieldPathValue {
 	switch fp.selector {
 	case EncryptDataRequest_FieldPathSelectorProjectName:
@@ -391,7 +395,11 @@ func (fpaiv *EncryptDataRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *EncryptDataRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *EncryptDataRequest) bool {
 	slice := fpaiv.EncryptDataRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -595,6 +603,10 @@ func (fp *EncryptDataResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == EncryptDataResponse_FieldPathSelectorData
 }
 
+func (fp *EncryptDataResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *EncryptDataResponse_FieldTerminalPath) WithIValue(value interface{}) EncryptDataResponse_FieldPathValue {
 	switch fp.selector {
 	case EncryptDataResponse_FieldPathSelectorData:
@@ -763,7 +775,11 @@ func (fpaiv *EncryptDataResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *EncryptDataResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *EncryptDataResponse) bool {
 	slice := fpaiv.EncryptDataResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -973,6 +989,10 @@ func (fp *DecryptDataRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DecryptDataRequest_FieldPathSelectorData
 }
 
+func (fp *DecryptDataRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DecryptDataRequest_FieldTerminalPath) WithIValue(value interface{}) DecryptDataRequest_FieldPathValue {
 	switch fp.selector {
 	case DecryptDataRequest_FieldPathSelectorProjectName:
@@ -1161,7 +1181,11 @@ func (fpaiv *DecryptDataRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *DecryptDataRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DecryptDataRequest) bool {
 	slice := fpaiv.DecryptDataRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1365,6 +1389,10 @@ func (fp *DecryptDataResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DecryptDataResponse_FieldPathSelectorData
 }
 
+func (fp *DecryptDataResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DecryptDataResponse_FieldTerminalPath) WithIValue(value interface{}) DecryptDataResponse_FieldPathValue {
 	switch fp.selector {
 	case DecryptDataResponse_FieldPathSelectorData:
@@ -1533,7 +1561,11 @@ func (fpaiv *DecryptDataResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *DecryptDataResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *DecryptDataResponse) bool {
 	slice := fpaiv.DecryptDataResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

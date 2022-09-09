@@ -218,6 +218,10 @@ func (fp *Actor_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Actor_FieldPathSelectorServiceAccount
 }
 
+func (fp *Actor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Actor_FieldTerminalPath) WithIValue(value interface{}) Actor_FieldPathValue {
 	switch fp.selector {
 	case Actor_FieldPathSelectorUser:
@@ -432,7 +436,11 @@ func (fpaiv *Actor_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Me
 func (fpaiv *Actor_FieldTerminalPathArrayItemValue) ContainsValue(source *Actor) bool {
 	slice := fpaiv.Actor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -736,6 +744,10 @@ func (fp *Invitation_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Invitation_FieldPathSelectorState
 }
 
+func (fp *Invitation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation_FieldPathValue {
 	switch fp.selector {
 	case Invitation_FieldPathSelectorInviteeEmail:
@@ -880,6 +892,12 @@ func (fps *Invitation_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Invitation_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Invitation_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Invitation_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Invitation_FieldSubPath) WithIValue(value interface{}) Invitation_FieldPathValue {
@@ -1182,7 +1200,11 @@ func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) GetSingleRaw(source pro
 func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) ContainsValue(source *Invitation) bool {
 	slice := fpaiv.Invitation_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

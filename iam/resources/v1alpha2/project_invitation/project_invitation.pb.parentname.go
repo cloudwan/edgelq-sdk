@@ -11,6 +11,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/google/cel-go/common/types"
+	"github.com/google/cel-go/common/types/ref"
+	"github.com/google/cel-go/common/types/traits"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -163,6 +166,14 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 			},
 		}
 	}
+	return nil
+}
+
+func (name *ParentName) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (name *ParentName) GetIUnderlyingParentName() gotenresource.Name {
 	return nil
 }
 
@@ -426,6 +437,14 @@ func (ref *ParentReference) GetSegments() gotenresource.NameSegments {
 	return nil
 }
 
+func (ref *ParentReference) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (ref *ParentReference) GetIUnderlyingParentName() gotenresource.Name {
+	return nil
+}
+
 func (ref *ParentReference) String() string {
 	if ref == nil {
 		return "<nil>"
@@ -497,6 +516,59 @@ func (name *ParentReference) Matches(other interface{}) bool {
 		return false
 	}
 	return name.ParentName.Matches(&other1.ParentName)
+}
+
+// Google CEL integration Type
+var celParentReference = types.NewTypeValue("ParentReference", traits.ReceiverType)
+
+func (name *ParentReference) TypeName() string {
+	return ".ntt.iam.v1alpha2.ProjectInvitation.ParentReference"
+}
+
+func (name *ParentReference) HasTrait(trait int) bool {
+	return trait == traits.ReceiverType
+}
+
+func (name *ParentReference) Equal(other ref.Val) ref.Val {
+	return types.Bool(false)
+}
+
+func (name *ParentReference) Value() interface{} {
+	return name
+}
+
+func (name *ParentReference) Match(pattern ref.Val) ref.Val {
+	return types.Bool(true)
+}
+
+func (name *ParentReference) Receive(function string, overload string, args []ref.Val) ref.Val {
+	switch function {
+	case "satisfies":
+		rhsName, err := ParseParentReference(string(args[0].(types.String)))
+		if err != nil {
+			return types.ValOrErr(celParentReference, "function %s name parse error: %s", function, err)
+		}
+		return types.Bool(rhsName.Matches(name))
+	default:
+		return types.ValOrErr(celParentReference, "no such function - %s", function)
+	}
+}
+
+func (name *ParentReference) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
+	panic("not required")
+}
+
+func (name *ParentReference) ConvertToType(typeVal ref.Type) ref.Val {
+	switch typeVal.TypeName() {
+	case types.StringType.TypeName():
+		return types.String(name.String())
+	default:
+		panic(fmt.Errorf("unable to convert %s to CEL type %s", "ParentReference", typeVal.TypeName()))
+	}
+}
+
+func (name *ParentReference) Type() ref.Type {
+	return celParentReference
 }
 
 // implement CustomTypeCliValue method

@@ -222,6 +222,10 @@ func (fp *OrganizationInvitation_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == OrganizationInvitation_FieldPathSelectorName
 }
 
+func (fp *OrganizationInvitation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *OrganizationInvitation_FieldTerminalPath) WithIValue(value interface{}) OrganizationInvitation_FieldPathValue {
 	switch fp.selector {
 	case OrganizationInvitation_FieldPathSelectorName:
@@ -344,6 +348,12 @@ func (fps *OrganizationInvitation_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *OrganizationInvitation_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *OrganizationInvitation_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&OrganizationInvitation_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *OrganizationInvitation_FieldSubPath) WithIValue(value interface{}) OrganizationInvitation_FieldPathValue {
@@ -570,7 +580,11 @@ func (fpaiv *OrganizationInvitation_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *OrganizationInvitation_FieldTerminalPathArrayItemValue) ContainsValue(source *OrganizationInvitation) bool {
 	slice := fpaiv.OrganizationInvitation_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

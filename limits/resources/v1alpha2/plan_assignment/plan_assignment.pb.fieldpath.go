@@ -327,6 +327,10 @@ func (fp *PlanAssignment_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == PlanAssignment_FieldPathSelectorSource
 }
 
+func (fp *PlanAssignment_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *PlanAssignment_FieldTerminalPath) WithIValue(value interface{}) PlanAssignment_FieldPathValue {
 	switch fp.selector {
 	case PlanAssignment_FieldPathSelectorName:
@@ -507,6 +511,12 @@ func (fps *PlanAssignment_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *PlanAssignment_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *PlanAssignment_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&PlanAssignment_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *PlanAssignment_FieldSubPath) WithIValue(value interface{}) PlanAssignment_FieldPathValue {
@@ -848,7 +858,11 @@ func (fpaiv *PlanAssignment_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *PlanAssignment_FieldTerminalPathArrayItemValue) ContainsValue(source *PlanAssignment) bool {
 	slice := fpaiv.PlanAssignment_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

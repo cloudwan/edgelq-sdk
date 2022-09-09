@@ -246,6 +246,10 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadata) UpdateTime()
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataUpdateTime{}
 }
 
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadata) DeleteTime() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime{}
+}
+
 func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadata) Uuid() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataUuid {
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataUuid{}
 }
@@ -282,6 +286,10 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadata) Syncing() Li
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncing{}
 }
 
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadata) Lifecycle() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle{}
+}
+
 type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataCreateTime struct{}
 
 func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataCreateTime) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
@@ -313,6 +321,23 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataUpdateTime) 
 }
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -489,20 +514,20 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyOrganizationsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) ApiVersion() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion {
-	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Kind() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesKind {
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesKind{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Version() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion{}
 }
 
 func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Name() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesName {
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesName{}
 }
 
-func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Uid() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid {
-	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid{}
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Region() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion{}
 }
 
 func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) Controller() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesController {
@@ -513,21 +538,8 @@ func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReference
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
-	return &ListMyOrganizationsResponse_FieldSubPath{
-		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
-		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListMyOrganizationsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
-}
-
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferences) RequiresOwnerReference() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesKind struct{}
@@ -544,6 +556,23 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferen
 }
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion) WithValue(value string) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -564,20 +593,20 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid struct{}
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion struct{}
 
-func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
 	return &ListMyOrganizationsResponse_FieldSubPath{
 		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
-		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid) WithValue(value string) *ListMyOrganizationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion) WithValue(value string) *ListMyOrganizationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -612,6 +641,23 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferen
 }
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -716,6 +762,65 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncingRegio
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataSyncingRegions) WithItemValue(value string) *ListMyOrganizationsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyOrganizationsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle) State() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycle) BlockDeletion() ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion{}
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy struct{}

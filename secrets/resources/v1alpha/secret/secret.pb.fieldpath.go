@@ -233,6 +233,10 @@ func (fp *Secret_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Secret_FieldPathSelectorData
 }
 
+func (fp *Secret_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Secret_FieldTerminalPath) WithIValue(value interface{}) Secret_FieldPathValue {
 	switch fp.selector {
 	case Secret_FieldPathSelectorName:
@@ -372,6 +376,10 @@ func (fpm *Secret_FieldPathMap) IsLeaf() bool {
 	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fpm.selector))
 	}
+}
+
+func (fpm *Secret_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *Secret_FieldPathMap) WithIValue(value interface{}) Secret_FieldPathValue {
@@ -629,7 +637,11 @@ func (fpaiv *Secret_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.M
 func (fpaiv *Secret_FieldTerminalPathArrayItemValue) ContainsValue(source *Secret) bool {
 	slice := fpaiv.Secret_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

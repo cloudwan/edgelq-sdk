@@ -223,6 +223,10 @@ func (fp *Status_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Status_FieldPathSelectorDetails
 }
 
+func (fp *Status_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Status_FieldTerminalPath) WithIValue(value interface{}) Status_FieldPathValue {
 	switch fp.selector {
 	case Status_FieldPathSelectorCode:
@@ -437,7 +441,11 @@ func (fpaiv *Status_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.M
 func (fpaiv *Status_FieldTerminalPathArrayItemValue) ContainsValue(source *Status) bool {
 	slice := fpaiv.Status_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

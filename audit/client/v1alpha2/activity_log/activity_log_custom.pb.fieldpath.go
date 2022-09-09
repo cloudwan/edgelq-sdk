@@ -290,6 +290,10 @@ func (fp *ListActivityLogsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListActivityLogsRequest_FieldPathSelectorPageToken
 }
 
+func (fp *ListActivityLogsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListActivityLogsRequest_FieldTerminalPath) WithIValue(value interface{}) ListActivityLogsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListActivityLogsRequest_FieldPathSelectorParents:
@@ -432,6 +436,12 @@ func (fps *ListActivityLogsRequest_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *ListActivityLogsRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListActivityLogsRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListActivityLogsRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListActivityLogsRequest_FieldSubPath) WithIValue(value interface{}) ListActivityLogsRequest_FieldPathValue {
@@ -697,7 +707,11 @@ func (fpaiv *ListActivityLogsRequest_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *ListActivityLogsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListActivityLogsRequest) bool {
 	slice := fpaiv.ListActivityLogsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1018,6 +1032,10 @@ func (fp *ListActivityLogsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListActivityLogsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListActivityLogsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListActivityLogsResponse_FieldTerminalPath) WithIValue(value interface{}) ListActivityLogsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListActivityLogsResponse_FieldPathSelectorActivityLogs:
@@ -1169,6 +1187,12 @@ func (fps *ListActivityLogsResponse_FieldSubPath) ClearValueRaw(item proto.Messa
 // IsLeaf - whether field path is holds simple value
 func (fps *ListActivityLogsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListActivityLogsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListActivityLogsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListActivityLogsResponse_FieldSubPath) WithIValue(value interface{}) ListActivityLogsResponse_FieldPathValue {
@@ -1410,7 +1434,11 @@ func (fpaiv *ListActivityLogsResponse_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *ListActivityLogsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListActivityLogsResponse) bool {
 	slice := fpaiv.ListActivityLogsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1670,6 +1698,10 @@ func (fp *ListActivityLogsResponseErrorDetails_FieldTerminalPath) IsLeaf() bool 
 	return fp.selector == ListActivityLogsResponseErrorDetails_FieldPathSelectorRegionId
 }
 
+func (fp *ListActivityLogsResponseErrorDetails_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListActivityLogsResponseErrorDetails_FieldTerminalPath) WithIValue(value interface{}) ListActivityLogsResponseErrorDetails_FieldPathValue {
 	switch fp.selector {
 	case ListActivityLogsResponseErrorDetails_FieldPathSelectorRegionId:
@@ -1846,7 +1878,11 @@ func (fpaiv *ListActivityLogsResponseErrorDetails_FieldTerminalPathArrayItemValu
 func (fpaiv *ListActivityLogsResponseErrorDetails_FieldTerminalPathArrayItemValue) ContainsValue(source *ListActivityLogsResponse_ErrorDetails) bool {
 	slice := fpaiv.ListActivityLogsResponseErrorDetails_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2053,6 +2089,10 @@ func (fp *CreateActivityLogsRequest_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *CreateActivityLogsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateActivityLogsRequest_FieldTerminalPath) WithIValue(value interface{}) CreateActivityLogsRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateActivityLogsRequest_FieldPathSelectorActivityLogs:
@@ -2177,6 +2217,12 @@ func (fps *CreateActivityLogsRequest_FieldSubPath) ClearValueRaw(item proto.Mess
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateActivityLogsRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateActivityLogsRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateActivityLogsRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateActivityLogsRequest_FieldSubPath) WithIValue(value interface{}) CreateActivityLogsRequest_FieldPathValue {
@@ -2382,7 +2428,11 @@ func (fpaiv *CreateActivityLogsRequest_FieldTerminalPathArrayItemValue) GetSingl
 func (fpaiv *CreateActivityLogsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateActivityLogsRequest) bool {
 	slice := fpaiv.CreateActivityLogsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2619,6 +2669,10 @@ func (fp *CreateActivityLogsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreateActivityLogsResponse_FieldPathSelectorLogNames
 }
 
+func (fp *CreateActivityLogsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateActivityLogsResponse_FieldTerminalPath) WithIValue(value interface{}) CreateActivityLogsResponse_FieldPathValue {
 	switch fp.selector {
 	case CreateActivityLogsResponse_FieldPathSelectorLogNames:
@@ -2793,7 +2847,11 @@ func (fpaiv *CreateActivityLogsResponse_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *CreateActivityLogsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateActivityLogsResponse) bool {
 	slice := fpaiv.CreateActivityLogsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

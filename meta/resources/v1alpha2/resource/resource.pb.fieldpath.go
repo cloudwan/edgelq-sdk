@@ -264,6 +264,10 @@ func (fp *Resource_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Resource_FieldPathSelectorIsRegional
 }
 
+func (fp *Resource_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Resource_FieldTerminalPath) WithIValue(value interface{}) Resource_FieldPathValue {
 	switch fp.selector {
 	case Resource_FieldPathSelectorName:
@@ -398,6 +402,12 @@ func (fps *Resource_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Resource_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Resource_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Resource_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Resource_FieldSubPath) WithIValue(value interface{}) Resource_FieldPathValue {
@@ -672,7 +682,11 @@ func (fpaiv *Resource_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto
 func (fpaiv *Resource_FieldTerminalPathArrayItemValue) ContainsValue(source *Resource) bool {
 	slice := fpaiv.Resource_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

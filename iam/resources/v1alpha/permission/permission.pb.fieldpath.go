@@ -219,6 +219,10 @@ func (fp *Permission_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Permission_FieldPathSelectorDescription
 }
 
+func (fp *Permission_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Permission_FieldTerminalPath) WithIValue(value interface{}) Permission_FieldPathValue {
 	switch fp.selector {
 	case Permission_FieldPathSelectorName:
@@ -444,7 +448,11 @@ func (fpaiv *Permission_FieldTerminalPathArrayItemValue) GetSingleRaw(source pro
 func (fpaiv *Permission_FieldTerminalPathArrayItemValue) ContainsValue(source *Permission) bool {
 	slice := fpaiv.Permission_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

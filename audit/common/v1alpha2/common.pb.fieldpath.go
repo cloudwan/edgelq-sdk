@@ -208,6 +208,10 @@ func (fp *Authentication_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Authentication_FieldPathSelectorPrincipalType
 }
 
+func (fp *Authentication_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Authentication_FieldTerminalPath) WithIValue(value interface{}) Authentication_FieldPathValue {
 	switch fp.selector {
 	case Authentication_FieldPathSelectorPrincipal:
@@ -404,7 +408,11 @@ func (fpaiv *Authentication_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *Authentication_FieldTerminalPathArrayItemValue) ContainsValue(source *Authentication) bool {
 	slice := fpaiv.Authentication_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -627,6 +635,10 @@ func (fp *Authorization_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Authorization_FieldPathSelectorDeniedPermissions
 }
 
+func (fp *Authorization_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Authorization_FieldTerminalPath) WithIValue(value interface{}) Authorization_FieldPathValue {
 	switch fp.selector {
 	case Authorization_FieldPathSelectorGrantedPermissions:
@@ -819,7 +831,11 @@ func (fpaiv *Authorization_FieldTerminalPathArrayItemValue) GetSingleRaw(source 
 func (fpaiv *Authorization_FieldTerminalPathArrayItemValue) ContainsValue(source *Authorization) bool {
 	slice := fpaiv.Authorization_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1036,6 +1052,10 @@ func (fp *ServiceData_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ServiceData_FieldPathSelectorRegionId
 }
 
+func (fp *ServiceData_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ServiceData_FieldTerminalPath) WithIValue(value interface{}) ServiceData_FieldPathValue {
 	switch fp.selector {
 	case ServiceData_FieldPathSelectorName:
@@ -1232,7 +1252,11 @@ func (fpaiv *ServiceData_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *ServiceData_FieldTerminalPathArrayItemValue) ContainsValue(source *ServiceData) bool {
 	slice := fpaiv.ServiceData_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1461,6 +1485,10 @@ func (fp *ObjectState_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ObjectState_FieldPathSelectorLabels
 }
 
+func (fp *ObjectState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ObjectState_FieldTerminalPath) WithIValue(value interface{}) ObjectState_FieldPathValue {
 	switch fp.selector {
 	case ObjectState_FieldPathSelectorData:
@@ -1596,6 +1624,10 @@ func (fpm *ObjectState_FieldPathMap) IsLeaf() bool {
 	default:
 		panic(fmt.Sprintf("Invalid selector for ObjectState: %d", fpm.selector))
 	}
+}
+
+func (fpm *ObjectState_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *ObjectState_FieldPathMap) WithIValue(value interface{}) ObjectState_FieldPathValue {
@@ -1828,7 +1860,11 @@ func (fpaiv *ObjectState_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *ObjectState_FieldTerminalPathArrayItemValue) ContainsValue(source *ObjectState) bool {
 	slice := fpaiv.ObjectState_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2069,6 +2105,10 @@ func (fp *LabelDescriptor_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == LabelDescriptor_FieldPathSelectorVersions
 }
 
+func (fp *LabelDescriptor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LabelDescriptor_FieldTerminalPath) WithIValue(value interface{}) LabelDescriptor_FieldPathValue {
 	switch fp.selector {
 	case LabelDescriptor_FieldPathSelectorKey:
@@ -2263,7 +2303,11 @@ func (fpaiv *LabelDescriptor_FieldTerminalPathArrayItemValue) GetSingleRaw(sourc
 func (fpaiv *LabelDescriptor_FieldTerminalPathArrayItemValue) ContainsValue(source *LabelDescriptor) bool {
 	slice := fpaiv.LabelDescriptor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2486,6 +2530,10 @@ func (fp *LabelKeySet_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == LabelKeySet_FieldPathSelectorVersions
 }
 
+func (fp *LabelKeySet_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LabelKeySet_FieldTerminalPath) WithIValue(value interface{}) LabelKeySet_FieldPathValue {
 	switch fp.selector {
 	case LabelKeySet_FieldPathSelectorLabelKeys:
@@ -2678,7 +2726,11 @@ func (fpaiv *LabelKeySet_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *LabelKeySet_FieldTerminalPathArrayItemValue) ContainsValue(source *LabelKeySet) bool {
 	slice := fpaiv.LabelKeySet_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2901,6 +2953,10 @@ func (fp *TimeInterval_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == TimeInterval_FieldPathSelectorStartTime
 }
 
+func (fp *TimeInterval_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *TimeInterval_FieldTerminalPath) WithIValue(value interface{}) TimeInterval_FieldPathValue {
 	switch fp.selector {
 	case TimeInterval_FieldPathSelectorEndTime:
@@ -3115,7 +3171,11 @@ func (fpaiv *TimeInterval_FieldTerminalPathArrayItemValue) GetSingleRaw(source p
 func (fpaiv *TimeInterval_FieldTerminalPathArrayItemValue) ContainsValue(source *TimeInterval) bool {
 	slice := fpaiv.TimeInterval_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

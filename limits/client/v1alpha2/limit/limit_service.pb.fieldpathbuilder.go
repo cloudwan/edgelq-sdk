@@ -16,6 +16,7 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -30,6 +31,7 @@ var (
 	_ = &limit_pool.LimitPool{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
+	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
@@ -396,6 +398,10 @@ func (BatchGetLimitsResponsePathSelectorLimitsMetadata) UpdateTime() BatchGetLim
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataUpdateTime{}
 }
 
+func (BatchGetLimitsResponsePathSelectorLimitsMetadata) DeleteTime() BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime{}
+}
+
 func (BatchGetLimitsResponsePathSelectorLimitsMetadata) Uuid() BatchGetLimitsResponsePathSelectorLimitsMetadataUuid {
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataUuid{}
 }
@@ -432,6 +438,10 @@ func (BatchGetLimitsResponsePathSelectorLimitsMetadata) Syncing() BatchGetLimits
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataSyncing{}
 }
 
+func (BatchGetLimitsResponsePathSelectorLimitsMetadata) Lifecycle() BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle{}
+}
+
 type BatchGetLimitsResponsePathSelectorLimitsMetadataCreateTime struct{}
 
 func (BatchGetLimitsResponsePathSelectorLimitsMetadataCreateTime) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
@@ -463,6 +473,23 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataUpdateTime) WithValue(va
 }
 
 func (s BatchGetLimitsResponsePathSelectorLimitsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -639,20 +666,20 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) WithIte
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetLimitsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) ApiVersion() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion {
-	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Kind() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind {
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Version() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Name() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName {
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Uid() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid {
-	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid{}
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Region() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Controller() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesController {
@@ -663,21 +690,8 @@ func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) BlockOwne
 	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
-	return &BatchGetLimitsResponse_FieldSubPath{
-		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetLimitsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferences) RequiresOwnerReference() BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind struct{}
@@ -694,6 +708,23 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind) Wit
 }
 
 func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -714,20 +745,20 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName) Wit
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid struct{}
+type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
 	return &BatchGetLimitsResponse_FieldSubPath{
 		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetLimitsResponse_FieldSubPathValue {
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetLimitsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -762,6 +793,23 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwne
 }
 
 func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -866,6 +914,65 @@ func (s BatchGetLimitsResponsePathSelectorLimitsMetadataSyncingRegions) WithArra
 
 func (s BatchGetLimitsResponsePathSelectorLimitsMetadataSyncingRegions) WithItemValue(value string) *BatchGetLimitsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetLimitsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle) State() BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState{}
+}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycle) BlockDeletion() BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion {
+	return BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetLimitsResponse_FieldSubPath {
+	return &BatchGetLimitsResponse_FieldSubPath{
+		selector: BatchGetLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetLimitsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetLimitsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetLimitsResponsePathSelectorMissing struct{}
@@ -1256,6 +1363,10 @@ func (ListLimitsResponsePathSelectorLimitsMetadata) UpdateTime() ListLimitsRespo
 	return ListLimitsResponsePathSelectorLimitsMetadataUpdateTime{}
 }
 
+func (ListLimitsResponsePathSelectorLimitsMetadata) DeleteTime() ListLimitsResponsePathSelectorLimitsMetadataDeleteTime {
+	return ListLimitsResponsePathSelectorLimitsMetadataDeleteTime{}
+}
+
 func (ListLimitsResponsePathSelectorLimitsMetadata) Uuid() ListLimitsResponsePathSelectorLimitsMetadataUuid {
 	return ListLimitsResponsePathSelectorLimitsMetadataUuid{}
 }
@@ -1292,6 +1403,10 @@ func (ListLimitsResponsePathSelectorLimitsMetadata) Syncing() ListLimitsResponse
 	return ListLimitsResponsePathSelectorLimitsMetadataSyncing{}
 }
 
+func (ListLimitsResponsePathSelectorLimitsMetadata) Lifecycle() ListLimitsResponsePathSelectorLimitsMetadataLifecycle {
+	return ListLimitsResponsePathSelectorLimitsMetadataLifecycle{}
+}
+
 type ListLimitsResponsePathSelectorLimitsMetadataCreateTime struct{}
 
 func (ListLimitsResponsePathSelectorLimitsMetadataCreateTime) FieldPath() *ListLimitsResponse_FieldSubPath {
@@ -1323,6 +1438,23 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataUpdateTime) WithValue(value 
 }
 
 func (s ListLimitsResponsePathSelectorLimitsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataDeleteTime struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataDeleteTime) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1499,20 +1631,20 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) WithItemVal
 	return s.FieldPath().WithIArrayItemValue(value).(*ListLimitsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) ApiVersion() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion {
-	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Kind() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind {
 	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind{}
+}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Version() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion {
+	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion{}
 }
 
 func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Name() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName {
 	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName{}
 }
 
-func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Uid() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid {
-	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid{}
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Region() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion {
+	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion{}
 }
 
 func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) Controller() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesController {
@@ -1523,21 +1655,8 @@ func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) BlockOwnerDel
 	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) FieldPath() *ListLimitsResponse_FieldSubPath {
-	return &ListLimitsResponse_FieldSubPath{
-		selector: ListLimitsResponse_FieldPathSelectorLimits,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListLimitsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
-}
-
-func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListLimitsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferences) RequiresOwnerReference() ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind struct{}
@@ -1554,6 +1673,23 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind) WithVal
 }
 
 func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) WithValue(value string) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1574,20 +1710,20 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesName) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid struct{}
+type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion struct{}
 
-func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) FieldPath() *ListLimitsResponse_FieldSubPath {
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) FieldPath() *ListLimitsResponse_FieldSubPath {
 	return &ListLimitsResponse_FieldSubPath{
 		selector: ListLimitsResponse_FieldPathSelectorLimits,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) WithValue(value string) *ListLimitsResponse_FieldSubPathValue {
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) WithValue(value string) *ListLimitsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
 }
 
-func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListLimitsResponse_FieldSubPathArrayOfValues {
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1622,6 +1758,23 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwnerDel
 }
 
 func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListLimitsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1726,6 +1879,65 @@ func (s ListLimitsResponsePathSelectorLimitsMetadataSyncingRegions) WithArrayOfV
 
 func (s ListLimitsResponsePathSelectorLimitsMetadataSyncingRegions) WithItemValue(value string) *ListLimitsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListLimitsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataLifecycle struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataLifecycle) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataLifecycle) State() ListLimitsResponsePathSelectorLimitsMetadataLifecycleState {
+	return ListLimitsResponsePathSelectorLimitsMetadataLifecycleState{}
+}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataLifecycle) BlockDeletion() ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion {
+	return ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion{}
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataLifecycleState struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataLifecycleState) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion struct{}
+
+func (ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) FieldPath() *ListLimitsResponse_FieldSubPath {
+	return &ListLimitsResponse_FieldSubPath{
+		selector: ListLimitsResponse_FieldPathSelectorLimits,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListLimitsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldSubPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorLimitsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListLimitsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListLimitsResponsePathSelectorPrevPageToken struct{}
@@ -2481,6 +2693,10 @@ func (UpdateLimitRequestPathSelectorLimitMetadata) UpdateTime() UpdateLimitReque
 	return UpdateLimitRequestPathSelectorLimitMetadataUpdateTime{}
 }
 
+func (UpdateLimitRequestPathSelectorLimitMetadata) DeleteTime() UpdateLimitRequestPathSelectorLimitMetadataDeleteTime {
+	return UpdateLimitRequestPathSelectorLimitMetadataDeleteTime{}
+}
+
 func (UpdateLimitRequestPathSelectorLimitMetadata) Uuid() UpdateLimitRequestPathSelectorLimitMetadataUuid {
 	return UpdateLimitRequestPathSelectorLimitMetadataUuid{}
 }
@@ -2517,6 +2733,10 @@ func (UpdateLimitRequestPathSelectorLimitMetadata) Syncing() UpdateLimitRequestP
 	return UpdateLimitRequestPathSelectorLimitMetadataSyncing{}
 }
 
+func (UpdateLimitRequestPathSelectorLimitMetadata) Lifecycle() UpdateLimitRequestPathSelectorLimitMetadataLifecycle {
+	return UpdateLimitRequestPathSelectorLimitMetadataLifecycle{}
+}
+
 type UpdateLimitRequestPathSelectorLimitMetadataCreateTime struct{}
 
 func (UpdateLimitRequestPathSelectorLimitMetadataCreateTime) FieldPath() *UpdateLimitRequest_FieldSubPath {
@@ -2548,6 +2768,23 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataUpdateTime) WithValue(value *
 }
 
 func (s UpdateLimitRequestPathSelectorLimitMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataDeleteTime struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataDeleteTime) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2724,20 +2961,20 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) WithItemValu
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) ApiVersion() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion {
-	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Kind() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesKind {
 	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Version() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion {
+	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Name() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesName {
 	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesName{}
 }
 
-func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Uid() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid {
-	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid{}
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Region() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion {
+	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) Controller() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesController {
@@ -2748,21 +2985,8 @@ func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) BlockOwnerDele
 	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLimitRequest_FieldSubPath {
-	return &UpdateLimitRequest_FieldSubPath{
-		selector: UpdateLimitRequest_FieldPathSelectorLimit,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
-}
-
-func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferences) RequiresOwnerReference() UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesKind struct{}
@@ -2779,6 +3003,23 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesKind) WithValu
 }
 
 func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2799,20 +3040,20 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesName) WithArra
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid struct{}
+type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid) FieldPath() *UpdateLimitRequest_FieldSubPath {
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion) FieldPath() *UpdateLimitRequest_FieldSubPath {
 	return &UpdateLimitRequest_FieldSubPath{
 		selector: UpdateLimitRequest_FieldPathSelectorLimit,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
 }
 
-func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2847,6 +3088,23 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesBlockOwnerDele
 }
 
 func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2951,6 +3209,65 @@ func (s UpdateLimitRequestPathSelectorLimitMetadataSyncingRegions) WithArrayOfVa
 
 func (s UpdateLimitRequestPathSelectorLimitMetadataSyncingRegions) WithItemValue(value string) *UpdateLimitRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataLifecycle struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataLifecycle) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataLifecycle) State() UpdateLimitRequestPathSelectorLimitMetadataLifecycleState {
+	return UpdateLimitRequestPathSelectorLimitMetadataLifecycleState{}
+}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataLifecycle) BlockDeletion() UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion {
+	return UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataLifecycleState struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataLifecycleState) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorLimit,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorLimitMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateLimitRequestPathSelectorUpdateMask struct{}
@@ -3219,6 +3536,10 @@ func (UpdateLimitRequestPathSelectorCasConditionalStateMetadata) UpdateTime() Up
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateLimitRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateLimitRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -3255,6 +3576,10 @@ func (UpdateLimitRequestPathSelectorCasConditionalStateMetadata) Syncing() Updat
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateLimitRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateLimitRequest_FieldSubPath {
@@ -3286,6 +3611,23 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataUpdateTime) Wit
 }
 
 func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3462,20 +3804,20 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -3486,21 +3828,8 @@ func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) 
 	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLimitRequest_FieldSubPath {
-	return &UpdateLimitRequest_FieldSubPath{
-		selector: UpdateLimitRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
-}
-
-func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -3517,6 +3846,23 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences
 }
 
 func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3537,20 +3883,20 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateLimitRequest_FieldSubPath {
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateLimitRequest_FieldSubPath {
 	return &UpdateLimitRequest_FieldSubPath{
 		selector: UpdateLimitRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLimitRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
 }
 
-func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3585,6 +3931,23 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferences
 }
 
 func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3689,6 +4052,65 @@ func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataSyncingRegions)
 
 func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateLimitRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateLimitRequest_FieldSubPath {
+	return &UpdateLimitRequest_FieldSubPath{
+		selector: UpdateLimitRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateLimitRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLimitRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequest_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateLimitRequestPathSelectorCasFieldMask struct{}
@@ -3947,6 +4369,10 @@ func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadata) UpdateTime() U
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -3983,6 +4409,10 @@ func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadata) Syncing() Upda
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
@@ -4014,6 +4444,23 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataUpdateTime) Wi
 }
 
 func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4190,20 +4637,20 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReference
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -4214,21 +4661,8 @@ func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences)
 	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
-	return &UpdateLimitRequestCAS_FieldSubPath{
-		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateLimitRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4245,6 +4679,23 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReference
 }
 
 func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4265,20 +4716,20 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReference
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
 	return &UpdateLimitRequestCAS_FieldSubPath{
 		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateLimitRequestCAS_FieldSubPathValue {
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateLimitRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4313,6 +4764,23 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReference
 }
 
 func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4419,6 +4887,65 @@ func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataSyncingRegions
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateLimitRequestCAS_FieldSubPathArrayItemValue)
 }
 
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateLimitRequestCAS_FieldSubPath {
+	return &UpdateLimitRequestCAS_FieldSubPath{
+		selector: UpdateLimitRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  limit.NewLimitFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateLimitRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateLimitRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateLimitRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateLimitRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldSubPathArrayOfValues)
+}
+
 type UpdateLimitRequest_CASPathSelectorFieldMask struct{}
 
 func (UpdateLimitRequest_CASPathSelectorFieldMask) FieldPath() *UpdateLimitRequestCAS_FieldTerminalPath {
@@ -4431,4 +4958,27 @@ func (s UpdateLimitRequest_CASPathSelectorFieldMask) WithValue(value *limit.Limi
 
 func (s UpdateLimitRequest_CASPathSelectorFieldMask) WithArrayOfValues(values []*limit.Limit_FieldMask) *UpdateLimitRequestCAS_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateLimitRequestCAS_FieldTerminalPathArrayOfValues)
+}
+
+type DeleteLimitRequestFieldPathBuilder struct{}
+
+func NewDeleteLimitRequestFieldPathBuilder() DeleteLimitRequestFieldPathBuilder {
+	return DeleteLimitRequestFieldPathBuilder{}
+}
+func (DeleteLimitRequestFieldPathBuilder) Name() DeleteLimitRequestPathSelectorName {
+	return DeleteLimitRequestPathSelectorName{}
+}
+
+type DeleteLimitRequestPathSelectorName struct{}
+
+func (DeleteLimitRequestPathSelectorName) FieldPath() *DeleteLimitRequest_FieldTerminalPath {
+	return &DeleteLimitRequest_FieldTerminalPath{selector: DeleteLimitRequest_FieldPathSelectorName}
+}
+
+func (s DeleteLimitRequestPathSelectorName) WithValue(value *limit.Reference) *DeleteLimitRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeleteLimitRequest_FieldTerminalPathValue)
+}
+
+func (s DeleteLimitRequestPathSelectorName) WithArrayOfValues(values []*limit.Reference) *DeleteLimitRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeleteLimitRequest_FieldTerminalPathArrayOfValues)
 }

@@ -431,6 +431,34 @@ func (p *PagerQuery) PageDirection() gotenresource.PageDirection {
 	}
 }
 
+func (p *PagerQuery) SetCursor(cursor gotenresource.Cursor) {
+	if cursor == nil {
+		p.Cursor = nil
+	} else {
+		p.Cursor = cursor.(*PagerCursor)
+	}
+}
+
+func (p *PagerQuery) SetOrderBy(orderBy gotenresource.OrderBy) {
+	if orderBy == nil {
+		p.OrderBy = nil
+	} else {
+		p.OrderBy = orderBy.(*OrderBy)
+	}
+}
+
+func (p *PagerQuery) SetLimit(limit int) {
+	p.Limit = limit
+}
+
+func (p *PagerQuery) SetPeekForward(peekForward bool) {
+	p.PeekForward = peekForward
+}
+
+func (p *PagerQuery) SetPageDirection(direction gotenresource.PageDirection) {
+	p.Cursor.PageDirection = direction
+}
+
 func (p *PagerQuery) GetResourceDescriptor() gotenresource.Descriptor {
 	return descriptor
 }

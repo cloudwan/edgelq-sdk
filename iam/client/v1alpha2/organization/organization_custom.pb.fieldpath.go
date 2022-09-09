@@ -214,6 +214,10 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMyOrganizationsRequest_FieldPathSelectorFieldMask
 }
 
+func (fp *ListMyOrganizationsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
@@ -394,7 +398,11 @@ func (fpaiv *ListMyOrganizationsRequest_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *ListMyOrganizationsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyOrganizationsRequest) bool {
 	slice := fpaiv.ListMyOrganizationsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -609,6 +617,10 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *ListMyOrganizationsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyOrganizationsResponse_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
@@ -733,6 +745,12 @@ func (fps *ListMyOrganizationsResponse_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *ListMyOrganizationsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListMyOrganizationsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListMyOrganizationsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListMyOrganizationsResponse_FieldSubPath) WithIValue(value interface{}) ListMyOrganizationsResponse_FieldPathValue {
@@ -938,7 +956,11 @@ func (fpaiv *ListMyOrganizationsResponse_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *ListMyOrganizationsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyOrganizationsResponse) bool {
 	slice := fpaiv.ListMyOrganizationsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

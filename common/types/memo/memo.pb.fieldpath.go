@@ -240,6 +240,10 @@ func (fp *Memo_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Memo_FieldPathSelectorCreatedBy
 }
 
+func (fp *Memo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Memo_FieldTerminalPath) WithIValue(value interface{}) Memo_FieldPathValue {
 	switch fp.selector {
 	case Memo_FieldPathSelectorCreateTime:
@@ -494,7 +498,11 @@ func (fpaiv *Memo_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Mes
 func (fpaiv *Memo_FieldTerminalPathArrayItemValue) ContainsValue(source *Memo) bool {
 	slice := fpaiv.Memo_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

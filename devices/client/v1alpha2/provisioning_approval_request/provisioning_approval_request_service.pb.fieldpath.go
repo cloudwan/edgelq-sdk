@@ -236,6 +236,10 @@ func (fp *GetProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() bool
 		fp.selector == GetProvisioningApprovalRequestRequest_FieldPathSelectorView
 }
 
+func (fp *GetProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue(value interface{}) GetProvisioningApprovalRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case GetProvisioningApprovalRequestRequest_FieldPathSelectorName:
@@ -453,7 +457,11 @@ func (fpaiv *GetProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemVal
 func (fpaiv *GetProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetProvisioningApprovalRequestRequest) bool {
 	slice := fpaiv.GetProvisioningApprovalRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -698,6 +706,10 @@ func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) IsLeaf(
 		fp.selector == BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetProvisioningApprovalRequestsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetProvisioningApprovalRequestsRequest_FieldPathSelectorNames:
@@ -904,7 +916,11 @@ func (fpaiv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayI
 func (fpaiv *BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetProvisioningApprovalRequestsRequest) bool {
 	slice := fpaiv.BatchGetProvisioningApprovalRequestsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1143,6 +1159,10 @@ func (fp *BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPath) IsLeaf
 	return fp.selector == BatchGetProvisioningApprovalRequestsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetProvisioningApprovalRequestsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetProvisioningApprovalRequestsResponse_FieldPathSelectorProvisioningApprovalRequests:
@@ -1273,6 +1293,12 @@ func (fps *BatchGetProvisioningApprovalRequestsResponse_FieldSubPath) ClearValue
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetProvisioningApprovalRequestsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetProvisioningApprovalRequestsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetProvisioningApprovalRequestsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetProvisioningApprovalRequestsResponse_FieldPathValue {
@@ -1490,7 +1516,11 @@ func (fpaiv *BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPathArray
 func (fpaiv *BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetProvisioningApprovalRequestsResponse) bool {
 	slice := fpaiv.BatchGetProvisioningApprovalRequestsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1831,6 +1861,10 @@ func (fp *ListProvisioningApprovalRequestsRequest_FieldTerminalPath) IsLeaf() bo
 		fp.selector == ListProvisioningApprovalRequestsRequest_FieldPathSelectorView
 }
 
+func (fp *ListProvisioningApprovalRequestsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListProvisioningApprovalRequestsRequest_FieldTerminalPath) WithIValue(value interface{}) ListProvisioningApprovalRequestsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListProvisioningApprovalRequestsRequest_FieldPathSelectorParent:
@@ -2104,7 +2138,11 @@ func (fpaiv *ListProvisioningApprovalRequestsRequest_FieldTerminalPathArrayItemV
 func (fpaiv *ListProvisioningApprovalRequestsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListProvisioningApprovalRequestsRequest) bool {
 	slice := fpaiv.ListProvisioningApprovalRequestsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2392,6 +2430,10 @@ func (fp *ListProvisioningApprovalRequestsResponse_FieldTerminalPath) IsLeaf() b
 		fp.selector == ListProvisioningApprovalRequestsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListProvisioningApprovalRequestsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListProvisioningApprovalRequestsResponse_FieldTerminalPath) WithIValue(value interface{}) ListProvisioningApprovalRequestsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListProvisioningApprovalRequestsResponse_FieldPathSelectorProvisioningApprovalRequests:
@@ -2524,6 +2566,12 @@ func (fps *ListProvisioningApprovalRequestsResponse_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *ListProvisioningApprovalRequestsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListProvisioningApprovalRequestsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListProvisioningApprovalRequestsResponse_FieldSubPath) WithIValue(value interface{}) ListProvisioningApprovalRequestsResponse_FieldPathValue {
@@ -2745,7 +2793,11 @@ func (fpaiv *ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayItem
 func (fpaiv *ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListProvisioningApprovalRequestsResponse) bool {
 	slice := fpaiv.ListProvisioningApprovalRequestsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3029,6 +3081,10 @@ func (fp *WatchProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() bo
 		fp.selector == WatchProvisioningApprovalRequestRequest_FieldPathSelectorView
 }
 
+func (fp *WatchProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchProvisioningApprovalRequestRequest_FieldPathSelectorName:
@@ -3246,7 +3302,11 @@ func (fpaiv *WatchProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemV
 func (fpaiv *WatchProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchProvisioningApprovalRequestRequest) bool {
 	slice := fpaiv.WatchProvisioningApprovalRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3460,6 +3520,10 @@ func (fp *WatchProvisioningApprovalRequestResponse_FieldTerminalPath) IsLeaf() b
 	return fp.selector == WatchProvisioningApprovalRequestResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchProvisioningApprovalRequestResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchProvisioningApprovalRequestResponse_FieldTerminalPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchProvisioningApprovalRequestResponse_FieldPathSelectorChange:
@@ -3628,7 +3692,11 @@ func (fpaiv *WatchProvisioningApprovalRequestResponse_FieldTerminalPathArrayItem
 func (fpaiv *WatchProvisioningApprovalRequestResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchProvisioningApprovalRequestResponse) bool {
 	slice := fpaiv.WatchProvisioningApprovalRequestResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3964,6 +4032,10 @@ func (fp *WatchProvisioningApprovalRequestsRequest_FieldTerminalPath) IsLeaf() b
 		fp.selector == WatchProvisioningApprovalRequestsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchProvisioningApprovalRequestsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchProvisioningApprovalRequestsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchProvisioningApprovalRequestsRequest_FieldPathSelectorType:
@@ -4297,7 +4369,11 @@ func (fpaiv *WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayItem
 func (fpaiv *WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchProvisioningApprovalRequestsRequest) bool {
 	slice := fpaiv.WatchProvisioningApprovalRequestsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4662,6 +4738,10 @@ func (fp *WatchProvisioningApprovalRequestsResponse_FieldTerminalPath) IsLeaf() 
 		fp.selector == WatchProvisioningApprovalRequestsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchProvisioningApprovalRequestsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchProvisioningApprovalRequestsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchProvisioningApprovalRequestsResponse_FieldPathSelectorProvisioningApprovalRequestChanges:
@@ -4806,6 +4886,12 @@ func (fps *WatchProvisioningApprovalRequestsResponse_FieldSubPath) ClearValueRaw
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchProvisioningApprovalRequestsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchProvisioningApprovalRequestsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchProvisioningApprovalRequestsResponse_FieldSubPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestsResponse_FieldPathValue {
@@ -5099,7 +5185,11 @@ func (fpaiv *WatchProvisioningApprovalRequestsResponse_FieldTerminalPathArrayIte
 func (fpaiv *WatchProvisioningApprovalRequestsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchProvisioningApprovalRequestsResponse) bool {
 	slice := fpaiv.WatchProvisioningApprovalRequestsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5401,6 +5491,10 @@ func (fp *WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTerminal
 		fp.selector == WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5581,7 +5675,11 @@ func (fpaiv *WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTermi
 func (fpaiv *WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchProvisioningApprovalRequestsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchProvisioningApprovalRequestsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5812,6 +5910,10 @@ func (fp *CreateProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == CreateProvisioningApprovalRequestRequest_FieldPathSelectorParent
 }
 
+func (fp *CreateProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue(value interface{}) CreateProvisioningApprovalRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateProvisioningApprovalRequestRequest_FieldPathSelectorParent:
@@ -5934,6 +6036,12 @@ func (fps *CreateProvisioningApprovalRequestRequest_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateProvisioningApprovalRequestRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateProvisioningApprovalRequestRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateProvisioningApprovalRequestRequest_FieldSubPath) WithIValue(value interface{}) CreateProvisioningApprovalRequestRequest_FieldPathValue {
@@ -6160,7 +6268,11 @@ func (fpaiv *CreateProvisioningApprovalRequestRequest_FieldTerminalPathArrayItem
 func (fpaiv *CreateProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateProvisioningApprovalRequestRequest) bool {
 	slice := fpaiv.CreateProvisioningApprovalRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6452,6 +6564,10 @@ func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == UpdateProvisioningApprovalRequestRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateProvisioningApprovalRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateProvisioningApprovalRequestRequest_FieldPathSelectorProvisioningApprovalRequest:
@@ -6591,6 +6707,12 @@ func (fps *UpdateProvisioningApprovalRequestRequest_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateProvisioningApprovalRequestRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateProvisioningApprovalRequestRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateProvisioningApprovalRequestRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateProvisioningApprovalRequestRequest_FieldSubPath) WithIValue(value interface{}) UpdateProvisioningApprovalRequestRequest_FieldPathValue {
@@ -6816,7 +6938,11 @@ func (fpaiv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayItem
 func (fpaiv *UpdateProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateProvisioningApprovalRequestRequest) bool {
 	slice := fpaiv.UpdateProvisioningApprovalRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7104,6 +7230,10 @@ func (fp *UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPath) IsLeaf(
 	return fp.selector == UpdateProvisioningApprovalRequestRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateProvisioningApprovalRequestRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateProvisioningApprovalRequestRequestCAS_FieldPathSelectorConditionalState:
@@ -7226,6 +7356,12 @@ func (fps *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPath) ClearValueR
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateProvisioningApprovalRequestRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateProvisioningApprovalRequestRequestCAS_FieldPathValue {
@@ -7435,7 +7571,11 @@ func (fpaiv *UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPathArrayI
 func (fpaiv *UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateProvisioningApprovalRequestRequest_CAS) bool {
 	slice := fpaiv.UpdateProvisioningApprovalRequestRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7680,6 +7820,10 @@ func (fp *DeleteProvisioningApprovalRequestRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == DeleteProvisioningApprovalRequestRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteProvisioningApprovalRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteProvisioningApprovalRequestRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteProvisioningApprovalRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteProvisioningApprovalRequestRequest_FieldPathSelectorName:
@@ -7865,7 +8009,11 @@ func (fpaiv *DeleteProvisioningApprovalRequestRequest_FieldTerminalPathArrayItem
 func (fpaiv *DeleteProvisioningApprovalRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteProvisioningApprovalRequestRequest) bool {
 	slice := fpaiv.DeleteProvisioningApprovalRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

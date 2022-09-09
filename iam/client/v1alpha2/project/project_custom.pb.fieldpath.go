@@ -214,6 +214,10 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMyProjectsRequest_FieldPathSelectorFieldMask
 }
 
+func (fp *ListMyProjectsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyProjectsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyProjectsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
@@ -394,7 +398,11 @@ func (fpaiv *ListMyProjectsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *ListMyProjectsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyProjectsRequest) bool {
 	slice := fpaiv.ListMyProjectsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -609,6 +617,10 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *ListMyProjectsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyProjectsResponse_FieldTerminalPath) WithIValue(value interface{}) ListMyProjectsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
@@ -733,6 +745,12 @@ func (fps *ListMyProjectsResponse_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *ListMyProjectsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListMyProjectsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListMyProjectsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListMyProjectsResponse_FieldSubPath) WithIValue(value interface{}) ListMyProjectsResponse_FieldPathValue {
@@ -938,7 +956,11 @@ func (fpaiv *ListMyProjectsResponse_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *ListMyProjectsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyProjectsResponse) bool {
 	slice := fpaiv.ListMyProjectsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -268,6 +268,10 @@ func (fp *ProvisioningApprovalRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ProvisioningApprovalRequest_FieldPathSelectorName
 }
 
+func (fp *ProvisioningApprovalRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningApprovalRequest_FieldTerminalPath) WithIValue(value interface{}) ProvisioningApprovalRequest_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningApprovalRequest_FieldPathSelectorName:
@@ -424,6 +428,12 @@ func (fps *ProvisioningApprovalRequest_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisioningApprovalRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisioningApprovalRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisioningApprovalRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisioningApprovalRequest_FieldSubPath) WithIValue(value interface{}) ProvisioningApprovalRequest_FieldPathValue {
@@ -682,7 +692,11 @@ func (fpaiv *ProvisioningApprovalRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *ProvisioningApprovalRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningApprovalRequest) bool {
 	slice := fpaiv.ProvisioningApprovalRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -977,6 +991,10 @@ func (fp *ProvisioningApprovalRequestSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ProvisioningApprovalRequestSpec_FieldPathSelectorServiceAccount
 }
 
+func (fp *ProvisioningApprovalRequestSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningApprovalRequestSpec_FieldTerminalPath) WithIValue(value interface{}) ProvisioningApprovalRequestSpec_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningApprovalRequestSpec_FieldPathSelectorConclusion:
@@ -1182,7 +1200,11 @@ func (fpaiv *ProvisioningApprovalRequestSpec_FieldTerminalPathArrayItemValue) Ge
 func (fpaiv *ProvisioningApprovalRequestSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningApprovalRequest_Spec) bool {
 	slice := fpaiv.ProvisioningApprovalRequestSpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1369,6 +1391,10 @@ func (fp *ProvisioningApprovalRequestStatus_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *ProvisioningApprovalRequestStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningApprovalRequestStatus_FieldTerminalPath) WithIValue(value interface{}) ProvisioningApprovalRequestStatus_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -1525,7 +1551,11 @@ func (fpaiv *ProvisioningApprovalRequestStatus_FieldTerminalPathArrayItemValue) 
 func (fpaiv *ProvisioningApprovalRequestStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningApprovalRequest_Status) bool {
 	slice := fpaiv.ProvisioningApprovalRequestStatus_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -295,6 +295,10 @@ func (fp *ListPublicDevicesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPublicDevicesRequest_FieldPathSelectorView
 }
 
+func (fp *ListPublicDevicesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPublicDevicesRequest_FieldTerminalPath) WithIValue(value interface{}) ListPublicDevicesRequest_FieldPathValue {
 	switch fp.selector {
 	case ListPublicDevicesRequest_FieldPathSelectorParent:
@@ -568,7 +572,11 @@ func (fpaiv *ListPublicDevicesRequest_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *ListPublicDevicesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPublicDevicesRequest) bool {
 	slice := fpaiv.ListPublicDevicesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -856,6 +864,10 @@ func (fp *ListPublicDevicesResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPublicDevicesResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListPublicDevicesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPublicDevicesResponse_FieldTerminalPath) WithIValue(value interface{}) ListPublicDevicesResponse_FieldPathValue {
 	switch fp.selector {
 	case ListPublicDevicesResponse_FieldPathSelectorDevices:
@@ -988,6 +1000,12 @@ func (fps *ListPublicDevicesResponse_FieldSubPath) ClearValueRaw(item proto.Mess
 // IsLeaf - whether field path is holds simple value
 func (fps *ListPublicDevicesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListPublicDevicesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListPublicDevicesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListPublicDevicesResponse_FieldSubPath) WithIValue(value interface{}) ListPublicDevicesResponse_FieldPathValue {
@@ -1209,7 +1227,11 @@ func (fpaiv *ListPublicDevicesResponse_FieldTerminalPathArrayItemValue) GetSingl
 func (fpaiv *ListPublicDevicesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPublicDevicesResponse) bool {
 	slice := fpaiv.ListPublicDevicesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

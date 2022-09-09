@@ -83,6 +83,11 @@ func (obj *Meta) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Meta", "syncing", obj.Syncing, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Lifecycle).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Meta", "lifecycle", obj.Lifecycle, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -123,6 +128,15 @@ func (obj *OwnerReference) GotenValidate() error {
 	return nil
 }
 func (obj *SyncingMeta) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Lifecycle) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

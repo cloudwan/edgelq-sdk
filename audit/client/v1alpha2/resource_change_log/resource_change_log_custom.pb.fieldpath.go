@@ -292,6 +292,10 @@ func (fp *ListResourceChangeLogsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListResourceChangeLogsRequest_FieldPathSelectorPageToken
 }
 
+func (fp *ListResourceChangeLogsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListResourceChangeLogsRequest_FieldTerminalPath) WithIValue(value interface{}) ListResourceChangeLogsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListResourceChangeLogsRequest_FieldPathSelectorParents:
@@ -434,6 +438,12 @@ func (fps *ListResourceChangeLogsRequest_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *ListResourceChangeLogsRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListResourceChangeLogsRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListResourceChangeLogsRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListResourceChangeLogsRequest_FieldSubPath) WithIValue(value interface{}) ListResourceChangeLogsRequest_FieldPathValue {
@@ -699,7 +709,11 @@ func (fpaiv *ListResourceChangeLogsRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *ListResourceChangeLogsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListResourceChangeLogsRequest) bool {
 	slice := fpaiv.ListResourceChangeLogsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1020,6 +1034,10 @@ func (fp *ListResourceChangeLogsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListResourceChangeLogsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListResourceChangeLogsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListResourceChangeLogsResponse_FieldTerminalPath) WithIValue(value interface{}) ListResourceChangeLogsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs:
@@ -1171,6 +1189,12 @@ func (fps *ListResourceChangeLogsResponse_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *ListResourceChangeLogsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListResourceChangeLogsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListResourceChangeLogsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListResourceChangeLogsResponse_FieldSubPath) WithIValue(value interface{}) ListResourceChangeLogsResponse_FieldPathValue {
@@ -1412,7 +1436,11 @@ func (fpaiv *ListResourceChangeLogsResponse_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *ListResourceChangeLogsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListResourceChangeLogsResponse) bool {
 	slice := fpaiv.ListResourceChangeLogsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1672,6 +1700,10 @@ func (fp *ListResourceChangeLogsResponseErrorDetails_FieldTerminalPath) IsLeaf()
 	return fp.selector == ListResourceChangeLogsResponseErrorDetails_FieldPathSelectorRegionId
 }
 
+func (fp *ListResourceChangeLogsResponseErrorDetails_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListResourceChangeLogsResponseErrorDetails_FieldTerminalPath) WithIValue(value interface{}) ListResourceChangeLogsResponseErrorDetails_FieldPathValue {
 	switch fp.selector {
 	case ListResourceChangeLogsResponseErrorDetails_FieldPathSelectorRegionId:
@@ -1848,7 +1880,11 @@ func (fpaiv *ListResourceChangeLogsResponseErrorDetails_FieldTerminalPathArrayIt
 func (fpaiv *ListResourceChangeLogsResponseErrorDetails_FieldTerminalPathArrayItemValue) ContainsValue(source *ListResourceChangeLogsResponse_ErrorDetails) bool {
 	slice := fpaiv.ListResourceChangeLogsResponseErrorDetails_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2151,6 +2187,10 @@ func (fp *CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPath) IsLeaf(
 		fp.selector == CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorTimestamp
 }
 
+func (fp *CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPath) WithIValue(value interface{}) CreatePreCommittedResourceChangeLogsRequest_FieldPathValue {
 	switch fp.selector {
 	case CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorRequestId:
@@ -2334,6 +2374,12 @@ func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) ClearValueR
 // IsLeaf - whether field path is holds simple value
 func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) WithIValue(value interface{}) CreatePreCommittedResourceChangeLogsRequest_FieldPathValue {
@@ -2628,7 +2674,11 @@ func (fpaiv *CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPathArrayI
 func (fpaiv *CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePreCommittedResourceChangeLogsRequest) bool {
 	slice := fpaiv.CreatePreCommittedResourceChangeLogsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2935,6 +2985,10 @@ func (fp *CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPath) IsLeaf
 	return fp.selector == CreatePreCommittedResourceChangeLogsResponse_FieldPathSelectorLogKeys
 }
 
+func (fp *CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPath) WithIValue(value interface{}) CreatePreCommittedResourceChangeLogsResponse_FieldPathValue {
 	switch fp.selector {
 	case CreatePreCommittedResourceChangeLogsResponse_FieldPathSelectorLogKeys:
@@ -3109,7 +3163,11 @@ func (fpaiv *CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPathArray
 func (fpaiv *CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePreCommittedResourceChangeLogsResponse) bool {
 	slice := fpaiv.CreatePreCommittedResourceChangeLogsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3338,6 +3396,10 @@ func (fp *SetResourceChangeLogsCommitStateRequest_FieldTerminalPath) IsLeaf() bo
 		fp.selector == SetResourceChangeLogsCommitStateRequest_FieldPathSelectorTxResult
 }
 
+func (fp *SetResourceChangeLogsCommitStateRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *SetResourceChangeLogsCommitStateRequest_FieldTerminalPath) WithIValue(value interface{}) SetResourceChangeLogsCommitStateRequest_FieldPathValue {
 	switch fp.selector {
 	case SetResourceChangeLogsCommitStateRequest_FieldPathSelectorLogKeys:
@@ -3561,7 +3623,11 @@ func (fpaiv *SetResourceChangeLogsCommitStateRequest_FieldTerminalPathArrayItemV
 func (fpaiv *SetResourceChangeLogsCommitStateRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *SetResourceChangeLogsCommitStateRequest) bool {
 	slice := fpaiv.SetResourceChangeLogsCommitStateRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3756,6 +3822,10 @@ func (fp *SetResourceChangeLogsCommitStateResponse_FieldTerminalPath) IsLeaf() b
 	return false
 }
 
+func (fp *SetResourceChangeLogsCommitStateResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *SetResourceChangeLogsCommitStateResponse_FieldTerminalPath) WithIValue(value interface{}) SetResourceChangeLogsCommitStateResponse_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -3912,7 +3982,11 @@ func (fpaiv *SetResourceChangeLogsCommitStateResponse_FieldTerminalPathArrayItem
 func (fpaiv *SetResourceChangeLogsCommitStateResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *SetResourceChangeLogsCommitStateResponse) bool {
 	slice := fpaiv.SetResourceChangeLogsCommitStateResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

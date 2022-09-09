@@ -28,6 +28,7 @@ import (
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -54,6 +55,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &limit.Limit{}
+	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -232,6 +234,10 @@ func (fp *GetLimitRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == GetLimitRequest_FieldPathSelectorName ||
 		fp.selector == GetLimitRequest_FieldPathSelectorFieldMask ||
 		fp.selector == GetLimitRequest_FieldPathSelectorView
+}
+
+func (fp *GetLimitRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *GetLimitRequest_FieldTerminalPath) WithIValue(value interface{}) GetLimitRequest_FieldPathValue {
@@ -451,7 +457,11 @@ func (fpaiv *GetLimitRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sourc
 func (fpaiv *GetLimitRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetLimitRequest) bool {
 	slice := fpaiv.GetLimitRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -696,6 +706,10 @@ func (fp *BatchGetLimitsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetLimitsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetLimitsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetLimitsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetLimitsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetLimitsRequest_FieldPathSelectorNames:
@@ -902,7 +916,11 @@ func (fpaiv *BatchGetLimitsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *BatchGetLimitsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetLimitsRequest) bool {
 	slice := fpaiv.BatchGetLimitsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1141,6 +1159,10 @@ func (fp *BatchGetLimitsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetLimitsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetLimitsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetLimitsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetLimitsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetLimitsResponse_FieldPathSelectorLimits:
@@ -1271,6 +1293,12 @@ func (fps *BatchGetLimitsResponse_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetLimitsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetLimitsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetLimitsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetLimitsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetLimitsResponse_FieldPathValue {
@@ -1488,7 +1516,11 @@ func (fpaiv *BatchGetLimitsResponse_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *BatchGetLimitsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetLimitsResponse) bool {
 	slice := fpaiv.BatchGetLimitsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1829,6 +1861,10 @@ func (fp *ListLimitsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListLimitsRequest_FieldPathSelectorView
 }
 
+func (fp *ListLimitsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListLimitsRequest_FieldTerminalPath) WithIValue(value interface{}) ListLimitsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListLimitsRequest_FieldPathSelectorParent:
@@ -2102,7 +2138,11 @@ func (fpaiv *ListLimitsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *ListLimitsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListLimitsRequest) bool {
 	slice := fpaiv.ListLimitsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2390,6 +2430,10 @@ func (fp *ListLimitsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListLimitsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListLimitsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListLimitsResponse_FieldTerminalPath) WithIValue(value interface{}) ListLimitsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListLimitsResponse_FieldPathSelectorLimits:
@@ -2522,6 +2566,12 @@ func (fps *ListLimitsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ListLimitsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListLimitsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListLimitsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListLimitsResponse_FieldSubPath) WithIValue(value interface{}) ListLimitsResponse_FieldPathValue {
@@ -2743,7 +2793,11 @@ func (fpaiv *ListLimitsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *ListLimitsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListLimitsResponse) bool {
 	slice := fpaiv.ListLimitsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3027,6 +3081,10 @@ func (fp *WatchLimitRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchLimitRequest_FieldPathSelectorView
 }
 
+func (fp *WatchLimitRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchLimitRequest_FieldTerminalPath) WithIValue(value interface{}) WatchLimitRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchLimitRequest_FieldPathSelectorName:
@@ -3244,7 +3302,11 @@ func (fpaiv *WatchLimitRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *WatchLimitRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchLimitRequest) bool {
 	slice := fpaiv.WatchLimitRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3458,6 +3520,10 @@ func (fp *WatchLimitResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchLimitResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchLimitResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchLimitResponse_FieldTerminalPath) WithIValue(value interface{}) WatchLimitResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchLimitResponse_FieldPathSelectorChange:
@@ -3626,7 +3692,11 @@ func (fpaiv *WatchLimitResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *WatchLimitResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchLimitResponse) bool {
 	slice := fpaiv.WatchLimitResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3962,6 +4032,10 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchLimitsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchLimitsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchLimitsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchLimitsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchLimitsRequest_FieldPathSelectorType:
@@ -4295,7 +4369,11 @@ func (fpaiv *WatchLimitsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *WatchLimitsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchLimitsRequest) bool {
 	slice := fpaiv.WatchLimitsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4660,6 +4738,10 @@ func (fp *WatchLimitsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchLimitsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchLimitsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchLimitsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchLimitsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchLimitsResponse_FieldPathSelectorLimitChanges:
@@ -4804,6 +4886,12 @@ func (fps *WatchLimitsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchLimitsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchLimitsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchLimitsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchLimitsResponse_FieldSubPath) WithIValue(value interface{}) WatchLimitsResponse_FieldPathValue {
@@ -5097,7 +5185,11 @@ func (fpaiv *WatchLimitsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *WatchLimitsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchLimitsResponse) bool {
 	slice := fpaiv.WatchLimitsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5399,6 +5491,10 @@ func (fp *WatchLimitsResponsePageTokenChange_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchLimitsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchLimitsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchLimitsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchLimitsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchLimitsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5579,7 +5675,11 @@ func (fpaiv *WatchLimitsResponsePageTokenChange_FieldTerminalPathArrayItemValue)
 func (fpaiv *WatchLimitsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchLimitsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchLimitsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5832,6 +5932,10 @@ func (fp *UpdateLimitRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateLimitRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateLimitRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateLimitRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateLimitRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateLimitRequest_FieldPathSelectorLimit:
@@ -5971,6 +6075,12 @@ func (fps *UpdateLimitRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateLimitRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateLimitRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateLimitRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateLimitRequest_FieldSubPath) WithIValue(value interface{}) UpdateLimitRequest_FieldPathValue {
@@ -6196,7 +6306,11 @@ func (fpaiv *UpdateLimitRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *UpdateLimitRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateLimitRequest) bool {
 	slice := fpaiv.UpdateLimitRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6484,6 +6598,10 @@ func (fp *UpdateLimitRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateLimitRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateLimitRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateLimitRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateLimitRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateLimitRequestCAS_FieldPathSelectorConditionalState:
@@ -6606,6 +6724,12 @@ func (fps *UpdateLimitRequestCAS_FieldSubPath) ClearValueRaw(item proto.Message)
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateLimitRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateLimitRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateLimitRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateLimitRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateLimitRequestCAS_FieldPathValue {
@@ -6815,7 +6939,11 @@ func (fpaiv *UpdateLimitRequestCAS_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *UpdateLimitRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateLimitRequest_CAS) bool {
 	slice := fpaiv.UpdateLimitRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6913,5 +7041,396 @@ func (fpsaov *UpdateLimitRequestCAS_FieldSubPathArrayOfValues) GetRawValues() []
 }
 func (fpsaov *UpdateLimitRequestCAS_FieldSubPathArrayOfValues) AsConditionalStatePathArrayOfValues() (limit.Limit_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(limit.Limit_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeleteLimitRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeleteLimitRequest_FieldPathSelector
+	Get(source *DeleteLimitRequest) []interface{}
+	GetSingle(source *DeleteLimitRequest) (interface{}, bool)
+	ClearValue(item *DeleteLimitRequest)
+
+	// Those methods build corresponding DeleteLimitRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeleteLimitRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeleteLimitRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeleteLimitRequest_FieldPathArrayItemValue
+}
+
+type DeleteLimitRequest_FieldPathSelector int32
+
+const (
+	DeleteLimitRequest_FieldPathSelectorName DeleteLimitRequest_FieldPathSelector = 0
+)
+
+func (s DeleteLimitRequest_FieldPathSelector) String() string {
+	switch s {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		return "name"
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", s))
+	}
+}
+
+func BuildDeleteLimitRequest_FieldPath(fp gotenobject.RawFieldPath) (DeleteLimitRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object DeleteLimitRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &DeleteLimitRequest_FieldTerminalPath{selector: DeleteLimitRequest_FieldPathSelectorName}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object DeleteLimitRequest", fp)
+}
+
+func ParseDeleteLimitRequest_FieldPath(rawField string) (DeleteLimitRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeleteLimitRequest_FieldPath(fp)
+}
+
+func MustParseDeleteLimitRequest_FieldPath(rawField string) DeleteLimitRequest_FieldPath {
+	fp, err := ParseDeleteLimitRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeleteLimitRequest_FieldTerminalPath struct {
+	selector DeleteLimitRequest_FieldPathSelector
+}
+
+var _ DeleteLimitRequest_FieldPath = (*DeleteLimitRequest_FieldTerminalPath)(nil)
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) Selector() DeleteLimitRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeleteLimitRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeleteLimitRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source DeleteLimitRequest
+func (fp *DeleteLimitRequest_FieldTerminalPath) Get(source *DeleteLimitRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeleteLimitRequest_FieldPathSelectorName:
+			if source.Name != nil {
+				values = append(values, source.Name)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*DeleteLimitRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source DeleteLimitRequest
+func (fp *DeleteLimitRequest_FieldTerminalPath) GetSingle(source *DeleteLimitRequest) (interface{}, bool) {
+	switch fp.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		res := source.GetName()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+	}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*DeleteLimitRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeleteLimitRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		return (*limit.Reference)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+	}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) ClearValue(item *DeleteLimitRequest) {
+	if item != nil {
+		switch fp.selector {
+		case DeleteLimitRequest_FieldPathSelectorName:
+			item.Name = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*DeleteLimitRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeleteLimitRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeleteLimitRequest_FieldPathSelectorName
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteLimitRequest_FieldPathValue {
+	switch fp.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		return &DeleteLimitRequest_FieldTerminalPathValue{DeleteLimitRequest_FieldTerminalPath: *fp, value: value.(*limit.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+	}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeleteLimitRequest_FieldPathArrayOfValues {
+	fpaov := &DeleteLimitRequest_FieldTerminalPathArrayOfValues{DeleteLimitRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		return &DeleteLimitRequest_FieldTerminalPathArrayOfValues{DeleteLimitRequest_FieldTerminalPath: *fp, values: values.([]*limit.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeleteLimitRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fp.selector))
+	}
+}
+
+func (fp *DeleteLimitRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeleteLimitRequest_FieldPathValue allows storing values for DeleteLimitRequest fields according to their type
+type DeleteLimitRequest_FieldPathValue interface {
+	DeleteLimitRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **DeleteLimitRequest)
+	CompareWith(*DeleteLimitRequest) (cmp int, comparable bool)
+}
+
+func ParseDeleteLimitRequest_FieldPathValue(pathStr, valueStr string) (DeleteLimitRequest_FieldPathValue, error) {
+	fp, err := ParseDeleteLimitRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing DeleteLimitRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeleteLimitRequest_FieldPathValue), nil
+}
+
+func MustParseDeleteLimitRequest_FieldPathValue(pathStr, valueStr string) DeleteLimitRequest_FieldPathValue {
+	fpv, err := ParseDeleteLimitRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeleteLimitRequest_FieldTerminalPathValue struct {
+	DeleteLimitRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeleteLimitRequest_FieldPathValue = (*DeleteLimitRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'DeleteLimitRequest' as interface{}
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) AsNameValue() (*limit.Reference, bool) {
+	res, ok := fpv.value.(*limit.Reference)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object DeleteLimitRequest
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) SetTo(target **DeleteLimitRequest) {
+	if *target == nil {
+		*target = new(DeleteLimitRequest)
+	}
+	switch fpv.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		(*target).Name = fpv.value.(*limit.Reference)
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*DeleteLimitRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeleteLimitRequest_FieldTerminalPathValue' with the value under path in 'DeleteLimitRequest'.
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) CompareWith(source *DeleteLimitRequest) (int, bool) {
+	switch fpv.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		leftValue := fpv.value.(*limit.Reference)
+		rightValue := source.GetName()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for DeleteLimitRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeleteLimitRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*DeleteLimitRequest))
+}
+
+// DeleteLimitRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for DeleteLimitRequest according to their type
+// Present only for array (repeated) types.
+type DeleteLimitRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeleteLimitRequest_FieldPath
+	ContainsValue(*DeleteLimitRequest) bool
+}
+
+// ParseDeleteLimitRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeleteLimitRequest_FieldPathArrayItemValue(pathStr, valueStr string) (DeleteLimitRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeleteLimitRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing DeleteLimitRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeleteLimitRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeleteLimitRequest_FieldPathArrayItemValue(pathStr, valueStr string) DeleteLimitRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeleteLimitRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeleteLimitRequest_FieldTerminalPathArrayItemValue struct {
+	DeleteLimitRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeleteLimitRequest_FieldPathArrayItemValue = (*DeleteLimitRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object DeleteLimitRequest as interface{}
+func (fpaiv *DeleteLimitRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeleteLimitRequest_FieldTerminalPathArrayItemValue) GetSingle(source *DeleteLimitRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeleteLimitRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*DeleteLimitRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'DeleteLimitRequest'
+func (fpaiv *DeleteLimitRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteLimitRequest) bool {
+	slice := fpaiv.DeleteLimitRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeleteLimitRequest_FieldPathArrayOfValues allows storing slice of values for DeleteLimitRequest fields according to their type
+type DeleteLimitRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeleteLimitRequest_FieldPath
+}
+
+func ParseDeleteLimitRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (DeleteLimitRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeleteLimitRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing DeleteLimitRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeleteLimitRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeleteLimitRequest_FieldPathArrayOfValues(pathStr, valuesStr string) DeleteLimitRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseDeleteLimitRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeleteLimitRequest_FieldTerminalPathArrayOfValues struct {
+	DeleteLimitRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeleteLimitRequest_FieldPathArrayOfValues = (*DeleteLimitRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeleteLimitRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeleteLimitRequest_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]*limit.Reference) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeleteLimitRequest_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*limit.Reference, bool) {
+	res, ok := fpaov.values.([]*limit.Reference)
 	return res, ok
 }

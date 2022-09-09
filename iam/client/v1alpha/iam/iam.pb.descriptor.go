@@ -137,6 +137,10 @@ func (d *IAMDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *IAMDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{}
+}
+
 func GetIAMDescriptor() *IAMDescriptor {
 	return iamDescriptor
 }

@@ -27,6 +27,7 @@ import (
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit_pool"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -49,6 +50,7 @@ var (
 var (
 	_ = &iam_organization.Organization{}
 	_ = &limit_pool.LimitPool{}
+	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -214,6 +216,15 @@ func (obj *UpdateLimitPoolRequest_CAS) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
 		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeleteLimitPoolRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -204,6 +204,10 @@ func (ProvisioningApprovalRequestPathSelectorMetadata) UpdateTime() Provisioning
 	return ProvisioningApprovalRequestPathSelectorMetadataUpdateTime{}
 }
 
+func (ProvisioningApprovalRequestPathSelectorMetadata) DeleteTime() ProvisioningApprovalRequestPathSelectorMetadataDeleteTime {
+	return ProvisioningApprovalRequestPathSelectorMetadataDeleteTime{}
+}
+
 func (ProvisioningApprovalRequestPathSelectorMetadata) Uuid() ProvisioningApprovalRequestPathSelectorMetadataUuid {
 	return ProvisioningApprovalRequestPathSelectorMetadataUuid{}
 }
@@ -240,6 +244,10 @@ func (ProvisioningApprovalRequestPathSelectorMetadata) Syncing() ProvisioningApp
 	return ProvisioningApprovalRequestPathSelectorMetadataSyncing{}
 }
 
+func (ProvisioningApprovalRequestPathSelectorMetadata) Lifecycle() ProvisioningApprovalRequestPathSelectorMetadataLifecycle {
+	return ProvisioningApprovalRequestPathSelectorMetadataLifecycle{}
+}
+
 type ProvisioningApprovalRequestPathSelectorMetadataCreateTime struct{}
 
 func (ProvisioningApprovalRequestPathSelectorMetadataCreateTime) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
@@ -271,6 +279,23 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataUpdateTime) WithValue(val
 }
 
 func (s ProvisioningApprovalRequestPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataDeleteTime struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataDeleteTime) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
@@ -447,20 +472,20 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) WithItem
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningApprovalRequest_FieldSubPathArrayItemValue)
 }
 
-func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) ApiVersion() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion {
-	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Kind() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind {
 	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Version() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion {
+	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Name() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesName {
 	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Uid() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid {
-	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid{}
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Region() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion {
+	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) Controller() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesController {
@@ -471,21 +496,8 @@ func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) BlockOwner
 	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
-	return &ProvisioningApprovalRequest_FieldSubPath{
-		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *ProvisioningApprovalRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
-}
-
-func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind struct{}
@@ -502,6 +514,23 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind) With
 }
 
 func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
@@ -522,20 +551,20 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesName) With
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
-type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid struct{}
+type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
 	return &ProvisioningApprovalRequest_FieldSubPath{
 		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *ProvisioningApprovalRequest_FieldSubPathValue {
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *ProvisioningApprovalRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
 }
 
-func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
@@ -570,6 +599,23 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesBlockOwner
 }
 
 func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
@@ -674,6 +720,65 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataSyncingRegions) WithArray
 
 func (s ProvisioningApprovalRequestPathSelectorMetadataSyncingRegions) WithItemValue(value string) *ProvisioningApprovalRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningApprovalRequest_FieldSubPathArrayItemValue)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataLifecycle struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataLifecycle) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataLifecycle) State() ProvisioningApprovalRequestPathSelectorMetadataLifecycleState {
+	return ProvisioningApprovalRequestPathSelectorMetadataLifecycleState{}
+}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataLifecycle) BlockDeletion() ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion {
+	return ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataLifecycleState struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataLifecycleState) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningApprovalRequestSpecFieldPathBuilder struct{}

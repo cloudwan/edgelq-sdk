@@ -199,7 +199,11 @@ func (a *apiLimitAccess) SaveLimit(ctx context.Context, res *limit.Limit, opts .
 }
 
 func (a *apiLimitAccess) DeleteLimit(ctx context.Context, ref *limit.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on Limit is prohibited")
+	request := &limit_client.DeleteLimitRequest{
+		Name: ref,
+	}
+	_, err := a.client.DeleteLimit(ctx, request)
+	return err
 }
 
 func init() {

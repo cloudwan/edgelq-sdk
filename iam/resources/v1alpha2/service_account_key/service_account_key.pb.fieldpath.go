@@ -314,6 +314,10 @@ func (fp *ServiceAccountKey_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ServiceAccountKey_FieldPathSelectorValidNotAfter
 }
 
+func (fp *ServiceAccountKey_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ServiceAccountKey_FieldTerminalPath) WithIValue(value interface{}) ServiceAccountKey_FieldPathValue {
 	switch fp.selector {
 	case ServiceAccountKey_FieldPathSelectorName:
@@ -460,6 +464,12 @@ func (fps *ServiceAccountKey_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ServiceAccountKey_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ServiceAccountKey_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ServiceAccountKey_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ServiceAccountKey_FieldSubPath) WithIValue(value interface{}) ServiceAccountKey_FieldPathValue {
@@ -800,7 +810,11 @@ func (fpaiv *ServiceAccountKey_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *ServiceAccountKey_FieldTerminalPathArrayItemValue) ContainsValue(source *ServiceAccountKey) bool {
 	slice := fpaiv.ServiceAccountKey_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

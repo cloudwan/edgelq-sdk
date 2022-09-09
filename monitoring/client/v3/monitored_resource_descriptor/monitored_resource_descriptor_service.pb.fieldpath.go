@@ -234,6 +234,10 @@ func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) IsLeaf(
 		fp.selector == BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetMonitoredResourceDescriptorsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetMonitoredResourceDescriptorsRequest_FieldPathSelectorNames:
@@ -440,7 +444,11 @@ func (fpaiv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayI
 func (fpaiv *BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetMonitoredResourceDescriptorsRequest) bool {
 	slice := fpaiv.BatchGetMonitoredResourceDescriptorsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -679,6 +687,10 @@ func (fp *BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPath) IsLeaf
 	return fp.selector == BatchGetMonitoredResourceDescriptorsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetMonitoredResourceDescriptorsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors:
@@ -809,6 +821,12 @@ func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) ClearValue
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetMonitoredResourceDescriptorsResponse_FieldPathValue {
@@ -1026,7 +1044,11 @@ func (fpaiv *BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPathArray
 func (fpaiv *BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetMonitoredResourceDescriptorsResponse) bool {
 	slice := fpaiv.BatchGetMonitoredResourceDescriptorsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1302,6 +1324,10 @@ func (fp *WatchMonitoredResourceDescriptorRequest_FieldTerminalPath) IsLeaf() bo
 		fp.selector == WatchMonitoredResourceDescriptorRequest_FieldPathSelectorView
 }
 
+func (fp *WatchMonitoredResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchMonitoredResourceDescriptorRequest_FieldPathSelectorName:
@@ -1519,7 +1545,11 @@ func (fpaiv *WatchMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItemV
 func (fpaiv *WatchMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchMonitoredResourceDescriptorRequest) bool {
 	slice := fpaiv.WatchMonitoredResourceDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1733,6 +1763,10 @@ func (fp *WatchMonitoredResourceDescriptorResponse_FieldTerminalPath) IsLeaf() b
 	return fp.selector == WatchMonitoredResourceDescriptorResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchMonitoredResourceDescriptorResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchMonitoredResourceDescriptorResponse_FieldTerminalPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchMonitoredResourceDescriptorResponse_FieldPathSelectorChange:
@@ -1901,7 +1935,11 @@ func (fpaiv *WatchMonitoredResourceDescriptorResponse_FieldTerminalPathArrayItem
 func (fpaiv *WatchMonitoredResourceDescriptorResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchMonitoredResourceDescriptorResponse) bool {
 	slice := fpaiv.WatchMonitoredResourceDescriptorResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2220,6 +2258,10 @@ func (fp *WatchMonitoredResourceDescriptorsRequest_FieldTerminalPath) IsLeaf() b
 		fp.selector == WatchMonitoredResourceDescriptorsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchMonitoredResourceDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchMonitoredResourceDescriptorsRequest_FieldPathSelectorType:
@@ -2524,7 +2566,11 @@ func (fpaiv *WatchMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayItem
 func (fpaiv *WatchMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchMonitoredResourceDescriptorsRequest) bool {
 	slice := fpaiv.WatchMonitoredResourceDescriptorsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2881,6 +2927,10 @@ func (fp *WatchMonitoredResourceDescriptorsResponse_FieldTerminalPath) IsLeaf() 
 		fp.selector == WatchMonitoredResourceDescriptorsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchMonitoredResourceDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchMonitoredResourceDescriptorsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptorChanges:
@@ -3025,6 +3075,12 @@ func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) ClearValueRaw
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorsResponse_FieldPathValue {
@@ -3318,7 +3374,11 @@ func (fpaiv *WatchMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayIte
 func (fpaiv *WatchMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchMonitoredResourceDescriptorsResponse) bool {
 	slice := fpaiv.WatchMonitoredResourceDescriptorsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3620,6 +3680,10 @@ func (fp *WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTerminal
 		fp.selector == WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -3800,7 +3864,11 @@ func (fpaiv *WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTermi
 func (fpaiv *WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchMonitoredResourceDescriptorsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchMonitoredResourceDescriptorsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4015,6 +4083,10 @@ func (fp *CreateMonitoredResourceDescriptorRequest_FieldTerminalPath) IsLeaf() b
 	return false
 }
 
+func (fp *CreateMonitoredResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) CreateMonitoredResourceDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateMonitoredResourceDescriptorRequest_FieldPathSelectorMonitoredResourceDescriptor:
@@ -4133,6 +4205,12 @@ func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) WithIValue(value interface{}) CreateMonitoredResourceDescriptorRequest_FieldPathValue {
@@ -4334,7 +4412,11 @@ func (fpaiv *CreateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItem
 func (fpaiv *CreateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateMonitoredResourceDescriptorRequest) bool {
 	slice := fpaiv.CreateMonitoredResourceDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4618,6 +4700,10 @@ func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateMonitoredResourceDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorMonitoredResourceDescriptor:
@@ -4757,6 +4843,12 @@ func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) WithIValue(value interface{}) UpdateMonitoredResourceDescriptorRequest_FieldPathValue {
@@ -4982,7 +5074,11 @@ func (fpaiv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItem
 func (fpaiv *UpdateMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateMonitoredResourceDescriptorRequest) bool {
 	slice := fpaiv.UpdateMonitoredResourceDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5270,6 +5366,10 @@ func (fp *UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPath) IsLeaf(
 	return fp.selector == UpdateMonitoredResourceDescriptorRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateMonitoredResourceDescriptorRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateMonitoredResourceDescriptorRequestCAS_FieldPathSelectorConditionalState:
@@ -5392,6 +5492,12 @@ func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) ClearValueR
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateMonitoredResourceDescriptorRequestCAS_FieldPathValue {
@@ -5601,7 +5707,11 @@ func (fpaiv *UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPathArrayI
 func (fpaiv *UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateMonitoredResourceDescriptorRequest_CAS) bool {
 	slice := fpaiv.UpdateMonitoredResourceDescriptorRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5846,6 +5956,10 @@ func (fp *DeleteMonitoredResourceDescriptorRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == DeleteMonitoredResourceDescriptorRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteMonitoredResourceDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteMonitoredResourceDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteMonitoredResourceDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteMonitoredResourceDescriptorRequest_FieldPathSelectorName:
@@ -6031,7 +6145,11 @@ func (fpaiv *DeleteMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItem
 func (fpaiv *DeleteMonitoredResourceDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteMonitoredResourceDescriptorRequest) bool {
 	slice := fpaiv.DeleteMonitoredResourceDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

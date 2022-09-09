@@ -120,6 +120,10 @@ func (DevicePathSelectorMetadata) UpdateTime() DevicePathSelectorMetadataUpdateT
 	return DevicePathSelectorMetadataUpdateTime{}
 }
 
+func (DevicePathSelectorMetadata) DeleteTime() DevicePathSelectorMetadataDeleteTime {
+	return DevicePathSelectorMetadataDeleteTime{}
+}
+
 func (DevicePathSelectorMetadata) Uuid() DevicePathSelectorMetadataUuid {
 	return DevicePathSelectorMetadataUuid{}
 }
@@ -156,6 +160,10 @@ func (DevicePathSelectorMetadata) Syncing() DevicePathSelectorMetadataSyncing {
 	return DevicePathSelectorMetadataSyncing{}
 }
 
+func (DevicePathSelectorMetadata) Lifecycle() DevicePathSelectorMetadataLifecycle {
+	return DevicePathSelectorMetadataLifecycle{}
+}
+
 type DevicePathSelectorMetadataCreateTime struct{}
 
 func (DevicePathSelectorMetadataCreateTime) FieldPath() *Device_FieldSubPath {
@@ -187,6 +195,23 @@ func (s DevicePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timesta
 }
 
 func (s DevicePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorMetadataDeleteTime struct{}
+
+func (DevicePathSelectorMetadataDeleteTime) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -363,20 +388,20 @@ func (s DevicePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta
 	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
 }
 
-func (DevicePathSelectorMetadataOwnerReferences) ApiVersion() DevicePathSelectorMetadataOwnerReferencesApiVersion {
-	return DevicePathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (DevicePathSelectorMetadataOwnerReferences) Kind() DevicePathSelectorMetadataOwnerReferencesKind {
 	return DevicePathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (DevicePathSelectorMetadataOwnerReferences) Version() DevicePathSelectorMetadataOwnerReferencesVersion {
+	return DevicePathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (DevicePathSelectorMetadataOwnerReferences) Name() DevicePathSelectorMetadataOwnerReferencesName {
 	return DevicePathSelectorMetadataOwnerReferencesName{}
 }
 
-func (DevicePathSelectorMetadataOwnerReferences) Uid() DevicePathSelectorMetadataOwnerReferencesUid {
-	return DevicePathSelectorMetadataOwnerReferencesUid{}
+func (DevicePathSelectorMetadataOwnerReferences) Region() DevicePathSelectorMetadataOwnerReferencesRegion {
+	return DevicePathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (DevicePathSelectorMetadataOwnerReferences) Controller() DevicePathSelectorMetadataOwnerReferencesController {
@@ -387,21 +412,8 @@ func (DevicePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() DevicePath
 	return DevicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type DevicePathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (DevicePathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *Device_FieldSubPath {
-	return &Device_FieldSubPath{
-		selector: Device_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s DevicePathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *Device_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
-}
-
-func (s DevicePathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+func (DevicePathSelectorMetadataOwnerReferences) RequiresOwnerReference() DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type DevicePathSelectorMetadataOwnerReferencesKind struct{}
@@ -418,6 +430,23 @@ func (s DevicePathSelectorMetadataOwnerReferencesKind) WithValue(value string) *
 }
 
 func (s DevicePathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (DevicePathSelectorMetadataOwnerReferencesVersion) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -438,20 +467,20 @@ func (s DevicePathSelectorMetadataOwnerReferencesName) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorMetadataOwnerReferencesUid struct{}
+type DevicePathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (DevicePathSelectorMetadataOwnerReferencesUid) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorMetadataOwnerReferencesRegion) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorMetadataOwnerReferencesUid) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -486,6 +515,23 @@ func (s DevicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(v
 }
 
 func (s DevicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -590,6 +636,65 @@ func (s DevicePathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][]s
 
 func (s DevicePathSelectorMetadataSyncingRegions) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorMetadataLifecycle struct{}
+
+func (DevicePathSelectorMetadataLifecycle) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorMetadataLifecycle) State() DevicePathSelectorMetadataLifecycleState {
+	return DevicePathSelectorMetadataLifecycleState{}
+}
+
+func (DevicePathSelectorMetadataLifecycle) BlockDeletion() DevicePathSelectorMetadataLifecycleBlockDeletion {
+	return DevicePathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type DevicePathSelectorMetadataLifecycleState struct{}
+
+func (DevicePathSelectorMetadataLifecycleState) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (DevicePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
 type DevicePathSelectorSpec struct{}

@@ -234,6 +234,10 @@ func (fp *GetRegionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetRegionRequest_FieldPathSelectorView
 }
 
+func (fp *GetRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetRegionRequest_FieldTerminalPath) WithIValue(value interface{}) GetRegionRequest_FieldPathValue {
 	switch fp.selector {
 	case GetRegionRequest_FieldPathSelectorName:
@@ -451,7 +455,11 @@ func (fpaiv *GetRegionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *GetRegionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetRegionRequest) bool {
 	slice := fpaiv.GetRegionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -696,6 +704,10 @@ func (fp *BatchGetRegionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetRegionsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetRegionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetRegionsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetRegionsRequest_FieldPathSelectorNames:
@@ -902,7 +914,11 @@ func (fpaiv *BatchGetRegionsRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *BatchGetRegionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetRegionsRequest) bool {
 	slice := fpaiv.BatchGetRegionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1141,6 +1157,10 @@ func (fp *BatchGetRegionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetRegionsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetRegionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetRegionsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetRegionsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetRegionsResponse_FieldPathSelectorRegions:
@@ -1271,6 +1291,12 @@ func (fps *BatchGetRegionsResponse_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetRegionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetRegionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetRegionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetRegionsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetRegionsResponse_FieldPathValue {
@@ -1488,7 +1514,11 @@ func (fpaiv *BatchGetRegionsResponse_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *BatchGetRegionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetRegionsResponse) bool {
 	slice := fpaiv.BatchGetRegionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1812,6 +1842,10 @@ func (fp *ListRegionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListRegionsRequest_FieldPathSelectorView
 }
 
+func (fp *ListRegionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) ListRegionsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListRegionsRequest_FieldPathSelectorPageSize:
@@ -2056,7 +2090,11 @@ func (fpaiv *ListRegionsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *ListRegionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListRegionsRequest) bool {
 	slice := fpaiv.ListRegionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2336,6 +2374,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListRegionsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListRegionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListRegionsResponse_FieldTerminalPath) WithIValue(value interface{}) ListRegionsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListRegionsResponse_FieldPathSelectorRegions:
@@ -2468,6 +2510,12 @@ func (fps *ListRegionsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ListRegionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListRegionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListRegionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListRegionsResponse_FieldSubPath) WithIValue(value interface{}) ListRegionsResponse_FieldPathValue {
@@ -2689,7 +2737,11 @@ func (fpaiv *ListRegionsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *ListRegionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListRegionsResponse) bool {
 	slice := fpaiv.ListRegionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2973,6 +3025,10 @@ func (fp *WatchRegionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRegionRequest_FieldPathSelectorView
 }
 
+func (fp *WatchRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchRegionRequest_FieldTerminalPath) WithIValue(value interface{}) WatchRegionRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchRegionRequest_FieldPathSelectorName:
@@ -3190,7 +3246,11 @@ func (fpaiv *WatchRegionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *WatchRegionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchRegionRequest) bool {
 	slice := fpaiv.WatchRegionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3404,6 +3464,10 @@ func (fp *WatchRegionResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchRegionResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchRegionResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchRegionResponse_FieldTerminalPath) WithIValue(value interface{}) WatchRegionResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchRegionResponse_FieldPathSelectorChange:
@@ -3572,7 +3636,11 @@ func (fpaiv *WatchRegionResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *WatchRegionResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchRegionResponse) bool {
 	slice := fpaiv.WatchRegionResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3891,6 +3959,10 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRegionsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchRegionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchRegionsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchRegionsRequest_FieldPathSelectorType:
@@ -4195,7 +4267,11 @@ func (fpaiv *WatchRegionsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *WatchRegionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchRegionsRequest) bool {
 	slice := fpaiv.WatchRegionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4552,6 +4628,10 @@ func (fp *WatchRegionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRegionsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchRegionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchRegionsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchRegionsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchRegionsResponse_FieldPathSelectorRegionChanges:
@@ -4696,6 +4776,12 @@ func (fps *WatchRegionsResponse_FieldSubPath) ClearValueRaw(item proto.Message) 
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchRegionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchRegionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchRegionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchRegionsResponse_FieldSubPath) WithIValue(value interface{}) WatchRegionsResponse_FieldPathValue {
@@ -4989,7 +5075,11 @@ func (fpaiv *WatchRegionsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *WatchRegionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchRegionsResponse) bool {
 	slice := fpaiv.WatchRegionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5291,6 +5381,10 @@ func (fp *WatchRegionsResponsePageTokenChange_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRegionsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchRegionsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchRegionsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchRegionsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchRegionsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5471,7 +5565,11 @@ func (fpaiv *WatchRegionsResponsePageTokenChange_FieldTerminalPathArrayItemValue
 func (fpaiv *WatchRegionsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchRegionsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchRegionsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5686,6 +5784,10 @@ func (fp *CreateRegionRequest_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *CreateRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateRegionRequest_FieldTerminalPath) WithIValue(value interface{}) CreateRegionRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateRegionRequest_FieldPathSelectorRegion:
@@ -5804,6 +5906,12 @@ func (fps *CreateRegionRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateRegionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateRegionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateRegionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateRegionRequest_FieldSubPath) WithIValue(value interface{}) CreateRegionRequest_FieldPathValue {
@@ -6005,7 +6113,11 @@ func (fpaiv *CreateRegionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *CreateRegionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateRegionRequest) bool {
 	slice := fpaiv.CreateRegionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6289,6 +6401,10 @@ func (fp *UpdateRegionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateRegionRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateRegionRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateRegionRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateRegionRequest_FieldPathSelectorRegion:
@@ -6428,6 +6544,12 @@ func (fps *UpdateRegionRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateRegionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateRegionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateRegionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateRegionRequest_FieldSubPath) WithIValue(value interface{}) UpdateRegionRequest_FieldPathValue {
@@ -6653,7 +6775,11 @@ func (fpaiv *UpdateRegionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *UpdateRegionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateRegionRequest) bool {
 	slice := fpaiv.UpdateRegionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6941,6 +7067,10 @@ func (fp *UpdateRegionRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateRegionRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateRegionRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateRegionRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateRegionRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateRegionRequestCAS_FieldPathSelectorConditionalState:
@@ -7063,6 +7193,12 @@ func (fps *UpdateRegionRequestCAS_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateRegionRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateRegionRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateRegionRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateRegionRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateRegionRequestCAS_FieldPathValue {
@@ -7272,7 +7408,11 @@ func (fpaiv *UpdateRegionRequestCAS_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *UpdateRegionRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateRegionRequest_CAS) bool {
 	slice := fpaiv.UpdateRegionRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7517,6 +7657,10 @@ func (fp *DeleteRegionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeleteRegionRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteRegionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteRegionRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteRegionRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteRegionRequest_FieldPathSelectorName:
@@ -7702,7 +7846,11 @@ func (fpaiv *DeleteRegionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *DeleteRegionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteRegionRequest) bool {
 	slice := fpaiv.DeleteRegionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

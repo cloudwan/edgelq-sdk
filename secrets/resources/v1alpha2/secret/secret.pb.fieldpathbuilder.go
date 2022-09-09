@@ -138,6 +138,10 @@ func (SecretPathSelectorMetadata) UpdateTime() SecretPathSelectorMetadataUpdateT
 	return SecretPathSelectorMetadataUpdateTime{}
 }
 
+func (SecretPathSelectorMetadata) DeleteTime() SecretPathSelectorMetadataDeleteTime {
+	return SecretPathSelectorMetadataDeleteTime{}
+}
+
 func (SecretPathSelectorMetadata) Uuid() SecretPathSelectorMetadataUuid {
 	return SecretPathSelectorMetadataUuid{}
 }
@@ -174,6 +178,10 @@ func (SecretPathSelectorMetadata) Syncing() SecretPathSelectorMetadataSyncing {
 	return SecretPathSelectorMetadataSyncing{}
 }
 
+func (SecretPathSelectorMetadata) Lifecycle() SecretPathSelectorMetadataLifecycle {
+	return SecretPathSelectorMetadataLifecycle{}
+}
+
 type SecretPathSelectorMetadataCreateTime struct{}
 
 func (SecretPathSelectorMetadataCreateTime) FieldPath() *Secret_FieldSubPath {
@@ -205,6 +213,23 @@ func (s SecretPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timesta
 }
 
 func (s SecretPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+type SecretPathSelectorMetadataDeleteTime struct{}
+
+func (SecretPathSelectorMetadataDeleteTime) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 
@@ -381,20 +406,20 @@ func (s SecretPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta
 	return s.FieldPath().WithIArrayItemValue(value).(*Secret_FieldSubPathArrayItemValue)
 }
 
-func (SecretPathSelectorMetadataOwnerReferences) ApiVersion() SecretPathSelectorMetadataOwnerReferencesApiVersion {
-	return SecretPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (SecretPathSelectorMetadataOwnerReferences) Kind() SecretPathSelectorMetadataOwnerReferencesKind {
 	return SecretPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (SecretPathSelectorMetadataOwnerReferences) Version() SecretPathSelectorMetadataOwnerReferencesVersion {
+	return SecretPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (SecretPathSelectorMetadataOwnerReferences) Name() SecretPathSelectorMetadataOwnerReferencesName {
 	return SecretPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (SecretPathSelectorMetadataOwnerReferences) Uid() SecretPathSelectorMetadataOwnerReferencesUid {
-	return SecretPathSelectorMetadataOwnerReferencesUid{}
+func (SecretPathSelectorMetadataOwnerReferences) Region() SecretPathSelectorMetadataOwnerReferencesRegion {
+	return SecretPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (SecretPathSelectorMetadataOwnerReferences) Controller() SecretPathSelectorMetadataOwnerReferencesController {
@@ -405,21 +430,8 @@ func (SecretPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() SecretPath
 	return SecretPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type SecretPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (SecretPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *Secret_FieldSubPath {
-	return &Secret_FieldSubPath{
-		selector: Secret_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s SecretPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *Secret_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
-}
-
-func (s SecretPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Secret_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+func (SecretPathSelectorMetadataOwnerReferences) RequiresOwnerReference() SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type SecretPathSelectorMetadataOwnerReferencesKind struct{}
@@ -436,6 +448,23 @@ func (s SecretPathSelectorMetadataOwnerReferencesKind) WithValue(value string) *
 }
 
 func (s SecretPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+type SecretPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (SecretPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 
@@ -456,20 +485,20 @@ func (s SecretPathSelectorMetadataOwnerReferencesName) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 
-type SecretPathSelectorMetadataOwnerReferencesUid struct{}
+type SecretPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (SecretPathSelectorMetadataOwnerReferencesUid) FieldPath() *Secret_FieldSubPath {
+func (SecretPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Secret_FieldSubPath {
 	return &Secret_FieldSubPath{
 		selector: Secret_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s SecretPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *Secret_FieldSubPathValue {
+func (s SecretPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *Secret_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
 }
 
-func (s SecretPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *Secret_FieldSubPathArrayOfValues {
+func (s SecretPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 
@@ -504,6 +533,23 @@ func (s SecretPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(v
 }
 
 func (s SecretPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+type SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 
@@ -608,4 +654,63 @@ func (s SecretPathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][]s
 
 func (s SecretPathSelectorMetadataSyncingRegions) WithItemValue(value string) *Secret_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Secret_FieldSubPathArrayItemValue)
+}
+
+type SecretPathSelectorMetadataLifecycle struct{}
+
+func (SecretPathSelectorMetadataLifecycle) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+func (SecretPathSelectorMetadataLifecycle) State() SecretPathSelectorMetadataLifecycleState {
+	return SecretPathSelectorMetadataLifecycleState{}
+}
+
+func (SecretPathSelectorMetadataLifecycle) BlockDeletion() SecretPathSelectorMetadataLifecycleBlockDeletion {
+	return SecretPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type SecretPathSelectorMetadataLifecycleState struct{}
+
+func (SecretPathSelectorMetadataLifecycleState) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+type SecretPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (SecretPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }

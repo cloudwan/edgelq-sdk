@@ -79,6 +79,15 @@ func (d *AuditDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *AuditDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{
+		{
+			Domain:  "iam.edgelq.com",
+			Version: "v1alpha2",
+		},
+	}
+}
+
 func GetAuditDescriptor() *AuditDescriptor {
 	return auditDescriptor
 }

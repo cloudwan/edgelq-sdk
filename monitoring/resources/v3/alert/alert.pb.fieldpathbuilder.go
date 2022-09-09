@@ -101,6 +101,10 @@ func (AlertPathSelectorMetadata) UpdateTime() AlertPathSelectorMetadataUpdateTim
 	return AlertPathSelectorMetadataUpdateTime{}
 }
 
+func (AlertPathSelectorMetadata) DeleteTime() AlertPathSelectorMetadataDeleteTime {
+	return AlertPathSelectorMetadataDeleteTime{}
+}
+
 func (AlertPathSelectorMetadata) Uuid() AlertPathSelectorMetadataUuid {
 	return AlertPathSelectorMetadataUuid{}
 }
@@ -137,6 +141,10 @@ func (AlertPathSelectorMetadata) Syncing() AlertPathSelectorMetadataSyncing {
 	return AlertPathSelectorMetadataSyncing{}
 }
 
+func (AlertPathSelectorMetadata) Lifecycle() AlertPathSelectorMetadataLifecycle {
+	return AlertPathSelectorMetadataLifecycle{}
+}
+
 type AlertPathSelectorMetadataCreateTime struct{}
 
 func (AlertPathSelectorMetadataCreateTime) FieldPath() *Alert_FieldSubPath {
@@ -168,6 +176,23 @@ func (s AlertPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestam
 }
 
 func (s AlertPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorMetadataDeleteTime struct{}
+
+func (AlertPathSelectorMetadataDeleteTime) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -344,20 +369,20 @@ func (s AlertPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.
 	return s.FieldPath().WithIArrayItemValue(value).(*Alert_FieldSubPathArrayItemValue)
 }
 
-func (AlertPathSelectorMetadataOwnerReferences) ApiVersion() AlertPathSelectorMetadataOwnerReferencesApiVersion {
-	return AlertPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (AlertPathSelectorMetadataOwnerReferences) Kind() AlertPathSelectorMetadataOwnerReferencesKind {
 	return AlertPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (AlertPathSelectorMetadataOwnerReferences) Version() AlertPathSelectorMetadataOwnerReferencesVersion {
+	return AlertPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (AlertPathSelectorMetadataOwnerReferences) Name() AlertPathSelectorMetadataOwnerReferencesName {
 	return AlertPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (AlertPathSelectorMetadataOwnerReferences) Uid() AlertPathSelectorMetadataOwnerReferencesUid {
-	return AlertPathSelectorMetadataOwnerReferencesUid{}
+func (AlertPathSelectorMetadataOwnerReferences) Region() AlertPathSelectorMetadataOwnerReferencesRegion {
+	return AlertPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (AlertPathSelectorMetadataOwnerReferences) Controller() AlertPathSelectorMetadataOwnerReferencesController {
@@ -368,21 +393,8 @@ func (AlertPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() AlertPathSe
 	return AlertPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type AlertPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (AlertPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *Alert_FieldSubPath {
-	return &Alert_FieldSubPath{
-		selector: Alert_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s AlertPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *Alert_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
-}
-
-func (s AlertPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+func (AlertPathSelectorMetadataOwnerReferences) RequiresOwnerReference() AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type AlertPathSelectorMetadataOwnerReferencesKind struct{}
@@ -399,6 +411,23 @@ func (s AlertPathSelectorMetadataOwnerReferencesKind) WithValue(value string) *A
 }
 
 func (s AlertPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (AlertPathSelectorMetadataOwnerReferencesVersion) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -419,20 +448,20 @@ func (s AlertPathSelectorMetadataOwnerReferencesName) WithArrayOfValues(values [
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
-type AlertPathSelectorMetadataOwnerReferencesUid struct{}
+type AlertPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (AlertPathSelectorMetadataOwnerReferencesUid) FieldPath() *Alert_FieldSubPath {
+func (AlertPathSelectorMetadataOwnerReferencesRegion) FieldPath() *Alert_FieldSubPath {
 	return &Alert_FieldSubPath{
 		selector: Alert_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s AlertPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -467,6 +496,23 @@ func (s AlertPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(va
 }
 
 func (s AlertPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -571,6 +617,65 @@ func (s AlertPathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][]st
 
 func (s AlertPathSelectorMetadataSyncingRegions) WithItemValue(value string) *Alert_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Alert_FieldSubPathArrayItemValue)
+}
+
+type AlertPathSelectorMetadataLifecycle struct{}
+
+func (AlertPathSelectorMetadataLifecycle) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+func (AlertPathSelectorMetadataLifecycle) State() AlertPathSelectorMetadataLifecycleState {
+	return AlertPathSelectorMetadataLifecycleState{}
+}
+
+func (AlertPathSelectorMetadataLifecycle) BlockDeletion() AlertPathSelectorMetadataLifecycleBlockDeletion {
+	return AlertPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type AlertPathSelectorMetadataLifecycleState struct{}
+
+func (AlertPathSelectorMetadataLifecycleState) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (AlertPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
 type AlertPathSelectorDisplayName struct{}

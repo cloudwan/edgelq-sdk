@@ -236,6 +236,10 @@ func (fp *GetPodRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetPodRequest_FieldPathSelectorView
 }
 
+func (fp *GetPodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetPodRequest_FieldTerminalPath) WithIValue(value interface{}) GetPodRequest_FieldPathValue {
 	switch fp.selector {
 	case GetPodRequest_FieldPathSelectorName:
@@ -453,7 +457,11 @@ func (fpaiv *GetPodRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source 
 func (fpaiv *GetPodRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetPodRequest) bool {
 	slice := fpaiv.GetPodRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -698,6 +706,10 @@ func (fp *BatchGetPodsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetPodsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetPodsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPodsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPodsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPodsRequest_FieldPathSelectorNames:
@@ -904,7 +916,11 @@ func (fpaiv *BatchGetPodsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *BatchGetPodsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPodsRequest) bool {
 	slice := fpaiv.BatchGetPodsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1143,6 +1159,10 @@ func (fp *BatchGetPodsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetPodsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetPodsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPodsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetPodsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPodsResponse_FieldPathSelectorPods:
@@ -1273,6 +1293,12 @@ func (fps *BatchGetPodsResponse_FieldSubPath) ClearValueRaw(item proto.Message) 
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetPodsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetPodsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetPodsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetPodsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetPodsResponse_FieldPathValue {
@@ -1490,7 +1516,11 @@ func (fpaiv *BatchGetPodsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *BatchGetPodsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPodsResponse) bool {
 	slice := fpaiv.BatchGetPodsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1831,6 +1861,10 @@ func (fp *ListPodsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPodsRequest_FieldPathSelectorView
 }
 
+func (fp *ListPodsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPodsRequest_FieldTerminalPath) WithIValue(value interface{}) ListPodsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListPodsRequest_FieldPathSelectorParent:
@@ -2104,7 +2138,11 @@ func (fpaiv *ListPodsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sourc
 func (fpaiv *ListPodsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPodsRequest) bool {
 	slice := fpaiv.ListPodsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2392,6 +2430,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPodsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListPodsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPodsResponse_FieldTerminalPath) WithIValue(value interface{}) ListPodsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListPodsResponse_FieldPathSelectorPods:
@@ -2524,6 +2566,12 @@ func (fps *ListPodsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ListPodsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListPodsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListPodsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListPodsResponse_FieldSubPath) WithIValue(value interface{}) ListPodsResponse_FieldPathValue {
@@ -2745,7 +2793,11 @@ func (fpaiv *ListPodsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *ListPodsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPodsResponse) bool {
 	slice := fpaiv.ListPodsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3029,6 +3081,10 @@ func (fp *WatchPodRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPodRequest_FieldPathSelectorView
 }
 
+func (fp *WatchPodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPodRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPodRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPodRequest_FieldPathSelectorName:
@@ -3246,7 +3302,11 @@ func (fpaiv *WatchPodRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sourc
 func (fpaiv *WatchPodRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPodRequest) bool {
 	slice := fpaiv.WatchPodRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3460,6 +3520,10 @@ func (fp *WatchPodResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchPodResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchPodResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPodResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPodResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPodResponse_FieldPathSelectorChange:
@@ -3628,7 +3692,11 @@ func (fpaiv *WatchPodResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *WatchPodResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPodResponse) bool {
 	slice := fpaiv.WatchPodResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3964,6 +4032,10 @@ func (fp *WatchPodsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPodsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchPodsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPodsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPodsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPodsRequest_FieldPathSelectorType:
@@ -4297,7 +4369,11 @@ func (fpaiv *WatchPodsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *WatchPodsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPodsRequest) bool {
 	slice := fpaiv.WatchPodsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4662,6 +4738,10 @@ func (fp *WatchPodsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPodsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchPodsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPodsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPodsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPodsResponse_FieldPathSelectorPodChanges:
@@ -4806,6 +4886,12 @@ func (fps *WatchPodsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchPodsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchPodsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchPodsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchPodsResponse_FieldSubPath) WithIValue(value interface{}) WatchPodsResponse_FieldPathValue {
@@ -5099,7 +5185,11 @@ func (fpaiv *WatchPodsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *WatchPodsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPodsResponse) bool {
 	slice := fpaiv.WatchPodsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5401,6 +5491,10 @@ func (fp *WatchPodsResponsePageTokenChange_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPodsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchPodsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPodsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchPodsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchPodsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5581,7 +5675,11 @@ func (fpaiv *WatchPodsResponsePageTokenChange_FieldTerminalPathArrayItemValue) G
 func (fpaiv *WatchPodsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPodsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchPodsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5812,6 +5910,10 @@ func (fp *CreatePodRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreatePodRequest_FieldPathSelectorParent
 }
 
+func (fp *CreatePodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePodRequest_FieldTerminalPath) WithIValue(value interface{}) CreatePodRequest_FieldPathValue {
 	switch fp.selector {
 	case CreatePodRequest_FieldPathSelectorParent:
@@ -5934,6 +6036,12 @@ func (fps *CreatePodRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *CreatePodRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreatePodRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreatePodRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreatePodRequest_FieldSubPath) WithIValue(value interface{}) CreatePodRequest_FieldPathValue {
@@ -6160,7 +6268,11 @@ func (fpaiv *CreatePodRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *CreatePodRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePodRequest) bool {
 	slice := fpaiv.CreatePodRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6452,6 +6564,10 @@ func (fp *UpdatePodRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePodRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdatePodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePodRequest_FieldTerminalPath) WithIValue(value interface{}) UpdatePodRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdatePodRequest_FieldPathSelectorPod:
@@ -6591,6 +6707,12 @@ func (fps *UpdatePodRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePodRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePodRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePodRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePodRequest_FieldSubPath) WithIValue(value interface{}) UpdatePodRequest_FieldPathValue {
@@ -6816,7 +6938,11 @@ func (fpaiv *UpdatePodRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *UpdatePodRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePodRequest) bool {
 	slice := fpaiv.UpdatePodRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7104,6 +7230,10 @@ func (fp *UpdatePodRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePodRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdatePodRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePodRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdatePodRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdatePodRequestCAS_FieldPathSelectorConditionalState:
@@ -7226,6 +7356,12 @@ func (fps *UpdatePodRequestCAS_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePodRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePodRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePodRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePodRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdatePodRequestCAS_FieldPathValue {
@@ -7435,7 +7571,11 @@ func (fpaiv *UpdatePodRequestCAS_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *UpdatePodRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePodRequest_CAS) bool {
 	slice := fpaiv.UpdatePodRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7680,6 +7820,10 @@ func (fp *DeletePodRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeletePodRequest_FieldPathSelectorName
 }
 
+func (fp *DeletePodRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeletePodRequest_FieldTerminalPath) WithIValue(value interface{}) DeletePodRequest_FieldPathValue {
 	switch fp.selector {
 	case DeletePodRequest_FieldPathSelectorName:
@@ -7865,7 +8009,11 @@ func (fpaiv *DeletePodRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *DeletePodRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeletePodRequest) bool {
 	slice := fpaiv.DeletePodRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

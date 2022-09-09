@@ -308,6 +308,10 @@ func (fp *MonitoredResourceDescriptor_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == MonitoredResourceDescriptor_FieldPathSelectorDescription
 }
 
+func (fp *MonitoredResourceDescriptor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *MonitoredResourceDescriptor_FieldTerminalPath) WithIValue(value interface{}) MonitoredResourceDescriptor_FieldPathValue {
 	switch fp.selector {
 	case MonitoredResourceDescriptor_FieldPathSelectorName:
@@ -488,6 +492,12 @@ func (fps *MonitoredResourceDescriptor_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *MonitoredResourceDescriptor_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *MonitoredResourceDescriptor_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MonitoredResourceDescriptor_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *MonitoredResourceDescriptor_FieldSubPath) WithIValue(value interface{}) MonitoredResourceDescriptor_FieldPathValue {
@@ -802,7 +812,11 @@ func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *MonitoredResourceDescriptor_FieldTerminalPathArrayItemValue) ContainsValue(source *MonitoredResourceDescriptor) bool {
 	slice := fpaiv.MonitoredResourceDescriptor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -216,6 +216,10 @@ func (fp *AcceptPlanAssignmentRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AcceptPlanAssignmentRequest_FieldPathSelectorApprover
 }
 
+func (fp *AcceptPlanAssignmentRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AcceptPlanAssignmentRequest_FieldTerminalPath) WithIValue(value interface{}) AcceptPlanAssignmentRequest_FieldPathValue {
 	switch fp.selector {
 	case AcceptPlanAssignmentRequest_FieldPathSelectorName:
@@ -430,7 +434,11 @@ func (fpaiv *AcceptPlanAssignmentRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *AcceptPlanAssignmentRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *AcceptPlanAssignmentRequest) bool {
 	slice := fpaiv.AcceptPlanAssignmentRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -645,6 +653,10 @@ func (fp *AcceptPlanAssignmentResponse_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *AcceptPlanAssignmentResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AcceptPlanAssignmentResponse_FieldTerminalPath) WithIValue(value interface{}) AcceptPlanAssignmentResponse_FieldPathValue {
 	switch fp.selector {
 	case AcceptPlanAssignmentResponse_FieldPathSelectorAcceptedPlan:
@@ -763,6 +775,12 @@ func (fps *AcceptPlanAssignmentResponse_FieldSubPath) ClearValueRaw(item proto.M
 // IsLeaf - whether field path is holds simple value
 func (fps *AcceptPlanAssignmentResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AcceptPlanAssignmentResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AcceptPlanAssignmentResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AcceptPlanAssignmentResponse_FieldSubPath) WithIValue(value interface{}) AcceptPlanAssignmentResponse_FieldPathValue {
@@ -964,7 +982,11 @@ func (fpaiv *AcceptPlanAssignmentResponse_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *AcceptPlanAssignmentResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *AcceptPlanAssignmentResponse) bool {
 	slice := fpaiv.AcceptPlanAssignmentResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1232,6 +1254,10 @@ func (fp *DeclinePlanAssignmentRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeclinePlanAssignmentRequest_FieldPathSelectorReason
 }
 
+func (fp *DeclinePlanAssignmentRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeclinePlanAssignmentRequest_FieldTerminalPath) WithIValue(value interface{}) DeclinePlanAssignmentRequest_FieldPathValue {
 	switch fp.selector {
 	case DeclinePlanAssignmentRequest_FieldPathSelectorName:
@@ -1466,7 +1492,11 @@ func (fpaiv *DeclinePlanAssignmentRequest_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *DeclinePlanAssignmentRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeclinePlanAssignmentRequest) bool {
 	slice := fpaiv.DeclinePlanAssignmentRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1661,6 +1691,10 @@ func (fp *DeclinePlanAssignmentResponse_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *DeclinePlanAssignmentResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeclinePlanAssignmentResponse_FieldTerminalPath) WithIValue(value interface{}) DeclinePlanAssignmentResponse_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -1817,7 +1851,11 @@ func (fpaiv *DeclinePlanAssignmentResponse_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *DeclinePlanAssignmentResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *DeclinePlanAssignmentResponse) bool {
 	slice := fpaiv.DeclinePlanAssignmentResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

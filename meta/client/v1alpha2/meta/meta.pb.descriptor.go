@@ -81,6 +81,10 @@ func (d *MetaDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *MetaDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{}
+}
+
 func GetMetaDescriptor() *MetaDescriptor {
 	return metaDescriptor
 }

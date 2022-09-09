@@ -236,6 +236,10 @@ func (fp *GetAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetAlertingPolicyRequest_FieldPathSelectorView
 }
 
+func (fp *GetAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interface{}) GetAlertingPolicyRequest_FieldPathValue {
 	switch fp.selector {
 	case GetAlertingPolicyRequest_FieldPathSelectorName:
@@ -453,7 +457,11 @@ func (fpaiv *GetAlertingPolicyRequest_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *GetAlertingPolicyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetAlertingPolicyRequest) bool {
 	slice := fpaiv.GetAlertingPolicyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -698,6 +706,10 @@ func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetAlertingPoliciesRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetAlertingPoliciesRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetAlertingPoliciesRequest_FieldPathSelectorNames:
@@ -904,7 +916,11 @@ func (fpaiv *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) Ge
 func (fpaiv *BatchGetAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetAlertingPoliciesRequest) bool {
 	slice := fpaiv.BatchGetAlertingPoliciesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1143,6 +1159,10 @@ func (fp *BatchGetAlertingPoliciesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetAlertingPoliciesResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetAlertingPoliciesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetAlertingPoliciesResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetAlertingPoliciesResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies:
@@ -1273,6 +1293,12 @@ func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) ClearValueRaw(item pro
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetAlertingPoliciesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) WithIValue(value interface{}) BatchGetAlertingPoliciesResponse_FieldPathValue {
@@ -1490,7 +1516,11 @@ func (fpaiv *BatchGetAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) G
 func (fpaiv *BatchGetAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetAlertingPoliciesResponse) bool {
 	slice := fpaiv.BatchGetAlertingPoliciesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1831,6 +1861,10 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorView
 }
 
+func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value interface{}) ListAlertingPoliciesRequest_FieldPathValue {
 	switch fp.selector {
 	case ListAlertingPoliciesRequest_FieldPathSelectorParent:
@@ -2104,7 +2138,11 @@ func (fpaiv *ListAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *ListAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListAlertingPoliciesRequest) bool {
 	slice := fpaiv.ListAlertingPoliciesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2392,6 +2430,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) WithIValue(value interface{}) ListAlertingPoliciesResponse_FieldPathValue {
 	switch fp.selector {
 	case ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies:
@@ -2524,6 +2566,12 @@ func (fps *ListAlertingPoliciesResponse_FieldSubPath) ClearValueRaw(item proto.M
 // IsLeaf - whether field path is holds simple value
 func (fps *ListAlertingPoliciesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListAlertingPoliciesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListAlertingPoliciesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListAlertingPoliciesResponse_FieldSubPath) WithIValue(value interface{}) ListAlertingPoliciesResponse_FieldPathValue {
@@ -2745,7 +2793,11 @@ func (fpaiv *ListAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *ListAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListAlertingPoliciesResponse) bool {
 	slice := fpaiv.ListAlertingPoliciesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3029,6 +3081,10 @@ func (fp *WatchAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAlertingPolicyRequest_FieldPathSelectorView
 }
 
+func (fp *WatchAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interface{}) WatchAlertingPolicyRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchAlertingPolicyRequest_FieldPathSelectorName:
@@ -3246,7 +3302,11 @@ func (fpaiv *WatchAlertingPolicyRequest_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *WatchAlertingPolicyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAlertingPolicyRequest) bool {
 	slice := fpaiv.WatchAlertingPolicyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3460,6 +3520,10 @@ func (fp *WatchAlertingPolicyResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchAlertingPolicyResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchAlertingPolicyResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAlertingPolicyResponse_FieldTerminalPath) WithIValue(value interface{}) WatchAlertingPolicyResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchAlertingPolicyResponse_FieldPathSelectorChange:
@@ -3628,7 +3692,11 @@ func (fpaiv *WatchAlertingPolicyResponse_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *WatchAlertingPolicyResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAlertingPolicyResponse) bool {
 	slice := fpaiv.WatchAlertingPolicyResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3964,6 +4032,10 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value interface{}) WatchAlertingPoliciesRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchAlertingPoliciesRequest_FieldPathSelectorType:
@@ -4297,7 +4369,11 @@ func (fpaiv *WatchAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *WatchAlertingPoliciesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAlertingPoliciesRequest) bool {
 	slice := fpaiv.WatchAlertingPoliciesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4662,6 +4738,10 @@ func (fp *WatchAlertingPoliciesResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAlertingPoliciesResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchAlertingPoliciesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAlertingPoliciesResponse_FieldTerminalPath) WithIValue(value interface{}) WatchAlertingPoliciesResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicyChanges:
@@ -4806,6 +4886,12 @@ func (fps *WatchAlertingPoliciesResponse_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchAlertingPoliciesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchAlertingPoliciesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchAlertingPoliciesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchAlertingPoliciesResponse_FieldSubPath) WithIValue(value interface{}) WatchAlertingPoliciesResponse_FieldPathValue {
@@ -5099,7 +5185,11 @@ func (fpaiv *WatchAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *WatchAlertingPoliciesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAlertingPoliciesResponse) bool {
 	slice := fpaiv.WatchAlertingPoliciesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5401,6 +5491,10 @@ func (fp *WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPath) IsLeaf
 		fp.selector == WatchAlertingPoliciesResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchAlertingPoliciesResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchAlertingPoliciesResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5581,7 +5675,11 @@ func (fpaiv *WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPathArray
 func (fpaiv *WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAlertingPoliciesResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchAlertingPoliciesResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5812,6 +5910,10 @@ func (fp *CreateAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreateAlertingPolicyRequest_FieldPathSelectorParent
 }
 
+func (fp *CreateAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interface{}) CreateAlertingPolicyRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateAlertingPolicyRequest_FieldPathSelectorParent:
@@ -5934,6 +6036,12 @@ func (fps *CreateAlertingPolicyRequest_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateAlertingPolicyRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateAlertingPolicyRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateAlertingPolicyRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateAlertingPolicyRequest_FieldSubPath) WithIValue(value interface{}) CreateAlertingPolicyRequest_FieldPathValue {
@@ -6160,7 +6268,11 @@ func (fpaiv *CreateAlertingPolicyRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *CreateAlertingPolicyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateAlertingPolicyRequest) bool {
 	slice := fpaiv.CreateAlertingPolicyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6452,6 +6564,10 @@ func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateAlertingPolicyRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateAlertingPolicyRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy:
@@ -6591,6 +6707,12 @@ func (fps *UpdateAlertingPolicyRequest_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateAlertingPolicyRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateAlertingPolicyRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateAlertingPolicyRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateAlertingPolicyRequest_FieldSubPath) WithIValue(value interface{}) UpdateAlertingPolicyRequest_FieldPathValue {
@@ -6816,7 +6938,11 @@ func (fpaiv *UpdateAlertingPolicyRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *UpdateAlertingPolicyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateAlertingPolicyRequest) bool {
 	slice := fpaiv.UpdateAlertingPolicyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7104,6 +7230,10 @@ func (fp *UpdateAlertingPolicyRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateAlertingPolicyRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateAlertingPolicyRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateAlertingPolicyRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateAlertingPolicyRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState:
@@ -7226,6 +7356,12 @@ func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateAlertingPolicyRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateAlertingPolicyRequestCAS_FieldPathValue {
@@ -7435,7 +7571,11 @@ func (fpaiv *UpdateAlertingPolicyRequestCAS_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *UpdateAlertingPolicyRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateAlertingPolicyRequest_CAS) bool {
 	slice := fpaiv.UpdateAlertingPolicyRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7680,6 +7820,10 @@ func (fp *DeleteAlertingPolicyRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeleteAlertingPolicyRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteAlertingPolicyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteAlertingPolicyRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteAlertingPolicyRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteAlertingPolicyRequest_FieldPathSelectorName:
@@ -7865,7 +8009,11 @@ func (fpaiv *DeleteAlertingPolicyRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *DeleteAlertingPolicyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteAlertingPolicyRequest) bool {
 	slice := fpaiv.DeleteAlertingPolicyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

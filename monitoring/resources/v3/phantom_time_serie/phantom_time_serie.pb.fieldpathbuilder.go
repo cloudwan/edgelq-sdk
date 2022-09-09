@@ -101,6 +101,10 @@ func (PhantomTimeSeriePathSelectorMetadata) UpdateTime() PhantomTimeSeriePathSel
 	return PhantomTimeSeriePathSelectorMetadataUpdateTime{}
 }
 
+func (PhantomTimeSeriePathSelectorMetadata) DeleteTime() PhantomTimeSeriePathSelectorMetadataDeleteTime {
+	return PhantomTimeSeriePathSelectorMetadataDeleteTime{}
+}
+
 func (PhantomTimeSeriePathSelectorMetadata) Uuid() PhantomTimeSeriePathSelectorMetadataUuid {
 	return PhantomTimeSeriePathSelectorMetadataUuid{}
 }
@@ -137,6 +141,10 @@ func (PhantomTimeSeriePathSelectorMetadata) Syncing() PhantomTimeSeriePathSelect
 	return PhantomTimeSeriePathSelectorMetadataSyncing{}
 }
 
+func (PhantomTimeSeriePathSelectorMetadata) Lifecycle() PhantomTimeSeriePathSelectorMetadataLifecycle {
+	return PhantomTimeSeriePathSelectorMetadataLifecycle{}
+}
+
 type PhantomTimeSeriePathSelectorMetadataCreateTime struct{}
 
 func (PhantomTimeSeriePathSelectorMetadataCreateTime) FieldPath() *PhantomTimeSerie_FieldSubPath {
@@ -168,6 +176,23 @@ func (s PhantomTimeSeriePathSelectorMetadataUpdateTime) WithValue(value *timesta
 }
 
 func (s PhantomTimeSeriePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriePathSelectorMetadataDeleteTime struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataDeleteTime) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -344,20 +369,20 @@ func (s PhantomTimeSeriePathSelectorMetadataOwnerReferences) WithItemValue(value
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSerie_FieldSubPathArrayItemValue)
 }
 
-func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) ApiVersion() PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion {
-	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Kind() PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind {
 	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Version() PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion {
+	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Name() PhantomTimeSeriePathSelectorMetadataOwnerReferencesName {
 	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesName{}
 }
 
-func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Uid() PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid {
-	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid{}
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Region() PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion {
+	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) Controller() PhantomTimeSeriePathSelectorMetadataOwnerReferencesController {
@@ -368,21 +393,8 @@ func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() 
 	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *PhantomTimeSerie_FieldSubPath {
-	return &PhantomTimeSerie_FieldSubPath{
-		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *PhantomTimeSerie_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
-}
-
-func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *PhantomTimeSerie_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) RequiresOwnerReference() PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind struct{}
@@ -399,6 +411,23 @@ func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind) WithValue(value
 }
 
 func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -419,20 +448,20 @@ func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesName) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
-type PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid struct{}
+type PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid) FieldPath() *PhantomTimeSerie_FieldSubPath {
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion) FieldPath() *PhantomTimeSerie_FieldSubPath {
 	return &PhantomTimeSerie_FieldSubPath{
 		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid) WithValue(value string) *PhantomTimeSerie_FieldSubPathValue {
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *PhantomTimeSerie_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -467,6 +496,23 @@ func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) W
 }
 
 func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
@@ -571,6 +617,65 @@ func (s PhantomTimeSeriePathSelectorMetadataSyncingRegions) WithArrayOfValues(va
 
 func (s PhantomTimeSeriePathSelectorMetadataSyncingRegions) WithItemValue(value string) *PhantomTimeSerie_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSerie_FieldSubPathArrayItemValue)
+}
+
+type PhantomTimeSeriePathSelectorMetadataLifecycle struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataLifecycle) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+func (PhantomTimeSeriePathSelectorMetadataLifecycle) State() PhantomTimeSeriePathSelectorMetadataLifecycleState {
+	return PhantomTimeSeriePathSelectorMetadataLifecycleState{}
+}
+
+func (PhantomTimeSeriePathSelectorMetadataLifecycle) BlockDeletion() PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion {
+	return PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type PhantomTimeSeriePathSelectorMetadataLifecycleState struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataLifecycleState) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 
 type PhantomTimeSeriePathSelectorName struct{}
@@ -1617,6 +1722,10 @@ func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadata) UpdateTime() Phantom
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataUpdateTime{}
 }
 
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadata) DeleteTime() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime{}
+}
+
 func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadata) Uuid() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataUuid {
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataUuid{}
 }
@@ -1653,6 +1762,10 @@ func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadata) Syncing() PhantomTim
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncing{}
 }
 
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadata) Lifecycle() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle{}
+}
+
 type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataCreateTime struct{}
 
 func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataCreateTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
@@ -1684,6 +1797,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataUpdateTime) WithValu
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -1860,20 +1990,20 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Wit
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue)
 }
 
-func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) ApiVersion() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion {
-	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion{}
-}
-
 func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Kind() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesKind {
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesKind{}
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Version() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion{}
 }
 
 func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Name() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesName {
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesName{}
 }
 
-func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Uid() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid {
-	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid{}
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Region() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion{}
 }
 
 func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Controller() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesController {
@@ -1884,21 +2014,8 @@ func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) Block
 	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion struct{}
-
-func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
-	return &PhantomTimeSeriesBulkChange_FieldSubPath{
-		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
-		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
-}
-
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferences) RequiresOwnerReference() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesKind struct{}
@@ -1915,6 +2032,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesKind)
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -1935,20 +2069,20 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesName)
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
-type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid struct{}
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion struct{}
 
-func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
 	return &PhantomTimeSeriesBulkChange_FieldSubPath{
 		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
-		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -1983,6 +2117,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesBlock
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -2087,6 +2238,65 @@ func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncingRegions) With
 
 func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataSyncingRegions) WithItemValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle) State() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState{}
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycle) BlockDeletion() PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion {
+	return PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion{}
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion) WithValue(value bool) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorAddedMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
 type PhantomTimeSeriesBulkChangePathSelectorAddedName struct{}
@@ -3057,6 +3267,10 @@ func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadata) UpdateTime() Phant
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataUpdateTime{}
 }
 
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadata) DeleteTime() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime{}
+}
+
 func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadata) Uuid() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataUuid {
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataUuid{}
 }
@@ -3093,6 +3307,10 @@ func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadata) Syncing() PhantomT
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncing{}
 }
 
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadata) Lifecycle() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle{}
+}
+
 type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataCreateTime struct{}
 
 func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataCreateTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
@@ -3124,6 +3342,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataUpdateTime) WithVa
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -3300,20 +3535,20 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) W
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue)
 }
 
-func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) ApiVersion() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion {
-	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion{}
-}
-
 func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Kind() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesKind {
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesKind{}
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Version() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion{}
 }
 
 func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Name() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesName {
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesName{}
 }
 
-func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Uid() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid {
-	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid{}
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Region() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion{}
 }
 
 func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Controller() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesController {
@@ -3324,21 +3559,8 @@ func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) Blo
 	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion struct{}
-
-func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
-	return &PhantomTimeSeriesBulkChange_FieldSubPath{
-		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
-		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
-}
-
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferences) RequiresOwnerReference() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesKind struct{}
@@ -3355,6 +3577,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesKin
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -3375,20 +3614,20 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesNam
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
-type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid struct{}
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion struct{}
 
-func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
 	return &PhantomTimeSeriesBulkChange_FieldSubPath{
 		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
-		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion) WithValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
 }
 
-func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -3423,6 +3662,23 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesBlo
 }
 
 func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
@@ -3527,6 +3783,65 @@ func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncingRegions) Wi
 
 func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataSyncingRegions) WithItemValue(value string) *PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayItemValue)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle) State() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState{}
+}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycle) BlockDeletion() PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion {
+	return PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion{}
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion struct{}
+
+func (PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion) FieldPath() *PhantomTimeSeriesBulkChange_FieldSubPath {
+	return &PhantomTimeSeriesBulkChange_FieldSubPath{
+		selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved,
+		subPath:  NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion) WithValue(value bool) *PhantomTimeSeriesBulkChange_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSeriesBulkChange_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriesBulkChangePathSelectorRemovedMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSeriesBulkChange_FieldSubPathArrayOfValues)
 }
 
 type PhantomTimeSeriesBulkChangePathSelectorRemovedName struct{}

@@ -133,6 +133,10 @@ func (ResourcePathSelectorMetadata) UpdateTime() ResourcePathSelectorMetadataUpd
 	return ResourcePathSelectorMetadataUpdateTime{}
 }
 
+func (ResourcePathSelectorMetadata) DeleteTime() ResourcePathSelectorMetadataDeleteTime {
+	return ResourcePathSelectorMetadataDeleteTime{}
+}
+
 func (ResourcePathSelectorMetadata) Uuid() ResourcePathSelectorMetadataUuid {
 	return ResourcePathSelectorMetadataUuid{}
 }
@@ -169,6 +173,10 @@ func (ResourcePathSelectorMetadata) Syncing() ResourcePathSelectorMetadataSyncin
 	return ResourcePathSelectorMetadataSyncing{}
 }
 
+func (ResourcePathSelectorMetadata) Lifecycle() ResourcePathSelectorMetadataLifecycle {
+	return ResourcePathSelectorMetadataLifecycle{}
+}
+
 type ResourcePathSelectorMetadataCreateTime struct{}
 
 func (ResourcePathSelectorMetadataCreateTime) FieldPath() *Resource_FieldSubPath {
@@ -200,6 +208,23 @@ func (s ResourcePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Times
 }
 
 func (s ResourcePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+}
+
+type ResourcePathSelectorMetadataDeleteTime struct{}
+
+func (ResourcePathSelectorMetadataDeleteTime) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Resource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }
 
@@ -376,20 +401,20 @@ func (s ResourcePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_me
 	return s.FieldPath().WithIArrayItemValue(value).(*Resource_FieldSubPathArrayItemValue)
 }
 
-func (ResourcePathSelectorMetadataOwnerReferences) ApiVersion() ResourcePathSelectorMetadataOwnerReferencesApiVersion {
-	return ResourcePathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (ResourcePathSelectorMetadataOwnerReferences) Kind() ResourcePathSelectorMetadataOwnerReferencesKind {
 	return ResourcePathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (ResourcePathSelectorMetadataOwnerReferences) Version() ResourcePathSelectorMetadataOwnerReferencesVersion {
+	return ResourcePathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (ResourcePathSelectorMetadataOwnerReferences) Name() ResourcePathSelectorMetadataOwnerReferencesName {
 	return ResourcePathSelectorMetadataOwnerReferencesName{}
 }
 
-func (ResourcePathSelectorMetadataOwnerReferences) Uid() ResourcePathSelectorMetadataOwnerReferencesUid {
-	return ResourcePathSelectorMetadataOwnerReferencesUid{}
+func (ResourcePathSelectorMetadataOwnerReferences) Region() ResourcePathSelectorMetadataOwnerReferencesRegion {
+	return ResourcePathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (ResourcePathSelectorMetadataOwnerReferences) Controller() ResourcePathSelectorMetadataOwnerReferencesController {
@@ -400,21 +425,8 @@ func (ResourcePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() Resource
 	return ResourcePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ResourcePathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (ResourcePathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *Resource_FieldSubPath {
-	return &Resource_FieldSubPath{
-		selector: Resource_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ResourcePathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *Resource_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
-}
-
-func (s ResourcePathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Resource_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+func (ResourcePathSelectorMetadataOwnerReferences) RequiresOwnerReference() ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ResourcePathSelectorMetadataOwnerReferencesKind struct{}
@@ -431,6 +443,23 @@ func (s ResourcePathSelectorMetadataOwnerReferencesKind) WithValue(value string)
 }
 
 func (s ResourcePathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+}
+
+type ResourcePathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (ResourcePathSelectorMetadataOwnerReferencesVersion) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *Resource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }
 
@@ -451,20 +480,20 @@ func (s ResourcePathSelectorMetadataOwnerReferencesName) WithArrayOfValues(value
 	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }
 
-type ResourcePathSelectorMetadataOwnerReferencesUid struct{}
+type ResourcePathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (ResourcePathSelectorMetadataOwnerReferencesUid) FieldPath() *Resource_FieldSubPath {
+func (ResourcePathSelectorMetadataOwnerReferencesRegion) FieldPath() *Resource_FieldSubPath {
 	return &Resource_FieldSubPath{
 		selector: Resource_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ResourcePathSelectorMetadataOwnerReferencesUid) WithValue(value string) *Resource_FieldSubPathValue {
+func (s ResourcePathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *Resource_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
 }
 
-func (s ResourcePathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *Resource_FieldSubPathArrayOfValues {
+func (s ResourcePathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *Resource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }
 
@@ -499,6 +528,23 @@ func (s ResourcePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue
 }
 
 func (s ResourcePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+}
+
+type ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Resource_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }
 
@@ -603,4 +649,63 @@ func (s ResourcePathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][
 
 func (s ResourcePathSelectorMetadataSyncingRegions) WithItemValue(value string) *Resource_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Resource_FieldSubPathArrayItemValue)
+}
+
+type ResourcePathSelectorMetadataLifecycle struct{}
+
+func (ResourcePathSelectorMetadataLifecycle) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+}
+
+func (ResourcePathSelectorMetadataLifecycle) State() ResourcePathSelectorMetadataLifecycleState {
+	return ResourcePathSelectorMetadataLifecycleState{}
+}
+
+func (ResourcePathSelectorMetadataLifecycle) BlockDeletion() ResourcePathSelectorMetadataLifecycleBlockDeletion {
+	return ResourcePathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type ResourcePathSelectorMetadataLifecycleState struct{}
+
+func (ResourcePathSelectorMetadataLifecycleState) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
+}
+
+type ResourcePathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (ResourcePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Resource_FieldSubPath {
+	return &Resource_FieldSubPath{
+		selector: Resource_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ResourcePathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Resource_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Resource_FieldSubPathValue)
+}
+
+func (s ResourcePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Resource_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Resource_FieldSubPathArrayOfValues)
 }

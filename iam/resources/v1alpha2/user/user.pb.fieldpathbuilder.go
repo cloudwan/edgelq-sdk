@@ -112,6 +112,10 @@ func (UserPathSelectorMetadata) UpdateTime() UserPathSelectorMetadataUpdateTime 
 	return UserPathSelectorMetadataUpdateTime{}
 }
 
+func (UserPathSelectorMetadata) DeleteTime() UserPathSelectorMetadataDeleteTime {
+	return UserPathSelectorMetadataDeleteTime{}
+}
+
 func (UserPathSelectorMetadata) Uuid() UserPathSelectorMetadataUuid {
 	return UserPathSelectorMetadataUuid{}
 }
@@ -148,6 +152,10 @@ func (UserPathSelectorMetadata) Syncing() UserPathSelectorMetadataSyncing {
 	return UserPathSelectorMetadataSyncing{}
 }
 
+func (UserPathSelectorMetadata) Lifecycle() UserPathSelectorMetadataLifecycle {
+	return UserPathSelectorMetadataLifecycle{}
+}
+
 type UserPathSelectorMetadataCreateTime struct{}
 
 func (UserPathSelectorMetadataCreateTime) FieldPath() *User_FieldSubPath {
@@ -179,6 +187,23 @@ func (s UserPathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timestamp
 }
 
 func (s UserPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+}
+
+type UserPathSelectorMetadataDeleteTime struct{}
+
+func (UserPathSelectorMetadataDeleteTime) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *User_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
@@ -355,20 +380,20 @@ func (s UserPathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_meta.O
 	return s.FieldPath().WithIArrayItemValue(value).(*User_FieldSubPathArrayItemValue)
 }
 
-func (UserPathSelectorMetadataOwnerReferences) ApiVersion() UserPathSelectorMetadataOwnerReferencesApiVersion {
-	return UserPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (UserPathSelectorMetadataOwnerReferences) Kind() UserPathSelectorMetadataOwnerReferencesKind {
 	return UserPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (UserPathSelectorMetadataOwnerReferences) Version() UserPathSelectorMetadataOwnerReferencesVersion {
+	return UserPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (UserPathSelectorMetadataOwnerReferences) Name() UserPathSelectorMetadataOwnerReferencesName {
 	return UserPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (UserPathSelectorMetadataOwnerReferences) Uid() UserPathSelectorMetadataOwnerReferencesUid {
-	return UserPathSelectorMetadataOwnerReferencesUid{}
+func (UserPathSelectorMetadataOwnerReferences) Region() UserPathSelectorMetadataOwnerReferencesRegion {
+	return UserPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (UserPathSelectorMetadataOwnerReferences) Controller() UserPathSelectorMetadataOwnerReferencesController {
@@ -379,21 +404,8 @@ func (UserPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() UserPathSele
 	return UserPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UserPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (UserPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *User_FieldSubPath {
-	return &User_FieldSubPath{
-		selector: User_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UserPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *User_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
-}
-
-func (s UserPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *User_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+func (UserPathSelectorMetadataOwnerReferences) RequiresOwnerReference() UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UserPathSelectorMetadataOwnerReferencesKind struct{}
@@ -410,6 +422,23 @@ func (s UserPathSelectorMetadataOwnerReferencesKind) WithValue(value string) *Us
 }
 
 func (s UserPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+}
+
+type UserPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (UserPathSelectorMetadataOwnerReferencesVersion) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *User_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
@@ -430,20 +459,20 @@ func (s UserPathSelectorMetadataOwnerReferencesName) WithArrayOfValues(values []
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
-type UserPathSelectorMetadataOwnerReferencesUid struct{}
+type UserPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (UserPathSelectorMetadataOwnerReferencesUid) FieldPath() *User_FieldSubPath {
+func (UserPathSelectorMetadataOwnerReferencesRegion) FieldPath() *User_FieldSubPath {
 	return &User_FieldSubPath{
 		selector: User_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UserPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *User_FieldSubPathValue {
+func (s UserPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *User_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
 }
 
-func (s UserPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *User_FieldSubPathArrayOfValues {
+func (s UserPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *User_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
@@ -478,6 +507,23 @@ func (s UserPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(val
 }
 
 func (s UserPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+}
+
+type UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *User_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
@@ -582,6 +628,65 @@ func (s UserPathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][]str
 
 func (s UserPathSelectorMetadataSyncingRegions) WithItemValue(value string) *User_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*User_FieldSubPathArrayItemValue)
+}
+
+type UserPathSelectorMetadataLifecycle struct{}
+
+func (UserPathSelectorMetadataLifecycle) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+}
+
+func (UserPathSelectorMetadataLifecycle) State() UserPathSelectorMetadataLifecycleState {
+	return UserPathSelectorMetadataLifecycleState{}
+}
+
+func (UserPathSelectorMetadataLifecycle) BlockDeletion() UserPathSelectorMetadataLifecycleBlockDeletion {
+	return UserPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type UserPathSelectorMetadataLifecycleState struct{}
+
+func (UserPathSelectorMetadataLifecycleState) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
+}
+
+type UserPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (UserPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *User_FieldSubPath {
+	return &User_FieldSubPath{
+		selector: User_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UserPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *User_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
+}
+
+func (s UserPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *User_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
 }
 
 type UserPathSelectorEmail struct{}

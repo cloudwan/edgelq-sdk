@@ -264,6 +264,10 @@ func (fp *Condition_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Condition_FieldPathSelectorExpression
 }
 
+func (fp *Condition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Condition_FieldTerminalPath) WithIValue(value interface{}) Condition_FieldPathValue {
 	switch fp.selector {
 	case Condition_FieldPathSelectorName:
@@ -404,6 +408,12 @@ func (fps *Condition_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Condition_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Condition_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Condition_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Condition_FieldSubPath) WithIValue(value interface{}) Condition_FieldPathValue {
@@ -682,7 +692,11 @@ func (fpaiv *Condition_FieldTerminalPathArrayItemValue) GetSingleRaw(source prot
 func (fpaiv *Condition_FieldTerminalPathArrayItemValue) ContainsValue(source *Condition) bool {
 	slice := fpaiv.Condition_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -962,6 +976,10 @@ func (fp *ConditionParameterDeclaration_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ConditionParameterDeclaration_FieldPathSelectorType
 }
 
+func (fp *ConditionParameterDeclaration_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ConditionParameterDeclaration_FieldTerminalPath) WithIValue(value interface{}) ConditionParameterDeclaration_FieldPathValue {
 	switch fp.selector {
 	case ConditionParameterDeclaration_FieldPathSelectorKey:
@@ -1158,7 +1176,11 @@ func (fpaiv *ConditionParameterDeclaration_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *ConditionParameterDeclaration_FieldTerminalPathArrayItemValue) ContainsValue(source *Condition_ParameterDeclaration) bool {
 	slice := fpaiv.ConditionParameterDeclaration_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1387,6 +1409,10 @@ func (fp *ConditionBinding_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ConditionBinding_FieldPathSelectorParameters
 }
 
+func (fp *ConditionBinding_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ConditionBinding_FieldTerminalPath) WithIValue(value interface{}) ConditionBinding_FieldPathValue {
 	switch fp.selector {
 	case ConditionBinding_FieldPathSelectorCondition:
@@ -1522,6 +1548,10 @@ func (fpm *ConditionBinding_FieldPathMap) IsLeaf() bool {
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fpm.selector))
 	}
+}
+
+func (fpm *ConditionBinding_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *ConditionBinding_FieldPathMap) WithIValue(value interface{}) ConditionBinding_FieldPathValue {
@@ -1771,7 +1801,11 @@ func (fpaiv *ConditionBinding_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *ConditionBinding_FieldTerminalPathArrayItemValue) ContainsValue(source *ConditionBinding) bool {
 	slice := fpaiv.ConditionBinding_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -289,6 +289,10 @@ func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadata) Update
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdateTime{}
 }
 
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadata) DeleteTime() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime{}
+}
+
 func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadata) Uuid() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataUuid {
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataUuid{}
 }
@@ -325,6 +329,10 @@ func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadata) Syncin
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing{}
 }
 
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadata) Lifecycle() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle{}
+}
+
 type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataCreateTime struct{}
 
 func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataCreateTime) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
@@ -356,6 +364,23 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdate
 }
 
 func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -532,20 +557,20 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerR
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) ApiVersion() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion {
-	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Kind() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind {
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Version() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Name() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesName {
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Uid() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid {
-	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid{}
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Region() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Controller() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesController {
@@ -556,21 +581,8 @@ func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerRef
 	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
-	return &BatchGetServiceAccountsResponse_FieldSubPath{
-		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetServiceAccountsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) RequiresOwnerReference() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind struct{}
@@ -587,6 +599,23 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerR
 }
 
 func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -607,20 +636,20 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerR
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid struct{}
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
 	return &BatchGetServiceAccountsResponse_FieldSubPath{
 		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetServiceAccountsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -655,6 +684,23 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerR
 }
 
 func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -759,6 +805,65 @@ func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncin
 
 func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncingRegions) WithItemValue(value string) *BatchGetServiceAccountsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) State() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState{}
+}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) BlockDeletion() BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion {
+	return BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetServiceAccountsResponse_FieldSubPath {
+	return &BatchGetServiceAccountsResponse_FieldSubPath{
+		selector: BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetServiceAccountsResponsePathSelectorMissing struct{}
@@ -1044,6 +1149,10 @@ func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadata) UpdateTime
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdateTime{}
 }
 
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadata) DeleteTime() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime{}
+}
+
 func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadata) Uuid() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataUuid {
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataUuid{}
 }
@@ -1080,6 +1189,10 @@ func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadata) Syncing() 
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncing{}
 }
 
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadata) Lifecycle() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle{}
+}
+
 type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataCreateTime struct{}
 
 func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataCreateTime) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
@@ -1111,6 +1224,23 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdateTime
 }
 
 func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1287,20 +1417,20 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerRefer
 	return s.FieldPath().WithIArrayItemValue(value).(*ListServiceAccountsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) ApiVersion() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion {
-	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Kind() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind {
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind{}
+}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Version() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion{}
 }
 
 func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Name() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesName {
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesName{}
 }
 
-func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Uid() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid {
-	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid{}
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Region() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion{}
 }
 
 func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) Controller() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesController {
@@ -1311,21 +1441,8 @@ func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferen
 	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
-	return &ListServiceAccountsResponse_FieldSubPath{
-		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListServiceAccountsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
-}
-
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferences) RequiresOwnerReference() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind struct{}
@@ -1342,6 +1459,23 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerRefer
 }
 
 func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) WithValue(value string) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1362,20 +1496,20 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerRefer
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid struct{}
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion struct{}
 
-func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
 	return &ListServiceAccountsResponse_FieldSubPath{
 		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) WithValue(value string) *ListServiceAccountsResponse_FieldSubPathValue {
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) WithValue(value string) *ListServiceAccountsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
 }
 
-func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1410,6 +1544,23 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerRefer
 }
 
 func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1514,6 +1665,65 @@ func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncingReg
 
 func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataSyncingRegions) WithItemValue(value string) *ListServiceAccountsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListServiceAccountsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) State() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState{}
+}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycle) BlockDeletion() ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion {
+	return ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion{}
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion struct{}
+
+func (ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) FieldPath() *ListServiceAccountsResponse_FieldSubPath {
+	return &ListServiceAccountsResponse_FieldSubPath{
+		selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListServiceAccountsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountsResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountsResponsePathSelectorServiceAccountsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListServiceAccountsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListServiceAccountsResponsePathSelectorPrevPageToken struct{}
@@ -2175,6 +2385,10 @@ func (CreateServiceAccountRequestPathSelectorServiceAccountMetadata) UpdateTime(
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime{}
 }
 
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadata) DeleteTime() CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime{}
+}
+
 func (CreateServiceAccountRequestPathSelectorServiceAccountMetadata) Uuid() CreateServiceAccountRequestPathSelectorServiceAccountMetadataUuid {
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataUuid{}
 }
@@ -2211,6 +2425,10 @@ func (CreateServiceAccountRequestPathSelectorServiceAccountMetadata) Syncing() C
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing{}
 }
 
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadata) Lifecycle() CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle{}
+}
+
 type CreateServiceAccountRequestPathSelectorServiceAccountMetadataCreateTime struct{}
 
 func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataCreateTime) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
@@ -2242,6 +2460,23 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime)
 }
 
 func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2418,20 +2653,20 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateServiceAccountRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) ApiVersion() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion {
-	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Kind() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind {
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind{}
+}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Version() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion{}
 }
 
 func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Name() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesName {
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesName{}
 }
 
-func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Uid() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid {
-	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid{}
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Region() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion{}
 }
 
 func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Controller() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesController {
@@ -2442,21 +2677,8 @@ func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferenc
 	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
-	return &CreateServiceAccountRequest_FieldSubPath{
-		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateServiceAccountRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
-}
-
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) RequiresOwnerReference() CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind struct{}
@@ -2473,6 +2695,23 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 }
 
 func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) WithValue(value string) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2493,20 +2732,20 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid struct{}
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion struct{}
 
-func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
 	return &CreateServiceAccountRequest_FieldSubPath{
 		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) WithValue(value string) *CreateServiceAccountRequest_FieldSubPathValue {
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) WithValue(value string) *CreateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2541,6 +2780,23 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 }
 
 func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2645,6 +2901,65 @@ func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncingRegi
 
 func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataSyncingRegions) WithItemValue(value string) *CreateServiceAccountRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateServiceAccountRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) State() CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState{}
+}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) BlockDeletion() CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion {
+	return CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion{}
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion struct{}
+
+func (CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) FieldPath() *CreateServiceAccountRequest_FieldSubPath {
+	return &CreateServiceAccountRequest_FieldSubPath{
+		selector: CreateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateServiceAccountRequestFieldPathBuilder struct{}
@@ -2784,6 +3099,10 @@ func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadata) UpdateTime(
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime{}
 }
 
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadata) DeleteTime() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime{}
+}
+
 func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadata) Uuid() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataUuid {
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataUuid{}
 }
@@ -2820,6 +3139,10 @@ func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadata) Syncing() U
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncing{}
 }
 
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadata) Lifecycle() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle{}
+}
+
 type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataCreateTime struct{}
 
 func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataCreateTime) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
@@ -2851,6 +3174,23 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime)
 }
 
 func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3027,20 +3367,20 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) ApiVersion() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion {
-	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Kind() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind {
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind{}
+}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Version() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Name() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesName {
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesName{}
 }
 
-func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Uid() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid {
-	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid{}
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Region() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) Controller() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesController {
@@ -3051,21 +3391,8 @@ func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferenc
 	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
-	return &UpdateServiceAccountRequest_FieldSubPath{
-		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
-}
-
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferences) RequiresOwnerReference() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind struct{}
@@ -3082,6 +3409,23 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 }
 
 func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3102,20 +3446,20 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid struct{}
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion struct{}
 
-func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
 	return &UpdateServiceAccountRequest_FieldSubPath{
 		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3150,6 +3494,23 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerRefere
 }
 
 func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3254,6 +3615,65 @@ func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncingRegi
 
 func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataSyncingRegions) WithItemValue(value string) *UpdateServiceAccountRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) State() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState{}
+}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycle) BlockDeletion() UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion {
+	return UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorServiceAccount,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorServiceAccountMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateServiceAccountRequestPathSelectorUpdateMask struct{}
@@ -3417,6 +3837,10 @@ func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadata) Update
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -3453,6 +3877,10 @@ func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadata) Syncin
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
@@ -3484,6 +3912,23 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataUpdate
 }
 
 func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3660,20 +4105,20 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -3684,21 +4129,8 @@ func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerRef
 	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
-	return &UpdateServiceAccountRequest_FieldSubPath{
-		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
-}
-
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -3715,6 +4147,23 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerR
 }
 
 func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3735,20 +4184,20 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
 	return &UpdateServiceAccountRequest_FieldSubPath{
 		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateServiceAccountRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3783,6 +4232,23 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerR
 }
 
 func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3887,6 +4353,65 @@ func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncin
 
 func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateServiceAccountRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateServiceAccountRequest_FieldSubPath {
+	return &UpdateServiceAccountRequest_FieldSubPath{
+		selector: UpdateServiceAccountRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateServiceAccountRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateServiceAccountRequestPathSelectorCasFieldMask struct{}
@@ -4040,6 +4565,10 @@ func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadata) Updat
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -4076,6 +4605,10 @@ func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadata) Synci
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
@@ -4107,6 +4640,23 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataUpdat
 }
 
 func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4283,20 +4833,20 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -4307,21 +4857,8 @@ func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerRe
 	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
-	return &UpdateServiceAccountRequestCAS_FieldSubPath{
-		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4338,6 +4875,23 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwner
 }
 
 func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4358,20 +4912,20 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
 	return &UpdateServiceAccountRequestCAS_FieldSubPath{
 		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4406,6 +4960,23 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwner
 }
 
 func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4510,6 +5081,65 @@ func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSynci
 
 func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateServiceAccountRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateServiceAccountRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account.NewServiceAccountFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateServiceAccountRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateServiceAccountRequest_CASPathSelectorFieldMask struct{}

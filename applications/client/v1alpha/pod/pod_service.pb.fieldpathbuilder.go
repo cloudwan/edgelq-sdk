@@ -286,6 +286,10 @@ func (BatchGetPodsResponsePathSelectorPodsMetadata) UpdateTime() BatchGetPodsRes
 	return BatchGetPodsResponsePathSelectorPodsMetadataUpdateTime{}
 }
 
+func (BatchGetPodsResponsePathSelectorPodsMetadata) DeleteTime() BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime {
+	return BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime{}
+}
+
 func (BatchGetPodsResponsePathSelectorPodsMetadata) Uuid() BatchGetPodsResponsePathSelectorPodsMetadataUuid {
 	return BatchGetPodsResponsePathSelectorPodsMetadataUuid{}
 }
@@ -322,6 +326,10 @@ func (BatchGetPodsResponsePathSelectorPodsMetadata) Syncing() BatchGetPodsRespon
 	return BatchGetPodsResponsePathSelectorPodsMetadataSyncing{}
 }
 
+func (BatchGetPodsResponsePathSelectorPodsMetadata) Lifecycle() BatchGetPodsResponsePathSelectorPodsMetadataLifecycle {
+	return BatchGetPodsResponsePathSelectorPodsMetadataLifecycle{}
+}
+
 type BatchGetPodsResponsePathSelectorPodsMetadataCreateTime struct{}
 
 func (BatchGetPodsResponsePathSelectorPodsMetadataCreateTime) FieldPath() *BatchGetPodsResponse_FieldSubPath {
@@ -353,6 +361,23 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataUpdateTime) WithValue(value 
 }
 
 func (s BatchGetPodsResponsePathSelectorPodsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -529,20 +554,20 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) WithItemVal
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) ApiVersion() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion {
-	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Kind() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesKind {
 	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Version() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion {
+	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Name() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesName {
 	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Uid() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid {
-	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid{}
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Region() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion {
+	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) Controller() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesController {
@@ -553,21 +578,8 @@ func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) BlockOwnerDel
 	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetPodsResponse_FieldSubPath {
-	return &BatchGetPodsResponse_FieldSubPath{
-		selector: BatchGetPodsResponse_FieldPathSelectorPods,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetPodsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferences) RequiresOwnerReference() BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesKind struct{}
@@ -584,6 +596,23 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesKind) WithVal
 }
 
 func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -604,20 +633,20 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesName) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid struct{}
+type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) FieldPath() *BatchGetPodsResponse_FieldSubPath {
 	return &BatchGetPodsResponse_FieldSubPath{
 		selector: BatchGetPodsResponse_FieldPathSelectorPods,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetPodsResponse_FieldSubPathValue {
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -652,6 +681,23 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDel
 }
 
 func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -756,6 +802,65 @@ func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncingRegions) WithArrayOfV
 
 func (s BatchGetPodsResponsePathSelectorPodsMetadataSyncingRegions) WithItemValue(value string) *BatchGetPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPodsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataLifecycle struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataLifecycle) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataLifecycle) State() BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState {
+	return BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState{}
+}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataLifecycle) BlockDeletion() BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion {
+	return BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetPodsResponse_FieldSubPath {
+	return &BatchGetPodsResponse_FieldSubPath{
+		selector: BatchGetPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPodsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPodsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetPodsResponsePathSelectorPodsSpec struct{}
@@ -2937,6 +3042,10 @@ func (ListPodsResponsePathSelectorPodsMetadata) UpdateTime() ListPodsResponsePat
 	return ListPodsResponsePathSelectorPodsMetadataUpdateTime{}
 }
 
+func (ListPodsResponsePathSelectorPodsMetadata) DeleteTime() ListPodsResponsePathSelectorPodsMetadataDeleteTime {
+	return ListPodsResponsePathSelectorPodsMetadataDeleteTime{}
+}
+
 func (ListPodsResponsePathSelectorPodsMetadata) Uuid() ListPodsResponsePathSelectorPodsMetadataUuid {
 	return ListPodsResponsePathSelectorPodsMetadataUuid{}
 }
@@ -2973,6 +3082,10 @@ func (ListPodsResponsePathSelectorPodsMetadata) Syncing() ListPodsResponsePathSe
 	return ListPodsResponsePathSelectorPodsMetadataSyncing{}
 }
 
+func (ListPodsResponsePathSelectorPodsMetadata) Lifecycle() ListPodsResponsePathSelectorPodsMetadataLifecycle {
+	return ListPodsResponsePathSelectorPodsMetadataLifecycle{}
+}
+
 type ListPodsResponsePathSelectorPodsMetadataCreateTime struct{}
 
 func (ListPodsResponsePathSelectorPodsMetadataCreateTime) FieldPath() *ListPodsResponse_FieldSubPath {
@@ -3004,6 +3117,23 @@ func (s ListPodsResponsePathSelectorPodsMetadataUpdateTime) WithValue(value *tim
 }
 
 func (s ListPodsResponsePathSelectorPodsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsMetadataDeleteTime struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataDeleteTime) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3180,20 +3310,20 @@ func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferences) WithItemValue(v
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) ApiVersion() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion {
-	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Kind() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesKind {
 	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesKind{}
+}
+
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Version() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion {
+	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion{}
 }
 
 func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Name() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesName {
 	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesName{}
 }
 
-func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Uid() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid {
-	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid{}
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Region() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion {
+	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion{}
 }
 
 func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) Controller() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesController {
@@ -3204,21 +3334,8 @@ func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) BlockOwnerDeletio
 	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) FieldPath() *ListPodsResponse_FieldSubPath {
-	return &ListPodsResponse_FieldSubPath{
-		selector: ListPodsResponse_FieldPathSelectorPods,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListPodsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
-}
-
-func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferences) RequiresOwnerReference() ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesKind struct{}
@@ -3235,6 +3352,23 @@ func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesKind) WithValue(v
 }
 
 func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) WithValue(value string) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3255,20 +3389,20 @@ func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesName) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid struct{}
+type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion struct{}
 
-func (ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) FieldPath() *ListPodsResponse_FieldSubPath {
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) FieldPath() *ListPodsResponse_FieldSubPath {
 	return &ListPodsResponse_FieldSubPath{
 		selector: ListPodsResponse_FieldPathSelectorPods,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) WithValue(value string) *ListPodsResponse_FieldSubPathValue {
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) WithValue(value string) *ListPodsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
 }
 
-func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3303,6 +3437,23 @@ func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDeletio
 }
 
 func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListPodsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3407,6 +3558,65 @@ func (s ListPodsResponsePathSelectorPodsMetadataSyncingRegions) WithArrayOfValue
 
 func (s ListPodsResponsePathSelectorPodsMetadataSyncingRegions) WithItemValue(value string) *ListPodsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPodsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPodsResponsePathSelectorPodsMetadataLifecycle struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataLifecycle) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPodsResponsePathSelectorPodsMetadataLifecycle) State() ListPodsResponsePathSelectorPodsMetadataLifecycleState {
+	return ListPodsResponsePathSelectorPodsMetadataLifecycleState{}
+}
+
+func (ListPodsResponsePathSelectorPodsMetadataLifecycle) BlockDeletion() ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion {
+	return ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion{}
+}
+
+type ListPodsResponsePathSelectorPodsMetadataLifecycleState struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataLifecycleState) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion struct{}
+
+func (ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) FieldPath() *ListPodsResponse_FieldSubPath {
+	return &ListPodsResponse_FieldSubPath{
+		selector: ListPodsResponse_FieldPathSelectorPods,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListPodsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldSubPathValue)
+}
+
+func (s ListPodsResponsePathSelectorPodsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListPodsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListPodsResponsePathSelectorPodsSpec struct{}
@@ -5964,6 +6174,10 @@ func (CreatePodRequestPathSelectorPodMetadata) UpdateTime() CreatePodRequestPath
 	return CreatePodRequestPathSelectorPodMetadataUpdateTime{}
 }
 
+func (CreatePodRequestPathSelectorPodMetadata) DeleteTime() CreatePodRequestPathSelectorPodMetadataDeleteTime {
+	return CreatePodRequestPathSelectorPodMetadataDeleteTime{}
+}
+
 func (CreatePodRequestPathSelectorPodMetadata) Uuid() CreatePodRequestPathSelectorPodMetadataUuid {
 	return CreatePodRequestPathSelectorPodMetadataUuid{}
 }
@@ -6000,6 +6214,10 @@ func (CreatePodRequestPathSelectorPodMetadata) Syncing() CreatePodRequestPathSel
 	return CreatePodRequestPathSelectorPodMetadataSyncing{}
 }
 
+func (CreatePodRequestPathSelectorPodMetadata) Lifecycle() CreatePodRequestPathSelectorPodMetadataLifecycle {
+	return CreatePodRequestPathSelectorPodMetadataLifecycle{}
+}
+
 type CreatePodRequestPathSelectorPodMetadataCreateTime struct{}
 
 func (CreatePodRequestPathSelectorPodMetadataCreateTime) FieldPath() *CreatePodRequest_FieldSubPath {
@@ -6031,6 +6249,23 @@ func (s CreatePodRequestPathSelectorPodMetadataUpdateTime) WithValue(value *time
 }
 
 func (s CreatePodRequestPathSelectorPodMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodMetadataDeleteTime struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataDeleteTime) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6207,20 +6442,20 @@ func (s CreatePodRequestPathSelectorPodMetadataOwnerReferences) WithItemValue(va
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) ApiVersion() CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion {
-	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Kind() CreatePodRequestPathSelectorPodMetadataOwnerReferencesKind {
 	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesKind{}
+}
+
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Version() CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion {
+	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion{}
 }
 
 func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Name() CreatePodRequestPathSelectorPodMetadataOwnerReferencesName {
 	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesName{}
 }
 
-func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Uid() CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid {
-	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid{}
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Region() CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion {
+	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion{}
 }
 
 func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) Controller() CreatePodRequestPathSelectorPodMetadataOwnerReferencesController {
@@ -6231,21 +6466,8 @@ func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) BlockOwnerDeletion
 	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion struct{}
-
-func (CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) FieldPath() *CreatePodRequest_FieldSubPath {
-	return &CreatePodRequest_FieldSubPath{
-		selector: CreatePodRequest_FieldPathSelectorPod,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) WithValue(value string) *CreatePodRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
-}
-
-func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferences) RequiresOwnerReference() CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference {
+	return CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreatePodRequestPathSelectorPodMetadataOwnerReferencesKind struct{}
@@ -6262,6 +6484,23 @@ func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesKind) WithValue(va
 }
 
 func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) WithValue(value string) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6282,20 +6521,20 @@ func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesName) WithArrayOfV
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
-type CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid struct{}
+type CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion struct{}
 
-func (CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid) FieldPath() *CreatePodRequest_FieldSubPath {
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) FieldPath() *CreatePodRequest_FieldSubPath {
 	return &CreatePodRequest_FieldSubPath{
 		selector: CreatePodRequest_FieldPathSelectorPod,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid) WithValue(value string) *CreatePodRequest_FieldSubPathValue {
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) WithValue(value string) *CreatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
 }
 
-func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6330,6 +6569,23 @@ func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion
 }
 
 func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6434,6 +6690,65 @@ func (s CreatePodRequestPathSelectorPodMetadataSyncingRegions) WithArrayOfValues
 
 func (s CreatePodRequestPathSelectorPodMetadataSyncingRegions) WithItemValue(value string) *CreatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePodRequest_FieldSubPathArrayItemValue)
+}
+
+type CreatePodRequestPathSelectorPodMetadataLifecycle struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataLifecycle) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreatePodRequestPathSelectorPodMetadataLifecycle) State() CreatePodRequestPathSelectorPodMetadataLifecycleState {
+	return CreatePodRequestPathSelectorPodMetadataLifecycleState{}
+}
+
+func (CreatePodRequestPathSelectorPodMetadataLifecycle) BlockDeletion() CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion {
+	return CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion{}
+}
+
+type CreatePodRequestPathSelectorPodMetadataLifecycleState struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataLifecycleState) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion struct{}
+
+func (CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) FieldPath() *CreatePodRequest_FieldSubPath {
+	return &CreatePodRequest_FieldSubPath{
+		selector: CreatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) WithValue(value bool) *CreatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePodRequest_FieldSubPathValue)
+}
+
+func (s CreatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePodRequest_FieldSubPathArrayOfValues)
 }
 
 type CreatePodRequestPathSelectorPodSpec struct{}
@@ -8469,6 +8784,10 @@ func (UpdatePodRequestPathSelectorPodMetadata) UpdateTime() UpdatePodRequestPath
 	return UpdatePodRequestPathSelectorPodMetadataUpdateTime{}
 }
 
+func (UpdatePodRequestPathSelectorPodMetadata) DeleteTime() UpdatePodRequestPathSelectorPodMetadataDeleteTime {
+	return UpdatePodRequestPathSelectorPodMetadataDeleteTime{}
+}
+
 func (UpdatePodRequestPathSelectorPodMetadata) Uuid() UpdatePodRequestPathSelectorPodMetadataUuid {
 	return UpdatePodRequestPathSelectorPodMetadataUuid{}
 }
@@ -8505,6 +8824,10 @@ func (UpdatePodRequestPathSelectorPodMetadata) Syncing() UpdatePodRequestPathSel
 	return UpdatePodRequestPathSelectorPodMetadataSyncing{}
 }
 
+func (UpdatePodRequestPathSelectorPodMetadata) Lifecycle() UpdatePodRequestPathSelectorPodMetadataLifecycle {
+	return UpdatePodRequestPathSelectorPodMetadataLifecycle{}
+}
+
 type UpdatePodRequestPathSelectorPodMetadataCreateTime struct{}
 
 func (UpdatePodRequestPathSelectorPodMetadataCreateTime) FieldPath() *UpdatePodRequest_FieldSubPath {
@@ -8536,6 +8859,23 @@ func (s UpdatePodRequestPathSelectorPodMetadataUpdateTime) WithValue(value *time
 }
 
 func (s UpdatePodRequestPathSelectorPodMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodMetadataDeleteTime struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataDeleteTime) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8712,20 +9052,20 @@ func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferences) WithItemValue(va
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) ApiVersion() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion {
-	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Kind() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesKind {
 	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Version() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion {
+	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Name() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesName {
 	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesName{}
 }
 
-func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Uid() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid {
-	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid{}
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Region() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion {
+	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) Controller() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesController {
@@ -8736,21 +9076,8 @@ func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) BlockOwnerDeletion
 	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePodRequest_FieldSubPath {
-	return &UpdatePodRequest_FieldSubPath{
-		selector: UpdatePodRequest_FieldPathSelectorPod,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
-}
-
-func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferences) RequiresOwnerReference() UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesKind struct{}
@@ -8767,6 +9094,23 @@ func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesKind) WithValue(va
 }
 
 func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8787,20 +9131,20 @@ func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesName) WithArrayOfV
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid struct{}
+type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid) FieldPath() *UpdatePodRequest_FieldSubPath {
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) FieldPath() *UpdatePodRequest_FieldSubPath {
 	return &UpdatePodRequest_FieldSubPath{
 		selector: UpdatePodRequest_FieldPathSelectorPod,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8835,6 +9179,23 @@ func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion
 }
 
 func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8939,6 +9300,65 @@ func (s UpdatePodRequestPathSelectorPodMetadataSyncingRegions) WithArrayOfValues
 
 func (s UpdatePodRequestPathSelectorPodMetadataSyncingRegions) WithItemValue(value string) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePodRequestPathSelectorPodMetadataLifecycle struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataLifecycle) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePodRequestPathSelectorPodMetadataLifecycle) State() UpdatePodRequestPathSelectorPodMetadataLifecycleState {
+	return UpdatePodRequestPathSelectorPodMetadataLifecycleState{}
+}
+
+func (UpdatePodRequestPathSelectorPodMetadataLifecycle) BlockDeletion() UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion {
+	return UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePodRequestPathSelectorPodMetadataLifecycleState struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataLifecycleState) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorPod,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorPodMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdatePodRequestPathSelectorPodSpec struct{}
@@ -10998,6 +11418,10 @@ func (UpdatePodRequestPathSelectorCasConditionalStateMetadata) UpdateTime() Upda
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdatePodRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdatePodRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -11034,6 +11458,10 @@ func (UpdatePodRequestPathSelectorCasConditionalStateMetadata) Syncing() UpdateP
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdatePodRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdatePodRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdatePodRequest_FieldSubPath {
@@ -11065,6 +11493,23 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithV
 }
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11241,20 +11686,20 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) 
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -11265,21 +11710,8 @@ func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Bl
 	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePodRequest_FieldSubPath {
-	return &UpdatePodRequest_FieldSubPath{
-		selector: UpdatePodRequest_FieldPathSelectorCas,
-		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
-}
-
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -11296,6 +11728,23 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKi
 }
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11316,20 +11765,20 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesNa
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdatePodRequest_FieldSubPath {
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePodRequest_FieldSubPath {
 	return &UpdatePodRequest_FieldSubPath{
 		selector: UpdatePodRequest_FieldPathSelectorCas,
-		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePodRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
 }
 
-func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11364,6 +11813,23 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBl
 }
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
@@ -11468,6 +11934,65 @@ func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncingRegions) W
 
 func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePodRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePodRequest_FieldSubPath {
+	return &UpdatePodRequest_FieldSubPath{
+		selector: UpdatePodRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePodRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePodRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequest_FieldSubPathValue)
+}
+
+func (s UpdatePodRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePodRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdatePodRequestPathSelectorCasConditionalStateSpec struct{}
@@ -13517,6 +14042,10 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateMetadata) UpdateTime() Upd
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdatePodRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdatePodRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -13553,6 +14082,10 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateMetadata) Syncing() Update
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdatePodRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
@@ -13584,6 +14117,23 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataUpdateTime) With
 }
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -13760,20 +14310,20 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences)
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -13784,21 +14334,8 @@ func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) B
 	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
-	return &UpdatePodRequestCAS_FieldSubPath{
-		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePodRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -13815,6 +14352,23 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesK
 }
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -13835,20 +14389,20 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesN
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
 	return &UpdatePodRequestCAS_FieldSubPath{
 		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdatePodRequestCAS_FieldSubPathValue {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePodRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -13883,6 +14437,23 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesB
 }
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -13987,6 +14558,65 @@ func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) 
 
 func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePodRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePodRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePodRequestCAS_FieldSubPath {
+	return &UpdatePodRequestCAS_FieldSubPath{
+		selector: UpdatePodRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  pod.NewPodFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePodRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePodRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePodRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePodRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePodRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdatePodRequest_CASPathSelectorConditionalStateSpec struct{}

@@ -362,6 +362,10 @@ func (fp *AuditedResourceDescriptor_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AuditedResourceDescriptor_FieldPathSelectorMetaFields
 }
 
+func (fp *AuditedResourceDescriptor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AuditedResourceDescriptor_FieldTerminalPath) WithIValue(value interface{}) AuditedResourceDescriptor_FieldPathValue {
 	switch fp.selector {
 	case AuditedResourceDescriptor_FieldPathSelectorName:
@@ -562,6 +566,12 @@ func (fps *AuditedResourceDescriptor_FieldSubPath) ClearValueRaw(item proto.Mess
 // IsLeaf - whether field path is holds simple value
 func (fps *AuditedResourceDescriptor_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AuditedResourceDescriptor_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AuditedResourceDescriptor_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AuditedResourceDescriptor_FieldSubPath) WithIValue(value interface{}) AuditedResourceDescriptor_FieldPathValue {
@@ -908,7 +918,11 @@ func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) GetSingl
 func (fpaiv *AuditedResourceDescriptor_FieldTerminalPathArrayItemValue) ContainsValue(source *AuditedResourceDescriptor) bool {
 	slice := fpaiv.AuditedResourceDescriptor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

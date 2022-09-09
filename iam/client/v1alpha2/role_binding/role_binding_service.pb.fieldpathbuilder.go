@@ -448,6 +448,10 @@ func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadata) UpdateTime()
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime{}
 }
 
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadata) DeleteTime() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime{}
+}
+
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadata) Uuid() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataUuid {
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataUuid{}
 }
@@ -484,6 +488,10 @@ func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadata) Syncing() Ba
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing{}
 }
 
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadata) Lifecycle() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle{}
+}
+
 type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataCreateTime struct{}
 
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataCreateTime) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
@@ -515,6 +523,23 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime) 
 }
 
 func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -691,20 +716,20 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) ApiVersion() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion {
-	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Kind() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind {
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Version() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Name() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesName {
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Uid() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid {
-	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid{}
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Region() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Controller() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesController {
@@ -715,21 +740,8 @@ func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReference
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
-	return &BatchGetRoleBindingsResponse_FieldSubPath{
-		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetRoleBindingsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) RequiresOwnerReference() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind struct{}
@@ -746,6 +758,23 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferen
 }
 
 func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -766,20 +795,20 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferen
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid struct{}
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
 	return &BatchGetRoleBindingsResponse_FieldSubPath{
 		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetRoleBindingsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -814,6 +843,23 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferen
 }
 
 func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -918,6 +964,65 @@ func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncingRegio
 
 func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncingRegions) WithItemValue(value string) *BatchGetRoleBindingsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) State() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState{}
+}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) BlockDeletion() BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetRoleBindingsResponsePathSelectorMissing struct{}
@@ -1356,6 +1461,10 @@ func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadata) UpdateTime() Lis
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime{}
 }
 
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadata) DeleteTime() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime{}
+}
+
 func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadata) Uuid() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataUuid {
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataUuid{}
 }
@@ -1392,6 +1501,10 @@ func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadata) Syncing() ListRo
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncing{}
 }
 
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadata) Lifecycle() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle{}
+}
+
 type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataCreateTime struct{}
 
 func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataCreateTime) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
@@ -1423,6 +1536,23 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime) With
 }
 
 func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1599,20 +1729,20 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences)
 	return s.FieldPath().WithIArrayItemValue(value).(*ListRoleBindingsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) ApiVersion() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion {
-	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Kind() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind {
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind{}
+}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Version() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion{}
 }
 
 func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Name() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesName {
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesName{}
 }
 
-func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Uid() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid {
-	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid{}
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Region() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion{}
 }
 
 func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) Controller() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesController {
@@ -1623,21 +1753,8 @@ func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) B
 	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
-	return &ListRoleBindingsResponse_FieldSubPath{
-		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListRoleBindingsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
-}
-
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferences) RequiresOwnerReference() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind struct{}
@@ -1654,6 +1771,23 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesK
 }
 
 func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) WithValue(value string) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1674,20 +1808,20 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesN
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid struct{}
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion struct{}
 
-func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
 	return &ListRoleBindingsResponse_FieldSubPath{
 		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) WithValue(value string) *ListRoleBindingsResponse_FieldSubPathValue {
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) WithValue(value string) *ListRoleBindingsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
 }
 
-func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1722,6 +1856,23 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesB
 }
 
 func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1826,6 +1977,65 @@ func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncingRegions) 
 
 func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataSyncingRegions) WithItemValue(value string) *ListRoleBindingsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListRoleBindingsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) State() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState{}
+}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycle) BlockDeletion() ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion{}
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListRoleBindingsResponsePathSelectorPrevPageToken struct{}
@@ -2640,6 +2850,10 @@ func (CreateRoleBindingRequestPathSelectorRoleBindingMetadata) UpdateTime() Crea
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime{}
 }
 
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadata) DeleteTime() CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime{}
+}
+
 func (CreateRoleBindingRequestPathSelectorRoleBindingMetadata) Uuid() CreateRoleBindingRequestPathSelectorRoleBindingMetadataUuid {
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataUuid{}
 }
@@ -2676,6 +2890,10 @@ func (CreateRoleBindingRequestPathSelectorRoleBindingMetadata) Syncing() CreateR
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing{}
 }
 
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadata) Lifecycle() CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle{}
+}
+
 type CreateRoleBindingRequestPathSelectorRoleBindingMetadataCreateTime struct{}
 
 func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataCreateTime) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
@@ -2707,6 +2925,23 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime) WithV
 }
 
 func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2883,20 +3118,20 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) 
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateRoleBindingRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) ApiVersion() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion {
-	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Kind() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind {
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind{}
+}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Version() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion{}
 }
 
 func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Name() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesName {
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesName{}
 }
 
-func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Uid() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid {
-	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid{}
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Region() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion{}
 }
 
 func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Controller() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesController {
@@ -2907,21 +3142,8 @@ func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Bl
 	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
-	return &CreateRoleBindingRequest_FieldSubPath{
-		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateRoleBindingRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
-}
-
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) RequiresOwnerReference() CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind struct{}
@@ -2938,6 +3160,23 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKi
 }
 
 func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) WithValue(value string) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2958,20 +3197,20 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesNa
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid struct{}
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion struct{}
 
-func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
 	return &CreateRoleBindingRequest_FieldSubPath{
 		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) WithValue(value string) *CreateRoleBindingRequest_FieldSubPathValue {
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) WithValue(value string) *CreateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3006,6 +3245,23 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBl
 }
 
 func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3110,6 +3366,65 @@ func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncingRegions) W
 
 func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataSyncingRegions) WithItemValue(value string) *CreateRoleBindingRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateRoleBindingRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) State() CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState{}
+}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) BlockDeletion() CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion {
+	return CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion{}
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateRoleBindingRequestFieldPathBuilder struct{}
@@ -3402,6 +3717,10 @@ func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadata) UpdateTime() Upda
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadata) DeleteTime() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime{}
+}
+
 func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadata) Uuid() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataUuid {
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataUuid{}
 }
@@ -3438,6 +3757,10 @@ func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadata) Syncing() UpdateR
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncing{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadata) Lifecycle() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle{}
+}
+
 type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataCreateTime struct{}
 
 func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataCreateTime) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
@@ -3469,6 +3792,23 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime) WithV
 }
 
 func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3645,20 +3985,20 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) 
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) ApiVersion() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion {
-	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Kind() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind {
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind{}
+}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Version() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Name() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesName {
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesName{}
 }
 
-func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Uid() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid {
-	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid{}
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Region() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Controller() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesController {
@@ -3669,21 +4009,8 @@ func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) Bl
 	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
-	return &UpdateRoleBindingRequest_FieldSubPath{
-		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
-}
-
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferences) RequiresOwnerReference() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind struct{}
@@ -3700,6 +4027,23 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKi
 }
 
 func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3720,20 +4064,20 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesNa
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid struct{}
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion struct{}
 
-func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
 	return &UpdateRoleBindingRequest_FieldSubPath{
 		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3768,6 +4112,23 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBl
 }
 
 func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3872,6 +4233,65 @@ func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncingRegions) W
 
 func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataSyncingRegions) WithItemValue(value string) *UpdateRoleBindingRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) State() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState{}
+}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycle) BlockDeletion() UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateRoleBindingRequestPathSelectorUpdateMask struct{}
@@ -4188,6 +4608,10 @@ func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadata) UpdateTim
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -4224,6 +4648,10 @@ func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadata) Syncing()
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
@@ -4255,6 +4683,23 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataUpdateTim
 }
 
 func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4431,20 +4876,20 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerRefe
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -4455,21 +4900,8 @@ func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerRefere
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
-	return &UpdateRoleBindingRequest_FieldSubPath{
-		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
-}
-
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4486,6 +4918,23 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerRefe
 }
 
 func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4506,20 +4955,20 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerRefe
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
 	return &UpdateRoleBindingRequest_FieldSubPath{
 		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateRoleBindingRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4554,6 +5003,23 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerRefe
 }
 
 func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4658,6 +5124,65 @@ func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncingRe
 
 func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateRoleBindingRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateRoleBindingRequestPathSelectorCasFieldMask struct{}
@@ -4964,6 +5489,10 @@ func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadata) UpdateTi
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -5000,6 +5529,10 @@ func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadata) Syncing(
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
@@ -5031,6 +5564,23 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataUpdateTi
 }
 
 func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5207,20 +5757,20 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerRef
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -5231,21 +5781,8 @@ func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerRefer
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
-	return &UpdateRoleBindingRequestCAS_FieldSubPath{
-		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -5262,6 +5799,23 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerRef
 }
 
 func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5282,20 +5836,20 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerRef
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
 	return &UpdateRoleBindingRequestCAS_FieldSubPath{
 		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5330,6 +5884,23 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerRef
 }
 
 func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5434,6 +6005,65 @@ func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncingR
 
 func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateRoleBindingRequest_CASPathSelectorFieldMask struct{}

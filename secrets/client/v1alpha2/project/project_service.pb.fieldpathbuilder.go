@@ -245,6 +245,10 @@ func (BatchGetProjectsResponsePathSelectorProjectsMetadata) UpdateTime() BatchGe
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataUpdateTime{}
 }
 
+func (BatchGetProjectsResponsePathSelectorProjectsMetadata) DeleteTime() BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime{}
+}
+
 func (BatchGetProjectsResponsePathSelectorProjectsMetadata) Uuid() BatchGetProjectsResponsePathSelectorProjectsMetadataUuid {
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataUuid{}
 }
@@ -281,6 +285,10 @@ func (BatchGetProjectsResponsePathSelectorProjectsMetadata) Syncing() BatchGetPr
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataSyncing{}
 }
 
+func (BatchGetProjectsResponsePathSelectorProjectsMetadata) Lifecycle() BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle{}
+}
+
 type BatchGetProjectsResponsePathSelectorProjectsMetadataCreateTime struct{}
 
 func (BatchGetProjectsResponsePathSelectorProjectsMetadataCreateTime) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
@@ -312,6 +320,23 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithValu
 }
 
 func (s BatchGetProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -488,20 +513,20 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Wit
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetProjectsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) ApiVersion() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion {
-	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Kind() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind {
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Version() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Name() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName {
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Uid() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid {
-	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid{}
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Region() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Controller() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesController {
@@ -512,21 +537,8 @@ func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Block
 	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
-	return &BatchGetProjectsResponse_FieldSubPath{
-		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetProjectsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferences) RequiresOwnerReference() BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind struct{}
@@ -543,6 +555,23 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind)
 }
 
 func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -563,20 +592,20 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName)
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid struct{}
+type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
 	return &BatchGetProjectsResponse_FieldSubPath{
 		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetProjectsResponse_FieldSubPathValue {
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -611,6 +640,23 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlock
 }
 
 func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -715,6 +761,65 @@ func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncingRegions) With
 
 func (s BatchGetProjectsResponsePathSelectorProjectsMetadataSyncingRegions) WithItemValue(value string) *BatchGetProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle) State() BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState{}
+}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycle) BlockDeletion() BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion {
+	return BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetProjectsResponse_FieldSubPath {
+	return &BatchGetProjectsResponse_FieldSubPath{
+		selector: BatchGetProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetProjectsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetProjectsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetProjectsResponsePathSelectorProjectsMultiRegionPolicy struct{}
@@ -1096,6 +1201,10 @@ func (ListProjectsResponsePathSelectorProjectsMetadata) UpdateTime() ListProject
 	return ListProjectsResponsePathSelectorProjectsMetadataUpdateTime{}
 }
 
+func (ListProjectsResponsePathSelectorProjectsMetadata) DeleteTime() ListProjectsResponsePathSelectorProjectsMetadataDeleteTime {
+	return ListProjectsResponsePathSelectorProjectsMetadataDeleteTime{}
+}
+
 func (ListProjectsResponsePathSelectorProjectsMetadata) Uuid() ListProjectsResponsePathSelectorProjectsMetadataUuid {
 	return ListProjectsResponsePathSelectorProjectsMetadataUuid{}
 }
@@ -1132,6 +1241,10 @@ func (ListProjectsResponsePathSelectorProjectsMetadata) Syncing() ListProjectsRe
 	return ListProjectsResponsePathSelectorProjectsMetadataSyncing{}
 }
 
+func (ListProjectsResponsePathSelectorProjectsMetadata) Lifecycle() ListProjectsResponsePathSelectorProjectsMetadataLifecycle {
+	return ListProjectsResponsePathSelectorProjectsMetadataLifecycle{}
+}
+
 type ListProjectsResponsePathSelectorProjectsMetadataCreateTime struct{}
 
 func (ListProjectsResponsePathSelectorProjectsMetadataCreateTime) FieldPath() *ListProjectsResponse_FieldSubPath {
@@ -1163,6 +1276,23 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithValue(va
 }
 
 func (s ListProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataDeleteTime struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataDeleteTime) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1339,20 +1469,20 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) WithIte
 	return s.FieldPath().WithIArrayItemValue(value).(*ListProjectsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) ApiVersion() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion {
-	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Kind() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind {
 	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind{}
+}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Version() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion {
+	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion{}
 }
 
 func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Name() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName {
 	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName{}
 }
 
-func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Uid() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid {
-	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid{}
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Region() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion {
+	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion{}
 }
 
 func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Controller() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesController {
@@ -1363,21 +1493,8 @@ func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) BlockOwne
 	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) FieldPath() *ListProjectsResponse_FieldSubPath {
-	return &ListProjectsResponse_FieldSubPath{
-		selector: ListProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListProjectsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
-}
-
-func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListProjectsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferences) RequiresOwnerReference() ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind struct{}
@@ -1394,6 +1511,23 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind) Wit
 }
 
 func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithValue(value string) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1414,20 +1548,20 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName) Wit
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid struct{}
+type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion struct{}
 
-func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) FieldPath() *ListProjectsResponse_FieldSubPath {
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) FieldPath() *ListProjectsResponse_FieldSubPath {
 	return &ListProjectsResponse_FieldSubPath{
 		selector: ListProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithValue(value string) *ListProjectsResponse_FieldSubPathValue {
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithValue(value string) *ListProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1462,6 +1596,23 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwne
 }
 
 func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1566,6 +1717,65 @@ func (s ListProjectsResponsePathSelectorProjectsMetadataSyncingRegions) WithArra
 
 func (s ListProjectsResponsePathSelectorProjectsMetadataSyncingRegions) WithItemValue(value string) *ListProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataLifecycle struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataLifecycle) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataLifecycle) State() ListProjectsResponsePathSelectorProjectsMetadataLifecycleState {
+	return ListProjectsResponsePathSelectorProjectsMetadataLifecycleState{}
+}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataLifecycle) BlockDeletion() ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion {
+	return ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion{}
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataLifecycleState struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataLifecycleState) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion struct{}
+
+func (ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) FieldPath() *ListProjectsResponse_FieldSubPath {
+	return &ListProjectsResponse_FieldSubPath{
+		selector: ListProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListProjectsResponsePathSelectorProjectsMultiRegionPolicy struct{}
@@ -2306,6 +2516,10 @@ func (CreateProjectRequestPathSelectorProjectMetadata) UpdateTime() CreateProjec
 	return CreateProjectRequestPathSelectorProjectMetadataUpdateTime{}
 }
 
+func (CreateProjectRequestPathSelectorProjectMetadata) DeleteTime() CreateProjectRequestPathSelectorProjectMetadataDeleteTime {
+	return CreateProjectRequestPathSelectorProjectMetadataDeleteTime{}
+}
+
 func (CreateProjectRequestPathSelectorProjectMetadata) Uuid() CreateProjectRequestPathSelectorProjectMetadataUuid {
 	return CreateProjectRequestPathSelectorProjectMetadataUuid{}
 }
@@ -2342,6 +2556,10 @@ func (CreateProjectRequestPathSelectorProjectMetadata) Syncing() CreateProjectRe
 	return CreateProjectRequestPathSelectorProjectMetadataSyncing{}
 }
 
+func (CreateProjectRequestPathSelectorProjectMetadata) Lifecycle() CreateProjectRequestPathSelectorProjectMetadataLifecycle {
+	return CreateProjectRequestPathSelectorProjectMetadataLifecycle{}
+}
+
 type CreateProjectRequestPathSelectorProjectMetadataCreateTime struct{}
 
 func (CreateProjectRequestPathSelectorProjectMetadataCreateTime) FieldPath() *CreateProjectRequest_FieldSubPath {
@@ -2373,6 +2591,23 @@ func (s CreateProjectRequestPathSelectorProjectMetadataUpdateTime) WithValue(val
 }
 
 func (s CreateProjectRequestPathSelectorProjectMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataDeleteTime struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataDeleteTime) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2549,20 +2784,20 @@ func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) WithItem
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateProjectRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) ApiVersion() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion {
-	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Kind() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind {
 	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind{}
+}
+
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Version() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion {
+	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion{}
 }
 
 func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Name() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesName {
 	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesName{}
 }
 
-func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Uid() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid {
-	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid{}
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Region() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion {
+	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion{}
 }
 
 func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) Controller() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesController {
@@ -2573,21 +2808,8 @@ func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) BlockOwner
 	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) FieldPath() *CreateProjectRequest_FieldSubPath {
-	return &CreateProjectRequest_FieldSubPath{
-		selector: CreateProjectRequest_FieldPathSelectorProject,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateProjectRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
-}
-
-func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateProjectRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferences) RequiresOwnerReference() CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind struct{}
@@ -2604,6 +2826,23 @@ func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind) With
 }
 
 func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) WithValue(value string) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2624,20 +2863,20 @@ func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesName) With
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid struct{}
+type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion struct{}
 
-func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) FieldPath() *CreateProjectRequest_FieldSubPath {
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) FieldPath() *CreateProjectRequest_FieldSubPath {
 	return &CreateProjectRequest_FieldSubPath{
 		selector: CreateProjectRequest_FieldPathSelectorProject,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) WithValue(value string) *CreateProjectRequest_FieldSubPathValue {
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) WithValue(value string) *CreateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
 }
 
-func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateProjectRequest_FieldSubPathArrayOfValues {
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2672,6 +2911,23 @@ func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwner
 }
 
 func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2776,6 +3032,65 @@ func (s CreateProjectRequestPathSelectorProjectMetadataSyncingRegions) WithArray
 
 func (s CreateProjectRequestPathSelectorProjectMetadataSyncingRegions) WithItemValue(value string) *CreateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateProjectRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataLifecycle struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataLifecycle) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateProjectRequestPathSelectorProjectMetadataLifecycle) State() CreateProjectRequestPathSelectorProjectMetadataLifecycleState {
+	return CreateProjectRequestPathSelectorProjectMetadataLifecycleState{}
+}
+
+func (CreateProjectRequestPathSelectorProjectMetadataLifecycle) BlockDeletion() CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion {
+	return CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion{}
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataLifecycleState struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataLifecycleState) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion struct{}
+
+func (CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) FieldPath() *CreateProjectRequest_FieldSubPath {
+	return &CreateProjectRequest_FieldSubPath{
+		selector: CreateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateProjectRequest_FieldSubPathValue)
+}
+
+func (s CreateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateProjectRequest_FieldSubPathArrayOfValues)
 }
 
 type CreateProjectRequestPathSelectorProjectMultiRegionPolicy struct{}
@@ -3028,6 +3343,10 @@ func (UpdateProjectRequestPathSelectorProjectMetadata) UpdateTime() UpdateProjec
 	return UpdateProjectRequestPathSelectorProjectMetadataUpdateTime{}
 }
 
+func (UpdateProjectRequestPathSelectorProjectMetadata) DeleteTime() UpdateProjectRequestPathSelectorProjectMetadataDeleteTime {
+	return UpdateProjectRequestPathSelectorProjectMetadataDeleteTime{}
+}
+
 func (UpdateProjectRequestPathSelectorProjectMetadata) Uuid() UpdateProjectRequestPathSelectorProjectMetadataUuid {
 	return UpdateProjectRequestPathSelectorProjectMetadataUuid{}
 }
@@ -3064,6 +3383,10 @@ func (UpdateProjectRequestPathSelectorProjectMetadata) Syncing() UpdateProjectRe
 	return UpdateProjectRequestPathSelectorProjectMetadataSyncing{}
 }
 
+func (UpdateProjectRequestPathSelectorProjectMetadata) Lifecycle() UpdateProjectRequestPathSelectorProjectMetadataLifecycle {
+	return UpdateProjectRequestPathSelectorProjectMetadataLifecycle{}
+}
+
 type UpdateProjectRequestPathSelectorProjectMetadataCreateTime struct{}
 
 func (UpdateProjectRequestPathSelectorProjectMetadataCreateTime) FieldPath() *UpdateProjectRequest_FieldSubPath {
@@ -3095,6 +3418,23 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataUpdateTime) WithValue(val
 }
 
 func (s UpdateProjectRequestPathSelectorProjectMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataDeleteTime struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataDeleteTime) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3271,20 +3611,20 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) WithItem
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) ApiVersion() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion {
-	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Kind() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind {
 	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind{}
+}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Version() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion {
+	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Name() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesName {
 	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesName{}
 }
 
-func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Uid() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid {
-	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid{}
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Region() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion {
+	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) Controller() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesController {
@@ -3295,21 +3635,8 @@ func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) BlockOwner
 	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) FieldPath() *UpdateProjectRequest_FieldSubPath {
-	return &UpdateProjectRequest_FieldSubPath{
-		selector: UpdateProjectRequest_FieldPathSelectorProject,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
-}
-
-func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferences) RequiresOwnerReference() UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind struct{}
@@ -3326,6 +3653,23 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind) With
 }
 
 func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3346,20 +3690,20 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesName) With
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid struct{}
+type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion struct{}
 
-func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) FieldPath() *UpdateProjectRequest_FieldSubPath {
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) FieldPath() *UpdateProjectRequest_FieldSubPath {
 	return &UpdateProjectRequest_FieldSubPath{
 		selector: UpdateProjectRequest_FieldPathSelectorProject,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3394,6 +3738,23 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwner
 }
 
 func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3498,6 +3859,65 @@ func (s UpdateProjectRequestPathSelectorProjectMetadataSyncingRegions) WithArray
 
 func (s UpdateProjectRequestPathSelectorProjectMetadataSyncingRegions) WithItemValue(value string) *UpdateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataLifecycle struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataLifecycle) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataLifecycle) State() UpdateProjectRequestPathSelectorProjectMetadataLifecycleState {
+	return UpdateProjectRequestPathSelectorProjectMetadataLifecycleState{}
+}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataLifecycle) BlockDeletion() UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion {
+	return UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataLifecycleState struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataLifecycleState) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorProject,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorProjectMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateProjectRequestPathSelectorProjectMultiRegionPolicy struct{}
@@ -3774,6 +4194,10 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMetadata) UpdateTime() 
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateProjectRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateProjectRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -3810,6 +4234,10 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMetadata) Syncing() Upd
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateProjectRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateProjectRequest_FieldSubPath {
@@ -3841,6 +4269,23 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataUpdateTime) W
 }
 
 func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4017,20 +4462,20 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -4041,21 +4486,8 @@ func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences
 	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateProjectRequest_FieldSubPath {
-	return &UpdateProjectRequest_FieldSubPath{
-		selector: UpdateProjectRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
-}
-
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4072,6 +4504,23 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferenc
 }
 
 func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4092,20 +4541,20 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateProjectRequest_FieldSubPath {
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateProjectRequest_FieldSubPath {
 	return &UpdateProjectRequest_FieldSubPath{
 		selector: UpdateProjectRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateProjectRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4140,6 +4589,23 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferenc
 }
 
 func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4244,6 +4710,65 @@ func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncingRegion
 
 func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateProjectRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateProjectRequest_FieldSubPath {
+	return &UpdateProjectRequest_FieldSubPath{
+		selector: UpdateProjectRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateProjectRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateProjectRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequest_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateProjectRequestPathSelectorCasConditionalStateMultiRegionPolicy struct{}
@@ -4510,6 +5035,10 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadata) UpdateTime()
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -4546,6 +5075,10 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadata) Syncing() Up
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
@@ -4577,6 +5110,23 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataUpdateTime) 
 }
 
 func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4753,20 +5303,20 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferen
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -4777,21 +5327,8 @@ func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReference
 	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
-	return &UpdateProjectRequestCAS_FieldSubPath{
-		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateProjectRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4808,6 +5345,23 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferen
 }
 
 func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4828,20 +5382,20 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferen
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
 	return &UpdateProjectRequestCAS_FieldSubPath{
 		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateProjectRequestCAS_FieldSubPathValue {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateProjectRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4876,6 +5430,23 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferen
 }
 
 func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4980,6 +5551,65 @@ func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncingRegio
 
 func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateProjectRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateProjectRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateProjectRequestCAS_FieldSubPath {
+	return &UpdateProjectRequestCAS_FieldSubPath{
+		selector: UpdateProjectRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateProjectRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateProjectRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateProjectRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateProjectRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateProjectRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateProjectRequest_CASPathSelectorConditionalStateMultiRegionPolicy struct{}

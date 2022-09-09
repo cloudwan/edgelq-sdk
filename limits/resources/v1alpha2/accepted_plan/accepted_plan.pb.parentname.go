@@ -189,6 +189,14 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 	return nil
 }
 
+func (name *ParentName) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (name *ParentName) GetIUnderlyingParentName() gotenresource.Name {
+	return nil
+}
+
 func (name *ParentName) String() string {
 	if name == nil {
 		return "<nil>"
@@ -446,6 +454,14 @@ func (ref *ParentReference) GetSegments() gotenresource.NameSegments {
 	if ref != nil {
 		return ref.ParentName.GetSegments()
 	}
+	return nil
+}
+
+func (ref *ParentReference) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (ref *ParentReference) GetIUnderlyingParentName() gotenresource.Name {
 	return nil
 }
 

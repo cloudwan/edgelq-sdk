@@ -51,6 +51,7 @@ func FullMeta_FieldMask() *Meta_FieldMask {
 	res := &Meta_FieldMask{}
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorCreateTime})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUpdateTime})
+	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorDeleteTime})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUuid})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorTags})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorLabels})
@@ -60,6 +61,7 @@ func FullMeta_FieldMask() *Meta_FieldMask {
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorOwnerReferences})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorShards})
 	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorSyncing})
+	res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorLifecycle})
 	return res
 }
 
@@ -103,7 +105,7 @@ func (fieldMask *Meta_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Meta_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -133,14 +135,16 @@ func (fieldMask *Meta_FieldMask) Reset() {
 
 func (fieldMask *Meta_FieldMask) Subtract(other *Meta_FieldMask) *Meta_FieldMask {
 	result := &Meta_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[Meta_FieldPathSelector]gotenobject.FieldMask{
 		Meta_FieldPathSelectorOwnerReferences: &OwnerReference_FieldMask{},
 		Meta_FieldPathSelectorSyncing:         &SyncingMeta_FieldMask{},
+		Meta_FieldPathSelectorLifecycle:       &Lifecycle_FieldMask{},
 	}
 	mySubMasks := map[Meta_FieldPathSelector]gotenobject.FieldMask{
 		Meta_FieldPathSelectorOwnerReferences: &OwnerReference_FieldMask{},
 		Meta_FieldPathSelectorSyncing:         &SyncingMeta_FieldMask{},
+		Meta_FieldPathSelectorLifecycle:       &Lifecycle_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -160,6 +164,8 @@ func (fieldMask *Meta_FieldMask) Subtract(other *Meta_FieldMask) *Meta_FieldMask
 						mySubMasks[Meta_FieldPathSelectorOwnerReferences] = FullOwnerReference_FieldMask()
 					case Meta_FieldPathSelectorSyncing:
 						mySubMasks[Meta_FieldPathSelectorSyncing] = FullSyncingMeta_FieldMask()
+					case Meta_FieldPathSelectorLifecycle:
+						mySubMasks[Meta_FieldPathSelectorLifecycle] = FullLifecycle_FieldMask()
 					}
 				} else if tp, ok := path.(*Meta_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -194,8 +200,23 @@ func (fieldMask *Meta_FieldMask) FilterInputFields() *Meta_FieldMask {
 		switch path.Selector() {
 		case Meta_FieldPathSelectorCreateTime:
 		case Meta_FieldPathSelectorUpdateTime:
+		case Meta_FieldPathSelectorDeleteTime:
 		case Meta_FieldPathSelectorUuid:
+		case Meta_FieldPathSelectorResourceVersion:
 		case Meta_FieldPathSelectorSyncing:
+		case Meta_FieldPathSelectorLifecycle:
+			if _, ok := path.(*Meta_FieldTerminalPath); ok {
+				for _, subpath := range FullLifecycle_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &Meta_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*Meta_FieldSubPath); ok {
+				selectedMask := &Lifecycle_FieldMask{
+					Paths: []Lifecycle_FieldPath{sub.subPath.(Lifecycle_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &Meta_FieldSubPath{selector: Meta_FieldPathSelectorLifecycle, subPath: allowedPath})
+				}
+			}
 		default:
 			result.Paths = append(result.Paths, path)
 		}
@@ -325,6 +346,8 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 	wholeOwnerReferencesAccepted := false
 	syncingMask := &SyncingMeta_FieldMask{}
 	wholeSyncingAccepted := false
+	lifecycleMask := &Lifecycle_FieldMask{}
+	wholeLifecycleAccepted := false
 	var labelsMapKeys []string
 	wholeLabelsAccepted := false
 	var annotationsMapKeys []string
@@ -340,6 +363,8 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 				result.CreateTime = source.CreateTime
 			case Meta_FieldPathSelectorUpdateTime:
 				result.UpdateTime = source.UpdateTime
+			case Meta_FieldPathSelectorDeleteTime:
+				result.DeleteTime = source.DeleteTime
 			case Meta_FieldPathSelectorUuid:
 				result.Uuid = source.Uuid
 			case Meta_FieldPathSelectorTags:
@@ -363,6 +388,9 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 			case Meta_FieldPathSelectorSyncing:
 				result.Syncing = source.Syncing
 				wholeSyncingAccepted = true
+			case Meta_FieldPathSelectorLifecycle:
+				result.Lifecycle = source.Lifecycle
+				wholeLifecycleAccepted = true
 			}
 		case *Meta_FieldSubPath:
 			switch tp.selector {
@@ -370,6 +398,8 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 				ownerReferencesMask.AppendPath(tp.subPath.(OwnerReference_FieldPath))
 			case Meta_FieldPathSelectorSyncing:
 				syncingMask.AppendPath(tp.subPath.(SyncingMeta_FieldPath))
+			case Meta_FieldPathSelectorLifecycle:
+				lifecycleMask.AppendPath(tp.subPath.(Lifecycle_FieldPath))
 			}
 		case *Meta_FieldPathMap:
 			switch tp.selector {
@@ -413,6 +443,9 @@ func (fieldMask *Meta_FieldMask) Project(source *Meta) *Meta {
 	}
 	if wholeSyncingAccepted == false && len(syncingMask.Paths) > 0 {
 		result.Syncing = syncingMask.Project(source.GetSyncing())
+	}
+	if wholeLifecycleAccepted == false && len(lifecycleMask.Paths) > 0 {
+		result.Lifecycle = lifecycleMask.Project(source.GetLifecycle())
 	}
 	return result
 }
@@ -1004,12 +1037,13 @@ type OwnerReference_FieldMask struct {
 
 func FullOwnerReference_FieldMask() *OwnerReference_FieldMask {
 	res := &OwnerReference_FieldMask{}
-	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorApiVersion})
 	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorKind})
+	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorVersion})
 	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorUid})
+	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRegion})
 	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorController})
 	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorBlockOwnerDeletion})
+	res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRequiresOwnerReference})
 	return res
 }
 
@@ -1053,7 +1087,7 @@ func (fieldMask *OwnerReference_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*OwnerReference_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1083,7 +1117,7 @@ func (fieldMask *OwnerReference_FieldMask) Reset() {
 
 func (fieldMask *OwnerReference_FieldMask) Subtract(other *OwnerReference_FieldMask) *OwnerReference_FieldMask {
 	result := &OwnerReference_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1237,18 +1271,20 @@ func (fieldMask *OwnerReference_FieldMask) Project(source *OwnerReference) *Owne
 		switch tp := p.(type) {
 		case *OwnerReference_FieldTerminalPath:
 			switch tp.selector {
-			case OwnerReference_FieldPathSelectorApiVersion:
-				result.ApiVersion = source.ApiVersion
 			case OwnerReference_FieldPathSelectorKind:
 				result.Kind = source.Kind
+			case OwnerReference_FieldPathSelectorVersion:
+				result.Version = source.Version
 			case OwnerReference_FieldPathSelectorName:
 				result.Name = source.Name
-			case OwnerReference_FieldPathSelectorUid:
-				result.Uid = source.Uid
+			case OwnerReference_FieldPathSelectorRegion:
+				result.Region = source.Region
 			case OwnerReference_FieldPathSelectorController:
 				result.Controller = source.Controller
 			case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 				result.BlockOwnerDeletion = source.BlockOwnerDeletion
+			case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+				result.RequiresOwnerReference = source.RequiresOwnerReference
 			}
 		}
 	}
@@ -1516,6 +1552,269 @@ func (fieldMask *SyncingMeta_FieldMask) ProjectRaw(source gotenobject.GotenObjec
 }
 
 func (fieldMask *SyncingMeta_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Lifecycle_FieldMask struct {
+	Paths []Lifecycle_FieldPath
+}
+
+func FullLifecycle_FieldMask() *Lifecycle_FieldMask {
+	res := &Lifecycle_FieldMask{}
+	res.Paths = append(res.Paths, &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorState})
+	res.Paths = append(res.Paths, &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorBlockDeletion})
+	return res
+}
+
+func (fieldMask *Lifecycle_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Lifecycle_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Lifecycle_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseLifecycle_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Lifecycle_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*Lifecycle_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Lifecycle_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseLifecycle_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Lifecycle_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Lifecycle_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Lifecycle_FieldMask) Subtract(other *Lifecycle_FieldMask) *Lifecycle_FieldMask {
+	result := &Lifecycle_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *Lifecycle_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Lifecycle_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Lifecycle_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Lifecycle_FieldMask) FilterInputFields() *Lifecycle_FieldMask {
+	result := &Lifecycle_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case Lifecycle_FieldPathSelectorState:
+		case Lifecycle_FieldPathSelectorBlockDeletion:
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Lifecycle_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Lifecycle_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]Lifecycle_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseLifecycle_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Lifecycle_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Lifecycle_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Lifecycle_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Lifecycle_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Lifecycle_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Lifecycle_FieldMask) AppendPath(path Lifecycle_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Lifecycle_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(Lifecycle_FieldPath))
+}
+
+func (fieldMask *Lifecycle_FieldMask) GetPaths() []Lifecycle_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Lifecycle_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Lifecycle_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseLifecycle_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Lifecycle_FieldMask) Set(target, source *Lifecycle) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Lifecycle_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Lifecycle), source.(*Lifecycle))
+}
+
+func (fieldMask *Lifecycle_FieldMask) Project(source *Lifecycle) *Lifecycle {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Lifecycle{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *Lifecycle_FieldTerminalPath:
+			switch tp.selector {
+			case Lifecycle_FieldPathSelectorState:
+				result.State = source.State
+			case Lifecycle_FieldPathSelectorBlockDeletion:
+				result.BlockDeletion = source.BlockDeletion
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Lifecycle_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Lifecycle))
+}
+
+func (fieldMask *Lifecycle_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

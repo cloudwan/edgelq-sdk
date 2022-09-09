@@ -135,6 +135,10 @@ func (ServicePathSelectorMetadata) UpdateTime() ServicePathSelectorMetadataUpdat
 	return ServicePathSelectorMetadataUpdateTime{}
 }
 
+func (ServicePathSelectorMetadata) DeleteTime() ServicePathSelectorMetadataDeleteTime {
+	return ServicePathSelectorMetadataDeleteTime{}
+}
+
 func (ServicePathSelectorMetadata) Uuid() ServicePathSelectorMetadataUuid {
 	return ServicePathSelectorMetadataUuid{}
 }
@@ -171,6 +175,10 @@ func (ServicePathSelectorMetadata) Syncing() ServicePathSelectorMetadataSyncing 
 	return ServicePathSelectorMetadataSyncing{}
 }
 
+func (ServicePathSelectorMetadata) Lifecycle() ServicePathSelectorMetadataLifecycle {
+	return ServicePathSelectorMetadataLifecycle{}
+}
+
 type ServicePathSelectorMetadataCreateTime struct{}
 
 func (ServicePathSelectorMetadataCreateTime) FieldPath() *Service_FieldSubPath {
@@ -202,6 +210,23 @@ func (s ServicePathSelectorMetadataUpdateTime) WithValue(value *timestamp.Timest
 }
 
 func (s ServicePathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+}
+
+type ServicePathSelectorMetadataDeleteTime struct{}
+
+func (ServicePathSelectorMetadataDeleteTime) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Service_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 
@@ -378,20 +403,20 @@ func (s ServicePathSelectorMetadataOwnerReferences) WithItemValue(value *ntt_met
 	return s.FieldPath().WithIArrayItemValue(value).(*Service_FieldSubPathArrayItemValue)
 }
 
-func (ServicePathSelectorMetadataOwnerReferences) ApiVersion() ServicePathSelectorMetadataOwnerReferencesApiVersion {
-	return ServicePathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (ServicePathSelectorMetadataOwnerReferences) Kind() ServicePathSelectorMetadataOwnerReferencesKind {
 	return ServicePathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (ServicePathSelectorMetadataOwnerReferences) Version() ServicePathSelectorMetadataOwnerReferencesVersion {
+	return ServicePathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (ServicePathSelectorMetadataOwnerReferences) Name() ServicePathSelectorMetadataOwnerReferencesName {
 	return ServicePathSelectorMetadataOwnerReferencesName{}
 }
 
-func (ServicePathSelectorMetadataOwnerReferences) Uid() ServicePathSelectorMetadataOwnerReferencesUid {
-	return ServicePathSelectorMetadataOwnerReferencesUid{}
+func (ServicePathSelectorMetadataOwnerReferences) Region() ServicePathSelectorMetadataOwnerReferencesRegion {
+	return ServicePathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (ServicePathSelectorMetadataOwnerReferences) Controller() ServicePathSelectorMetadataOwnerReferencesController {
@@ -402,21 +427,8 @@ func (ServicePathSelectorMetadataOwnerReferences) BlockOwnerDeletion() ServicePa
 	return ServicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ServicePathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (ServicePathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *Service_FieldSubPath {
-	return &Service_FieldSubPath{
-		selector: Service_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ServicePathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *Service_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
-}
-
-func (s ServicePathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Service_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+func (ServicePathSelectorMetadataOwnerReferences) RequiresOwnerReference() ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ServicePathSelectorMetadataOwnerReferencesKind struct{}
@@ -433,6 +445,23 @@ func (s ServicePathSelectorMetadataOwnerReferencesKind) WithValue(value string) 
 }
 
 func (s ServicePathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+}
+
+type ServicePathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (ServicePathSelectorMetadataOwnerReferencesVersion) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *Service_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 
@@ -453,20 +482,20 @@ func (s ServicePathSelectorMetadataOwnerReferencesName) WithArrayOfValues(values
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 
-type ServicePathSelectorMetadataOwnerReferencesUid struct{}
+type ServicePathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (ServicePathSelectorMetadataOwnerReferencesUid) FieldPath() *Service_FieldSubPath {
+func (ServicePathSelectorMetadataOwnerReferencesRegion) FieldPath() *Service_FieldSubPath {
 	return &Service_FieldSubPath{
 		selector: Service_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ServicePathSelectorMetadataOwnerReferencesUid) WithValue(value string) *Service_FieldSubPathValue {
+func (s ServicePathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *Service_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
 }
 
-func (s ServicePathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *Service_FieldSubPathArrayOfValues {
+func (s ServicePathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *Service_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 
@@ -501,6 +530,23 @@ func (s ServicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithValue(
 }
 
 func (s ServicePathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+}
+
+type ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Service_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }
 
@@ -605,4 +651,63 @@ func (s ServicePathSelectorMetadataSyncingRegions) WithArrayOfValues(values [][]
 
 func (s ServicePathSelectorMetadataSyncingRegions) WithItemValue(value string) *Service_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Service_FieldSubPathArrayItemValue)
+}
+
+type ServicePathSelectorMetadataLifecycle struct{}
+
+func (ServicePathSelectorMetadataLifecycle) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+}
+
+func (ServicePathSelectorMetadataLifecycle) State() ServicePathSelectorMetadataLifecycleState {
+	return ServicePathSelectorMetadataLifecycleState{}
+}
+
+func (ServicePathSelectorMetadataLifecycle) BlockDeletion() ServicePathSelectorMetadataLifecycleBlockDeletion {
+	return ServicePathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type ServicePathSelectorMetadataLifecycleState struct{}
+
+func (ServicePathSelectorMetadataLifecycleState) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
+}
+
+type ServicePathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (ServicePathSelectorMetadataLifecycleBlockDeletion) FieldPath() *Service_FieldSubPath {
+	return &Service_FieldSubPath{
+		selector: Service_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ServicePathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *Service_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Service_FieldSubPathValue)
+}
+
+func (s ServicePathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Service_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Service_FieldSubPathArrayOfValues)
 }

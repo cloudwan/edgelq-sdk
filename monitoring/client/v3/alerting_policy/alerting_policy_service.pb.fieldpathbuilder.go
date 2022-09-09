@@ -259,6 +259,10 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Upda
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime{}
 }
 
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) DeleteTime() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime{}
+}
+
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Uuid() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid {
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid{}
 }
@@ -295,6 +299,10 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Sync
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing{}
 }
 
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Lifecycle() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle{}
+}
+
 type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime struct{}
 
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
@@ -326,6 +334,23 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpda
 }
 
 func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -502,20 +527,20 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwne
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) ApiVersion() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Kind() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind {
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Version() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Name() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName {
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName{}
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Uid() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid{}
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Region() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Controller() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController {
@@ -526,21 +551,8 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerR
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
-	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
-		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) RequiresOwnerReference() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind struct{}
@@ -557,6 +569,23 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwne
 }
 
 func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -577,20 +606,20 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwne
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid struct{}
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
 	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
 		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -625,6 +654,23 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwne
 }
 
 func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -729,6 +775,65 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSync
 
 func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) WithItemValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) State() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState{}
+}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) BlockDeletion() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName struct{}
@@ -1270,6 +1375,10 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) UpdateTi
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime{}
 }
 
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) DeleteTime() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime{}
+}
+
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Uuid() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid {
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid{}
 }
@@ -1306,6 +1415,10 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Syncing(
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing{}
 }
 
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Lifecycle() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle{}
+}
+
 type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime struct{}
 
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
@@ -1337,6 +1450,23 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTi
 }
 
 func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1513,20 +1643,20 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerRef
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) ApiVersion() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Kind() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind {
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind{}
+}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Version() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion{}
 }
 
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Name() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName {
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName{}
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Uid() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid{}
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Region() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion{}
 }
 
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Controller() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController {
@@ -1537,21 +1667,8 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerRefer
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion struct{}
-
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
-	return &ListAlertingPoliciesResponse_FieldSubPath{
-		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) RequiresOwnerReference() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind struct{}
@@ -1568,6 +1685,23 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerRef
 }
 
 func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1588,20 +1722,20 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerRef
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid struct{}
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion struct{}
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
 	return &ListAlertingPoliciesResponse_FieldSubPath{
 		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1636,6 +1770,23 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerRef
 }
 
 func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1740,6 +1891,65 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingR
 
 func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) WithItemValue(value string) *ListAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) State() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState{}
+}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) BlockDeletion() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion{}
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithValue(value bool) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
 type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName struct{}
@@ -2657,6 +2867,10 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) UpdateTime(
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime{}
 }
 
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) DeleteTime() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime{}
+}
+
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Uuid() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUuid {
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUuid{}
 }
@@ -2693,6 +2907,10 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Syncing() C
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing{}
 }
 
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Lifecycle() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle{}
+}
+
 type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataCreateTime struct{}
 
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataCreateTime) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
@@ -2724,6 +2942,23 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime)
 }
 
 func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2900,20 +3135,20 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) ApiVersion() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Kind() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind {
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind{}
+}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Version() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion{}
 }
 
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Name() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesName {
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesName{}
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Uid() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid{}
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Region() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion{}
 }
 
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Controller() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesController {
@@ -2924,21 +3159,8 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferenc
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
-	return &CreateAlertingPolicyRequest_FieldSubPath{
-		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) RequiresOwnerReference() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind struct{}
@@ -2955,6 +3177,23 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 }
 
 func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2975,20 +3214,20 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid struct{}
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion struct{}
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
 	return &CreateAlertingPolicyRequest_FieldSubPath{
 		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3023,6 +3262,23 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 }
 
 func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3127,6 +3383,65 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncingRegi
 
 func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncingRegions) WithItemValue(value string) *CreateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) State() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState{}
+}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) BlockDeletion() CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion{}
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
 type CreateAlertingPolicyRequestPathSelectorAlertingPolicyDisplayName struct{}
@@ -3522,6 +3837,10 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) UpdateTime(
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime{}
 }
 
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) DeleteTime() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime{}
+}
+
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Uuid() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUuid {
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUuid{}
 }
@@ -3558,6 +3877,10 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Syncing() U
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncing{}
 }
 
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadata) Lifecycle() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle{}
+}
+
 type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataCreateTime struct{}
 
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataCreateTime) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
@@ -3589,6 +3912,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime)
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3765,20 +4105,20 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) ApiVersion() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Kind() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind {
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Version() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Name() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesName {
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Uid() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid{}
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Region() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) Controller() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesController {
@@ -3789,21 +4129,8 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferenc
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind struct{}
@@ -3820,6 +4147,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3840,20 +4184,20 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid struct{}
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3888,6 +4232,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerRefere
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3992,6 +4353,65 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncingRegi
 
 func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) State() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycle) BlockDeletion() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyDisplayName struct{}
@@ -4411,6 +4831,10 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadata) Update
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -4447,6 +4871,10 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadata) Syncin
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
@@ -4478,6 +4906,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataUpdate
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4654,20 +5099,20 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -4678,21 +5123,8 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerRef
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4709,6 +5141,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerR
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4729,20 +5178,20 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerR
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4777,6 +5226,23 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerR
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4881,6 +5347,65 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncin
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateDisplayName struct{}
@@ -5290,6 +5815,10 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadata) Updat
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -5326,6 +5855,10 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadata) Synci
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
@@ -5357,6 +5890,23 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataUpdat
 }
 
 func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5533,20 +6083,20 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -5557,21 +6107,8 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerRe
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
-	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
-		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -5588,6 +6125,23 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwner
 }
 
 func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5608,20 +6162,20 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
 	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
 		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5656,6 +6210,23 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwner
 }
 
 func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5760,6 +6331,65 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSynci
 
 func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateDisplayName struct{}

@@ -2383,6 +2383,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadata) Updat
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataUpdateTime{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadata) DeleteTime() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime{}
+}
+
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadata) Uuid() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataUuid {
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataUuid{}
 }
@@ -2419,6 +2423,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadata) Synci
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncing{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadata) Lifecycle() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle{}
+}
+
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataCreateTime struct{}
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataCreateTime) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
@@ -2450,6 +2458,23 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataUpdat
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2626,20 +2651,20 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue)
 }
 
-func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) ApiVersion() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion {
-	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion{}
-}
-
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Kind() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesKind {
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesKind{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Version() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion{}
 }
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Name() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesName {
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesName{}
 }
 
-func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Uid() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid {
-	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid{}
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Region() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion{}
 }
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) Controller() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesController {
@@ -2650,21 +2675,8 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerRe
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion struct{}
-
-func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
-	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
-		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
-}
-
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferences) RequiresOwnerReference() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesKind struct{}
@@ -2681,6 +2693,23 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwner
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2701,20 +2730,20 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
-type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid struct{}
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion struct{}
 
-func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
 	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
 		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2749,6 +2778,23 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwner
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2853,6 +2899,65 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSynci
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataSyncingRegions) WithItemValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayItemValue)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle) State() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycle) BlockDeletion() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion{}
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) WithValue(value bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec struct{}

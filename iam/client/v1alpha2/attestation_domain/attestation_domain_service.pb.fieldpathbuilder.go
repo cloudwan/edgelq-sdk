@@ -258,6 +258,10 @@ func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) 
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUpdateTime{}
 }
 
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) DeleteTime() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime{}
+}
+
 func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Uuid() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUuid {
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUuid{}
 }
@@ -294,6 +298,10 @@ func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) 
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataSyncing{}
 }
 
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Lifecycle() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle{}
+}
+
 type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataCreateTime struct{}
 
 func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataCreateTime) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
@@ -325,6 +333,23 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 }
 
 func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -501,20 +526,20 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) ApiVersion() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion {
-	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Kind() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind {
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Version() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Name() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesName {
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Uid() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid {
-	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid{}
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Region() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Controller() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesController {
@@ -525,21 +550,8 @@ func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOw
 	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
-	return &BatchGetAttestationDomainsResponse_FieldSubPath{
-		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) RequiresOwnerReference() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind struct{}
@@ -556,6 +568,23 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 }
 
 func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -576,20 +605,20 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid struct{}
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
 	return &BatchGetAttestationDomainsResponse_FieldSubPath{
 		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -624,6 +653,23 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 }
 
 func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -728,6 +774,65 @@ func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadata
 
 func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataSyncingRegions) WithItemValue(value string) *BatchGetAttestationDomainsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) State() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState{}
+}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) BlockDeletion() BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion {
+	return BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetAttestationDomainsResponse_FieldSubPath {
+	return &BatchGetAttestationDomainsResponse_FieldSubPath{
+		selector: BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetAttestationDomainsResponsePathSelectorAttestationDomainsName struct{}
@@ -1277,6 +1382,10 @@ func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Upda
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUpdateTime{}
 }
 
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) DeleteTime() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime{}
+}
+
 func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Uuid() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUuid {
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUuid{}
 }
@@ -1313,6 +1422,10 @@ func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Sync
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataSyncing{}
 }
 
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadata) Lifecycle() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle{}
+}
+
 type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataCreateTime struct{}
 
 func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataCreateTime) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
@@ -1344,6 +1457,23 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUpda
 }
 
 func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1520,20 +1650,20 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwne
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAttestationDomainsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) ApiVersion() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion {
-	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Kind() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind {
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind{}
+}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Version() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion{}
 }
 
 func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Name() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesName {
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesName{}
 }
 
-func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Uid() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid {
-	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid{}
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Region() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion{}
 }
 
 func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) Controller() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesController {
@@ -1544,21 +1674,8 @@ func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerR
 	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
-	return &ListAttestationDomainsResponse_FieldSubPath{
-		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListAttestationDomainsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
-}
-
-func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferences) RequiresOwnerReference() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind struct{}
@@ -1575,6 +1692,23 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwne
 }
 
 func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) WithValue(value string) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1595,20 +1729,20 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwne
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid struct{}
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion struct{}
 
-func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
 	return &ListAttestationDomainsResponse_FieldSubPath{
 		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) WithValue(value string) *ListAttestationDomainsResponse_FieldSubPathValue {
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) WithValue(value string) *ListAttestationDomainsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
 }
 
-func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1643,6 +1777,23 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwne
 }
 
 func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1747,6 +1898,65 @@ func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataSync
 
 func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataSyncingRegions) WithItemValue(value string) *ListAttestationDomainsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAttestationDomainsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) State() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState{}
+}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycle) BlockDeletion() ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion {
+	return ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion{}
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion struct{}
+
+func (ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) FieldPath() *ListAttestationDomainsResponse_FieldSubPath {
+	return &ListAttestationDomainsResponse_FieldSubPath{
+		selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListAttestationDomainsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldSubPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorAttestationDomainsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListAttestationDomainsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListAttestationDomainsResponsePathSelectorAttestationDomainsName struct{}
@@ -2672,6 +2882,10 @@ func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Updat
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdateTime{}
 }
 
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadata) DeleteTime() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime{}
+}
+
 func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Uuid() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataUuid {
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataUuid{}
 }
@@ -2708,6 +2922,10 @@ func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Synci
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataSyncing{}
 }
 
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Lifecycle() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle{}
+}
+
 type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataCreateTime struct{}
 
 func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataCreateTime) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
@@ -2739,6 +2957,23 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdat
 }
 
 func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2915,20 +3150,20 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAttestationDomainRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) ApiVersion() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion {
-	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Kind() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind {
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind{}
+}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Version() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion{}
 }
 
 func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Name() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesName {
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesName{}
 }
 
-func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Uid() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid {
-	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid{}
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Region() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion{}
 }
 
 func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Controller() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesController {
@@ -2939,21 +3174,8 @@ func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerRe
 	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
-	return &CreateAttestationDomainRequest_FieldSubPath{
-		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateAttestationDomainRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
-}
-
-func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) RequiresOwnerReference() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind struct{}
@@ -2970,6 +3192,23 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 }
 
 func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) WithValue(value string) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2990,20 +3229,20 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid struct{}
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion struct{}
 
-func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
 	return &CreateAttestationDomainRequest_FieldSubPath{
 		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) WithValue(value string) *CreateAttestationDomainRequest_FieldSubPathValue {
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) WithValue(value string) *CreateAttestationDomainRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
 }
 
-func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3038,6 +3277,23 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 }
 
 func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3142,6 +3398,65 @@ func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataSynci
 
 func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataSyncingRegions) WithItemValue(value string) *CreateAttestationDomainRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAttestationDomainRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) State() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState{}
+}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) BlockDeletion() CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion {
+	return CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion{}
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion struct{}
+
+func (CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) FieldPath() *CreateAttestationDomainRequest_FieldSubPath {
+	return &CreateAttestationDomainRequest_FieldSubPath{
+		selector: CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s CreateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
 type CreateAttestationDomainRequestPathSelectorAttestationDomainName struct{}
@@ -3545,6 +3860,10 @@ func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Updat
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdateTime{}
 }
 
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadata) DeleteTime() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime{}
+}
+
 func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Uuid() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataUuid {
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataUuid{}
 }
@@ -3581,6 +3900,10 @@ func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Synci
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataSyncing{}
 }
 
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadata) Lifecycle() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle{}
+}
+
 type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataCreateTime struct{}
 
 func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataCreateTime) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
@@ -3612,6 +3935,23 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdat
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3788,20 +4128,20 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) ApiVersion() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion {
-	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Kind() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind {
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Version() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Name() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesName {
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesName{}
 }
 
-func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Uid() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid {
-	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid{}
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Region() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) Controller() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesController {
@@ -3812,21 +4152,8 @@ func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerRe
 	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
-	return &UpdateAttestationDomainRequest_FieldSubPath{
-		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
-}
-
-func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferences) RequiresOwnerReference() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind struct{}
@@ -3843,6 +4170,23 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3863,20 +4207,20 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid struct{}
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
 	return &UpdateAttestationDomainRequest_FieldSubPath{
 		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
 }
 
-func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3911,6 +4255,23 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwner
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4015,6 +4376,65 @@ func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataSynci
 
 func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataSyncingRegions) WithItemValue(value string) *UpdateAttestationDomainRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) State() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState{}
+}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycle) BlockDeletion() UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion {
+	return UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorAttestationDomainMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAttestationDomainRequestPathSelectorAttestationDomainName struct{}
@@ -4442,6 +4862,10 @@ func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadata) Upd
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -4478,6 +4902,10 @@ func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadata) Syn
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
@@ -4509,6 +4937,23 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataUpd
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4685,20 +5130,20 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwn
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -4709,21 +5154,8 @@ func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwner
 	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
-	return &UpdateAttestationDomainRequest_FieldSubPath{
-		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
-}
-
-func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4740,6 +5172,23 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwn
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4760,20 +5209,20 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwn
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
 	return &UpdateAttestationDomainRequest_FieldSubPath{
 		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAttestationDomainRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
 }
 
-func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4808,6 +5257,23 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwn
 }
 
 func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4912,6 +5378,65 @@ func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataSyn
 
 func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAttestationDomainRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAttestationDomainRequest_FieldSubPath {
+	return &UpdateAttestationDomainRequest_FieldSubPath{
+		selector: UpdateAttestationDomainRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAttestationDomainRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAttestationDomainRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequest_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAttestationDomainRequestPathSelectorCasConditionalStateName struct{}
@@ -5329,6 +5854,10 @@ func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadata) Up
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -5365,6 +5894,10 @@ func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadata) Sy
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
@@ -5396,6 +5929,23 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataUp
 }
 
 func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5572,20 +6122,20 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOw
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -5596,21 +6146,8 @@ func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwne
 	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
-	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
-		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -5627,6 +6164,23 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOw
 }
 
 func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5647,20 +6201,20 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOw
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
 	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
 		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5695,6 +6249,23 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOw
 }
 
 func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5799,6 +6370,65 @@ func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataSy
 
 func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAttestationDomainRequestCAS_FieldSubPath {
+	return &UpdateAttestationDomainRequestCAS_FieldSubPath{
+		selector: UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  attestation_domain.NewAttestationDomainFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAttestationDomainRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAttestationDomainRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAttestationDomainRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAttestationDomainRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateAttestationDomainRequest_CASPathSelectorConditionalStateName struct{}

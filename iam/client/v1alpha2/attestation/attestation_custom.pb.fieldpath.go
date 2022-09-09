@@ -236,6 +236,10 @@ func (fp *VerifyRequest_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *VerifyRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyRequest_FieldTerminalPath) WithIValue(value interface{}) VerifyRequest_FieldPathValue {
 	switch fp.selector {
 	case VerifyRequest_FieldPathSelectorAskForChallenge:
@@ -379,6 +383,12 @@ func (fps *VerifyRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *VerifyRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *VerifyRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&VerifyRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *VerifyRequest_FieldSubPath) WithIValue(value interface{}) VerifyRequest_FieldPathValue {
@@ -608,7 +618,11 @@ func (fpaiv *VerifyRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source 
 func (fpaiv *VerifyRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyRequest) bool {
 	slice := fpaiv.VerifyRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1009,6 +1023,10 @@ func (fp *VerifyRequestAskForChallenge_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == VerifyRequestAskForChallenge_FieldPathSelectorChallengeFormat
 }
 
+func (fp *VerifyRequestAskForChallenge_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyRequestAskForChallenge_FieldTerminalPath) WithIValue(value interface{}) VerifyRequestAskForChallenge_FieldPathValue {
 	switch fp.selector {
 	case VerifyRequestAskForChallenge_FieldPathSelectorSubject:
@@ -1346,7 +1364,11 @@ func (fpaiv *VerifyRequestAskForChallenge_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *VerifyRequestAskForChallenge_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyRequest_AskForChallenge) bool {
 	slice := fpaiv.VerifyRequestAskForChallenge_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1684,6 +1706,10 @@ func (fp *VerifyRequestChallengeResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == VerifyRequestChallengeResponse_FieldPathSelectorEventlog
 }
 
+func (fp *VerifyRequestChallengeResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyRequestChallengeResponse_FieldTerminalPath) WithIValue(value interface{}) VerifyRequestChallengeResponse_FieldPathValue {
 	switch fp.selector {
 	case VerifyRequestChallengeResponse_FieldPathSelectorAkActivationDecryptedSecret:
@@ -1839,6 +1865,12 @@ func (fps *VerifyRequestChallengeResponse_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *VerifyRequestChallengeResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *VerifyRequestChallengeResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&VerifyRequestChallengeResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *VerifyRequestChallengeResponse_FieldSubPath) WithIValue(value interface{}) VerifyRequestChallengeResponse_FieldPathValue {
@@ -2080,7 +2112,11 @@ func (fpaiv *VerifyRequestChallengeResponse_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *VerifyRequestChallengeResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyRequest_ChallengeResponse) bool {
 	slice := fpaiv.VerifyRequestChallengeResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2364,6 +2400,10 @@ func (fp *VerifyRequestChallengeResponseQuote_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == VerifyRequestChallengeResponseQuote_FieldPathSelectorSignature
 }
 
+func (fp *VerifyRequestChallengeResponseQuote_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyRequestChallengeResponseQuote_FieldTerminalPath) WithIValue(value interface{}) VerifyRequestChallengeResponseQuote_FieldPathValue {
 	switch fp.selector {
 	case VerifyRequestChallengeResponseQuote_FieldPathSelectorQuote:
@@ -2544,7 +2584,11 @@ func (fpaiv *VerifyRequestChallengeResponseQuote_FieldTerminalPathArrayItemValue
 func (fpaiv *VerifyRequestChallengeResponseQuote_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyRequest_ChallengeResponse_Quote) bool {
 	slice := fpaiv.VerifyRequestChallengeResponseQuote_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2789,6 +2833,10 @@ func (fp *VerifyResponse_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *VerifyResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyResponse_FieldTerminalPath) WithIValue(value interface{}) VerifyResponse_FieldPathValue {
 	switch fp.selector {
 	case VerifyResponse_FieldPathSelectorChallenge:
@@ -2932,6 +2980,12 @@ func (fps *VerifyResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *VerifyResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *VerifyResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&VerifyResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *VerifyResponse_FieldSubPath) WithIValue(value interface{}) VerifyResponse_FieldPathValue {
@@ -3161,7 +3215,11 @@ func (fpaiv *VerifyResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *VerifyResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyResponse) bool {
 	slice := fpaiv.VerifyResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3444,6 +3502,10 @@ func (fp *VerifyResponseChallenge_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == VerifyResponseChallenge_FieldPathSelectorSecretEncryptedByCred
 }
 
+func (fp *VerifyResponseChallenge_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyResponseChallenge_FieldTerminalPath) WithIValue(value interface{}) VerifyResponseChallenge_FieldPathValue {
 	switch fp.selector {
 	case VerifyResponseChallenge_FieldPathSelectorPlatformAttestationNonce:
@@ -3636,7 +3698,11 @@ func (fpaiv *VerifyResponseChallenge_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *VerifyResponseChallenge_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyResponse_Challenge) bool {
 	slice := fpaiv.VerifyResponseChallenge_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3847,6 +3913,10 @@ func (fp *VerifyResponseAttestationSuccessful_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == VerifyResponseAttestationSuccessful_FieldPathSelectorAttestationToken
 }
 
+func (fp *VerifyResponseAttestationSuccessful_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *VerifyResponseAttestationSuccessful_FieldTerminalPath) WithIValue(value interface{}) VerifyResponseAttestationSuccessful_FieldPathValue {
 	switch fp.selector {
 	case VerifyResponseAttestationSuccessful_FieldPathSelectorAttestationToken:
@@ -4023,7 +4093,11 @@ func (fpaiv *VerifyResponseAttestationSuccessful_FieldTerminalPathArrayItemValue
 func (fpaiv *VerifyResponseAttestationSuccessful_FieldTerminalPathArrayItemValue) ContainsValue(source *VerifyResponse_AttestationSuccessful) bool {
 	slice := fpaiv.VerifyResponseAttestationSuccessful_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

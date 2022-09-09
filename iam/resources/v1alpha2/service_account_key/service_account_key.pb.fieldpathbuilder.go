@@ -192,6 +192,10 @@ func (ServiceAccountKeyPathSelectorMetadata) UpdateTime() ServiceAccountKeyPathS
 	return ServiceAccountKeyPathSelectorMetadataUpdateTime{}
 }
 
+func (ServiceAccountKeyPathSelectorMetadata) DeleteTime() ServiceAccountKeyPathSelectorMetadataDeleteTime {
+	return ServiceAccountKeyPathSelectorMetadataDeleteTime{}
+}
+
 func (ServiceAccountKeyPathSelectorMetadata) Uuid() ServiceAccountKeyPathSelectorMetadataUuid {
 	return ServiceAccountKeyPathSelectorMetadataUuid{}
 }
@@ -228,6 +232,10 @@ func (ServiceAccountKeyPathSelectorMetadata) Syncing() ServiceAccountKeyPathSele
 	return ServiceAccountKeyPathSelectorMetadataSyncing{}
 }
 
+func (ServiceAccountKeyPathSelectorMetadata) Lifecycle() ServiceAccountKeyPathSelectorMetadataLifecycle {
+	return ServiceAccountKeyPathSelectorMetadataLifecycle{}
+}
+
 type ServiceAccountKeyPathSelectorMetadataCreateTime struct{}
 
 func (ServiceAccountKeyPathSelectorMetadataCreateTime) FieldPath() *ServiceAccountKey_FieldSubPath {
@@ -259,6 +267,23 @@ func (s ServiceAccountKeyPathSelectorMetadataUpdateTime) WithValue(value *timest
 }
 
 func (s ServiceAccountKeyPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+}
+
+type ServiceAccountKeyPathSelectorMetadataDeleteTime struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataDeleteTime) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ServiceAccountKey_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }
 
@@ -435,20 +460,20 @@ func (s ServiceAccountKeyPathSelectorMetadataOwnerReferences) WithItemValue(valu
 	return s.FieldPath().WithIArrayItemValue(value).(*ServiceAccountKey_FieldSubPathArrayItemValue)
 }
 
-func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) ApiVersion() ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion {
-	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Kind() ServiceAccountKeyPathSelectorMetadataOwnerReferencesKind {
 	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Version() ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion {
+	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Name() ServiceAccountKeyPathSelectorMetadataOwnerReferencesName {
 	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Uid() ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid {
-	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid{}
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Region() ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion {
+	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) Controller() ServiceAccountKeyPathSelectorMetadataOwnerReferencesController {
@@ -459,21 +484,8 @@ func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) BlockOwnerDeletion()
 	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *ServiceAccountKey_FieldSubPath {
-	return &ServiceAccountKey_FieldSubPath{
-		selector: ServiceAccountKey_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *ServiceAccountKey_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
-}
-
-func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ServiceAccountKey_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferences) RequiresOwnerReference() ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ServiceAccountKeyPathSelectorMetadataOwnerReferencesKind struct{}
@@ -490,6 +502,23 @@ func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesKind) WithValue(valu
 }
 
 func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+}
+
+type ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ServiceAccountKey_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }
 
@@ -510,20 +539,20 @@ func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesName) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }
 
-type ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid struct{}
+type ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid) FieldPath() *ServiceAccountKey_FieldSubPath {
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion) FieldPath() *ServiceAccountKey_FieldSubPath {
 	return &ServiceAccountKey_FieldSubPath{
 		selector: ServiceAccountKey_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *ServiceAccountKey_FieldSubPathValue {
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *ServiceAccountKey_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
 }
 
-func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ServiceAccountKey_FieldSubPathArrayOfValues {
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ServiceAccountKey_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }
 
@@ -558,6 +587,23 @@ func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) 
 }
 
 func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+}
+
+type ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ServiceAccountKey_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }
 
@@ -662,4 +708,63 @@ func (s ServiceAccountKeyPathSelectorMetadataSyncingRegions) WithArrayOfValues(v
 
 func (s ServiceAccountKeyPathSelectorMetadataSyncingRegions) WithItemValue(value string) *ServiceAccountKey_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ServiceAccountKey_FieldSubPathArrayItemValue)
+}
+
+type ServiceAccountKeyPathSelectorMetadataLifecycle struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataLifecycle) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+}
+
+func (ServiceAccountKeyPathSelectorMetadataLifecycle) State() ServiceAccountKeyPathSelectorMetadataLifecycleState {
+	return ServiceAccountKeyPathSelectorMetadataLifecycleState{}
+}
+
+func (ServiceAccountKeyPathSelectorMetadataLifecycle) BlockDeletion() ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion {
+	return ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type ServiceAccountKeyPathSelectorMetadataLifecycleState struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataLifecycleState) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
+}
+
+type ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *ServiceAccountKey_FieldSubPath {
+	return &ServiceAccountKey_FieldSubPath{
+		selector: ServiceAccountKey_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *ServiceAccountKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldSubPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ServiceAccountKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldSubPathArrayOfValues)
 }

@@ -297,6 +297,10 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorView
 }
 
+func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMetricDescriptorsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMetricDescriptorsRequest_FieldPathSelectorParent:
@@ -570,7 +574,11 @@ func (fpaiv *ListMetricDescriptorsRequest_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *ListMetricDescriptorsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMetricDescriptorsRequest) bool {
 	slice := fpaiv.ListMetricDescriptorsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -858,6 +866,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken
 }
 
+func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) WithIValue(value interface{}) ListMetricDescriptorsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors:
@@ -990,6 +1002,12 @@ func (fps *ListMetricDescriptorsResponse_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *ListMetricDescriptorsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListMetricDescriptorsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListMetricDescriptorsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListMetricDescriptorsResponse_FieldSubPath) WithIValue(value interface{}) ListMetricDescriptorsResponse_FieldPathValue {
@@ -1211,7 +1229,11 @@ func (fpaiv *ListMetricDescriptorsResponse_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *ListMetricDescriptorsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMetricDescriptorsResponse) bool {
 	slice := fpaiv.ListMetricDescriptorsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1495,6 +1517,10 @@ func (fp *GetMetricDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetMetricDescriptorRequest_FieldPathSelectorView
 }
 
+func (fp *GetMetricDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetMetricDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) GetMetricDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case GetMetricDescriptorRequest_FieldPathSelectorName:
@@ -1712,7 +1738,11 @@ func (fpaiv *GetMetricDescriptorRequest_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *GetMetricDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetMetricDescriptorRequest) bool {
 	slice := fpaiv.GetMetricDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1951,6 +1981,10 @@ func (fp *CreateMetricDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreateMetricDescriptorRequest_FieldPathSelectorParent
 }
 
+func (fp *CreateMetricDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateMetricDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) CreateMetricDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateMetricDescriptorRequest_FieldPathSelectorParent:
@@ -2073,6 +2107,12 @@ func (fps *CreateMetricDescriptorRequest_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateMetricDescriptorRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateMetricDescriptorRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateMetricDescriptorRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateMetricDescriptorRequest_FieldSubPath) WithIValue(value interface{}) CreateMetricDescriptorRequest_FieldPathValue {
@@ -2299,7 +2339,11 @@ func (fpaiv *CreateMetricDescriptorRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *CreateMetricDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateMetricDescriptorRequest) bool {
 	slice := fpaiv.CreateMetricDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2544,6 +2588,10 @@ func (fp *DeleteMetricDescriptorRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeleteMetricDescriptorRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteMetricDescriptorRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteMetricDescriptorRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteMetricDescriptorRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteMetricDescriptorRequest_FieldPathSelectorName:
@@ -2729,7 +2777,11 @@ func (fpaiv *DeleteMetricDescriptorRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *DeleteMetricDescriptorRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteMetricDescriptorRequest) bool {
 	slice := fpaiv.DeleteMetricDescriptorRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

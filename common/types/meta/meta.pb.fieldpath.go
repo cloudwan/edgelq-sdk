@@ -72,15 +72,17 @@ type Meta_FieldPathSelector int32
 const (
 	Meta_FieldPathSelectorCreateTime      Meta_FieldPathSelector = 0
 	Meta_FieldPathSelectorUpdateTime      Meta_FieldPathSelector = 1
-	Meta_FieldPathSelectorUuid            Meta_FieldPathSelector = 2
-	Meta_FieldPathSelectorTags            Meta_FieldPathSelector = 3
-	Meta_FieldPathSelectorLabels          Meta_FieldPathSelector = 4
-	Meta_FieldPathSelectorAnnotations     Meta_FieldPathSelector = 5
-	Meta_FieldPathSelectorGeneration      Meta_FieldPathSelector = 6
-	Meta_FieldPathSelectorResourceVersion Meta_FieldPathSelector = 7
-	Meta_FieldPathSelectorOwnerReferences Meta_FieldPathSelector = 8
-	Meta_FieldPathSelectorShards          Meta_FieldPathSelector = 9
-	Meta_FieldPathSelectorSyncing         Meta_FieldPathSelector = 10
+	Meta_FieldPathSelectorDeleteTime      Meta_FieldPathSelector = 2
+	Meta_FieldPathSelectorUuid            Meta_FieldPathSelector = 3
+	Meta_FieldPathSelectorTags            Meta_FieldPathSelector = 4
+	Meta_FieldPathSelectorLabels          Meta_FieldPathSelector = 5
+	Meta_FieldPathSelectorAnnotations     Meta_FieldPathSelector = 6
+	Meta_FieldPathSelectorGeneration      Meta_FieldPathSelector = 7
+	Meta_FieldPathSelectorResourceVersion Meta_FieldPathSelector = 8
+	Meta_FieldPathSelectorOwnerReferences Meta_FieldPathSelector = 9
+	Meta_FieldPathSelectorShards          Meta_FieldPathSelector = 10
+	Meta_FieldPathSelectorSyncing         Meta_FieldPathSelector = 11
+	Meta_FieldPathSelectorLifecycle       Meta_FieldPathSelector = 12
 )
 
 func (s Meta_FieldPathSelector) String() string {
@@ -89,6 +91,8 @@ func (s Meta_FieldPathSelector) String() string {
 		return "create_time"
 	case Meta_FieldPathSelectorUpdateTime:
 		return "update_time"
+	case Meta_FieldPathSelectorDeleteTime:
+		return "delete_time"
 	case Meta_FieldPathSelectorUuid:
 		return "uuid"
 	case Meta_FieldPathSelectorTags:
@@ -107,6 +111,8 @@ func (s Meta_FieldPathSelector) String() string {
 		return "shards"
 	case Meta_FieldPathSelectorSyncing:
 		return "syncing"
+	case Meta_FieldPathSelectorLifecycle:
+		return "lifecycle"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", s))
 	}
@@ -122,6 +128,8 @@ func BuildMeta_FieldPath(fp gotenobject.RawFieldPath) (Meta_FieldPath, error) {
 			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorCreateTime}, nil
 		case "update_time", "updateTime", "update-time":
 			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUpdateTime}, nil
+		case "delete_time", "deleteTime", "delete-time":
+			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorDeleteTime}, nil
 		case "uuid":
 			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUuid}, nil
 		case "tags":
@@ -140,6 +148,8 @@ func BuildMeta_FieldPath(fp gotenobject.RawFieldPath) (Meta_FieldPath, error) {
 			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorShards}, nil
 		case "syncing":
 			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorSyncing}, nil
+		case "lifecycle":
+			return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorLifecycle}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -154,6 +164,12 @@ func BuildMeta_FieldPath(fp gotenobject.RawFieldPath) (Meta_FieldPath, error) {
 				return nil, err
 			} else {
 				return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorSyncing, subPath: subpath}, nil
+			}
+		case "lifecycle":
+			if subpath, err := BuildLifecycle_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorLifecycle, subPath: subpath}, nil
 			}
 		case "labels":
 			if len(fp) > 2 {
@@ -223,6 +239,10 @@ func (fp *Meta_FieldTerminalPath) Get(source *Meta) (values []interface{}) {
 			if source.UpdateTime != nil {
 				values = append(values, source.UpdateTime)
 			}
+		case Meta_FieldPathSelectorDeleteTime:
+			if source.DeleteTime != nil {
+				values = append(values, source.DeleteTime)
+			}
 		case Meta_FieldPathSelectorUuid:
 			values = append(values, source.Uuid)
 		case Meta_FieldPathSelectorTags:
@@ -247,6 +267,10 @@ func (fp *Meta_FieldTerminalPath) Get(source *Meta) (values []interface{}) {
 			if source.Syncing != nil {
 				values = append(values, source.Syncing)
 			}
+		case Meta_FieldPathSelectorLifecycle:
+			if source.Lifecycle != nil {
+				values = append(values, source.Lifecycle)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 		}
@@ -266,6 +290,9 @@ func (fp *Meta_FieldTerminalPath) GetSingle(source *Meta) (interface{}, bool) {
 		return res, res != nil
 	case Meta_FieldPathSelectorUpdateTime:
 		res := source.GetUpdateTime()
+		return res, res != nil
+	case Meta_FieldPathSelectorDeleteTime:
+		res := source.GetDeleteTime()
 		return res, res != nil
 	case Meta_FieldPathSelectorUuid:
 		return source.GetUuid(), source != nil
@@ -291,6 +318,9 @@ func (fp *Meta_FieldTerminalPath) GetSingle(source *Meta) (interface{}, bool) {
 	case Meta_FieldPathSelectorSyncing:
 		res := source.GetSyncing()
 		return res, res != nil
+	case Meta_FieldPathSelectorLifecycle:
+		res := source.GetLifecycle()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -306,6 +336,8 @@ func (fp *Meta_FieldTerminalPath) GetDefault() interface{} {
 	case Meta_FieldPathSelectorCreateTime:
 		return (*timestamp.Timestamp)(nil)
 	case Meta_FieldPathSelectorUpdateTime:
+		return (*timestamp.Timestamp)(nil)
+	case Meta_FieldPathSelectorDeleteTime:
 		return (*timestamp.Timestamp)(nil)
 	case Meta_FieldPathSelectorUuid:
 		return ""
@@ -325,6 +357,8 @@ func (fp *Meta_FieldTerminalPath) GetDefault() interface{} {
 		return (map[string]int64)(nil)
 	case Meta_FieldPathSelectorSyncing:
 		return (*SyncingMeta)(nil)
+	case Meta_FieldPathSelectorLifecycle:
+		return (*Lifecycle)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -337,6 +371,8 @@ func (fp *Meta_FieldTerminalPath) ClearValue(item *Meta) {
 			item.CreateTime = nil
 		case Meta_FieldPathSelectorUpdateTime:
 			item.UpdateTime = nil
+		case Meta_FieldPathSelectorDeleteTime:
+			item.DeleteTime = nil
 		case Meta_FieldPathSelectorUuid:
 			item.Uuid = ""
 		case Meta_FieldPathSelectorTags:
@@ -355,6 +391,8 @@ func (fp *Meta_FieldTerminalPath) ClearValue(item *Meta) {
 			item.Shards = nil
 		case Meta_FieldPathSelectorSyncing:
 			item.Syncing = nil
+		case Meta_FieldPathSelectorLifecycle:
+			item.Lifecycle = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 		}
@@ -369,6 +407,7 @@ func (fp *Meta_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Meta_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Meta_FieldPathSelectorCreateTime ||
 		fp.selector == Meta_FieldPathSelectorUpdateTime ||
+		fp.selector == Meta_FieldPathSelectorDeleteTime ||
 		fp.selector == Meta_FieldPathSelectorUuid ||
 		fp.selector == Meta_FieldPathSelectorTags ||
 		fp.selector == Meta_FieldPathSelectorLabels ||
@@ -378,11 +417,17 @@ func (fp *Meta_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Meta_FieldPathSelectorShards
 }
 
+func (fp *Meta_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Meta_FieldTerminalPath) WithIValue(value interface{}) Meta_FieldPathValue {
 	switch fp.selector {
 	case Meta_FieldPathSelectorCreateTime:
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case Meta_FieldPathSelectorUpdateTime:
+		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
+	case Meta_FieldPathSelectorDeleteTime:
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case Meta_FieldPathSelectorUuid:
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(string)}
@@ -402,6 +447,8 @@ func (fp *Meta_FieldTerminalPath) WithIValue(value interface{}) Meta_FieldPathVa
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(map[string]int64)}
 	case Meta_FieldPathSelectorSyncing:
 		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*SyncingMeta)}
+	case Meta_FieldPathSelectorLifecycle:
+		return &Meta_FieldTerminalPathValue{Meta_FieldTerminalPath: *fp, value: value.(*Lifecycle)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -417,6 +464,8 @@ func (fp *Meta_FieldTerminalPath) WithIArrayOfValues(values interface{}) Meta_Fi
 	case Meta_FieldPathSelectorCreateTime:
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case Meta_FieldPathSelectorUpdateTime:
+		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
+	case Meta_FieldPathSelectorDeleteTime:
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case Meta_FieldPathSelectorUuid:
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]string)}
@@ -436,6 +485,8 @@ func (fp *Meta_FieldTerminalPath) WithIArrayOfValues(values interface{}) Meta_Fi
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]map[string]int64)}
 	case Meta_FieldPathSelectorSyncing:
 		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*SyncingMeta)}
+	case Meta_FieldPathSelectorLifecycle:
+		return &Meta_FieldTerminalPathArrayOfValues{Meta_FieldTerminalPath: *fp, values: values.([]*Lifecycle)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fp.selector))
 	}
@@ -583,6 +634,10 @@ func (fpm *Meta_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *Meta_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *Meta_FieldPathMap) WithIValue(value interface{}) Meta_FieldPathValue {
 	switch fpm.selector {
 	case Meta_FieldPathSelectorLabels:
@@ -643,6 +698,10 @@ func (fps *Meta_FieldSubPath) AsSyncingSubPath() (SyncingMeta_FieldPath, bool) {
 	res, ok := fps.subPath.(SyncingMeta_FieldPath)
 	return res, ok
 }
+func (fps *Meta_FieldSubPath) AsLifecycleSubPath() (Lifecycle_FieldPath, bool) {
+	res, ok := fps.subPath.(Lifecycle_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *Meta_FieldSubPath) String() string {
@@ -662,6 +721,8 @@ func (fps *Meta_FieldSubPath) Get(source *Meta) (values []interface{}) {
 		}
 	} else if asSyncingMetaFieldPath, ok := fps.AsSyncingSubPath(); ok {
 		values = append(values, asSyncingMetaFieldPath.Get(source.GetSyncing())...)
+	} else if asLifecycleFieldPath, ok := fps.AsLifecycleSubPath(); ok {
+		values = append(values, asLifecycleFieldPath.Get(source.GetLifecycle())...)
 	} else {
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fps.selector))
 	}
@@ -685,6 +746,11 @@ func (fps *Meta_FieldSubPath) GetSingle(source *Meta) (interface{}, bool) {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetSyncing())
+	case Meta_FieldPathSelectorLifecycle:
+		if source.GetLifecycle() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetLifecycle())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fps.selector))
 	}
@@ -708,6 +774,8 @@ func (fps *Meta_FieldSubPath) ClearValue(item *Meta) {
 			}
 		case Meta_FieldPathSelectorSyncing:
 			fps.subPath.ClearValueRaw(item.Syncing)
+		case Meta_FieldPathSelectorLifecycle:
+			fps.subPath.ClearValueRaw(item.Lifecycle)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Meta: %d", fps.selector))
 		}
@@ -721,6 +789,12 @@ func (fps *Meta_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Meta_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Meta_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Meta_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Meta_FieldSubPath) WithIValue(value interface{}) Meta_FieldPathValue {
@@ -794,6 +868,10 @@ func (fpv *Meta_FieldTerminalPathValue) AsUpdateTimeValue() (*timestamp.Timestam
 	res, ok := fpv.value.(*timestamp.Timestamp)
 	return res, ok
 }
+func (fpv *Meta_FieldTerminalPathValue) AsDeleteTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *Meta_FieldTerminalPathValue) AsUuidValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -830,6 +908,10 @@ func (fpv *Meta_FieldTerminalPathValue) AsSyncingValue() (*SyncingMeta, bool) {
 	res, ok := fpv.value.(*SyncingMeta)
 	return res, ok
 }
+func (fpv *Meta_FieldTerminalPathValue) AsLifecycleValue() (*Lifecycle, bool) {
+	res, ok := fpv.value.(*Lifecycle)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Meta
 func (fpv *Meta_FieldTerminalPathValue) SetTo(target **Meta) {
@@ -841,6 +923,8 @@ func (fpv *Meta_FieldTerminalPathValue) SetTo(target **Meta) {
 		(*target).CreateTime = fpv.value.(*timestamp.Timestamp)
 	case Meta_FieldPathSelectorUpdateTime:
 		(*target).UpdateTime = fpv.value.(*timestamp.Timestamp)
+	case Meta_FieldPathSelectorDeleteTime:
+		(*target).DeleteTime = fpv.value.(*timestamp.Timestamp)
 	case Meta_FieldPathSelectorUuid:
 		(*target).Uuid = fpv.value.(string)
 	case Meta_FieldPathSelectorTags:
@@ -859,6 +943,8 @@ func (fpv *Meta_FieldTerminalPathValue) SetTo(target **Meta) {
 		(*target).Shards = fpv.value.(map[string]int64)
 	case Meta_FieldPathSelectorSyncing:
 		(*target).Syncing = fpv.value.(*SyncingMeta)
+	case Meta_FieldPathSelectorLifecycle:
+		(*target).Lifecycle = fpv.value.(*Lifecycle)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpv.selector))
 	}
@@ -894,6 +980,25 @@ func (fpv *Meta_FieldTerminalPathValue) CompareWith(source *Meta) (int, bool) {
 	case Meta_FieldPathSelectorUpdateTime:
 		leftValue := fpv.value.(*timestamp.Timestamp)
 		rightValue := source.GetUpdateTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Meta_FieldPathSelectorDeleteTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetDeleteTime()
 		if leftValue == nil {
 			if rightValue != nil {
 				return -1, true
@@ -951,6 +1056,8 @@ func (fpv *Meta_FieldTerminalPathValue) CompareWith(source *Meta) (int, bool) {
 	case Meta_FieldPathSelectorShards:
 		return 0, false
 	case Meta_FieldPathSelectorSyncing:
+		return 0, false
+	case Meta_FieldPathSelectorLifecycle:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpv.selector))
@@ -1073,6 +1180,10 @@ func (fpvs *Meta_FieldSubPathValue) AsSyncingPathValue() (SyncingMeta_FieldPathV
 	res, ok := fpvs.subPathValue.(SyncingMeta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Meta_FieldSubPathValue) AsLifecyclePathValue() (Lifecycle_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(Lifecycle_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *Meta_FieldSubPathValue) SetTo(target **Meta) {
 	if *target == nil {
@@ -1083,6 +1194,8 @@ func (fpvs *Meta_FieldSubPathValue) SetTo(target **Meta) {
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Meta_FieldPathSelectorSyncing:
 		fpvs.subPathValue.(SyncingMeta_FieldPathValue).SetTo(&(*target).Syncing)
+	case Meta_FieldPathSelectorLifecycle:
+		fpvs.subPathValue.(Lifecycle_FieldPathValue).SetTo(&(*target).Lifecycle)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpvs.Selector()))
 	}
@@ -1103,6 +1216,8 @@ func (fpvs *Meta_FieldSubPathValue) CompareWith(source *Meta) (int, bool) {
 		return 0, false // repeated field
 	case Meta_FieldPathSelectorSyncing:
 		return fpvs.subPathValue.(SyncingMeta_FieldPathValue).CompareWith(source.GetSyncing())
+	case Meta_FieldPathSelectorLifecycle:
+		return fpvs.subPathValue.(Lifecycle_FieldPathValue).CompareWith(source.GetLifecycle())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpvs.Selector()))
 	}
@@ -1173,7 +1288,11 @@ func (fpaiv *Meta_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Mes
 func (fpaiv *Meta_FieldTerminalPathArrayItemValue) ContainsValue(source *Meta) bool {
 	slice := fpaiv.Meta_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1197,6 +1316,10 @@ func (fpaivs *Meta_FieldSubPathArrayItemValue) AsSyncingPathItemValue() (Syncing
 	res, ok := fpaivs.subPathItemValue.(SyncingMeta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Meta_FieldSubPathArrayItemValue) AsLifecyclePathItemValue() (Lifecycle_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(Lifecycle_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Meta'
 func (fpaivs *Meta_FieldSubPathArrayItemValue) ContainsValue(source *Meta) bool {
@@ -1205,6 +1328,8 @@ func (fpaivs *Meta_FieldSubPathArrayItemValue) ContainsValue(source *Meta) bool 
 		return false // repeated/map field
 	case Meta_FieldPathSelectorSyncing:
 		return fpaivs.subPathItemValue.(SyncingMeta_FieldPathArrayItemValue).ContainsValue(source.GetSyncing())
+	case Meta_FieldPathSelectorLifecycle:
+		return fpaivs.subPathItemValue.(Lifecycle_FieldPathArrayItemValue).ContainsValue(source.GetLifecycle())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fpaivs.Selector()))
 	}
@@ -1253,6 +1378,10 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
 			values = append(values, v)
 		}
+	case Meta_FieldPathSelectorDeleteTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case Meta_FieldPathSelectorUuid:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -1289,6 +1418,10 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([]*SyncingMeta) {
 			values = append(values, v)
 		}
+	case Meta_FieldPathSelectorLifecycle:
+		for _, v := range fpaov.values.([]*Lifecycle) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1297,6 +1430,10 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsCreateTimeArrayOfValues() ([
 	return res, ok
 }
 func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsUpdateTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
+	return res, ok
+}
+func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsDeleteTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
@@ -1334,6 +1471,10 @@ func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsShardsArrayOfValues() ([]map
 }
 func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsSyncingArrayOfValues() ([]*SyncingMeta, bool) {
 	res, ok := fpaov.values.([]*SyncingMeta)
+	return res, ok
+}
+func (fpaov *Meta_FieldTerminalPathArrayOfValues) AsLifecycleArrayOfValues() ([]*Lifecycle, bool) {
+	res, ok := fpaov.values.([]*Lifecycle)
 	return res, ok
 }
 
@@ -1390,6 +1531,10 @@ func (fpsaov *Meta_FieldSubPathArrayOfValues) AsOwnerReferencesPathArrayOfValues
 }
 func (fpsaov *Meta_FieldSubPathArrayOfValues) AsSyncingPathArrayOfValues() (SyncingMeta_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(SyncingMeta_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Meta_FieldSubPathArrayOfValues) AsLifecyclePathArrayOfValues() (Lifecycle_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(Lifecycle_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -1565,6 +1710,10 @@ func (fp *LabelSelector_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == LabelSelector_FieldPathSelectorMatchLabels
 }
 
+func (fp *LabelSelector_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LabelSelector_FieldTerminalPath) WithIValue(value interface{}) LabelSelector_FieldPathValue {
 	switch fp.selector {
 	case LabelSelector_FieldPathSelectorMatchLabels:
@@ -1704,6 +1853,10 @@ func (fpm *LabelSelector_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *LabelSelector_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *LabelSelector_FieldPathMap) WithIValue(value interface{}) LabelSelector_FieldPathValue {
 	switch fpm.selector {
 	case LabelSelector_FieldPathSelectorMatchLabels:
@@ -1821,6 +1974,12 @@ func (fps *LabelSelector_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *LabelSelector_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *LabelSelector_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&LabelSelector_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *LabelSelector_FieldSubPath) WithIValue(value interface{}) LabelSelector_FieldPathValue {
@@ -2093,7 +2252,11 @@ func (fpaiv *LabelSelector_FieldTerminalPathArrayItemValue) GetSingleRaw(source 
 func (fpaiv *LabelSelector_FieldTerminalPathArrayItemValue) ContainsValue(source *LabelSelector) bool {
 	slice := fpaiv.LabelSelector_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2387,6 +2550,10 @@ func (fp *LabelSelectorRequirement_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == LabelSelectorRequirement_FieldPathSelectorValues
 }
 
+func (fp *LabelSelectorRequirement_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LabelSelectorRequirement_FieldTerminalPath) WithIValue(value interface{}) LabelSelectorRequirement_FieldPathValue {
 	switch fp.selector {
 	case LabelSelectorRequirement_FieldPathSelectorKey:
@@ -2601,7 +2768,11 @@ func (fpaiv *LabelSelectorRequirement_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *LabelSelectorRequirement_FieldTerminalPathArrayItemValue) ContainsValue(source *LabelSelectorRequirement) bool {
 	slice := fpaiv.LabelSelectorRequirement_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2690,28 +2861,31 @@ type OwnerReference_FieldPath interface {
 type OwnerReference_FieldPathSelector int32
 
 const (
-	OwnerReference_FieldPathSelectorApiVersion         OwnerReference_FieldPathSelector = 0
-	OwnerReference_FieldPathSelectorKind               OwnerReference_FieldPathSelector = 1
-	OwnerReference_FieldPathSelectorName               OwnerReference_FieldPathSelector = 2
-	OwnerReference_FieldPathSelectorUid                OwnerReference_FieldPathSelector = 3
-	OwnerReference_FieldPathSelectorController         OwnerReference_FieldPathSelector = 4
-	OwnerReference_FieldPathSelectorBlockOwnerDeletion OwnerReference_FieldPathSelector = 5
+	OwnerReference_FieldPathSelectorKind                   OwnerReference_FieldPathSelector = 0
+	OwnerReference_FieldPathSelectorVersion                OwnerReference_FieldPathSelector = 1
+	OwnerReference_FieldPathSelectorName                   OwnerReference_FieldPathSelector = 2
+	OwnerReference_FieldPathSelectorRegion                 OwnerReference_FieldPathSelector = 3
+	OwnerReference_FieldPathSelectorController             OwnerReference_FieldPathSelector = 4
+	OwnerReference_FieldPathSelectorBlockOwnerDeletion     OwnerReference_FieldPathSelector = 5
+	OwnerReference_FieldPathSelectorRequiresOwnerReference OwnerReference_FieldPathSelector = 6
 )
 
 func (s OwnerReference_FieldPathSelector) String() string {
 	switch s {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		return "api_version"
 	case OwnerReference_FieldPathSelectorKind:
 		return "kind"
+	case OwnerReference_FieldPathSelectorVersion:
+		return "version"
 	case OwnerReference_FieldPathSelectorName:
 		return "name"
-	case OwnerReference_FieldPathSelectorUid:
-		return "uid"
+	case OwnerReference_FieldPathSelectorRegion:
+		return "region"
 	case OwnerReference_FieldPathSelectorController:
 		return "controller"
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 		return "block_owner_deletion"
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+		return "requires_owner_reference"
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", s))
 	}
@@ -2723,18 +2897,20 @@ func BuildOwnerReference_FieldPath(fp gotenobject.RawFieldPath) (OwnerReference_
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "api_version", "apiVersion", "api-version":
-			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorApiVersion}, nil
 		case "kind":
 			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorKind}, nil
+		case "version":
+			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorVersion}, nil
 		case "name":
 			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorName}, nil
-		case "uid":
-			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorUid}, nil
+		case "region":
+			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRegion}, nil
 		case "controller":
 			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorController}, nil
 		case "block_owner_deletion", "blockOwnerDeletion", "block-owner-deletion":
 			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorBlockOwnerDeletion}, nil
+		case "requires_owner_reference", "requiresOwnerReference", "requires-owner-reference":
+			return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRequiresOwnerReference}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object OwnerReference", fp)
@@ -2780,18 +2956,20 @@ func (fp *OwnerReference_FieldTerminalPath) JSONString() string {
 func (fp *OwnerReference_FieldTerminalPath) Get(source *OwnerReference) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case OwnerReference_FieldPathSelectorApiVersion:
-			values = append(values, source.ApiVersion)
 		case OwnerReference_FieldPathSelectorKind:
 			values = append(values, source.Kind)
+		case OwnerReference_FieldPathSelectorVersion:
+			values = append(values, source.Version)
 		case OwnerReference_FieldPathSelectorName:
 			values = append(values, source.Name)
-		case OwnerReference_FieldPathSelectorUid:
-			values = append(values, source.Uid)
+		case OwnerReference_FieldPathSelectorRegion:
+			values = append(values, source.Region)
 		case OwnerReference_FieldPathSelectorController:
 			values = append(values, source.Controller)
 		case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 			values = append(values, source.BlockOwnerDeletion)
+		case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+			values = append(values, source.RequiresOwnerReference)
 		default:
 			panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
 		}
@@ -2806,18 +2984,20 @@ func (fp *OwnerReference_FieldTerminalPath) GetRaw(source proto.Message) []inter
 // GetSingle returns value pointed by specific field of from source OwnerReference
 func (fp *OwnerReference_FieldTerminalPath) GetSingle(source *OwnerReference) (interface{}, bool) {
 	switch fp.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		return source.GetApiVersion(), source != nil
 	case OwnerReference_FieldPathSelectorKind:
 		return source.GetKind(), source != nil
+	case OwnerReference_FieldPathSelectorVersion:
+		return source.GetVersion(), source != nil
 	case OwnerReference_FieldPathSelectorName:
 		return source.GetName(), source != nil
-	case OwnerReference_FieldPathSelectorUid:
-		return source.GetUid(), source != nil
+	case OwnerReference_FieldPathSelectorRegion:
+		return source.GetRegion(), source != nil
 	case OwnerReference_FieldPathSelectorController:
 		return source.GetController(), source != nil
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 		return source.GetBlockOwnerDeletion(), source != nil
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+		return source.GetRequiresOwnerReference(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
 	}
@@ -2830,17 +3010,19 @@ func (fp *OwnerReference_FieldTerminalPath) GetSingleRaw(source proto.Message) (
 // GetDefault returns a default value of the field type
 func (fp *OwnerReference_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		return ""
 	case OwnerReference_FieldPathSelectorKind:
+		return ""
+	case OwnerReference_FieldPathSelectorVersion:
 		return ""
 	case OwnerReference_FieldPathSelectorName:
 		return ""
-	case OwnerReference_FieldPathSelectorUid:
+	case OwnerReference_FieldPathSelectorRegion:
 		return ""
 	case OwnerReference_FieldPathSelectorController:
 		return false
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
+		return false
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
 		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
@@ -2850,18 +3032,20 @@ func (fp *OwnerReference_FieldTerminalPath) GetDefault() interface{} {
 func (fp *OwnerReference_FieldTerminalPath) ClearValue(item *OwnerReference) {
 	if item != nil {
 		switch fp.selector {
-		case OwnerReference_FieldPathSelectorApiVersion:
-			item.ApiVersion = ""
 		case OwnerReference_FieldPathSelectorKind:
 			item.Kind = ""
+		case OwnerReference_FieldPathSelectorVersion:
+			item.Version = ""
 		case OwnerReference_FieldPathSelectorName:
 			item.Name = ""
-		case OwnerReference_FieldPathSelectorUid:
-			item.Uid = ""
+		case OwnerReference_FieldPathSelectorRegion:
+			item.Region = ""
 		case OwnerReference_FieldPathSelectorController:
 			item.Controller = false
 		case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 			item.BlockOwnerDeletion = false
+		case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+			item.RequiresOwnerReference = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
 		}
@@ -2874,27 +3058,34 @@ func (fp *OwnerReference_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 
 // IsLeaf - whether field path is holds simple value
 func (fp *OwnerReference_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == OwnerReference_FieldPathSelectorApiVersion ||
-		fp.selector == OwnerReference_FieldPathSelectorKind ||
+	return fp.selector == OwnerReference_FieldPathSelectorKind ||
+		fp.selector == OwnerReference_FieldPathSelectorVersion ||
 		fp.selector == OwnerReference_FieldPathSelectorName ||
-		fp.selector == OwnerReference_FieldPathSelectorUid ||
+		fp.selector == OwnerReference_FieldPathSelectorRegion ||
 		fp.selector == OwnerReference_FieldPathSelectorController ||
-		fp.selector == OwnerReference_FieldPathSelectorBlockOwnerDeletion
+		fp.selector == OwnerReference_FieldPathSelectorBlockOwnerDeletion ||
+		fp.selector == OwnerReference_FieldPathSelectorRequiresOwnerReference
+}
+
+func (fp *OwnerReference_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *OwnerReference_FieldTerminalPath) WithIValue(value interface{}) OwnerReference_FieldPathValue {
 	switch fp.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(string)}
 	case OwnerReference_FieldPathSelectorKind:
+		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(string)}
+	case OwnerReference_FieldPathSelectorVersion:
 		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(string)}
 	case OwnerReference_FieldPathSelectorName:
 		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(string)}
-	case OwnerReference_FieldPathSelectorUid:
+	case OwnerReference_FieldPathSelectorRegion:
 		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(string)}
 	case OwnerReference_FieldPathSelectorController:
 		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(bool)}
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
+		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(bool)}
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
 		return &OwnerReference_FieldTerminalPathValue{OwnerReference_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
@@ -2908,17 +3099,19 @@ func (fp *OwnerReference_FieldTerminalPath) WithRawIValue(value interface{}) got
 func (fp *OwnerReference_FieldTerminalPath) WithIArrayOfValues(values interface{}) OwnerReference_FieldPathArrayOfValues {
 	fpaov := &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]string)}
 	case OwnerReference_FieldPathSelectorKind:
+		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]string)}
+	case OwnerReference_FieldPathSelectorVersion:
 		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]string)}
 	case OwnerReference_FieldPathSelectorName:
 		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]string)}
-	case OwnerReference_FieldPathSelectorUid:
+	case OwnerReference_FieldPathSelectorRegion:
 		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]string)}
 	case OwnerReference_FieldPathSelectorController:
 		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]bool)}
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
+		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]bool)}
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
 		return &OwnerReference_FieldTerminalPathArrayOfValues{OwnerReference_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fp.selector))
@@ -2980,11 +3173,11 @@ var _ OwnerReference_FieldPathValue = (*OwnerReference_FieldTerminalPathValue)(n
 func (fpv *OwnerReference_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *OwnerReference_FieldTerminalPathValue) AsApiVersionValue() (string, bool) {
+func (fpv *OwnerReference_FieldTerminalPathValue) AsKindValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *OwnerReference_FieldTerminalPathValue) AsKindValue() (string, bool) {
+func (fpv *OwnerReference_FieldTerminalPathValue) AsVersionValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
@@ -2992,7 +3185,7 @@ func (fpv *OwnerReference_FieldTerminalPathValue) AsNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *OwnerReference_FieldTerminalPathValue) AsUidValue() (string, bool) {
+func (fpv *OwnerReference_FieldTerminalPathValue) AsRegionValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
@@ -3004,6 +3197,10 @@ func (fpv *OwnerReference_FieldTerminalPathValue) AsBlockOwnerDeletionValue() (b
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *OwnerReference_FieldTerminalPathValue) AsRequiresOwnerReferenceValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object OwnerReference
 func (fpv *OwnerReference_FieldTerminalPathValue) SetTo(target **OwnerReference) {
@@ -3011,18 +3208,20 @@ func (fpv *OwnerReference_FieldTerminalPathValue) SetTo(target **OwnerReference)
 		*target = new(OwnerReference)
 	}
 	switch fpv.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
-		(*target).ApiVersion = fpv.value.(string)
 	case OwnerReference_FieldPathSelectorKind:
 		(*target).Kind = fpv.value.(string)
+	case OwnerReference_FieldPathSelectorVersion:
+		(*target).Version = fpv.value.(string)
 	case OwnerReference_FieldPathSelectorName:
 		(*target).Name = fpv.value.(string)
-	case OwnerReference_FieldPathSelectorUid:
-		(*target).Uid = fpv.value.(string)
+	case OwnerReference_FieldPathSelectorRegion:
+		(*target).Region = fpv.value.(string)
 	case OwnerReference_FieldPathSelectorController:
 		(*target).Controller = fpv.value.(bool)
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 		(*target).BlockOwnerDeletion = fpv.value.(bool)
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+		(*target).RequiresOwnerReference = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for OwnerReference: %d", fpv.selector))
 	}
@@ -3036,9 +3235,9 @@ func (fpv *OwnerReference_FieldTerminalPathValue) SetToRaw(target proto.Message)
 // CompareWith compares value in the 'OwnerReference_FieldTerminalPathValue' with the value under path in 'OwnerReference'.
 func (fpv *OwnerReference_FieldTerminalPathValue) CompareWith(source *OwnerReference) (int, bool) {
 	switch fpv.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
+	case OwnerReference_FieldPathSelectorKind:
 		leftValue := fpv.value.(string)
-		rightValue := source.GetApiVersion()
+		rightValue := source.GetKind()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -3046,9 +3245,9 @@ func (fpv *OwnerReference_FieldTerminalPathValue) CompareWith(source *OwnerRefer
 		} else {
 			return 1, true
 		}
-	case OwnerReference_FieldPathSelectorKind:
+	case OwnerReference_FieldPathSelectorVersion:
 		leftValue := fpv.value.(string)
-		rightValue := source.GetKind()
+		rightValue := source.GetVersion()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -3066,9 +3265,9 @@ func (fpv *OwnerReference_FieldTerminalPathValue) CompareWith(source *OwnerRefer
 		} else {
 			return 1, true
 		}
-	case OwnerReference_FieldPathSelectorUid:
+	case OwnerReference_FieldPathSelectorRegion:
 		leftValue := fpv.value.(string)
-		rightValue := source.GetUid()
+		rightValue := source.GetRegion()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -3089,6 +3288,16 @@ func (fpv *OwnerReference_FieldTerminalPathValue) CompareWith(source *OwnerRefer
 	case OwnerReference_FieldPathSelectorBlockOwnerDeletion:
 		leftValue := fpv.value.(bool)
 		rightValue := source.GetBlockOwnerDeletion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetRequiresOwnerReference()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -3158,7 +3367,11 @@ func (fpaiv *OwnerReference_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *OwnerReference_FieldTerminalPathArrayItemValue) ContainsValue(source *OwnerReference) bool {
 	slice := fpaiv.OwnerReference_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3200,11 +3413,11 @@ var _ OwnerReference_FieldPathArrayOfValues = (*OwnerReference_FieldTerminalPath
 
 func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case OwnerReference_FieldPathSelectorApiVersion:
+	case OwnerReference_FieldPathSelectorKind:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case OwnerReference_FieldPathSelectorKind:
+	case OwnerReference_FieldPathSelectorVersion:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
@@ -3212,7 +3425,7 @@ func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case OwnerReference_FieldPathSelectorUid:
+	case OwnerReference_FieldPathSelectorRegion:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
@@ -3224,14 +3437,18 @@ func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case OwnerReference_FieldPathSelectorRequiresOwnerReference:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
-func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsApiVersionArrayOfValues() ([]string, bool) {
+func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]string, bool) {
+func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsVersionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
@@ -3239,7 +3456,7 @@ func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsNameArrayOfValues(
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsUidArrayOfValues() ([]string, bool) {
+func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsRegionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
@@ -3248,6 +3465,10 @@ func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsControllerArrayOfV
 	return res, ok
 }
 func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsBlockOwnerDeletionArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *OwnerReference_FieldTerminalPathArrayOfValues) AsRequiresOwnerReferenceArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
@@ -3408,6 +3629,10 @@ func (fp *SyncingMeta_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *SyncingMeta_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == SyncingMeta_FieldPathSelectorOwningRegion ||
 		fp.selector == SyncingMeta_FieldPathSelectorRegions
+}
+
+func (fp *SyncingMeta_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *SyncingMeta_FieldTerminalPath) WithIValue(value interface{}) SyncingMeta_FieldPathValue {
@@ -3604,7 +3829,11 @@ func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *SyncingMeta_FieldTerminalPathArrayItemValue) ContainsValue(source *SyncingMeta) bool {
 	slice := fpaiv.SyncingMeta_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3663,5 +3892,426 @@ func (fpaov *SyncingMeta_FieldTerminalPathArrayOfValues) AsOwningRegionArrayOfVa
 }
 func (fpaov *SyncingMeta_FieldTerminalPathArrayOfValues) AsRegionsArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type Lifecycle_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() Lifecycle_FieldPathSelector
+	Get(source *Lifecycle) []interface{}
+	GetSingle(source *Lifecycle) (interface{}, bool)
+	ClearValue(item *Lifecycle)
+
+	// Those methods build corresponding Lifecycle_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) Lifecycle_FieldPathValue
+	WithIArrayOfValues(values interface{}) Lifecycle_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) Lifecycle_FieldPathArrayItemValue
+}
+
+type Lifecycle_FieldPathSelector int32
+
+const (
+	Lifecycle_FieldPathSelectorState         Lifecycle_FieldPathSelector = 0
+	Lifecycle_FieldPathSelectorBlockDeletion Lifecycle_FieldPathSelector = 1
+)
+
+func (s Lifecycle_FieldPathSelector) String() string {
+	switch s {
+	case Lifecycle_FieldPathSelectorState:
+		return "state"
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		return "block_deletion"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", s))
+	}
+}
+
+func BuildLifecycle_FieldPath(fp gotenobject.RawFieldPath) (Lifecycle_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Lifecycle")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "state":
+			return &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorState}, nil
+		case "block_deletion", "blockDeletion", "block-deletion":
+			return &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorBlockDeletion}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Lifecycle", fp)
+}
+
+func ParseLifecycle_FieldPath(rawField string) (Lifecycle_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildLifecycle_FieldPath(fp)
+}
+
+func MustParseLifecycle_FieldPath(rawField string) Lifecycle_FieldPath {
+	fp, err := ParseLifecycle_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type Lifecycle_FieldTerminalPath struct {
+	selector Lifecycle_FieldPathSelector
+}
+
+var _ Lifecycle_FieldPath = (*Lifecycle_FieldTerminalPath)(nil)
+
+func (fp *Lifecycle_FieldTerminalPath) Selector() Lifecycle_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *Lifecycle_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *Lifecycle_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Lifecycle
+func (fp *Lifecycle_FieldTerminalPath) Get(source *Lifecycle) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case Lifecycle_FieldPathSelectorState:
+			values = append(values, source.State)
+		case Lifecycle_FieldPathSelectorBlockDeletion:
+			values = append(values, source.BlockDeletion)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *Lifecycle_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Lifecycle))
+}
+
+// GetSingle returns value pointed by specific field of from source Lifecycle
+func (fp *Lifecycle_FieldTerminalPath) GetSingle(source *Lifecycle) (interface{}, bool) {
+	switch fp.selector {
+	case Lifecycle_FieldPathSelectorState:
+		return source.GetState(), source != nil
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		return source.GetBlockDeletion(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+	}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Lifecycle))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *Lifecycle_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case Lifecycle_FieldPathSelectorState:
+		return Lifecycle_UNDEFINED
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+	}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) ClearValue(item *Lifecycle) {
+	if item != nil {
+		switch fp.selector {
+		case Lifecycle_FieldPathSelectorState:
+			item.State = Lifecycle_UNDEFINED
+		case Lifecycle_FieldPathSelectorBlockDeletion:
+			item.BlockDeletion = false
+		default:
+			panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Lifecycle))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *Lifecycle_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == Lifecycle_FieldPathSelectorState ||
+		fp.selector == Lifecycle_FieldPathSelectorBlockDeletion
+}
+
+func (fp *Lifecycle_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithIValue(value interface{}) Lifecycle_FieldPathValue {
+	switch fp.selector {
+	case Lifecycle_FieldPathSelectorState:
+		return &Lifecycle_FieldTerminalPathValue{Lifecycle_FieldTerminalPath: *fp, value: value.(Lifecycle_State)}
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		return &Lifecycle_FieldTerminalPathValue{Lifecycle_FieldTerminalPath: *fp, value: value.(bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+	}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithIArrayOfValues(values interface{}) Lifecycle_FieldPathArrayOfValues {
+	fpaov := &Lifecycle_FieldTerminalPathArrayOfValues{Lifecycle_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case Lifecycle_FieldPathSelectorState:
+		return &Lifecycle_FieldTerminalPathArrayOfValues{Lifecycle_FieldTerminalPath: *fp, values: values.([]Lifecycle_State)}
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		return &Lifecycle_FieldTerminalPathArrayOfValues{Lifecycle_FieldTerminalPath: *fp, values: values.([]bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithIArrayItemValue(value interface{}) Lifecycle_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fp.selector))
+	}
+}
+
+func (fp *Lifecycle_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// Lifecycle_FieldPathValue allows storing values for Lifecycle fields according to their type
+type Lifecycle_FieldPathValue interface {
+	Lifecycle_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Lifecycle)
+	CompareWith(*Lifecycle) (cmp int, comparable bool)
+}
+
+func ParseLifecycle_FieldPathValue(pathStr, valueStr string) (Lifecycle_FieldPathValue, error) {
+	fp, err := ParseLifecycle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Lifecycle field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(Lifecycle_FieldPathValue), nil
+}
+
+func MustParseLifecycle_FieldPathValue(pathStr, valueStr string) Lifecycle_FieldPathValue {
+	fpv, err := ParseLifecycle_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type Lifecycle_FieldTerminalPathValue struct {
+	Lifecycle_FieldTerminalPath
+	value interface{}
+}
+
+var _ Lifecycle_FieldPathValue = (*Lifecycle_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Lifecycle' as interface{}
+func (fpv *Lifecycle_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *Lifecycle_FieldTerminalPathValue) AsStateValue() (Lifecycle_State, bool) {
+	res, ok := fpv.value.(Lifecycle_State)
+	return res, ok
+}
+func (fpv *Lifecycle_FieldTerminalPathValue) AsBlockDeletionValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Lifecycle
+func (fpv *Lifecycle_FieldTerminalPathValue) SetTo(target **Lifecycle) {
+	if *target == nil {
+		*target = new(Lifecycle)
+	}
+	switch fpv.selector {
+	case Lifecycle_FieldPathSelectorState:
+		(*target).State = fpv.value.(Lifecycle_State)
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		(*target).BlockDeletion = fpv.value.(bool)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fpv.selector))
+	}
+}
+
+func (fpv *Lifecycle_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Lifecycle)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Lifecycle_FieldTerminalPathValue' with the value under path in 'Lifecycle'.
+func (fpv *Lifecycle_FieldTerminalPathValue) CompareWith(source *Lifecycle) (int, bool) {
+	switch fpv.selector {
+	case Lifecycle_FieldPathSelectorState:
+		leftValue := fpv.value.(Lifecycle_State)
+		rightValue := source.GetState()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetBlockDeletion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Lifecycle: %d", fpv.selector))
+	}
+}
+
+func (fpv *Lifecycle_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Lifecycle))
+}
+
+// Lifecycle_FieldPathArrayItemValue allows storing single item in Path-specific values for Lifecycle according to their type
+// Present only for array (repeated) types.
+type Lifecycle_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	Lifecycle_FieldPath
+	ContainsValue(*Lifecycle) bool
+}
+
+// ParseLifecycle_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseLifecycle_FieldPathArrayItemValue(pathStr, valueStr string) (Lifecycle_FieldPathArrayItemValue, error) {
+	fp, err := ParseLifecycle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Lifecycle field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(Lifecycle_FieldPathArrayItemValue), nil
+}
+
+func MustParseLifecycle_FieldPathArrayItemValue(pathStr, valueStr string) Lifecycle_FieldPathArrayItemValue {
+	fpaiv, err := ParseLifecycle_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type Lifecycle_FieldTerminalPathArrayItemValue struct {
+	Lifecycle_FieldTerminalPath
+	value interface{}
+}
+
+var _ Lifecycle_FieldPathArrayItemValue = (*Lifecycle_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Lifecycle as interface{}
+func (fpaiv *Lifecycle_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *Lifecycle_FieldTerminalPathArrayItemValue) GetSingle(source *Lifecycle) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *Lifecycle_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Lifecycle))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Lifecycle'
+func (fpaiv *Lifecycle_FieldTerminalPathArrayItemValue) ContainsValue(source *Lifecycle) bool {
+	slice := fpaiv.Lifecycle_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// Lifecycle_FieldPathArrayOfValues allows storing slice of values for Lifecycle fields according to their type
+type Lifecycle_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	Lifecycle_FieldPath
+}
+
+func ParseLifecycle_FieldPathArrayOfValues(pathStr, valuesStr string) (Lifecycle_FieldPathArrayOfValues, error) {
+	fp, err := ParseLifecycle_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Lifecycle field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(Lifecycle_FieldPathArrayOfValues), nil
+}
+
+func MustParseLifecycle_FieldPathArrayOfValues(pathStr, valuesStr string) Lifecycle_FieldPathArrayOfValues {
+	fpaov, err := ParseLifecycle_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type Lifecycle_FieldTerminalPathArrayOfValues struct {
+	Lifecycle_FieldTerminalPath
+	values interface{}
+}
+
+var _ Lifecycle_FieldPathArrayOfValues = (*Lifecycle_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *Lifecycle_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case Lifecycle_FieldPathSelectorState:
+		for _, v := range fpaov.values.([]Lifecycle_State) {
+			values = append(values, v)
+		}
+	case Lifecycle_FieldPathSelectorBlockDeletion:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *Lifecycle_FieldTerminalPathArrayOfValues) AsStateArrayOfValues() ([]Lifecycle_State, bool) {
+	res, ok := fpaov.values.([]Lifecycle_State)
+	return res, ok
+}
+func (fpaov *Lifecycle_FieldTerminalPathArrayOfValues) AsBlockDeletionArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

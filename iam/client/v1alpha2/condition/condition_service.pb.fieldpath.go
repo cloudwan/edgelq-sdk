@@ -238,6 +238,10 @@ func (fp *GetConditionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetConditionRequest_FieldPathSelectorView
 }
 
+func (fp *GetConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetConditionRequest_FieldTerminalPath) WithIValue(value interface{}) GetConditionRequest_FieldPathValue {
 	switch fp.selector {
 	case GetConditionRequest_FieldPathSelectorName:
@@ -455,7 +459,11 @@ func (fpaiv *GetConditionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *GetConditionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetConditionRequest) bool {
 	slice := fpaiv.GetConditionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -700,6 +708,10 @@ func (fp *BatchGetConditionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetConditionsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetConditionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetConditionsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetConditionsRequest_FieldPathSelectorNames:
@@ -906,7 +918,11 @@ func (fpaiv *BatchGetConditionsRequest_FieldTerminalPathArrayItemValue) GetSingl
 func (fpaiv *BatchGetConditionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetConditionsRequest) bool {
 	slice := fpaiv.BatchGetConditionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1145,6 +1161,10 @@ func (fp *BatchGetConditionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetConditionsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetConditionsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetConditionsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetConditionsResponse_FieldPathSelectorConditions:
@@ -1275,6 +1295,12 @@ func (fps *BatchGetConditionsResponse_FieldSubPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetConditionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetConditionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetConditionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetConditionsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetConditionsResponse_FieldPathValue {
@@ -1492,7 +1518,11 @@ func (fpaiv *BatchGetConditionsResponse_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *BatchGetConditionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetConditionsResponse) bool {
 	slice := fpaiv.BatchGetConditionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1833,6 +1863,10 @@ func (fp *ListConditionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListConditionsRequest_FieldPathSelectorView
 }
 
+func (fp *ListConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListConditionsRequest_FieldTerminalPath) WithIValue(value interface{}) ListConditionsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListConditionsRequest_FieldPathSelectorParent:
@@ -2106,7 +2140,11 @@ func (fpaiv *ListConditionsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *ListConditionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListConditionsRequest) bool {
 	slice := fpaiv.ListConditionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2394,6 +2432,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListConditionsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListConditionsResponse_FieldTerminalPath) WithIValue(value interface{}) ListConditionsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListConditionsResponse_FieldPathSelectorConditions:
@@ -2526,6 +2568,12 @@ func (fps *ListConditionsResponse_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *ListConditionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListConditionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListConditionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListConditionsResponse_FieldSubPath) WithIValue(value interface{}) ListConditionsResponse_FieldPathValue {
@@ -2747,7 +2795,11 @@ func (fpaiv *ListConditionsResponse_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *ListConditionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListConditionsResponse) bool {
 	slice := fpaiv.ListConditionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3031,6 +3083,10 @@ func (fp *WatchConditionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchConditionRequest_FieldPathSelectorView
 }
 
+func (fp *WatchConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchConditionRequest_FieldTerminalPath) WithIValue(value interface{}) WatchConditionRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchConditionRequest_FieldPathSelectorName:
@@ -3248,7 +3304,11 @@ func (fpaiv *WatchConditionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *WatchConditionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchConditionRequest) bool {
 	slice := fpaiv.WatchConditionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3462,6 +3522,10 @@ func (fp *WatchConditionResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchConditionResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchConditionResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchConditionResponse_FieldTerminalPath) WithIValue(value interface{}) WatchConditionResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchConditionResponse_FieldPathSelectorChange:
@@ -3630,7 +3694,11 @@ func (fpaiv *WatchConditionResponse_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *WatchConditionResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchConditionResponse) bool {
 	slice := fpaiv.WatchConditionResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3966,6 +4034,10 @@ func (fp *WatchConditionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchConditionsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchConditionsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchConditionsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchConditionsRequest_FieldPathSelectorType:
@@ -4299,7 +4371,11 @@ func (fpaiv *WatchConditionsRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *WatchConditionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchConditionsRequest) bool {
 	slice := fpaiv.WatchConditionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4664,6 +4740,10 @@ func (fp *WatchConditionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchConditionsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchConditionsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchConditionsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchConditionsResponse_FieldPathSelectorConditionChanges:
@@ -4808,6 +4888,12 @@ func (fps *WatchConditionsResponse_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchConditionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchConditionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchConditionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchConditionsResponse_FieldSubPath) WithIValue(value interface{}) WatchConditionsResponse_FieldPathValue {
@@ -5101,7 +5187,11 @@ func (fpaiv *WatchConditionsResponse_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *WatchConditionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchConditionsResponse) bool {
 	slice := fpaiv.WatchConditionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5403,6 +5493,10 @@ func (fp *WatchConditionsResponsePageTokenChange_FieldTerminalPath) IsLeaf() boo
 		fp.selector == WatchConditionsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchConditionsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchConditionsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchConditionsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchConditionsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5583,7 +5677,11 @@ func (fpaiv *WatchConditionsResponsePageTokenChange_FieldTerminalPathArrayItemVa
 func (fpaiv *WatchConditionsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchConditionsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchConditionsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5814,6 +5912,10 @@ func (fp *CreateConditionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreateConditionRequest_FieldPathSelectorParent
 }
 
+func (fp *CreateConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateConditionRequest_FieldTerminalPath) WithIValue(value interface{}) CreateConditionRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateConditionRequest_FieldPathSelectorParent:
@@ -5936,6 +6038,12 @@ func (fps *CreateConditionRequest_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateConditionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateConditionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateConditionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateConditionRequest_FieldSubPath) WithIValue(value interface{}) CreateConditionRequest_FieldPathValue {
@@ -6162,7 +6270,11 @@ func (fpaiv *CreateConditionRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *CreateConditionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateConditionRequest) bool {
 	slice := fpaiv.CreateConditionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6454,6 +6566,10 @@ func (fp *UpdateConditionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateConditionRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateConditionRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateConditionRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateConditionRequest_FieldPathSelectorCondition:
@@ -6593,6 +6709,12 @@ func (fps *UpdateConditionRequest_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateConditionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateConditionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateConditionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateConditionRequest_FieldSubPath) WithIValue(value interface{}) UpdateConditionRequest_FieldPathValue {
@@ -6818,7 +6940,11 @@ func (fpaiv *UpdateConditionRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *UpdateConditionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateConditionRequest) bool {
 	slice := fpaiv.UpdateConditionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7106,6 +7232,10 @@ func (fp *UpdateConditionRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateConditionRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateConditionRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateConditionRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateConditionRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateConditionRequestCAS_FieldPathSelectorConditionalState:
@@ -7228,6 +7358,12 @@ func (fps *UpdateConditionRequestCAS_FieldSubPath) ClearValueRaw(item proto.Mess
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateConditionRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateConditionRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateConditionRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateConditionRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateConditionRequestCAS_FieldPathValue {
@@ -7437,7 +7573,11 @@ func (fpaiv *UpdateConditionRequestCAS_FieldTerminalPathArrayItemValue) GetSingl
 func (fpaiv *UpdateConditionRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateConditionRequest_CAS) bool {
 	slice := fpaiv.UpdateConditionRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7682,6 +7822,10 @@ func (fp *DeleteConditionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeleteConditionRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteConditionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteConditionRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteConditionRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteConditionRequest_FieldPathSelectorName:
@@ -7867,7 +8011,11 @@ func (fpaiv *DeleteConditionRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *DeleteConditionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteConditionRequest) bool {
 	slice := fpaiv.DeleteConditionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

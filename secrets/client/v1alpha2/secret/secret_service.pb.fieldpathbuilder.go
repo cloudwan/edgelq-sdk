@@ -308,6 +308,10 @@ func (BatchGetSecretsResponsePathSelectorSecretsMetadata) UpdateTime() BatchGetS
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataUpdateTime{}
 }
 
+func (BatchGetSecretsResponsePathSelectorSecretsMetadata) DeleteTime() BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime{}
+}
+
 func (BatchGetSecretsResponsePathSelectorSecretsMetadata) Uuid() BatchGetSecretsResponsePathSelectorSecretsMetadataUuid {
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataUuid{}
 }
@@ -344,6 +348,10 @@ func (BatchGetSecretsResponsePathSelectorSecretsMetadata) Syncing() BatchGetSecr
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataSyncing{}
 }
 
+func (BatchGetSecretsResponsePathSelectorSecretsMetadata) Lifecycle() BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle{}
+}
+
 type BatchGetSecretsResponsePathSelectorSecretsMetadataCreateTime struct{}
 
 func (BatchGetSecretsResponsePathSelectorSecretsMetadataCreateTime) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
@@ -375,6 +383,23 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataUpdateTime) WithValue(
 }
 
 func (s BatchGetSecretsResponsePathSelectorSecretsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -551,20 +576,20 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) WithI
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetSecretsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) ApiVersion() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion {
-	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Kind() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind {
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Version() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Name() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName {
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Uid() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid {
-	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid{}
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Region() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Controller() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesController {
@@ -575,21 +600,8 @@ func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) BlockOw
 	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
-	return &BatchGetSecretsResponse_FieldSubPath{
-		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetSecretsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferences) RequiresOwnerReference() BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind struct{}
@@ -606,6 +618,23 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind) W
 }
 
 func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -626,20 +655,20 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName) W
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid struct{}
+type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
 	return &BatchGetSecretsResponse_FieldSubPath{
 		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetSecretsResponse_FieldSubPathValue {
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetSecretsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -674,6 +703,23 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOw
 }
 
 func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -778,6 +824,65 @@ func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncingRegions) WithAr
 
 func (s BatchGetSecretsResponsePathSelectorSecretsMetadataSyncingRegions) WithItemValue(value string) *BatchGetSecretsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetSecretsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle) State() BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState{}
+}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycle) BlockDeletion() BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion {
+	return BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetSecretsResponse_FieldSubPath {
+	return &BatchGetSecretsResponse_FieldSubPath{
+		selector: BatchGetSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetSecretsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetSecretsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetSecretsResponsePathSelectorMissing struct{}
@@ -1086,6 +1191,10 @@ func (ListSecretsResponsePathSelectorSecretsMetadata) UpdateTime() ListSecretsRe
 	return ListSecretsResponsePathSelectorSecretsMetadataUpdateTime{}
 }
 
+func (ListSecretsResponsePathSelectorSecretsMetadata) DeleteTime() ListSecretsResponsePathSelectorSecretsMetadataDeleteTime {
+	return ListSecretsResponsePathSelectorSecretsMetadataDeleteTime{}
+}
+
 func (ListSecretsResponsePathSelectorSecretsMetadata) Uuid() ListSecretsResponsePathSelectorSecretsMetadataUuid {
 	return ListSecretsResponsePathSelectorSecretsMetadataUuid{}
 }
@@ -1122,6 +1231,10 @@ func (ListSecretsResponsePathSelectorSecretsMetadata) Syncing() ListSecretsRespo
 	return ListSecretsResponsePathSelectorSecretsMetadataSyncing{}
 }
 
+func (ListSecretsResponsePathSelectorSecretsMetadata) Lifecycle() ListSecretsResponsePathSelectorSecretsMetadataLifecycle {
+	return ListSecretsResponsePathSelectorSecretsMetadataLifecycle{}
+}
+
 type ListSecretsResponsePathSelectorSecretsMetadataCreateTime struct{}
 
 func (ListSecretsResponsePathSelectorSecretsMetadataCreateTime) FieldPath() *ListSecretsResponse_FieldSubPath {
@@ -1153,6 +1266,23 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataUpdateTime) WithValue(valu
 }
 
 func (s ListSecretsResponsePathSelectorSecretsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataDeleteTime struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataDeleteTime) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1329,20 +1459,20 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) WithItemV
 	return s.FieldPath().WithIArrayItemValue(value).(*ListSecretsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) ApiVersion() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion {
-	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Kind() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind {
 	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind{}
+}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Version() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion {
+	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion{}
 }
 
 func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Name() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName {
 	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName{}
 }
 
-func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Uid() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid {
-	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid{}
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Region() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion {
+	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion{}
 }
 
 func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) Controller() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesController {
@@ -1353,21 +1483,8 @@ func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) BlockOwnerD
 	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) FieldPath() *ListSecretsResponse_FieldSubPath {
-	return &ListSecretsResponse_FieldSubPath{
-		selector: ListSecretsResponse_FieldPathSelectorSecrets,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListSecretsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
-}
-
-func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListSecretsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferences) RequiresOwnerReference() ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind struct{}
@@ -1384,6 +1501,23 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind) WithV
 }
 
 func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) WithValue(value string) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1404,20 +1538,20 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesName) WithA
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid struct{}
+type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion struct{}
 
-func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) FieldPath() *ListSecretsResponse_FieldSubPath {
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) FieldPath() *ListSecretsResponse_FieldSubPath {
 	return &ListSecretsResponse_FieldSubPath{
 		selector: ListSecretsResponse_FieldPathSelectorSecrets,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) WithValue(value string) *ListSecretsResponse_FieldSubPathValue {
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) WithValue(value string) *ListSecretsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
 }
 
-func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListSecretsResponse_FieldSubPathArrayOfValues {
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1452,6 +1586,23 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOwnerD
 }
 
 func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListSecretsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1556,6 +1707,65 @@ func (s ListSecretsResponsePathSelectorSecretsMetadataSyncingRegions) WithArrayO
 
 func (s ListSecretsResponsePathSelectorSecretsMetadataSyncingRegions) WithItemValue(value string) *ListSecretsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListSecretsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataLifecycle struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataLifecycle) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataLifecycle) State() ListSecretsResponsePathSelectorSecretsMetadataLifecycleState {
+	return ListSecretsResponsePathSelectorSecretsMetadataLifecycleState{}
+}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataLifecycle) BlockDeletion() ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion {
+	return ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion{}
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataLifecycleState struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataLifecycleState) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion struct{}
+
+func (ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) FieldPath() *ListSecretsResponse_FieldSubPath {
+	return &ListSecretsResponse_FieldSubPath{
+		selector: ListSecretsResponse_FieldPathSelectorSecrets,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListSecretsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldSubPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorSecretsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListSecretsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListSecretsResponsePathSelectorPrevPageToken struct{}
@@ -2240,6 +2450,10 @@ func (CreateSecretRequestPathSelectorSecretMetadata) UpdateTime() CreateSecretRe
 	return CreateSecretRequestPathSelectorSecretMetadataUpdateTime{}
 }
 
+func (CreateSecretRequestPathSelectorSecretMetadata) DeleteTime() CreateSecretRequestPathSelectorSecretMetadataDeleteTime {
+	return CreateSecretRequestPathSelectorSecretMetadataDeleteTime{}
+}
+
 func (CreateSecretRequestPathSelectorSecretMetadata) Uuid() CreateSecretRequestPathSelectorSecretMetadataUuid {
 	return CreateSecretRequestPathSelectorSecretMetadataUuid{}
 }
@@ -2276,6 +2490,10 @@ func (CreateSecretRequestPathSelectorSecretMetadata) Syncing() CreateSecretReque
 	return CreateSecretRequestPathSelectorSecretMetadataSyncing{}
 }
 
+func (CreateSecretRequestPathSelectorSecretMetadata) Lifecycle() CreateSecretRequestPathSelectorSecretMetadataLifecycle {
+	return CreateSecretRequestPathSelectorSecretMetadataLifecycle{}
+}
+
 type CreateSecretRequestPathSelectorSecretMetadataCreateTime struct{}
 
 func (CreateSecretRequestPathSelectorSecretMetadataCreateTime) FieldPath() *CreateSecretRequest_FieldSubPath {
@@ -2307,6 +2525,23 @@ func (s CreateSecretRequestPathSelectorSecretMetadataUpdateTime) WithValue(value
 }
 
 func (s CreateSecretRequestPathSelectorSecretMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataDeleteTime struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataDeleteTime) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2483,20 +2718,20 @@ func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) WithItemVa
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateSecretRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) ApiVersion() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion {
-	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Kind() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind {
 	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind{}
+}
+
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Version() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion {
+	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion{}
 }
 
 func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Name() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesName {
 	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesName{}
 }
 
-func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Uid() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid {
-	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid{}
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Region() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion {
+	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion{}
 }
 
 func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) Controller() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesController {
@@ -2507,21 +2742,8 @@ func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) BlockOwnerDe
 	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) FieldPath() *CreateSecretRequest_FieldSubPath {
-	return &CreateSecretRequest_FieldSubPath{
-		selector: CreateSecretRequest_FieldPathSelectorSecret,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateSecretRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
-}
-
-func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateSecretRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferences) RequiresOwnerReference() CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind struct{}
@@ -2538,6 +2760,23 @@ func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind) WithVa
 }
 
 func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) WithValue(value string) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2558,20 +2797,20 @@ func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesName) WithAr
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid struct{}
+type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion struct{}
 
-func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) FieldPath() *CreateSecretRequest_FieldSubPath {
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) FieldPath() *CreateSecretRequest_FieldSubPath {
 	return &CreateSecretRequest_FieldSubPath{
 		selector: CreateSecretRequest_FieldPathSelectorSecret,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) WithValue(value string) *CreateSecretRequest_FieldSubPathValue {
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) WithValue(value string) *CreateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
 }
 
-func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateSecretRequest_FieldSubPathArrayOfValues {
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2606,6 +2845,23 @@ func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDe
 }
 
 func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2710,6 +2966,65 @@ func (s CreateSecretRequestPathSelectorSecretMetadataSyncingRegions) WithArrayOf
 
 func (s CreateSecretRequestPathSelectorSecretMetadataSyncingRegions) WithItemValue(value string) *CreateSecretRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateSecretRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataLifecycle struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataLifecycle) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateSecretRequestPathSelectorSecretMetadataLifecycle) State() CreateSecretRequestPathSelectorSecretMetadataLifecycleState {
+	return CreateSecretRequestPathSelectorSecretMetadataLifecycleState{}
+}
+
+func (CreateSecretRequestPathSelectorSecretMetadataLifecycle) BlockDeletion() CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion {
+	return CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion{}
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataLifecycleState struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataLifecycleState) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion struct{}
+
+func (CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) FieldPath() *CreateSecretRequest_FieldSubPath {
+	return &CreateSecretRequest_FieldSubPath{
+		selector: CreateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateSecretRequest_FieldSubPathValue)
+}
+
+func (s CreateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateSecretRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateSecretRequestFieldPathBuilder struct{}
@@ -2872,6 +3187,10 @@ func (UpdateSecretRequestPathSelectorSecretMetadata) UpdateTime() UpdateSecretRe
 	return UpdateSecretRequestPathSelectorSecretMetadataUpdateTime{}
 }
 
+func (UpdateSecretRequestPathSelectorSecretMetadata) DeleteTime() UpdateSecretRequestPathSelectorSecretMetadataDeleteTime {
+	return UpdateSecretRequestPathSelectorSecretMetadataDeleteTime{}
+}
+
 func (UpdateSecretRequestPathSelectorSecretMetadata) Uuid() UpdateSecretRequestPathSelectorSecretMetadataUuid {
 	return UpdateSecretRequestPathSelectorSecretMetadataUuid{}
 }
@@ -2908,6 +3227,10 @@ func (UpdateSecretRequestPathSelectorSecretMetadata) Syncing() UpdateSecretReque
 	return UpdateSecretRequestPathSelectorSecretMetadataSyncing{}
 }
 
+func (UpdateSecretRequestPathSelectorSecretMetadata) Lifecycle() UpdateSecretRequestPathSelectorSecretMetadataLifecycle {
+	return UpdateSecretRequestPathSelectorSecretMetadataLifecycle{}
+}
+
 type UpdateSecretRequestPathSelectorSecretMetadataCreateTime struct{}
 
 func (UpdateSecretRequestPathSelectorSecretMetadataCreateTime) FieldPath() *UpdateSecretRequest_FieldSubPath {
@@ -2939,6 +3262,23 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataUpdateTime) WithValue(value
 }
 
 func (s UpdateSecretRequestPathSelectorSecretMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataDeleteTime struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataDeleteTime) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3115,20 +3455,20 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) WithItemVa
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) ApiVersion() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion {
-	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Kind() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind {
 	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind{}
+}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Version() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion {
+	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Name() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesName {
 	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesName{}
 }
 
-func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Uid() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid {
-	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid{}
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Region() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion {
+	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) Controller() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesController {
@@ -3139,21 +3479,8 @@ func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) BlockOwnerDe
 	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) FieldPath() *UpdateSecretRequest_FieldSubPath {
-	return &UpdateSecretRequest_FieldSubPath{
-		selector: UpdateSecretRequest_FieldPathSelectorSecret,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
-}
-
-func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferences) RequiresOwnerReference() UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind struct{}
@@ -3170,6 +3497,23 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind) WithVa
 }
 
 func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3190,20 +3534,20 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesName) WithAr
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid struct{}
+type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion struct{}
 
-func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) FieldPath() *UpdateSecretRequest_FieldSubPath {
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) FieldPath() *UpdateSecretRequest_FieldSubPath {
 	return &UpdateSecretRequest_FieldSubPath{
 		selector: UpdateSecretRequest_FieldPathSelectorSecret,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3238,6 +3582,23 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDe
 }
 
 func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3342,6 +3703,65 @@ func (s UpdateSecretRequestPathSelectorSecretMetadataSyncingRegions) WithArrayOf
 
 func (s UpdateSecretRequestPathSelectorSecretMetadataSyncingRegions) WithItemValue(value string) *UpdateSecretRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataLifecycle struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataLifecycle) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataLifecycle) State() UpdateSecretRequestPathSelectorSecretMetadataLifecycleState {
+	return UpdateSecretRequestPathSelectorSecretMetadataLifecycleState{}
+}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataLifecycle) BlockDeletion() UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion {
+	return UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataLifecycleState struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataLifecycleState) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorSecret,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorSecretMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateSecretRequestPathSelectorUpdateMask struct{}
@@ -3528,6 +3948,10 @@ func (UpdateSecretRequestPathSelectorCasConditionalStateMetadata) UpdateTime() U
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateSecretRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateSecretRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -3564,6 +3988,10 @@ func (UpdateSecretRequestPathSelectorCasConditionalStateMetadata) Syncing() Upda
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateSecretRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateSecretRequest_FieldSubPath {
@@ -3595,6 +4023,23 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataUpdateTime) Wi
 }
 
 func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3771,20 +4216,20 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReference
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -3795,21 +4240,8 @@ func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences)
 	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateSecretRequest_FieldSubPath {
-	return &UpdateSecretRequest_FieldSubPath{
-		selector: UpdateSecretRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
-}
-
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -3826,6 +4258,23 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReference
 }
 
 func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3846,20 +4295,20 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReference
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateSecretRequest_FieldSubPath {
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateSecretRequest_FieldSubPath {
 	return &UpdateSecretRequest_FieldSubPath{
 		selector: UpdateSecretRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateSecretRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3894,6 +4343,23 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReference
 }
 
 func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3998,6 +4464,65 @@ func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncingRegions
 
 func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateSecretRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateSecretRequest_FieldSubPath {
+	return &UpdateSecretRequest_FieldSubPath{
+		selector: UpdateSecretRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateSecretRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateSecretRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequest_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateSecretRequestPathSelectorCasFieldMask struct{}
@@ -4174,6 +4699,10 @@ func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadata) UpdateTime() 
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -4210,6 +4739,10 @@ func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadata) Syncing() Upd
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
@@ -4241,6 +4774,23 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataUpdateTime) W
 }
 
 func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4417,20 +4967,20 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -4441,21 +4991,8 @@ func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences
 	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
-	return &UpdateSecretRequestCAS_FieldSubPath{
-		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateSecretRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -4472,6 +5009,23 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferenc
 }
 
 func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4492,20 +5046,20 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferenc
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
 	return &UpdateSecretRequestCAS_FieldSubPath{
 		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateSecretRequestCAS_FieldSubPathValue {
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateSecretRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4540,6 +5094,23 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferenc
 }
 
 func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -4644,6 +5215,65 @@ func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncingRegion
 
 func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateSecretRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateSecretRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateSecretRequestCAS_FieldSubPath {
+	return &UpdateSecretRequestCAS_FieldSubPath{
+		selector: UpdateSecretRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  secret.NewSecretFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateSecretRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateSecretRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateSecretRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateSecretRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateSecretRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateSecretRequest_CASPathSelectorFieldMask struct{}

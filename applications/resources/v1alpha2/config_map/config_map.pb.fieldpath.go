@@ -278,6 +278,10 @@ func (fp *ConfigMap_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ConfigMap_FieldPathSelectorBinaryData
 }
 
+func (fp *ConfigMap_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ConfigMap_FieldTerminalPath) WithIValue(value interface{}) ConfigMap_FieldPathValue {
 	switch fp.selector {
 	case ConfigMap_FieldPathSelectorName:
@@ -441,6 +445,10 @@ func (fpm *ConfigMap_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *ConfigMap_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *ConfigMap_FieldPathMap) WithIValue(value interface{}) ConfigMap_FieldPathValue {
 	switch fpm.selector {
 	case ConfigMap_FieldPathSelectorData:
@@ -558,6 +566,12 @@ func (fps *ConfigMap_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ConfigMap_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ConfigMap_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ConfigMap_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ConfigMap_FieldSubPath) WithIValue(value interface{}) ConfigMap_FieldPathValue {
@@ -886,7 +900,11 @@ func (fpaiv *ConfigMap_FieldTerminalPathArrayItemValue) GetSingleRaw(source prot
 func (fpaiv *ConfigMap_FieldTerminalPathArrayItemValue) ContainsValue(source *ConfigMap) bool {
 	slice := fpaiv.ConfigMap_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

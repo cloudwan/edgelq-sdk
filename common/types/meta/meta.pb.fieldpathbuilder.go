@@ -25,6 +25,9 @@ func (MetaFieldPathBuilder) CreateTime() MetaPathSelectorCreateTime {
 func (MetaFieldPathBuilder) UpdateTime() MetaPathSelectorUpdateTime {
 	return MetaPathSelectorUpdateTime{}
 }
+func (MetaFieldPathBuilder) DeleteTime() MetaPathSelectorDeleteTime {
+	return MetaPathSelectorDeleteTime{}
+}
 func (MetaFieldPathBuilder) Uuid() MetaPathSelectorUuid {
 	return MetaPathSelectorUuid{}
 }
@@ -52,6 +55,9 @@ func (MetaFieldPathBuilder) Shards() MetaPathSelectorShards {
 func (MetaFieldPathBuilder) Syncing() MetaPathSelectorSyncing {
 	return MetaPathSelectorSyncing{}
 }
+func (MetaFieldPathBuilder) Lifecycle() MetaPathSelectorLifecycle {
+	return MetaPathSelectorLifecycle{}
+}
 
 type MetaPathSelectorCreateTime struct{}
 
@@ -78,6 +84,20 @@ func (s MetaPathSelectorUpdateTime) WithValue(value *timestamp.Timestamp) *Meta_
 }
 
 func (s MetaPathSelectorUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *Meta_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldTerminalPathArrayOfValues)
+}
+
+type MetaPathSelectorDeleteTime struct{}
+
+func (MetaPathSelectorDeleteTime) FieldPath() *Meta_FieldTerminalPath {
+	return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorDeleteTime}
+}
+
+func (s MetaPathSelectorDeleteTime) WithValue(value *timestamp.Timestamp) *Meta_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldTerminalPathValue)
+}
+
+func (s MetaPathSelectorDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *Meta_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldTerminalPathArrayOfValues)
 }
 
@@ -242,20 +262,20 @@ func (s MetaPathSelectorOwnerReferences) WithSubArrayItemValue(subPathArrayItemV
 	return &Meta_FieldSubPathArrayItemValue{Meta_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (MetaPathSelectorOwnerReferences) ApiVersion() MetaPathSelectorOwnerReferencesApiVersion {
-	return MetaPathSelectorOwnerReferencesApiVersion{}
-}
-
 func (MetaPathSelectorOwnerReferences) Kind() MetaPathSelectorOwnerReferencesKind {
 	return MetaPathSelectorOwnerReferencesKind{}
+}
+
+func (MetaPathSelectorOwnerReferences) Version() MetaPathSelectorOwnerReferencesVersion {
+	return MetaPathSelectorOwnerReferencesVersion{}
 }
 
 func (MetaPathSelectorOwnerReferences) Name() MetaPathSelectorOwnerReferencesName {
 	return MetaPathSelectorOwnerReferencesName{}
 }
 
-func (MetaPathSelectorOwnerReferences) Uid() MetaPathSelectorOwnerReferencesUid {
-	return MetaPathSelectorOwnerReferencesUid{}
+func (MetaPathSelectorOwnerReferences) Region() MetaPathSelectorOwnerReferencesRegion {
+	return MetaPathSelectorOwnerReferencesRegion{}
 }
 
 func (MetaPathSelectorOwnerReferences) Controller() MetaPathSelectorOwnerReferencesController {
@@ -266,21 +286,8 @@ func (MetaPathSelectorOwnerReferences) BlockOwnerDeletion() MetaPathSelectorOwne
 	return MetaPathSelectorOwnerReferencesBlockOwnerDeletion{}
 }
 
-type MetaPathSelectorOwnerReferencesApiVersion struct{}
-
-func (MetaPathSelectorOwnerReferencesApiVersion) FieldPath() *Meta_FieldSubPath {
-	return &Meta_FieldSubPath{
-		selector: Meta_FieldPathSelectorOwnerReferences,
-		subPath:  NewOwnerReferenceFieldPathBuilder().ApiVersion().FieldPath(),
-	}
-}
-
-func (s MetaPathSelectorOwnerReferencesApiVersion) WithValue(value string) *Meta_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
-}
-
-func (s MetaPathSelectorOwnerReferencesApiVersion) WithArrayOfValues(values []string) *Meta_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
+func (MetaPathSelectorOwnerReferences) RequiresOwnerReference() MetaPathSelectorOwnerReferencesRequiresOwnerReference {
+	return MetaPathSelectorOwnerReferencesRequiresOwnerReference{}
 }
 
 type MetaPathSelectorOwnerReferencesKind struct{}
@@ -297,6 +304,23 @@ func (s MetaPathSelectorOwnerReferencesKind) WithValue(value string) *Meta_Field
 }
 
 func (s MetaPathSelectorOwnerReferencesKind) WithArrayOfValues(values []string) *Meta_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
+}
+
+type MetaPathSelectorOwnerReferencesVersion struct{}
+
+func (MetaPathSelectorOwnerReferencesVersion) FieldPath() *Meta_FieldSubPath {
+	return &Meta_FieldSubPath{
+		selector: Meta_FieldPathSelectorOwnerReferences,
+		subPath:  NewOwnerReferenceFieldPathBuilder().Version().FieldPath(),
+	}
+}
+
+func (s MetaPathSelectorOwnerReferencesVersion) WithValue(value string) *Meta_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
+}
+
+func (s MetaPathSelectorOwnerReferencesVersion) WithArrayOfValues(values []string) *Meta_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
 }
 
@@ -317,20 +341,20 @@ func (s MetaPathSelectorOwnerReferencesName) WithArrayOfValues(values []string) 
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
 }
 
-type MetaPathSelectorOwnerReferencesUid struct{}
+type MetaPathSelectorOwnerReferencesRegion struct{}
 
-func (MetaPathSelectorOwnerReferencesUid) FieldPath() *Meta_FieldSubPath {
+func (MetaPathSelectorOwnerReferencesRegion) FieldPath() *Meta_FieldSubPath {
 	return &Meta_FieldSubPath{
 		selector: Meta_FieldPathSelectorOwnerReferences,
-		subPath:  NewOwnerReferenceFieldPathBuilder().Uid().FieldPath(),
+		subPath:  NewOwnerReferenceFieldPathBuilder().Region().FieldPath(),
 	}
 }
 
-func (s MetaPathSelectorOwnerReferencesUid) WithValue(value string) *Meta_FieldSubPathValue {
+func (s MetaPathSelectorOwnerReferencesRegion) WithValue(value string) *Meta_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
 }
 
-func (s MetaPathSelectorOwnerReferencesUid) WithArrayOfValues(values []string) *Meta_FieldSubPathArrayOfValues {
+func (s MetaPathSelectorOwnerReferencesRegion) WithArrayOfValues(values []string) *Meta_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
 }
 
@@ -365,6 +389,23 @@ func (s MetaPathSelectorOwnerReferencesBlockOwnerDeletion) WithValue(value bool)
 }
 
 func (s MetaPathSelectorOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *Meta_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
+}
+
+type MetaPathSelectorOwnerReferencesRequiresOwnerReference struct{}
+
+func (MetaPathSelectorOwnerReferencesRequiresOwnerReference) FieldPath() *Meta_FieldSubPath {
+	return &Meta_FieldSubPath{
+		selector: Meta_FieldPathSelectorOwnerReferences,
+		subPath:  NewOwnerReferenceFieldPathBuilder().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s MetaPathSelectorOwnerReferencesRequiresOwnerReference) WithValue(value bool) *Meta_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
+}
+
+func (s MetaPathSelectorOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Meta_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
 }
 
@@ -476,6 +517,78 @@ func (s MetaPathSelectorSyncingRegions) WithArrayOfValues(values [][]string) *Me
 
 func (s MetaPathSelectorSyncingRegions) WithItemValue(value string) *Meta_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Meta_FieldSubPathArrayItemValue)
+}
+
+type MetaPathSelectorLifecycle struct{}
+
+func (MetaPathSelectorLifecycle) FieldPath() *Meta_FieldTerminalPath {
+	return &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorLifecycle}
+}
+
+func (s MetaPathSelectorLifecycle) WithValue(value *Lifecycle) *Meta_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldTerminalPathValue)
+}
+
+func (s MetaPathSelectorLifecycle) WithArrayOfValues(values []*Lifecycle) *Meta_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldTerminalPathArrayOfValues)
+}
+
+func (MetaPathSelectorLifecycle) WithSubPath(subPath Lifecycle_FieldPath) *Meta_FieldSubPath {
+	return &Meta_FieldSubPath{selector: Meta_FieldPathSelectorLifecycle, subPath: subPath}
+}
+
+func (s MetaPathSelectorLifecycle) WithSubValue(subPathValue Lifecycle_FieldPathValue) *Meta_FieldSubPathValue {
+	return &Meta_FieldSubPathValue{Meta_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetaPathSelectorLifecycle) WithSubArrayOfValues(subPathArrayOfValues Lifecycle_FieldPathArrayOfValues) *Meta_FieldSubPathArrayOfValues {
+	return &Meta_FieldSubPathArrayOfValues{Meta_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetaPathSelectorLifecycle) WithSubArrayItemValue(subPathArrayItemValue Lifecycle_FieldPathArrayItemValue) *Meta_FieldSubPathArrayItemValue {
+	return &Meta_FieldSubPathArrayItemValue{Meta_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetaPathSelectorLifecycle) State() MetaPathSelectorLifecycleState {
+	return MetaPathSelectorLifecycleState{}
+}
+
+func (MetaPathSelectorLifecycle) BlockDeletion() MetaPathSelectorLifecycleBlockDeletion {
+	return MetaPathSelectorLifecycleBlockDeletion{}
+}
+
+type MetaPathSelectorLifecycleState struct{}
+
+func (MetaPathSelectorLifecycleState) FieldPath() *Meta_FieldSubPath {
+	return &Meta_FieldSubPath{
+		selector: Meta_FieldPathSelectorLifecycle,
+		subPath:  NewLifecycleFieldPathBuilder().State().FieldPath(),
+	}
+}
+
+func (s MetaPathSelectorLifecycleState) WithValue(value Lifecycle_State) *Meta_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
+}
+
+func (s MetaPathSelectorLifecycleState) WithArrayOfValues(values []Lifecycle_State) *Meta_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
+}
+
+type MetaPathSelectorLifecycleBlockDeletion struct{}
+
+func (MetaPathSelectorLifecycleBlockDeletion) FieldPath() *Meta_FieldSubPath {
+	return &Meta_FieldSubPath{
+		selector: Meta_FieldPathSelectorLifecycle,
+		subPath:  NewLifecycleFieldPathBuilder().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s MetaPathSelectorLifecycleBlockDeletion) WithValue(value bool) *Meta_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Meta_FieldSubPathValue)
+}
+
+func (s MetaPathSelectorLifecycleBlockDeletion) WithArrayOfValues(values []bool) *Meta_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Meta_FieldSubPathArrayOfValues)
 }
 
 type LabelSelectorFieldPathBuilder struct{}
@@ -690,17 +803,17 @@ type OwnerReferenceFieldPathBuilder struct{}
 func NewOwnerReferenceFieldPathBuilder() OwnerReferenceFieldPathBuilder {
 	return OwnerReferenceFieldPathBuilder{}
 }
-func (OwnerReferenceFieldPathBuilder) ApiVersion() OwnerReferencePathSelectorApiVersion {
-	return OwnerReferencePathSelectorApiVersion{}
-}
 func (OwnerReferenceFieldPathBuilder) Kind() OwnerReferencePathSelectorKind {
 	return OwnerReferencePathSelectorKind{}
+}
+func (OwnerReferenceFieldPathBuilder) Version() OwnerReferencePathSelectorVersion {
+	return OwnerReferencePathSelectorVersion{}
 }
 func (OwnerReferenceFieldPathBuilder) Name() OwnerReferencePathSelectorName {
 	return OwnerReferencePathSelectorName{}
 }
-func (OwnerReferenceFieldPathBuilder) Uid() OwnerReferencePathSelectorUid {
-	return OwnerReferencePathSelectorUid{}
+func (OwnerReferenceFieldPathBuilder) Region() OwnerReferencePathSelectorRegion {
+	return OwnerReferencePathSelectorRegion{}
 }
 func (OwnerReferenceFieldPathBuilder) Controller() OwnerReferencePathSelectorController {
 	return OwnerReferencePathSelectorController{}
@@ -708,19 +821,8 @@ func (OwnerReferenceFieldPathBuilder) Controller() OwnerReferencePathSelectorCon
 func (OwnerReferenceFieldPathBuilder) BlockOwnerDeletion() OwnerReferencePathSelectorBlockOwnerDeletion {
 	return OwnerReferencePathSelectorBlockOwnerDeletion{}
 }
-
-type OwnerReferencePathSelectorApiVersion struct{}
-
-func (OwnerReferencePathSelectorApiVersion) FieldPath() *OwnerReference_FieldTerminalPath {
-	return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorApiVersion}
-}
-
-func (s OwnerReferencePathSelectorApiVersion) WithValue(value string) *OwnerReference_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*OwnerReference_FieldTerminalPathValue)
-}
-
-func (s OwnerReferencePathSelectorApiVersion) WithArrayOfValues(values []string) *OwnerReference_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
+func (OwnerReferenceFieldPathBuilder) RequiresOwnerReference() OwnerReferencePathSelectorRequiresOwnerReference {
+	return OwnerReferencePathSelectorRequiresOwnerReference{}
 }
 
 type OwnerReferencePathSelectorKind struct{}
@@ -734,6 +836,20 @@ func (s OwnerReferencePathSelectorKind) WithValue(value string) *OwnerReference_
 }
 
 func (s OwnerReferencePathSelectorKind) WithArrayOfValues(values []string) *OwnerReference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
+}
+
+type OwnerReferencePathSelectorVersion struct{}
+
+func (OwnerReferencePathSelectorVersion) FieldPath() *OwnerReference_FieldTerminalPath {
+	return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorVersion}
+}
+
+func (s OwnerReferencePathSelectorVersion) WithValue(value string) *OwnerReference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OwnerReference_FieldTerminalPathValue)
+}
+
+func (s OwnerReferencePathSelectorVersion) WithArrayOfValues(values []string) *OwnerReference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
 }
 
@@ -751,17 +867,17 @@ func (s OwnerReferencePathSelectorName) WithArrayOfValues(values []string) *Owne
 	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
 }
 
-type OwnerReferencePathSelectorUid struct{}
+type OwnerReferencePathSelectorRegion struct{}
 
-func (OwnerReferencePathSelectorUid) FieldPath() *OwnerReference_FieldTerminalPath {
-	return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorUid}
+func (OwnerReferencePathSelectorRegion) FieldPath() *OwnerReference_FieldTerminalPath {
+	return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRegion}
 }
 
-func (s OwnerReferencePathSelectorUid) WithValue(value string) *OwnerReference_FieldTerminalPathValue {
+func (s OwnerReferencePathSelectorRegion) WithValue(value string) *OwnerReference_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*OwnerReference_FieldTerminalPathValue)
 }
 
-func (s OwnerReferencePathSelectorUid) WithArrayOfValues(values []string) *OwnerReference_FieldTerminalPathArrayOfValues {
+func (s OwnerReferencePathSelectorRegion) WithArrayOfValues(values []string) *OwnerReference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
 }
 
@@ -790,6 +906,20 @@ func (s OwnerReferencePathSelectorBlockOwnerDeletion) WithValue(value bool) *Own
 }
 
 func (s OwnerReferencePathSelectorBlockOwnerDeletion) WithArrayOfValues(values []bool) *OwnerReference_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
+}
+
+type OwnerReferencePathSelectorRequiresOwnerReference struct{}
+
+func (OwnerReferencePathSelectorRequiresOwnerReference) FieldPath() *OwnerReference_FieldTerminalPath {
+	return &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRequiresOwnerReference}
+}
+
+func (s OwnerReferencePathSelectorRequiresOwnerReference) WithValue(value bool) *OwnerReference_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OwnerReference_FieldTerminalPathValue)
+}
+
+func (s OwnerReferencePathSelectorRequiresOwnerReference) WithArrayOfValues(values []bool) *OwnerReference_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OwnerReference_FieldTerminalPathArrayOfValues)
 }
 
@@ -835,4 +965,44 @@ func (s SyncingMetaPathSelectorRegions) WithArrayOfValues(values [][]string) *Sy
 
 func (s SyncingMetaPathSelectorRegions) WithItemValue(value string) *SyncingMeta_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*SyncingMeta_FieldTerminalPathArrayItemValue)
+}
+
+type LifecycleFieldPathBuilder struct{}
+
+func NewLifecycleFieldPathBuilder() LifecycleFieldPathBuilder {
+	return LifecycleFieldPathBuilder{}
+}
+func (LifecycleFieldPathBuilder) State() LifecyclePathSelectorState {
+	return LifecyclePathSelectorState{}
+}
+func (LifecycleFieldPathBuilder) BlockDeletion() LifecyclePathSelectorBlockDeletion {
+	return LifecyclePathSelectorBlockDeletion{}
+}
+
+type LifecyclePathSelectorState struct{}
+
+func (LifecyclePathSelectorState) FieldPath() *Lifecycle_FieldTerminalPath {
+	return &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorState}
+}
+
+func (s LifecyclePathSelectorState) WithValue(value Lifecycle_State) *Lifecycle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Lifecycle_FieldTerminalPathValue)
+}
+
+func (s LifecyclePathSelectorState) WithArrayOfValues(values []Lifecycle_State) *Lifecycle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Lifecycle_FieldTerminalPathArrayOfValues)
+}
+
+type LifecyclePathSelectorBlockDeletion struct{}
+
+func (LifecyclePathSelectorBlockDeletion) FieldPath() *Lifecycle_FieldTerminalPath {
+	return &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorBlockDeletion}
+}
+
+func (s LifecyclePathSelectorBlockDeletion) WithValue(value bool) *Lifecycle_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Lifecycle_FieldTerminalPathValue)
+}
+
+func (s LifecyclePathSelectorBlockDeletion) WithArrayOfValues(values []bool) *Lifecycle_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Lifecycle_FieldTerminalPathArrayOfValues)
 }

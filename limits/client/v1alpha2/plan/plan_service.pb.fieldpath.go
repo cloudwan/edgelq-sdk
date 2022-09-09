@@ -234,6 +234,10 @@ func (fp *GetPlanRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetPlanRequest_FieldPathSelectorView
 }
 
+func (fp *GetPlanRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetPlanRequest_FieldTerminalPath) WithIValue(value interface{}) GetPlanRequest_FieldPathValue {
 	switch fp.selector {
 	case GetPlanRequest_FieldPathSelectorName:
@@ -451,7 +455,11 @@ func (fpaiv *GetPlanRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *GetPlanRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetPlanRequest) bool {
 	slice := fpaiv.GetPlanRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -696,6 +704,10 @@ func (fp *BatchGetPlansRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetPlansRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetPlansRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPlansRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPlansRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPlansRequest_FieldPathSelectorNames:
@@ -902,7 +914,11 @@ func (fpaiv *BatchGetPlansRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *BatchGetPlansRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPlansRequest) bool {
 	slice := fpaiv.BatchGetPlansRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1141,6 +1157,10 @@ func (fp *BatchGetPlansResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetPlansResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetPlansResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPlansResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetPlansResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPlansResponse_FieldPathSelectorPlans:
@@ -1271,6 +1291,12 @@ func (fps *BatchGetPlansResponse_FieldSubPath) ClearValueRaw(item proto.Message)
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetPlansResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetPlansResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetPlansResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetPlansResponse_FieldSubPath) WithIValue(value interface{}) BatchGetPlansResponse_FieldPathValue {
@@ -1488,7 +1514,11 @@ func (fpaiv *BatchGetPlansResponse_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *BatchGetPlansResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPlansResponse) bool {
 	slice := fpaiv.BatchGetPlansResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1812,6 +1842,10 @@ func (fp *ListPlansRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPlansRequest_FieldPathSelectorView
 }
 
+func (fp *ListPlansRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPlansRequest_FieldTerminalPath) WithIValue(value interface{}) ListPlansRequest_FieldPathValue {
 	switch fp.selector {
 	case ListPlansRequest_FieldPathSelectorPageSize:
@@ -2056,7 +2090,11 @@ func (fpaiv *ListPlansRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *ListPlansRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPlansRequest) bool {
 	slice := fpaiv.ListPlansRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2336,6 +2374,10 @@ func (fp *ListPlansResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPlansResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListPlansResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPlansResponse_FieldTerminalPath) WithIValue(value interface{}) ListPlansResponse_FieldPathValue {
 	switch fp.selector {
 	case ListPlansResponse_FieldPathSelectorPlans:
@@ -2468,6 +2510,12 @@ func (fps *ListPlansResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ListPlansResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListPlansResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListPlansResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListPlansResponse_FieldSubPath) WithIValue(value interface{}) ListPlansResponse_FieldPathValue {
@@ -2689,7 +2737,11 @@ func (fpaiv *ListPlansResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *ListPlansResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPlansResponse) bool {
 	slice := fpaiv.ListPlansResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2973,6 +3025,10 @@ func (fp *WatchPlanRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlanRequest_FieldPathSelectorView
 }
 
+func (fp *WatchPlanRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPlanRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPlanRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPlanRequest_FieldPathSelectorName:
@@ -3190,7 +3246,11 @@ func (fpaiv *WatchPlanRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sour
 func (fpaiv *WatchPlanRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPlanRequest) bool {
 	slice := fpaiv.WatchPlanRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3404,6 +3464,10 @@ func (fp *WatchPlanResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchPlanResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchPlanResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPlanResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPlanResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPlanResponse_FieldPathSelectorChange:
@@ -3572,7 +3636,11 @@ func (fpaiv *WatchPlanResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *WatchPlanResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPlanResponse) bool {
 	slice := fpaiv.WatchPlanResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3891,6 +3959,10 @@ func (fp *WatchPlansRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlansRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchPlansRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPlansRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPlansRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPlansRequest_FieldPathSelectorType:
@@ -4195,7 +4267,11 @@ func (fpaiv *WatchPlansRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *WatchPlansRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPlansRequest) bool {
 	slice := fpaiv.WatchPlansRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4552,6 +4628,10 @@ func (fp *WatchPlansResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlansResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchPlansResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPlansResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPlansResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPlansResponse_FieldPathSelectorPlanChanges:
@@ -4696,6 +4776,12 @@ func (fps *WatchPlansResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchPlansResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchPlansResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchPlansResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchPlansResponse_FieldSubPath) WithIValue(value interface{}) WatchPlansResponse_FieldPathValue {
@@ -4989,7 +5075,11 @@ func (fpaiv *WatchPlansResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *WatchPlansResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPlansResponse) bool {
 	slice := fpaiv.WatchPlansResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5291,6 +5381,10 @@ func (fp *WatchPlansResponsePageTokenChange_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlansResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchPlansResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPlansResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchPlansResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchPlansResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5471,7 +5565,11 @@ func (fpaiv *WatchPlansResponsePageTokenChange_FieldTerminalPathArrayItemValue) 
 func (fpaiv *WatchPlansResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPlansResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchPlansResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5686,6 +5784,10 @@ func (fp *CreatePlanRequest_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *CreatePlanRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePlanRequest_FieldTerminalPath) WithIValue(value interface{}) CreatePlanRequest_FieldPathValue {
 	switch fp.selector {
 	case CreatePlanRequest_FieldPathSelectorPlan:
@@ -5804,6 +5906,12 @@ func (fps *CreatePlanRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *CreatePlanRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreatePlanRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreatePlanRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreatePlanRequest_FieldSubPath) WithIValue(value interface{}) CreatePlanRequest_FieldPathValue {
@@ -6005,7 +6113,11 @@ func (fpaiv *CreatePlanRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *CreatePlanRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePlanRequest) bool {
 	slice := fpaiv.CreatePlanRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6289,6 +6401,10 @@ func (fp *UpdatePlanRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePlanRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdatePlanRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePlanRequest_FieldTerminalPath) WithIValue(value interface{}) UpdatePlanRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdatePlanRequest_FieldPathSelectorPlan:
@@ -6428,6 +6544,12 @@ func (fps *UpdatePlanRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePlanRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePlanRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePlanRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePlanRequest_FieldSubPath) WithIValue(value interface{}) UpdatePlanRequest_FieldPathValue {
@@ -6653,7 +6775,11 @@ func (fpaiv *UpdatePlanRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *UpdatePlanRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePlanRequest) bool {
 	slice := fpaiv.UpdatePlanRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6941,6 +7067,10 @@ func (fp *UpdatePlanRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePlanRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdatePlanRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePlanRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdatePlanRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdatePlanRequestCAS_FieldPathSelectorConditionalState:
@@ -7063,6 +7193,12 @@ func (fps *UpdatePlanRequestCAS_FieldSubPath) ClearValueRaw(item proto.Message) 
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePlanRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePlanRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePlanRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePlanRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdatePlanRequestCAS_FieldPathValue {
@@ -7272,7 +7408,11 @@ func (fpaiv *UpdatePlanRequestCAS_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *UpdatePlanRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePlanRequest_CAS) bool {
 	slice := fpaiv.UpdatePlanRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7517,6 +7657,10 @@ func (fp *DeletePlanRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeletePlanRequest_FieldPathSelectorName
 }
 
+func (fp *DeletePlanRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeletePlanRequest_FieldTerminalPath) WithIValue(value interface{}) DeletePlanRequest_FieldPathValue {
 	switch fp.selector {
 	case DeletePlanRequest_FieldPathSelectorName:
@@ -7702,7 +7846,11 @@ func (fpaiv *DeletePlanRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *DeletePlanRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeletePlanRequest) bool {
 	slice := fpaiv.DeletePlanRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

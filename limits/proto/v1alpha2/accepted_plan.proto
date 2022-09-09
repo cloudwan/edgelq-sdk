@@ -61,6 +61,8 @@ message AcceptedPlan {
   ntt.types.Meta metadata = 7;
 
   // Assignee indicates for whom plan was accepted for.
+  // In case of child project/org deletion, accepted plan will be deleted too,
+  // which will result in return of all limits.
   message Assignee {
     oneof assignee {
       // Project for whom plan is for.

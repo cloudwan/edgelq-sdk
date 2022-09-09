@@ -16,6 +16,7 @@ import (
 	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
@@ -40,6 +41,7 @@ var (
 	_ = ref.Type(nil)
 	_ = traits.Receiver(nil)
 	_ = firestorepb.Value{}
+	_ = proto.Message(nil)
 
 	_ = gotenobject.FieldPath(nil)
 	_ = gotenresource.WildcardId
@@ -496,6 +498,19 @@ func (cond *FilterConditionCompare) Evaluate(res *Project) bool {
 				return match
 			case filterParser.Neq:
 				return !match
+			default:
+				return false
+			}
+		}
+	}
+	// special evaluation for objects
+	if objValue, ok := cond.Project_FieldPathValue.GetRawValue().(proto.Message); ok {
+		if otherObj, ok := cond.Project_FieldPathValue.GetSingleRaw(res); ok {
+			switch cond.Operator {
+			case filterParser.Eq:
+				return proto.Equal(objValue, otherObj.(proto.Message))
+			case filterParser.Neq:
+				return !proto.Equal(objValue, otherObj.(proto.Message))
 			default:
 				return false
 			}
@@ -1075,8 +1090,8 @@ func makeFilterConditionFromOperand(condition *filterParser.ConditionOperand) (F
 
 	if rhs.Compare != nil {
 		cmp := rhs.Compare
-		if !path.IsLeaf() {
-			return nil, status.Errorf(codes.InvalidArgument, "path '%s' is not comparable leaf value", path)
+		if !path.IsLeaf() && !(cmp.Operator == filterParser.Eq || cmp.Operator == filterParser.Neq) {
+			return nil, status.Errorf(codes.InvalidArgument, "path '%s' is not comparable leaf value for operator %s", path, cmp.Operator)
 		}
 
 		// translate null comparison to IS(NOT)NULL

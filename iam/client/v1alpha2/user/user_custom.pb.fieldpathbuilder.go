@@ -310,6 +310,10 @@ func (BatchGetUsersByEmailResponsePathSelectorUsersMetadata) UpdateTime() BatchG
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataUpdateTime{}
 }
 
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadata) DeleteTime() BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime{}
+}
+
 func (BatchGetUsersByEmailResponsePathSelectorUsersMetadata) Uuid() BatchGetUsersByEmailResponsePathSelectorUsersMetadataUuid {
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataUuid{}
 }
@@ -346,6 +350,10 @@ func (BatchGetUsersByEmailResponsePathSelectorUsersMetadata) Syncing() BatchGetU
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncing{}
 }
 
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadata) Lifecycle() BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle{}
+}
+
 type BatchGetUsersByEmailResponsePathSelectorUsersMetadataCreateTime struct{}
 
 func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataCreateTime) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
@@ -377,6 +385,23 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataUpdateTime) WithVal
 }
 
 func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
@@ -553,20 +578,20 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Wi
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) ApiVersion() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion {
-	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Kind() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesKind {
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Version() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Name() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesName {
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesName{}
 }
 
-func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Uid() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid {
-	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid{}
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Region() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Controller() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesController {
@@ -577,21 +602,8 @@ func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) Bloc
 	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
-	return &BatchGetUsersByEmailResponse_FieldSubPath{
-		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
-		subPath:  user.NewUserFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetUsersByEmailResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
-}
-
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferences) RequiresOwnerReference() BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesKind struct{}
@@ -608,6 +620,23 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesKind
 }
 
 func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
@@ -628,20 +657,20 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesName
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid struct{}
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
 	return &BatchGetUsersByEmailResponse_FieldSubPath{
 		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
-		subPath:  user.NewUserFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  user.NewUserFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid) WithValue(value string) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetUsersByEmailResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
 }
 
-func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
@@ -676,6 +705,23 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesBloc
 }
 
 func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
@@ -780,6 +826,65 @@ func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncingRegions) Wit
 
 func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataSyncingRegions) WithItemValue(value string) *BatchGetUsersByEmailResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle) State() BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState{}
+}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycle) BlockDeletion() BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion {
+	return BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion) FieldPath() *BatchGetUsersByEmailResponse_FieldSubPath {
+	return &BatchGetUsersByEmailResponse_FieldSubPath{
+		selector: BatchGetUsersByEmailResponse_FieldPathSelectorUsers,
+		subPath:  user.NewUserFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetUsersByEmailResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetUsersByEmailResponse_FieldSubPathValue)
+}
+
+func (s BatchGetUsersByEmailResponsePathSelectorUsersMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetUsersByEmailResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetUsersByEmailResponsePathSelectorUsersEmail struct{}

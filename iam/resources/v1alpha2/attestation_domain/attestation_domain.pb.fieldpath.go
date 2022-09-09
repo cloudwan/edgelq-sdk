@@ -296,6 +296,10 @@ func (fp *AttestationDomain_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AttestationDomain_FieldPathSelectorInsecureSkipManufacturerEkcertVerification
 }
 
+func (fp *AttestationDomain_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AttestationDomain_FieldTerminalPath) WithIValue(value interface{}) AttestationDomain_FieldPathValue {
 	switch fp.selector {
 	case AttestationDomain_FieldPathSelectorMetadata:
@@ -472,6 +476,12 @@ func (fps *AttestationDomain_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *AttestationDomain_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AttestationDomain_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AttestationDomain_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AttestationDomain_FieldSubPath) WithIValue(value interface{}) AttestationDomain_FieldPathValue {
@@ -770,7 +780,11 @@ func (fpaiv *AttestationDomain_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *AttestationDomain_FieldTerminalPathArrayItemValue) ContainsValue(source *AttestationDomain) bool {
 	slice := fpaiv.AttestationDomain_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1117,6 +1131,10 @@ func (fp *AttestationDomainPolicy_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AttestationDomainPolicy_FieldPathSelectorVerifyEventLog
 }
 
+func (fp *AttestationDomainPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AttestationDomainPolicy_FieldTerminalPath) WithIValue(value interface{}) AttestationDomainPolicy_FieldPathValue {
 	switch fp.selector {
 	case AttestationDomainPolicy_FieldPathSelectorManufacturerRootCaCertsPem:
@@ -1253,6 +1271,12 @@ func (fps *AttestationDomainPolicy_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *AttestationDomainPolicy_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AttestationDomainPolicy_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AttestationDomainPolicy_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AttestationDomainPolicy_FieldSubPath) WithIValue(value interface{}) AttestationDomainPolicy_FieldPathValue {
@@ -1506,7 +1530,11 @@ func (fpaiv *AttestationDomainPolicy_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *AttestationDomainPolicy_FieldTerminalPathArrayItemValue) ContainsValue(source *AttestationDomain_Policy) bool {
 	slice := fpaiv.AttestationDomainPolicy_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1778,6 +1806,10 @@ func (fp *AttestationDomainEnrolledKey_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AttestationDomainEnrolledKey_FieldPathSelectorComment
 }
 
+func (fp *AttestationDomainEnrolledKey_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AttestationDomainEnrolledKey_FieldTerminalPath) WithIValue(value interface{}) AttestationDomainEnrolledKey_FieldPathValue {
 	switch fp.selector {
 	case AttestationDomainEnrolledKey_FieldPathSelectorPubkeyPem:
@@ -1974,7 +2006,11 @@ func (fpaiv *AttestationDomainEnrolledKey_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *AttestationDomainEnrolledKey_FieldTerminalPathArrayItemValue) ContainsValue(source *AttestationDomain_EnrolledKey) bool {
 	slice := fpaiv.AttestationDomainEnrolledKey_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

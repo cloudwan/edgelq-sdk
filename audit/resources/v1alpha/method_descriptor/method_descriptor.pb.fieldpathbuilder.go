@@ -307,6 +307,10 @@ func (MethodDescriptorPathSelectorMetadata) UpdateTime() MethodDescriptorPathSel
 	return MethodDescriptorPathSelectorMetadataUpdateTime{}
 }
 
+func (MethodDescriptorPathSelectorMetadata) DeleteTime() MethodDescriptorPathSelectorMetadataDeleteTime {
+	return MethodDescriptorPathSelectorMetadataDeleteTime{}
+}
+
 func (MethodDescriptorPathSelectorMetadata) Uuid() MethodDescriptorPathSelectorMetadataUuid {
 	return MethodDescriptorPathSelectorMetadataUuid{}
 }
@@ -343,6 +347,10 @@ func (MethodDescriptorPathSelectorMetadata) Syncing() MethodDescriptorPathSelect
 	return MethodDescriptorPathSelectorMetadataSyncing{}
 }
 
+func (MethodDescriptorPathSelectorMetadata) Lifecycle() MethodDescriptorPathSelectorMetadataLifecycle {
+	return MethodDescriptorPathSelectorMetadataLifecycle{}
+}
+
 type MethodDescriptorPathSelectorMetadataCreateTime struct{}
 
 func (MethodDescriptorPathSelectorMetadataCreateTime) FieldPath() *MethodDescriptor_FieldSubPath {
@@ -374,6 +382,23 @@ func (s MethodDescriptorPathSelectorMetadataUpdateTime) WithValue(value *timesta
 }
 
 func (s MethodDescriptorPathSelectorMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MethodDescriptorPathSelectorMetadataDeleteTime struct{}
+
+func (MethodDescriptorPathSelectorMetadataDeleteTime) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().DeleteTime().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -550,20 +575,20 @@ func (s MethodDescriptorPathSelectorMetadataOwnerReferences) WithItemValue(value
 	return s.FieldPath().WithIArrayItemValue(value).(*MethodDescriptor_FieldSubPathArrayItemValue)
 }
 
-func (MethodDescriptorPathSelectorMetadataOwnerReferences) ApiVersion() MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion {
-	return MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion{}
-}
-
 func (MethodDescriptorPathSelectorMetadataOwnerReferences) Kind() MethodDescriptorPathSelectorMetadataOwnerReferencesKind {
 	return MethodDescriptorPathSelectorMetadataOwnerReferencesKind{}
+}
+
+func (MethodDescriptorPathSelectorMetadataOwnerReferences) Version() MethodDescriptorPathSelectorMetadataOwnerReferencesVersion {
+	return MethodDescriptorPathSelectorMetadataOwnerReferencesVersion{}
 }
 
 func (MethodDescriptorPathSelectorMetadataOwnerReferences) Name() MethodDescriptorPathSelectorMetadataOwnerReferencesName {
 	return MethodDescriptorPathSelectorMetadataOwnerReferencesName{}
 }
 
-func (MethodDescriptorPathSelectorMetadataOwnerReferences) Uid() MethodDescriptorPathSelectorMetadataOwnerReferencesUid {
-	return MethodDescriptorPathSelectorMetadataOwnerReferencesUid{}
+func (MethodDescriptorPathSelectorMetadataOwnerReferences) Region() MethodDescriptorPathSelectorMetadataOwnerReferencesRegion {
+	return MethodDescriptorPathSelectorMetadataOwnerReferencesRegion{}
 }
 
 func (MethodDescriptorPathSelectorMetadataOwnerReferences) Controller() MethodDescriptorPathSelectorMetadataOwnerReferencesController {
@@ -574,21 +599,8 @@ func (MethodDescriptorPathSelectorMetadataOwnerReferences) BlockOwnerDeletion() 
 	return MethodDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion struct{}
-
-func (MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion) FieldPath() *MethodDescriptor_FieldSubPath {
-	return &MethodDescriptor_FieldSubPath{
-		selector: MethodDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion) WithValue(value string) *MethodDescriptor_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
-}
-
-func (s MethodDescriptorPathSelectorMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *MethodDescriptor_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+func (MethodDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReference() MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference {
+	return MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type MethodDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
@@ -605,6 +617,23 @@ func (s MethodDescriptorPathSelectorMetadataOwnerReferencesKind) WithValue(value
 }
 
 func (s MethodDescriptorPathSelectorMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MethodDescriptorPathSelectorMetadataOwnerReferencesVersion struct{}
+
+func (MethodDescriptorPathSelectorMetadataOwnerReferencesVersion) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesVersion) WithValue(value string) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -625,20 +654,20 @@ func (s MethodDescriptorPathSelectorMetadataOwnerReferencesName) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 
-type MethodDescriptorPathSelectorMetadataOwnerReferencesUid struct{}
+type MethodDescriptorPathSelectorMetadataOwnerReferencesRegion struct{}
 
-func (MethodDescriptorPathSelectorMetadataOwnerReferencesUid) FieldPath() *MethodDescriptor_FieldSubPath {
+func (MethodDescriptorPathSelectorMetadataOwnerReferencesRegion) FieldPath() *MethodDescriptor_FieldSubPath {
 	return &MethodDescriptor_FieldSubPath{
 		selector: MethodDescriptor_FieldPathSelectorMetadata,
-		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Uid().FieldPath(),
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s MethodDescriptorPathSelectorMetadataOwnerReferencesUid) WithValue(value string) *MethodDescriptor_FieldSubPathValue {
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRegion) WithValue(value string) *MethodDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
 }
 
-func (s MethodDescriptorPathSelectorMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *MethodDescriptor_FieldSubPathArrayOfValues {
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -673,6 +702,23 @@ func (s MethodDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) W
 }
 
 func (s MethodDescriptorPathSelectorMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -777,4 +823,63 @@ func (s MethodDescriptorPathSelectorMetadataSyncingRegions) WithArrayOfValues(va
 
 func (s MethodDescriptorPathSelectorMetadataSyncingRegions) WithItemValue(value string) *MethodDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MethodDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MethodDescriptorPathSelectorMetadataLifecycle struct{}
+
+func (MethodDescriptorPathSelectorMetadataLifecycle) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (MethodDescriptorPathSelectorMetadataLifecycle) State() MethodDescriptorPathSelectorMetadataLifecycleState {
+	return MethodDescriptorPathSelectorMetadataLifecycleState{}
+}
+
+func (MethodDescriptorPathSelectorMetadataLifecycle) BlockDeletion() MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion {
+	return MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion{}
+}
+
+type MethodDescriptorPathSelectorMetadataLifecycleState struct{}
+
+func (MethodDescriptorPathSelectorMetadataLifecycleState) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion struct{}
+
+func (MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  ntt_meta.NewMetaFieldPathBuilder().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithValue(value bool) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }

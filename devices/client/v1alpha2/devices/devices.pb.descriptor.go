@@ -85,6 +85,15 @@ func (d *DevicesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *DevicesDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{
+		{
+			Domain:  "iam.edgelq.com",
+			Version: "v1alpha2",
+		},
+	}
+}
+
 func GetDevicesDescriptor() *DevicesDescriptor {
 	return devicesDescriptor
 }

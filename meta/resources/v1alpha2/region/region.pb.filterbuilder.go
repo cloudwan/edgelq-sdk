@@ -1090,6 +1090,10 @@ func (b *filterCndBuilderMetadata) UpdateTime() *filterCndBuilderMetadataUpdateT
 	return &filterCndBuilderMetadataUpdateTime{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) DeleteTime() *filterCndBuilderMetadataDeleteTime {
+	return &filterCndBuilderMetadataDeleteTime{builder: b.builder}
+}
+
 func (b *filterCndBuilderMetadata) Uuid() *filterCndBuilderMetadataUuid {
 	return &filterCndBuilderMetadataUuid{builder: b.builder}
 }
@@ -1124,6 +1128,10 @@ func (b *filterCndBuilderMetadata) Shards() *filterCndBuilderMetadataShards {
 
 func (b *filterCndBuilderMetadata) Syncing() *filterCndBuilderMetadataSyncing {
 	return &filterCndBuilderMetadataSyncing{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycle {
+	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
 type filterCndBuilderMetadataCreateTime struct {
@@ -1241,6 +1249,65 @@ func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOpera
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataDeleteTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
 	})
 }
 
@@ -1853,20 +1920,20 @@ func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.Compare
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ApiVersion() *filterCndBuilderMetadataOwnerReferencesApiVersion {
-	return &filterCndBuilderMetadataOwnerReferencesApiVersion{builder: b.builder}
-}
-
 func (b *filterCndBuilderMetadataOwnerReferences) Kind() *filterCndBuilderMetadataOwnerReferencesKind {
 	return &filterCndBuilderMetadataOwnerReferencesKind{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataOwnerReferences) Version() *filterCndBuilderMetadataOwnerReferencesVersion {
+	return &filterCndBuilderMetadataOwnerReferencesVersion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) Name() *filterCndBuilderMetadataOwnerReferencesName {
 	return &filterCndBuilderMetadataOwnerReferencesName{builder: b.builder}
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Uid() *filterCndBuilderMetadataOwnerReferencesUid {
-	return &filterCndBuilderMetadataOwnerReferencesUid{builder: b.builder}
+func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMetadataOwnerReferencesRegion {
+	return &filterCndBuilderMetadataOwnerReferencesRegion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
@@ -1877,63 +1944,8 @@ func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCn
 	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
-type filterCndBuilderMetadataOwnerReferencesApiVersion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithValue(value),
-	})
+func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
+	return &filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
 type filterCndBuilderMetadataOwnerReferencesKind struct {
@@ -1992,6 +2004,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesKind) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Kind().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Version().WithValue(value),
 	})
 }
 
@@ -2054,62 +2125,62 @@ func (b *filterCndBuilderMetadataOwnerReferencesName) compare(op gotenfilter.Com
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesUid struct {
+type filterCndBuilderMetadataOwnerReferencesRegion struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) IsNull() *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) IsNan() *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Uid().WithValue(value),
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().Region().WithValue(value),
 	})
 }
 
@@ -2228,6 +2299,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op g
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
 	})
 }
 
@@ -2570,5 +2700,190 @@ func (b *filterCndBuilderMetadataSyncingRegions) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().Syncing().Regions().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataLifecycle struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) State() *filterCndBuilderMetadataLifecycleState {
+	return &filterCndBuilderMetadataLifecycleState{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataLifecycle) BlockDeletion() *filterCndBuilderMetadataLifecycleBlockDeletion {
+	return &filterCndBuilderMetadataLifecycleBlockDeletion{builder: b.builder}
+}
+
+type filterCndBuilderMetadataLifecycleState struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataLifecycleBlockDeletion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Region_FieldPathArrayOfValues: NewRegionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRegionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Region_FieldPathValue: NewRegionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
 	})
 }

@@ -310,6 +310,10 @@ func (fp *Device_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Device_FieldPathSelectorDisplayName
 }
 
+func (fp *Device_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Device_FieldTerminalPath) WithIValue(value interface{}) Device_FieldPathValue {
 	switch fp.selector {
 	case Device_FieldPathSelectorName:
@@ -487,6 +491,12 @@ func (fps *Device_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Device_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Device_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Device_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Device_FieldSubPath) WithIValue(value interface{}) Device_FieldPathValue {
@@ -777,7 +787,11 @@ func (fpaiv *Device_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.M
 func (fpaiv *Device_FieldTerminalPathArrayItemValue) ContainsValue(source *Device) bool {
 	slice := fpaiv.Device_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1173,6 +1187,10 @@ func (fp *DeviceSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpec_FieldPathSelectorOsImageUrl
 }
 
+func (fp *DeviceSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpec_FieldPathSelectorServiceAccount:
@@ -1324,6 +1342,12 @@ func (fps *DeviceSpec_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpec_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpec_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpec_FieldSubPath) WithIValue(value interface{}) DeviceSpec_FieldPathValue {
@@ -1614,7 +1638,11 @@ func (fpaiv *DeviceSpec_FieldTerminalPathArrayItemValue) GetSingleRaw(source pro
 func (fpaiv *DeviceSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec) bool {
 	slice := fpaiv.DeviceSpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1954,6 +1982,10 @@ func (fp *DeviceStatus_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *DeviceStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatus_FieldTerminalPath) WithIValue(value interface{}) DeviceStatus_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatus_FieldPathSelectorAddresses:
@@ -2118,6 +2150,12 @@ func (fps *DeviceStatus_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatus_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatus_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatus_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatus_FieldSubPath) WithIValue(value interface{}) DeviceStatus_FieldPathValue {
@@ -2359,7 +2397,11 @@ func (fpaiv *DeviceStatus_FieldTerminalPathArrayItemValue) GetSingleRaw(source p
 func (fpaiv *DeviceStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status) bool {
 	slice := fpaiv.DeviceStatus_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2646,6 +2688,10 @@ func (fp *DevicePublicListingSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DevicePublicListingSpec_FieldPathSelectorFieldMask
 }
 
+func (fp *DevicePublicListingSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DevicePublicListingSpec_FieldTerminalPath) WithIValue(value interface{}) DevicePublicListingSpec_FieldPathValue {
 	switch fp.selector {
 	case DevicePublicListingSpec_FieldPathSelectorEnabled:
@@ -2834,7 +2880,11 @@ func (fpaiv *DevicePublicListingSpec_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *DevicePublicListingSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_PublicListingSpec) bool {
 	slice := fpaiv.DevicePublicListingSpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3172,6 +3222,10 @@ func (fp *DeviceSpecNetworkConfig_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeviceSpecNetworkConfig_FieldPathSelectorVersion
 }
 
+func (fp *DeviceSpecNetworkConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfig_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfig_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfig_FieldPathSelectorVersion:
@@ -3415,6 +3469,12 @@ func (fps *DeviceSpecNetworkConfig_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfig_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfig_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfig_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfig_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfig_FieldPathValue {
@@ -3736,7 +3796,11 @@ func (fpaiv *DeviceSpecNetworkConfig_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *DeviceSpecNetworkConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig) bool {
 	slice := fpaiv.DeviceSpecNetworkConfig_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4172,6 +4236,10 @@ func (fp *DeviceSpecSSHConfig_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecSSHConfig_FieldPathSelectorDisableSshAuthkey
 }
 
+func (fp *DeviceSpecSSHConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecSSHConfig_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecSSHConfig_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecSSHConfig_FieldPathSelectorDisableSshServer:
@@ -4324,6 +4392,12 @@ func (fps *DeviceSpecSSHConfig_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecSSHConfig_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecSSHConfig_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecSSHConfig_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecSSHConfig_FieldSubPath) WithIValue(value interface{}) DeviceSpecSSHConfig_FieldPathValue {
@@ -4626,7 +4700,11 @@ func (fpaiv *DeviceSpecSSHConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *DeviceSpecSSHConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_SSHConfig) bool {
 	slice := fpaiv.DeviceSpecSSHConfig_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5248,6 +5326,10 @@ func (fp *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorOptionalAddresses
 }
 
+func (fp *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRenderer:
@@ -5523,6 +5605,12 @@ func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOpts_FieldPathValue {
@@ -6036,7 +6124,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPathArrayItemValue) 
 func (fpaiv *DeviceSpecNetworkConfigCommonOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6555,6 +6647,10 @@ func (fp *DeviceSpecNetworkConfigEthOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigEthOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigEthOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigEthOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigEthOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch:
@@ -6702,6 +6798,12 @@ func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigEthOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigEthOpts_FieldPathValue {
@@ -6967,7 +7069,11 @@ func (fpaiv *DeviceSpecNetworkConfigEthOpts_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *DeviceSpecNetworkConfigEthOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_EthOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigEthOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7340,6 +7446,10 @@ func (fp *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigWifiOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:
@@ -7510,6 +7620,12 @@ func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigWifiOpts_FieldPathValue {
@@ -7795,7 +7911,11 @@ func (fpaiv *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPathArrayItemValue) Ge
 func (fpaiv *DeviceSpecNetworkConfigWifiOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_WifiOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigWifiOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -8153,6 +8273,10 @@ func (fp *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBridgesOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:
@@ -8298,6 +8422,12 @@ func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBridgesOpts_FieldPathValue {
@@ -8543,7 +8673,11 @@ func (fpaiv *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPathArrayItemValue)
 func (fpaiv *DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_BridgesOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigBridgesOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -8875,6 +9009,10 @@ func (fp *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBondsOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:
@@ -9020,6 +9158,12 @@ func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) ClearValueRaw(item pro
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBondsOpts_FieldPathValue {
@@ -9265,7 +9409,11 @@ func (fpaiv *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPathArrayItemValue) G
 func (fpaiv *DeviceSpecNetworkConfigBondsOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_BondsOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigBondsOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -9614,6 +9762,10 @@ func (fp *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigTunnelsOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts:
@@ -9752,6 +9904,12 @@ func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigTunnelsOpts_FieldPathValue {
@@ -10033,7 +10191,11 @@ func (fpaiv *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPathArrayItemValue)
 func (fpaiv *DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_TunnelsOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigTunnelsOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -10360,6 +10522,10 @@ func (fp *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorName
 }
 
+func (fp *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigVlansOpts_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts:
@@ -10490,6 +10656,12 @@ func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) ClearValueRaw(item pro
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) WithIValue(value interface{}) DeviceSpecNetworkConfigVlansOpts_FieldPathValue {
@@ -10739,7 +10911,11 @@ func (fpaiv *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPathArrayItemValue) G
 func (fpaiv *DeviceSpecNetworkConfigVlansOpts_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_VlansOpts) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigVlansOpts_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -11095,6 +11271,10 @@ func (fp *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath) IsLe
 		fp.selector == DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorRouteMetric
 }
 
+func (fp *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldPathSelectorUseDns:
@@ -11411,7 +11591,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPathArr
 func (fpaiv *DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts_DHCPOverrides) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOptsDHCPOverrides_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -11682,6 +11866,10 @@ func (fp *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath) IsLeaf
 		fp.selector == DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorAddresses
 }
 
+func (fp *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigCommonOptsNameservers_FieldPathSelectorSearch:
@@ -11874,7 +12062,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPathArray
 func (fpaiv *DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts_Nameservers) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOptsNameservers_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -12173,6 +12365,10 @@ func (fp *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath) IsLeaf() bo
 		fp.selector == DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorType ||
 		fp.selector == DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorScope ||
 		fp.selector == DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathSelectorTable
+}
+
+func (fp *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOptsRoutes_FieldPathValue {
@@ -12491,7 +12687,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPathArrayItemV
 func (fpaiv *DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts_Routes) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOptsRoutes_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -12812,6 +13012,10 @@ func (fp *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath) IsLe
 		fp.selector == DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorTypeOfService
 }
 
+func (fp *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldPathSelectorFrom:
@@ -13088,7 +13292,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPathArr
 func (fpaiv *DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts_RoutingPolicy) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOptsRoutingPolicy_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -13435,6 +13643,10 @@ func (fp *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath) IsLeaf() bool
 		fp.selector == DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorClientKeyPassword
 }
 
+func (fp *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigCommonOptsAuth_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigCommonOptsAuth_FieldPathSelectorKey:
@@ -13771,7 +13983,11 @@ func (fpaiv *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPathArrayItemVal
 func (fpaiv *DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_CommonOpts_Auth) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigCommonOptsAuth_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -14058,6 +14274,10 @@ func (fp *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorDriver
 }
 
+func (fp *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigEthOptsMatch_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigEthOptsMatch_FieldPathSelectorName:
@@ -14274,7 +14494,11 @@ func (fpaiv *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPathArrayItemValue
 func (fpaiv *DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_EthOpts_Match) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigEthOptsMatch_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -14513,6 +14737,10 @@ func (fp *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath) IsLeaf() bool 
 		fp.selector == DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorDriver
 }
 
+func (fp *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigWifiOptsMatch_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigWifiOptsMatch_FieldPathSelectorName:
@@ -14729,7 +14957,11 @@ func (fpaiv *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPathArrayItemValu
 func (fpaiv *DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_WifiOpts_Match) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigWifiOptsMatch_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -14968,6 +15200,10 @@ func (fp *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath) IsLeaf()
 		fp.selector == DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorMode
 }
 
+func (fp *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldPathSelectorName:
@@ -15184,7 +15420,11 @@ func (fpaiv *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPathArrayIt
 func (fpaiv *DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_WifiOpts_AccessPoint) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigWifiOptsAccessPoint_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -15491,6 +15731,10 @@ func (fp *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath) IsLeaf
 		fp.selector == DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorMaxAge ||
 		fp.selector == DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorPathCost ||
 		fp.selector == DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathSelectorStp
+}
+
+func (fp *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBridgesOptsParameters_FieldPathValue {
@@ -15809,7 +16053,11 @@ func (fpaiv *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPathArray
 func (fpaiv *DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_BridgesOpts_Parameters) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigBridgesOptsParameters_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -16296,6 +16544,10 @@ func (fp *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath) IsLeaf()
 		fp.selector == DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorResendIgmp ||
 		fp.selector == DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorLearnPacketInterval ||
 		fp.selector == DeviceSpecNetworkConfigBondsOptsParameters_FieldPathSelectorPrimary
+}
+
+func (fp *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigBondsOptsParameters_FieldPathValue {
@@ -16814,7 +17066,11 @@ func (fpaiv *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPathArrayIt
 func (fpaiv *DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_BondsOpts_Parameters) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigBondsOptsParameters_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -17159,6 +17415,10 @@ func (fp *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath) IsLeaf() bool
 		fp.selector == DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorOutput
 }
 
+func (fp *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathValue {
 	switch fp.selector {
 	case DeviceSpecNetworkConfigTunnelsOptsKey_FieldPathSelectorInput:
@@ -17355,7 +17615,11 @@ func (fpaiv *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPathArrayItemVal
 func (fpaiv *DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_NetworkConfig_TunnelsOpts_Key) bool {
 	slice := fpaiv.DeviceSpecNetworkConfigTunnelsOptsKey_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -17738,6 +18002,10 @@ func (fp *DeviceSpecSSHConfigAuthKey_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpecSSHConfigAuthKey_FieldPathSelectorPrincipals ||
 		fp.selector == DeviceSpecSSHConfigAuthKey_FieldPathSelectorTunnel ||
 		fp.selector == DeviceSpecSSHConfigAuthKey_FieldPathSelectorRestrict
+}
+
+func (fp *DeviceSpecSSHConfigAuthKey_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *DeviceSpecSSHConfigAuthKey_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecSSHConfigAuthKey_FieldPathValue {
@@ -18176,7 +18444,11 @@ func (fpaiv *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_SSHConfig_AuthKey) bool {
 	slice := fpaiv.DeviceSpecSSHConfigAuthKey_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -18489,6 +18761,10 @@ func (fp *DeviceStatusAddress_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceStatusAddress_FieldPathSelectorType
 }
 
+func (fp *DeviceStatusAddress_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusAddress_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusAddress_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusAddress_FieldPathSelectorAddress:
@@ -18685,7 +18961,11 @@ func (fpaiv *DeviceStatusAddress_FieldTerminalPathArrayItemValue) GetSingleRaw(s
 func (fpaiv *DeviceStatusAddress_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_Address) bool {
 	slice := fpaiv.DeviceStatusAddress_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -18962,6 +19242,10 @@ func (fp *DeviceStatusCondition_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceStatusCondition_FieldPathSelectorType ||
 		fp.selector == DeviceStatusCondition_FieldPathSelectorLastHeartBeatTime ||
 		fp.selector == DeviceStatusCondition_FieldPathSelectorLastTransitionTime
+}
+
+func (fp *DeviceStatusCondition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
 }
 
 func (fp *DeviceStatusCondition_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusCondition_FieldPathValue {
@@ -19258,7 +19542,11 @@ func (fpaiv *DeviceStatusCondition_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *DeviceStatusCondition_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_Condition) bool {
 	slice := fpaiv.DeviceStatusCondition_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -19602,6 +19890,10 @@ func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceStatusDeviceInfo_FieldPathSelectorDriver
 }
 
+func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfo_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfo_FieldPathSelectorArchitecture:
@@ -19748,6 +20040,12 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfo_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfo_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfo_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfo_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfo_FieldPathValue {
@@ -20061,7 +20359,11 @@ func (fpaiv *DeviceStatusDeviceInfo_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *DeviceStatusDeviceInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo) bool {
 	slice := fpaiv.DeviceStatusDeviceInfo_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -20517,6 +20819,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) IsLeaf() 
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformation_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:
@@ -20754,6 +21060,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) ClearValueRaw
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformation_FieldPathValue {
@@ -21067,7 +21379,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayIte
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformation_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -21441,6 +21757,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPath)
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCapability_FieldPathSelectorDescription
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCapability_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationCapability_FieldPathSelectorName:
@@ -21637,7 +21957,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPa
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Capability) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationCapability_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -21882,6 +22206,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPath) IsLeaf(
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationOS_FieldPathSelectorContainerRuntimeVersion
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationOS_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationOS_FieldPathSelectorOperatingSystem:
@@ -22118,7 +22446,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPathArrayI
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_OS) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationOS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -22365,6 +22697,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPath) IsLea
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationBIOS_FieldPathSelectorReleaseDate
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBIOS_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationBIOS_FieldPathSelectorVendor:
@@ -22581,7 +22917,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPathArra
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_BIOS) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationBIOS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -22859,6 +23199,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPath) IsL
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationSystem_FieldPathSelectorSerialNumber
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationSystem_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationSystem_FieldPathSelectorManufacturer:
@@ -22993,6 +23337,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) ClearVa
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationSystem_FieldPathValue {
@@ -23258,7 +23608,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPathAr
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_System) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationSystem_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -23536,6 +23890,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPath) IsLeaf
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCPU_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationCPU_FieldPathSelectorProcessors:
@@ -23660,6 +24018,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) ClearValue
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCPU_FieldPathValue {
@@ -23865,7 +24229,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPathArray
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_CPU) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationCPU_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -24111,6 +24479,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPath) IsLe
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBlock_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationBlock_FieldPathSelectorDisks:
@@ -24235,6 +24607,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) ClearVal
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBlock_FieldPathValue {
@@ -24440,7 +24818,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPathArr
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Block) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationBlock_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -24686,6 +25068,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPath) Is
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNetwork_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationNetwork_FieldPathSelectorNics:
@@ -24810,6 +25196,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) ClearV
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNetwork_FieldPathValue {
@@ -25015,7 +25407,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPathA
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Network) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationNetwork_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -25261,6 +25657,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPath) IsLeaf
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathSelectorGraphicCards:
@@ -25385,6 +25785,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) ClearValue
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathValue {
@@ -25590,7 +25996,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPathArray
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_GPU) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationGPU_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -25880,6 +26290,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPath) 
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPathSelectorSubvendor
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPathSelectorAddress:
@@ -26136,7 +26550,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPat
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_PCIDevice) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -26375,6 +26793,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 	return false
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
@@ -26499,6 +26921,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Cle
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue {
@@ -26704,7 +27132,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPa
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -26980,6 +27412,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldTerm
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPathSelectorFamily
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPathSelectorChassis:
@@ -27216,7 +27652,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldT
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -27594,6 +28034,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPat
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorMaxFrequencyMhz
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorVendor:
@@ -27777,6 +28221,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) C
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathValue {
@@ -28146,7 +28596,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminal
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -28484,6 +28938,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTermin
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPathSelectorSizeBytes
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPathSelectorType:
@@ -28680,7 +29138,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTer
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -28992,6 +29454,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPath) 
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPathSelectorWwn
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPathSelectorName:
@@ -29144,6 +29610,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) Clea
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPathValue {
@@ -29461,7 +29933,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPat
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Block_Disk) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -29793,6 +30269,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTermi
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPathSelectorType
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPathSelectorName:
@@ -30029,7 +30509,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTe
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -30355,6 +30839,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPath)
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathSelectorSetting
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathSelectorName:
@@ -30514,6 +31002,10 @@ func (fpm *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathMap) IsL
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_Network_NIC: %d", fpm.selector))
 	}
+}
+
+func (fpm *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathMap) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPathValue {
@@ -30850,7 +31342,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPa
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_Network_NIC) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -31147,6 +31643,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalP
 	return fp.selector == DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPathSelectorIndex
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPathSelectorIndex:
@@ -31269,6 +31769,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath)
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPathValue {
@@ -31486,7 +31992,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTermin
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -31767,6 +32277,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTermina
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
@@ -31899,6 +32413,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPat
 // IsLeaf - whether field path is holds simple value
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue {
@@ -32136,7 +32656,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerm
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -32484,6 +33008,10 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_Fi
 		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits
 }
 
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue {
 	switch fp.selector {
 	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
@@ -32800,7 +33328,11 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) bool {
 	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

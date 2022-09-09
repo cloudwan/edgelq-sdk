@@ -145,6 +145,15 @@ func (d *IAMDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *IAMDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{
+		{
+			Domain:  "meta.edgelq.com",
+			Version: "v1alpha2",
+		},
+	}
+}
+
 func GetIAMDescriptor() *IAMDescriptor {
 	return iamDescriptor
 }

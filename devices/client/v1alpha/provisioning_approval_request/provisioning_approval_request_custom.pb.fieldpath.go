@@ -222,6 +222,10 @@ func (fp *ProvisionDeviceForApprovedRequestRequest_FieldTerminalPath) IsLeaf() b
 	return fp.selector == ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorName
 }
 
+func (fp *ProvisionDeviceForApprovedRequestRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisionDeviceForApprovedRequestRequest_FieldTerminalPath) WithIValue(value interface{}) ProvisionDeviceForApprovedRequestRequest_FieldPathValue {
 	switch fp.selector {
 	case ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorName:
@@ -344,6 +348,12 @@ func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) ClearValueRaw(
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisionDeviceForApprovedRequestRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) WithIValue(value interface{}) ProvisionDeviceForApprovedRequestRequest_FieldPathValue {
@@ -570,7 +580,11 @@ func (fpaiv *ProvisionDeviceForApprovedRequestRequest_FieldTerminalPathArrayItem
 func (fpaiv *ProvisionDeviceForApprovedRequestRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisionDeviceForApprovedRequestRequest) bool {
 	slice := fpaiv.ProvisionDeviceForApprovedRequestRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -824,6 +838,10 @@ func (fp *ProvisionDeviceForApprovedRequestResponse_FieldTerminalPath) IsLeaf() 
 	return false
 }
 
+func (fp *ProvisionDeviceForApprovedRequestResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisionDeviceForApprovedRequestResponse_FieldTerminalPath) WithIValue(value interface{}) ProvisionDeviceForApprovedRequestResponse_FieldPathValue {
 	switch fp.selector {
 	case ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice:
@@ -942,6 +960,12 @@ func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) ClearValueRaw
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisionDeviceForApprovedRequestResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) WithIValue(value interface{}) ProvisionDeviceForApprovedRequestResponse_FieldPathValue {
@@ -1143,7 +1167,11 @@ func (fpaiv *ProvisionDeviceForApprovedRequestResponse_FieldTerminalPathArrayIte
 func (fpaiv *ProvisionDeviceForApprovedRequestResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisionDeviceForApprovedRequestResponse) bool {
 	slice := fpaiv.ProvisionDeviceForApprovedRequestResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

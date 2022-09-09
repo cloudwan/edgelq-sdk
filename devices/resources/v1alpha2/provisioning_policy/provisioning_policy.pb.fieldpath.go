@@ -274,6 +274,10 @@ func (fp *ProvisioningPolicy_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ProvisioningPolicy_FieldPathSelectorName
 }
 
+func (fp *ProvisioningPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningPolicy_FieldTerminalPath) WithIValue(value interface{}) ProvisioningPolicy_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningPolicy_FieldPathSelectorName:
@@ -430,6 +434,12 @@ func (fps *ProvisioningPolicy_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisioningPolicy_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisioningPolicy_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisioningPolicy_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisioningPolicy_FieldSubPath) WithIValue(value interface{}) ProvisioningPolicy_FieldPathValue {
@@ -688,7 +698,11 @@ func (fpaiv *ProvisioningPolicy_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *ProvisioningPolicy_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningPolicy) bool {
 	slice := fpaiv.ProvisioningPolicy_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1093,6 +1107,10 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorCondition
 }
 
+func (fp *ProvisioningPolicySpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIValue(value interface{}) ProvisioningPolicySpec_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningPolicySpec_FieldPathSelectorMode:
@@ -1256,6 +1274,10 @@ func (fpm *ProvisioningPolicySpec_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *ProvisioningPolicySpec_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *ProvisioningPolicySpec_FieldPathMap) WithIValue(value interface{}) ProvisioningPolicySpec_FieldPathValue {
 	switch fpm.selector {
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
@@ -1369,6 +1391,12 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisioningPolicySpec_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisioningPolicySpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisioningPolicySpec_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisioningPolicySpec_FieldSubPath) WithIValue(value interface{}) ProvisioningPolicySpec_FieldPathValue {
@@ -1756,7 +1784,11 @@ func (fpaiv *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningPolicy_Spec) bool {
 	slice := fpaiv.ProvisioningPolicySpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2051,6 +2083,10 @@ func (fp *ProvisioningPolicyStatus_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *ProvisioningPolicyStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningPolicyStatus_FieldTerminalPath) WithIValue(value interface{}) ProvisioningPolicyStatus_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -2207,7 +2243,11 @@ func (fpaiv *ProvisioningPolicyStatus_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *ProvisioningPolicyStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningPolicy_Status) bool {
 	slice := fpaiv.ProvisioningPolicyStatus_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2450,6 +2490,10 @@ func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisioningPolicySpecTemplate_FieldTerminalPath) WithIValue(value interface{}) ProvisioningPolicySpecTemplate_FieldPathValue {
 	switch fp.selector {
 	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
@@ -2602,6 +2646,12 @@ func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisioningPolicySpecTemplate_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) WithIValue(value interface{}) ProvisioningPolicySpecTemplate_FieldPathValue {
@@ -2835,7 +2885,11 @@ func (fpaiv *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *ProvisioningPolicySpecTemplate_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisioningPolicy_Spec_Template) bool {
 	slice := fpaiv.ProvisioningPolicySpecTemplate_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

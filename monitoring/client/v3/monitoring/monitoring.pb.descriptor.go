@@ -103,6 +103,10 @@ func (d *MonitoringDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *MonitoringDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{}
+}
+
 func GetMonitoringDescriptor() *MonitoringDescriptor {
 	return monitoringDescriptor
 }

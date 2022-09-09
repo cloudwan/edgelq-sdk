@@ -303,6 +303,10 @@ func (fp *RoleBinding_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == RoleBinding_FieldPathSelectorMember
 }
 
+func (fp *RoleBinding_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *RoleBinding_FieldTerminalPath) WithIValue(value interface{}) RoleBinding_FieldPathValue {
 	switch fp.selector {
 	case RoleBinding_FieldPathSelectorName:
@@ -473,6 +477,12 @@ func (fps *RoleBinding_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *RoleBinding_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *RoleBinding_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&RoleBinding_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *RoleBinding_FieldSubPath) WithIValue(value interface{}) RoleBinding_FieldPathValue {
@@ -776,7 +786,11 @@ func (fpaiv *RoleBinding_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *RoleBinding_FieldTerminalPathArrayItemValue) ContainsValue(source *RoleBinding) bool {
 	slice := fpaiv.RoleBinding_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1087,6 +1101,10 @@ func (fp *RoleBindingParent_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == RoleBindingParent_FieldPathSelectorMember
 }
 
+func (fp *RoleBindingParent_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *RoleBindingParent_FieldTerminalPath) WithIValue(value interface{}) RoleBindingParent_FieldPathValue {
 	switch fp.selector {
 	case RoleBindingParent_FieldPathSelectorParent:
@@ -1292,7 +1310,11 @@ func (fpaiv *RoleBindingParent_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *RoleBindingParent_FieldTerminalPathArrayItemValue) ContainsValue(source *RoleBinding_Parent) bool {
 	slice := fpaiv.RoleBindingParent_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

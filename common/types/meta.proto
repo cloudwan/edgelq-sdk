@@ -17,6 +17,9 @@ message Meta {
   google.protobuf.Timestamp update_time = 2
       [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
+  google.protobuf.Timestamp delete_time = 16
+      [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
   string uuid = 3 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   repeated string tags = 4;
@@ -36,21 +39,12 @@ message Meta {
   // resource or set of resources. Clients must treat these values as opaque and
   // passed unmodified back to the server. They may only be valid for a
   // particular resource or set of resources.
-  //
-  // Populated by the system.
-  // Read-only.
-  // Value must be treated as opaque by clients and .
-  // More info:
-  // https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
-  // +optional
-  string resource_version = 8;
+  string resource_version = 8 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   // List of objects depended by this object. If ALL objects in the list have
   // been deleted, this object will be garbage collected. If this object is
   // managed by a controller, then an entry in this list will point to this
-  // controller, with the controller field set to true. There cannot be more
-  // than one managing controller. +optional +patchMergeKey=uid
-  // +patchStrategy=merge
+  // controller, with the controller field set to true.
   repeated OwnerReference owner_references = 13;
 
   // List of all shard indices by their keys
@@ -58,6 +52,9 @@ message Meta {
 
   // Information about resource region and synchronization
   SyncingMeta syncing = 15;
+
+  // Current lifecycle information about resource.
+  Lifecycle lifecycle = 17;
 }
 
 // A label selector is a label query over a set of resources. The result of
@@ -67,11 +64,11 @@ message LabelSelector {
   // matchLabels is a map of {key,value} pairs. A single {key,value} in the
   // matchLabels map is equivalent to an element of matchExpressions, whose key
   // field is "key", the operator is "In", and the values array contains only
-  // "value". The requirements are ANDed. +optional
+  // "value". The requirements are ANDed.
   map<string, string> match_labels = 1;
 
   // matchExpressions is a list of label selector requirements. The requirements
-  // are ANDed. +optional
+  // are ANDed.
   repeated LabelSelectorRequirement match_expressions = 2;
 }
 
@@ -98,32 +95,39 @@ message LabelSelectorRequirement {
 // object. An owning object must be in the same namespace as the dependent, or
 // be cluster-scoped, so there is no namespace field.
 message OwnerReference {
-  // API version of the referent.
-  string api_version = 5;
+  // Resource kind, for example "devices.edgelq.com/Device"
+  string kind = 2;
 
-  // Kind of the referent.
-  // More info:
-  // https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-  string kind = 1;
+  // For example v1alpha2
+  string version = 8;
 
-  // Name of the referent.
-  // More info: http://kubernetes.io/docs/user-guide/identifiers#names
+  // Name of the resource, for example projects/p1/devices/d1
   string name = 3;
 
-  // UID of the referent.
-  // More info: http://kubernetes.io/docs/user-guide/identifiers#uids
-  string uid = 4;
+  // Region ID owning resource
+  string region = 9;
 
   // If true, this reference points to the managing controller.
   bool controller = 6;
 
-  // If true, AND if the owner has the "foregroundDeletion" finalizer, then
-  // the owner cannot be deleted from the key-value store until this
-  // reference is removed.
-  // Defaults to false.
-  // To set this field, a user needs "delete" permission of the owner,
-  // otherwise 422 (Unprocessable Entity) will be returned.
+  // Whether reference should be blocking.
+  // TODO: This flag is currently non-functional because IAM auth middleware
+  // does not use attach conditions yet. Requires some changes in that
+  // middleware.
   bool block_owner_deletion = 7;
+
+  // This flag indicates that owner must have schema-based reference for this
+  // owner reference to be valid. Otherwise it will be removed. If there are
+  // no other owners, resource will be deleted. It also works if owner
+  // resource unsets its reference.
+  // This extends default behavior of meta references, where ownees are deleted
+  // only when owner is deleted. Here, we also want to delete ownee if owner
+  // just stops pointing to ownee via own reference (or never pointed at all).
+  // This flag is useful if higher-level service creates some resource in
+  // lower level service and assigns via schema reference.
+  bool requires_owner_reference = 10;
+
+  reserved 1, 4, 5;
 }
 
 // SyncingMeta is a helper object associated with each resource that is either
@@ -139,4 +143,30 @@ message SyncingMeta {
   // List of regions where owning resource can be present. If can be present in
   // all regions, will contain "*".
   repeated string regions = 2;
+}
+
+message Lifecycle {
+  // Current resource state
+  State state = 1 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // Optional flag indicating that resource must not be deleted - at least yet.
+  // This flag is not accessible via API, it is expected developer will populate
+  // it if needed from custom server code. It should be used when some condition
+  // (other than blocking back reference) applies that server is not aware of.
+  // If flag is true, then constraint store will block resource deletion. GC
+  // will also defer from cleaning up, however developer should ensure that
+  // eventually deletion will be done.
+  bool block_deletion = 2 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+
+  // current resource state
+  enum State {
+    // Must never be used
+    UNDEFINED = 0;
+
+    // Resource is up and running
+    ACTIVE = 1;
+
+    // Resource is in slow-deletion process.
+    DELETING = 2;
+  }
 }

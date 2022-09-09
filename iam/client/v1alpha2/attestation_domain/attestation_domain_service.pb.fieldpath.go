@@ -236,6 +236,10 @@ func (fp *GetAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetAttestationDomainRequest_FieldPathSelectorView
 }
 
+func (fp *GetAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetAttestationDomainRequest_FieldTerminalPath) WithIValue(value interface{}) GetAttestationDomainRequest_FieldPathValue {
 	switch fp.selector {
 	case GetAttestationDomainRequest_FieldPathSelectorName:
@@ -453,7 +457,11 @@ func (fpaiv *GetAttestationDomainRequest_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *GetAttestationDomainRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetAttestationDomainRequest) bool {
 	slice := fpaiv.GetAttestationDomainRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -698,6 +706,10 @@ func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetAttestationDomainsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetAttestationDomainsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetAttestationDomainsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetAttestationDomainsRequest_FieldPathSelectorNames:
@@ -904,7 +916,11 @@ func (fpaiv *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayItemValue) 
 func (fpaiv *BatchGetAttestationDomainsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetAttestationDomainsRequest) bool {
 	slice := fpaiv.BatchGetAttestationDomainsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1143,6 +1159,10 @@ func (fp *BatchGetAttestationDomainsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetAttestationDomainsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetAttestationDomainsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetAttestationDomainsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetAttestationDomainsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains:
@@ -1273,6 +1293,12 @@ func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetAttestationDomainsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetAttestationDomainsResponse_FieldPathValue {
@@ -1490,7 +1516,11 @@ func (fpaiv *BatchGetAttestationDomainsResponse_FieldTerminalPathArrayItemValue)
 func (fpaiv *BatchGetAttestationDomainsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetAttestationDomainsResponse) bool {
 	slice := fpaiv.BatchGetAttestationDomainsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1831,6 +1861,10 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorView
 }
 
+func (fp *ListAttestationDomainsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListAttestationDomainsRequest_FieldTerminalPath) WithIValue(value interface{}) ListAttestationDomainsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListAttestationDomainsRequest_FieldPathSelectorParent:
@@ -2104,7 +2138,11 @@ func (fpaiv *ListAttestationDomainsRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *ListAttestationDomainsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListAttestationDomainsRequest) bool {
 	slice := fpaiv.ListAttestationDomainsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2392,6 +2430,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAttestationDomainsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListAttestationDomainsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListAttestationDomainsResponse_FieldTerminalPath) WithIValue(value interface{}) ListAttestationDomainsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains:
@@ -2524,6 +2566,12 @@ func (fps *ListAttestationDomainsResponse_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *ListAttestationDomainsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListAttestationDomainsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListAttestationDomainsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListAttestationDomainsResponse_FieldSubPath) WithIValue(value interface{}) ListAttestationDomainsResponse_FieldPathValue {
@@ -2745,7 +2793,11 @@ func (fpaiv *ListAttestationDomainsResponse_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *ListAttestationDomainsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListAttestationDomainsResponse) bool {
 	slice := fpaiv.ListAttestationDomainsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3029,6 +3081,10 @@ func (fp *WatchAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAttestationDomainRequest_FieldPathSelectorView
 }
 
+func (fp *WatchAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAttestationDomainRequest_FieldTerminalPath) WithIValue(value interface{}) WatchAttestationDomainRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchAttestationDomainRequest_FieldPathSelectorName:
@@ -3246,7 +3302,11 @@ func (fpaiv *WatchAttestationDomainRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *WatchAttestationDomainRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAttestationDomainRequest) bool {
 	slice := fpaiv.WatchAttestationDomainRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3460,6 +3520,10 @@ func (fp *WatchAttestationDomainResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchAttestationDomainResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchAttestationDomainResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAttestationDomainResponse_FieldTerminalPath) WithIValue(value interface{}) WatchAttestationDomainResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchAttestationDomainResponse_FieldPathSelectorChange:
@@ -3628,7 +3692,11 @@ func (fpaiv *WatchAttestationDomainResponse_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *WatchAttestationDomainResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAttestationDomainResponse) bool {
 	slice := fpaiv.WatchAttestationDomainResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3964,6 +4032,10 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchAttestationDomainsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchAttestationDomainsRequest_FieldPathSelectorType:
@@ -4297,7 +4369,11 @@ func (fpaiv *WatchAttestationDomainsRequest_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *WatchAttestationDomainsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAttestationDomainsRequest) bool {
 	slice := fpaiv.WatchAttestationDomainsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4662,6 +4738,10 @@ func (fp *WatchAttestationDomainsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAttestationDomainsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchAttestationDomainsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAttestationDomainsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchAttestationDomainsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchAttestationDomainsResponse_FieldPathSelectorAttestationDomainChanges:
@@ -4806,6 +4886,12 @@ func (fps *WatchAttestationDomainsResponse_FieldSubPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchAttestationDomainsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchAttestationDomainsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchAttestationDomainsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchAttestationDomainsResponse_FieldSubPath) WithIValue(value interface{}) WatchAttestationDomainsResponse_FieldPathValue {
@@ -5099,7 +5185,11 @@ func (fpaiv *WatchAttestationDomainsResponse_FieldTerminalPathArrayItemValue) Ge
 func (fpaiv *WatchAttestationDomainsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAttestationDomainsResponse) bool {
 	slice := fpaiv.WatchAttestationDomainsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5401,6 +5491,10 @@ func (fp *WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPath) IsLe
 		fp.selector == WatchAttestationDomainsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchAttestationDomainsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchAttestationDomainsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5581,7 +5675,11 @@ func (fpaiv *WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPathArr
 func (fpaiv *WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchAttestationDomainsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchAttestationDomainsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5812,6 +5910,10 @@ func (fp *CreateAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreateAttestationDomainRequest_FieldPathSelectorParent
 }
 
+func (fp *CreateAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreateAttestationDomainRequest_FieldTerminalPath) WithIValue(value interface{}) CreateAttestationDomainRequest_FieldPathValue {
 	switch fp.selector {
 	case CreateAttestationDomainRequest_FieldPathSelectorParent:
@@ -5934,6 +6036,12 @@ func (fps *CreateAttestationDomainRequest_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *CreateAttestationDomainRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreateAttestationDomainRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreateAttestationDomainRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreateAttestationDomainRequest_FieldSubPath) WithIValue(value interface{}) CreateAttestationDomainRequest_FieldPathValue {
@@ -6160,7 +6268,11 @@ func (fpaiv *CreateAttestationDomainRequest_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *CreateAttestationDomainRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreateAttestationDomainRequest) bool {
 	slice := fpaiv.CreateAttestationDomainRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6452,6 +6564,10 @@ func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateAttestationDomainRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateAttestationDomainRequest_FieldTerminalPath) WithIValue(value interface{}) UpdateAttestationDomainRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain:
@@ -6591,6 +6707,12 @@ func (fps *UpdateAttestationDomainRequest_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateAttestationDomainRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateAttestationDomainRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateAttestationDomainRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateAttestationDomainRequest_FieldSubPath) WithIValue(value interface{}) UpdateAttestationDomainRequest_FieldPathValue {
@@ -6816,7 +6938,11 @@ func (fpaiv *UpdateAttestationDomainRequest_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *UpdateAttestationDomainRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateAttestationDomainRequest) bool {
 	slice := fpaiv.UpdateAttestationDomainRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7104,6 +7230,10 @@ func (fp *UpdateAttestationDomainRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdateAttestationDomainRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdateAttestationDomainRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdateAttestationDomainRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdateAttestationDomainRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState:
@@ -7226,6 +7356,12 @@ func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdateAttestationDomainRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdateAttestationDomainRequestCAS_FieldPathValue {
@@ -7435,7 +7571,11 @@ func (fpaiv *UpdateAttestationDomainRequestCAS_FieldTerminalPathArrayItemValue) 
 func (fpaiv *UpdateAttestationDomainRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdateAttestationDomainRequest_CAS) bool {
 	slice := fpaiv.UpdateAttestationDomainRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7680,6 +7820,10 @@ func (fp *DeleteAttestationDomainRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeleteAttestationDomainRequest_FieldPathSelectorName
 }
 
+func (fp *DeleteAttestationDomainRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeleteAttestationDomainRequest_FieldTerminalPath) WithIValue(value interface{}) DeleteAttestationDomainRequest_FieldPathValue {
 	switch fp.selector {
 	case DeleteAttestationDomainRequest_FieldPathSelectorName:
@@ -7865,7 +8009,11 @@ func (fpaiv *DeleteAttestationDomainRequest_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *DeleteAttestationDomainRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeleteAttestationDomainRequest) bool {
 	slice := fpaiv.DeleteAttestationDomainRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

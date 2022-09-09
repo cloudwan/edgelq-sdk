@@ -277,6 +277,13 @@ message UpdateLimitPoolRequest {
   }
 }
 
+// Request message for method
+// [DeleteLimitPool][ntt.limits.v1alpha2.DeleteLimitPool]
+message DeleteLimitPoolRequest {
+  // Reference of ntt.limits.v1alpha2.LimitPool
+  string name = 1;
+}
+
 // LimitPool service API for Limits
 service LimitPoolService {
   option (google.api.default_host) = "limits.edgelq.com";
@@ -339,6 +346,16 @@ service LimitPoolService {
       body : "limit_pool"
       additional_bindings : <
         put : "/v1alpha2/{limit_pool.name=organizations/*/limitPools/*}"
+      >
+    };
+  }
+
+  // DeleteLimitPool
+  rpc DeleteLimitPool(DeleteLimitPoolRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1alpha2/{name=limitPools/*}"
+      additional_bindings : <
+        delete : "/v1alpha2/{name=organizations/*/limitPools/*}"
       >
     };
   }

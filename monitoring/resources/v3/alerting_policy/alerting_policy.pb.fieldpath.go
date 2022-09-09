@@ -294,6 +294,10 @@ func (fp *AlertingPolicy_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertingPolicy_FieldPathSelectorDescription
 }
 
+func (fp *AlertingPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicy_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicy_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicy_FieldPathSelectorName:
@@ -458,6 +462,12 @@ func (fps *AlertingPolicy_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingPolicy_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingPolicy_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingPolicy_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingPolicy_FieldSubPath) WithIValue(value interface{}) AlertingPolicy_FieldPathValue {
@@ -748,7 +758,11 @@ func (fpaiv *AlertingPolicy_FieldTerminalPathArrayItemValue) GetSingleRaw(source
 func (fpaiv *AlertingPolicy_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy) bool {
 	slice := fpaiv.AlertingPolicy_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1056,6 +1070,10 @@ func (fp *AlertingPolicyDocumentation_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertingPolicyDocumentation_FieldPathSelectorMimeType
 }
 
+func (fp *AlertingPolicyDocumentation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicyDocumentation_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicyDocumentation_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicyDocumentation_FieldPathSelectorContent:
@@ -1252,7 +1270,11 @@ func (fpaiv *AlertingPolicyDocumentation_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *AlertingPolicyDocumentation_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy_Documentation) bool {
 	slice := fpaiv.AlertingPolicyDocumentation_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1494,6 +1516,10 @@ func (fp *AlertingPolicySpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertingPolicySpec_FieldPathSelectorConditionCombiner
 }
 
+func (fp *AlertingPolicySpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicySpec_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicySpec_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicySpec_FieldPathSelectorEnabled:
@@ -1620,6 +1646,12 @@ func (fps *AlertingPolicySpec_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingPolicySpec_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingPolicySpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingPolicySpec_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingPolicySpec_FieldSubPath) WithIValue(value interface{}) AlertingPolicySpec_FieldPathValue {
@@ -1853,7 +1885,11 @@ func (fpaiv *AlertingPolicySpec_FieldTerminalPathArrayItemValue) GetSingleRaw(so
 func (fpaiv *AlertingPolicySpec_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy_Spec) bool {
 	slice := fpaiv.AlertingPolicySpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2115,6 +2151,10 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *AlertingPolicySpecNotification_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicySpecNotification_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorSlack:
@@ -2233,6 +2273,12 @@ func (fps *AlertingPolicySpecNotification_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingPolicySpecNotification_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingPolicySpecNotification_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingPolicySpecNotification_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingPolicySpecNotification_FieldSubPath) WithIValue(value interface{}) AlertingPolicySpecNotification_FieldPathValue {
@@ -2434,7 +2480,11 @@ func (fpaiv *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy_Spec_Notification) bool {
 	slice := fpaiv.AlertingPolicySpecNotification_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2693,6 +2743,10 @@ func (fp *AlertingPolicySpecNotificationSlack_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertingPolicySpecNotificationSlack_FieldPathSelectorIncomingWebhook
 }
 
+func (fp *AlertingPolicySpecNotificationSlack_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicySpecNotificationSlack_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicySpecNotificationSlack_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicySpecNotificationSlack_FieldPathSelectorApp:
@@ -2815,6 +2869,12 @@ func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) ClearValueRaw(item 
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingPolicySpecNotificationSlack_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) WithIValue(value interface{}) AlertingPolicySpecNotificationSlack_FieldPathValue {
@@ -3032,7 +3092,11 @@ func (fpaiv *AlertingPolicySpecNotificationSlack_FieldTerminalPathArrayItemValue
 func (fpaiv *AlertingPolicySpecNotificationSlack_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy_Spec_Notification_Slack) bool {
 	slice := fpaiv.AlertingPolicySpecNotificationSlack_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3291,6 +3355,10 @@ func (fp *AlertingPolicySpecNotificationSlackApp_FieldTerminalPath) IsLeaf() boo
 		fp.selector == AlertingPolicySpecNotificationSlackApp_FieldPathSelectorChannel
 }
 
+func (fp *AlertingPolicySpecNotificationSlackApp_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingPolicySpecNotificationSlackApp_FieldTerminalPath) WithIValue(value interface{}) AlertingPolicySpecNotificationSlackApp_FieldPathValue {
 	switch fp.selector {
 	case AlertingPolicySpecNotificationSlackApp_FieldPathSelectorAuthToken:
@@ -3485,7 +3553,11 @@ func (fpaiv *AlertingPolicySpecNotificationSlackApp_FieldTerminalPathArrayItemVa
 func (fpaiv *AlertingPolicySpecNotificationSlackApp_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingPolicy_Spec_Notification_Slack_App) bool {
 	slice := fpaiv.AlertingPolicySpecNotificationSlackApp_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

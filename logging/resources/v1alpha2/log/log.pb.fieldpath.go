@@ -333,6 +333,10 @@ func (fp *Log_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Log_FieldPathSelectorPayload
 }
 
+func (fp *Log_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Log_FieldTerminalPath) WithIValue(value interface{}) Log_FieldPathValue {
 	switch fp.selector {
 	case Log_FieldPathSelectorName:
@@ -496,6 +500,10 @@ func (fpm *Log_FieldPathMap) IsLeaf() bool {
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fpm.selector))
 	}
+}
+
+func (fpm *Log_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *Log_FieldPathMap) WithIValue(value interface{}) Log_FieldPathValue {
@@ -867,7 +875,11 @@ func (fpaiv *Log_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Mess
 func (fpaiv *Log_FieldTerminalPathArrayItemValue) ContainsValue(source *Log) bool {
 	slice := fpaiv.Log_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

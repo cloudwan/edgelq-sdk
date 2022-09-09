@@ -209,6 +209,10 @@ func (fp *Allowance_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Allowance_FieldPathSelectorValue
 }
 
+func (fp *Allowance_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Allowance_FieldTerminalPath) WithIValue(value interface{}) Allowance_FieldPathValue {
 	switch fp.selector {
 	case Allowance_FieldPathSelectorResource:
@@ -414,7 +418,11 @@ func (fpaiv *Allowance_FieldTerminalPathArrayItemValue) GetSingleRaw(source prot
 func (fpaiv *Allowance_FieldTerminalPathArrayItemValue) ContainsValue(source *Allowance) bool {
 	slice := fpaiv.Allowance_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -643,6 +651,10 @@ func (fp *RegionalDistribution_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == RegionalDistribution_FieldPathSelectorLimitsByRegion
 }
 
+func (fp *RegionalDistribution_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *RegionalDistribution_FieldTerminalPath) WithIValue(value interface{}) RegionalDistribution_FieldPathValue {
 	switch fp.selector {
 	case RegionalDistribution_FieldPathSelectorResource:
@@ -778,6 +790,10 @@ func (fpm *RegionalDistribution_FieldPathMap) IsLeaf() bool {
 	default:
 		panic(fmt.Sprintf("Invalid selector for RegionalDistribution: %d", fpm.selector))
 	}
+}
+
+func (fpm *RegionalDistribution_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *RegionalDistribution_FieldPathMap) WithIValue(value interface{}) RegionalDistribution_FieldPathValue {
@@ -1027,7 +1043,11 @@ func (fpaiv *RegionalDistribution_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *RegionalDistribution_FieldTerminalPathArrayItemValue) ContainsValue(source *RegionalDistribution) bool {
 	slice := fpaiv.RegionalDistribution_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

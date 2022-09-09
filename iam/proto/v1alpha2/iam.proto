@@ -30,7 +30,6 @@ import "edgelq-sdk/iam/proto/v1alpha2/project_invitation_service.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project_service.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/role_binding_custom.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding_service.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_service.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/service_account.proto";

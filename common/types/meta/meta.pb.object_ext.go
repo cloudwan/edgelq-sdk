@@ -60,6 +60,9 @@ func (o *Meta) MakeDiffFieldMask(other *Meta) *Meta_FieldMask {
 	if !proto.Equal(o.GetUpdateTime(), other.GetUpdateTime()) {
 		res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUpdateTime})
 	}
+	if !proto.Equal(o.GetDeleteTime(), other.GetDeleteTime()) {
+		res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorDeleteTime})
+	}
 	if o.GetUuid() != other.GetUuid() {
 		res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorUuid})
 	}
@@ -139,6 +142,16 @@ func (o *Meta) MakeDiffFieldMask(other *Meta) *Meta_FieldMask {
 			}
 		}
 	}
+	{
+		subMask := o.GetLifecycle().MakeDiffFieldMask(other.GetLifecycle())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &Meta_FieldTerminalPath{selector: Meta_FieldPathSelectorLifecycle})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &Meta_FieldSubPath{selector: Meta_FieldPathSelectorLifecycle, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -153,6 +166,7 @@ func (o *Meta) Clone() *Meta {
 	result := &Meta{}
 	result.CreateTime = proto.Clone(o.CreateTime).(*timestamp.Timestamp)
 	result.UpdateTime = proto.Clone(o.UpdateTime).(*timestamp.Timestamp)
+	result.DeleteTime = proto.Clone(o.DeleteTime).(*timestamp.Timestamp)
 	result.Uuid = o.Uuid
 	result.Tags = make([]string, len(o.Tags))
 	for i, sourceValue := range o.Tags {
@@ -177,6 +191,7 @@ func (o *Meta) Clone() *Meta {
 		result.Shards[key] = sourceValue
 	}
 	result.Syncing = o.Syncing.Clone()
+	result.Lifecycle = o.Lifecycle.Clone()
 	return result
 }
 
@@ -196,6 +211,12 @@ func (o *Meta) Merge(source *Meta) {
 			o.UpdateTime = new(timestamp.Timestamp)
 		}
 		proto.Merge(o.UpdateTime, source.GetUpdateTime())
+	}
+	if source.GetDeleteTime() != nil {
+		if o.DeleteTime == nil {
+			o.DeleteTime = new(timestamp.Timestamp)
+		}
+		proto.Merge(o.DeleteTime, source.GetDeleteTime())
 	}
 	o.Uuid = source.GetUuid()
 	for _, sourceValue := range source.GetTags() {
@@ -269,6 +290,12 @@ func (o *Meta) Merge(source *Meta) {
 			o.Syncing = new(SyncingMeta)
 		}
 		o.Syncing.Merge(source.GetSyncing())
+	}
+	if source.GetLifecycle() != nil {
+		if o.Lifecycle == nil {
+			o.Lifecycle = new(Lifecycle)
+		}
+		o.Lifecycle.Merge(source.GetLifecycle())
 	}
 }
 
@@ -483,23 +510,26 @@ func (o *OwnerReference) MakeDiffFieldMask(other *OwnerReference) *OwnerReferenc
 	}
 
 	res := &OwnerReference_FieldMask{}
-	if o.GetApiVersion() != other.GetApiVersion() {
-		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorApiVersion})
-	}
 	if o.GetKind() != other.GetKind() {
 		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorKind})
+	}
+	if o.GetVersion() != other.GetVersion() {
+		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorVersion})
 	}
 	if o.GetName() != other.GetName() {
 		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorName})
 	}
-	if o.GetUid() != other.GetUid() {
-		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorUid})
+	if o.GetRegion() != other.GetRegion() {
+		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRegion})
 	}
 	if o.GetController() != other.GetController() {
 		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorController})
 	}
 	if o.GetBlockOwnerDeletion() != other.GetBlockOwnerDeletion() {
 		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorBlockOwnerDeletion})
+	}
+	if o.GetRequiresOwnerReference() != other.GetRequiresOwnerReference() {
+		res.Paths = append(res.Paths, &OwnerReference_FieldTerminalPath{selector: OwnerReference_FieldPathSelectorRequiresOwnerReference})
 	}
 	return res
 }
@@ -513,12 +543,13 @@ func (o *OwnerReference) Clone() *OwnerReference {
 		return nil
 	}
 	result := &OwnerReference{}
-	result.ApiVersion = o.ApiVersion
 	result.Kind = o.Kind
+	result.Version = o.Version
 	result.Name = o.Name
-	result.Uid = o.Uid
+	result.Region = o.Region
 	result.Controller = o.Controller
 	result.BlockOwnerDeletion = o.BlockOwnerDeletion
+	result.RequiresOwnerReference = o.RequiresOwnerReference
 	return result
 }
 
@@ -527,12 +558,13 @@ func (o *OwnerReference) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *OwnerReference) Merge(source *OwnerReference) {
-	o.ApiVersion = source.GetApiVersion()
 	o.Kind = source.GetKind()
+	o.Version = source.GetVersion()
 	o.Name = source.GetName()
-	o.Uid = source.GetUid()
+	o.Region = source.GetRegion()
 	o.Controller = source.GetController()
 	o.BlockOwnerDeletion = source.GetBlockOwnerDeletion()
+	o.RequiresOwnerReference = source.GetRequiresOwnerReference()
 }
 
 func (o *OwnerReference) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -618,4 +650,59 @@ func (o *SyncingMeta) Merge(source *SyncingMeta) {
 
 func (o *SyncingMeta) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*SyncingMeta))
+}
+
+func (o *Lifecycle) GotenObjectExt() {}
+
+func (o *Lifecycle) MakeFullFieldMask() *Lifecycle_FieldMask {
+	return FullLifecycle_FieldMask()
+}
+
+func (o *Lifecycle) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullLifecycle_FieldMask()
+}
+
+func (o *Lifecycle) MakeDiffFieldMask(other *Lifecycle) *Lifecycle_FieldMask {
+	if o == nil && other == nil {
+		return &Lifecycle_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullLifecycle_FieldMask()
+	}
+
+	res := &Lifecycle_FieldMask{}
+	if o.GetState() != other.GetState() {
+		res.Paths = append(res.Paths, &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorState})
+	}
+	if o.GetBlockDeletion() != other.GetBlockDeletion() {
+		res.Paths = append(res.Paths, &Lifecycle_FieldTerminalPath{selector: Lifecycle_FieldPathSelectorBlockDeletion})
+	}
+	return res
+}
+
+func (o *Lifecycle) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Lifecycle))
+}
+
+func (o *Lifecycle) Clone() *Lifecycle {
+	if o == nil {
+		return nil
+	}
+	result := &Lifecycle{}
+	result.State = o.State
+	result.BlockDeletion = o.BlockDeletion
+	return result
+}
+
+func (o *Lifecycle) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Lifecycle) Merge(source *Lifecycle) {
+	o.State = source.GetState()
+	o.BlockDeletion = source.GetBlockDeletion()
+}
+
+func (o *Lifecycle) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Lifecycle))
 }

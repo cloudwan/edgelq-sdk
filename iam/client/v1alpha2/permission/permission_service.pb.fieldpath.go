@@ -234,6 +234,10 @@ func (fp *GetPermissionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetPermissionRequest_FieldPathSelectorView
 }
 
+func (fp *GetPermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetPermissionRequest_FieldTerminalPath) WithIValue(value interface{}) GetPermissionRequest_FieldPathValue {
 	switch fp.selector {
 	case GetPermissionRequest_FieldPathSelectorName:
@@ -451,7 +455,11 @@ func (fpaiv *GetPermissionRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(
 func (fpaiv *GetPermissionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetPermissionRequest) bool {
 	slice := fpaiv.GetPermissionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -696,6 +704,10 @@ func (fp *BatchGetPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetPermissionsRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetPermissionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPermissionsRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPermissionsRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPermissionsRequest_FieldPathSelectorNames:
@@ -902,7 +914,11 @@ func (fpaiv *BatchGetPermissionsRequest_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *BatchGetPermissionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPermissionsRequest) bool {
 	slice := fpaiv.BatchGetPermissionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1141,6 +1157,10 @@ func (fp *BatchGetPermissionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetPermissionsResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetPermissionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPermissionsResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetPermissionsResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPermissionsResponse_FieldPathSelectorPermissions:
@@ -1271,6 +1291,12 @@ func (fps *BatchGetPermissionsResponse_FieldSubPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetPermissionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetPermissionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetPermissionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetPermissionsResponse_FieldSubPath) WithIValue(value interface{}) BatchGetPermissionsResponse_FieldPathValue {
@@ -1488,7 +1514,11 @@ func (fpaiv *BatchGetPermissionsResponse_FieldTerminalPathArrayItemValue) GetSin
 func (fpaiv *BatchGetPermissionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPermissionsResponse) bool {
 	slice := fpaiv.BatchGetPermissionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1812,6 +1842,10 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPermissionsRequest_FieldPathSelectorView
 }
 
+func (fp *ListPermissionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPermissionsRequest_FieldTerminalPath) WithIValue(value interface{}) ListPermissionsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListPermissionsRequest_FieldPathSelectorPageSize:
@@ -2056,7 +2090,11 @@ func (fpaiv *ListPermissionsRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *ListPermissionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPermissionsRequest) bool {
 	slice := fpaiv.ListPermissionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2336,6 +2374,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPermissionsResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListPermissionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPermissionsResponse_FieldTerminalPath) WithIValue(value interface{}) ListPermissionsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListPermissionsResponse_FieldPathSelectorPermissions:
@@ -2468,6 +2510,12 @@ func (fps *ListPermissionsResponse_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *ListPermissionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListPermissionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListPermissionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListPermissionsResponse_FieldSubPath) WithIValue(value interface{}) ListPermissionsResponse_FieldPathValue {
@@ -2689,7 +2737,11 @@ func (fpaiv *ListPermissionsResponse_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *ListPermissionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPermissionsResponse) bool {
 	slice := fpaiv.ListPermissionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2973,6 +3025,10 @@ func (fp *WatchPermissionRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPermissionRequest_FieldPathSelectorView
 }
 
+func (fp *WatchPermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPermissionRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPermissionRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPermissionRequest_FieldPathSelectorName:
@@ -3190,7 +3246,11 @@ func (fpaiv *WatchPermissionRequest_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *WatchPermissionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPermissionRequest) bool {
 	slice := fpaiv.WatchPermissionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3404,6 +3464,10 @@ func (fp *WatchPermissionResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchPermissionResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchPermissionResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPermissionResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPermissionResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPermissionResponse_FieldPathSelectorChange:
@@ -3572,7 +3636,11 @@ func (fpaiv *WatchPermissionResponse_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *WatchPermissionResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPermissionResponse) bool {
 	slice := fpaiv.WatchPermissionResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3891,6 +3959,10 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchPermissionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPermissionsRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPermissionsRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPermissionsRequest_FieldPathSelectorType:
@@ -4195,7 +4267,11 @@ func (fpaiv *WatchPermissionsRequest_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *WatchPermissionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPermissionsRequest) bool {
 	slice := fpaiv.WatchPermissionsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4552,6 +4628,10 @@ func (fp *WatchPermissionsResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPermissionsResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchPermissionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPermissionsResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPermissionsResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPermissionsResponse_FieldPathSelectorPermissionChanges:
@@ -4696,6 +4776,12 @@ func (fps *WatchPermissionsResponse_FieldSubPath) ClearValueRaw(item proto.Messa
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchPermissionsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchPermissionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchPermissionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchPermissionsResponse_FieldSubPath) WithIValue(value interface{}) WatchPermissionsResponse_FieldPathValue {
@@ -4989,7 +5075,11 @@ func (fpaiv *WatchPermissionsResponse_FieldTerminalPathArrayItemValue) GetSingle
 func (fpaiv *WatchPermissionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPermissionsResponse) bool {
 	slice := fpaiv.WatchPermissionsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5291,6 +5381,10 @@ func (fp *WatchPermissionsResponsePageTokenChange_FieldTerminalPath) IsLeaf() bo
 		fp.selector == WatchPermissionsResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchPermissionsResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPermissionsResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchPermissionsResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchPermissionsResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5471,7 +5565,11 @@ func (fpaiv *WatchPermissionsResponsePageTokenChange_FieldTerminalPathArrayItemV
 func (fpaiv *WatchPermissionsResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPermissionsResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchPermissionsResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5686,6 +5784,10 @@ func (fp *CreatePermissionRequest_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *CreatePermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePermissionRequest_FieldTerminalPath) WithIValue(value interface{}) CreatePermissionRequest_FieldPathValue {
 	switch fp.selector {
 	case CreatePermissionRequest_FieldPathSelectorPermission:
@@ -5804,6 +5906,12 @@ func (fps *CreatePermissionRequest_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *CreatePermissionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreatePermissionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreatePermissionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreatePermissionRequest_FieldSubPath) WithIValue(value interface{}) CreatePermissionRequest_FieldPathValue {
@@ -6005,7 +6113,11 @@ func (fpaiv *CreatePermissionRequest_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *CreatePermissionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePermissionRequest) bool {
 	slice := fpaiv.CreatePermissionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6289,6 +6401,10 @@ func (fp *UpdatePermissionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePermissionRequest_FieldPathSelectorUpdateMask
 }
 
+func (fp *UpdatePermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePermissionRequest_FieldTerminalPath) WithIValue(value interface{}) UpdatePermissionRequest_FieldPathValue {
 	switch fp.selector {
 	case UpdatePermissionRequest_FieldPathSelectorPermission:
@@ -6428,6 +6544,12 @@ func (fps *UpdatePermissionRequest_FieldSubPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePermissionRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePermissionRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePermissionRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePermissionRequest_FieldSubPath) WithIValue(value interface{}) UpdatePermissionRequest_FieldPathValue {
@@ -6653,7 +6775,11 @@ func (fpaiv *UpdatePermissionRequest_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *UpdatePermissionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePermissionRequest) bool {
 	slice := fpaiv.UpdatePermissionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6941,6 +7067,10 @@ func (fp *UpdatePermissionRequestCAS_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == UpdatePermissionRequestCAS_FieldPathSelectorFieldMask
 }
 
+func (fp *UpdatePermissionRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UpdatePermissionRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdatePermissionRequestCAS_FieldPathValue {
 	switch fp.selector {
 	case UpdatePermissionRequestCAS_FieldPathSelectorConditionalState:
@@ -7063,6 +7193,12 @@ func (fps *UpdatePermissionRequestCAS_FieldSubPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fps *UpdatePermissionRequestCAS_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePermissionRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePermissionRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *UpdatePermissionRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdatePermissionRequestCAS_FieldPathValue {
@@ -7272,7 +7408,11 @@ func (fpaiv *UpdatePermissionRequestCAS_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *UpdatePermissionRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePermissionRequest_CAS) bool {
 	slice := fpaiv.UpdatePermissionRequestCAS_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -7517,6 +7657,10 @@ func (fp *DeletePermissionRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeletePermissionRequest_FieldPathSelectorName
 }
 
+func (fp *DeletePermissionRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeletePermissionRequest_FieldTerminalPath) WithIValue(value interface{}) DeletePermissionRequest_FieldPathValue {
 	switch fp.selector {
 	case DeletePermissionRequest_FieldPathSelectorName:
@@ -7702,7 +7846,11 @@ func (fpaiv *DeletePermissionRequest_FieldTerminalPathArrayItemValue) GetSingleR
 func (fpaiv *DeletePermissionRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeletePermissionRequest) bool {
 	slice := fpaiv.DeletePermissionRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

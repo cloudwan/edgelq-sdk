@@ -408,7 +408,9 @@ Equivalent REST API:
 
 <h5 id="message-AcceptedPlan.Assignee">AcceptedPlan.Assignee</h5>
 
-<p>Assignee indicates for whom plan was accepted for.</p>
+<p>Assignee indicates for whom plan was accepted for.
+In case of child project/org deletion, accepted plan will be deleted too,
+which will result in return of all limits.</p>
 
 
 <table class="fields">
@@ -1309,6 +1311,31 @@ Equivalent REST API:
 
 </div>
 
+
+
+<div class="operation">
+<h5 id="operation-DeleteLimit">DeleteLimit</h5>
+
+<pre class="signature">rpc DeleteLimit(<a href="#message-DeleteLimitRequest">DeleteLimitRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteLimit</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=projects/*/limits/*} </pre>
+
+</div>
+
+
+</div>
+
  
 
 <h4>Messages</h4>
@@ -1873,6 +1900,26 @@ compare.</p>
 </tbody>
 </table>
 
+
+
+<h5 id="message-DeleteLimitRequest">DeleteLimitRequest</h5>
+
+<p>Request message for method [DeleteLimit][ntt.limits.v1alpha2.DeleteLimit]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
   
 
 
@@ -2132,6 +2179,33 @@ Equivalent REST API:
 <pre>PUT /v1alpha2/{limit_pool.name=limitPools/*} (BODY: limit_pool)</pre>
 
 <pre>PUT /v1alpha2/{limit_pool.name=organizations/*/limitPools/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteLimitPool">DeleteLimitPool</h5>
+
+<pre class="signature">rpc DeleteLimitPool(<a href="#message-DeleteLimitPoolRequest">DeleteLimitPoolRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteLimitPool</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v1alpha2/{name=limitPools/*} </pre>
+
+<pre>DELETE /v1alpha2/{name=organizations/*/limitPools/*} </pre>
 
 </div>
 
@@ -2702,6 +2776,27 @@ conditional based upon previous resource version.</p>
 </tr>
 <tr><td class="description"><p>Field paths from conditional state of resource server should check and
 compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteLimitPoolRequest">DeleteLimitPoolRequest</h5>
+
+<p>Request message for method
+[DeleteLimitPool][ntt.limits.v1alpha2.DeleteLimitPool]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.v1alpha2.LimitPool</p>
 </td></tr>
  
 </tbody>

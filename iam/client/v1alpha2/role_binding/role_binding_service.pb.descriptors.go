@@ -41,7 +41,6 @@ var (
 	createRoleBindingDescriptor    *CreateRoleBindingDescriptor
 	updateRoleBindingDescriptor    *UpdateRoleBindingDescriptor
 	deleteRoleBindingDescriptor    *DeleteRoleBindingDescriptor
-	setupCreateOwnerRoleDescriptor *SetupCreateOwnerRoleDescriptor
 )
 
 type GetRoleBindingDescriptor struct{}
@@ -1456,179 +1455,6 @@ func GetDeleteRoleBindingDescriptor() *DeleteRoleBindingDescriptor {
 	return deleteRoleBindingDescriptor
 }
 
-type SetupCreateOwnerRoleDescriptor struct{}
-
-type SetupCreateOwnerRoleDescriptorClientMsgHandle struct{}
-
-type SetupCreateOwnerRoleDescriptorServerMsgHandle struct{}
-
-func (d *SetupCreateOwnerRoleDescriptor) NewEmptyClientMsg() proto.Message {
-	return &SetupCreateOwnerRoleRequest{}
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) NewEmptyServerMsg() proto.Message {
-	return &role_binding.RoleBinding{}
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) IsCollection() bool {
-	return true
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) RequestHasResourceBody() bool {
-	return true
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetVerb() string {
-	return "setupCreateOwnerRole"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetMethodName() string {
-	return "SetupCreateOwnerRole"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetFullMethodName() string {
-	return "/ntt.iam.v1alpha2.RoleBindingService/SetupCreateOwnerRole"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetProtoPkgName() string {
-	return "ntt.iam.v1alpha2"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetApiName() string {
-	return "RoleBindingService"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetServiceDomain() string {
-	return "iam.edgelq.com"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetServiceVersion() string {
-	return "v1alpha2"
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return roleBindingServiceDescriptor
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return role_binding.GetDescriptor()
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &SetupCreateOwnerRoleDescriptorClientMsgHandle{}
-}
-
-func (d *SetupCreateOwnerRoleDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &SetupCreateOwnerRoleDescriptorServerMsgHandle{}
-}
-
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*SetupCreateOwnerRoleRequest) *role_binding.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		res := typedMsg.GetRoleBinding()
-		if name := res.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*role_binding.Name)(nil)
-}
-
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*SetupCreateOwnerRoleRequest) []*role_binding.Name
-	})
-	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *SetupCreateOwnerRoleDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SetupCreateOwnerRoleRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*SetupCreateOwnerRoleRequest) *role_binding.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if ref := typedMsg.GetParent(); ref != nil {
-			return &ref.ParentName
-		}
-	}
-	return (*role_binding.ParentName)(nil)
-}
-
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*role_binding.RoleBinding)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*role_binding.RoleBinding) *role_binding.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*role_binding.RoleBinding)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*role_binding.RoleBinding) []*role_binding.Name
-	})
-	if ok {
-		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *SetupCreateOwnerRoleDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*role_binding.RoleBinding)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*role_binding.RoleBinding) *role_binding.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func GetSetupCreateOwnerRoleDescriptor() *SetupCreateOwnerRoleDescriptor {
-	return setupCreateOwnerRoleDescriptor
-}
-
 type RoleBindingServiceDescriptor struct{}
 
 func (d *RoleBindingServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1641,7 +1467,6 @@ func (d *RoleBindingServiceDescriptor) AllMethodDescriptors() []gotenclient.Meth
 		createRoleBindingDescriptor,
 		updateRoleBindingDescriptor,
 		deleteRoleBindingDescriptor,
-		setupCreateOwnerRoleDescriptor,
 	}
 }
 
@@ -1679,7 +1504,6 @@ func initDescriptors() {
 	createRoleBindingDescriptor = &CreateRoleBindingDescriptor{}
 	updateRoleBindingDescriptor = &UpdateRoleBindingDescriptor{}
 	deleteRoleBindingDescriptor = &DeleteRoleBindingDescriptor{}
-	setupCreateOwnerRoleDescriptor = &SetupCreateOwnerRoleDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(roleBindingServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetRoleBindingsDescriptor)
@@ -1689,7 +1513,6 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteRoleBindingDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(setupCreateOwnerRoleDescriptor)
 }
 
 func init() {

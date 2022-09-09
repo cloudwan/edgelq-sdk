@@ -800,6 +800,10 @@ func (b *filterCndBuilderSpecTemplateMetadata) UpdateTime() *filterCndBuilderSpe
 	return &filterCndBuilderSpecTemplateMetadataUpdateTime{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateMetadata) DeleteTime() *filterCndBuilderSpecTemplateMetadataDeleteTime {
+	return &filterCndBuilderSpecTemplateMetadataDeleteTime{builder: b.builder}
+}
+
 func (b *filterCndBuilderSpecTemplateMetadata) Uuid() *filterCndBuilderSpecTemplateMetadataUuid {
 	return &filterCndBuilderSpecTemplateMetadataUuid{builder: b.builder}
 }
@@ -834,6 +838,10 @@ func (b *filterCndBuilderSpecTemplateMetadata) Shards() *filterCndBuilderSpecTem
 
 func (b *filterCndBuilderSpecTemplateMetadata) Syncing() *filterCndBuilderSpecTemplateMetadataSyncing {
 	return &filterCndBuilderSpecTemplateMetadataSyncing{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateMetadata) Lifecycle() *filterCndBuilderSpecTemplateMetadataLifecycle {
+	return &filterCndBuilderSpecTemplateMetadataLifecycle{builder: b.builder}
 }
 
 type filterCndBuilderSpecTemplateMetadataCreateTime struct {
@@ -951,6 +959,65 @@ func (b *filterCndBuilderSpecTemplateMetadataUpdateTime) compare(op gotenfilter.
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().UpdateTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataDeleteTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().DeleteTime().WithValue(value),
 	})
 }
 
@@ -1563,20 +1630,20 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) compare(op gotenfi
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) ApiVersion() *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion {
-	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion{builder: b.builder}
-}
-
 func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Kind() *filterCndBuilderSpecTemplateMetadataOwnerReferencesKind {
 	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesKind{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Version() *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion {
+	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Name() *filterCndBuilderSpecTemplateMetadataOwnerReferencesName {
 	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesName{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Uid() *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid {
-	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesUid{builder: b.builder}
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Region() *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion {
+	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) Controller() *filterCndBuilderSpecTemplateMetadataOwnerReferencesController {
@@ -1587,63 +1654,8 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) BlockOwnerDeletion
 	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
-type filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesApiVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().ApiVersion().WithValue(value),
-	})
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference {
+	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
 type filterCndBuilderSpecTemplateMetadataOwnerReferencesKind struct {
@@ -1702,6 +1714,65 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesKind) compare(op got
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Kind().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Version().WithValue(value),
 	})
 }
 
@@ -1764,62 +1835,62 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesName) compare(op got
 	})
 }
 
-type filterCndBuilderSpecTemplateMetadataOwnerReferencesUid struct {
+type filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUid) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Uid().WithValue(value),
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().Region().WithValue(value),
 	})
 }
 
@@ -1938,6 +2009,65 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesBlockOwnerDeletion) 
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
 	})
 }
 
@@ -2280,6 +2410,191 @@ func (b *filterCndBuilderSpecTemplateMetadataSyncingRegions) compare(op gotenfil
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Syncing().Regions().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataLifecycle struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) State() *filterCndBuilderSpecTemplateMetadataLifecycleState {
+	return &filterCndBuilderSpecTemplateMetadataLifecycleState{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycle) BlockDeletion() *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion {
+	return &filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateMetadataLifecycleState struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().State().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataLifecycleBlockDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Metadata().Lifecycle().BlockDeletion().WithValue(value),
 	})
 }
 
@@ -34707,6 +35022,10 @@ func (b *filterCndBuilderMetadata) UpdateTime() *filterCndBuilderMetadataUpdateT
 	return &filterCndBuilderMetadataUpdateTime{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadata) DeleteTime() *filterCndBuilderMetadataDeleteTime {
+	return &filterCndBuilderMetadataDeleteTime{builder: b.builder}
+}
+
 func (b *filterCndBuilderMetadata) Uuid() *filterCndBuilderMetadataUuid {
 	return &filterCndBuilderMetadataUuid{builder: b.builder}
 }
@@ -34741,6 +35060,10 @@ func (b *filterCndBuilderMetadata) Shards() *filterCndBuilderMetadataShards {
 
 func (b *filterCndBuilderMetadata) Syncing() *filterCndBuilderMetadataSyncing {
 	return &filterCndBuilderMetadataSyncing{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadata) Lifecycle() *filterCndBuilderMetadataLifecycle {
+	return &filterCndBuilderMetadataLifecycle{builder: b.builder}
 }
 
 type filterCndBuilderMetadataCreateTime struct {
@@ -34858,6 +35181,65 @@ func (b *filterCndBuilderMetadataUpdateTime) compare(op gotenfilter.CompareOpera
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().UpdateTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataDeleteTime struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Eq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Neq(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Gt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Gte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Lt(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) Lte(value *timestamp.Timestamp) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) In(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) NotIn(values []*timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().DeleteTime().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataDeleteTime) compare(op gotenfilter.CompareOperator, value *timestamp.Timestamp) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().DeleteTime().WithValue(value),
 	})
 }
 
@@ -35470,20 +35852,20 @@ func (b *filterCndBuilderMetadataOwnerReferences) compare(op gotenfilter.Compare
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) ApiVersion() *filterCndBuilderMetadataOwnerReferencesApiVersion {
-	return &filterCndBuilderMetadataOwnerReferencesApiVersion{builder: b.builder}
-}
-
 func (b *filterCndBuilderMetadataOwnerReferences) Kind() *filterCndBuilderMetadataOwnerReferencesKind {
 	return &filterCndBuilderMetadataOwnerReferencesKind{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataOwnerReferences) Version() *filterCndBuilderMetadataOwnerReferencesVersion {
+	return &filterCndBuilderMetadataOwnerReferencesVersion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) Name() *filterCndBuilderMetadataOwnerReferencesName {
 	return &filterCndBuilderMetadataOwnerReferencesName{builder: b.builder}
 }
 
-func (b *filterCndBuilderMetadataOwnerReferences) Uid() *filterCndBuilderMetadataOwnerReferencesUid {
-	return &filterCndBuilderMetadataOwnerReferencesUid{builder: b.builder}
+func (b *filterCndBuilderMetadataOwnerReferences) Region() *filterCndBuilderMetadataOwnerReferencesRegion {
+	return &filterCndBuilderMetadataOwnerReferencesRegion{builder: b.builder}
 }
 
 func (b *filterCndBuilderMetadataOwnerReferences) Controller() *filterCndBuilderMetadataOwnerReferencesController {
@@ -35494,63 +35876,8 @@ func (b *filterCndBuilderMetadataOwnerReferences) BlockOwnerDeletion() *filterCn
 	return &filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion{builder: b.builder}
 }
 
-type filterCndBuilderMetadataOwnerReferencesApiVersion struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderMetadataOwnerReferencesApiVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().WithValue(value),
-	})
+func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference {
+	return &filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
 type filterCndBuilderMetadataOwnerReferencesKind struct {
@@ -35609,6 +35936,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesKind) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Kind().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesVersion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().WithValue(value),
 	})
 }
 
@@ -35671,62 +36057,62 @@ func (b *filterCndBuilderMetadataOwnerReferencesName) compare(op gotenfilter.Com
 	})
 }
 
-type filterCndBuilderMetadataOwnerReferencesUid struct {
+type filterCndBuilderMetadataOwnerReferencesRegion struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().WithArrayOfValues(values),
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) IsNull() *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) IsNan() *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderMetadataOwnerReferencesUid) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderMetadataOwnerReferencesRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
-		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Uid().WithValue(value),
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().WithValue(value),
 	})
 }
 
@@ -35845,6 +36231,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesBlockOwnerDeletion) compare(op g
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
 	})
 }
 
@@ -36187,5 +36632,190 @@ func (b *filterCndBuilderMetadataSyncingRegions) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().Syncing().Regions().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataLifecycle struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Eq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Neq(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Gt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Gte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Lt(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) Lte(value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycle) In(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) NotIn(values []*ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) compare(op gotenfilter.CompareOperator, value *ntt_meta.Lifecycle) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycle) State() *filterCndBuilderMetadataLifecycleState {
+	return &filterCndBuilderMetadataLifecycleState{builder: b.builder}
+}
+
+func (b *filterCndBuilderMetadataLifecycle) BlockDeletion() *filterCndBuilderMetadataLifecycleBlockDeletion {
+	return &filterCndBuilderMetadataLifecycleBlockDeletion{builder: b.builder}
+}
+
+type filterCndBuilderMetadataLifecycleState struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Eq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Neq(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Gt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Gte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Lt(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) Lte(value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) In(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) NotIn(values []ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().State().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleState) compare(op gotenfilter.CompareOperator, value ntt_meta.Lifecycle_State) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().State().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataLifecycleBlockDeletion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataLifecycleBlockDeletion) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().WithValue(value),
 	})
 }

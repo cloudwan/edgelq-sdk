@@ -71,6 +71,10 @@ func (d *SecretsDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *SecretsDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{}
+}
+
 func GetSecretsDescriptor() *SecretsDescriptor {
 	return secretsDescriptor
 }

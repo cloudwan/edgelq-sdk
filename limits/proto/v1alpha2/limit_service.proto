@@ -272,6 +272,12 @@ message UpdateLimitRequest {
   }
 }
 
+// Request message for method [DeleteLimit][ntt.limits.v1alpha2.DeleteLimit]
+message DeleteLimitRequest {
+  // Reference of ntt.limits.v1alpha2.Limit
+  string name = 1;
+}
+
 // Limit service API for Limits
 service LimitService {
   option (google.api.default_host) = "limits.edgelq.com";
@@ -317,6 +323,13 @@ service LimitService {
     option (google.api.http) = {
       put : "/v1alpha2/{limit.name=projects/*/limits/*}"
       body : "limit"
+    };
+  }
+
+  // DeleteLimit
+  rpc DeleteLimit(DeleteLimitRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1alpha2/{name=projects/*/limits/*}"
     };
   }
 }

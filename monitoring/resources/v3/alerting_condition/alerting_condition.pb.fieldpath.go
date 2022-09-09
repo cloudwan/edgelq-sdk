@@ -298,6 +298,10 @@ func (fp *AlertingCondition_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertingCondition_FieldPathSelectorDescription
 }
 
+func (fp *AlertingCondition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingCondition_FieldTerminalPath) WithIValue(value interface{}) AlertingCondition_FieldPathValue {
 	switch fp.selector {
 	case AlertingCondition_FieldPathSelectorName:
@@ -462,6 +466,12 @@ func (fps *AlertingCondition_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingCondition_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingCondition_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingCondition_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingCondition_FieldSubPath) WithIValue(value interface{}) AlertingCondition_FieldPathValue {
@@ -752,7 +762,11 @@ func (fpaiv *AlertingCondition_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *AlertingCondition_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition) bool {
 	slice := fpaiv.AlertingCondition_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1080,6 +1094,10 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) IsLeaf() bool {
 	return false
 }
 
+func (fp *AlertingConditionSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpec_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpec_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
@@ -1215,6 +1233,12 @@ func (fps *AlertingConditionSpec_FieldSubPath) ClearValueRaw(item proto.Message)
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingConditionSpec_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingConditionSpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingConditionSpec_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingConditionSpec_FieldSubPath) WithIValue(value interface{}) AlertingConditionSpec_FieldPathValue {
@@ -1432,7 +1456,11 @@ func (fpaiv *AlertingConditionSpec_FieldTerminalPathArrayItemValue) GetSingleRaw
 func (fpaiv *AlertingConditionSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec) bool {
 	slice := fpaiv.AlertingConditionSpec_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1684,6 +1712,10 @@ func (fp *AlertingConditionState_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertingConditionState_FieldPathSelectorFiringAlertsCount
 }
 
+func (fp *AlertingConditionState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionState_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionState_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionState_FieldPathSelectorFiringAlertsCount:
@@ -1860,7 +1892,11 @@ func (fpaiv *AlertingConditionState_FieldTerminalPathArrayItemValue) GetSingleRa
 func (fpaiv *AlertingConditionState_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_State) bool {
 	slice := fpaiv.AlertingConditionState_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2127,6 +2163,10 @@ func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertingConditionSpecTimeSeries_FieldPathSelectorDuration
 }
 
+func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpecTimeSeries_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeries_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeries_FieldPathSelectorQuery:
@@ -2283,6 +2323,12 @@ func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingConditionSpecTimeSeries_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeries_FieldPathValue {
@@ -2541,7 +2587,11 @@ func (fpaiv *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayItemValue) Ge
 func (fpaiv *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_TimeSeries) bool {
 	slice := fpaiv.AlertingConditionSpecTimeSeries_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2819,6 +2869,10 @@ func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertingConditionSpecTrigger_FieldPathSelectorType
 }
 
+func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTrigger_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTrigger_FieldPathSelectorType:
@@ -2995,7 +3049,11 @@ func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_Trigger) bool {
 	slice := fpaiv.AlertingConditionSpecTrigger_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3224,6 +3282,10 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) IsLeaf() bool 
 	return false
 }
 
+func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
@@ -3359,6 +3421,12 @@ func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) ClearValueRaw(item
 // IsLeaf - whether field path is holds simple value
 func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathValue {
@@ -3576,7 +3644,11 @@ func (fpaiv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayItemValu
 func (fpaiv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_TimeSeries_Query) bool {
 	slice := fpaiv.AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3842,6 +3914,10 @@ func (fp *AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPath) IsLeaf() b
 		fp.selector == AlertingConditionSpecTimeSeriesThreshold_FieldPathSelectorValue
 }
 
+func (fp *AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesThreshold_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesThreshold_FieldPathSelectorCompare:
@@ -4038,7 +4114,11 @@ func (fpaiv *AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPathArrayItem
 func (fpaiv *AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_TimeSeries_Threshold) bool {
 	slice := fpaiv.AlertingConditionSpecTimeSeriesThreshold_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4265,6 +4345,10 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) IsL
 	return fp.selector == AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine
 }
 
+func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathValue {
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
@@ -4400,6 +4484,10 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) IsLeaf(
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
 }
 
 func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathValue {
@@ -4632,7 +4720,11 @@ func (fpaiv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathAr
 func (fpaiv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_TimeSeries_CombineThreshold) bool {
 	slice := fpaiv.AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

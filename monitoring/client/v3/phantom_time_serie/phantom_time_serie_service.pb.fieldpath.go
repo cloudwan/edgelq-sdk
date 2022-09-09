@@ -236,6 +236,10 @@ func (fp *GetPhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GetPhantomTimeSerieRequest_FieldPathSelectorView
 }
 
+func (fp *GetPhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GetPhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value interface{}) GetPhantomTimeSerieRequest_FieldPathValue {
 	switch fp.selector {
 	case GetPhantomTimeSerieRequest_FieldPathSelectorName:
@@ -453,7 +457,11 @@ func (fpaiv *GetPhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetSing
 func (fpaiv *GetPhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *GetPhantomTimeSerieRequest) bool {
 	slice := fpaiv.GetPhantomTimeSerieRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -698,6 +706,10 @@ func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == BatchGetPhantomTimeSeriesRequest_FieldPathSelectorView
 }
 
+func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPhantomTimeSeriesRequest_FieldTerminalPath) WithIValue(value interface{}) BatchGetPhantomTimeSeriesRequest_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPhantomTimeSeriesRequest_FieldPathSelectorNames:
@@ -904,7 +916,11 @@ func (fpaiv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) G
 func (fpaiv *BatchGetPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPhantomTimeSeriesRequest) bool {
 	slice := fpaiv.BatchGetPhantomTimeSeriesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1143,6 +1159,10 @@ func (fp *BatchGetPhantomTimeSeriesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == BatchGetPhantomTimeSeriesResponse_FieldPathSelectorMissing
 }
 
+func (fp *BatchGetPhantomTimeSeriesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *BatchGetPhantomTimeSeriesResponse_FieldTerminalPath) WithIValue(value interface{}) BatchGetPhantomTimeSeriesResponse_FieldPathValue {
 	switch fp.selector {
 	case BatchGetPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries:
@@ -1273,6 +1293,12 @@ func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&BatchGetPhantomTimeSeriesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) WithIValue(value interface{}) BatchGetPhantomTimeSeriesResponse_FieldPathValue {
@@ -1490,7 +1516,11 @@ func (fpaiv *BatchGetPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) 
 func (fpaiv *BatchGetPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *BatchGetPhantomTimeSeriesResponse) bool {
 	slice := fpaiv.BatchGetPhantomTimeSeriesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1831,6 +1861,10 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorView
 }
 
+func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) WithIValue(value interface{}) ListPhantomTimeSeriesRequest_FieldPathValue {
 	switch fp.selector {
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorParent:
@@ -2104,7 +2138,11 @@ func (fpaiv *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPhantomTimeSeriesRequest) bool {
 	slice := fpaiv.ListPhantomTimeSeriesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2392,6 +2430,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken
 }
 
+func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) WithIValue(value interface{}) ListPhantomTimeSeriesResponse_FieldPathValue {
 	switch fp.selector {
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries:
@@ -2524,6 +2566,12 @@ func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) WithIValue(value interface{}) ListPhantomTimeSeriesResponse_FieldPathValue {
@@ -2745,7 +2793,11 @@ func (fpaiv *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListPhantomTimeSeriesResponse) bool {
 	slice := fpaiv.ListPhantomTimeSeriesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3029,6 +3081,10 @@ func (fp *WatchPhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPhantomTimeSerieRequest_FieldPathSelectorView
 }
 
+func (fp *WatchPhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPhantomTimeSerieRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPhantomTimeSerieRequest_FieldPathSelectorName:
@@ -3246,7 +3302,11 @@ func (fpaiv *WatchPhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetSi
 func (fpaiv *WatchPhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPhantomTimeSerieRequest) bool {
 	slice := fpaiv.WatchPhantomTimeSerieRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3460,6 +3520,10 @@ func (fp *WatchPhantomTimeSerieResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == WatchPhantomTimeSerieResponse_FieldPathSelectorChange
 }
 
+func (fp *WatchPhantomTimeSerieResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPhantomTimeSerieResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPhantomTimeSerieResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPhantomTimeSerieResponse_FieldPathSelectorChange:
@@ -3628,7 +3692,11 @@ func (fpaiv *WatchPhantomTimeSerieResponse_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *WatchPhantomTimeSerieResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPhantomTimeSerieResponse) bool {
 	slice := fpaiv.WatchPhantomTimeSerieResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -3964,6 +4032,10 @@ func (fp *WatchPhantomTimeSeriesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPhantomTimeSeriesRequest_FieldPathSelectorMaxChunkSize
 }
 
+func (fp *WatchPhantomTimeSeriesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPhantomTimeSeriesRequest_FieldTerminalPath) WithIValue(value interface{}) WatchPhantomTimeSeriesRequest_FieldPathValue {
 	switch fp.selector {
 	case WatchPhantomTimeSeriesRequest_FieldPathSelectorType:
@@ -4297,7 +4369,11 @@ func (fpaiv *WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPhantomTimeSeriesRequest) bool {
 	slice := fpaiv.WatchPhantomTimeSeriesRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -4662,6 +4738,10 @@ func (fp *WatchPhantomTimeSeriesResponse_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPhantomTimeSeriesResponse_FieldPathSelectorIsHardReset
 }
 
+func (fp *WatchPhantomTimeSeriesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPhantomTimeSeriesResponse_FieldTerminalPath) WithIValue(value interface{}) WatchPhantomTimeSeriesResponse_FieldPathValue {
 	switch fp.selector {
 	case WatchPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSerieChanges:
@@ -4806,6 +4886,12 @@ func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&WatchPhantomTimeSeriesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) WithIValue(value interface{}) WatchPhantomTimeSeriesResponse_FieldPathValue {
@@ -5099,7 +5185,11 @@ func (fpaiv *WatchPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) Get
 func (fpaiv *WatchPhantomTimeSeriesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPhantomTimeSeriesResponse) bool {
 	slice := fpaiv.WatchPhantomTimeSeriesResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5401,6 +5491,10 @@ func (fp *WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPath) IsLea
 		fp.selector == WatchPhantomTimeSeriesResponsePageTokenChange_FieldPathSelectorNextPageToken
 }
 
+func (fp *WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPath) WithIValue(value interface{}) WatchPhantomTimeSeriesResponsePageTokenChange_FieldPathValue {
 	switch fp.selector {
 	case WatchPhantomTimeSeriesResponsePageTokenChange_FieldPathSelectorPrevPageToken:
@@ -5581,7 +5675,11 @@ func (fpaiv *WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPathArra
 func (fpaiv *WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPathArrayItemValue) ContainsValue(source *WatchPhantomTimeSeriesResponse_PageTokenChange) bool {
 	slice := fpaiv.WatchPhantomTimeSeriesResponsePageTokenChange_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -5812,6 +5910,10 @@ func (fp *CreatePhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CreatePhantomTimeSerieRequest_FieldPathSelectorParent
 }
 
+func (fp *CreatePhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *CreatePhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value interface{}) CreatePhantomTimeSerieRequest_FieldPathValue {
 	switch fp.selector {
 	case CreatePhantomTimeSerieRequest_FieldPathSelectorParent:
@@ -5934,6 +6036,12 @@ func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CreatePhantomTimeSerieRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) WithIValue(value interface{}) CreatePhantomTimeSerieRequest_FieldPathValue {
@@ -6160,7 +6268,11 @@ func (fpaiv *CreatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *CreatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CreatePhantomTimeSerieRequest) bool {
 	slice := fpaiv.CreatePhantomTimeSerieRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -6405,6 +6517,10 @@ func (fp *DeletePhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == DeletePhantomTimeSerieRequest_FieldPathSelectorName
 }
 
+func (fp *DeletePhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeletePhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value interface{}) DeletePhantomTimeSerieRequest_FieldPathValue {
 	switch fp.selector {
 	case DeletePhantomTimeSerieRequest_FieldPathSelectorName:
@@ -6590,7 +6706,11 @@ func (fpaiv *DeletePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetS
 func (fpaiv *DeletePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeletePhantomTimeSerieRequest) bool {
 	slice := fpaiv.DeletePhantomTimeSerieRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

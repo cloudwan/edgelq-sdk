@@ -254,6 +254,10 @@ func (ListMyProjectsResponsePathSelectorProjectsMetadata) UpdateTime() ListMyPro
 	return ListMyProjectsResponsePathSelectorProjectsMetadataUpdateTime{}
 }
 
+func (ListMyProjectsResponsePathSelectorProjectsMetadata) DeleteTime() ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime{}
+}
+
 func (ListMyProjectsResponsePathSelectorProjectsMetadata) Uuid() ListMyProjectsResponsePathSelectorProjectsMetadataUuid {
 	return ListMyProjectsResponsePathSelectorProjectsMetadataUuid{}
 }
@@ -290,6 +294,10 @@ func (ListMyProjectsResponsePathSelectorProjectsMetadata) Syncing() ListMyProjec
 	return ListMyProjectsResponsePathSelectorProjectsMetadataSyncing{}
 }
 
+func (ListMyProjectsResponsePathSelectorProjectsMetadata) Lifecycle() ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle{}
+}
+
 type ListMyProjectsResponsePathSelectorProjectsMetadataCreateTime struct{}
 
 func (ListMyProjectsResponsePathSelectorProjectsMetadataCreateTime) FieldPath() *ListMyProjectsResponse_FieldSubPath {
@@ -321,6 +329,23 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithValue(
 }
 
 func (s ListMyProjectsResponsePathSelectorProjectsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -497,20 +522,20 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) WithI
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) ApiVersion() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion {
-	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Kind() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind {
 	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Version() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion{}
 }
 
 func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Name() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName {
 	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName{}
 }
 
-func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Uid() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid {
-	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid{}
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Region() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion{}
 }
 
 func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) Controller() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesController {
@@ -521,21 +546,8 @@ func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) BlockOw
 	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) FieldPath() *ListMyProjectsResponse_FieldSubPath {
-	return &ListMyProjectsResponse_FieldSubPath{
-		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListMyProjectsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
-}
-
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferences) RequiresOwnerReference() ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind struct{}
@@ -552,6 +564,23 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind) W
 }
 
 func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithValue(value string) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -572,20 +601,20 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesName) W
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid struct{}
+type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion struct{}
 
-func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) FieldPath() *ListMyProjectsResponse_FieldSubPath {
 	return &ListMyProjectsResponse_FieldSubPath{
 		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
-		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithValue(value string) *ListMyProjectsResponse_FieldSubPathValue {
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithValue(value string) *ListMyProjectsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -620,6 +649,23 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOw
 }
 
 func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -724,6 +770,65 @@ func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncingRegions) WithAr
 
 func (s ListMyProjectsResponsePathSelectorProjectsMetadataSyncingRegions) WithItemValue(value string) *ListMyProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle) State() ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataLifecycle) BlockDeletion() ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion {
+	return ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion{}
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListMyProjectsResponsePathSelectorProjectsMultiRegionPolicy struct{}

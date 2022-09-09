@@ -20,6 +20,7 @@ import (
 	limit "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/limit"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -38,6 +39,7 @@ var (
 var (
 	_ = &iam_project.Project{}
 	_ = &limit.Limit{}
+	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -1379,4 +1381,74 @@ func (o *UpdateLimitRequest_CAS) Merge(source *UpdateLimitRequest_CAS) {
 
 func (o *UpdateLimitRequest_CAS) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*UpdateLimitRequest_CAS))
+}
+
+func (o *DeleteLimitRequest) GotenObjectExt() {}
+
+func (o *DeleteLimitRequest) MakeFullFieldMask() *DeleteLimitRequest_FieldMask {
+	return FullDeleteLimitRequest_FieldMask()
+}
+
+func (o *DeleteLimitRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDeleteLimitRequest_FieldMask()
+}
+
+func (o *DeleteLimitRequest) MakeDiffFieldMask(other *DeleteLimitRequest) *DeleteLimitRequest_FieldMask {
+	if o == nil && other == nil {
+		return &DeleteLimitRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDeleteLimitRequest_FieldMask()
+	}
+
+	res := &DeleteLimitRequest_FieldMask{}
+	if o.GetName().String() != other.GetName().String() {
+		res.Paths = append(res.Paths, &DeleteLimitRequest_FieldTerminalPath{selector: DeleteLimitRequest_FieldPathSelectorName})
+	}
+	return res
+}
+
+func (o *DeleteLimitRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*DeleteLimitRequest))
+}
+
+func (o *DeleteLimitRequest) Clone() *DeleteLimitRequest {
+	if o == nil {
+		return nil
+	}
+	result := &DeleteLimitRequest{}
+	if o.Name == nil {
+		result.Name = nil
+	} else if data, err := o.Name.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Name = &limit.Reference{}
+		if err := result.Name.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	return result
+}
+
+func (o *DeleteLimitRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *DeleteLimitRequest) Merge(source *DeleteLimitRequest) {
+	if source.GetName() != nil {
+		if data, err := source.GetName().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Name = &limit.Reference{}
+			if err := o.Name.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Name = nil
+	}
+}
+
+func (o *DeleteLimitRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*DeleteLimitRequest))
 }

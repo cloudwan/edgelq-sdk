@@ -197,6 +197,10 @@ func (fp *ProvisionServiceAccountToDeviceRequest_FieldTerminalPath) IsLeaf() boo
 	return fp.selector == ProvisionServiceAccountToDeviceRequest_FieldPathSelectorName
 }
 
+func (fp *ProvisionServiceAccountToDeviceRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisionServiceAccountToDeviceRequest_FieldTerminalPath) WithIValue(value interface{}) ProvisionServiceAccountToDeviceRequest_FieldPathValue {
 	switch fp.selector {
 	case ProvisionServiceAccountToDeviceRequest_FieldPathSelectorName:
@@ -382,7 +386,11 @@ func (fpaiv *ProvisionServiceAccountToDeviceRequest_FieldTerminalPathArrayItemVa
 func (fpaiv *ProvisionServiceAccountToDeviceRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisionServiceAccountToDeviceRequest) bool {
 	slice := fpaiv.ProvisionServiceAccountToDeviceRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -589,6 +597,10 @@ func (fp *ProvisionServiceAccountToDeviceResponse_FieldTerminalPath) IsLeaf() bo
 	return false
 }
 
+func (fp *ProvisionServiceAccountToDeviceResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ProvisionServiceAccountToDeviceResponse_FieldTerminalPath) WithIValue(value interface{}) ProvisionServiceAccountToDeviceResponse_FieldPathValue {
 	switch fp.selector {
 	case ProvisionServiceAccountToDeviceResponse_FieldPathSelectorServiceAccount:
@@ -707,6 +719,12 @@ func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) ClearValueRaw(i
 // IsLeaf - whether field path is holds simple value
 func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ProvisionServiceAccountToDeviceResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) WithIValue(value interface{}) ProvisionServiceAccountToDeviceResponse_FieldPathValue {
@@ -908,7 +926,11 @@ func (fpaiv *ProvisionServiceAccountToDeviceResponse_FieldTerminalPathArrayItemV
 func (fpaiv *ProvisionServiceAccountToDeviceResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ProvisionServiceAccountToDeviceResponse) bool {
 	slice := fpaiv.ProvisionServiceAccountToDeviceResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1145,6 +1167,10 @@ func (fp *RemoveServiceAccountFromDeviceRequest_FieldTerminalPath) IsLeaf() bool
 	return fp.selector == RemoveServiceAccountFromDeviceRequest_FieldPathSelectorName
 }
 
+func (fp *RemoveServiceAccountFromDeviceRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *RemoveServiceAccountFromDeviceRequest_FieldTerminalPath) WithIValue(value interface{}) RemoveServiceAccountFromDeviceRequest_FieldPathValue {
 	switch fp.selector {
 	case RemoveServiceAccountFromDeviceRequest_FieldPathSelectorName:
@@ -1330,7 +1356,11 @@ func (fpaiv *RemoveServiceAccountFromDeviceRequest_FieldTerminalPathArrayItemVal
 func (fpaiv *RemoveServiceAccountFromDeviceRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *RemoveServiceAccountFromDeviceRequest) bool {
 	slice := fpaiv.RemoveServiceAccountFromDeviceRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1509,6 +1539,10 @@ func (fp *RemoveServiceAccountFromDeviceResponse_FieldTerminalPath) IsLeaf() boo
 	return false
 }
 
+func (fp *RemoveServiceAccountFromDeviceResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *RemoveServiceAccountFromDeviceResponse_FieldTerminalPath) WithIValue(value interface{}) RemoveServiceAccountFromDeviceResponse_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -1665,7 +1699,11 @@ func (fpaiv *RemoveServiceAccountFromDeviceResponse_FieldTerminalPathArrayItemVa
 func (fpaiv *RemoveServiceAccountFromDeviceResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *RemoveServiceAccountFromDeviceResponse) bool {
 	slice := fpaiv.RemoveServiceAccountFromDeviceResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

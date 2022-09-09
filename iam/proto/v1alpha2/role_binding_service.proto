@@ -4,7 +4,6 @@ package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/role_binding_change.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/role_binding_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -397,20 +396,6 @@ service RoleBindingService {
       >
       additional_bindings : <
         delete : "/v1alpha2/{name=organizations/*/roleBindings/*}"
-      >
-    };
-  }
-
-  // SetupCreateOwnerRole
-  rpc SetupCreateOwnerRole(SetupCreateOwnerRoleRequest) returns (RoleBinding) {
-    option (google.api.http) = {
-      post : "/v1alpha2/roleBindings"
-      body : "role_binding"
-      additional_bindings : <
-        post : "/v1alpha2/{parent=projects/*}/roleBindings"
-      >
-      additional_bindings : <
-        post : "/v1alpha2/{parent=organizations/*}/roleBindings"
       >
     };
   }

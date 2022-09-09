@@ -65,6 +65,10 @@ func (d *ProxiesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	}
 }
 
+func (d *ProxiesDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
+	return []gotenclient.ServiceImportInfo{}
+}
+
 func GetProxiesDescriptor() *ProxiesDescriptor {
 	return proxiesDescriptor
 }

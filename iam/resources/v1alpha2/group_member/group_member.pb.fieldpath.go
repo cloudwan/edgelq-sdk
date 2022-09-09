@@ -267,6 +267,10 @@ func (fp *GroupMember_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == GroupMember_FieldPathSelectorMinAncestryMembers
 }
 
+func (fp *GroupMember_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *GroupMember_FieldTerminalPath) WithIValue(value interface{}) GroupMember_FieldPathValue {
 	switch fp.selector {
 	case GroupMember_FieldPathSelectorName:
@@ -403,6 +407,12 @@ func (fps *GroupMember_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *GroupMember_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *GroupMember_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&GroupMember_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *GroupMember_FieldSubPath) WithIValue(value interface{}) GroupMember_FieldPathValue {
@@ -673,7 +683,11 @@ func (fpaiv *GroupMember_FieldTerminalPathArrayItemValue) GetSingleRaw(source pr
 func (fpaiv *GroupMember_FieldTerminalPathArrayItemValue) ContainsValue(source *GroupMember) bool {
 	slice := fpaiv.GroupMember_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

@@ -199,6 +199,10 @@ func (fp *AcceptOrganizationInvitationRequest_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AcceptOrganizationInvitationRequest_FieldPathSelectorName
 }
 
+func (fp *AcceptOrganizationInvitationRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AcceptOrganizationInvitationRequest_FieldTerminalPath) WithIValue(value interface{}) AcceptOrganizationInvitationRequest_FieldPathValue {
 	switch fp.selector {
 	case AcceptOrganizationInvitationRequest_FieldPathSelectorName:
@@ -384,7 +388,11 @@ func (fpaiv *AcceptOrganizationInvitationRequest_FieldTerminalPathArrayItemValue
 func (fpaiv *AcceptOrganizationInvitationRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *AcceptOrganizationInvitationRequest) bool {
 	slice := fpaiv.AcceptOrganizationInvitationRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -563,6 +571,10 @@ func (fp *AcceptOrganizationInvitationResponse_FieldTerminalPath) IsLeaf() bool 
 	return false
 }
 
+func (fp *AcceptOrganizationInvitationResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *AcceptOrganizationInvitationResponse_FieldTerminalPath) WithIValue(value interface{}) AcceptOrganizationInvitationResponse_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -719,7 +731,11 @@ func (fpaiv *AcceptOrganizationInvitationResponse_FieldTerminalPathArrayItemValu
 func (fpaiv *AcceptOrganizationInvitationResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *AcceptOrganizationInvitationResponse) bool {
 	slice := fpaiv.AcceptOrganizationInvitationResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -926,6 +942,10 @@ func (fp *DeclineOrganizationInvitationRequest_FieldTerminalPath) IsLeaf() bool 
 		fp.selector == DeclineOrganizationInvitationRequest_FieldPathSelectorFilter
 }
 
+func (fp *DeclineOrganizationInvitationRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeclineOrganizationInvitationRequest_FieldTerminalPath) WithIValue(value interface{}) DeclineOrganizationInvitationRequest_FieldPathValue {
 	switch fp.selector {
 	case DeclineOrganizationInvitationRequest_FieldPathSelectorName:
@@ -1123,7 +1143,11 @@ func (fpaiv *DeclineOrganizationInvitationRequest_FieldTerminalPathArrayItemValu
 func (fpaiv *DeclineOrganizationInvitationRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *DeclineOrganizationInvitationRequest) bool {
 	slice := fpaiv.DeclineOrganizationInvitationRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1310,6 +1334,10 @@ func (fp *DeclineOrganizationInvitationResponse_FieldTerminalPath) IsLeaf() bool
 	return false
 }
 
+func (fp *DeclineOrganizationInvitationResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *DeclineOrganizationInvitationResponse_FieldTerminalPath) WithIValue(value interface{}) DeclineOrganizationInvitationResponse_FieldPathValue {
 	switch fp.selector {
 	default:
@@ -1466,7 +1494,11 @@ func (fpaiv *DeclineOrganizationInvitationResponse_FieldTerminalPathArrayItemVal
 func (fpaiv *DeclineOrganizationInvitationResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *DeclineOrganizationInvitationResponse) bool {
 	slice := fpaiv.DeclineOrganizationInvitationResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1673,6 +1705,10 @@ func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) IsLeaf() bool 
 		fp.selector == ListMyOrganizationInvitationsRequest_FieldPathSelectorFilter
 }
 
+func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyOrganizationInvitationsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationInvitationsRequest_FieldPathValue {
 	switch fp.selector {
 	case ListMyOrganizationInvitationsRequest_FieldPathSelectorParent:
@@ -1870,7 +1906,11 @@ func (fpaiv *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayItemValu
 func (fpaiv *ListMyOrganizationInvitationsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyOrganizationInvitationsRequest) bool {
 	slice := fpaiv.ListMyOrganizationInvitationsRequest_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -2085,6 +2125,10 @@ func (fp *ListMyOrganizationInvitationsResponse_FieldTerminalPath) IsLeaf() bool
 	return false
 }
 
+func (fp *ListMyOrganizationInvitationsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *ListMyOrganizationInvitationsResponse_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationInvitationsResponse_FieldPathValue {
 	switch fp.selector {
 	case ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations:
@@ -2209,6 +2253,12 @@ func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) ClearValueRaw(ite
 // IsLeaf - whether field path is holds simple value
 func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ListMyOrganizationInvitationsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) WithIValue(value interface{}) ListMyOrganizationInvitationsResponse_FieldPathValue {
@@ -2414,7 +2464,11 @@ func (fpaiv *ListMyOrganizationInvitationsResponse_FieldTerminalPathArrayItemVal
 func (fpaiv *ListMyOrganizationInvitationsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *ListMyOrganizationInvitationsResponse) bool {
 	slice := fpaiv.ListMyOrganizationInvitationsResponse_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

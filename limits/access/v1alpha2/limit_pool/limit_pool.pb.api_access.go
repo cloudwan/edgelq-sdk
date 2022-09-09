@@ -199,7 +199,11 @@ func (a *apiLimitPoolAccess) SaveLimitPool(ctx context.Context, res *limit_pool.
 }
 
 func (a *apiLimitPoolAccess) DeleteLimitPool(ctx context.Context, ref *limit_pool.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on LimitPool is prohibited")
+	request := &limit_pool_client.DeleteLimitPoolRequest{
+		Name: ref,
+	}
+	_, err := a.client.DeleteLimitPool(ctx, request)
+	return err
 }
 
 func init() {

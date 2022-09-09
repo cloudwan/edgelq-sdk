@@ -298,6 +298,10 @@ func (fp *LogDescriptor_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == LogDescriptor_FieldPathSelectorDescription
 }
 
+func (fp *LogDescriptor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LogDescriptor_FieldTerminalPath) WithIValue(value interface{}) LogDescriptor_FieldPathValue {
 	switch fp.selector {
 	case LogDescriptor_FieldPathSelectorName:
@@ -474,6 +478,12 @@ func (fps *LogDescriptor_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *LogDescriptor_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *LogDescriptor_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&LogDescriptor_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *LogDescriptor_FieldSubPath) WithIValue(value interface{}) LogDescriptor_FieldPathValue {
@@ -772,7 +782,11 @@ func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) GetSingleRaw(source 
 func (fpaiv *LogDescriptor_FieldTerminalPathArrayItemValue) ContainsValue(source *LogDescriptor) bool {
 	slice := fpaiv.LogDescriptor_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

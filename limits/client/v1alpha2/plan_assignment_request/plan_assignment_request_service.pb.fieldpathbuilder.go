@@ -955,6 +955,10 @@ func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMe
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUpdateTime{}
 }
 
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) DeleteTime() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime{}
+}
+
 func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) Uuid() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUuid {
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUuid{}
 }
@@ -991,6 +995,10 @@ func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMe
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataSyncing{}
 }
 
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) Lifecycle() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle{}
+}
+
 type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataCreateTime struct{}
 
 func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataCreateTime) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
@@ -1022,6 +1030,23 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 }
 
 func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1198,20 +1223,20 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) ApiVersion() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion {
-	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Kind() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind {
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Version() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Name() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesName {
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Uid() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid {
-	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid{}
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Region() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Controller() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesController {
@@ -1222,21 +1247,8 @@ func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMe
 	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
-	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
-		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) RequiresOwnerReference() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind struct{}
@@ -1253,6 +1265,23 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 }
 
 func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1273,20 +1302,20 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid struct{}
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
 	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
 		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1321,6 +1350,23 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 }
 
 func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1425,6 +1471,65 @@ func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequests
 
 func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataSyncingRegions) WithItemValue(value string) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) State() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState{}
+}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) BlockDeletion() BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion {
+	return BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetPlanAssignmentRequestsResponse_FieldSubPath {
+	return &BatchGetPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: BatchGetPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetPlanAssignmentRequestsResponsePathSelectorMissing struct{}
@@ -2366,6 +2471,10 @@ func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetada
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUpdateTime{}
 }
 
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) DeleteTime() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime{}
+}
+
 func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) Uuid() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUuid {
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUuid{}
 }
@@ -2402,6 +2511,10 @@ func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetada
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataSyncing{}
 }
 
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadata) Lifecycle() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle{}
+}
+
 type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataCreateTime struct{}
 
 func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataCreateTime) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
@@ -2433,6 +2546,23 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 }
 
 func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2609,20 +2739,20 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) ApiVersion() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion {
-	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Kind() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind {
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind{}
+}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Version() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion{}
 }
 
 func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Name() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesName {
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesName{}
 }
 
-func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Uid() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid {
-	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid{}
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Region() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion{}
 }
 
 func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) Controller() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesController {
@@ -2633,21 +2763,8 @@ func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetada
 	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
-	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
-		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
-}
-
-func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferences) RequiresOwnerReference() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind struct{}
@@ -2664,6 +2781,23 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 }
 
 func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) WithValue(value string) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2684,20 +2818,20 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid struct{}
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion struct{}
 
-func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
 	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
 		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) WithValue(value string) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) WithValue(value string) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
 }
 
-func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2732,6 +2866,23 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 }
 
 func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2836,6 +2987,65 @@ func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMeta
 
 func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataSyncingRegions) WithItemValue(value string) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) State() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState{}
+}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycle) BlockDeletion() ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion {
+	return ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion{}
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion struct{}
+
+func (ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) FieldPath() *ListPlanAssignmentRequestsResponse_FieldSubPath {
+	return &ListPlanAssignmentRequestsResponse_FieldSubPath{
+		selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListPlanAssignmentRequestsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentRequestsResponse_FieldSubPathValue)
+}
+
+func (s ListPlanAssignmentRequestsResponsePathSelectorPlanAssignmentRequestsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentRequestsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListPlanAssignmentRequestsResponsePathSelectorPrevPageToken struct{}
@@ -4153,6 +4363,10 @@ func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUpdateTime{}
 }
 
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) DeleteTime() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime{}
+}
+
 func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) Uuid() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUuid {
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUuid{}
 }
@@ -4189,6 +4403,10 @@ func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataSyncing{}
 }
 
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) Lifecycle() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle{}
+}
+
 type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataCreateTime struct{}
 
 func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataCreateTime) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
@@ -4220,6 +4438,23 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4396,20 +4631,20 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) ApiVersion() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion {
-	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Kind() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind {
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind{}
+}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Version() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion{}
 }
 
 func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Name() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesName {
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesName{}
 }
 
-func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Uid() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid {
-	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid{}
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Region() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion{}
 }
 
 func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Controller() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesController {
@@ -4420,21 +4655,8 @@ func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion struct{}
-
-func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
-	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
-		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) WithValue(value string) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
-}
-
-func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) RequiresOwnerReference() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind struct{}
@@ -4451,6 +4673,23 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) WithValue(value string) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4471,20 +4710,20 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
-type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid struct{}
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion struct{}
 
-func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
 	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
 		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) WithValue(value string) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) WithValue(value string) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
 }
 
-func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4519,6 +4758,23 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4623,6 +4879,65 @@ func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 
 func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataSyncingRegions) WithItemValue(value string) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) State() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState{}
+}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) BlockDeletion() CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion {
+	return CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion{}
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion struct{}
+
+func (CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) FieldPath() *CreatePlanAssignmentRequestRequest_FieldSubPath {
+	return &CreatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: CreatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) WithValue(value bool) *CreatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdatePlanAssignmentRequestRequestFieldPathBuilder struct{}
@@ -5418,6 +5733,10 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUpdateTime{}
 }
 
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) DeleteTime() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime{}
+}
+
 func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) Uuid() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUuid {
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUuid{}
 }
@@ -5454,6 +5773,10 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataSyncing{}
 }
 
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadata) Lifecycle() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle{}
+}
+
 type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataCreateTime struct{}
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataCreateTime) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
@@ -5485,6 +5808,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5661,20 +6001,20 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) ApiVersion() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion {
-	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Kind() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind {
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Version() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Name() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesName {
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesName{}
 }
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Uid() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid {
-	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid{}
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Region() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) Controller() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesController {
@@ -5685,21 +6025,8 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadat
 	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
-	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
-		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
-}
-
-func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferences) RequiresOwnerReference() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind struct{}
@@ -5716,6 +6043,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5736,20 +6080,20 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid struct{}
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
 	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
 		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
 }
 
-func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5784,6 +6128,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5888,6 +6249,65 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetad
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataSyncingRegions) WithItemValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) State() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState{}
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycle) BlockDeletion() UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorPlanAssignmentRequest,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorPlanAssignmentRequestMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdatePlanAssignmentRequestRequestPathSelectorUpdateMask struct{}
@@ -6707,6 +7127,10 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadata)
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -6743,6 +7167,10 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadata)
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
@@ -6774,6 +7202,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6950,20 +7395,20 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -6974,21 +7419,8 @@ func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataO
 	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
-	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
-		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
-		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
-}
-
-func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -7005,6 +7437,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7025,20 +7474,20 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
 	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
 		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
-		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
 }
 
-func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7073,6 +7522,23 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 }
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7177,6 +7643,65 @@ func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadat
 
 func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePlanAssignmentRequestRequest_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequest_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanAssignmentRequestRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdatePlanAssignmentRequestRequestPathSelectorCasFieldMask struct{}
@@ -7986,6 +8511,10 @@ func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -8022,6 +8551,10 @@ func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
@@ -8053,6 +8586,23 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 }
 
 func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -8229,20 +8779,20 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -8253,21 +8803,8 @@ func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadata
 	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
-	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
-		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -8284,6 +8821,23 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 }
 
 func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -8304,20 +8858,20 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
 	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
 		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -8352,6 +8906,23 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 }
 
 func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -8456,6 +9027,65 @@ func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetada
 
 func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePlanAssignmentRequestRequestCAS_FieldSubPath {
+	return &UpdatePlanAssignmentRequestRequestCAS_FieldSubPath{
+		selector: UpdatePlanAssignmentRequestRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan_assignment_request.NewPlanAssignmentRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanAssignmentRequestRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanAssignmentRequestRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdatePlanAssignmentRequestRequest_CASPathSelectorFieldMask struct{}

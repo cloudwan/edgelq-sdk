@@ -265,6 +265,10 @@ func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) 
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime{}
 }
 
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) DeleteTime() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime{}
+}
+
 func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Uuid() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid {
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid{}
 }
@@ -301,6 +305,10 @@ func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) 
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing{}
 }
 
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Lifecycle() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle{}
+}
+
 type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime struct{}
 
 func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
@@ -332,6 +340,23 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 }
 
 func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -508,20 +533,20 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayItemValue)
 }
 
-func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) ApiVersion() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion {
-	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion{}
-}
-
 func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Kind() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind {
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind{}
+}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Version() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion{}
 }
 
 func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Name() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName {
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName{}
 }
 
-func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Uid() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid {
-	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid{}
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Region() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion{}
 }
 
 func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Controller() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController {
@@ -532,21 +557,8 @@ func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOw
 	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion struct{}
-
-func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
-	return &BatchGetAlertingConditionsResponse_FieldSubPath{
-		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) WithValue(value string) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) RequiresOwnerReference() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind struct{}
@@ -563,6 +575,23 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 }
 
 func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithValue(value string) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -583,20 +612,20 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid struct{}
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion struct{}
 
-func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
 	return &BatchGetAlertingConditionsResponse_FieldSubPath{
 		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) WithValue(value string) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithValue(value string) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -631,6 +660,23 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 }
 
 func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -735,6 +781,65 @@ func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadata
 
 func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) WithItemValue(value string) *BatchGetAlertingConditionsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) State() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState{}
+}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) BlockDeletion() BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion {
+	return BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion{}
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion struct{}
+
+func (BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) FieldPath() *BatchGetAlertingConditionsResponse_FieldSubPath {
+	return &BatchGetAlertingConditionsResponse_FieldSubPath{
+		selector: BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithValue(value bool) *BatchGetAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
 type BatchGetAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName struct{}
@@ -1647,6 +1752,10 @@ func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Upda
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime{}
 }
 
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) DeleteTime() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime{}
+}
+
 func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Uuid() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid {
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid{}
 }
@@ -1683,6 +1792,10 @@ func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Sync
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing{}
 }
 
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Lifecycle() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle{}
+}
+
 type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime struct{}
 
 func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
@@ -1714,6 +1827,23 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpda
 }
 
 func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1890,20 +2020,20 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwne
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingConditionsResponse_FieldSubPathArrayItemValue)
 }
 
-func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) ApiVersion() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion {
-	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion{}
-}
-
 func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Kind() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind {
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind{}
+}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Version() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion{}
 }
 
 func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Name() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName {
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName{}
 }
 
-func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Uid() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid {
-	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid{}
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Region() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion{}
 }
 
 func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Controller() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController {
@@ -1914,21 +2044,8 @@ func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerR
 	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion struct{}
-
-func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
-	return &ListAlertingConditionsResponse_FieldSubPath{
-		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) WithValue(value string) *ListAlertingConditionsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
-}
-
-func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) RequiresOwnerReference() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind struct{}
@@ -1945,6 +2062,23 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwne
 }
 
 func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithValue(value string) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1965,20 +2099,20 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwne
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid struct{}
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion struct{}
 
-func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
 	return &ListAlertingConditionsResponse_FieldSubPath{
 		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) WithValue(value string) *ListAlertingConditionsResponse_FieldSubPathValue {
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithValue(value string) *ListAlertingConditionsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2013,6 +2147,23 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwne
 }
 
 func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2117,6 +2268,65 @@ func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSync
 
 func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) WithItemValue(value string) *ListAlertingConditionsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) State() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState{}
+}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) BlockDeletion() ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion {
+	return ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion{}
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion struct{}
+
+func (ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) FieldPath() *ListAlertingConditionsResponse_FieldSubPath {
+	return &ListAlertingConditionsResponse_FieldSubPath{
+		selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithValue(value bool) *ListAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ListAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName struct{}
@@ -3405,6 +3615,10 @@ func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Updat
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdateTime{}
 }
 
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadata) DeleteTime() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime{}
+}
+
 func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Uuid() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataUuid {
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataUuid{}
 }
@@ -3441,6 +3655,10 @@ func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Synci
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataSyncing{}
 }
 
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Lifecycle() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle{}
+}
+
 type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataCreateTime struct{}
 
 func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataCreateTime) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
@@ -3472,6 +3690,23 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdat
 }
 
 func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3648,20 +3883,20 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingConditionRequest_FieldSubPathArrayItemValue)
 }
 
-func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) ApiVersion() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion {
-	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion{}
-}
-
 func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Kind() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind {
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind{}
+}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Version() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion{}
 }
 
 func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Name() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesName {
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesName{}
 }
 
-func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Uid() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid {
-	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid{}
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Region() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion{}
 }
 
 func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Controller() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesController {
@@ -3672,21 +3907,8 @@ func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerRe
 	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion struct{}
-
-func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
-	return &CreateAlertingConditionRequest_FieldSubPath{
-		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) WithValue(value string) *CreateAlertingConditionRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) RequiresOwnerReference() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind struct{}
@@ -3703,6 +3925,23 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 }
 
 func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) WithValue(value string) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3723,20 +3962,20 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid struct{}
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion struct{}
 
-func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
 	return &CreateAlertingConditionRequest_FieldSubPath{
 		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) WithValue(value string) *CreateAlertingConditionRequest_FieldSubPathValue {
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) WithValue(value string) *CreateAlertingConditionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3771,6 +4010,23 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 }
 
 func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3875,6 +4131,65 @@ func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataSynci
 
 func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataSyncingRegions) WithItemValue(value string) *CreateAlertingConditionRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingConditionRequest_FieldSubPathArrayItemValue)
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) State() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState{}
+}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) BlockDeletion() CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion {
+	return CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion{}
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion struct{}
+
+func (CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) FieldPath() *CreateAlertingConditionRequest_FieldSubPath {
+	return &CreateAlertingConditionRequest_FieldSubPath{
+		selector: CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) WithValue(value bool) *CreateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *CreateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
 type CreateAlertingConditionRequestPathSelectorAlertingConditionDisplayName struct{}
@@ -4641,6 +4956,10 @@ func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Updat
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdateTime{}
 }
 
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadata) DeleteTime() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime{}
+}
+
 func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Uuid() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataUuid {
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataUuid{}
 }
@@ -4677,6 +4996,10 @@ func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Synci
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataSyncing{}
 }
 
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadata) Lifecycle() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle{}
+}
+
 type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataCreateTime struct{}
 
 func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataCreateTime) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
@@ -4708,6 +5031,23 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdat
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4884,20 +5224,20 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) ApiVersion() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Kind() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind {
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Version() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Name() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesName {
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Uid() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid {
-	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid{}
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Region() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) Controller() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesController {
@@ -4908,21 +5248,8 @@ func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerRe
 	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
-	return &UpdateAlertingConditionRequest_FieldSubPath{
-		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind struct{}
@@ -4939,6 +5266,23 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4959,20 +5303,20 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid struct{}
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
 	return &UpdateAlertingConditionRequest_FieldSubPath{
 		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5007,6 +5351,23 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwner
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5111,6 +5472,65 @@ func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataSynci
 
 func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingConditionRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) State() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState{}
+}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycle) BlockDeletion() UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion {
+	return UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorAlertingConditionMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingConditionRequestPathSelectorAlertingConditionDisplayName struct{}
@@ -5901,6 +6321,10 @@ func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadata) Upd
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataUuid {
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataUuid{}
 }
@@ -5937,6 +6361,10 @@ func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadata) Syn
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
@@ -5968,6 +6396,23 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataUpd
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6144,20 +6589,20 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwn
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequest_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Uid() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
@@ -6168,21 +6613,8 @@ func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwner
 	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
-	return &UpdateAlertingConditionRequest_FieldSubPath{
-		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
@@ -6199,6 +6631,23 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwn
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6219,20 +6668,20 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwn
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
 	return &UpdateAlertingConditionRequest_FieldSubPath{
 		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingConditionRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6267,6 +6716,23 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwn
 }
 
 func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6371,6 +6837,65 @@ func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataSyn
 
 func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingConditionRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingConditionRequest_FieldSubPath {
+	return &UpdateAlertingConditionRequest_FieldSubPath{
+		selector: UpdateAlertingConditionRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingConditionRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingConditionRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequest_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingConditionRequestPathSelectorCasConditionalStateDisplayName struct{}
@@ -7151,6 +7676,10 @@ func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadata) Up
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
 }
 
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
 func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataUuid {
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataUuid{}
 }
@@ -7187,6 +7716,10 @@ func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadata) Sy
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataSyncing{}
 }
 
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
 type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
 
 func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
@@ -7218,6 +7751,23 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataUp
 }
 
 func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7394,20 +7944,20 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOw
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayItemValue)
 }
 
-func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) ApiVersion() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion {
-	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion{}
-}
-
 func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
 }
 
 func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
 }
 
-func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Uid() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid {
-	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid{}
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
 }
 
 func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
@@ -7418,21 +7968,8 @@ func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwne
 	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion struct{}
-
-func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
-	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
-		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithValue(value string) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
@@ -7449,6 +7986,23 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOw
 }
 
 func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7469,20 +8023,20 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOw
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid struct{}
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
 
-func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
 	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
 		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithValue(value string) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7517,6 +8071,23 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOw
 }
 
 func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7621,6 +8192,65 @@ func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataSy
 
 func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdateAlertingConditionRequestCAS_FieldSubPath {
+	return &UpdateAlertingConditionRequestCAS_FieldSubPath{
+		selector: UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdateAlertingConditionRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingConditionRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingConditionRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingConditionRequestCAS_FieldSubPathArrayOfValues)
 }
 
 type UpdateAlertingConditionRequest_CASPathSelectorConditionalStateDisplayName struct{}

@@ -115,7 +115,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 	if groupMember_RegexpId.MatchString(nameOrId) {
 		return &Name{GroupMemberId: nameOrId}, nil
 	} else {
-		return nil, fmt.Errorf("unable to parse '%s' as GroupMember name or id", name)
+		return nil, fmt.Errorf("unable to parse '%s' as GroupMember name or id", nameOrId)
 	}
 }
 
@@ -223,6 +223,20 @@ func (name *Name) GetSegments() gotenresource.NameSegments {
 		CollectionLowerJson: "groupMembers",
 		Id:                  name.GroupMemberId,
 	})
+}
+
+func (name *Name) GetIParentName() gotenresource.Name {
+	if name == nil {
+		return (*ParentName)(nil)
+	}
+	return &name.ParentName
+}
+
+func (name *Name) GetIUnderlyingParentName() gotenresource.Name {
+	if parentName := name.GetGroupName(); parentName != nil {
+		return parentName
+	}
+	return nil
 }
 
 // implement methods required by protobuf-go library for string-struct conversion
@@ -478,6 +492,20 @@ func (ref *Reference) GetIdParts() map[string]string {
 func (ref *Reference) GetSegments() gotenresource.NameSegments {
 	if ref != nil {
 		return ref.Name.GetSegments()
+	}
+	return nil
+}
+
+func (ref *Reference) GetIParentName() gotenresource.Name {
+	if ref == nil {
+		return (*ParentName)(nil)
+	}
+	return ref.Name.GetIParentName()
+}
+
+func (ref *Reference) GetIUnderlyingParentName() gotenresource.Name {
+	if ref != nil {
+		return ref.Name.GetIUnderlyingParentName()
 	}
 	return nil
 }

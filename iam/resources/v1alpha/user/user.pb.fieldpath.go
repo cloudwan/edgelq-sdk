@@ -323,6 +323,10 @@ func (fp *User_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == User_FieldPathSelectorRefreshedTime
 }
 
+func (fp *User_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *User_FieldTerminalPath) WithIValue(value interface{}) User_FieldPathValue {
 	switch fp.selector {
 	case User_FieldPathSelectorName:
@@ -484,6 +488,10 @@ func (fpm *User_FieldPathMap) IsLeaf() bool {
 	}
 }
 
+func (fpm *User_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
 func (fpm *User_FieldPathMap) WithIValue(value interface{}) User_FieldPathValue {
 	switch fpm.selector {
 	case User_FieldPathSelectorSettings:
@@ -610,6 +618,12 @@ func (fps *User_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *User_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *User_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&User_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *User_FieldSubPath) WithIValue(value interface{}) User_FieldPathValue {
@@ -992,7 +1006,11 @@ func (fpaiv *User_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Mes
 func (fpaiv *User_FieldTerminalPathArrayItemValue) ContainsValue(source *User) bool {
 	slice := fpaiv.User_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -1327,6 +1345,10 @@ func (fp *UserAuthInfo_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == UserAuthInfo_FieldPathSelectorId
 }
 
+func (fp *UserAuthInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *UserAuthInfo_FieldTerminalPath) WithIValue(value interface{}) UserAuthInfo_FieldPathValue {
 	switch fp.selector {
 	case UserAuthInfo_FieldPathSelectorProvider:
@@ -1523,7 +1545,11 @@ func (fpaiv *UserAuthInfo_FieldTerminalPathArrayItemValue) GetSingleRaw(source p
 func (fpaiv *UserAuthInfo_FieldTerminalPathArrayItemValue) ContainsValue(source *User_AuthInfo) bool {
 	slice := fpaiv.UserAuthInfo_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

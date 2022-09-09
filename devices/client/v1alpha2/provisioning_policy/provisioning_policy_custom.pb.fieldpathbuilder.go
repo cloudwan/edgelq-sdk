@@ -2722,6 +2722,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadata) UpdateTime() P
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataUpdateTime{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadata) DeleteTime() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime{}
+}
+
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadata) Uuid() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataUuid {
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataUuid{}
 }
@@ -2758,6 +2762,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadata) Syncing() Prov
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncing{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadata) Lifecycle() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataCreateTime struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataCreateTime) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -2789,6 +2797,23 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataUpdateTime) Wi
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2965,20 +2990,20 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReference
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
 }
 
-func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) ApiVersion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion {
-	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion{}
-}
-
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Kind() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesKind {
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesKind{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Version() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion{}
 }
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Name() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesName {
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesName{}
 }
 
-func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Uid() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid {
-	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid{}
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Region() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion{}
 }
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) Controller() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesController {
@@ -2989,21 +3014,8 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences)
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion struct{}
-
-func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
-	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
-		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
-}
-
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferences) RequiresOwnerReference() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesKind struct{}
@@ -3020,6 +3032,23 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReference
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3040,20 +3069,20 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReference
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
-type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid struct{}
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion struct{}
 
-func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
 	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
 		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
-		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
 }
 
-func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3088,6 +3117,23 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReference
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3192,6 +3238,65 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncingRegions
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataSyncingRegions) WithItemValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayItemValue)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle) State() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycle) BlockDeletion() ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) WithValue(value bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec struct{}
@@ -16186,6 +16291,10 @@ func (RequestProvisioningApprovalResponsePathSelectorRequestMetadata) UpdateTime
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataUpdateTime{}
 }
 
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadata) DeleteTime() RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime{}
+}
+
 func (RequestProvisioningApprovalResponsePathSelectorRequestMetadata) Uuid() RequestProvisioningApprovalResponsePathSelectorRequestMetadataUuid {
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataUuid{}
 }
@@ -16222,6 +16331,10 @@ func (RequestProvisioningApprovalResponsePathSelectorRequestMetadata) Syncing() 
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncing{}
 }
 
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadata) Lifecycle() RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle{}
+}
+
 type RequestProvisioningApprovalResponsePathSelectorRequestMetadataCreateTime struct{}
 
 func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataCreateTime) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
@@ -16253,6 +16366,23 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataUpdateTime
 }
 
 func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
@@ -16429,20 +16559,20 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerRefer
 	return s.FieldPath().WithIArrayItemValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathArrayItemValue)
 }
 
-func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) ApiVersion() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion {
-	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion{}
-}
-
 func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Kind() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesKind {
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesKind{}
+}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Version() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion{}
 }
 
 func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Name() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesName {
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesName{}
 }
 
-func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Uid() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid {
-	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid{}
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Region() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion{}
 }
 
 func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) Controller() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesController {
@@ -16453,21 +16583,8 @@ func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferen
 	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesBlockOwnerDeletion{}
 }
 
-type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion struct{}
-
-func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
-	return &RequestProvisioningApprovalResponse_FieldSubPath{
-		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
-		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().OwnerReferences().ApiVersion().FieldPath(),
-	}
-}
-
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion) WithValue(value string) *RequestProvisioningApprovalResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
-}
-
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesApiVersion) WithArrayOfValues(values []string) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferences) RequiresOwnerReference() RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
 type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesKind struct{}
@@ -16484,6 +16601,23 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerRefer
 }
 
 func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion) WithValue(value string) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
@@ -16504,20 +16638,20 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerRefer
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
-type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid struct{}
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion struct{}
 
-func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
 	return &RequestProvisioningApprovalResponse_FieldSubPath{
 		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
-		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().OwnerReferences().Uid().FieldPath(),
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
 	}
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid) WithValue(value string) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion) WithValue(value string) *RequestProvisioningApprovalResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
 }
 
-func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesUid) WithArrayOfValues(values []string) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
@@ -16552,6 +16686,23 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerRefer
 }
 
 func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
@@ -16656,6 +16807,65 @@ func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncingReg
 
 func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataSyncingRegions) WithItemValue(value string) *RequestProvisioningApprovalResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathArrayItemValue)
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle) State() RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState{}
+}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycle) BlockDeletion() RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion {
+	return RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion{}
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
+}
+
+type RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion struct{}
+
+func (RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion) FieldPath() *RequestProvisioningApprovalResponse_FieldSubPath {
+	return &RequestProvisioningApprovalResponse_FieldSubPath{
+		selector: RequestProvisioningApprovalResponse_FieldPathSelectorRequest,
+		subPath:  provisioning_approval_request.NewProvisioningApprovalRequestFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion) WithValue(value bool) *RequestProvisioningApprovalResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RequestProvisioningApprovalResponse_FieldSubPathValue)
+}
+
+func (s RequestProvisioningApprovalResponsePathSelectorRequestMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RequestProvisioningApprovalResponse_FieldSubPathArrayOfValues)
 }
 
 type RequestProvisioningApprovalResponsePathSelectorServiceAccount struct{}

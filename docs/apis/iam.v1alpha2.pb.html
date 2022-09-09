@@ -10492,35 +10492,6 @@ Equivalent REST API:
 
 </div>
 
-
-
-<div class="operation">
-<h5 id="operation-SetupCreateOwnerRole">SetupCreateOwnerRole</h5>
-
-<pre class="signature">rpc SetupCreateOwnerRole(<a href="#message-SetupCreateOwnerRoleRequest">SetupCreateOwnerRoleRequest</a>) returns (<a href="#message-RoleBinding">RoleBinding</a>)</pre>
-
-<div class="description">
-<p>SetupCreateOwnerRole</p>
-
-</div>
-
-
-
-
-<div class="rest">
-Equivalent REST API:
-
-<pre>POST /v1alpha2/roleBindings (BODY: role_binding)</pre>
-
-<pre>POST /v1alpha2/{parent=projects/*}/roleBindings </pre>
-
-<pre>POST /v1alpha2/{parent=organizations/*}/roleBindings </pre>
-
-</div>
-
-
-</div>
-
  
 
 <h4>Messages</h4>
@@ -11164,45 +11135,6 @@ compare.</p>
 <td class="type"><pre>string</pre></td>
 </tr>
 <tr><td class="description"><p>Reference of ntt.iam.v1alpha2.RoleBinding</p>
-</td></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="message-SetupCreateOwnerRoleRequest">SetupCreateOwnerRoleRequest</h5>
-
-<p>Request message for method
-[SetupCreateOwnerRole][ntt.iam.v1alpha2.SetupCreateOwnerRole] This is almost
-same as CreateRoleBinding, but used when central region creates initial
-RoleBinding for newly created project or organization. This skips checking if
-Project/Organization exist in store because they do not yet! Instead it
-checks if create owner role binding already exists.</p>
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">parent</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Parent reference of ntt.iam.v1alpha2.RoleBinding</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">role_binding</th>
-<td class="type"><pre><a href="#message-RoleBinding">RoleBinding</a></pre></td>
-</tr>
-<tr><td class="description"><p>RoleBinding resource body</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">multi_region_policy</th>
-<td class="type"><pre>.ntt.types.MultiRegionPolicy</pre></td>
-</tr>
-<tr><td class="description"><p>Policy created with this project</p>
 </td></tr>
  
 </tbody>

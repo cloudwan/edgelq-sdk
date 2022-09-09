@@ -57,7 +57,6 @@ type RoleBindingServiceClient interface {
 	CreateRoleBinding(ctx context.Context, in *CreateRoleBindingRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error)
 	UpdateRoleBinding(ctx context.Context, in *UpdateRoleBindingRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error)
 	DeleteRoleBinding(ctx context.Context, in *DeleteRoleBindingRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	SetupCreateOwnerRole(ctx context.Context, in *SetupCreateOwnerRoleRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error)
 }
 
 type client struct {
@@ -190,15 +189,6 @@ func (c *client) UpdateRoleBinding(ctx context.Context, in *UpdateRoleBindingReq
 func (c *client) DeleteRoleBinding(ctx context.Context, in *DeleteRoleBindingRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.RoleBindingService/DeleteRoleBinding", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) SetupCreateOwnerRole(ctx context.Context, in *SetupCreateOwnerRoleRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error) {
-	out := new(role_binding.RoleBinding)
-	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.RoleBindingService/SetupCreateOwnerRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -102,7 +102,7 @@ func ParseNameOrId(nameOrId string) (*Name, error) {
 	if project_RegexpId.MatchString(nameOrId) {
 		return &Name{ProjectId: nameOrId}, nil
 	} else {
-		return nil, fmt.Errorf("unable to parse '%s' as Project name or id", name)
+		return nil, fmt.Errorf("unable to parse '%s' as Project name or id", nameOrId)
 	}
 }
 
@@ -191,6 +191,14 @@ func (name *Name) GetSegments() gotenresource.NameSegments {
 		CollectionLowerJson: "projects",
 		Id:                  name.ProjectId,
 	}}
+}
+
+func (name *Name) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (name *Name) GetIUnderlyingParentName() gotenresource.Name {
+	return nil
 }
 
 // implement methods required by protobuf-go library for string-struct conversion
@@ -430,6 +438,17 @@ func (ref *Reference) GetIdParts() map[string]string {
 func (ref *Reference) GetSegments() gotenresource.NameSegments {
 	if ref != nil {
 		return ref.Name.GetSegments()
+	}
+	return nil
+}
+
+func (ref *Reference) GetIParentName() gotenresource.Name {
+	return nil
+}
+
+func (ref *Reference) GetIUnderlyingParentName() gotenresource.Name {
+	if ref != nil {
+		return ref.Name.GetIUnderlyingParentName()
 	}
 	return nil
 }

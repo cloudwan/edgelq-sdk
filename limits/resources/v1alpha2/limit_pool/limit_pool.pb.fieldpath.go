@@ -319,6 +319,10 @@ func (fp *LimitPool_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == LimitPool_FieldPathSelectorSource
 }
 
+func (fp *LimitPool_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *LimitPool_FieldTerminalPath) WithIValue(value interface{}) LimitPool_FieldPathValue {
 	switch fp.selector {
 	case LimitPool_FieldPathSelectorName:
@@ -465,6 +469,12 @@ func (fps *LimitPool_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *LimitPool_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *LimitPool_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&LimitPool_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *LimitPool_FieldSubPath) WithIValue(value interface{}) LimitPool_FieldPathValue {
@@ -814,7 +824,11 @@ func (fpaiv *LimitPool_FieldTerminalPathArrayItemValue) GetSingleRaw(source prot
 func (fpaiv *LimitPool_FieldTerminalPathArrayItemValue) ContainsValue(source *LimitPool) bool {
 	slice := fpaiv.LimitPool_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

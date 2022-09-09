@@ -230,6 +230,10 @@ func (fp *MultiRegionPolicy_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == MultiRegionPolicy_FieldPathSelectorDefaultControlRegion
 }
 
+func (fp *MultiRegionPolicy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *MultiRegionPolicy_FieldTerminalPath) WithIValue(value interface{}) MultiRegionPolicy_FieldPathValue {
 	switch fp.selector {
 	case MultiRegionPolicy_FieldPathSelectorEnabledRegions:
@@ -364,6 +368,12 @@ func (fps *MultiRegionPolicy_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *MultiRegionPolicy_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *MultiRegionPolicy_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MultiRegionPolicy_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *MultiRegionPolicy_FieldSubPath) WithIValue(value interface{}) MultiRegionPolicy_FieldPathValue {
@@ -597,7 +607,11 @@ func (fpaiv *MultiRegionPolicy_FieldTerminalPathArrayItemValue) GetSingleRaw(sou
 func (fpaiv *MultiRegionPolicy_FieldTerminalPathArrayItemValue) ContainsValue(source *MultiRegionPolicy) bool {
 	slice := fpaiv.MultiRegionPolicy_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
@@ -875,6 +889,10 @@ func (fp *MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPath) IsLeaf() b
 		fp.selector == MultiRegionPolicyCriteriaForDisabledSync_FieldPathSelectorDestRegion
 }
 
+func (fp *MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPath) WithIValue(value interface{}) MultiRegionPolicyCriteriaForDisabledSync_FieldPathValue {
 	switch fp.selector {
 	case MultiRegionPolicyCriteriaForDisabledSync_FieldPathSelectorResourceTypeName:
@@ -1091,7 +1109,11 @@ func (fpaiv *MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPathArrayItem
 func (fpaiv *MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPathArrayItemValue) ContainsValue(source *MultiRegionPolicy_CriteriaForDisabledSync) bool {
 	slice := fpaiv.MultiRegionPolicyCriteriaForDisabledSync_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}

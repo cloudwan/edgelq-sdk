@@ -277,6 +277,10 @@ func (fp *Role_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Role_FieldPathSelectorIncludedPermissions
 }
 
+func (fp *Role_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
 func (fp *Role_FieldTerminalPath) WithIValue(value interface{}) Role_FieldPathValue {
 	switch fp.selector {
 	case Role_FieldPathSelectorName:
@@ -426,6 +430,12 @@ func (fps *Role_FieldSubPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fps *Role_FieldSubPath) IsLeaf() bool {
 	return fps.subPath.IsLeaf()
+}
+
+func (fps *Role_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&Role_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
 }
 
 func (fps *Role_FieldSubPath) WithIValue(value interface{}) Role_FieldPathValue {
@@ -696,7 +706,11 @@ func (fpaiv *Role_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Mes
 func (fpaiv *Role_FieldTerminalPathArrayItemValue) ContainsValue(source *Role) bool {
 	slice := fpaiv.Role_FieldTerminalPath.Get(source)
 	for _, v := range slice {
-		if reflect.DeepEqual(v, fpaiv.value) {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
 			return true
 		}
 	}
