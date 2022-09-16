@@ -1363,10 +1363,16 @@ compare.</p>
 
 <p>Request message for method
 [EstablishReferences][ntt.meta.mixin.v1alpha2.EstablishReferences]
-This request is being sent when there is a change in references
+This request is being sent:</p>
+<ul>
+<li>by server, when there is a change in references
 in some resource (like some new reference has been added...
-but this request can also be used to change nature of some reference,
-like from switch BLOCKING to ASYNC_CASCADE_DELETE in schema).</p>
+This request can also be used to change nature of some reference,
+like from switch BLOCKING to ASYNC_CASCADE_DELETE in schema).</li>
+<li>by db-controller, as a way to confirm connection with meta
+owner (shadows_with_new_meta_ownees). Tx fields are not
+populated in this case</li>
+</ul>
 
 
 <table class="fields">
