@@ -23,7 +23,9 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -46,6 +48,8 @@ var (
 	_ = &audit_common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -405,6 +409,10 @@ func FullResourceChangeLog_ResourceChange_FieldMask() *ResourceChangeLog_Resourc
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorType})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorAction})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPrevious})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent})
+	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPre})
 	res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPost})
 	return res
@@ -450,7 +458,7 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ResourceChangeLogResourceChange_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -480,7 +488,7 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Reset() {
 
 func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Subtract(other *ResourceChangeLog_ResourceChange_FieldMask) *ResourceChangeLog_ResourceChange_FieldMask {
 	result := &ResourceChangeLog_ResourceChange_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[ResourceChangeLogResourceChange_FieldPathSelector]gotenobject.FieldMask{
 		ResourceChangeLogResourceChange_FieldPathSelectorPre:  &audit_common.ObjectState_FieldMask{},
 		ResourceChangeLogResourceChange_FieldPathSelectorPost: &audit_common.ObjectState_FieldMask{},
@@ -663,6 +671,8 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 	wholePreAccepted := false
 	postMask := &audit_common.ObjectState_FieldMask{}
 	wholePostAccepted := false
+	var labelsMapKeys []string
+	wholeLabelsAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -674,6 +684,15 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 				result.Type = source.Type
 			case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 				result.Action = source.Action
+			case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+				result.UpdatedFields = source.UpdatedFields
+			case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+				result.Previous = source.Previous
+			case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+				result.Current = source.Current
+			case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+				result.Labels = source.Labels
+				wholeLabelsAccepted = true
 			case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 				result.Pre = source.Pre
 				wholePreAccepted = true
@@ -688,7 +707,20 @@ func (fieldMask *ResourceChangeLog_ResourceChange_FieldMask) Project(source *Res
 			case ResourceChangeLogResourceChange_FieldPathSelectorPost:
 				postMask.AppendPath(tp.subPath.(audit_common.ObjectState_FieldPath))
 			}
+		case *ResourceChangeLogResourceChange_FieldPathMap:
+			switch tp.selector {
+			case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+				labelsMapKeys = append(labelsMapKeys, tp.key)
+			}
 		}
+	}
+	if wholeLabelsAccepted == false && len(labelsMapKeys) > 0 && source.GetLabels() != nil {
+		copiedMap := map[string]string{}
+		sourceMap := source.GetLabels()
+		for _, key := range labelsMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.Labels = copiedMap
 	}
 	if wholePreAccepted == false && len(preMask.Paths) > 0 {
 		result.Pre = preMask.Project(source.GetPre())

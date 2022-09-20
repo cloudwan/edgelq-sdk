@@ -19,7 +19,9 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -38,6 +40,8 @@ var (
 	_ = &audit_common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -227,6 +231,27 @@ func (o *ResourceChangeLog_ResourceChange) MakeDiffFieldMask(other *ResourceChan
 	if o.GetAction() != other.GetAction() {
 		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorAction})
 	}
+	if !proto.Equal(o.GetUpdatedFields(), other.GetUpdatedFields()) {
+		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields})
+	}
+	if !proto.Equal(o.GetPrevious(), other.GetPrevious()) {
+		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPrevious})
+	}
+	if !proto.Equal(o.GetCurrent(), other.GetCurrent()) {
+		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent})
+	}
+
+	if len(o.GetLabels()) == len(other.GetLabels()) {
+		for i, lValue := range o.GetLabels() {
+			rValue := other.GetLabels()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels})
+	}
 	{
 		subMask := o.GetPre().MakeDiffFieldMask(other.GetPre())
 		if subMask.IsFull() {
@@ -262,6 +287,13 @@ func (o *ResourceChangeLog_ResourceChange) Clone() *ResourceChangeLog_ResourceCh
 	result.Name = o.Name
 	result.Type = o.Type
 	result.Action = o.Action
+	result.UpdatedFields = proto.Clone(o.UpdatedFields).(*field_mask.FieldMask)
+	result.Previous = proto.Clone(o.Previous).(*any.Any)
+	result.Current = proto.Clone(o.Current).(*any.Any)
+	result.Labels = map[string]string{}
+	for key, sourceValue := range o.Labels {
+		result.Labels[key] = sourceValue
+	}
 	result.Pre = o.Pre.Clone()
 	result.Post = o.Post.Clone()
 	return result
@@ -275,6 +307,32 @@ func (o *ResourceChangeLog_ResourceChange) Merge(source *ResourceChangeLog_Resou
 	o.Name = source.GetName()
 	o.Type = source.GetType()
 	o.Action = source.GetAction()
+	if source.GetUpdatedFields() != nil {
+		if o.UpdatedFields == nil {
+			o.UpdatedFields = new(field_mask.FieldMask)
+		}
+		proto.Merge(o.UpdatedFields, source.GetUpdatedFields())
+	}
+	if source.GetPrevious() != nil {
+		if o.Previous == nil {
+			o.Previous = new(any.Any)
+		}
+		proto.Merge(o.Previous, source.GetPrevious())
+	}
+	if source.GetCurrent() != nil {
+		if o.Current == nil {
+			o.Current = new(any.Any)
+		}
+		proto.Merge(o.Current, source.GetCurrent())
+	}
+	if source.GetLabels() != nil {
+		if o.Labels == nil {
+			o.Labels = make(map[string]string, len(source.GetLabels()))
+		}
+		for key, sourceValue := range source.GetLabels() {
+			o.Labels[key] = sourceValue
+		}
+	}
 	if source.GetPre() != nil {
 		if o.Pre == nil {
 			o.Pre = new(audit_common.ObjectState)

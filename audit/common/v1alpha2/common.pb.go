@@ -314,6 +314,7 @@ func (m *ServiceData) SetRegionId(fv string) {
 }
 
 // State of the object - can be resource, request or response.
+// DEPRECATED
 type ObjectState struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

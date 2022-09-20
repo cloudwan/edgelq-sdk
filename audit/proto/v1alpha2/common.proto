@@ -38,6 +38,7 @@ message ServiceData {
 }
 
 // State of the object - can be resource, request or response.
+// DEPRECATED
 message ObjectState {
   // Object data
   google.protobuf.Any data = 1;

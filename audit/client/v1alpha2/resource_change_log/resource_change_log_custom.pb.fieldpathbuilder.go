@@ -16,6 +16,7 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // make sure we're using proto imports
@@ -29,6 +30,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &meta_service.Service{}
 	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -501,6 +503,22 @@ func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) Acti
 	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceAction{}
 }
 
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) UpdatedFields() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields {
+	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields{}
+}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) Previous() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious {
+	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious{}
+}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) Current() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent {
+	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent{}
+}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) Labels() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels {
+	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels{}
+}
+
 func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResource) Pre() ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePre {
 	return ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePre{}
 }
@@ -557,6 +575,97 @@ func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceActi
 }
 
 func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceAction) WithArrayOfValues(values []resource_change_log.ResourceChangeLog_ResourceChange_Action) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields struct{}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields) WithValue(value *field_mask.FieldMask) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceUpdatedFields) WithArrayOfValues(values []*field_mask.FieldMask) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious struct{}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Resource().Previous().FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious) WithValue(value *any.Any) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourcePrevious) WithArrayOfValues(values []*any.Any) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent struct{}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Resource().Current().FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent) WithValue(value *any.Any) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceCurrent) WithArrayOfValues(values []*any.Any) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels struct{}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels) WithValue(value map[string]string) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels) WithArrayOfValues(values []map[string]string) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListResourceChangeLogsResponsePathSelectorResourceChangeLogsResourceLabels) WithKey(key string) ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels {
+	return ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels{key: key}
+}
+
+type ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels struct {
+	key string
+}
+
+func (s ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels) FieldPath() *ListResourceChangeLogsResponse_FieldSubPath {
+	return &ListResourceChangeLogsResponse_FieldSubPath{
+		selector: ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs,
+		subPath:  resource_change_log.NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels) WithValue(value string) *ListResourceChangeLogsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourceChangeLogsResponse_FieldSubPathValue)
+}
+
+func (s ListResourceChangeLogsResponseMapPathSelectorResourceChangeLogsResourceLabels) WithArrayOfValues(values []string) *ListResourceChangeLogsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListResourceChangeLogsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1275,6 +1384,22 @@ func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) Action() C
 	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesAction{}
 }
 
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) UpdatedFields() CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields {
+	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields{}
+}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) Previous() CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious {
+	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious{}
+}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) Current() CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent {
+	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent{}
+}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) Labels() CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels {
+	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels{}
+}
+
 func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChanges) Pre() CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPre {
 	return CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPre{}
 }
@@ -1331,6 +1456,97 @@ func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesAction) Wi
 }
 
 func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesAction) WithArrayOfValues(values []resource_change_log.ResourceChangeLog_ResourceChange_Action) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields struct{}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges,
+		subPath:  resource_change_log.NewResourceChangeLogResourceChangeFieldPathBuilder().UpdatedFields().FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields) WithValue(value *field_mask.FieldMask) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesUpdatedFields) WithArrayOfValues(values []*field_mask.FieldMask) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious struct{}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges,
+		subPath:  resource_change_log.NewResourceChangeLogResourceChangeFieldPathBuilder().Previous().FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious) WithValue(value *any.Any) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesPrevious) WithArrayOfValues(values []*any.Any) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent struct{}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges,
+		subPath:  resource_change_log.NewResourceChangeLogResourceChangeFieldPathBuilder().Current().FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent) WithValue(value *any.Any) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesCurrent) WithArrayOfValues(values []*any.Any) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels struct{}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges,
+		subPath:  resource_change_log.NewResourceChangeLogResourceChangeFieldPathBuilder().Labels().FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels) WithValue(value map[string]string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels) WithArrayOfValues(values []map[string]string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreatePreCommittedResourceChangeLogsRequestPathSelectorChangesLabels) WithKey(key string) CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels {
+	return CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels{key: key}
+}
+
+type CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels struct {
+	key string
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels) FieldPath() *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath {
+	return &CreatePreCommittedResourceChangeLogsRequest_FieldSubPath{
+		selector: CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges,
+		subPath:  resource_change_log.NewResourceChangeLogResourceChangeFieldPathBuilder().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels) WithValue(value string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathValue)
+}
+
+func (s CreatePreCommittedResourceChangeLogsRequestMapPathSelectorChangesLabels) WithArrayOfValues(values []string) *CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePreCommittedResourceChangeLogsRequest_FieldSubPathArrayOfValues)
 }
 

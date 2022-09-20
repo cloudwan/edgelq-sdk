@@ -19,6 +19,7 @@ import (
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -36,6 +37,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &meta_service.Service{}
 	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -887,6 +889,22 @@ func (b *filterCndBuilderResource) Action() *filterCndBuilderResourceAction {
 	return &filterCndBuilderResourceAction{builder: b.builder}
 }
 
+func (b *filterCndBuilderResource) UpdatedFields() *filterCndBuilderResourceUpdatedFields {
+	return &filterCndBuilderResourceUpdatedFields{builder: b.builder}
+}
+
+func (b *filterCndBuilderResource) Previous() *filterCndBuilderResourcePrevious {
+	return &filterCndBuilderResourcePrevious{builder: b.builder}
+}
+
+func (b *filterCndBuilderResource) Current() *filterCndBuilderResourceCurrent {
+	return &filterCndBuilderResourceCurrent{builder: b.builder}
+}
+
+func (b *filterCndBuilderResource) Labels() *filterCndBuilderResourceLabels {
+	return &filterCndBuilderResourceLabels{builder: b.builder}
+}
+
 func (b *filterCndBuilderResource) Pre() *filterCndBuilderResourcePre {
 	return &filterCndBuilderResourcePre{builder: b.builder}
 }
@@ -1069,6 +1087,306 @@ func (b *filterCndBuilderResourceAction) compare(op gotenfilter.CompareOperator,
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Action().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourceUpdatedFields struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Eq(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Neq(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Gt(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Gte(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Lt(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) Lte(value *field_mask.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) In(values []*field_mask.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) NotIn(values []*field_mask.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceUpdatedFields) compare(op gotenfilter.CompareOperator, value *field_mask.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().UpdatedFields().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourcePrevious struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourcePrevious) Eq(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) Neq(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) Gt(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) Gte(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) Lt(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) Lte(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourcePrevious) In(values []*any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Previous().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePrevious) NotIn(values []*any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Previous().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourcePrevious) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Previous().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePrevious) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Previous().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourcePrevious) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Previous().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourceCurrent struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourceCurrent) Eq(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) Neq(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) Gt(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) Gte(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) Lt(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) Lte(value *any.Any) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourceCurrent) In(values []*any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Current().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrent) NotIn(values []*any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Current().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrent) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Current().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrent) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Current().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceCurrent) compare(op gotenfilter.CompareOperator, value *any.Any) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Current().WithValue(value),
+	})
+}
+
+type filterCndBuilderResourceLabels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderResourceLabels) Eq(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderResourceLabels) Neq(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderResourceLabels) Gt(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderResourceLabels) Gte(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderResourceLabels) Lt(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderResourceLabels) Lte(value map[string]string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderResourceLabels) In(values []map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceLabels) NotIn(values []map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderResourceLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Labels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderResourceLabels) compare(op gotenfilter.CompareOperator, value map[string]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderResourceLabels) WithKey(key string) *mapFilterCndBuilderResourceLabels {
+	return &mapFilterCndBuilderResourceLabels{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderResourceLabels struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderResourceLabels) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderResourceLabels) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderResourceLabels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderResourceLabels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderResourceLabels) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Resource().Labels().WithKey(b.key).WithValue(value),
 	})
 }
 

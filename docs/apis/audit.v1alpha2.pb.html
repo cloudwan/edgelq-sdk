@@ -2935,11 +2935,45 @@ that has changed from this request (if successful)</p>
 </td></tr>
 
 <tr>
+<th rowspan="2">updated_fields</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field mask with different fields, populated only for
+update action types.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Previous values of updated fields. Its populated only
+if update_fields is provided and for those fields only.
+It is skipped for deletes.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre>.google.protobuf.Any</pre></td>
+</tr>
+<tr><td class="description"><p>Current values of updated fields in case of update. Whole
+resource in case of creation, empty in case of deletion.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">labels</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>List of query-able labels. They are taken from
+both before and after resource, but after has higher priority</p>
+</td></tr>
+
+<tr>
 <th rowspan="2">pre</th>
 <td class="type"><pre><a href="#message-ObjectState">ObjectState</a></pre></td>
 </tr>
 <tr><td class="description"><p>State of the resource before change.
-It is empty if action is CREATE</p>
+It is empty if action is CREATE
+DEPRECATED and not populated for new resources</p>
 </td></tr>
 
 <tr>
@@ -2947,7 +2981,8 @@ It is empty if action is CREATE</p>
 <td class="type"><pre><a href="#message-ObjectState">ObjectState</a></pre></td>
 </tr>
 <tr><td class="description"><p>State of the resource after change.
-It is empty if action is DELETE</p>
+It is empty if action is DELETE
+DEPRECATED and not populated for new resources</p>
 </td></tr>
  
 </tbody>
@@ -3338,25 +3373,50 @@ CreatePreCommittedResourceChangeLogsRequest</p>
 <tbody>
 <tr>
 <th>UNDEFINED</th>
-<td class="description"></td>
+<td class="description"><p>to avoid blank item when printing logs</p>
+</td>
 </tr>
 <tr></tr>
 
 <tr>
 <th>CREATE</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>UPDATE</th>
-<td class="description"></td>
+<td class="description"><p>Resource has been created</p>
+</td>
 </tr>
 <tr></tr>
 
 <tr>
 <th>DELETE</th>
-<td class="description"></td>
+<td class="description"><p>Resource has been deleted</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SPEC_UPDATE</th>
+<td class="description"><p>Update contains spec fields</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>STATE_UPDATE</th>
+<td class="description"><p>Update contains state fields, but not spec</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>META_UPDATE</th>
+<td class="description"><p>Update contains neither spec or state fields.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>UPDATE</th>
+<td class="description"><p>UPDATE is deprecated in favor of specific update types.</p>
+</td>
 </tr>
 <tr></tr>
  
@@ -3886,7 +3946,8 @@ stateless watch type.</p>
 
 <h5 id="message-ObjectState">ObjectState</h5>
 
-<p>State of the object - can be resource, request or response.</p>
+<p>State of the object - can be resource, request or response.
+DEPRECATED</p>
 
 
 <table class="fields">

@@ -4,6 +4,8 @@ package ntt.audit.v1alpha2;
 
 import "edgelq-sdk/audit/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/resource_change_log;resource_change_log";
@@ -85,23 +87,55 @@ message ResourceChangeLog {
     // Action on the resource
     Action action = 3;
 
+    // Field mask with different fields, populated only for
+    // update action types.
+    google.protobuf.FieldMask updated_fields = 6;
+
+    // Previous values of updated fields. Its populated only
+    // if update_fields is provided and for those fields only.
+    // It is skipped for deletes.
+    google.protobuf.Any previous = 7;
+
+    // Current values of updated fields in case of update. Whole
+    // resource in case of creation, empty in case of deletion.
+    google.protobuf.Any current = 8;
+
+    // List of query-able labels. They are taken from
+    // both before and after resource, but after has higher priority
+    map<string, string> labels = 9;
+
     // State of the resource before change.
     // It is empty if action is CREATE
+    // DEPRECATED and not populated for new resources
     ObjectState pre = 4;
 
     // State of the resource after change.
     // It is empty if action is DELETE
+    // DEPRECATED and not populated for new resources
     ObjectState post = 5;
 
     // Type of change
     enum Action {
-      UNDEFINED = 0; // to avoid blank item when printing logs
+      // to avoid blank item when printing logs
+      UNDEFINED = 0;
 
+      // Resource has been created
       CREATE = 1;
 
-      UPDATE = 2;
-
+      // Resource has been deleted
       DELETE = 3;
+
+      // Update contains spec fields
+      SPEC_UPDATE = 4;
+
+      // Update contains state fields, but not spec
+      STATE_UPDATE = 5;
+
+      // Update contains neither spec or state fields.
+      META_UPDATE = 6;
+
+      // UPDATE is deprecated in favor of specific update types.
+      UPDATE = 2;
     }
   }
 

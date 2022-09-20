@@ -13,7 +13,9 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -26,6 +28,8 @@ var (
 	_ = &audit_common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 

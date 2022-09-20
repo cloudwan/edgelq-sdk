@@ -27,7 +27,9 @@ import (
 	audit_common "github.com/cloudwan/edgelq-sdk/audit/common/v1alpha2"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	any "github.com/golang/protobuf/ptypes/any"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -54,6 +56,8 @@ var (
 	_ = &audit_common.Authentication{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &any.Any{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -1065,11 +1069,15 @@ type ResourceChangeLogResourceChange_FieldPath interface {
 type ResourceChangeLogResourceChange_FieldPathSelector int32
 
 const (
-	ResourceChangeLogResourceChange_FieldPathSelectorName   ResourceChangeLogResourceChange_FieldPathSelector = 0
-	ResourceChangeLogResourceChange_FieldPathSelectorType   ResourceChangeLogResourceChange_FieldPathSelector = 1
-	ResourceChangeLogResourceChange_FieldPathSelectorAction ResourceChangeLogResourceChange_FieldPathSelector = 2
-	ResourceChangeLogResourceChange_FieldPathSelectorPre    ResourceChangeLogResourceChange_FieldPathSelector = 3
-	ResourceChangeLogResourceChange_FieldPathSelectorPost   ResourceChangeLogResourceChange_FieldPathSelector = 4
+	ResourceChangeLogResourceChange_FieldPathSelectorName          ResourceChangeLogResourceChange_FieldPathSelector = 0
+	ResourceChangeLogResourceChange_FieldPathSelectorType          ResourceChangeLogResourceChange_FieldPathSelector = 1
+	ResourceChangeLogResourceChange_FieldPathSelectorAction        ResourceChangeLogResourceChange_FieldPathSelector = 2
+	ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields ResourceChangeLogResourceChange_FieldPathSelector = 3
+	ResourceChangeLogResourceChange_FieldPathSelectorPrevious      ResourceChangeLogResourceChange_FieldPathSelector = 4
+	ResourceChangeLogResourceChange_FieldPathSelectorCurrent       ResourceChangeLogResourceChange_FieldPathSelector = 5
+	ResourceChangeLogResourceChange_FieldPathSelectorLabels        ResourceChangeLogResourceChange_FieldPathSelector = 6
+	ResourceChangeLogResourceChange_FieldPathSelectorPre           ResourceChangeLogResourceChange_FieldPathSelector = 7
+	ResourceChangeLogResourceChange_FieldPathSelectorPost          ResourceChangeLogResourceChange_FieldPathSelector = 8
 )
 
 func (s ResourceChangeLogResourceChange_FieldPathSelector) String() string {
@@ -1080,6 +1088,14 @@ func (s ResourceChangeLogResourceChange_FieldPathSelector) String() string {
 		return "type"
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		return "action"
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		return "updated_fields"
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		return "previous"
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return "current"
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return "labels"
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return "pre"
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1101,6 +1117,14 @@ func BuildResourceChangeLogResourceChange_FieldPath(fp gotenobject.RawFieldPath)
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorType}, nil
 		case "action":
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorAction}, nil
+		case "updated_fields", "updatedFields", "updated-fields":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields}, nil
+		case "previous":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPrevious}, nil
+		case "current":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorCurrent}, nil
+		case "labels":
+			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels}, nil
 		case "pre":
 			return &ResourceChangeLogResourceChange_FieldTerminalPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPre}, nil
 		case "post":
@@ -1120,6 +1144,11 @@ func BuildResourceChangeLogResourceChange_FieldPath(fp gotenobject.RawFieldPath)
 			} else {
 				return &ResourceChangeLogResourceChange_FieldSubPath{selector: ResourceChangeLogResourceChange_FieldPathSelectorPost, subPath: subpath}, nil
 			}
+		case "labels":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object ResourceChangeLog_ResourceChange)", fp)
+			}
+			return &ResourceChangeLogResourceChange_FieldPathMap{selector: ResourceChangeLogResourceChange_FieldPathSelectorLabels, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ResourceChangeLog_ResourceChange", fp)
@@ -1171,6 +1200,20 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) Get(source *Resourc
 			values = append(values, source.Type)
 		case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 			values = append(values, source.Action)
+		case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+			if source.UpdatedFields != nil {
+				values = append(values, source.UpdatedFields)
+			}
+		case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+			if source.Previous != nil {
+				values = append(values, source.Previous)
+			}
+		case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+			if source.Current != nil {
+				values = append(values, source.Current)
+			}
+		case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+			values = append(values, source.Labels)
 		case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 			if source.Pre != nil {
 				values = append(values, source.Pre)
@@ -1199,6 +1242,18 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) GetSingle(source *R
 		return source.GetType(), source != nil
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		return source.GetAction(), source != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		res := source.GetUpdatedFields()
+		return res, res != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		res := source.GetPrevious()
+		return res, res != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		res := source.GetCurrent()
+		return res, res != nil
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		res := source.GetLabels()
+		return res, res != nil
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		res := source.GetPre()
 		return res, res != nil
@@ -1223,6 +1278,14 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) GetDefault() interf
 		return ""
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		return ResourceChangeLog_ResourceChange_UNDEFINED
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		return (*field_mask.FieldMask)(nil)
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		return (*any.Any)(nil)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return (*any.Any)(nil)
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return (map[string]string)(nil)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return (*audit_common.ObjectState)(nil)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1241,6 +1304,14 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) ClearValue(item *Re
 			item.Type = ""
 		case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 			item.Action = ResourceChangeLog_ResourceChange_UNDEFINED
+		case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+			item.UpdatedFields = nil
+		case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+			item.Previous = nil
+		case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+			item.Current = nil
+		case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+			item.Labels = nil
 		case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 			item.Pre = nil
 		case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1259,7 +1330,11 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) ClearValueRaw(item 
 func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorName ||
 		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorType ||
-		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorAction
+		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorAction ||
+		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields ||
+		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorPrevious ||
+		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorCurrent ||
+		fp.selector == ResourceChangeLogResourceChange_FieldPathSelectorLabels
 }
 
 func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1274,6 +1349,14 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithIValue(value in
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(ResourceChangeLog_ResourceChange_Action)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*field_mask.FieldMask)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*any.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*any.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathValue{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, value: value.(*audit_common.ObjectState)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1296,6 +1379,14 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithIArrayOfValues(
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]ResourceChangeLog_ResourceChange_Action)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*field_mask.FieldMask)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*any.Any)}
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return &ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues{ResourceChangeLogResourceChange_FieldTerminalPath: *fp, values: values.([]*audit_common.ObjectState)}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1319,6 +1410,138 @@ func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithIArrayItemValue
 
 func (fp *ResourceChangeLogResourceChange_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type ResourceChangeLogResourceChange_FieldPathMap struct {
+	key      string
+	selector ResourceChangeLogResourceChange_FieldPathSelector
+}
+
+var _ ResourceChangeLogResourceChange_FieldPath = (*ResourceChangeLogResourceChange_FieldPathMap)(nil)
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) Selector() ResourceChangeLogResourceChange_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source ResourceChangeLog_ResourceChange
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) Get(source *ResourceChangeLog_ResourceChange) (values []interface{}) {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		if value, ok := source.GetLabels()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*ResourceChangeLog_ResourceChange))
+}
+
+// GetSingle returns value by selected field map key from source ResourceChangeLog_ResourceChange
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) GetSingle(source *ResourceChangeLog_ResourceChange) (interface{}, bool) {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		res, ok := source.GetLabels()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*ResourceChangeLog_ResourceChange))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		var v string
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) ClearValue(item *ResourceChangeLog_ResourceChange) {
+	if item != nil {
+		switch fpm.selector {
+		case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+			delete(item.Labels, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*ResourceChangeLog_ResourceChange))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return true
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithIValue(value interface{}) ResourceChangeLogResourceChange_FieldPathValue {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return &ResourceChangeLogResourceChange_FieldPathMapValue{ResourceChangeLogResourceChange_FieldPathMap: *fpm, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithIArrayOfValues(values interface{}) ResourceChangeLogResourceChange_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return &ResourceChangeLogResourceChange_FieldPathMapArrayOfValues{ResourceChangeLogResourceChange_FieldPathMap: *fpm, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpm.selector))
+	}
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithIArrayItemValue(value interface{}) ResourceChangeLogResourceChange_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *ResourceChangeLogResourceChange_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
 }
 
 type ResourceChangeLogResourceChange_FieldSubPath struct {
@@ -1496,6 +1719,22 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsActionValue
 	res, ok := fpv.value.(ResourceChangeLog_ResourceChange_Action)
 	return res, ok
 }
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsUpdatedFieldsValue() (*field_mask.FieldMask, bool) {
+	res, ok := fpv.value.(*field_mask.FieldMask)
+	return res, ok
+}
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsPreviousValue() (*any.Any, bool) {
+	res, ok := fpv.value.(*any.Any)
+	return res, ok
+}
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsCurrentValue() (*any.Any, bool) {
+	res, ok := fpv.value.(*any.Any)
+	return res, ok
+}
+func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsLabelsValue() (map[string]string, bool) {
+	res, ok := fpv.value.(map[string]string)
+	return res, ok
+}
 func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) AsPreValue() (*audit_common.ObjectState, bool) {
 	res, ok := fpv.value.(*audit_common.ObjectState)
 	return res, ok
@@ -1517,6 +1756,14 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) SetTo(target 
 		(*target).Type = fpv.value.(string)
 	case ResourceChangeLogResourceChange_FieldPathSelectorAction:
 		(*target).Action = fpv.value.(ResourceChangeLog_ResourceChange_Action)
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		(*target).UpdatedFields = fpv.value.(*field_mask.FieldMask)
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		(*target).Previous = fpv.value.(*any.Any)
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		(*target).Current = fpv.value.(*any.Any)
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		(*target).Labels = fpv.value.(map[string]string)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		(*target).Pre = fpv.value.(*audit_common.ObjectState)
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1564,6 +1811,14 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) CompareWith(s
 		} else {
 			return 1, true
 		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		return 0, false
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		return 0, false
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		return 0, false
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		return 0, false
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		return 0, false
 	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
@@ -1575,6 +1830,65 @@ func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) CompareWith(s
 
 func (fpv *ResourceChangeLogResourceChange_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*ResourceChangeLog_ResourceChange))
+}
+
+type ResourceChangeLogResourceChange_FieldPathMapValue struct {
+	ResourceChangeLogResourceChange_FieldPathMap
+	value interface{}
+}
+
+var _ ResourceChangeLogResourceChange_FieldPathValue = (*ResourceChangeLogResourceChange_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in ResourceChange as interface{}
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) AsLabelsElementValue() (string, bool) {
+	res, ok := fpmv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field in ResourceChange
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) SetTo(target **ResourceChangeLog_ResourceChange) {
+	if *target == nil {
+		*target = new(ResourceChangeLog_ResourceChange)
+	}
+	switch fpmv.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		if (*target).Labels == nil {
+			(*target).Labels = make(map[string]string)
+		}
+		(*target).Labels[fpmv.key] = fpmv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ResourceChangeLog_ResourceChange)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ResourceChangeLogResourceChange_FieldPathMapValue' with the value under path in 'ResourceChangeLog_ResourceChange'.
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) CompareWith(source *ResourceChangeLog_ResourceChange) (int, bool) {
+	switch fpmv.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		leftValue := fpmv.value.(string)
+		rightValue := source.GetLabels()[fpmv.key]
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *ResourceChangeLogResourceChange_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*ResourceChangeLog_ResourceChange))
 }
 
 type ResourceChangeLogResourceChange_FieldSubPathValue struct {
@@ -1772,6 +2086,22 @@ func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) Get
 		for _, v := range fpaov.values.([]ResourceChangeLog_ResourceChange_Action) {
 			values = append(values, v)
 		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorUpdatedFields:
+		for _, v := range fpaov.values.([]*field_mask.FieldMask) {
+			values = append(values, v)
+		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorPrevious:
+		for _, v := range fpaov.values.([]*any.Any) {
+			values = append(values, v)
+		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorCurrent:
+		for _, v := range fpaov.values.([]*any.Any) {
+			values = append(values, v)
+		}
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		for _, v := range fpaov.values.([]map[string]string) {
+			values = append(values, v)
+		}
 	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
 		for _, v := range fpaov.values.([]*audit_common.ObjectState) {
 			values = append(values, v)
@@ -1795,12 +2125,49 @@ func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsA
 	res, ok := fpaov.values.([]ResourceChangeLog_ResourceChange_Action)
 	return res, ok
 }
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsUpdatedFieldsArrayOfValues() ([]*field_mask.FieldMask, bool) {
+	res, ok := fpaov.values.([]*field_mask.FieldMask)
+	return res, ok
+}
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsPreviousArrayOfValues() ([]*any.Any, bool) {
+	res, ok := fpaov.values.([]*any.Any)
+	return res, ok
+}
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsCurrentArrayOfValues() ([]*any.Any, bool) {
+	res, ok := fpaov.values.([]*any.Any)
+	return res, ok
+}
+func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsLabelsArrayOfValues() ([]map[string]string, bool) {
+	res, ok := fpaov.values.([]map[string]string)
+	return res, ok
+}
 func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsPreArrayOfValues() ([]*audit_common.ObjectState, bool) {
 	res, ok := fpaov.values.([]*audit_common.ObjectState)
 	return res, ok
 }
 func (fpaov *ResourceChangeLogResourceChange_FieldTerminalPathArrayOfValues) AsPostArrayOfValues() ([]*audit_common.ObjectState, bool) {
 	res, ok := fpaov.values.([]*audit_common.ObjectState)
+	return res, ok
+}
+
+type ResourceChangeLogResourceChange_FieldPathMapArrayOfValues struct {
+	ResourceChangeLogResourceChange_FieldPathMap
+	values interface{}
+}
+
+var _ ResourceChangeLogResourceChange_FieldPathArrayOfValues = (*ResourceChangeLogResourceChange_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *ResourceChangeLogResourceChange_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorLabels:
+		for _, v := range fpmaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *ResourceChangeLogResourceChange_FieldPathMapArrayOfValues) AsLabelsArrayOfElementValues() ([]string, bool) {
+	res, ok := fpmaov.values.([]string)
 	return res, ok
 }
 
