@@ -1208,3 +1208,9 @@ type ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder struct{}
 func NewResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder() ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder {
 	return ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder{}
 }
+
+type SetUsersNameInAuth0RequestFieldPathBuilder struct{}
+
+func NewSetUsersNameInAuth0RequestFieldPathBuilder() SetUsersNameInAuth0RequestFieldPathBuilder {
+	return SetUsersNameInAuth0RequestFieldPathBuilder{}
+}

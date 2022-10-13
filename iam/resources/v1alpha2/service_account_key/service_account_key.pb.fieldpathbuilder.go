@@ -43,6 +43,9 @@ func (ServiceAccountKeyFieldPathBuilder) PublicKeyData() ServiceAccountKeyPathSe
 func (ServiceAccountKeyFieldPathBuilder) PrivateKeyData() ServiceAccountKeyPathSelectorPrivateKeyData {
 	return ServiceAccountKeyPathSelectorPrivateKeyData{}
 }
+func (ServiceAccountKeyFieldPathBuilder) ApiKey() ServiceAccountKeyPathSelectorApiKey {
+	return ServiceAccountKeyPathSelectorApiKey{}
+}
 func (ServiceAccountKeyFieldPathBuilder) Algorithm() ServiceAccountKeyPathSelectorAlgorithm {
 	return ServiceAccountKeyPathSelectorAlgorithm{}
 }
@@ -109,6 +112,20 @@ func (s ServiceAccountKeyPathSelectorPrivateKeyData) WithValue(value string) *Se
 }
 
 func (s ServiceAccountKeyPathSelectorPrivateKeyData) WithArrayOfValues(values []string) *ServiceAccountKey_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceAccountKeyPathSelectorApiKey struct{}
+
+func (ServiceAccountKeyPathSelectorApiKey) FieldPath() *ServiceAccountKey_FieldTerminalPath {
+	return &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorApiKey}
+}
+
+func (s ServiceAccountKeyPathSelectorApiKey) WithValue(value string) *ServiceAccountKey_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccountKey_FieldTerminalPathValue)
+}
+
+func (s ServiceAccountKeyPathSelectorApiKey) WithArrayOfValues(values []string) *ServiceAccountKey_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccountKey_FieldTerminalPathArrayOfValues)
 }
 

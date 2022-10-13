@@ -719,3 +719,48 @@ func (o *ResetMFAIfRecoveryKeyUsedRequest) Merge(source *ResetMFAIfRecoveryKeyUs
 func (o *ResetMFAIfRecoveryKeyUsedRequest) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*ResetMFAIfRecoveryKeyUsedRequest))
 }
+
+func (o *SetUsersNameInAuth0Request) GotenObjectExt() {}
+
+func (o *SetUsersNameInAuth0Request) MakeFullFieldMask() *SetUsersNameInAuth0Request_FieldMask {
+	return FullSetUsersNameInAuth0Request_FieldMask()
+}
+
+func (o *SetUsersNameInAuth0Request) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSetUsersNameInAuth0Request_FieldMask()
+}
+
+func (o *SetUsersNameInAuth0Request) MakeDiffFieldMask(other *SetUsersNameInAuth0Request) *SetUsersNameInAuth0Request_FieldMask {
+	if o == nil && other == nil {
+		return &SetUsersNameInAuth0Request_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSetUsersNameInAuth0Request_FieldMask()
+	}
+
+	res := &SetUsersNameInAuth0Request_FieldMask{}
+	return res
+}
+
+func (o *SetUsersNameInAuth0Request) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SetUsersNameInAuth0Request))
+}
+
+func (o *SetUsersNameInAuth0Request) Clone() *SetUsersNameInAuth0Request {
+	if o == nil {
+		return nil
+	}
+	result := &SetUsersNameInAuth0Request{}
+	return result
+}
+
+func (o *SetUsersNameInAuth0Request) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SetUsersNameInAuth0Request) Merge(source *SetUsersNameInAuth0Request) {
+}
+
+func (o *SetUsersNameInAuth0Request) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SetUsersNameInAuth0Request))
+}

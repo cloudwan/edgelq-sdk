@@ -48,6 +48,7 @@ var (
 	refreshUserFromIdTokenDescriptor    *RefreshUserFromIdTokenDescriptor
 	resendVerificationEmailDescriptor   *ResendVerificationEmailDescriptor
 	resetMFAIfRecoveryKeyUsedDescriptor *ResetMFAIfRecoveryKeyUsedDescriptor
+	setUsersNameInAuth0Descriptor       *SetUsersNameInAuth0Descriptor
 )
 
 type GetUserDescriptor struct{}
@@ -2341,6 +2342,152 @@ func GetResetMFAIfRecoveryKeyUsedDescriptor() *ResetMFAIfRecoveryKeyUsedDescript
 	return resetMFAIfRecoveryKeyUsedDescriptor
 }
 
+type SetUsersNameInAuth0Descriptor struct{}
+
+type SetUsersNameInAuth0DescriptorClientMsgHandle struct{}
+
+type SetUsersNameInAuth0DescriptorServerMsgHandle struct{}
+
+func (d *SetUsersNameInAuth0Descriptor) NewEmptyClientMsg() proto.Message {
+	return &SetUsersNameInAuth0Request{}
+}
+
+func (d *SetUsersNameInAuth0Descriptor) NewEmptyServerMsg() proto.Message {
+	return &empty.Empty{}
+}
+
+func (d *SetUsersNameInAuth0Descriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SetUsersNameInAuth0Descriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SetUsersNameInAuth0Descriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SetUsersNameInAuth0Descriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SetUsersNameInAuth0Descriptor) IsPlural() bool {
+	return false
+}
+
+func (d *SetUsersNameInAuth0Descriptor) HasResource() bool {
+	return true
+}
+
+func (d *SetUsersNameInAuth0Descriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetVerb() string {
+	return "setUsersNameInAuth0"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetMethodName() string {
+	return "SetUsersNameInAuth0"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.UserService/SetUsersNameInAuth0"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SetUsersNameInAuth0DescriptorClientMsgHandle{}
+}
+
+func (d *SetUsersNameInAuth0Descriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SetUsersNameInAuth0DescriptorServerMsgHandle{}
+}
+
+func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SetUsersNameInAuth0Request)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SetUsersNameInAuth0Request) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SetUsersNameInAuth0Request)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SetUsersNameInAuth0Request) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*empty.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SetUsersNameInAuth0DescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func GetSetUsersNameInAuth0Descriptor() *SetUsersNameInAuth0Descriptor {
+	return setUsersNameInAuth0Descriptor
+}
+
 type UserServiceDescriptor struct{}
 
 func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2360,6 +2507,7 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		refreshUserFromIdTokenDescriptor,
 		resendVerificationEmailDescriptor,
 		resetMFAIfRecoveryKeyUsedDescriptor,
+		setUsersNameInAuth0Descriptor,
 	}
 }
 
@@ -2404,6 +2552,7 @@ func initDescriptors() {
 	refreshUserFromIdTokenDescriptor = &RefreshUserFromIdTokenDescriptor{}
 	resendVerificationEmailDescriptor = &ResendVerificationEmailDescriptor{}
 	resetMFAIfRecoveryKeyUsedDescriptor = &ResetMFAIfRecoveryKeyUsedDescriptor{}
+	setUsersNameInAuth0Descriptor = &SetUsersNameInAuth0Descriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getUserDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetUsersDescriptor)
@@ -2420,6 +2569,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(refreshUserFromIdTokenDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resendVerificationEmailDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resetMFAIfRecoveryKeyUsedDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(setUsersNameInAuth0Descriptor)
 }
 
 func init() {

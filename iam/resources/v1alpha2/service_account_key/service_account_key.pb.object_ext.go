@@ -70,6 +70,9 @@ func (o *ServiceAccountKey) MakeDiffFieldMask(other *ServiceAccountKey) *Service
 	if o.GetPrivateKeyData() != other.GetPrivateKeyData() {
 		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPrivateKeyData})
 	}
+	if o.GetApiKey() != other.GetApiKey() {
+		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorApiKey})
+	}
 	if o.GetAlgorithm() != other.GetAlgorithm() {
 		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorAlgorithm})
 	}
@@ -114,6 +117,7 @@ func (o *ServiceAccountKey) Clone() *ServiceAccountKey {
 	result.DisplayName = o.DisplayName
 	result.PublicKeyData = o.PublicKeyData
 	result.PrivateKeyData = o.PrivateKeyData
+	result.ApiKey = o.ApiKey
 	result.Algorithm = o.Algorithm
 	result.ValidNotBefore = proto.Clone(o.ValidNotBefore).(*timestamp.Timestamp)
 	result.ValidNotAfter = proto.Clone(o.ValidNotAfter).(*timestamp.Timestamp)
@@ -141,6 +145,7 @@ func (o *ServiceAccountKey) Merge(source *ServiceAccountKey) {
 	o.DisplayName = source.GetDisplayName()
 	o.PublicKeyData = source.GetPublicKeyData()
 	o.PrivateKeyData = source.GetPrivateKeyData()
+	o.ApiKey = source.GetApiKey()
 	o.Algorithm = source.GetAlgorithm()
 	if source.GetValidNotBefore() != nil {
 		if o.ValidNotBefore == nil {

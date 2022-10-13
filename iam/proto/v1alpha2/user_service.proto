@@ -393,4 +393,12 @@ service UserService {
       post : "/v1alpha2/users:resetMFAIfRecoveryKeyUsed"
     };
   }
+
+  // SetUsersNameInAuth0
+  rpc SetUsersNameInAuth0(SetUsersNameInAuth0Request)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1alpha2/users:setUsersNameInAuth0"
+    };
+  }
 }

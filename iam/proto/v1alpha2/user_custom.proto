@@ -93,3 +93,7 @@ message ResendVerificationEmailRequest {}
 // Request message for method
 // [ResetMFAIfRecoveryKeyUsed][ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsed]
 message ResetMFAIfRecoveryKeyUsedRequest {}
+
+// Request message for method
+// [SetUsersNameInAuth0][ntt.iam.v1alpha2.SetUsersNameInAuth0]
+message SetUsersNameInAuth0Request {}

@@ -4634,3 +4634,338 @@ func (fpaov *ResetMFAIfRecoveryKeyUsedRequest_FieldTerminalPathArrayOfValues) Ge
 	}
 	return
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SetUsersNameInAuth0Request_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SetUsersNameInAuth0Request_FieldPathSelector
+	Get(source *SetUsersNameInAuth0Request) []interface{}
+	GetSingle(source *SetUsersNameInAuth0Request) (interface{}, bool)
+	ClearValue(item *SetUsersNameInAuth0Request)
+
+	// Those methods build corresponding SetUsersNameInAuth0Request_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SetUsersNameInAuth0Request_FieldPathValue
+	WithIArrayOfValues(values interface{}) SetUsersNameInAuth0Request_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SetUsersNameInAuth0Request_FieldPathArrayItemValue
+}
+
+type SetUsersNameInAuth0Request_FieldPathSelector int32
+
+func (s SetUsersNameInAuth0Request_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", s))
+	}
+}
+
+func BuildSetUsersNameInAuth0Request_FieldPath(fp gotenobject.RawFieldPath) (SetUsersNameInAuth0Request_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SetUsersNameInAuth0Request")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SetUsersNameInAuth0Request", fp)
+}
+
+func ParseSetUsersNameInAuth0Request_FieldPath(rawField string) (SetUsersNameInAuth0Request_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSetUsersNameInAuth0Request_FieldPath(fp)
+}
+
+func MustParseSetUsersNameInAuth0Request_FieldPath(rawField string) SetUsersNameInAuth0Request_FieldPath {
+	fp, err := ParseSetUsersNameInAuth0Request_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SetUsersNameInAuth0Request_FieldTerminalPath struct {
+	selector SetUsersNameInAuth0Request_FieldPathSelector
+}
+
+var _ SetUsersNameInAuth0Request_FieldPath = (*SetUsersNameInAuth0Request_FieldTerminalPath)(nil)
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) Selector() SetUsersNameInAuth0Request_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SetUsersNameInAuth0Request
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) Get(source *SetUsersNameInAuth0Request) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SetUsersNameInAuth0Request))
+}
+
+// GetSingle returns value pointed by specific field of from source SetUsersNameInAuth0Request
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) GetSingle(source *SetUsersNameInAuth0Request) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+	}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SetUsersNameInAuth0Request))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+	}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) ClearValue(item *SetUsersNameInAuth0Request) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SetUsersNameInAuth0Request))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithIValue(value interface{}) SetUsersNameInAuth0Request_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+	}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithIArrayOfValues(values interface{}) SetUsersNameInAuth0Request_FieldPathArrayOfValues {
+	fpaov := &SetUsersNameInAuth0Request_FieldTerminalPathArrayOfValues{SetUsersNameInAuth0Request_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithIArrayItemValue(value interface{}) SetUsersNameInAuth0Request_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fp.selector))
+	}
+}
+
+func (fp *SetUsersNameInAuth0Request_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// SetUsersNameInAuth0Request_FieldPathValue allows storing values for SetUsersNameInAuth0Request fields according to their type
+type SetUsersNameInAuth0Request_FieldPathValue interface {
+	SetUsersNameInAuth0Request_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SetUsersNameInAuth0Request)
+	CompareWith(*SetUsersNameInAuth0Request) (cmp int, comparable bool)
+}
+
+func ParseSetUsersNameInAuth0Request_FieldPathValue(pathStr, valueStr string) (SetUsersNameInAuth0Request_FieldPathValue, error) {
+	fp, err := ParseSetUsersNameInAuth0Request_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SetUsersNameInAuth0Request field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SetUsersNameInAuth0Request_FieldPathValue), nil
+}
+
+func MustParseSetUsersNameInAuth0Request_FieldPathValue(pathStr, valueStr string) SetUsersNameInAuth0Request_FieldPathValue {
+	fpv, err := ParseSetUsersNameInAuth0Request_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SetUsersNameInAuth0Request_FieldTerminalPathValue struct {
+	SetUsersNameInAuth0Request_FieldTerminalPath
+	value interface{}
+}
+
+var _ SetUsersNameInAuth0Request_FieldPathValue = (*SetUsersNameInAuth0Request_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'SetUsersNameInAuth0Request' as interface{}
+func (fpv *SetUsersNameInAuth0Request_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object SetUsersNameInAuth0Request
+func (fpv *SetUsersNameInAuth0Request_FieldTerminalPathValue) SetTo(target **SetUsersNameInAuth0Request) {
+	if *target == nil {
+		*target = new(SetUsersNameInAuth0Request)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fpv.selector))
+	}
+}
+
+func (fpv *SetUsersNameInAuth0Request_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SetUsersNameInAuth0Request)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SetUsersNameInAuth0Request_FieldTerminalPathValue' with the value under path in 'SetUsersNameInAuth0Request'.
+func (fpv *SetUsersNameInAuth0Request_FieldTerminalPathValue) CompareWith(source *SetUsersNameInAuth0Request) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SetUsersNameInAuth0Request: %d", fpv.selector))
+	}
+}
+
+func (fpv *SetUsersNameInAuth0Request_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SetUsersNameInAuth0Request))
+}
+
+// SetUsersNameInAuth0Request_FieldPathArrayItemValue allows storing single item in Path-specific values for SetUsersNameInAuth0Request according to their type
+// Present only for array (repeated) types.
+type SetUsersNameInAuth0Request_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SetUsersNameInAuth0Request_FieldPath
+	ContainsValue(*SetUsersNameInAuth0Request) bool
+}
+
+// ParseSetUsersNameInAuth0Request_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSetUsersNameInAuth0Request_FieldPathArrayItemValue(pathStr, valueStr string) (SetUsersNameInAuth0Request_FieldPathArrayItemValue, error) {
+	fp, err := ParseSetUsersNameInAuth0Request_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SetUsersNameInAuth0Request field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SetUsersNameInAuth0Request_FieldPathArrayItemValue), nil
+}
+
+func MustParseSetUsersNameInAuth0Request_FieldPathArrayItemValue(pathStr, valueStr string) SetUsersNameInAuth0Request_FieldPathArrayItemValue {
+	fpaiv, err := ParseSetUsersNameInAuth0Request_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue struct {
+	SetUsersNameInAuth0Request_FieldTerminalPath
+	value interface{}
+}
+
+var _ SetUsersNameInAuth0Request_FieldPathArrayItemValue = (*SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SetUsersNameInAuth0Request as interface{}
+func (fpaiv *SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue) GetSingle(source *SetUsersNameInAuth0Request) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SetUsersNameInAuth0Request))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SetUsersNameInAuth0Request'
+func (fpaiv *SetUsersNameInAuth0Request_FieldTerminalPathArrayItemValue) ContainsValue(source *SetUsersNameInAuth0Request) bool {
+	slice := fpaiv.SetUsersNameInAuth0Request_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// SetUsersNameInAuth0Request_FieldPathArrayOfValues allows storing slice of values for SetUsersNameInAuth0Request fields according to their type
+type SetUsersNameInAuth0Request_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SetUsersNameInAuth0Request_FieldPath
+}
+
+func ParseSetUsersNameInAuth0Request_FieldPathArrayOfValues(pathStr, valuesStr string) (SetUsersNameInAuth0Request_FieldPathArrayOfValues, error) {
+	fp, err := ParseSetUsersNameInAuth0Request_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SetUsersNameInAuth0Request field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SetUsersNameInAuth0Request_FieldPathArrayOfValues), nil
+}
+
+func MustParseSetUsersNameInAuth0Request_FieldPathArrayOfValues(pathStr, valuesStr string) SetUsersNameInAuth0Request_FieldPathArrayOfValues {
+	fpaov, err := ParseSetUsersNameInAuth0Request_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SetUsersNameInAuth0Request_FieldTerminalPathArrayOfValues struct {
+	SetUsersNameInAuth0Request_FieldTerminalPath
+	values interface{}
+}
+
+var _ SetUsersNameInAuth0Request_FieldPathArrayOfValues = (*SetUsersNameInAuth0Request_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SetUsersNameInAuth0Request_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
+}

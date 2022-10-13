@@ -12047,6 +12047,22 @@ server.</p>
 </td></tr>
 
 <tr>
+<th rowspan="2">api_key</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Api key is set if algorithm is equal to API_KEY and provided in
+CreateServiceAccountKey responses. They are not stored on the server,
+so caller is obliged to remember its value. If lost, its is necessary to
+create new key. Api key must be used in authorization header token when
+making request:</p>
+<ul>
+<li>Authorization: &quot;Bearer $API_KEY&quot;
+Example for curl:
+$ curl -X GET -H &quot;Authorization: Bearer $API_KEY&quot; -s $URL</li>
+</ul>
+</td></tr>
+
+<tr>
 <th rowspan="2">algorithm</th>
 <td class="type"><pre><a href="#enum-ServiceAccountKey.Algorithm">ServiceAccountKey.Algorithm</a></pre></td>
 </tr>
@@ -12934,6 +12950,12 @@ compare.</p>
 <td class="description"></td>
 </tr>
 <tr></tr>
+
+<tr>
+<th>API_KEY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
  
 </tbody>
 </table>
@@ -13379,6 +13401,31 @@ Equivalent REST API:
 Equivalent REST API:
 
 <pre>POST /v1alpha2/users:resetMFAIfRecoveryKeyUsed </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-SetUsersNameInAuth0">SetUsersNameInAuth0</h5>
+
+<pre class="signature">rpc SetUsersNameInAuth0(<a href="#message-SetUsersNameInAuth0Request">SetUsersNameInAuth0Request</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>SetUsersNameInAuth0</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:setUsersNameInAuth0 </pre>
 
 </div>
 
@@ -14234,6 +14281,22 @@ Additional fields can be amended by request field field_mask</p>
 
 <p>Request message for method
 [ResetMFAIfRecoveryKeyUsed][ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsed]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+
+
+<h5 id="message-SetUsersNameInAuth0Request">SetUsersNameInAuth0Request</h5>
+
+<p>Request message for method
+[SetUsersNameInAuth0][ntt.iam.v1alpha2.SetUsersNameInAuth0]</p>
 
 
 <table class="fields">

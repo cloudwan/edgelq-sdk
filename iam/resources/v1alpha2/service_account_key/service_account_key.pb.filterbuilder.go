@@ -192,6 +192,10 @@ func (b *filterCndBuilder) PrivateKeyData() *filterCndBuilderPrivateKeyData {
 	return &filterCndBuilderPrivateKeyData{builder: b.builder}
 }
 
+func (b *filterCndBuilder) ApiKey() *filterCndBuilderApiKey {
+	return &filterCndBuilderApiKey{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Algorithm() *filterCndBuilderAlgorithm {
 	return &filterCndBuilderAlgorithm{builder: b.builder}
 }
@@ -441,6 +445,65 @@ func (b *filterCndBuilderPrivateKeyData) compare(op gotenfilter.CompareOperator,
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ServiceAccountKey_FieldPathValue: NewServiceAccountKeyFieldPathBuilder().PrivateKeyData().WithValue(value),
+	})
+}
+
+type filterCndBuilderApiKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderApiKey) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderApiKey) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderApiKey) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderApiKey) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderApiKey) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderApiKey) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderApiKey) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ServiceAccountKey_FieldPathArrayOfValues: NewServiceAccountKeyFieldPathBuilder().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderApiKey) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ServiceAccountKey_FieldPathArrayOfValues: NewServiceAccountKeyFieldPathBuilder().ApiKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderApiKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderApiKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderApiKey) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ServiceAccountKey_FieldPathValue: NewServiceAccountKeyFieldPathBuilder().ApiKey().WithValue(value),
 	})
 }
 

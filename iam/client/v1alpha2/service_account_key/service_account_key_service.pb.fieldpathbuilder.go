@@ -215,6 +215,10 @@ func (BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeys) PrivateK
 	return BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateKeyData{}
 }
 
+func (BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeys) ApiKey() BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey {
+	return BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey{}
+}
+
 func (BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeys) Algorithm() BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysAlgorithm {
 	return BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysAlgorithm{}
 }
@@ -296,6 +300,23 @@ func (s BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateK
 }
 
 func (s BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateKeyData) WithArrayOfValues(values []string) *BatchGetServiceAccountKeysResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountKeysResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey struct{}
+
+func (BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) FieldPath() *BatchGetServiceAccountKeysResponse_FieldSubPath {
+	return &BatchGetServiceAccountKeysResponse_FieldSubPath{
+		selector: BatchGetServiceAccountKeysResponse_FieldPathSelectorServiceAccountKeys,
+		subPath:  service_account_key.NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) WithValue(value string) *BatchGetServiceAccountKeysResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetServiceAccountKeysResponse_FieldSubPathValue)
+}
+
+func (s BatchGetServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) WithArrayOfValues(values []string) *BatchGetServiceAccountKeysResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetServiceAccountKeysResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1159,6 +1180,10 @@ func (ListServiceAccountKeysResponsePathSelectorServiceAccountKeys) PrivateKeyDa
 	return ListServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateKeyData{}
 }
 
+func (ListServiceAccountKeysResponsePathSelectorServiceAccountKeys) ApiKey() ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey {
+	return ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey{}
+}
+
 func (ListServiceAccountKeysResponsePathSelectorServiceAccountKeys) Algorithm() ListServiceAccountKeysResponsePathSelectorServiceAccountKeysAlgorithm {
 	return ListServiceAccountKeysResponsePathSelectorServiceAccountKeysAlgorithm{}
 }
@@ -1240,6 +1265,23 @@ func (s ListServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateKeyDa
 }
 
 func (s ListServiceAccountKeysResponsePathSelectorServiceAccountKeysPrivateKeyData) WithArrayOfValues(values []string) *ListServiceAccountKeysResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysResponse_FieldSubPathArrayOfValues)
+}
+
+type ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey struct{}
+
+func (ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) FieldPath() *ListServiceAccountKeysResponse_FieldSubPath {
+	return &ListServiceAccountKeysResponse_FieldSubPath{
+		selector: ListServiceAccountKeysResponse_FieldPathSelectorServiceAccountKeys,
+		subPath:  service_account_key.NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) WithValue(value string) *ListServiceAccountKeysResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountKeysResponse_FieldSubPathValue)
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorServiceAccountKeysApiKey) WithArrayOfValues(values []string) *ListServiceAccountKeysResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2479,6 +2521,10 @@ func (CreateServiceAccountKeyRequestPathSelectorServiceAccountKey) PrivateKeyDat
 	return CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyData{}
 }
 
+func (CreateServiceAccountKeyRequestPathSelectorServiceAccountKey) ApiKey() CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey {
+	return CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey{}
+}
+
 func (CreateServiceAccountKeyRequestPathSelectorServiceAccountKey) Algorithm() CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyAlgorithm {
 	return CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyAlgorithm{}
 }
@@ -2560,6 +2606,23 @@ func (s CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyDat
 }
 
 func (s CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyData) WithArrayOfValues(values []string) *CreateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey struct{}
+
+func (CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) FieldPath() *CreateServiceAccountKeyRequest_FieldSubPath {
+	return &CreateServiceAccountKeyRequest_FieldSubPath{
+		selector: CreateServiceAccountKeyRequest_FieldPathSelectorServiceAccountKey,
+		subPath:  service_account_key.NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) WithValue(value string) *CreateServiceAccountKeyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateServiceAccountKeyRequest_FieldSubPathValue)
+}
+
+func (s CreateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) WithArrayOfValues(values []string) *CreateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3277,6 +3340,10 @@ func (UpdateServiceAccountKeyRequestPathSelectorServiceAccountKey) PrivateKeyDat
 	return UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyData{}
 }
 
+func (UpdateServiceAccountKeyRequestPathSelectorServiceAccountKey) ApiKey() UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey {
+	return UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey{}
+}
+
 func (UpdateServiceAccountKeyRequestPathSelectorServiceAccountKey) Algorithm() UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyAlgorithm {
 	return UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyAlgorithm{}
 }
@@ -3358,6 +3425,23 @@ func (s UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyDat
 }
 
 func (s UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyPrivateKeyData) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey struct{}
+
+func (UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) FieldPath() *UpdateServiceAccountKeyRequest_FieldSubPath {
+	return &UpdateServiceAccountKeyRequest_FieldSubPath{
+		selector: UpdateServiceAccountKeyRequest_FieldPathSelectorServiceAccountKey,
+		subPath:  service_account_key.NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) WithValue(value string) *UpdateServiceAccountKeyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountKeyRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountKeyRequestPathSelectorServiceAccountKeyApiKey) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4099,6 +4183,10 @@ func (UpdateServiceAccountKeyRequestPathSelectorCasConditionalState) PrivateKeyD
 	return UpdateServiceAccountKeyRequestPathSelectorCasConditionalStatePrivateKeyData{}
 }
 
+func (UpdateServiceAccountKeyRequestPathSelectorCasConditionalState) ApiKey() UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey {
+	return UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey{}
+}
+
 func (UpdateServiceAccountKeyRequestPathSelectorCasConditionalState) Algorithm() UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateAlgorithm {
 	return UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateAlgorithm{}
 }
@@ -4180,6 +4268,23 @@ func (s UpdateServiceAccountKeyRequestPathSelectorCasConditionalStatePrivateKeyD
 }
 
 func (s UpdateServiceAccountKeyRequestPathSelectorCasConditionalStatePrivateKeyData) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey struct{}
+
+func (UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey) FieldPath() *UpdateServiceAccountKeyRequest_FieldSubPath {
+	return &UpdateServiceAccountKeyRequest_FieldSubPath{
+		selector: UpdateServiceAccountKeyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateServiceAccountKeyRequestCASFieldPathBuilder().ConditionalState().ApiKey().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey) WithValue(value string) *UpdateServiceAccountKeyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountKeyRequest_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountKeyRequestPathSelectorCasConditionalStateApiKey) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4911,6 +5016,10 @@ func (UpdateServiceAccountKeyRequest_CASPathSelectorConditionalState) PrivateKey
 	return UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStatePrivateKeyData{}
 }
 
+func (UpdateServiceAccountKeyRequest_CASPathSelectorConditionalState) ApiKey() UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey {
+	return UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey{}
+}
+
 func (UpdateServiceAccountKeyRequest_CASPathSelectorConditionalState) Algorithm() UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateAlgorithm {
 	return UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateAlgorithm{}
 }
@@ -4992,6 +5101,23 @@ func (s UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStatePrivateKey
 }
 
 func (s UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStatePrivateKeyData) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey struct{}
+
+func (UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey) FieldPath() *UpdateServiceAccountKeyRequestCAS_FieldSubPath {
+	return &UpdateServiceAccountKeyRequestCAS_FieldSubPath{
+		selector: UpdateServiceAccountKeyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  service_account_key.NewServiceAccountKeyFieldPathBuilder().ApiKey().FieldPath(),
+	}
+}
+
+func (s UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey) WithValue(value string) *UpdateServiceAccountKeyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateServiceAccountKeyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateServiceAccountKeyRequest_CASPathSelectorConditionalStateApiKey) WithArrayOfValues(values []string) *UpdateServiceAccountKeyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateServiceAccountKeyRequestCAS_FieldSubPathArrayOfValues)
 }
 

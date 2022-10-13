@@ -57,6 +57,7 @@ func FullServiceAccountKey_FieldMask() *ServiceAccountKey_FieldMask {
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPublicKeyData})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPrivateKeyData})
+	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorApiKey})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorAlgorithm})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorValidNotBefore})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorValidNotAfter})
@@ -104,7 +105,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ServiceAccountKey_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -134,7 +135,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) Reset() {
 
 func (fieldMask *ServiceAccountKey_FieldMask) Subtract(other *ServiceAccountKey_FieldMask) *ServiceAccountKey_FieldMask {
 	result := &ServiceAccountKey_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[ServiceAccountKey_FieldPathSelector]gotenobject.FieldMask{
 		ServiceAccountKey_FieldPathSelectorMetadata: &ntt_meta.Meta_FieldMask{},
 	}
@@ -190,6 +191,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) FilterInputFields() *ServiceAccoun
 	for _, path := range fieldMask.Paths {
 		switch path.Selector() {
 		case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
+		case ServiceAccountKey_FieldPathSelectorApiKey:
 		case ServiceAccountKey_FieldPathSelectorValidNotBefore:
 		case ServiceAccountKey_FieldPathSelectorValidNotAfter:
 		case ServiceAccountKey_FieldPathSelectorMetadata:
@@ -345,6 +347,8 @@ func (fieldMask *ServiceAccountKey_FieldMask) Project(source *ServiceAccountKey)
 				result.PublicKeyData = source.PublicKeyData
 			case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
 				result.PrivateKeyData = source.PrivateKeyData
+			case ServiceAccountKey_FieldPathSelectorApiKey:
+				result.ApiKey = source.ApiKey
 			case ServiceAccountKey_FieldPathSelectorAlgorithm:
 				result.Algorithm = source.Algorithm
 			case ServiceAccountKey_FieldPathSelectorValidNotBefore:
