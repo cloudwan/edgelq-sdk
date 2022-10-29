@@ -811,6 +811,9 @@ func (WatchServiceAccountKeysRequestFieldPathBuilder) OrderBy() WatchServiceAcco
 func (WatchServiceAccountKeysRequestFieldPathBuilder) ResumeToken() WatchServiceAccountKeysRequestPathSelectorResumeToken {
 	return WatchServiceAccountKeysRequestPathSelectorResumeToken{}
 }
+func (WatchServiceAccountKeysRequestFieldPathBuilder) StartingTime() WatchServiceAccountKeysRequestPathSelectorStartingTime {
+	return WatchServiceAccountKeysRequestPathSelectorStartingTime{}
+}
 func (WatchServiceAccountKeysRequestFieldPathBuilder) Filter() WatchServiceAccountKeysRequestPathSelectorFilter {
 	return WatchServiceAccountKeysRequestPathSelectorFilter{}
 }
@@ -905,6 +908,20 @@ func (s WatchServiceAccountKeysRequestPathSelectorResumeToken) WithValue(value s
 }
 
 func (s WatchServiceAccountKeysRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchServiceAccountKeysRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchServiceAccountKeysRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchServiceAccountKeysRequestPathSelectorStartingTime struct{}
+
+func (WatchServiceAccountKeysRequestPathSelectorStartingTime) FieldPath() *WatchServiceAccountKeysRequest_FieldTerminalPath {
+	return &WatchServiceAccountKeysRequest_FieldTerminalPath{selector: WatchServiceAccountKeysRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchServiceAccountKeysRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchServiceAccountKeysRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchServiceAccountKeysRequest_FieldTerminalPathValue)
+}
+
+func (s WatchServiceAccountKeysRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchServiceAccountKeysRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchServiceAccountKeysRequest_FieldTerminalPathArrayOfValues)
 }
 

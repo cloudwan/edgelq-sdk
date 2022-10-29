@@ -9,9 +9,13 @@ import (
 	"time"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus/ctxlogrus"
+	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
+	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
 	"github.com/cloudwan/goten-sdk/runtime/api/view"
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 
 	service_account_key_client "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha/service_account_key"
 	service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha/service_account_key"
@@ -27,19 +31,22 @@ type QueryWatcher struct {
 	syncDeadline time.Time
 	identifier   int
 	evtsChan     chan *QueryWatcherEvent
+	iEvtsChan    chan gotenaccess.QueryWatcherEvent
 	resumeToken  string
+	startingTime *timestamppb.Timestamp
 }
 
 type QueryWatcherParams struct {
-	Parent    *service_account_key.ParentReference
-	Filter    *service_account_key.Filter
-	View      view.View
-	FieldMask *service_account_key.ServiceAccountKey_FieldMask
-	OrderBy   *service_account_key.OrderBy
-	Cursor    *service_account_key.PagerCursor
-	ChunkSize int
-	PageSize  int
-	WatchType watch_type.WatchType
+	Parent       *service_account_key.ParentReference
+	Filter       *service_account_key.Filter
+	View         view.View
+	FieldMask    *service_account_key.ServiceAccountKey_FieldMask
+	OrderBy      *service_account_key.OrderBy
+	Cursor       *service_account_key.PagerCursor
+	ChunkSize    int
+	PageSize     int
+	WatchType    watch_type.WatchType
+	StartingTime *timestamppb.Timestamp
 
 	RecoveryDeadline time.Duration
 	RetryTimeout     time.Duration
@@ -55,15 +62,57 @@ type QueryWatcherEvent struct {
 	CheckSize    bool
 }
 
+func (e *QueryWatcherEvent) GetWatcherIdentifier() int {
+	return e.Identifier
+}
+
+func (e *QueryWatcherEvent) GetChanges() gotenresource.ResourceChangeList {
+	return service_account_key.ServiceAccountKeyChangeList(e.Changes)
+}
+
+func (e *QueryWatcherEvent) IsReset() bool {
+	return e.Reset
+}
+
+func (e *QueryWatcherEvent) IsLostSync() bool {
+	return e.LostSync
+}
+
+func (e *QueryWatcherEvent) IsSync() bool {
+	return e.InSync
+}
+
+func (e *QueryWatcherEvent) GetSnapshotSize() int64 {
+	return e.SnapshotSize
+}
+
+func (e *QueryWatcherEvent) HasSnapshotSize() bool {
+	return e.CheckSize
+}
+
 func NewQueryWatcher(id int, client service_account_key_client.ServiceAccountKeyServiceClient,
 	params *QueryWatcherParams, evtsChan chan *QueryWatcherEvent) *QueryWatcher {
 	return &QueryWatcher{
-		client:     client,
-		params:     params,
-		identifier: id,
-		evtsChan:   evtsChan,
+		client:       client,
+		params:       params,
+		identifier:   id,
+		evtsChan:     evtsChan,
+		startingTime: params.StartingTime,
 	}
 }
+
+func NewQueryWatcherWithIChan(id int, client service_account_key_client.ServiceAccountKeyServiceClient,
+	params *QueryWatcherParams, evtsChan chan gotenaccess.QueryWatcherEvent) *QueryWatcher {
+	return &QueryWatcher{
+		client:       client,
+		params:       params,
+		identifier:   id,
+		iEvtsChan:    evtsChan,
+		startingTime: params.StartingTime,
+	}
+}
+
+func (qw *QueryWatcher) QueryWatcher() {}
 
 func (qw *QueryWatcher) Run(ctx context.Context) error {
 	log := ctxlogrus.Extract(ctx).
@@ -76,6 +125,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 
 	log.Infof("Running new query")
 	inSync := false
+	skipErrorBackoff := false
 	for {
 		stream, err := qw.client.WatchServiceAccountKeys(ctx, &service_account_key_client.WatchServiceAccountKeysRequest{
 			Type:         qw.params.WatchType,
@@ -88,16 +138,21 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 			ResumeToken:  qw.resumeToken,
 			PageSize:     int32(qw.params.PageSize),
 			PageToken:    qw.params.Cursor,
+			StartingTime: qw.startingTime,
 		})
 
 		if err != nil {
-			log.WithError(err).Errorf("watch initialization error")
+			if ctx.Err() == nil {
+				log.WithError(err).Warnf("watch initialization error")
+			}
 		} else {
 			pending := make([]*service_account_key.ServiceAccountKeyChange, 0)
 			for {
 				resp, err := stream.Recv()
 				if err != nil {
-					log.WithError(err).Errorf("watch error")
+					if ctx.Err() == nil {
+						log.WithError(err).Warnf("watch error")
+					}
 					break
 				} else {
 					var outputEvt *QueryWatcherEvent
@@ -106,6 +161,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 					// potential impact on memory (if receiver does not need state). Later on, we will
 					// collect changes and send once IsCurrent flag is sent. This is to handle soft reset
 					// flag. Changes after initial sync are however practically always small.
+					skipErrorBackoff = true
 					if inSync {
 						pending = append(pending, resp.GetServiceAccountKeyChanges()...)
 						if resp.IsSoftReset {
@@ -135,6 +191,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 							qw.syncDeadline = time.Time{}
 							if resp.GetResumeToken() != "" {
 								qw.resumeToken = resp.GetResumeToken()
+								qw.startingTime = nil
 							}
 							if len(pending) > 0 {
 								outputEvt = &QueryWatcherEvent{
@@ -152,6 +209,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 							qw.syncDeadline = time.Time{}
 							if resp.GetResumeToken() != "" {
 								qw.resumeToken = resp.GetResumeToken()
+								qw.startingTime = nil
 							}
 						}
 						outputEvt = &QueryWatcherEvent{
@@ -164,11 +222,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 						}
 					}
 					if outputEvt != nil {
-						select {
-						case <-ctx.Done():
-							return ctx.Err()
-						case qw.evtsChan <- outputEvt:
-						}
+						qw.sendEvt(ctx, outputEvt)
 					}
 				}
 			}
@@ -184,11 +238,7 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 				Identifier: qw.identifier,
 				Reset:      true,
 			}
-			select {
-			case <-ctx.Done():
-				return ctx.Err()
-			case qw.evtsChan <- evt:
-			}
+			qw.sendEvt(ctx, evt)
 		}
 		if qw.syncDeadline.IsZero() && qw.params.RecoveryDeadline > 0 {
 			qw.syncDeadline = time.Now().UTC().Add(qw.params.RecoveryDeadline)
@@ -202,20 +252,67 @@ func (qw *QueryWatcher) Run(ctx context.Context) error {
 			}
 			qw.resumeToken = ""
 			inSync = false
-			select {
-			case <-ctx.Done():
-				return ctx.Err()
-			case qw.evtsChan <- evt:
-			}
+			qw.sendEvt(ctx, evt)
 		}
 
-		backoff := time.After(qw.params.RetryTimeout)
-		select {
-		case <-backoff:
-			log.Debugf("after backoff %s", qw.params.RetryTimeout)
-		case <-ctx.Done():
-			log.Debugf("context done, reason: %s", ctx.Err())
-			return ctx.Err()
+		// If we had working watch, dont sleep on first disconnection, we are likely to be able to
+		// reconnect quickly and then we dont want to miss updates
+		if !skipErrorBackoff {
+			backoff := time.After(qw.params.RetryTimeout)
+			select {
+			case <-backoff:
+				log.Debugf("after backoff %s", qw.params.RetryTimeout)
+			case <-ctx.Done():
+				log.Debugf("context done, reason: %s", ctx.Err())
+				return ctx.Err()
+			}
+		} else {
+			skipErrorBackoff = false
 		}
 	}
+}
+
+func (qw *QueryWatcher) sendEvt(ctx context.Context, evt *QueryWatcherEvent) {
+	if qw.evtsChan != nil {
+		select {
+		case <-ctx.Done():
+		case qw.evtsChan <- evt:
+		}
+	} else {
+		select {
+		case <-ctx.Done():
+		case qw.iEvtsChan <- evt:
+		}
+	}
+}
+
+func init() {
+	gotenaccess.GetRegistry().RegisterQueryWatcherConstructor(service_account_key.GetDescriptor(), func(id int, cc grpc.ClientConnInterface,
+		params *gotenaccess.QueryWatcherConfigParams, ch chan gotenaccess.QueryWatcherEvent) gotenaccess.QueryWatcher {
+		cfg := &QueryWatcherParams{
+			WatchType:        params.WatchType,
+			View:             params.View,
+			ChunkSize:        params.ChunkSize,
+			PageSize:         params.PageSize,
+			StartingTime:     params.StartingTime,
+			RecoveryDeadline: params.RecoveryDeadline,
+			RetryTimeout:     params.RetryTimeout,
+		}
+		if params.FieldMask != nil {
+			cfg.FieldMask = params.FieldMask.(*service_account_key.ServiceAccountKey_FieldMask)
+		}
+		if params.OrderBy != nil {
+			cfg.OrderBy = params.OrderBy.(*service_account_key.OrderBy)
+		}
+		if params.Cursor != nil {
+			cfg.Cursor = params.Cursor.(*service_account_key.PagerCursor)
+		}
+		if params.Parent != nil {
+			cfg.Parent = params.Parent.(*service_account_key.ParentReference)
+		}
+		if params.Filter != nil {
+			cfg.Filter = params.Filter.(*service_account_key.Filter)
+		}
+		return NewQueryWatcherWithIChan(id, service_account_key_client.NewServiceAccountKeyServiceClient(cc), cfg, ch)
+	})
 }

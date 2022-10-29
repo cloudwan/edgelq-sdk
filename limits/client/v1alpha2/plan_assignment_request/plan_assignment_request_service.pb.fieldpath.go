@@ -30,13 +30,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -45,11 +46,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -59,6 +60,7 @@ var (
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3777,10 +3779,11 @@ const (
 	WatchPlanAssignmentRequestsRequest_FieldPathSelectorPageToken    WatchPlanAssignmentRequestsRequest_FieldPathSelector = 3
 	WatchPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy      WatchPlanAssignmentRequestsRequest_FieldPathSelector = 4
 	WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken  WatchPlanAssignmentRequestsRequest_FieldPathSelector = 5
-	WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter       WatchPlanAssignmentRequestsRequest_FieldPathSelector = 6
-	WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask    WatchPlanAssignmentRequestsRequest_FieldPathSelector = 7
-	WatchPlanAssignmentRequestsRequest_FieldPathSelectorView         WatchPlanAssignmentRequestsRequest_FieldPathSelector = 8
-	WatchPlanAssignmentRequestsRequest_FieldPathSelectorMaxChunkSize WatchPlanAssignmentRequestsRequest_FieldPathSelector = 9
+	WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime WatchPlanAssignmentRequestsRequest_FieldPathSelector = 6
+	WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter       WatchPlanAssignmentRequestsRequest_FieldPathSelector = 7
+	WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask    WatchPlanAssignmentRequestsRequest_FieldPathSelector = 8
+	WatchPlanAssignmentRequestsRequest_FieldPathSelectorView         WatchPlanAssignmentRequestsRequest_FieldPathSelector = 9
+	WatchPlanAssignmentRequestsRequest_FieldPathSelectorMaxChunkSize WatchPlanAssignmentRequestsRequest_FieldPathSelector = 10
 )
 
 func (s WatchPlanAssignmentRequestsRequest_FieldPathSelector) String() string {
@@ -3797,6 +3800,8 @@ func (s WatchPlanAssignmentRequestsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -3828,6 +3833,8 @@ func BuildWatchPlanAssignmentRequestsRequest_FieldPath(fp gotenobject.RawFieldPa
 			return &WatchPlanAssignmentRequestsRequest_FieldTerminalPath{selector: WatchPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchPlanAssignmentRequestsRequest_FieldTerminalPath{selector: WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchPlanAssignmentRequestsRequest_FieldTerminalPath{selector: WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchPlanAssignmentRequestsRequest_FieldTerminalPath{selector: WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3899,6 +3906,10 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) Get(source *Watc
 			}
 		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3940,6 +3951,9 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) GetSingle(source
 		return res, res != nil
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3974,6 +3988,8 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) GetDefault() int
 		return (*plan_assignment_request.OrderBy)(nil)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		return (*plan_assignment_request.Filter)(nil)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -4002,6 +4018,8 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) ClearValue(item 
 			item.OrderBy = nil
 		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -4028,6 +4046,7 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchPlanAssignmentRequestsRequest_FieldPathSelectorView ||
@@ -4052,6 +4071,8 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) WithIValue(value
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.OrderBy)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.Filter)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -4084,6 +4105,8 @@ func (fp *WatchPlanAssignmentRequestsRequest_FieldTerminalPath) WithIArrayOfValu
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.OrderBy)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		return &WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{WatchPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.Filter)}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -4176,6 +4199,10 @@ func (fpv *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsResumeTo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsFilterValue() (*plan_assignment_request.Filter, bool) {
 	res, ok := fpv.value.(*plan_assignment_request.Filter)
 	return res, ok
@@ -4211,6 +4238,8 @@ func (fpv *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue) SetTo(targ
 		(*target).OrderBy = fpv.value.(*plan_assignment_request.OrderBy)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*plan_assignment_request.Filter)
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
@@ -4281,6 +4310,25 @@ func (fpv *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue) CompareWit
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4441,6 +4489,10 @@ func (fpaov *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*plan_assignment_request.Filter) {
 			values = append(values, v)
@@ -4482,6 +4534,10 @@ func (fpaov *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) 
 }
 func (fpaov *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*plan_assignment_request.Filter, bool) {

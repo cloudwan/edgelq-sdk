@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchConfigMapsRequest_FieldPathSelectorPageToken    WatchConfigMapsRequest_FieldPathSelector = 3
 	WatchConfigMapsRequest_FieldPathSelectorOrderBy      WatchConfigMapsRequest_FieldPathSelector = 4
 	WatchConfigMapsRequest_FieldPathSelectorResumeToken  WatchConfigMapsRequest_FieldPathSelector = 5
-	WatchConfigMapsRequest_FieldPathSelectorFilter       WatchConfigMapsRequest_FieldPathSelector = 6
-	WatchConfigMapsRequest_FieldPathSelectorFieldMask    WatchConfigMapsRequest_FieldPathSelector = 7
-	WatchConfigMapsRequest_FieldPathSelectorView         WatchConfigMapsRequest_FieldPathSelector = 8
-	WatchConfigMapsRequest_FieldPathSelectorMaxChunkSize WatchConfigMapsRequest_FieldPathSelector = 9
+	WatchConfigMapsRequest_FieldPathSelectorStartingTime WatchConfigMapsRequest_FieldPathSelector = 6
+	WatchConfigMapsRequest_FieldPathSelectorFilter       WatchConfigMapsRequest_FieldPathSelector = 7
+	WatchConfigMapsRequest_FieldPathSelectorFieldMask    WatchConfigMapsRequest_FieldPathSelector = 8
+	WatchConfigMapsRequest_FieldPathSelectorView         WatchConfigMapsRequest_FieldPathSelector = 9
+	WatchConfigMapsRequest_FieldPathSelectorMaxChunkSize WatchConfigMapsRequest_FieldPathSelector = 10
 )
 
 func (s WatchConfigMapsRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchConfigMapsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchConfigMapsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchCo
 			return &WatchConfigMapsRequest_FieldTerminalPath{selector: WatchConfigMapsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchConfigMapsRequest_FieldTerminalPath{selector: WatchConfigMapsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchConfigMapsRequest_FieldTerminalPath{selector: WatchConfigMapsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchConfigMapsRequest_FieldTerminalPath{selector: WatchConfigMapsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) Get(source *WatchConfigMapsR
 			}
 		case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchConfigMapsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) GetSingle(source *WatchConfi
 		return res, res != nil
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*config_map.OrderBy)(nil)
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		return (*config_map.Filter)(nil)
 	case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) ClearValue(item *WatchConfig
 			item.OrderBy = nil
 		case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchConfigMapsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchConfigMapsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchConfigMapsRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) WithIValue(value interface{}
 		return &WatchConfigMapsRequest_FieldTerminalPathValue{WatchConfigMapsRequest_FieldTerminalPath: *fp, value: value.(*config_map.OrderBy)}
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		return &WatchConfigMapsRequest_FieldTerminalPathValue{WatchConfigMapsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		return &WatchConfigMapsRequest_FieldTerminalPathValue{WatchConfigMapsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		return &WatchConfigMapsRequest_FieldTerminalPathValue{WatchConfigMapsRequest_FieldTerminalPath: *fp, value: value.(*config_map.Filter)}
 	case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchConfigMapsRequest_FieldTerminalPath) WithIArrayOfValues(values in
 		return &WatchConfigMapsRequest_FieldTerminalPathArrayOfValues{WatchConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]*config_map.OrderBy)}
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		return &WatchConfigMapsRequest_FieldTerminalPathArrayOfValues{WatchConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		return &WatchConfigMapsRequest_FieldTerminalPathArrayOfValues{WatchConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		return &WatchConfigMapsRequest_FieldTerminalPathArrayOfValues{WatchConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]*config_map.Filter)}
 	case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchConfigMapsRequest_FieldTerminalPathValue) AsResumeTokenValue() (
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchConfigMapsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchConfigMapsRequest_FieldTerminalPathValue) AsFilterValue() (*config_map.Filter, bool) {
 	res, ok := fpv.value.(*config_map.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchConfigMapsRequest_FieldTerminalPathValue) SetTo(target **WatchCo
 		(*target).OrderBy = fpv.value.(*config_map.OrderBy)
 	case WatchConfigMapsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*config_map.Filter)
 	case WatchConfigMapsRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchConfigMapsRequest_FieldTerminalPathValue) CompareWith(source *Wa
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchConfigMapsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchConfigMapsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchConfigMapsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*config_map.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchConfigMapsRequest_FieldTerminalPathArrayOfValues) AsOrderByArr
 }
 func (fpaov *WatchConfigMapsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchConfigMapsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchConfigMapsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*config_map.Filter, bool) {

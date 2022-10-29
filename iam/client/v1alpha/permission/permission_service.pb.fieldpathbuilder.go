@@ -10,6 +10,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -18,6 +19,7 @@ var (
 	_ = &permission.Permission{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -613,6 +615,9 @@ func (WatchPermissionsRequestFieldPathBuilder) OrderBy() WatchPermissionsRequest
 func (WatchPermissionsRequestFieldPathBuilder) ResumeToken() WatchPermissionsRequestPathSelectorResumeToken {
 	return WatchPermissionsRequestPathSelectorResumeToken{}
 }
+func (WatchPermissionsRequestFieldPathBuilder) StartingTime() WatchPermissionsRequestPathSelectorStartingTime {
+	return WatchPermissionsRequestPathSelectorStartingTime{}
+}
 func (WatchPermissionsRequestFieldPathBuilder) Filter() WatchPermissionsRequestPathSelectorFilter {
 	return WatchPermissionsRequestPathSelectorFilter{}
 }
@@ -693,6 +698,20 @@ func (s WatchPermissionsRequestPathSelectorResumeToken) WithValue(value string) 
 }
 
 func (s WatchPermissionsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPermissionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPermissionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPermissionsRequestPathSelectorStartingTime struct{}
+
+func (WatchPermissionsRequestPathSelectorStartingTime) FieldPath() *WatchPermissionsRequest_FieldTerminalPath {
+	return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPermissionsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPermissionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPermissionsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPermissionsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPermissionsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPermissionsRequest_FieldTerminalPathArrayOfValues)
 }
 

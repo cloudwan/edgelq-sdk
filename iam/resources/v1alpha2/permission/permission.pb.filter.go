@@ -30,17 +30,17 @@ import (
 )
 
 var (
-	_ = fmt.Stringer(nil)
+	_ = new(fmt.Stringer)
 	_ = strings.Builder{}
 	_ = math.IsNaN
 
 	_ = types.Bool(true)
-	_ = ref.Type(nil)
-	_ = traits.Receiver(nil)
+	_ = new(ref.Type)
+	_ = new(traits.Receiver)
 	_ = firestorepb.Value{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 	_ = gotenresource.WildcardId
 )
 

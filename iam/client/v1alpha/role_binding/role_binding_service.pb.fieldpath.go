@@ -30,13 +30,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -45,11 +46,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -59,6 +60,7 @@ var (
 	_ = &role_binding.RoleBinding{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3777,10 +3779,11 @@ const (
 	WatchRoleBindingsRequest_FieldPathSelectorPageToken    WatchRoleBindingsRequest_FieldPathSelector = 3
 	WatchRoleBindingsRequest_FieldPathSelectorOrderBy      WatchRoleBindingsRequest_FieldPathSelector = 4
 	WatchRoleBindingsRequest_FieldPathSelectorResumeToken  WatchRoleBindingsRequest_FieldPathSelector = 5
-	WatchRoleBindingsRequest_FieldPathSelectorFilter       WatchRoleBindingsRequest_FieldPathSelector = 6
-	WatchRoleBindingsRequest_FieldPathSelectorFieldMask    WatchRoleBindingsRequest_FieldPathSelector = 7
-	WatchRoleBindingsRequest_FieldPathSelectorView         WatchRoleBindingsRequest_FieldPathSelector = 8
-	WatchRoleBindingsRequest_FieldPathSelectorMaxChunkSize WatchRoleBindingsRequest_FieldPathSelector = 9
+	WatchRoleBindingsRequest_FieldPathSelectorStartingTime WatchRoleBindingsRequest_FieldPathSelector = 6
+	WatchRoleBindingsRequest_FieldPathSelectorFilter       WatchRoleBindingsRequest_FieldPathSelector = 7
+	WatchRoleBindingsRequest_FieldPathSelectorFieldMask    WatchRoleBindingsRequest_FieldPathSelector = 8
+	WatchRoleBindingsRequest_FieldPathSelectorView         WatchRoleBindingsRequest_FieldPathSelector = 9
+	WatchRoleBindingsRequest_FieldPathSelectorMaxChunkSize WatchRoleBindingsRequest_FieldPathSelector = 10
 )
 
 func (s WatchRoleBindingsRequest_FieldPathSelector) String() string {
@@ -3797,6 +3800,8 @@ func (s WatchRoleBindingsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -3828,6 +3833,8 @@ func BuildWatchRoleBindingsRequest_FieldPath(fp gotenobject.RawFieldPath) (Watch
 			return &WatchRoleBindingsRequest_FieldTerminalPath{selector: WatchRoleBindingsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchRoleBindingsRequest_FieldTerminalPath{selector: WatchRoleBindingsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchRoleBindingsRequest_FieldTerminalPath{selector: WatchRoleBindingsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchRoleBindingsRequest_FieldTerminalPath{selector: WatchRoleBindingsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3899,6 +3906,10 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) Get(source *WatchRoleBindi
 			}
 		case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3940,6 +3951,9 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) GetSingle(source *WatchRol
 		return res, res != nil
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3974,6 +3988,8 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*role_binding.OrderBy)(nil)
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		return (*role_binding.Filter)(nil)
 	case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -4002,6 +4018,8 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) ClearValue(item *WatchRole
 			item.OrderBy = nil
 		case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -4028,6 +4046,7 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchRoleBindingsRequest_FieldPathSelectorView ||
@@ -4052,6 +4071,8 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) WithIValue(value interface
 		return &WatchRoleBindingsRequest_FieldTerminalPathValue{WatchRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(*role_binding.OrderBy)}
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		return &WatchRoleBindingsRequest_FieldTerminalPathValue{WatchRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		return &WatchRoleBindingsRequest_FieldTerminalPathValue{WatchRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		return &WatchRoleBindingsRequest_FieldTerminalPathValue{WatchRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(*role_binding.Filter)}
 	case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -4084,6 +4105,8 @@ func (fp *WatchRoleBindingsRequest_FieldTerminalPath) WithIArrayOfValues(values 
 		return &WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues{WatchRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.OrderBy)}
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		return &WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues{WatchRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		return &WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues{WatchRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		return &WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues{WatchRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.Filter)}
 	case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -4176,6 +4199,10 @@ func (fpv *WatchRoleBindingsRequest_FieldTerminalPathValue) AsResumeTokenValue()
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchRoleBindingsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchRoleBindingsRequest_FieldTerminalPathValue) AsFilterValue() (*role_binding.Filter, bool) {
 	res, ok := fpv.value.(*role_binding.Filter)
 	return res, ok
@@ -4211,6 +4238,8 @@ func (fpv *WatchRoleBindingsRequest_FieldTerminalPathValue) SetTo(target **Watch
 		(*target).OrderBy = fpv.value.(*role_binding.OrderBy)
 	case WatchRoleBindingsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*role_binding.Filter)
 	case WatchRoleBindingsRequest_FieldPathSelectorFieldMask:
@@ -4281,6 +4310,25 @@ func (fpv *WatchRoleBindingsRequest_FieldTerminalPathValue) CompareWith(source *
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4441,6 +4489,10 @@ func (fpaov *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues) GetRawValu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchRoleBindingsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchRoleBindingsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*role_binding.Filter) {
 			values = append(values, v)
@@ -4482,6 +4534,10 @@ func (fpaov *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsOrderByA
 }
 func (fpaov *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*role_binding.Filter, bool) {

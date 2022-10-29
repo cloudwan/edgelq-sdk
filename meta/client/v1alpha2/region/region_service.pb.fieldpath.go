@@ -28,13 +28,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -43,11 +44,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -55,6 +56,7 @@ var (
 	_ = &region.Region{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3718,10 +3720,11 @@ const (
 	WatchRegionsRequest_FieldPathSelectorPageToken    WatchRegionsRequest_FieldPathSelector = 2
 	WatchRegionsRequest_FieldPathSelectorOrderBy      WatchRegionsRequest_FieldPathSelector = 3
 	WatchRegionsRequest_FieldPathSelectorResumeToken  WatchRegionsRequest_FieldPathSelector = 4
-	WatchRegionsRequest_FieldPathSelectorFilter       WatchRegionsRequest_FieldPathSelector = 5
-	WatchRegionsRequest_FieldPathSelectorFieldMask    WatchRegionsRequest_FieldPathSelector = 6
-	WatchRegionsRequest_FieldPathSelectorView         WatchRegionsRequest_FieldPathSelector = 7
-	WatchRegionsRequest_FieldPathSelectorMaxChunkSize WatchRegionsRequest_FieldPathSelector = 8
+	WatchRegionsRequest_FieldPathSelectorStartingTime WatchRegionsRequest_FieldPathSelector = 5
+	WatchRegionsRequest_FieldPathSelectorFilter       WatchRegionsRequest_FieldPathSelector = 6
+	WatchRegionsRequest_FieldPathSelectorFieldMask    WatchRegionsRequest_FieldPathSelector = 7
+	WatchRegionsRequest_FieldPathSelectorView         WatchRegionsRequest_FieldPathSelector = 8
+	WatchRegionsRequest_FieldPathSelectorMaxChunkSize WatchRegionsRequest_FieldPathSelector = 9
 )
 
 func (s WatchRegionsRequest_FieldPathSelector) String() string {
@@ -3736,6 +3739,8 @@ func (s WatchRegionsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -3765,6 +3770,8 @@ func BuildWatchRegionsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchRegio
 			return &WatchRegionsRequest_FieldTerminalPath{selector: WatchRegionsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchRegionsRequest_FieldTerminalPath{selector: WatchRegionsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchRegionsRequest_FieldTerminalPath{selector: WatchRegionsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchRegionsRequest_FieldTerminalPath{selector: WatchRegionsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3832,6 +3839,10 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) Get(source *WatchRegionsRequest
 			}
 		case WatchRegionsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchRegionsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchRegionsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3870,6 +3881,9 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) GetSingle(source *WatchRegionsR
 		return res, res != nil
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3902,6 +3916,8 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*region.OrderBy)(nil)
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		return (*region.Filter)(nil)
 	case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -3928,6 +3944,8 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) ClearValue(item *WatchRegionsRe
 			item.OrderBy = nil
 		case WatchRegionsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchRegionsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchRegionsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -3953,6 +3971,7 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchRegionsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchRegionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchRegionsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchRegionsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchRegionsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchRegionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchRegionsRequest_FieldPathSelectorView ||
@@ -3975,6 +3994,8 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) W
 		return &WatchRegionsRequest_FieldTerminalPathValue{WatchRegionsRequest_FieldTerminalPath: *fp, value: value.(*region.OrderBy)}
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		return &WatchRegionsRequest_FieldTerminalPathValue{WatchRegionsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		return &WatchRegionsRequest_FieldTerminalPathValue{WatchRegionsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		return &WatchRegionsRequest_FieldTerminalPathValue{WatchRegionsRequest_FieldTerminalPath: *fp, value: value.(*region.Filter)}
 	case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -4005,6 +4026,8 @@ func (fp *WatchRegionsRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &WatchRegionsRequest_FieldTerminalPathArrayOfValues{WatchRegionsRequest_FieldTerminalPath: *fp, values: values.([]*region.OrderBy)}
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		return &WatchRegionsRequest_FieldTerminalPathArrayOfValues{WatchRegionsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		return &WatchRegionsRequest_FieldTerminalPathArrayOfValues{WatchRegionsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		return &WatchRegionsRequest_FieldTerminalPathArrayOfValues{WatchRegionsRequest_FieldTerminalPath: *fp, values: values.([]*region.Filter)}
 	case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -4093,6 +4116,10 @@ func (fpv *WatchRegionsRequest_FieldTerminalPathValue) AsResumeTokenValue() (str
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchRegionsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchRegionsRequest_FieldTerminalPathValue) AsFilterValue() (*region.Filter, bool) {
 	res, ok := fpv.value.(*region.Filter)
 	return res, ok
@@ -4126,6 +4153,8 @@ func (fpv *WatchRegionsRequest_FieldTerminalPathValue) SetTo(target **WatchRegio
 		(*target).OrderBy = fpv.value.(*region.OrderBy)
 	case WatchRegionsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*region.Filter)
 	case WatchRegionsRequest_FieldPathSelectorFieldMask:
@@ -4177,6 +4206,25 @@ func (fpv *WatchRegionsRequest_FieldTerminalPathValue) CompareWith(source *Watch
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4333,6 +4381,10 @@ func (fpaov *WatchRegionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchRegionsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchRegionsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*region.Filter) {
 			values = append(values, v)
@@ -4370,6 +4422,10 @@ func (fpaov *WatchRegionsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayO
 }
 func (fpaov *WatchRegionsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchRegionsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchRegionsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*region.Filter, bool) {

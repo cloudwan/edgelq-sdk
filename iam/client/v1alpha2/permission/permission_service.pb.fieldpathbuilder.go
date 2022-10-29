@@ -1829,6 +1829,9 @@ func (WatchPermissionsRequestFieldPathBuilder) OrderBy() WatchPermissionsRequest
 func (WatchPermissionsRequestFieldPathBuilder) ResumeToken() WatchPermissionsRequestPathSelectorResumeToken {
 	return WatchPermissionsRequestPathSelectorResumeToken{}
 }
+func (WatchPermissionsRequestFieldPathBuilder) StartingTime() WatchPermissionsRequestPathSelectorStartingTime {
+	return WatchPermissionsRequestPathSelectorStartingTime{}
+}
 func (WatchPermissionsRequestFieldPathBuilder) Filter() WatchPermissionsRequestPathSelectorFilter {
 	return WatchPermissionsRequestPathSelectorFilter{}
 }
@@ -1909,6 +1912,20 @@ func (s WatchPermissionsRequestPathSelectorResumeToken) WithValue(value string) 
 }
 
 func (s WatchPermissionsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPermissionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPermissionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPermissionsRequestPathSelectorStartingTime struct{}
+
+func (WatchPermissionsRequestPathSelectorStartingTime) FieldPath() *WatchPermissionsRequest_FieldTerminalPath {
+	return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPermissionsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPermissionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPermissionsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPermissionsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPermissionsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPermissionsRequest_FieldTerminalPathArrayOfValues)
 }
 

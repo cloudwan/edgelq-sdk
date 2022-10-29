@@ -19,7 +19,7 @@ import (
 // Reference imports to suppress errors if they are not otherwise used.
 var (
 	_ = protoimpl.DescBuilder{}
-	_ = context.Context(nil)
+	_ = new(context.Context)
 	_ = grpc.ClientConn{}
 )
 

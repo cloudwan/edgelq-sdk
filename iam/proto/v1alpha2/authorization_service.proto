@@ -9,6 +9,7 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "goten-sdk/runtime/api/view.proto";
 import "goten-sdk/runtime/api/watch_type.proto";
 

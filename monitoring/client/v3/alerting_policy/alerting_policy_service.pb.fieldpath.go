@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchAlertingPoliciesRequest_FieldPathSelectorPageToken    WatchAlertingPoliciesRequest_FieldPathSelector = 3
 	WatchAlertingPoliciesRequest_FieldPathSelectorOrderBy      WatchAlertingPoliciesRequest_FieldPathSelector = 4
 	WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken  WatchAlertingPoliciesRequest_FieldPathSelector = 5
-	WatchAlertingPoliciesRequest_FieldPathSelectorFilter       WatchAlertingPoliciesRequest_FieldPathSelector = 6
-	WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask    WatchAlertingPoliciesRequest_FieldPathSelector = 7
-	WatchAlertingPoliciesRequest_FieldPathSelectorView         WatchAlertingPoliciesRequest_FieldPathSelector = 8
-	WatchAlertingPoliciesRequest_FieldPathSelectorMaxChunkSize WatchAlertingPoliciesRequest_FieldPathSelector = 9
+	WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime WatchAlertingPoliciesRequest_FieldPathSelector = 6
+	WatchAlertingPoliciesRequest_FieldPathSelectorFilter       WatchAlertingPoliciesRequest_FieldPathSelector = 7
+	WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask    WatchAlertingPoliciesRequest_FieldPathSelector = 8
+	WatchAlertingPoliciesRequest_FieldPathSelectorView         WatchAlertingPoliciesRequest_FieldPathSelector = 9
+	WatchAlertingPoliciesRequest_FieldPathSelectorMaxChunkSize WatchAlertingPoliciesRequest_FieldPathSelector = 10
 )
 
 func (s WatchAlertingPoliciesRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchAlertingPoliciesRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchAlertingPoliciesRequest_FieldPath(fp gotenobject.RawFieldPath) (W
 			return &WatchAlertingPoliciesRequest_FieldTerminalPath{selector: WatchAlertingPoliciesRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchAlertingPoliciesRequest_FieldTerminalPath{selector: WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchAlertingPoliciesRequest_FieldTerminalPath{selector: WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchAlertingPoliciesRequest_FieldTerminalPath{selector: WatchAlertingPoliciesRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) Get(source *WatchAlert
 			}
 		case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) GetSingle(source *Watc
 		return res, res != nil
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) GetDefault() interface
 		return (*alerting_policy.OrderBy)(nil)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		return (*alerting_policy.Filter)(nil)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) ClearValue(item *Watch
 			item.OrderBy = nil
 		case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchAlertingPoliciesRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value inter
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathValue{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(*alerting_policy.OrderBy)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathValue{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		return &WatchAlertingPoliciesRequest_FieldTerminalPathValue{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathValue{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(*alerting_policy.Filter)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchAlertingPoliciesRequest_FieldTerminalPath) WithIArrayOfValues(val
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*alerting_policy.OrderBy)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		return &WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		return &WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{WatchAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*alerting_policy.Filter)}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchAlertingPoliciesRequest_FieldTerminalPathValue) AsResumeTokenVal
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchAlertingPoliciesRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchAlertingPoliciesRequest_FieldTerminalPathValue) AsFilterValue() (*alerting_policy.Filter, bool) {
 	res, ok := fpv.value.(*alerting_policy.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchAlertingPoliciesRequest_FieldTerminalPathValue) SetTo(target **W
 		(*target).OrderBy = fpv.value.(*alerting_policy.OrderBy)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*alerting_policy.Filter)
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchAlertingPoliciesRequest_FieldTerminalPathValue) CompareWith(sour
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchAlertingPoliciesRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchAlertingPoliciesRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*alerting_policy.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsOrde
 }
 func (fpaov *WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*alerting_policy.Filter, bool) {

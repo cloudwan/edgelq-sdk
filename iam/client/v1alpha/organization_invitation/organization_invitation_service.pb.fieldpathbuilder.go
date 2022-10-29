@@ -999,6 +999,9 @@ func (WatchOrganizationInvitationsRequestFieldPathBuilder) OrderBy() WatchOrgani
 func (WatchOrganizationInvitationsRequestFieldPathBuilder) ResumeToken() WatchOrganizationInvitationsRequestPathSelectorResumeToken {
 	return WatchOrganizationInvitationsRequestPathSelectorResumeToken{}
 }
+func (WatchOrganizationInvitationsRequestFieldPathBuilder) StartingTime() WatchOrganizationInvitationsRequestPathSelectorStartingTime {
+	return WatchOrganizationInvitationsRequestPathSelectorStartingTime{}
+}
 func (WatchOrganizationInvitationsRequestFieldPathBuilder) Filter() WatchOrganizationInvitationsRequestPathSelectorFilter {
 	return WatchOrganizationInvitationsRequestPathSelectorFilter{}
 }
@@ -1093,6 +1096,20 @@ func (s WatchOrganizationInvitationsRequestPathSelectorResumeToken) WithValue(va
 }
 
 func (s WatchOrganizationInvitationsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchOrganizationInvitationsRequestPathSelectorStartingTime struct{}
+
+func (WatchOrganizationInvitationsRequestPathSelectorStartingTime) FieldPath() *WatchOrganizationInvitationsRequest_FieldTerminalPath {
+	return &WatchOrganizationInvitationsRequest_FieldTerminalPath{selector: WatchOrganizationInvitationsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchOrganizationInvitationsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchOrganizationInvitationsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchOrganizationInvitationsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchOrganizationInvitationsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchOrganizationInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 

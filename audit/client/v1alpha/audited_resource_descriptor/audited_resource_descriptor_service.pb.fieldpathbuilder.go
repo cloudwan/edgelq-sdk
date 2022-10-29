@@ -2323,6 +2323,9 @@ func (WatchAuditedResourceDescriptorsRequestFieldPathBuilder) OrderBy() WatchAud
 func (WatchAuditedResourceDescriptorsRequestFieldPathBuilder) ResumeToken() WatchAuditedResourceDescriptorsRequestPathSelectorResumeToken {
 	return WatchAuditedResourceDescriptorsRequestPathSelectorResumeToken{}
 }
+func (WatchAuditedResourceDescriptorsRequestFieldPathBuilder) StartingTime() WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime {
+	return WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime{}
+}
 func (WatchAuditedResourceDescriptorsRequestFieldPathBuilder) Filter() WatchAuditedResourceDescriptorsRequestPathSelectorFilter {
 	return WatchAuditedResourceDescriptorsRequestPathSelectorFilter{}
 }
@@ -2403,6 +2406,20 @@ func (s WatchAuditedResourceDescriptorsRequestPathSelectorResumeToken) WithValue
 }
 
 func (s WatchAuditedResourceDescriptorsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime struct{}
+
+func (WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime) FieldPath() *WatchAuditedResourceDescriptorsRequest_FieldTerminalPath {
+	return &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchAuditedResourceDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchAuditedResourceDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchAuditedResourceDescriptorsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchAuditedResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 

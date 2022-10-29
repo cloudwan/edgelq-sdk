@@ -10,6 +10,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -18,6 +19,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -529,6 +531,9 @@ func (WatchProjectsRequestFieldPathBuilder) OrderBy() WatchProjectsRequestPathSe
 func (WatchProjectsRequestFieldPathBuilder) ResumeToken() WatchProjectsRequestPathSelectorResumeToken {
 	return WatchProjectsRequestPathSelectorResumeToken{}
 }
+func (WatchProjectsRequestFieldPathBuilder) StartingTime() WatchProjectsRequestPathSelectorStartingTime {
+	return WatchProjectsRequestPathSelectorStartingTime{}
+}
 func (WatchProjectsRequestFieldPathBuilder) Filter() WatchProjectsRequestPathSelectorFilter {
 	return WatchProjectsRequestPathSelectorFilter{}
 }
@@ -609,6 +614,20 @@ func (s WatchProjectsRequestPathSelectorResumeToken) WithValue(value string) *Wa
 }
 
 func (s WatchProjectsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchProjectsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchProjectsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchProjectsRequestPathSelectorStartingTime struct{}
+
+func (WatchProjectsRequestPathSelectorStartingTime) FieldPath() *WatchProjectsRequest_FieldTerminalPath {
+	return &WatchProjectsRequest_FieldTerminalPath{selector: WatchProjectsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchProjectsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchProjectsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchProjectsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchProjectsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchProjectsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchProjectsRequest_FieldTerminalPathArrayOfValues)
 }
 

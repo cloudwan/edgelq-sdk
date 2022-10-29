@@ -5,6 +5,8 @@
 package provisioning_policy
 
 import (
+	"google.golang.org/protobuf/types/known/timestamppb"
+
 	"github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	"github.com/cloudwan/goten-sdk/runtime/goten"
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
@@ -23,10 +25,11 @@ import (
 
 // ensure the imports are used
 var (
+	_ = &timestamppb.Timestamp{}
 	_ = watch_type.WatchType_STATELESS
-	_ = goten.GotenMessage(nil)
-	_ = gotenobject.FieldMask(nil)
-	_ = gotenresource.ListQuery(nil)
+	_ = new(goten.GotenMessage)
+	_ = new(gotenobject.FieldMask)
+	_ = new(gotenresource.ListQuery)
 )
 
 // make sure we're using proto imports
@@ -132,9 +135,10 @@ func (q *ListQuery) SetFieldMask(mask gotenobject.FieldMask) {
 
 type WatchQuery struct {
 	ListQuery
-	WatchType   watch_type.WatchType
-	ChunkSize   int
-	ResumeToken string
+	WatchType    watch_type.WatchType
+	ChunkSize    int
+	ResumeToken  string
+	StartingTime *timestamppb.Timestamp
 }
 
 func (q *WatchQuery) String() string {
@@ -153,6 +157,10 @@ func (q *WatchQuery) GetResumeToken() string {
 	return q.ResumeToken
 }
 
+func (q *WatchQuery) GetStartingTime() *timestamppb.Timestamp {
+	return q.StartingTime
+}
+
 func (q *WatchQuery) SetWatchType(watchType watch_type.WatchType) {
 	q.WatchType = watchType
 }
@@ -163,6 +171,10 @@ func (q *WatchQuery) SetMaximumChunkSize(chunkSize int) {
 
 func (q *WatchQuery) SetResumeToken(token string) {
 	q.ResumeToken = token
+}
+
+func (q *WatchQuery) SetStartingTime(startingTime *timestamppb.Timestamp) {
+	q.StartingTime = startingTime
 }
 
 type QueryResultSnapshot struct {

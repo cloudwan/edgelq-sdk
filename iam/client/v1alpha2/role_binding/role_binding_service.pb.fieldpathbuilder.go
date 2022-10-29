@@ -2169,6 +2169,9 @@ func (WatchRoleBindingsRequestFieldPathBuilder) OrderBy() WatchRoleBindingsReque
 func (WatchRoleBindingsRequestFieldPathBuilder) ResumeToken() WatchRoleBindingsRequestPathSelectorResumeToken {
 	return WatchRoleBindingsRequestPathSelectorResumeToken{}
 }
+func (WatchRoleBindingsRequestFieldPathBuilder) StartingTime() WatchRoleBindingsRequestPathSelectorStartingTime {
+	return WatchRoleBindingsRequestPathSelectorStartingTime{}
+}
 func (WatchRoleBindingsRequestFieldPathBuilder) Filter() WatchRoleBindingsRequestPathSelectorFilter {
 	return WatchRoleBindingsRequestPathSelectorFilter{}
 }
@@ -2263,6 +2266,20 @@ func (s WatchRoleBindingsRequestPathSelectorResumeToken) WithValue(value string)
 }
 
 func (s WatchRoleBindingsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchRoleBindingsRequestPathSelectorStartingTime struct{}
+
+func (WatchRoleBindingsRequestPathSelectorStartingTime) FieldPath() *WatchRoleBindingsRequest_FieldTerminalPath {
+	return &WatchRoleBindingsRequest_FieldTerminalPath{selector: WatchRoleBindingsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchRoleBindingsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchRoleBindingsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchRoleBindingsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchRoleBindingsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchRoleBindingsRequest_FieldTerminalPathArrayOfValues)
 }
 

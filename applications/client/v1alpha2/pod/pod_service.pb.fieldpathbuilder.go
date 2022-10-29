@@ -5675,6 +5675,9 @@ func (WatchPodsRequestFieldPathBuilder) OrderBy() WatchPodsRequestPathSelectorOr
 func (WatchPodsRequestFieldPathBuilder) ResumeToken() WatchPodsRequestPathSelectorResumeToken {
 	return WatchPodsRequestPathSelectorResumeToken{}
 }
+func (WatchPodsRequestFieldPathBuilder) StartingTime() WatchPodsRequestPathSelectorStartingTime {
+	return WatchPodsRequestPathSelectorStartingTime{}
+}
 func (WatchPodsRequestFieldPathBuilder) Filter() WatchPodsRequestPathSelectorFilter {
 	return WatchPodsRequestPathSelectorFilter{}
 }
@@ -5769,6 +5772,20 @@ func (s WatchPodsRequestPathSelectorResumeToken) WithValue(value string) *WatchP
 }
 
 func (s WatchPodsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPodsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPodsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPodsRequestPathSelectorStartingTime struct{}
+
+func (WatchPodsRequestPathSelectorStartingTime) FieldPath() *WatchPodsRequest_FieldTerminalPath {
+	return &WatchPodsRequest_FieldTerminalPath{selector: WatchPodsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPodsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPodsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPodsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPodsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPodsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPodsRequest_FieldTerminalPathArrayOfValues)
 }
 

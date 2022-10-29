@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchPodsRequest_FieldPathSelectorPageToken    WatchPodsRequest_FieldPathSelector = 3
 	WatchPodsRequest_FieldPathSelectorOrderBy      WatchPodsRequest_FieldPathSelector = 4
 	WatchPodsRequest_FieldPathSelectorResumeToken  WatchPodsRequest_FieldPathSelector = 5
-	WatchPodsRequest_FieldPathSelectorFilter       WatchPodsRequest_FieldPathSelector = 6
-	WatchPodsRequest_FieldPathSelectorFieldMask    WatchPodsRequest_FieldPathSelector = 7
-	WatchPodsRequest_FieldPathSelectorView         WatchPodsRequest_FieldPathSelector = 8
-	WatchPodsRequest_FieldPathSelectorMaxChunkSize WatchPodsRequest_FieldPathSelector = 9
+	WatchPodsRequest_FieldPathSelectorStartingTime WatchPodsRequest_FieldPathSelector = 6
+	WatchPodsRequest_FieldPathSelectorFilter       WatchPodsRequest_FieldPathSelector = 7
+	WatchPodsRequest_FieldPathSelectorFieldMask    WatchPodsRequest_FieldPathSelector = 8
+	WatchPodsRequest_FieldPathSelectorView         WatchPodsRequest_FieldPathSelector = 9
+	WatchPodsRequest_FieldPathSelectorMaxChunkSize WatchPodsRequest_FieldPathSelector = 10
 )
 
 func (s WatchPodsRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchPodsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchPodsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchPodsRequ
 			return &WatchPodsRequest_FieldTerminalPath{selector: WatchPodsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchPodsRequest_FieldTerminalPath{selector: WatchPodsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchPodsRequest_FieldTerminalPath{selector: WatchPodsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchPodsRequest_FieldTerminalPath{selector: WatchPodsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchPodsRequest_FieldTerminalPath) Get(source *WatchPodsRequest) (val
 			}
 		case WatchPodsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchPodsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchPodsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchPodsRequest_FieldTerminalPath) GetSingle(source *WatchPodsRequest
 		return res, res != nil
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchPodsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*pod.OrderBy)(nil)
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		return (*pod.Filter)(nil)
 	case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchPodsRequest_FieldTerminalPath) ClearValue(item *WatchPodsRequest)
 			item.OrderBy = nil
 		case WatchPodsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchPodsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchPodsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchPodsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPodsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchPodsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchPodsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchPodsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchPodsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchPodsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchPodsRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchPodsRequest_FieldTerminalPath) WithIValue(value interface{}) Watc
 		return &WatchPodsRequest_FieldTerminalPathValue{WatchPodsRequest_FieldTerminalPath: *fp, value: value.(*pod.OrderBy)}
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		return &WatchPodsRequest_FieldTerminalPathValue{WatchPodsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		return &WatchPodsRequest_FieldTerminalPathValue{WatchPodsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		return &WatchPodsRequest_FieldTerminalPathValue{WatchPodsRequest_FieldTerminalPath: *fp, value: value.(*pod.Filter)}
 	case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchPodsRequest_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &WatchPodsRequest_FieldTerminalPathArrayOfValues{WatchPodsRequest_FieldTerminalPath: *fp, values: values.([]*pod.OrderBy)}
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		return &WatchPodsRequest_FieldTerminalPathArrayOfValues{WatchPodsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		return &WatchPodsRequest_FieldTerminalPathArrayOfValues{WatchPodsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		return &WatchPodsRequest_FieldTerminalPathArrayOfValues{WatchPodsRequest_FieldTerminalPath: *fp, values: values.([]*pod.Filter)}
 	case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchPodsRequest_FieldTerminalPathValue) AsResumeTokenValue() (string
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchPodsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchPodsRequest_FieldTerminalPathValue) AsFilterValue() (*pod.Filter, bool) {
 	res, ok := fpv.value.(*pod.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchPodsRequest_FieldTerminalPathValue) SetTo(target **WatchPodsRequ
 		(*target).OrderBy = fpv.value.(*pod.OrderBy)
 	case WatchPodsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*pod.Filter)
 	case WatchPodsRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchPodsRequest_FieldTerminalPathValue) CompareWith(source *WatchPod
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchPodsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchPodsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchPodsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*pod.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchPodsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfVa
 }
 func (fpaov *WatchPodsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchPodsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchPodsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*pod.Filter, bool) {

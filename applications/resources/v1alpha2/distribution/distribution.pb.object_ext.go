@@ -23,13 +23,13 @@ import (
 
 // ensure the imports are used
 var (
-	_ = fmt.Stringer(nil)
-	_ = sort.Interface(nil)
+	_ = new(fmt.Stringer)
+	_ = new(sort.Interface)
 
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports

@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -2020,10 +2022,11 @@ const (
 	WatchMetricDescriptorsRequest_FieldPathSelectorPageToken    WatchMetricDescriptorsRequest_FieldPathSelector = 3
 	WatchMetricDescriptorsRequest_FieldPathSelectorOrderBy      WatchMetricDescriptorsRequest_FieldPathSelector = 4
 	WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken  WatchMetricDescriptorsRequest_FieldPathSelector = 5
-	WatchMetricDescriptorsRequest_FieldPathSelectorFilter       WatchMetricDescriptorsRequest_FieldPathSelector = 6
-	WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask    WatchMetricDescriptorsRequest_FieldPathSelector = 7
-	WatchMetricDescriptorsRequest_FieldPathSelectorView         WatchMetricDescriptorsRequest_FieldPathSelector = 8
-	WatchMetricDescriptorsRequest_FieldPathSelectorMaxChunkSize WatchMetricDescriptorsRequest_FieldPathSelector = 9
+	WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime WatchMetricDescriptorsRequest_FieldPathSelector = 6
+	WatchMetricDescriptorsRequest_FieldPathSelectorFilter       WatchMetricDescriptorsRequest_FieldPathSelector = 7
+	WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask    WatchMetricDescriptorsRequest_FieldPathSelector = 8
+	WatchMetricDescriptorsRequest_FieldPathSelectorView         WatchMetricDescriptorsRequest_FieldPathSelector = 9
+	WatchMetricDescriptorsRequest_FieldPathSelectorMaxChunkSize WatchMetricDescriptorsRequest_FieldPathSelector = 10
 )
 
 func (s WatchMetricDescriptorsRequest_FieldPathSelector) String() string {
@@ -2040,6 +2043,8 @@ func (s WatchMetricDescriptorsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2071,6 +2076,8 @@ func BuildWatchMetricDescriptorsRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &WatchMetricDescriptorsRequest_FieldTerminalPath{selector: WatchMetricDescriptorsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchMetricDescriptorsRequest_FieldTerminalPath{selector: WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchMetricDescriptorsRequest_FieldTerminalPath{selector: WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchMetricDescriptorsRequest_FieldTerminalPath{selector: WatchMetricDescriptorsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -2142,6 +2149,10 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) Get(source *WatchMetr
 			}
 		case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -2183,6 +2194,9 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) GetSingle(source *Wat
 		return res, res != nil
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -2217,6 +2231,8 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) GetDefault() interfac
 		return (*metric_descriptor.OrderBy)(nil)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		return (*metric_descriptor.Filter)(nil)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2245,6 +2261,8 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) ClearValue(item *Watc
 			item.OrderBy = nil
 		case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2271,6 +2289,7 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchMetricDescriptorsRequest_FieldPathSelectorView ||
@@ -2295,6 +2314,8 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) WithIValue(value inte
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathValue{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*metric_descriptor.OrderBy)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathValue{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		return &WatchMetricDescriptorsRequest_FieldTerminalPathValue{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathValue{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*metric_descriptor.Filter)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2327,6 +2348,8 @@ func (fp *WatchMetricDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*metric_descriptor.OrderBy)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		return &WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		return &WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{WatchMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*metric_descriptor.Filter)}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2419,6 +2442,10 @@ func (fpv *WatchMetricDescriptorsRequest_FieldTerminalPathValue) AsResumeTokenVa
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchMetricDescriptorsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchMetricDescriptorsRequest_FieldTerminalPathValue) AsFilterValue() (*metric_descriptor.Filter, bool) {
 	res, ok := fpv.value.(*metric_descriptor.Filter)
 	return res, ok
@@ -2454,6 +2481,8 @@ func (fpv *WatchMetricDescriptorsRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).OrderBy = fpv.value.(*metric_descriptor.OrderBy)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*metric_descriptor.Filter)
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFieldMask:
@@ -2524,6 +2553,25 @@ func (fpv *WatchMetricDescriptorsRequest_FieldTerminalPathValue) CompareWith(sou
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2684,6 +2732,10 @@ func (fpaov *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchMetricDescriptorsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*metric_descriptor.Filter) {
 			values = append(values, v)
@@ -2725,6 +2777,10 @@ func (fpaov *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsOrd
 }
 func (fpaov *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*metric_descriptor.Filter, bool) {

@@ -28,13 +28,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -43,11 +44,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -55,6 +56,7 @@ var (
 	_ = &permission.Permission{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3718,10 +3720,11 @@ const (
 	WatchPermissionsRequest_FieldPathSelectorPageToken    WatchPermissionsRequest_FieldPathSelector = 2
 	WatchPermissionsRequest_FieldPathSelectorOrderBy      WatchPermissionsRequest_FieldPathSelector = 3
 	WatchPermissionsRequest_FieldPathSelectorResumeToken  WatchPermissionsRequest_FieldPathSelector = 4
-	WatchPermissionsRequest_FieldPathSelectorFilter       WatchPermissionsRequest_FieldPathSelector = 5
-	WatchPermissionsRequest_FieldPathSelectorFieldMask    WatchPermissionsRequest_FieldPathSelector = 6
-	WatchPermissionsRequest_FieldPathSelectorView         WatchPermissionsRequest_FieldPathSelector = 7
-	WatchPermissionsRequest_FieldPathSelectorMaxChunkSize WatchPermissionsRequest_FieldPathSelector = 8
+	WatchPermissionsRequest_FieldPathSelectorStartingTime WatchPermissionsRequest_FieldPathSelector = 5
+	WatchPermissionsRequest_FieldPathSelectorFilter       WatchPermissionsRequest_FieldPathSelector = 6
+	WatchPermissionsRequest_FieldPathSelectorFieldMask    WatchPermissionsRequest_FieldPathSelector = 7
+	WatchPermissionsRequest_FieldPathSelectorView         WatchPermissionsRequest_FieldPathSelector = 8
+	WatchPermissionsRequest_FieldPathSelectorMaxChunkSize WatchPermissionsRequest_FieldPathSelector = 9
 )
 
 func (s WatchPermissionsRequest_FieldPathSelector) String() string {
@@ -3736,6 +3739,8 @@ func (s WatchPermissionsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -3765,6 +3770,8 @@ func BuildWatchPermissionsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchP
 			return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchPermissionsRequest_FieldTerminalPath{selector: WatchPermissionsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3832,6 +3839,10 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) Get(source *WatchPermission
 			}
 		case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchPermissionsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3870,6 +3881,9 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) GetSingle(source *WatchPerm
 		return res, res != nil
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3902,6 +3916,8 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*permission.OrderBy)(nil)
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		return (*permission.Filter)(nil)
 	case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -3928,6 +3944,8 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) ClearValue(item *WatchPermi
 			item.OrderBy = nil
 		case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchPermissionsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -3953,6 +3971,7 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchPermissionsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchPermissionsRequest_FieldPathSelectorView ||
@@ -3975,6 +3994,8 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) WithIValue(value interface{
 		return &WatchPermissionsRequest_FieldTerminalPathValue{WatchPermissionsRequest_FieldTerminalPath: *fp, value: value.(*permission.OrderBy)}
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		return &WatchPermissionsRequest_FieldTerminalPathValue{WatchPermissionsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		return &WatchPermissionsRequest_FieldTerminalPathValue{WatchPermissionsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		return &WatchPermissionsRequest_FieldTerminalPathValue{WatchPermissionsRequest_FieldTerminalPath: *fp, value: value.(*permission.Filter)}
 	case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -4005,6 +4026,8 @@ func (fp *WatchPermissionsRequest_FieldTerminalPath) WithIArrayOfValues(values i
 		return &WatchPermissionsRequest_FieldTerminalPathArrayOfValues{WatchPermissionsRequest_FieldTerminalPath: *fp, values: values.([]*permission.OrderBy)}
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		return &WatchPermissionsRequest_FieldTerminalPathArrayOfValues{WatchPermissionsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		return &WatchPermissionsRequest_FieldTerminalPathArrayOfValues{WatchPermissionsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		return &WatchPermissionsRequest_FieldTerminalPathArrayOfValues{WatchPermissionsRequest_FieldTerminalPath: *fp, values: values.([]*permission.Filter)}
 	case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -4093,6 +4116,10 @@ func (fpv *WatchPermissionsRequest_FieldTerminalPathValue) AsResumeTokenValue() 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchPermissionsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchPermissionsRequest_FieldTerminalPathValue) AsFilterValue() (*permission.Filter, bool) {
 	res, ok := fpv.value.(*permission.Filter)
 	return res, ok
@@ -4126,6 +4153,8 @@ func (fpv *WatchPermissionsRequest_FieldTerminalPathValue) SetTo(target **WatchP
 		(*target).OrderBy = fpv.value.(*permission.OrderBy)
 	case WatchPermissionsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*permission.Filter)
 	case WatchPermissionsRequest_FieldPathSelectorFieldMask:
@@ -4177,6 +4206,25 @@ func (fpv *WatchPermissionsRequest_FieldTerminalPathValue) CompareWith(source *W
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4333,6 +4381,10 @@ func (fpaov *WatchPermissionsRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchPermissionsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchPermissionsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*permission.Filter) {
 			values = append(values, v)
@@ -4370,6 +4422,10 @@ func (fpaov *WatchPermissionsRequest_FieldTerminalPathArrayOfValues) AsOrderByAr
 }
 func (fpaov *WatchPermissionsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchPermissionsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchPermissionsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*permission.Filter, bool) {

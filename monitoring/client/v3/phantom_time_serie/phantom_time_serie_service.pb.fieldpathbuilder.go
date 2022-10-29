@@ -3549,6 +3549,9 @@ func (WatchPhantomTimeSeriesRequestFieldPathBuilder) OrderBy() WatchPhantomTimeS
 func (WatchPhantomTimeSeriesRequestFieldPathBuilder) ResumeToken() WatchPhantomTimeSeriesRequestPathSelectorResumeToken {
 	return WatchPhantomTimeSeriesRequestPathSelectorResumeToken{}
 }
+func (WatchPhantomTimeSeriesRequestFieldPathBuilder) StartingTime() WatchPhantomTimeSeriesRequestPathSelectorStartingTime {
+	return WatchPhantomTimeSeriesRequestPathSelectorStartingTime{}
+}
 func (WatchPhantomTimeSeriesRequestFieldPathBuilder) Filter() WatchPhantomTimeSeriesRequestPathSelectorFilter {
 	return WatchPhantomTimeSeriesRequestPathSelectorFilter{}
 }
@@ -3643,6 +3646,20 @@ func (s WatchPhantomTimeSeriesRequestPathSelectorResumeToken) WithValue(value st
 }
 
 func (s WatchPhantomTimeSeriesRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPhantomTimeSeriesRequestPathSelectorStartingTime struct{}
+
+func (WatchPhantomTimeSeriesRequestPathSelectorStartingTime) FieldPath() *WatchPhantomTimeSeriesRequest_FieldTerminalPath {
+	return &WatchPhantomTimeSeriesRequest_FieldTerminalPath{selector: WatchPhantomTimeSeriesRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPhantomTimeSeriesRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPhantomTimeSeriesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPhantomTimeSeriesRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPhantomTimeSeriesRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues)
 }
 

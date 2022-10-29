@@ -28,13 +28,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -43,11 +44,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -55,6 +56,7 @@ var (
 	_ = &plan.Plan{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3718,10 +3720,11 @@ const (
 	WatchPlansRequest_FieldPathSelectorPageToken    WatchPlansRequest_FieldPathSelector = 2
 	WatchPlansRequest_FieldPathSelectorOrderBy      WatchPlansRequest_FieldPathSelector = 3
 	WatchPlansRequest_FieldPathSelectorResumeToken  WatchPlansRequest_FieldPathSelector = 4
-	WatchPlansRequest_FieldPathSelectorFilter       WatchPlansRequest_FieldPathSelector = 5
-	WatchPlansRequest_FieldPathSelectorFieldMask    WatchPlansRequest_FieldPathSelector = 6
-	WatchPlansRequest_FieldPathSelectorView         WatchPlansRequest_FieldPathSelector = 7
-	WatchPlansRequest_FieldPathSelectorMaxChunkSize WatchPlansRequest_FieldPathSelector = 8
+	WatchPlansRequest_FieldPathSelectorStartingTime WatchPlansRequest_FieldPathSelector = 5
+	WatchPlansRequest_FieldPathSelectorFilter       WatchPlansRequest_FieldPathSelector = 6
+	WatchPlansRequest_FieldPathSelectorFieldMask    WatchPlansRequest_FieldPathSelector = 7
+	WatchPlansRequest_FieldPathSelectorView         WatchPlansRequest_FieldPathSelector = 8
+	WatchPlansRequest_FieldPathSelectorMaxChunkSize WatchPlansRequest_FieldPathSelector = 9
 )
 
 func (s WatchPlansRequest_FieldPathSelector) String() string {
@@ -3736,6 +3739,8 @@ func (s WatchPlansRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -3765,6 +3770,8 @@ func BuildWatchPlansRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchPlansRe
 			return &WatchPlansRequest_FieldTerminalPath{selector: WatchPlansRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchPlansRequest_FieldTerminalPath{selector: WatchPlansRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchPlansRequest_FieldTerminalPath{selector: WatchPlansRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchPlansRequest_FieldTerminalPath{selector: WatchPlansRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3832,6 +3839,10 @@ func (fp *WatchPlansRequest_FieldTerminalPath) Get(source *WatchPlansRequest) (v
 			}
 		case WatchPlansRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchPlansRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchPlansRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3870,6 +3881,9 @@ func (fp *WatchPlansRequest_FieldTerminalPath) GetSingle(source *WatchPlansReque
 		return res, res != nil
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3902,6 +3916,8 @@ func (fp *WatchPlansRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*plan.OrderBy)(nil)
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		return (*plan.Filter)(nil)
 	case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -3928,6 +3944,8 @@ func (fp *WatchPlansRequest_FieldTerminalPath) ClearValue(item *WatchPlansReques
 			item.OrderBy = nil
 		case WatchPlansRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchPlansRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchPlansRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -3953,6 +3971,7 @@ func (fp *WatchPlansRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchPlansRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchPlansRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchPlansRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchPlansRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchPlansRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchPlansRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchPlansRequest_FieldPathSelectorView ||
@@ -3975,6 +3994,8 @@ func (fp *WatchPlansRequest_FieldTerminalPath) WithIValue(value interface{}) Wat
 		return &WatchPlansRequest_FieldTerminalPathValue{WatchPlansRequest_FieldTerminalPath: *fp, value: value.(*plan.OrderBy)}
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		return &WatchPlansRequest_FieldTerminalPathValue{WatchPlansRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		return &WatchPlansRequest_FieldTerminalPathValue{WatchPlansRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		return &WatchPlansRequest_FieldTerminalPathValue{WatchPlansRequest_FieldTerminalPath: *fp, value: value.(*plan.Filter)}
 	case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -4005,6 +4026,8 @@ func (fp *WatchPlansRequest_FieldTerminalPath) WithIArrayOfValues(values interfa
 		return &WatchPlansRequest_FieldTerminalPathArrayOfValues{WatchPlansRequest_FieldTerminalPath: *fp, values: values.([]*plan.OrderBy)}
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		return &WatchPlansRequest_FieldTerminalPathArrayOfValues{WatchPlansRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		return &WatchPlansRequest_FieldTerminalPathArrayOfValues{WatchPlansRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		return &WatchPlansRequest_FieldTerminalPathArrayOfValues{WatchPlansRequest_FieldTerminalPath: *fp, values: values.([]*plan.Filter)}
 	case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -4093,6 +4116,10 @@ func (fpv *WatchPlansRequest_FieldTerminalPathValue) AsResumeTokenValue() (strin
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchPlansRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchPlansRequest_FieldTerminalPathValue) AsFilterValue() (*plan.Filter, bool) {
 	res, ok := fpv.value.(*plan.Filter)
 	return res, ok
@@ -4126,6 +4153,8 @@ func (fpv *WatchPlansRequest_FieldTerminalPathValue) SetTo(target **WatchPlansRe
 		(*target).OrderBy = fpv.value.(*plan.OrderBy)
 	case WatchPlansRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*plan.Filter)
 	case WatchPlansRequest_FieldPathSelectorFieldMask:
@@ -4177,6 +4206,25 @@ func (fpv *WatchPlansRequest_FieldTerminalPathValue) CompareWith(source *WatchPl
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4333,6 +4381,10 @@ func (fpaov *WatchPlansRequest_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchPlansRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchPlansRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*plan.Filter) {
 			values = append(values, v)
@@ -4370,6 +4422,10 @@ func (fpaov *WatchPlansRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfV
 }
 func (fpaov *WatchPlansRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchPlansRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchPlansRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*plan.Filter, bool) {

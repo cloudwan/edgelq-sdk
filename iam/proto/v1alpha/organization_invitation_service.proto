@@ -9,6 +9,7 @@ import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "goten-sdk/runtime/api/view.proto";
 import "goten-sdk/runtime/api/watch_type.proto";
 
@@ -159,6 +160,13 @@ message WatchOrganizationInvitationsRequest {
   // A token identifying watch resume point from previous session.
   // Can be populated only for stateless watch type.
   string resume_token = 10;
+
+  // Point in the time from which we want to start getting updates. This field
+  // can be populated only for stateless watch type and if resume token is not
+  // known yet. If specified, initial snapshot will NOT be provided. It is
+  // assumed client can obtain it using separate means. Watch responses will
+  // contain resume tokens which should be used to resume broken connection.
+  google.protobuf.Timestamp starting_time = 12;
 
   // Filter - filter results by field criteria. Simplified SQL-like syntax with
   // following operators:

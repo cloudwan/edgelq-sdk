@@ -26,6 +26,7 @@ import (
 	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha/method_descriptor"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -48,6 +49,7 @@ var (
 var (
 	_ = &method_descriptor.MethodDescriptor{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )

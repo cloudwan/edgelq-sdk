@@ -24,22 +24,23 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
+	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
 	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
-	_ = proto.Message(nil)
-	_ = preflect.Message(nil)
+	_ = new(proto.Message)
+	_ = new(preflect.Message)
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldMask(nil)
+	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
@@ -47,6 +48,7 @@ var (
 	_ = &role.Role{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -1953,6 +1955,7 @@ func FullWatchRolesRequest_FieldMask() *WatchRolesRequest_FieldMask {
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorOrderBy})
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorResumeToken})
+	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorStartingTime})
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &WatchRolesRequest_FieldTerminalPath{selector: WatchRolesRequest_FieldPathSelectorView})
@@ -2000,7 +2003,7 @@ func (fieldMask *WatchRolesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*WatchRolesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2030,7 +2033,7 @@ func (fieldMask *WatchRolesRequest_FieldMask) Reset() {
 
 func (fieldMask *WatchRolesRequest_FieldMask) Subtract(other *WatchRolesRequest_FieldMask) *WatchRolesRequest_FieldMask {
 	result := &WatchRolesRequest_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 10)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2194,6 +2197,8 @@ func (fieldMask *WatchRolesRequest_FieldMask) Project(source *WatchRolesRequest)
 				result.OrderBy = source.OrderBy
 			case WatchRolesRequest_FieldPathSelectorResumeToken:
 				result.ResumeToken = source.ResumeToken
+			case WatchRolesRequest_FieldPathSelectorStartingTime:
+				result.StartingTime = source.StartingTime
 			case WatchRolesRequest_FieldPathSelectorFilter:
 				result.Filter = source.Filter
 			case WatchRolesRequest_FieldPathSelectorFieldMask:

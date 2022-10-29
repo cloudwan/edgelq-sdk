@@ -18,8 +18,8 @@ import (
 
 // ensure the imports are used
 var (
-	_ = gotenobject.FieldPath(nil)
-	_ = gotenresource.ListQuery(nil)
+	_ = new(gotenobject.FieldPath)
+	_ = new(gotenresource.ListQuery)
 )
 
 // make sure we're using proto imports
@@ -76,6 +76,10 @@ func (d *Descriptor) NewResourceFilter() gotenresource.Filter {
 
 func (d *Descriptor) NewResourceOrderBy() gotenresource.OrderBy {
 	return &OrderBy{}
+}
+
+func (d *Descriptor) NewResourcePager() gotenresource.PagerQuery {
+	return MakePagerQuery(nil, nil, 100, true)
 }
 
 func (d *Descriptor) NewResourceFieldMask() gotenobject.FieldMask {

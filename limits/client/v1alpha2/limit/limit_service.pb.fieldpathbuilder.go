@@ -2071,6 +2071,9 @@ func (WatchLimitsRequestFieldPathBuilder) OrderBy() WatchLimitsRequestPathSelect
 func (WatchLimitsRequestFieldPathBuilder) ResumeToken() WatchLimitsRequestPathSelectorResumeToken {
 	return WatchLimitsRequestPathSelectorResumeToken{}
 }
+func (WatchLimitsRequestFieldPathBuilder) StartingTime() WatchLimitsRequestPathSelectorStartingTime {
+	return WatchLimitsRequestPathSelectorStartingTime{}
+}
 func (WatchLimitsRequestFieldPathBuilder) Filter() WatchLimitsRequestPathSelectorFilter {
 	return WatchLimitsRequestPathSelectorFilter{}
 }
@@ -2165,6 +2168,20 @@ func (s WatchLimitsRequestPathSelectorResumeToken) WithValue(value string) *Watc
 }
 
 func (s WatchLimitsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchLimitsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchLimitsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchLimitsRequestPathSelectorStartingTime struct{}
+
+func (WatchLimitsRequestPathSelectorStartingTime) FieldPath() *WatchLimitsRequest_FieldTerminalPath {
+	return &WatchLimitsRequest_FieldTerminalPath{selector: WatchLimitsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchLimitsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchLimitsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchLimitsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchLimitsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchLimitsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchLimitsRequest_FieldTerminalPathArrayOfValues)
 }
 

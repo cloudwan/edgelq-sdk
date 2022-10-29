@@ -2397,6 +2397,9 @@ func (WatchAttestationDomainsRequestFieldPathBuilder) OrderBy() WatchAttestation
 func (WatchAttestationDomainsRequestFieldPathBuilder) ResumeToken() WatchAttestationDomainsRequestPathSelectorResumeToken {
 	return WatchAttestationDomainsRequestPathSelectorResumeToken{}
 }
+func (WatchAttestationDomainsRequestFieldPathBuilder) StartingTime() WatchAttestationDomainsRequestPathSelectorStartingTime {
+	return WatchAttestationDomainsRequestPathSelectorStartingTime{}
+}
 func (WatchAttestationDomainsRequestFieldPathBuilder) Filter() WatchAttestationDomainsRequestPathSelectorFilter {
 	return WatchAttestationDomainsRequestPathSelectorFilter{}
 }
@@ -2491,6 +2494,20 @@ func (s WatchAttestationDomainsRequestPathSelectorResumeToken) WithValue(value s
 }
 
 func (s WatchAttestationDomainsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchAttestationDomainsRequestPathSelectorStartingTime struct{}
+
+func (WatchAttestationDomainsRequestPathSelectorStartingTime) FieldPath() *WatchAttestationDomainsRequest_FieldTerminalPath {
+	return &WatchAttestationDomainsRequest_FieldTerminalPath{selector: WatchAttestationDomainsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchAttestationDomainsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchAttestationDomainsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchAttestationDomainsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchAttestationDomainsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues)
 }
 

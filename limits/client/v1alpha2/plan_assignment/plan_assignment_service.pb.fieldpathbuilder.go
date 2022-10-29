@@ -2221,6 +2221,9 @@ func (WatchPlanAssignmentsRequestFieldPathBuilder) OrderBy() WatchPlanAssignment
 func (WatchPlanAssignmentsRequestFieldPathBuilder) ResumeToken() WatchPlanAssignmentsRequestPathSelectorResumeToken {
 	return WatchPlanAssignmentsRequestPathSelectorResumeToken{}
 }
+func (WatchPlanAssignmentsRequestFieldPathBuilder) StartingTime() WatchPlanAssignmentsRequestPathSelectorStartingTime {
+	return WatchPlanAssignmentsRequestPathSelectorStartingTime{}
+}
 func (WatchPlanAssignmentsRequestFieldPathBuilder) Filter() WatchPlanAssignmentsRequestPathSelectorFilter {
 	return WatchPlanAssignmentsRequestPathSelectorFilter{}
 }
@@ -2315,6 +2318,20 @@ func (s WatchPlanAssignmentsRequestPathSelectorResumeToken) WithValue(value stri
 }
 
 func (s WatchPlanAssignmentsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPlanAssignmentsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPlanAssignmentsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPlanAssignmentsRequestPathSelectorStartingTime struct{}
+
+func (WatchPlanAssignmentsRequestPathSelectorStartingTime) FieldPath() *WatchPlanAssignmentsRequest_FieldTerminalPath {
+	return &WatchPlanAssignmentsRequest_FieldTerminalPath{selector: WatchPlanAssignmentsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPlanAssignmentsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPlanAssignmentsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPlanAssignmentsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPlanAssignmentsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPlanAssignmentsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPlanAssignmentsRequest_FieldTerminalPathArrayOfValues)
 }
 

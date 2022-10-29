@@ -20,7 +20,7 @@ import (
 
 // Reference imports to suppress errors if they are not otherwise used.
 var (
-	_ = gotenclient.MethodDescriptor(nil)
+	_ = new(gotenclient.MethodDescriptor)
 	_ = gotenresource.WildcardId
 )
 

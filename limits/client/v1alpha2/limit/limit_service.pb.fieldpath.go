@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &limit.Limit{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchLimitsRequest_FieldPathSelectorPageToken    WatchLimitsRequest_FieldPathSelector = 3
 	WatchLimitsRequest_FieldPathSelectorOrderBy      WatchLimitsRequest_FieldPathSelector = 4
 	WatchLimitsRequest_FieldPathSelectorResumeToken  WatchLimitsRequest_FieldPathSelector = 5
-	WatchLimitsRequest_FieldPathSelectorFilter       WatchLimitsRequest_FieldPathSelector = 6
-	WatchLimitsRequest_FieldPathSelectorFieldMask    WatchLimitsRequest_FieldPathSelector = 7
-	WatchLimitsRequest_FieldPathSelectorView         WatchLimitsRequest_FieldPathSelector = 8
-	WatchLimitsRequest_FieldPathSelectorMaxChunkSize WatchLimitsRequest_FieldPathSelector = 9
+	WatchLimitsRequest_FieldPathSelectorStartingTime WatchLimitsRequest_FieldPathSelector = 6
+	WatchLimitsRequest_FieldPathSelectorFilter       WatchLimitsRequest_FieldPathSelector = 7
+	WatchLimitsRequest_FieldPathSelectorFieldMask    WatchLimitsRequest_FieldPathSelector = 8
+	WatchLimitsRequest_FieldPathSelectorView         WatchLimitsRequest_FieldPathSelector = 9
+	WatchLimitsRequest_FieldPathSelectorMaxChunkSize WatchLimitsRequest_FieldPathSelector = 10
 )
 
 func (s WatchLimitsRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchLimitsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchLimitsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchLimits
 			return &WatchLimitsRequest_FieldTerminalPath{selector: WatchLimitsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchLimitsRequest_FieldTerminalPath{selector: WatchLimitsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchLimitsRequest_FieldTerminalPath{selector: WatchLimitsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchLimitsRequest_FieldTerminalPath{selector: WatchLimitsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) Get(source *WatchLimitsRequest) 
 			}
 		case WatchLimitsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchLimitsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchLimitsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) GetSingle(source *WatchLimitsReq
 		return res, res != nil
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*limit.OrderBy)(nil)
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		return (*limit.Filter)(nil)
 	case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) ClearValue(item *WatchLimitsRequ
 			item.OrderBy = nil
 		case WatchLimitsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchLimitsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchLimitsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchLimitsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchLimitsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchLimitsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchLimitsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchLimitsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchLimitsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchLimitsRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) WithIValue(value interface{}) Wa
 		return &WatchLimitsRequest_FieldTerminalPathValue{WatchLimitsRequest_FieldTerminalPath: *fp, value: value.(*limit.OrderBy)}
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		return &WatchLimitsRequest_FieldTerminalPathValue{WatchLimitsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		return &WatchLimitsRequest_FieldTerminalPathValue{WatchLimitsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		return &WatchLimitsRequest_FieldTerminalPathValue{WatchLimitsRequest_FieldTerminalPath: *fp, value: value.(*limit.Filter)}
 	case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchLimitsRequest_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &WatchLimitsRequest_FieldTerminalPathArrayOfValues{WatchLimitsRequest_FieldTerminalPath: *fp, values: values.([]*limit.OrderBy)}
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		return &WatchLimitsRequest_FieldTerminalPathArrayOfValues{WatchLimitsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		return &WatchLimitsRequest_FieldTerminalPathArrayOfValues{WatchLimitsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		return &WatchLimitsRequest_FieldTerminalPathArrayOfValues{WatchLimitsRequest_FieldTerminalPath: *fp, values: values.([]*limit.Filter)}
 	case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchLimitsRequest_FieldTerminalPathValue) AsResumeTokenValue() (stri
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchLimitsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchLimitsRequest_FieldTerminalPathValue) AsFilterValue() (*limit.Filter, bool) {
 	res, ok := fpv.value.(*limit.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchLimitsRequest_FieldTerminalPathValue) SetTo(target **WatchLimits
 		(*target).OrderBy = fpv.value.(*limit.OrderBy)
 	case WatchLimitsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*limit.Filter)
 	case WatchLimitsRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchLimitsRequest_FieldTerminalPathValue) CompareWith(source *WatchL
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchLimitsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchLimitsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchLimitsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*limit.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchLimitsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOf
 }
 func (fpaov *WatchLimitsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchLimitsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchLimitsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*limit.Filter, bool) {

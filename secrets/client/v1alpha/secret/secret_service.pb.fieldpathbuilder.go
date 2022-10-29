@@ -11,6 +11,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
@@ -20,6 +21,7 @@ var (
 	_ = &secret.Secret{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -681,6 +683,9 @@ func (WatchSecretsRequestFieldPathBuilder) OrderBy() WatchSecretsRequestPathSele
 func (WatchSecretsRequestFieldPathBuilder) ResumeToken() WatchSecretsRequestPathSelectorResumeToken {
 	return WatchSecretsRequestPathSelectorResumeToken{}
 }
+func (WatchSecretsRequestFieldPathBuilder) StartingTime() WatchSecretsRequestPathSelectorStartingTime {
+	return WatchSecretsRequestPathSelectorStartingTime{}
+}
 func (WatchSecretsRequestFieldPathBuilder) Filter() WatchSecretsRequestPathSelectorFilter {
 	return WatchSecretsRequestPathSelectorFilter{}
 }
@@ -775,6 +780,20 @@ func (s WatchSecretsRequestPathSelectorResumeToken) WithValue(value string) *Wat
 }
 
 func (s WatchSecretsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchSecretsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchSecretsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchSecretsRequestPathSelectorStartingTime struct{}
+
+func (WatchSecretsRequestPathSelectorStartingTime) FieldPath() *WatchSecretsRequest_FieldTerminalPath {
+	return &WatchSecretsRequest_FieldTerminalPath{selector: WatchSecretsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchSecretsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchSecretsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchSecretsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchSecretsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchSecretsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchSecretsRequest_FieldTerminalPathArrayOfValues)
 }
 

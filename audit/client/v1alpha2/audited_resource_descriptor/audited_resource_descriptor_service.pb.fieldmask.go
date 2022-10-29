@@ -23,28 +23,30 @@ import (
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
+	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
 	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
-	_ = proto.Message(nil)
-	_ = preflect.Message(nil)
+	_ = new(proto.Message)
+	_ = new(preflect.Message)
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldMask(nil)
+	_ = new(gotenobject.FieldMask)
 )
 
 // make sure we're using proto imports
 var (
 	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -1987,6 +1989,7 @@ func FullWatchAuditedResourceDescriptorsRequest_FieldMask() *WatchAuditedResourc
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorOrderBy})
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorResumeToken})
+	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorStartingTime})
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorView})
@@ -2034,7 +2037,7 @@ func (fieldMask *WatchAuditedResourceDescriptorsRequest_FieldMask) IsFull() bool
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*WatchAuditedResourceDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2064,7 +2067,7 @@ func (fieldMask *WatchAuditedResourceDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *WatchAuditedResourceDescriptorsRequest_FieldMask) Subtract(other *WatchAuditedResourceDescriptorsRequest_FieldMask) *WatchAuditedResourceDescriptorsRequest_FieldMask {
 	result := &WatchAuditedResourceDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 10)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2228,6 +2231,8 @@ func (fieldMask *WatchAuditedResourceDescriptorsRequest_FieldMask) Project(sourc
 				result.OrderBy = source.OrderBy
 			case WatchAuditedResourceDescriptorsRequest_FieldPathSelectorResumeToken:
 				result.ResumeToken = source.ResumeToken
+			case WatchAuditedResourceDescriptorsRequest_FieldPathSelectorStartingTime:
+				result.StartingTime = source.StartingTime
 			case WatchAuditedResourceDescriptorsRequest_FieldPathSelectorFilter:
 				result.Filter = source.Filter
 			case WatchAuditedResourceDescriptorsRequest_FieldPathSelectorFieldMask:

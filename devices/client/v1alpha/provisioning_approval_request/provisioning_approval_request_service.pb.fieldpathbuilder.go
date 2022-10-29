@@ -1947,6 +1947,9 @@ func (WatchProvisioningApprovalRequestsRequestFieldPathBuilder) OrderBy() WatchP
 func (WatchProvisioningApprovalRequestsRequestFieldPathBuilder) ResumeToken() WatchProvisioningApprovalRequestsRequestPathSelectorResumeToken {
 	return WatchProvisioningApprovalRequestsRequestPathSelectorResumeToken{}
 }
+func (WatchProvisioningApprovalRequestsRequestFieldPathBuilder) StartingTime() WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime {
+	return WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime{}
+}
 func (WatchProvisioningApprovalRequestsRequestFieldPathBuilder) Filter() WatchProvisioningApprovalRequestsRequestPathSelectorFilter {
 	return WatchProvisioningApprovalRequestsRequestPathSelectorFilter{}
 }
@@ -2041,6 +2044,20 @@ func (s WatchProvisioningApprovalRequestsRequestPathSelectorResumeToken) WithVal
 }
 
 func (s WatchProvisioningApprovalRequestsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime struct{}
+
+func (WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime) FieldPath() *WatchProvisioningApprovalRequestsRequest_FieldTerminalPath {
+	return &WatchProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: WatchProvisioningApprovalRequestsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchProvisioningApprovalRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchProvisioningApprovalRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchProvisioningApprovalRequestsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues)
 }
 

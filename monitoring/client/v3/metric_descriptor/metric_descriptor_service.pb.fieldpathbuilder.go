@@ -1768,6 +1768,9 @@ func (WatchMetricDescriptorsRequestFieldPathBuilder) OrderBy() WatchMetricDescri
 func (WatchMetricDescriptorsRequestFieldPathBuilder) ResumeToken() WatchMetricDescriptorsRequestPathSelectorResumeToken {
 	return WatchMetricDescriptorsRequestPathSelectorResumeToken{}
 }
+func (WatchMetricDescriptorsRequestFieldPathBuilder) StartingTime() WatchMetricDescriptorsRequestPathSelectorStartingTime {
+	return WatchMetricDescriptorsRequestPathSelectorStartingTime{}
+}
 func (WatchMetricDescriptorsRequestFieldPathBuilder) Filter() WatchMetricDescriptorsRequestPathSelectorFilter {
 	return WatchMetricDescriptorsRequestPathSelectorFilter{}
 }
@@ -1862,6 +1865,20 @@ func (s WatchMetricDescriptorsRequestPathSelectorResumeToken) WithValue(value st
 }
 
 func (s WatchMetricDescriptorsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchMetricDescriptorsRequestPathSelectorStartingTime struct{}
+
+func (WatchMetricDescriptorsRequestPathSelectorStartingTime) FieldPath() *WatchMetricDescriptorsRequest_FieldTerminalPath {
+	return &WatchMetricDescriptorsRequest_FieldTerminalPath{selector: WatchMetricDescriptorsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchMetricDescriptorsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchMetricDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchMetricDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchMetricDescriptorsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchMetricDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 

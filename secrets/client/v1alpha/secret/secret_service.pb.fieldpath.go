@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &secret.Secret{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchSecretsRequest_FieldPathSelectorPageToken    WatchSecretsRequest_FieldPathSelector = 3
 	WatchSecretsRequest_FieldPathSelectorOrderBy      WatchSecretsRequest_FieldPathSelector = 4
 	WatchSecretsRequest_FieldPathSelectorResumeToken  WatchSecretsRequest_FieldPathSelector = 5
-	WatchSecretsRequest_FieldPathSelectorFilter       WatchSecretsRequest_FieldPathSelector = 6
-	WatchSecretsRequest_FieldPathSelectorFieldMask    WatchSecretsRequest_FieldPathSelector = 7
-	WatchSecretsRequest_FieldPathSelectorView         WatchSecretsRequest_FieldPathSelector = 8
-	WatchSecretsRequest_FieldPathSelectorMaxChunkSize WatchSecretsRequest_FieldPathSelector = 9
+	WatchSecretsRequest_FieldPathSelectorStartingTime WatchSecretsRequest_FieldPathSelector = 6
+	WatchSecretsRequest_FieldPathSelectorFilter       WatchSecretsRequest_FieldPathSelector = 7
+	WatchSecretsRequest_FieldPathSelectorFieldMask    WatchSecretsRequest_FieldPathSelector = 8
+	WatchSecretsRequest_FieldPathSelectorView         WatchSecretsRequest_FieldPathSelector = 9
+	WatchSecretsRequest_FieldPathSelectorMaxChunkSize WatchSecretsRequest_FieldPathSelector = 10
 )
 
 func (s WatchSecretsRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchSecretsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchSecretsRequest_FieldPath(fp gotenobject.RawFieldPath) (WatchSecre
 			return &WatchSecretsRequest_FieldTerminalPath{selector: WatchSecretsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchSecretsRequest_FieldTerminalPath{selector: WatchSecretsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchSecretsRequest_FieldTerminalPath{selector: WatchSecretsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchSecretsRequest_FieldTerminalPath{selector: WatchSecretsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) Get(source *WatchSecretsRequest
 			}
 		case WatchSecretsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchSecretsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchSecretsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) GetSingle(source *WatchSecretsR
 		return res, res != nil
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*secret.OrderBy)(nil)
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		return (*secret.Filter)(nil)
 	case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) ClearValue(item *WatchSecretsRe
 			item.OrderBy = nil
 		case WatchSecretsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchSecretsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchSecretsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchSecretsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchSecretsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchSecretsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchSecretsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchSecretsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchSecretsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchSecretsRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) WithIValue(value interface{}) W
 		return &WatchSecretsRequest_FieldTerminalPathValue{WatchSecretsRequest_FieldTerminalPath: *fp, value: value.(*secret.OrderBy)}
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		return &WatchSecretsRequest_FieldTerminalPathValue{WatchSecretsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		return &WatchSecretsRequest_FieldTerminalPathValue{WatchSecretsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		return &WatchSecretsRequest_FieldTerminalPathValue{WatchSecretsRequest_FieldTerminalPath: *fp, value: value.(*secret.Filter)}
 	case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchSecretsRequest_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &WatchSecretsRequest_FieldTerminalPathArrayOfValues{WatchSecretsRequest_FieldTerminalPath: *fp, values: values.([]*secret.OrderBy)}
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		return &WatchSecretsRequest_FieldTerminalPathArrayOfValues{WatchSecretsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		return &WatchSecretsRequest_FieldTerminalPathArrayOfValues{WatchSecretsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		return &WatchSecretsRequest_FieldTerminalPathArrayOfValues{WatchSecretsRequest_FieldTerminalPath: *fp, values: values.([]*secret.Filter)}
 	case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchSecretsRequest_FieldTerminalPathValue) AsResumeTokenValue() (str
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchSecretsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchSecretsRequest_FieldTerminalPathValue) AsFilterValue() (*secret.Filter, bool) {
 	res, ok := fpv.value.(*secret.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchSecretsRequest_FieldTerminalPathValue) SetTo(target **WatchSecre
 		(*target).OrderBy = fpv.value.(*secret.OrderBy)
 	case WatchSecretsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*secret.Filter)
 	case WatchSecretsRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchSecretsRequest_FieldTerminalPathValue) CompareWith(source *Watch
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchSecretsRequest_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchSecretsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchSecretsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*secret.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchSecretsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayO
 }
 func (fpaov *WatchSecretsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchSecretsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchSecretsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*secret.Filter, bool) {

@@ -21,16 +21,16 @@ import (
 )
 
 var (
-	_ = context.Context(nil)
-	_ = fmt.GoStringer(nil)
+	_ = new(context.Context)
+	_ = new(fmt.GoStringer)
 
-	_ = grpc.ClientConnInterface(nil)
+	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
 
-	_ = gotenaccess.Watcher(nil)
+	_ = new(gotenaccess.Watcher)
 	_ = watch_type.WatchType_STATEFUL
-	_ = gotenresource.ListQuery(nil)
+	_ = new(gotenresource.ListQuery)
 )
 
 type apiOrganizationInvitationAccess struct {

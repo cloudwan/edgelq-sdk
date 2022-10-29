@@ -24,14 +24,14 @@ import (
 
 // ensure the imports are used
 var (
-	_ = context.Context(nil)
+	_ = new(context.Context)
 
 	_ = codes.Internal
 	_ = status.Status{}
 
 	_ = watch_type.WatchType_STATEFUL
-	_ = gotenobject.FieldPath(nil)
-	_ = gotenresource.ListQuery(nil)
+	_ = new(gotenobject.FieldPath)
+	_ = new(gotenresource.ListQuery)
 )
 
 // make sure we're using proto imports

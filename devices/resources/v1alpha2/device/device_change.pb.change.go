@@ -16,7 +16,7 @@ import (
 
 // ensure the imports are used
 var (
-	_ = gotenresource.ListQuery(nil)
+	_ = new(gotenresource.ListQuery)
 )
 
 // make sure we're using proto imports

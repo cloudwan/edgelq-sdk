@@ -3113,6 +3113,9 @@ func (WatchAlertingConditionsRequestFieldPathBuilder) OrderBy() WatchAlertingCon
 func (WatchAlertingConditionsRequestFieldPathBuilder) ResumeToken() WatchAlertingConditionsRequestPathSelectorResumeToken {
 	return WatchAlertingConditionsRequestPathSelectorResumeToken{}
 }
+func (WatchAlertingConditionsRequestFieldPathBuilder) StartingTime() WatchAlertingConditionsRequestPathSelectorStartingTime {
+	return WatchAlertingConditionsRequestPathSelectorStartingTime{}
+}
 func (WatchAlertingConditionsRequestFieldPathBuilder) Filter() WatchAlertingConditionsRequestPathSelectorFilter {
 	return WatchAlertingConditionsRequestPathSelectorFilter{}
 }
@@ -3207,6 +3210,20 @@ func (s WatchAlertingConditionsRequestPathSelectorResumeToken) WithValue(value s
 }
 
 func (s WatchAlertingConditionsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchAlertingConditionsRequestPathSelectorStartingTime struct{}
+
+func (WatchAlertingConditionsRequestPathSelectorStartingTime) FieldPath() *WatchAlertingConditionsRequest_FieldTerminalPath {
+	return &WatchAlertingConditionsRequest_FieldTerminalPath{selector: WatchAlertingConditionsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchAlertingConditionsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchAlertingConditionsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
 }
 

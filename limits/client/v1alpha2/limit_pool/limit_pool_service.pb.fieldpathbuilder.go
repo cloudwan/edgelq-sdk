@@ -2025,6 +2025,9 @@ func (WatchLimitPoolsRequestFieldPathBuilder) OrderBy() WatchLimitPoolsRequestPa
 func (WatchLimitPoolsRequestFieldPathBuilder) ResumeToken() WatchLimitPoolsRequestPathSelectorResumeToken {
 	return WatchLimitPoolsRequestPathSelectorResumeToken{}
 }
+func (WatchLimitPoolsRequestFieldPathBuilder) StartingTime() WatchLimitPoolsRequestPathSelectorStartingTime {
+	return WatchLimitPoolsRequestPathSelectorStartingTime{}
+}
 func (WatchLimitPoolsRequestFieldPathBuilder) Filter() WatchLimitPoolsRequestPathSelectorFilter {
 	return WatchLimitPoolsRequestPathSelectorFilter{}
 }
@@ -2119,6 +2122,20 @@ func (s WatchLimitPoolsRequestPathSelectorResumeToken) WithValue(value string) *
 }
 
 func (s WatchLimitPoolsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchLimitPoolsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchLimitPoolsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchLimitPoolsRequestPathSelectorStartingTime struct{}
+
+func (WatchLimitPoolsRequestPathSelectorStartingTime) FieldPath() *WatchLimitPoolsRequest_FieldTerminalPath {
+	return &WatchLimitPoolsRequest_FieldTerminalPath{selector: WatchLimitPoolsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchLimitPoolsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchLimitPoolsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchLimitPoolsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchLimitPoolsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchLimitPoolsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchLimitPoolsRequest_FieldTerminalPathArrayOfValues)
 }
 

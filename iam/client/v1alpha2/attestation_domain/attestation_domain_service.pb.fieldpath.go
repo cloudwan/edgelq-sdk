@@ -29,13 +29,14 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = json.Marshaler(nil)
-	_ = fmt.Stringer(nil)
+	_ = new(json.Marshaler)
+	_ = new(fmt.Stringer)
 	_ = reflect.DeepEqual
 	_ = strings.Builder{}
 	_ = time.Second
@@ -44,11 +45,11 @@ var (
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = protojson.UnmarshalOptions{}
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = protoregistry.GlobalTypes
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
@@ -57,6 +58,7 @@ var (
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -3775,10 +3777,11 @@ const (
 	WatchAttestationDomainsRequest_FieldPathSelectorPageToken    WatchAttestationDomainsRequest_FieldPathSelector = 3
 	WatchAttestationDomainsRequest_FieldPathSelectorOrderBy      WatchAttestationDomainsRequest_FieldPathSelector = 4
 	WatchAttestationDomainsRequest_FieldPathSelectorResumeToken  WatchAttestationDomainsRequest_FieldPathSelector = 5
-	WatchAttestationDomainsRequest_FieldPathSelectorFilter       WatchAttestationDomainsRequest_FieldPathSelector = 6
-	WatchAttestationDomainsRequest_FieldPathSelectorFieldMask    WatchAttestationDomainsRequest_FieldPathSelector = 7
-	WatchAttestationDomainsRequest_FieldPathSelectorView         WatchAttestationDomainsRequest_FieldPathSelector = 8
-	WatchAttestationDomainsRequest_FieldPathSelectorMaxChunkSize WatchAttestationDomainsRequest_FieldPathSelector = 9
+	WatchAttestationDomainsRequest_FieldPathSelectorStartingTime WatchAttestationDomainsRequest_FieldPathSelector = 6
+	WatchAttestationDomainsRequest_FieldPathSelectorFilter       WatchAttestationDomainsRequest_FieldPathSelector = 7
+	WatchAttestationDomainsRequest_FieldPathSelectorFieldMask    WatchAttestationDomainsRequest_FieldPathSelector = 8
+	WatchAttestationDomainsRequest_FieldPathSelectorView         WatchAttestationDomainsRequest_FieldPathSelector = 9
+	WatchAttestationDomainsRequest_FieldPathSelectorMaxChunkSize WatchAttestationDomainsRequest_FieldPathSelector = 10
 )
 
 func (s WatchAttestationDomainsRequest_FieldPathSelector) String() string {
@@ -3795,6 +3798,8 @@ func (s WatchAttestationDomainsRequest_FieldPathSelector) String() string {
 		return "order_by"
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		return "resume_token"
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		return "starting_time"
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -3826,6 +3831,8 @@ func BuildWatchAttestationDomainsRequest_FieldPath(fp gotenobject.RawFieldPath) 
 			return &WatchAttestationDomainsRequest_FieldTerminalPath{selector: WatchAttestationDomainsRequest_FieldPathSelectorOrderBy}, nil
 		case "resume_token", "resumeToken", "resume-token":
 			return &WatchAttestationDomainsRequest_FieldTerminalPath{selector: WatchAttestationDomainsRequest_FieldPathSelectorResumeToken}, nil
+		case "starting_time", "startingTime", "starting-time":
+			return &WatchAttestationDomainsRequest_FieldTerminalPath{selector: WatchAttestationDomainsRequest_FieldPathSelectorStartingTime}, nil
 		case "filter":
 			return &WatchAttestationDomainsRequest_FieldTerminalPath{selector: WatchAttestationDomainsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -3897,6 +3904,10 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) Get(source *WatchAtt
 			}
 		case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 			values = append(values, source.ResumeToken)
+		case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+			if source.StartingTime != nil {
+				values = append(values, source.StartingTime)
+			}
 		case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -3938,6 +3949,9 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) GetSingle(source *Wa
 		return res, res != nil
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		return source.GetResumeToken(), source != nil
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		res := source.GetStartingTime()
+		return res, res != nil
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -3972,6 +3986,8 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) GetDefault() interfa
 		return (*attestation_domain.OrderBy)(nil)
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		return ""
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		return (*timestamp.Timestamp)(nil)
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		return (*attestation_domain.Filter)(nil)
 	case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -4000,6 +4016,8 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) ClearValue(item *Wat
 			item.OrderBy = nil
 		case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 			item.ResumeToken = ""
+		case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+			item.StartingTime = nil
 		case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -4026,6 +4044,7 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorPageToken ||
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorResumeToken ||
+		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorStartingTime ||
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorFilter ||
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorFieldMask ||
 		fp.selector == WatchAttestationDomainsRequest_FieldPathSelectorView ||
@@ -4050,6 +4069,8 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) WithIValue(value int
 		return &WatchAttestationDomainsRequest_FieldTerminalPathValue{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(*attestation_domain.OrderBy)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		return &WatchAttestationDomainsRequest_FieldTerminalPathValue{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		return &WatchAttestationDomainsRequest_FieldTerminalPathValue{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		return &WatchAttestationDomainsRequest_FieldTerminalPathValue{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(*attestation_domain.Filter)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -4082,6 +4103,8 @@ func (fp *WatchAttestationDomainsRequest_FieldTerminalPath) WithIArrayOfValues(v
 		return &WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]*attestation_domain.OrderBy)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		return &WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		return &WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		return &WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues{WatchAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]*attestation_domain.Filter)}
 	case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -4174,6 +4197,10 @@ func (fpv *WatchAttestationDomainsRequest_FieldTerminalPathValue) AsResumeTokenV
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *WatchAttestationDomainsRequest_FieldTerminalPathValue) AsStartingTimeValue() (*timestamp.Timestamp, bool) {
+	res, ok := fpv.value.(*timestamp.Timestamp)
+	return res, ok
+}
 func (fpv *WatchAttestationDomainsRequest_FieldTerminalPathValue) AsFilterValue() (*attestation_domain.Filter, bool) {
 	res, ok := fpv.value.(*attestation_domain.Filter)
 	return res, ok
@@ -4209,6 +4236,8 @@ func (fpv *WatchAttestationDomainsRequest_FieldTerminalPathValue) SetTo(target *
 		(*target).OrderBy = fpv.value.(*attestation_domain.OrderBy)
 	case WatchAttestationDomainsRequest_FieldPathSelectorResumeToken:
 		(*target).ResumeToken = fpv.value.(string)
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		(*target).StartingTime = fpv.value.(*timestamp.Timestamp)
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*attestation_domain.Filter)
 	case WatchAttestationDomainsRequest_FieldPathSelectorFieldMask:
@@ -4279,6 +4308,25 @@ func (fpv *WatchAttestationDomainsRequest_FieldTerminalPathValue) CompareWith(so
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		leftValue := fpv.value.(*timestamp.Timestamp)
+		rightValue := source.GetStartingTime()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsTime().Equal(rightValue.AsTime()) {
+			return 0, true
+		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
 			return -1, true
 		} else {
 			return 1, true
@@ -4439,6 +4487,10 @@ func (fpaov *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case WatchAttestationDomainsRequest_FieldPathSelectorStartingTime:
+		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
+			values = append(values, v)
+		}
 	case WatchAttestationDomainsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*attestation_domain.Filter) {
 			values = append(values, v)
@@ -4480,6 +4532,10 @@ func (fpaov *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsOr
 }
 func (fpaov *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsResumeTokenArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsStartingTimeArrayOfValues() ([]*timestamp.Timestamp, bool) {
+	res, ok := fpaov.values.([]*timestamp.Timestamp)
 	return res, ok
 }
 func (fpaov *WatchAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*attestation_domain.Filter, bool) {

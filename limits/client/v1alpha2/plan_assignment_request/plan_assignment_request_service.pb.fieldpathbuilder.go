@@ -3179,6 +3179,9 @@ func (WatchPlanAssignmentRequestsRequestFieldPathBuilder) OrderBy() WatchPlanAss
 func (WatchPlanAssignmentRequestsRequestFieldPathBuilder) ResumeToken() WatchPlanAssignmentRequestsRequestPathSelectorResumeToken {
 	return WatchPlanAssignmentRequestsRequestPathSelectorResumeToken{}
 }
+func (WatchPlanAssignmentRequestsRequestFieldPathBuilder) StartingTime() WatchPlanAssignmentRequestsRequestPathSelectorStartingTime {
+	return WatchPlanAssignmentRequestsRequestPathSelectorStartingTime{}
+}
 func (WatchPlanAssignmentRequestsRequestFieldPathBuilder) Filter() WatchPlanAssignmentRequestsRequestPathSelectorFilter {
 	return WatchPlanAssignmentRequestsRequestPathSelectorFilter{}
 }
@@ -3273,6 +3276,20 @@ func (s WatchPlanAssignmentRequestsRequestPathSelectorResumeToken) WithValue(val
 }
 
 func (s WatchPlanAssignmentRequestsRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchPlanAssignmentRequestsRequestPathSelectorStartingTime struct{}
+
+func (WatchPlanAssignmentRequestsRequestPathSelectorStartingTime) FieldPath() *WatchPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &WatchPlanAssignmentRequestsRequest_FieldTerminalPath{selector: WatchPlanAssignmentRequestsRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchPlanAssignmentRequestsRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s WatchPlanAssignmentRequestsRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
 }
 

@@ -19,24 +19,26 @@ import (
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1alpha2/audited_resource_descriptor"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
 var (
-	_ = fmt.Stringer(nil)
-	_ = sort.Interface(nil)
+	_ = new(fmt.Stringer)
+	_ = new(sort.Interface)
 
-	_ = proto.Message(nil)
+	_ = new(proto.Message)
 	_ = fieldmaskpb.FieldMask{}
 
-	_ = gotenobject.FieldPath(nil)
+	_ = new(gotenobject.FieldPath)
 )
 
 // make sure we're using proto imports
 var (
 	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
 	_ = &field_mask.FieldMask{}
+	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
 )
@@ -822,6 +824,9 @@ func (o *WatchAuditedResourceDescriptorsRequest) MakeDiffFieldMask(other *WatchA
 	if o.GetResumeToken() != other.GetResumeToken() {
 		res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorResumeToken})
 	}
+	if !proto.Equal(o.GetStartingTime(), other.GetStartingTime()) {
+		res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorStartingTime})
+	}
 	if o.GetFilter().String() != other.GetFilter().String() {
 		res.Paths = append(res.Paths, &WatchAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: WatchAuditedResourceDescriptorsRequest_FieldPathSelectorFilter})
 	}
@@ -869,6 +874,7 @@ func (o *WatchAuditedResourceDescriptorsRequest) Clone() *WatchAuditedResourceDe
 		}
 	}
 	result.ResumeToken = o.ResumeToken
+	result.StartingTime = proto.Clone(o.StartingTime).(*timestamp.Timestamp)
 	if o.Filter == nil {
 		result.Filter = nil
 	} else if data, err := o.Filter.ProtoString(); err != nil {
@@ -917,6 +923,12 @@ func (o *WatchAuditedResourceDescriptorsRequest) Merge(source *WatchAuditedResou
 		o.OrderBy = nil
 	}
 	o.ResumeToken = source.GetResumeToken()
+	if source.GetStartingTime() != nil {
+		if o.StartingTime == nil {
+			o.StartingTime = new(timestamp.Timestamp)
+		}
+		proto.Merge(o.StartingTime, source.GetStartingTime())
+	}
 	if source.GetFilter() != nil {
 		if data, err := source.GetFilter().ProtoString(); err != nil {
 			panic(err)

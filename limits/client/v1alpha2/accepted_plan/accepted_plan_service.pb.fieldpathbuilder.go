@@ -2345,6 +2345,9 @@ func (WatchAcceptedPlansRequestFieldPathBuilder) OrderBy() WatchAcceptedPlansReq
 func (WatchAcceptedPlansRequestFieldPathBuilder) ResumeToken() WatchAcceptedPlansRequestPathSelectorResumeToken {
 	return WatchAcceptedPlansRequestPathSelectorResumeToken{}
 }
+func (WatchAcceptedPlansRequestFieldPathBuilder) StartingTime() WatchAcceptedPlansRequestPathSelectorStartingTime {
+	return WatchAcceptedPlansRequestPathSelectorStartingTime{}
+}
 func (WatchAcceptedPlansRequestFieldPathBuilder) Filter() WatchAcceptedPlansRequestPathSelectorFilter {
 	return WatchAcceptedPlansRequestPathSelectorFilter{}
 }
@@ -2439,6 +2442,20 @@ func (s WatchAcceptedPlansRequestPathSelectorResumeToken) WithValue(value string
 }
 
 func (s WatchAcceptedPlansRequestPathSelectorResumeToken) WithArrayOfValues(values []string) *WatchAcceptedPlansRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*WatchAcceptedPlansRequest_FieldTerminalPathArrayOfValues)
+}
+
+type WatchAcceptedPlansRequestPathSelectorStartingTime struct{}
+
+func (WatchAcceptedPlansRequestPathSelectorStartingTime) FieldPath() *WatchAcceptedPlansRequest_FieldTerminalPath {
+	return &WatchAcceptedPlansRequest_FieldTerminalPath{selector: WatchAcceptedPlansRequest_FieldPathSelectorStartingTime}
+}
+
+func (s WatchAcceptedPlansRequestPathSelectorStartingTime) WithValue(value *timestamp.Timestamp) *WatchAcceptedPlansRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*WatchAcceptedPlansRequest_FieldTerminalPathValue)
+}
+
+func (s WatchAcceptedPlansRequestPathSelectorStartingTime) WithArrayOfValues(values []*timestamp.Timestamp) *WatchAcceptedPlansRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*WatchAcceptedPlansRequest_FieldTerminalPathArrayOfValues)
 }
 

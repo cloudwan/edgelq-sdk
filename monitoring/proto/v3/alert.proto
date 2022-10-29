@@ -13,6 +13,7 @@ option java_multiple_files = true;
 option java_outer_classname = "AlertProto";
 option java_package = "com.ntt.monitoring.pb.v3";
 
+// Alert Resource
 message Alert {
   option (google.api.resource) = {
     type : "monitoring.edgelq.com/Alert"
