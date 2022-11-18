@@ -19,6 +19,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 )
 
 // ensure the imports are used
@@ -37,6 +38,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
+	_ = &structpb.Struct{}
 )
 
 func (o *Condition) GotenObjectExt() {}
@@ -264,6 +266,9 @@ func (o *ConditionBinding) MakeDiffFieldMask(other *ConditionBinding) *Condition
 	} else {
 		res.Paths = append(res.Paths, &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParameters})
 	}
+	if !proto.Equal(o.GetParams(), other.GetParams()) {
+		res.Paths = append(res.Paths, &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParams})
+	}
 	return res
 }
 
@@ -290,6 +295,7 @@ func (o *ConditionBinding) Clone() *ConditionBinding {
 	for key, sourceValue := range o.Parameters {
 		result.Parameters[key] = sourceValue
 	}
+	result.Params = proto.Clone(o.Params).(*structpb.Struct)
 	return result
 }
 
@@ -317,6 +323,12 @@ func (o *ConditionBinding) Merge(source *ConditionBinding) {
 		for key, sourceValue := range source.GetParameters() {
 			o.Parameters[key] = sourceValue
 		}
+	}
+	if source.GetParams() != nil {
+		if o.Params == nil {
+			o.Params = new(structpb.Struct)
+		}
+		proto.Merge(o.Params, source.GetParams())
 	}
 }
 

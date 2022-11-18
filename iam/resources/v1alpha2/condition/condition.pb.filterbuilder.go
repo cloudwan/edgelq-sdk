@@ -16,6 +16,7 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -32,6 +33,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 

@@ -13,6 +13,7 @@ import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -25,6 +26,7 @@ var (
 	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -143,6 +145,10 @@ func (ConditionalGrantPathSelectorConditionBindings) Parameters() ConditionalGra
 	return ConditionalGrantPathSelectorConditionBindingsParameters{}
 }
 
+func (ConditionalGrantPathSelectorConditionBindings) Params() ConditionalGrantPathSelectorConditionBindingsParams {
+	return ConditionalGrantPathSelectorConditionBindingsParams{}
+}
+
 type ConditionalGrantPathSelectorConditionBindingsCondition struct{}
 
 func (ConditionalGrantPathSelectorConditionBindingsCondition) FieldPath() *ConditionalGrant_FieldSubPath {
@@ -197,6 +203,23 @@ func (s ConditionalGrantMapPathSelectorConditionBindingsParameters) WithValue(va
 }
 
 func (s ConditionalGrantMapPathSelectorConditionBindingsParameters) WithArrayOfValues(values []string) *ConditionalGrant_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionalGrant_FieldSubPathArrayOfValues)
+}
+
+type ConditionalGrantPathSelectorConditionBindingsParams struct{}
+
+func (ConditionalGrantPathSelectorConditionBindingsParams) FieldPath() *ConditionalGrant_FieldSubPath {
+	return &ConditionalGrant_FieldSubPath{
+		selector: ConditionalGrant_FieldPathSelectorConditionBindings,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Params().FieldPath(),
+	}
+}
+
+func (s ConditionalGrantPathSelectorConditionBindingsParams) WithValue(value *structpb.Struct) *ConditionalGrant_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionalGrant_FieldSubPathValue)
+}
+
+func (s ConditionalGrantPathSelectorConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *ConditionalGrant_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConditionalGrant_FieldSubPathArrayOfValues)
 }
 
@@ -338,6 +361,10 @@ func (CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindings) P
 	return CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParameters{}
 }
 
+func (CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindings) Params() CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams {
+	return CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams{}
+}
+
 type CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsCondition struct{}
 
 func (CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsCondition) FieldPath() *CheckResult_FieldSubPath {
@@ -392,6 +419,23 @@ func (s CheckResultMapPathSelectorConditionallyGrantedPermissionsConditionBindin
 }
 
 func (s CheckResultMapPathSelectorConditionallyGrantedPermissionsConditionBindingsParameters) WithArrayOfValues(values []string) *CheckResult_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckResult_FieldSubPathArrayOfValues)
+}
+
+type CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams struct{}
+
+func (CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams) FieldPath() *CheckResult_FieldSubPath {
+	return &CheckResult_FieldSubPath{
+		selector: CheckResult_FieldPathSelectorConditionallyGrantedPermissions,
+		subPath:  NewConditionalGrantFieldPathBuilder().ConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams) WithValue(value *structpb.Struct) *CheckResult_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckResult_FieldSubPathValue)
+}
+
+func (s CheckResultPathSelectorConditionallyGrantedPermissionsConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckResult_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CheckResult_FieldSubPathArrayOfValues)
 }
 
@@ -688,6 +732,10 @@ func (CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermis
 	return CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParameters{}
 }
 
+func (CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindings) Params() CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams {
+	return CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams{}
+}
+
 type CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsCondition struct{}
 
 func (CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsCondition) FieldPath() *CheckPermissionsResponse_FieldSubPath {
@@ -742,6 +790,23 @@ func (s CheckPermissionsResponseMapPathSelectorCheckResultsConditionallyGrantedP
 }
 
 func (s CheckPermissionsResponseMapPathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParameters) WithArrayOfValues(values []string) *CheckPermissionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckPermissionsResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams struct{}
+
+func (CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) FieldPath() *CheckPermissionsResponse_FieldSubPath {
+	return &CheckPermissionsResponse_FieldSubPath{
+		selector: CheckPermissionsResponse_FieldPathSelectorCheckResults,
+		subPath:  NewCheckResultFieldPathBuilder().ConditionallyGrantedPermissions().ConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) WithValue(value *structpb.Struct) *CheckPermissionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckPermissionsResponse_FieldSubPathValue)
+}
+
+func (s CheckPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckPermissionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CheckPermissionsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1021,6 +1086,10 @@ func (CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPerm
 	return CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParameters{}
 }
 
+func (CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindings) Params() CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams {
+	return CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams{}
+}
+
 type CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsCondition struct{}
 
 func (CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsCondition) FieldPath() *CheckMyPermissionsResponse_FieldSubPath {
@@ -1075,5 +1144,22 @@ func (s CheckMyPermissionsResponseMapPathSelectorCheckResultsConditionallyGrante
 }
 
 func (s CheckMyPermissionsResponseMapPathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParameters) WithArrayOfValues(values []string) *CheckMyPermissionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyPermissionsResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams struct{}
+
+func (CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) FieldPath() *CheckMyPermissionsResponse_FieldSubPath {
+	return &CheckMyPermissionsResponse_FieldSubPath{
+		selector: CheckMyPermissionsResponse_FieldPathSelectorCheckResults,
+		subPath:  NewCheckResultFieldPathBuilder().ConditionallyGrantedPermissions().ConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) WithValue(value *structpb.Struct) *CheckMyPermissionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyPermissionsResponse_FieldSubPathValue)
+}
+
+func (s CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckMyPermissionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyPermissionsResponse_FieldSubPathArrayOfValues)
 }

@@ -57,6 +57,8 @@ func FullRole_FieldMask() *Role_FieldMask {
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedPermissions})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultConditionBinding})
+	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedConditionBindings})
+	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorRequiredConditions})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorMetadata})
 	return res
 }
@@ -101,7 +103,7 @@ func (fieldMask *Role_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Role_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -131,14 +133,16 @@ func (fieldMask *Role_FieldMask) Reset() {
 
 func (fieldMask *Role_FieldMask) Subtract(other *Role_FieldMask) *Role_FieldMask {
 	result := &Role_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Role_FieldPathSelector]gotenobject.FieldMask{
-		Role_FieldPathSelectorDefaultConditionBinding: &condition.ConditionBinding_FieldMask{},
-		Role_FieldPathSelectorMetadata:                &ntt_meta.Meta_FieldMask{},
+		Role_FieldPathSelectorDefaultConditionBinding:   &condition.ConditionBinding_FieldMask{},
+		Role_FieldPathSelectorIncludedConditionBindings: &condition.ConditionBinding_FieldMask{},
+		Role_FieldPathSelectorMetadata:                  &ntt_meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[Role_FieldPathSelector]gotenobject.FieldMask{
-		Role_FieldPathSelectorDefaultConditionBinding: &condition.ConditionBinding_FieldMask{},
-		Role_FieldPathSelectorMetadata:                &ntt_meta.Meta_FieldMask{},
+		Role_FieldPathSelectorDefaultConditionBinding:   &condition.ConditionBinding_FieldMask{},
+		Role_FieldPathSelectorIncludedConditionBindings: &condition.ConditionBinding_FieldMask{},
+		Role_FieldPathSelectorMetadata:                  &ntt_meta.Meta_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -156,6 +160,8 @@ func (fieldMask *Role_FieldMask) Subtract(other *Role_FieldMask) *Role_FieldMask
 					switch tp.selector {
 					case Role_FieldPathSelectorDefaultConditionBinding:
 						mySubMasks[Role_FieldPathSelectorDefaultConditionBinding] = condition.FullConditionBinding_FieldMask()
+					case Role_FieldPathSelectorIncludedConditionBindings:
+						mySubMasks[Role_FieldPathSelectorIncludedConditionBindings] = condition.FullConditionBinding_FieldMask()
 					case Role_FieldPathSelectorMetadata:
 						mySubMasks[Role_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
 					}
@@ -330,6 +336,8 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 	result := &Role{}
 	defaultConditionBindingMask := &condition.ConditionBinding_FieldMask{}
 	wholeDefaultConditionBindingAccepted := false
+	includedConditionBindingsMask := &condition.ConditionBinding_FieldMask{}
+	wholeIncludedConditionBindingsAccepted := false
 	metadataMask := &ntt_meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
 
@@ -346,6 +354,11 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 			case Role_FieldPathSelectorDefaultConditionBinding:
 				result.DefaultConditionBinding = source.DefaultConditionBinding
 				wholeDefaultConditionBindingAccepted = true
+			case Role_FieldPathSelectorIncludedConditionBindings:
+				result.IncludedConditionBindings = source.IncludedConditionBindings
+				wholeIncludedConditionBindingsAccepted = true
+			case Role_FieldPathSelectorRequiredConditions:
+				result.RequiredConditions = source.RequiredConditions
 			case Role_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true
@@ -354,6 +367,8 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 			switch tp.selector {
 			case Role_FieldPathSelectorDefaultConditionBinding:
 				defaultConditionBindingMask.AppendPath(tp.subPath.(condition.ConditionBinding_FieldPath))
+			case Role_FieldPathSelectorIncludedConditionBindings:
+				includedConditionBindingsMask.AppendPath(tp.subPath.(condition.ConditionBinding_FieldPath))
 			case Role_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
 			}
@@ -361,6 +376,11 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 	}
 	if wholeDefaultConditionBindingAccepted == false && len(defaultConditionBindingMask.Paths) > 0 {
 		result.DefaultConditionBinding = defaultConditionBindingMask.Project(source.GetDefaultConditionBinding())
+	}
+	if wholeIncludedConditionBindingsAccepted == false && len(includedConditionBindingsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetIncludedConditionBindings() {
+			result.IncludedConditionBindings = append(result.IncludedConditionBindings, includedConditionBindingsMask.Project(sourceItem))
+		}
 	}
 	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
 		result.Metadata = metadataMask.Project(source.GetMetadata())

@@ -14,6 +14,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -27,6 +28,7 @@ var (
 	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -134,6 +136,10 @@ func (RoleBindingPathSelectorConditionBinding) Parameters() RoleBindingPathSelec
 	return RoleBindingPathSelectorConditionBindingParameters{}
 }
 
+func (RoleBindingPathSelectorConditionBinding) Params() RoleBindingPathSelectorConditionBindingParams {
+	return RoleBindingPathSelectorConditionBindingParams{}
+}
+
 type RoleBindingPathSelectorConditionBindingCondition struct{}
 
 func (RoleBindingPathSelectorConditionBindingCondition) FieldPath() *RoleBinding_FieldSubPath {
@@ -188,6 +194,23 @@ func (s RoleBindingMapPathSelectorConditionBindingParameters) WithValue(value st
 }
 
 func (s RoleBindingMapPathSelectorConditionBindingParameters) WithArrayOfValues(values []string) *RoleBinding_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
+}
+
+type RoleBindingPathSelectorConditionBindingParams struct{}
+
+func (RoleBindingPathSelectorConditionBindingParams) FieldPath() *RoleBinding_FieldSubPath {
+	return &RoleBinding_FieldSubPath{
+		selector: RoleBinding_FieldPathSelectorConditionBinding,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Params().FieldPath(),
+	}
+}
+
+func (s RoleBindingPathSelectorConditionBindingParams) WithValue(value *structpb.Struct) *RoleBinding_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
+}
+
+func (s RoleBindingPathSelectorConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *RoleBinding_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
 }
 

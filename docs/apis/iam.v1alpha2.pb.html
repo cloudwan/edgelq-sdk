@@ -2423,7 +2423,7 @@ compare.</p>
 
 <h5 id="enum-Condition.ParameterType">Condition.ParameterType</h5>
 
-<p>Parameter Type. Note: currently only STRING type is supported.</p>
+<p>Parameter Type.</p>
 
 
 <table class="fields">
@@ -2455,6 +2455,36 @@ compare.</p>
 
 <tr>
 <th>BOOL</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>STRING_ARRAY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>INT64_ARRAY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DOUBLE_ARRAY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>BOOL_ARRAY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>OBJECT</th>
 <td class="description"></td>
 </tr>
 <tr></tr>
@@ -9480,7 +9510,25 @@ Permissions.</p>
 <th rowspan="2">default_condition_binding</th>
 <td class="type"><pre><a href="#message-ConditionBinding">ConditionBinding</a></pre></td>
 </tr>
-<tr><td class="description"><p>Default conditionBinding (optional)</p>
+<tr><td class="description"><p>Default conditionBinding (optional), cannot be used with required
+TODO: Deprecated...</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">included_condition_bindings</th>
+<td class="type"><pre>repeated <a href="#message-ConditionBinding">ConditionBinding</a></pre></td>
+</tr>
+<tr><td class="description"><p>Condition bindings that will be copied into created role bindings
+TODO: Works only if only one element is specified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">required_conditions</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of conditions that must be used for this role. Parameters must be
+defined by client.
+TODO: Works only if only one element is specified</p>
 </td></tr>
 
 <tr>
@@ -10352,7 +10400,9 @@ Format of the string is one of:</p>
 <th rowspan="2">condition_binding</th>
 <td class="type"><pre><a href="#message-ConditionBinding">ConditionBinding</a></pre></td>
 </tr>
-<tr><td class="description"><p>optional ConditionBinding</p>
+<tr><td class="description"><p>optional ConditionBinding
+TODO: Make it repeated and make sure backend will check all before
+verifying</p>
 </td></tr>
 
 <tr>
@@ -14750,6 +14800,13 @@ stateless watch type.</p>
 <tr>
 <th rowspan="2">parameters</th>
 <td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>TODO: Deprecated, use params instead</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">params</th>
+<td class="type"><pre>.google.protobuf.Struct</pre></td>
 </tr>
 <tr><td class="description"><p>Parameters in string form. Parameters must match
 [declarations][ntt.iam.v1alpha2.Condition.parameter_declarations]</p>

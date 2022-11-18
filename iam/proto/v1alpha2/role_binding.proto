@@ -50,6 +50,8 @@ message RoleBinding {
   string member = 4;
 
   // optional ConditionBinding
+  // TODO: Make it repeated and make sure backend will check all before
+  // verifying
   ConditionBinding condition_binding = 6;
 
   // Internal field used by IAM controller to note role binding ancestry path

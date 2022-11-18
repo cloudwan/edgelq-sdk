@@ -19,6 +19,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -38,6 +39,7 @@ var (
 	_ = &project.Project{}
 	_ = &role.Role{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -448,6 +450,10 @@ func (b *filterCndBuilderConditionBinding) Parameters() *filterCndBuilderConditi
 	return &filterCndBuilderConditionBindingParameters{builder: b.builder}
 }
 
+func (b *filterCndBuilderConditionBinding) Params() *filterCndBuilderConditionBindingParams {
+	return &filterCndBuilderConditionBindingParams{builder: b.builder}
+}
+
 type filterCndBuilderConditionBindingCondition struct {
 	builder *FilterBuilder
 }
@@ -627,6 +633,65 @@ func (b *mapFilterCndBuilderConditionBindingParameters) compare(op gotenfilter.C
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ConditionBinding().Parameters().WithKey(b.key).WithValue(value),
+	})
+}
+
+type filterCndBuilderConditionBindingParams struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConditionBindingParams) Eq(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) Neq(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) Gt(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) Gte(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) Lt(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) Lte(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConditionBindingParams) In(values []*structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ConditionBinding().Params().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConditionBindingParams) NotIn(values []*structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().ConditionBinding().Params().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConditionBindingParams) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConditionBindingParams) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConditionBindingParams) compare(op gotenfilter.CompareOperator, value *structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ConditionBinding().Params().WithValue(value),
 	})
 }
 

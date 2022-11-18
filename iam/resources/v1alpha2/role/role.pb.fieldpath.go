@@ -74,11 +74,13 @@ type Role_FieldPath interface {
 type Role_FieldPathSelector int32
 
 const (
-	Role_FieldPathSelectorName                    Role_FieldPathSelector = 0
-	Role_FieldPathSelectorDisplayName             Role_FieldPathSelector = 1
-	Role_FieldPathSelectorIncludedPermissions     Role_FieldPathSelector = 2
-	Role_FieldPathSelectorDefaultConditionBinding Role_FieldPathSelector = 3
-	Role_FieldPathSelectorMetadata                Role_FieldPathSelector = 4
+	Role_FieldPathSelectorName                      Role_FieldPathSelector = 0
+	Role_FieldPathSelectorDisplayName               Role_FieldPathSelector = 1
+	Role_FieldPathSelectorIncludedPermissions       Role_FieldPathSelector = 2
+	Role_FieldPathSelectorDefaultConditionBinding   Role_FieldPathSelector = 3
+	Role_FieldPathSelectorIncludedConditionBindings Role_FieldPathSelector = 4
+	Role_FieldPathSelectorRequiredConditions        Role_FieldPathSelector = 5
+	Role_FieldPathSelectorMetadata                  Role_FieldPathSelector = 6
 )
 
 func (s Role_FieldPathSelector) String() string {
@@ -91,6 +93,10 @@ func (s Role_FieldPathSelector) String() string {
 		return "included_permissions"
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return "default_condition_binding"
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return "included_condition_bindings"
+	case Role_FieldPathSelectorRequiredConditions:
+		return "required_conditions"
 	case Role_FieldPathSelectorMetadata:
 		return "metadata"
 	default:
@@ -112,6 +118,10 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedPermissions}, nil
 		case "default_condition_binding", "defaultConditionBinding", "default-condition-binding":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultConditionBinding}, nil
+		case "included_condition_bindings", "includedConditionBindings", "included-condition-bindings":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedConditionBindings}, nil
+		case "required_conditions", "requiredConditions", "required-conditions":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorRequiredConditions}, nil
 		case "metadata":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorMetadata}, nil
 		}
@@ -122,6 +132,12 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 				return nil, err
 			} else {
 				return &Role_FieldSubPath{selector: Role_FieldPathSelectorDefaultConditionBinding, subPath: subpath}, nil
+			}
+		case "included_condition_bindings", "includedConditionBindings", "included-condition-bindings":
+			if subpath, err := condition.BuildConditionBinding_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Role_FieldSubPath{selector: Role_FieldPathSelectorIncludedConditionBindings, subPath: subpath}, nil
 			}
 		case "metadata":
 			if subpath, err := ntt_meta.BuildMeta_FieldPath(fp[1:]); err != nil {
@@ -188,6 +204,14 @@ func (fp *Role_FieldTerminalPath) Get(source *Role) (values []interface{}) {
 			if source.DefaultConditionBinding != nil {
 				values = append(values, source.DefaultConditionBinding)
 			}
+		case Role_FieldPathSelectorIncludedConditionBindings:
+			for _, value := range source.GetIncludedConditionBindings() {
+				values = append(values, value)
+			}
+		case Role_FieldPathSelectorRequiredConditions:
+			for _, value := range source.GetRequiredConditions() {
+				values = append(values, value)
+			}
 		case Role_FieldPathSelectorMetadata:
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
@@ -217,6 +241,12 @@ func (fp *Role_FieldTerminalPath) GetSingle(source *Role) (interface{}, bool) {
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		res := source.GetDefaultConditionBinding()
 		return res, res != nil
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		res := source.GetIncludedConditionBindings()
+		return res, res != nil
+	case Role_FieldPathSelectorRequiredConditions:
+		res := source.GetRequiredConditions()
+		return res, res != nil
 	case Role_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
@@ -240,6 +270,10 @@ func (fp *Role_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*permission.Reference)(nil)
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return (*condition.ConditionBinding)(nil)
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return ([]*condition.ConditionBinding)(nil)
+	case Role_FieldPathSelectorRequiredConditions:
+		return ([]*condition.Reference)(nil)
 	case Role_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -258,6 +292,10 @@ func (fp *Role_FieldTerminalPath) ClearValue(item *Role) {
 			item.IncludedPermissions = nil
 		case Role_FieldPathSelectorDefaultConditionBinding:
 			item.DefaultConditionBinding = nil
+		case Role_FieldPathSelectorIncludedConditionBindings:
+			item.IncludedConditionBindings = nil
+		case Role_FieldPathSelectorRequiredConditions:
+			item.RequiredConditions = nil
 		case Role_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		default:
@@ -274,7 +312,8 @@ func (fp *Role_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Role_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Role_FieldPathSelectorName ||
 		fp.selector == Role_FieldPathSelectorDisplayName ||
-		fp.selector == Role_FieldPathSelectorIncludedPermissions
+		fp.selector == Role_FieldPathSelectorIncludedPermissions ||
+		fp.selector == Role_FieldPathSelectorRequiredConditions
 }
 
 func (fp *Role_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -291,6 +330,10 @@ func (fp *Role_FieldTerminalPath) WithIValue(value interface{}) Role_FieldPathVa
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*permission.Reference)}
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(*condition.ConditionBinding)}
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*condition.ConditionBinding)}
+	case Role_FieldPathSelectorRequiredConditions:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*condition.Reference)}
 	case Role_FieldPathSelectorMetadata:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -313,6 +356,10 @@ func (fp *Role_FieldTerminalPath) WithIArrayOfValues(values interface{}) Role_Fi
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*permission.Reference)}
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]*condition.ConditionBinding)}
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*condition.ConditionBinding)}
+	case Role_FieldPathSelectorRequiredConditions:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*condition.Reference)}
 	case Role_FieldPathSelectorMetadata:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -329,6 +376,10 @@ func (fp *Role_FieldTerminalPath) WithIArrayItemValue(value interface{}) Role_Fi
 	switch fp.selector {
 	case Role_FieldPathSelectorIncludedPermissions:
 		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*permission.Reference)}
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*condition.ConditionBinding)}
+	case Role_FieldPathSelectorRequiredConditions:
+		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*condition.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fp.selector))
 	}
@@ -352,6 +403,10 @@ func (fps *Role_FieldSubPath) AsDefaultConditionBindingSubPath() (condition.Cond
 	res, ok := fps.subPath.(condition.ConditionBinding_FieldPath)
 	return res, ok
 }
+func (fps *Role_FieldSubPath) AsIncludedConditionBindingsSubPath() (condition.ConditionBinding_FieldPath, bool) {
+	res, ok := fps.subPath.(condition.ConditionBinding_FieldPath)
+	return res, ok
+}
 func (fps *Role_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
 	res, ok := fps.subPath.(ntt_meta.Meta_FieldPath)
 	return res, ok
@@ -371,6 +426,10 @@ func (fps *Role_FieldSubPath) JSONString() string {
 func (fps *Role_FieldSubPath) Get(source *Role) (values []interface{}) {
 	if asConditionBindingFieldPath, ok := fps.AsDefaultConditionBindingSubPath(); ok {
 		values = append(values, asConditionBindingFieldPath.Get(source.GetDefaultConditionBinding())...)
+	} else if asConditionBindingFieldPath, ok := fps.AsIncludedConditionBindingsSubPath(); ok {
+		for _, item := range source.GetIncludedConditionBindings() {
+			values = append(values, asConditionBindingFieldPath.Get(item)...)
+		}
 	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
 		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
 	} else {
@@ -391,6 +450,11 @@ func (fps *Role_FieldSubPath) GetSingle(source *Role) (interface{}, bool) {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetDefaultConditionBinding())
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		if len(source.GetIncludedConditionBindings()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetIncludedConditionBindings()[0])
 	case Role_FieldPathSelectorMetadata:
 		if source.GetMetadata() == nil {
 			return nil, false
@@ -415,6 +479,10 @@ func (fps *Role_FieldSubPath) ClearValue(item *Role) {
 		switch fps.selector {
 		case Role_FieldPathSelectorDefaultConditionBinding:
 			fps.subPath.ClearValueRaw(item.DefaultConditionBinding)
+		case Role_FieldPathSelectorIncludedConditionBindings:
+			for _, subItem := range item.IncludedConditionBindings {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		case Role_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
 		default:
@@ -517,6 +585,14 @@ func (fpv *Role_FieldTerminalPathValue) AsDefaultConditionBindingValue() (*condi
 	res, ok := fpv.value.(*condition.ConditionBinding)
 	return res, ok
 }
+func (fpv *Role_FieldTerminalPathValue) AsIncludedConditionBindingsValue() ([]*condition.ConditionBinding, bool) {
+	res, ok := fpv.value.([]*condition.ConditionBinding)
+	return res, ok
+}
+func (fpv *Role_FieldTerminalPathValue) AsRequiredConditionsValue() ([]*condition.Reference, bool) {
+	res, ok := fpv.value.([]*condition.Reference)
+	return res, ok
+}
 func (fpv *Role_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
 	res, ok := fpv.value.(*ntt_meta.Meta)
 	return res, ok
@@ -536,6 +612,10 @@ func (fpv *Role_FieldTerminalPathValue) SetTo(target **Role) {
 		(*target).IncludedPermissions = fpv.value.([]*permission.Reference)
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		(*target).DefaultConditionBinding = fpv.value.(*condition.ConditionBinding)
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		(*target).IncludedConditionBindings = fpv.value.([]*condition.ConditionBinding)
+	case Role_FieldPathSelectorRequiredConditions:
+		(*target).RequiredConditions = fpv.value.([]*condition.Reference)
 	case Role_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -584,6 +664,10 @@ func (fpv *Role_FieldTerminalPathValue) CompareWith(source *Role) (int, bool) {
 		return 0, false
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return 0, false
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return 0, false
+	case Role_FieldPathSelectorRequiredConditions:
+		return 0, false
 	case Role_FieldPathSelectorMetadata:
 		return 0, false
 	default:
@@ -606,6 +690,10 @@ func (fpvs *Role_FieldSubPathValue) AsDefaultConditionBindingPathValue() (condit
 	res, ok := fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Role_FieldSubPathValue) AsIncludedConditionBindingsPathValue() (condition.ConditionBinding_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Role_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue)
 	return res, ok
@@ -618,6 +706,8 @@ func (fpvs *Role_FieldSubPathValue) SetTo(target **Role) {
 	switch fpvs.Selector() {
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue).SetTo(&(*target).DefaultConditionBinding)
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		panic("FieldPath setter is unsupported for array subpaths")
 	case Role_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
@@ -638,6 +728,8 @@ func (fpvs *Role_FieldSubPathValue) CompareWith(source *Role) (int, bool) {
 	switch fpvs.Selector() {
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue).CompareWith(source.GetDefaultConditionBinding())
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return 0, false // repeated field
 	case Role_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
@@ -693,6 +785,14 @@ func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsIncludedPermissionsItemValu
 	res, ok := fpaiv.value.(*permission.Reference)
 	return res, ok
 }
+func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsIncludedConditionBindingsItemValue() (*condition.ConditionBinding, bool) {
+	res, ok := fpaiv.value.(*condition.ConditionBinding)
+	return res, ok
+}
+func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsRequiredConditionsItemValue() (*condition.Reference, bool) {
+	res, ok := fpaiv.value.(*condition.Reference)
+	return res, ok
+}
 
 func (fpaiv *Role_FieldTerminalPathArrayItemValue) GetSingle(source *Role) (interface{}, bool) {
 	return nil, false
@@ -730,6 +830,10 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) AsDefaultConditionBindingPathItem
 	res, ok := fpaivs.subPathItemValue.(condition.ConditionBinding_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Role_FieldSubPathArrayItemValue) AsIncludedConditionBindingsPathItemValue() (condition.ConditionBinding_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(condition.ConditionBinding_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Role_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue)
 	return res, ok
@@ -740,6 +844,8 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) ContainsValue(source *Role) bool 
 	switch fpaivs.Selector() {
 	case Role_FieldPathSelectorDefaultConditionBinding:
 		return fpaivs.subPathItemValue.(condition.ConditionBinding_FieldPathArrayItemValue).ContainsValue(source.GetDefaultConditionBinding())
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		return false // repeated/map field
 	case Role_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
@@ -798,6 +904,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([]*condition.ConditionBinding) {
 			values = append(values, v)
 		}
+	case Role_FieldPathSelectorIncludedConditionBindings:
+		for _, v := range fpaov.values.([][]*condition.ConditionBinding) {
+			values = append(values, v)
+		}
+	case Role_FieldPathSelectorRequiredConditions:
+		for _, v := range fpaov.values.([][]*condition.Reference) {
+			values = append(values, v)
+		}
 	case Role_FieldPathSelectorMetadata:
 		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
 			values = append(values, v)
@@ -821,6 +935,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) AsDefaultConditionBindingArray
 	res, ok := fpaov.values.([]*condition.ConditionBinding)
 	return res, ok
 }
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsIncludedConditionBindingsArrayOfValues() ([][]*condition.ConditionBinding, bool) {
+	res, ok := fpaov.values.([][]*condition.ConditionBinding)
+	return res, ok
+}
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsRequiredConditionsArrayOfValues() ([][]*condition.Reference, bool) {
+	res, ok := fpaov.values.([][]*condition.Reference)
+	return res, ok
+}
 func (fpaov *Role_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
 	res, ok := fpaov.values.([]*ntt_meta.Meta)
 	return res, ok
@@ -837,6 +959,10 @@ func (fpsaov *Role_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
 func (fpsaov *Role_FieldSubPathArrayOfValues) AsDefaultConditionBindingPathArrayOfValues() (condition.ConditionBinding_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(condition.ConditionBinding_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Role_FieldSubPathArrayOfValues) AsIncludedConditionBindingsPathArrayOfValues() (condition.ConditionBinding_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(condition.ConditionBinding_FieldPathArrayOfValues)
 	return res, ok
 }

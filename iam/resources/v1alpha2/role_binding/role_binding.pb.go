@@ -84,6 +84,8 @@ type RoleBinding struct {
 	// - "domain:example.com" (anyone with exact email domain)
 	Member string `protobuf:"bytes,4,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
 	// optional ConditionBinding
+	// TODO: Make it repeated and make sure backend will check all before
+	// verifying
 	ConditionBinding *condition.ConditionBinding `protobuf:"bytes,6,opt,name=condition_binding,json=conditionBinding,proto3" json:"condition_binding,omitempty" firestore:"conditionBinding"`
 	// Internal field used by IAM controller to note role binding ancestry path
 	AncestryPath []*RoleBinding_Parent `protobuf:"bytes,7,rep,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty" firestore:"ancestryPath"`

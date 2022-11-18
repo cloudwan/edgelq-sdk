@@ -86,6 +86,30 @@ func (o *Role) MakeDiffFieldMask(other *Role) *Role_FieldMask {
 			}
 		}
 	}
+
+	if len(o.GetIncludedConditionBindings()) == len(other.GetIncludedConditionBindings()) {
+		for i, lValue := range o.GetIncludedConditionBindings() {
+			rValue := other.GetIncludedConditionBindings()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedConditionBindings})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorIncludedConditionBindings})
+	}
+
+	if len(o.GetRequiredConditions()) == len(other.GetRequiredConditions()) {
+		for i, lValue := range o.GetRequiredConditions() {
+			rValue := other.GetRequiredConditions()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorRequiredConditions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorRequiredConditions})
+	}
 	{
 		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
 		if subMask.IsFull() {
@@ -133,6 +157,23 @@ func (o *Role) Clone() *Role {
 		}
 	}
 	result.DefaultConditionBinding = o.DefaultConditionBinding.Clone()
+	result.IncludedConditionBindings = make([]*condition.ConditionBinding, len(o.IncludedConditionBindings))
+	for i, sourceValue := range o.IncludedConditionBindings {
+		result.IncludedConditionBindings[i] = sourceValue.Clone()
+	}
+	result.RequiredConditions = make([]*condition.Reference, len(o.RequiredConditions))
+	for i, sourceValue := range o.RequiredConditions {
+		if sourceValue == nil {
+			result.RequiredConditions[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.RequiredConditions[i] = &condition.Reference{}
+			if err := result.RequiredConditions[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
 	result.Metadata = o.Metadata.Clone()
 	return result
 }
@@ -187,6 +228,50 @@ func (o *Role) Merge(source *Role) {
 		}
 		o.DefaultConditionBinding.Merge(source.GetDefaultConditionBinding())
 	}
+	for _, sourceValue := range source.GetIncludedConditionBindings() {
+		exists := false
+		for _, currentValue := range o.IncludedConditionBindings {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *condition.ConditionBinding
+			if sourceValue != nil {
+				newDstElement = new(condition.ConditionBinding)
+				newDstElement.Merge(sourceValue)
+			}
+			o.IncludedConditionBindings = append(o.IncludedConditionBindings, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetRequiredConditions() {
+		exists := false
+		for _, currentValue := range o.RequiredConditions {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *condition.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &condition.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.RequiredConditions = append(o.RequiredConditions, newDstElement)
+		}
+	}
+
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
 			o.Metadata = new(ntt_meta.Meta)

@@ -18,6 +18,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -35,6 +36,7 @@ var (
 	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -303,6 +305,10 @@ func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBinding) Para
 	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParameters{}
 }
 
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBinding) Params() BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams {
+	return BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams{}
+}
+
 type BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingCondition struct{}
 
 func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingCondition) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
@@ -357,6 +363,23 @@ func (s BatchGetRoleBindingsResponseMapPathSelectorRoleBindingsConditionBindingP
 }
 
 func (s BatchGetRoleBindingsResponseMapPathSelectorRoleBindingsConditionBindingParameters) WithArrayOfValues(values []string) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams struct{}
+
+func (BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) FieldPath() *BatchGetRoleBindingsResponse_FieldSubPath {
+	return &BatchGetRoleBindingsResponse_FieldSubPath{
+		selector: BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) WithValue(value *structpb.Struct) *BatchGetRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1316,6 +1339,10 @@ func (ListRoleBindingsResponsePathSelectorRoleBindingsConditionBinding) Paramete
 	return ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParameters{}
 }
 
+func (ListRoleBindingsResponsePathSelectorRoleBindingsConditionBinding) Params() ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams {
+	return ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams{}
+}
+
 type ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingCondition struct{}
 
 func (ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingCondition) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
@@ -1370,6 +1397,23 @@ func (s ListRoleBindingsResponseMapPathSelectorRoleBindingsConditionBindingParam
 }
 
 func (s ListRoleBindingsResponseMapPathSelectorRoleBindingsConditionBindingParameters) WithArrayOfValues(values []string) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams struct{}
+
+func (ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) FieldPath() *ListRoleBindingsResponse_FieldSubPath {
+	return &ListRoleBindingsResponse_FieldSubPath{
+		selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) WithValue(value *structpb.Struct) *ListRoleBindingsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldSubPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorRoleBindingsConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *ListRoleBindingsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2722,6 +2766,10 @@ func (CreateRoleBindingRequestPathSelectorRoleBindingConditionBinding) Parameter
 	return CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParameters{}
 }
 
+func (CreateRoleBindingRequestPathSelectorRoleBindingConditionBinding) Params() CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams {
+	return CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams{}
+}
+
 type CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingCondition struct{}
 
 func (CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingCondition) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
@@ -2776,6 +2824,23 @@ func (s CreateRoleBindingRequestMapPathSelectorRoleBindingConditionBindingParame
 }
 
 func (s CreateRoleBindingRequestMapPathSelectorRoleBindingConditionBindingParameters) WithArrayOfValues(values []string) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams struct{}
+
+func (CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) FieldPath() *CreateRoleBindingRequest_FieldSubPath {
+	return &CreateRoleBindingRequest_FieldSubPath{
+		selector: CreateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) WithValue(value *structpb.Struct) *CreateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *CreateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3589,6 +3654,10 @@ func (UpdateRoleBindingRequestPathSelectorRoleBindingConditionBinding) Parameter
 	return UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParameters{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorRoleBindingConditionBinding) Params() UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams {
+	return UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams{}
+}
+
 type UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingCondition struct{}
 
 func (UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingCondition) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
@@ -3643,6 +3712,23 @@ func (s UpdateRoleBindingRequestMapPathSelectorRoleBindingConditionBindingParame
 }
 
 func (s UpdateRoleBindingRequestMapPathSelectorRoleBindingConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams struct{}
+
+func (UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorRoleBinding,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorRoleBindingConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4480,6 +4566,10 @@ func (UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBinding) P
 	return UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParameters{}
 }
 
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBinding) Params() UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams {
+	return UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams{}
+}
+
 type UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingCondition struct{}
 
 func (UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingCondition) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
@@ -4534,6 +4624,23 @@ func (s UpdateRoleBindingRequestMapPathSelectorCasConditionalStateConditionBindi
 }
 
 func (s UpdateRoleBindingRequestMapPathSelectorCasConditionalStateConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams struct{}
+
+func (UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams) FieldPath() *UpdateRoleBindingRequest_FieldSubPath {
+	return &UpdateRoleBindingRequest_FieldSubPath{
+		selector: UpdateRoleBindingRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleBindingRequestCASFieldPathBuilder().ConditionalState().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleBindingRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequestPathSelectorCasConditionalStateConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleBindingRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5361,6 +5468,10 @@ func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBinding) 
 	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParameters{}
 }
 
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBinding) Params() UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams {
+	return UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams{}
+}
+
 type UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingCondition struct{}
 
 func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingCondition) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
@@ -5415,6 +5526,23 @@ func (s UpdateRoleBindingRequest_CASMapPathSelectorConditionalStateConditionBind
 }
 
 func (s UpdateRoleBindingRequest_CASMapPathSelectorConditionalStateConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams struct{}
+
+func (UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams) FieldPath() *UpdateRoleBindingRequestCAS_FieldSubPath {
+	return &UpdateRoleBindingRequestCAS_FieldSubPath{
+		selector: UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role_binding.NewRoleBindingFieldPathBuilder().ConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleBindingRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleBindingRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleBindingRequest_CASPathSelectorConditionalStateConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleBindingRequestCAS_FieldSubPathArrayOfValues)
 }
 

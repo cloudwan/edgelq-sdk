@@ -59,6 +59,13 @@ func (obj *Role) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Role", "defaultConditionBinding", obj.DefaultConditionBinding, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.IncludedConditionBindings {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Role", "includedConditionBindings", obj.IncludedConditionBindings[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Role", "metadata", obj.Metadata, "nested object validation failed", err)

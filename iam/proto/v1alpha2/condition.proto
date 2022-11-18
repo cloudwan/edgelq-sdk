@@ -6,6 +6,7 @@ import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/organization.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/project.proto";
 import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition;condition";
 option java_multiple_files = true;
@@ -86,7 +87,7 @@ message Condition {
     ParameterType type = 2;
   }
 
-  // Parameter Type. Note: currently only STRING type is supported.
+  // Parameter Type.
   enum ParameterType {
     TYPE_UNSPECIFIED = 0;
 
@@ -97,6 +98,16 @@ message Condition {
     DOUBLE = 3;
 
     BOOL = 4;
+
+    STRING_ARRAY = 5;
+
+    INT64_ARRAY = 6;
+
+    DOUBLE_ARRAY = 7;
+
+    BOOL_ARRAY = 8;
+
+    OBJECT = 9;
   }
 }
 
@@ -105,7 +116,10 @@ message ConditionBinding {
   // Reference to Condition which may also be parameterized
   string condition = 1;
 
+  // TODO: Deprecated, use params instead
+  map<string, string> parameters = 2;
+
   // Parameters in string form. Parameters must match
   // [declarations][ntt.iam.v1alpha2.Condition.parameter_declarations]
-  map<string, string> parameters = 2;
+  google.protobuf.Struct params = 3;
 }

@@ -17,6 +17,7 @@ import (
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -33,6 +34,7 @@ var (
 	_ = &meta_service.Service{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 	_ = view.View(0)
 	_ = watch_type.WatchType(0)
@@ -217,6 +219,14 @@ func (BatchGetRolesResponsePathSelectorRoles) DefaultConditionBinding() BatchGet
 	return BatchGetRolesResponsePathSelectorRolesDefaultConditionBinding{}
 }
 
+func (BatchGetRolesResponsePathSelectorRoles) IncludedConditionBindings() BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings {
+	return BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings{}
+}
+
+func (BatchGetRolesResponsePathSelectorRoles) RequiredConditions() BatchGetRolesResponsePathSelectorRolesRequiredConditions {
+	return BatchGetRolesResponsePathSelectorRolesRequiredConditions{}
+}
+
 func (BatchGetRolesResponsePathSelectorRoles) Metadata() BatchGetRolesResponsePathSelectorRolesMetadata {
 	return BatchGetRolesResponsePathSelectorRolesMetadata{}
 }
@@ -301,6 +311,10 @@ func (BatchGetRolesResponsePathSelectorRolesDefaultConditionBinding) Parameters(
 	return BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParameters{}
 }
 
+func (BatchGetRolesResponsePathSelectorRolesDefaultConditionBinding) Params() BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams {
+	return BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams{}
+}
+
 type BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingCondition struct{}
 
 func (BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingCondition) FieldPath() *BatchGetRolesResponse_FieldSubPath {
@@ -356,6 +370,151 @@ func (s BatchGetRolesResponseMapPathSelectorRolesDefaultConditionBindingParamete
 
 func (s BatchGetRolesResponseMapPathSelectorRolesDefaultConditionBindingParameters) WithArrayOfValues(values []string) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams) WithValue(value *structpb.Struct) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *BatchGetRolesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetRolesResponse_FieldSubPathArrayItemValue)
+}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) Condition() BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition {
+	return BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition{}
+}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) Parameters() BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters {
+	return BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters{}
+}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindings) Params() BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams {
+	return BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams{}
+}
+
+type BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithValue(value map[string]string) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithKey(key string) BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters {
+	return BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters{key: key}
+}
+
+type BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) WithValue(value string) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetRolesResponsePathSelectorRolesRequiredConditions struct{}
+
+func (BatchGetRolesResponsePathSelectorRolesRequiredConditions) FieldPath() *BatchGetRolesResponse_FieldSubPath {
+	return &BatchGetRolesResponse_FieldSubPath{
+		selector: BatchGetRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesRequiredConditions) WithValue(value []*condition.Reference) *BatchGetRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetRolesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *BatchGetRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s BatchGetRolesResponsePathSelectorRolesRequiredConditions) WithItemValue(value *condition.Reference) *BatchGetRolesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetRolesResponse_FieldSubPathArrayItemValue)
 }
 
 type BatchGetRolesResponsePathSelectorRolesMetadata struct{}
@@ -1150,6 +1309,14 @@ func (ListRolesResponsePathSelectorRoles) DefaultConditionBinding() ListRolesRes
 	return ListRolesResponsePathSelectorRolesDefaultConditionBinding{}
 }
 
+func (ListRolesResponsePathSelectorRoles) IncludedConditionBindings() ListRolesResponsePathSelectorRolesIncludedConditionBindings {
+	return ListRolesResponsePathSelectorRolesIncludedConditionBindings{}
+}
+
+func (ListRolesResponsePathSelectorRoles) RequiredConditions() ListRolesResponsePathSelectorRolesRequiredConditions {
+	return ListRolesResponsePathSelectorRolesRequiredConditions{}
+}
+
 func (ListRolesResponsePathSelectorRoles) Metadata() ListRolesResponsePathSelectorRolesMetadata {
 	return ListRolesResponsePathSelectorRolesMetadata{}
 }
@@ -1234,6 +1401,10 @@ func (ListRolesResponsePathSelectorRolesDefaultConditionBinding) Parameters() Li
 	return ListRolesResponsePathSelectorRolesDefaultConditionBindingParameters{}
 }
 
+func (ListRolesResponsePathSelectorRolesDefaultConditionBinding) Params() ListRolesResponsePathSelectorRolesDefaultConditionBindingParams {
+	return ListRolesResponsePathSelectorRolesDefaultConditionBindingParams{}
+}
+
 type ListRolesResponsePathSelectorRolesDefaultConditionBindingCondition struct{}
 
 func (ListRolesResponsePathSelectorRolesDefaultConditionBindingCondition) FieldPath() *ListRolesResponse_FieldSubPath {
@@ -1289,6 +1460,151 @@ func (s ListRolesResponseMapPathSelectorRolesDefaultConditionBindingParameters) 
 
 func (s ListRolesResponseMapPathSelectorRolesDefaultConditionBindingParameters) WithArrayOfValues(values []string) *ListRolesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorRolesDefaultConditionBindingParams struct{}
+
+func (ListRolesResponsePathSelectorRolesDefaultConditionBindingParams) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesDefaultConditionBindingParams) WithValue(value *structpb.Struct) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorRolesIncludedConditionBindings struct{}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindings) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *ListRolesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListRolesResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindings) Condition() ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition {
+	return ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition{}
+}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindings) Parameters() ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters {
+	return ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters{}
+}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindings) Params() ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams {
+	return ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams{}
+}
+
+type ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition struct{}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters struct{}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithValue(value map[string]string) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindingsParameters) WithKey(key string) ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters {
+	return ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters{key: key}
+}
+
+type ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) WithValue(value string) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponseMapPathSelectorRolesIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams struct{}
+
+func (ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorRolesRequiredConditions struct{}
+
+func (ListRolesResponsePathSelectorRolesRequiredConditions) FieldPath() *ListRolesResponse_FieldSubPath {
+	return &ListRolesResponse_FieldSubPath{
+		selector: ListRolesResponse_FieldPathSelectorRoles,
+		subPath:  role.NewRoleFieldPathBuilder().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s ListRolesResponsePathSelectorRolesRequiredConditions) WithValue(value []*condition.Reference) *ListRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldSubPathValue)
+}
+
+func (s ListRolesResponsePathSelectorRolesRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *ListRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListRolesResponsePathSelectorRolesRequiredConditions) WithItemValue(value *condition.Reference) *ListRolesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListRolesResponse_FieldSubPathArrayItemValue)
 }
 
 type ListRolesResponsePathSelectorRolesMetadata struct{}
@@ -2459,6 +2775,14 @@ func (CreateRoleRequestPathSelectorRole) DefaultConditionBinding() CreateRoleReq
 	return CreateRoleRequestPathSelectorRoleDefaultConditionBinding{}
 }
 
+func (CreateRoleRequestPathSelectorRole) IncludedConditionBindings() CreateRoleRequestPathSelectorRoleIncludedConditionBindings {
+	return CreateRoleRequestPathSelectorRoleIncludedConditionBindings{}
+}
+
+func (CreateRoleRequestPathSelectorRole) RequiredConditions() CreateRoleRequestPathSelectorRoleRequiredConditions {
+	return CreateRoleRequestPathSelectorRoleRequiredConditions{}
+}
+
 func (CreateRoleRequestPathSelectorRole) Metadata() CreateRoleRequestPathSelectorRoleMetadata {
 	return CreateRoleRequestPathSelectorRoleMetadata{}
 }
@@ -2543,6 +2867,10 @@ func (CreateRoleRequestPathSelectorRoleDefaultConditionBinding) Parameters() Cre
 	return CreateRoleRequestPathSelectorRoleDefaultConditionBindingParameters{}
 }
 
+func (CreateRoleRequestPathSelectorRoleDefaultConditionBinding) Params() CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams {
+	return CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams{}
+}
+
 type CreateRoleRequestPathSelectorRoleDefaultConditionBindingCondition struct{}
 
 func (CreateRoleRequestPathSelectorRoleDefaultConditionBindingCondition) FieldPath() *CreateRoleRequest_FieldSubPath {
@@ -2598,6 +2926,151 @@ func (s CreateRoleRequestMapPathSelectorRoleDefaultConditionBindingParameters) W
 
 func (s CreateRoleRequestMapPathSelectorRoleDefaultConditionBindingParameters) WithArrayOfValues(values []string) *CreateRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams struct{}
+
+func (CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams) WithValue(value *structpb.Struct) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleRequestPathSelectorRoleIncludedConditionBindings struct{}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindings) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *CreateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CreateRoleRequest_FieldSubPathArrayItemValue)
+}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindings) Condition() CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition {
+	return CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition{}
+}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindings) Parameters() CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters {
+	return CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters{}
+}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindings) Params() CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams {
+	return CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams{}
+}
+
+type CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition struct{}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters struct{}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithValue(value map[string]string) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithKey(key string) CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters {
+	return CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters{key: key}
+}
+
+type CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) WithValue(value string) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams struct{}
+
+func (CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateRoleRequestPathSelectorRoleRequiredConditions struct{}
+
+func (CreateRoleRequestPathSelectorRoleRequiredConditions) FieldPath() *CreateRoleRequest_FieldSubPath {
+	return &CreateRoleRequest_FieldSubPath{
+		selector: CreateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s CreateRoleRequestPathSelectorRoleRequiredConditions) WithValue(value []*condition.Reference) *CreateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateRoleRequest_FieldSubPathValue)
+}
+
+func (s CreateRoleRequestPathSelectorRoleRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *CreateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s CreateRoleRequestPathSelectorRoleRequiredConditions) WithItemValue(value *condition.Reference) *CreateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CreateRoleRequest_FieldSubPathArrayItemValue)
 }
 
 type CreateRoleRequestPathSelectorRoleMetadata struct{}
@@ -3263,6 +3736,14 @@ func (UpdateRoleRequestPathSelectorRole) DefaultConditionBinding() UpdateRoleReq
 	return UpdateRoleRequestPathSelectorRoleDefaultConditionBinding{}
 }
 
+func (UpdateRoleRequestPathSelectorRole) IncludedConditionBindings() UpdateRoleRequestPathSelectorRoleIncludedConditionBindings {
+	return UpdateRoleRequestPathSelectorRoleIncludedConditionBindings{}
+}
+
+func (UpdateRoleRequestPathSelectorRole) RequiredConditions() UpdateRoleRequestPathSelectorRoleRequiredConditions {
+	return UpdateRoleRequestPathSelectorRoleRequiredConditions{}
+}
+
 func (UpdateRoleRequestPathSelectorRole) Metadata() UpdateRoleRequestPathSelectorRoleMetadata {
 	return UpdateRoleRequestPathSelectorRoleMetadata{}
 }
@@ -3347,6 +3828,10 @@ func (UpdateRoleRequestPathSelectorRoleDefaultConditionBinding) Parameters() Upd
 	return UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParameters{}
 }
 
+func (UpdateRoleRequestPathSelectorRoleDefaultConditionBinding) Params() UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams {
+	return UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams{}
+}
+
 type UpdateRoleRequestPathSelectorRoleDefaultConditionBindingCondition struct{}
 
 func (UpdateRoleRequestPathSelectorRoleDefaultConditionBindingCondition) FieldPath() *UpdateRoleRequest_FieldSubPath {
@@ -3402,6 +3887,151 @@ func (s UpdateRoleRequestMapPathSelectorRoleDefaultConditionBindingParameters) W
 
 func (s UpdateRoleRequestMapPathSelectorRoleDefaultConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams struct{}
+
+func (UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorRoleIncludedConditionBindings struct{}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) Condition() UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition {
+	return UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition{}
+}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) Parameters() UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters {
+	return UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters{}
+}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindings) Params() UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams {
+	return UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams{}
+}
+
+type UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition struct{}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters struct{}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithValue(value map[string]string) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParameters) WithKey(key string) UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters {
+	return UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters{key: key}
+}
+
+type UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) WithValue(value string) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestMapPathSelectorRoleIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams struct{}
+
+func (UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorRoleRequiredConditions struct{}
+
+func (UpdateRoleRequestPathSelectorRoleRequiredConditions) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorRole,
+		subPath:  role.NewRoleFieldPathBuilder().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorRoleRequiredConditions) WithValue(value []*condition.Reference) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequestPathSelectorRoleRequiredConditions) WithItemValue(value *condition.Reference) *UpdateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequest_FieldSubPathArrayItemValue)
 }
 
 type UpdateRoleRequestPathSelectorRoleMetadata struct{}
@@ -4091,6 +4721,14 @@ func (UpdateRoleRequestPathSelectorCasConditionalState) DefaultConditionBinding(
 	return UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBinding{}
 }
 
+func (UpdateRoleRequestPathSelectorCasConditionalState) IncludedConditionBindings() UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings {
+	return UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings{}
+}
+
+func (UpdateRoleRequestPathSelectorCasConditionalState) RequiredConditions() UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions {
+	return UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions{}
+}
+
 func (UpdateRoleRequestPathSelectorCasConditionalState) Metadata() UpdateRoleRequestPathSelectorCasConditionalStateMetadata {
 	return UpdateRoleRequestPathSelectorCasConditionalStateMetadata{}
 }
@@ -4175,6 +4813,10 @@ func (UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBinding) P
 	return UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParameters{}
 }
 
+func (UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBinding) Params() UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams {
+	return UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams{}
+}
+
 type UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingCondition struct{}
 
 func (UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingCondition) FieldPath() *UpdateRoleRequest_FieldSubPath {
@@ -4230,6 +4872,151 @@ func (s UpdateRoleRequestMapPathSelectorCasConditionalStateDefaultConditionBindi
 
 func (s UpdateRoleRequestMapPathSelectorCasConditionalStateDefaultConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *UpdateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) Condition() UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition {
+	return UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition{}
+}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) Parameters() UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters {
+	return UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters{}
+}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindings) Params() UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams {
+	return UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams{}
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters) WithValue(value map[string]string) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParameters) WithKey(key string) UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters {
+	return UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters{key: key}
+}
+
+type UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters) WithValue(value string) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestMapPathSelectorCasConditionalStateIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions struct{}
+
+func (UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions) FieldPath() *UpdateRoleRequest_FieldSubPath {
+	return &UpdateRoleRequest_FieldSubPath{
+		selector: UpdateRoleRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateRoleRequestCASFieldPathBuilder().ConditionalState().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions) WithValue(value []*condition.Reference) *UpdateRoleRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequest_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *UpdateRoleRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequestPathSelectorCasConditionalStateRequiredConditions) WithItemValue(value *condition.Reference) *UpdateRoleRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequest_FieldSubPathArrayItemValue)
 }
 
 type UpdateRoleRequestPathSelectorCasConditionalStateMetadata struct{}
@@ -4909,6 +5696,14 @@ func (UpdateRoleRequest_CASPathSelectorConditionalState) DefaultConditionBinding
 	return UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBinding{}
 }
 
+func (UpdateRoleRequest_CASPathSelectorConditionalState) IncludedConditionBindings() UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings{}
+}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalState) RequiredConditions() UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions{}
+}
+
 func (UpdateRoleRequest_CASPathSelectorConditionalState) Metadata() UpdateRoleRequest_CASPathSelectorConditionalStateMetadata {
 	return UpdateRoleRequest_CASPathSelectorConditionalStateMetadata{}
 }
@@ -4993,6 +5788,10 @@ func (UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBinding) 
 	return UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParameters{}
 }
 
+func (UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBinding) Params() UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams{}
+}
+
 type UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingCondition struct{}
 
 func (UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingCondition) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
@@ -5048,6 +5847,151 @@ func (s UpdateRoleRequest_CASMapPathSelectorConditionalStateDefaultConditionBind
 
 func (s UpdateRoleRequest_CASMapPathSelectorConditionalStateDefaultConditionBindingParameters) WithArrayOfValues(values []string) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().DefaultConditionBinding().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams) WithValue(value *structpb.Struct) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateDefaultConditionBindingParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) WithValue(value []*condition.ConditionBinding) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) WithItemValue(value *condition.ConditionBinding) *UpdateRoleRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequestCAS_FieldSubPathArrayItemValue)
+}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) Condition() UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition{}
+}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) Parameters() UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters{}
+}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindings) Params() UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams {
+	return UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams{}
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition) WithValue(value *condition.Reference) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters) WithValue(value map[string]string) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParameters) WithKey(key string) UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters {
+	return UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters{key: key}
+}
+
+type UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters struct {
+	key string
+}
+
+func (s UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters) WithValue(value string) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASMapPathSelectorConditionalStateIncludedConditionBindingsParameters) WithArrayOfValues(values []string) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().IncludedConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams) WithValue(value *structpb.Struct) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateIncludedConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions struct{}
+
+func (UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions) FieldPath() *UpdateRoleRequestCAS_FieldSubPath {
+	return &UpdateRoleRequestCAS_FieldSubPath{
+		selector: UpdateRoleRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  role.NewRoleFieldPathBuilder().RequiredConditions().FieldPath(),
+	}
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions) WithValue(value []*condition.Reference) *UpdateRoleRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateRoleRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions) WithArrayOfValues(values [][]*condition.Reference) *UpdateRoleRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateRoleRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateRoleRequest_CASPathSelectorConditionalStateRequiredConditions) WithItemValue(value *condition.Reference) *UpdateRoleRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateRoleRequestCAS_FieldSubPathArrayItemValue)
 }
 
 type UpdateRoleRequest_CASPathSelectorConditionalStateMetadata struct{}

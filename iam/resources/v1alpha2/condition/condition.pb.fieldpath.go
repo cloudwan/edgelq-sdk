@@ -27,6 +27,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 )
 
 // ensure the imports are used
@@ -53,6 +54,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
+	_ = &structpb.Struct{}
 )
 
 // FieldPath provides implementation to handle
@@ -1338,6 +1340,7 @@ type ConditionBinding_FieldPathSelector int32
 const (
 	ConditionBinding_FieldPathSelectorCondition  ConditionBinding_FieldPathSelector = 0
 	ConditionBinding_FieldPathSelectorParameters ConditionBinding_FieldPathSelector = 1
+	ConditionBinding_FieldPathSelectorParams     ConditionBinding_FieldPathSelector = 2
 )
 
 func (s ConditionBinding_FieldPathSelector) String() string {
@@ -1346,6 +1349,8 @@ func (s ConditionBinding_FieldPathSelector) String() string {
 		return "condition"
 	case ConditionBinding_FieldPathSelectorParameters:
 		return "parameters"
+	case ConditionBinding_FieldPathSelectorParams:
+		return "params"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", s))
 	}
@@ -1361,6 +1366,8 @@ func BuildConditionBinding_FieldPath(fp gotenobject.RawFieldPath) (ConditionBind
 			return &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorCondition}, nil
 		case "parameters":
 			return &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParameters}, nil
+		case "params":
+			return &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParams}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1420,6 +1427,10 @@ func (fp *ConditionBinding_FieldTerminalPath) Get(source *ConditionBinding) (val
 			}
 		case ConditionBinding_FieldPathSelectorParameters:
 			values = append(values, source.Parameters)
+		case ConditionBinding_FieldPathSelectorParams:
+			if source.Params != nil {
+				values = append(values, source.Params)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 		}
@@ -1440,6 +1451,9 @@ func (fp *ConditionBinding_FieldTerminalPath) GetSingle(source *ConditionBinding
 	case ConditionBinding_FieldPathSelectorParameters:
 		res := source.GetParameters()
 		return res, res != nil
+	case ConditionBinding_FieldPathSelectorParams:
+		res := source.GetParams()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 	}
@@ -1456,6 +1470,8 @@ func (fp *ConditionBinding_FieldTerminalPath) GetDefault() interface{} {
 		return (*Reference)(nil)
 	case ConditionBinding_FieldPathSelectorParameters:
 		return (map[string]string)(nil)
+	case ConditionBinding_FieldPathSelectorParams:
+		return (*structpb.Struct)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 	}
@@ -1468,6 +1484,8 @@ func (fp *ConditionBinding_FieldTerminalPath) ClearValue(item *ConditionBinding)
 			item.Condition = nil
 		case ConditionBinding_FieldPathSelectorParameters:
 			item.Parameters = nil
+		case ConditionBinding_FieldPathSelectorParams:
+			item.Params = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 		}
@@ -1481,7 +1499,8 @@ func (fp *ConditionBinding_FieldTerminalPath) ClearValueRaw(item proto.Message) 
 // IsLeaf - whether field path is holds simple value
 func (fp *ConditionBinding_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ConditionBinding_FieldPathSelectorCondition ||
-		fp.selector == ConditionBinding_FieldPathSelectorParameters
+		fp.selector == ConditionBinding_FieldPathSelectorParameters ||
+		fp.selector == ConditionBinding_FieldPathSelectorParams
 }
 
 func (fp *ConditionBinding_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1494,6 +1513,8 @@ func (fp *ConditionBinding_FieldTerminalPath) WithIValue(value interface{}) Cond
 		return &ConditionBinding_FieldTerminalPathValue{ConditionBinding_FieldTerminalPath: *fp, value: value.(*Reference)}
 	case ConditionBinding_FieldPathSelectorParameters:
 		return &ConditionBinding_FieldTerminalPathValue{ConditionBinding_FieldTerminalPath: *fp, value: value.(map[string]string)}
+	case ConditionBinding_FieldPathSelectorParams:
+		return &ConditionBinding_FieldTerminalPathValue{ConditionBinding_FieldTerminalPath: *fp, value: value.(*structpb.Struct)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 	}
@@ -1510,6 +1531,8 @@ func (fp *ConditionBinding_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &ConditionBinding_FieldTerminalPathArrayOfValues{ConditionBinding_FieldTerminalPath: *fp, values: values.([]*Reference)}
 	case ConditionBinding_FieldPathSelectorParameters:
 		return &ConditionBinding_FieldTerminalPathArrayOfValues{ConditionBinding_FieldTerminalPath: *fp, values: values.([]map[string]string)}
+	case ConditionBinding_FieldPathSelectorParams:
+		return &ConditionBinding_FieldTerminalPathArrayOfValues{ConditionBinding_FieldTerminalPath: *fp, values: values.([]*structpb.Struct)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fp.selector))
 	}
@@ -1710,6 +1733,10 @@ func (fpv *ConditionBinding_FieldTerminalPathValue) AsParametersValue() (map[str
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
 }
+func (fpv *ConditionBinding_FieldTerminalPathValue) AsParamsValue() (*structpb.Struct, bool) {
+	res, ok := fpv.value.(*structpb.Struct)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ConditionBinding
 func (fpv *ConditionBinding_FieldTerminalPathValue) SetTo(target **ConditionBinding) {
@@ -1721,6 +1748,8 @@ func (fpv *ConditionBinding_FieldTerminalPathValue) SetTo(target **ConditionBind
 		(*target).Condition = fpv.value.(*Reference)
 	case ConditionBinding_FieldPathSelectorParameters:
 		(*target).Parameters = fpv.value.(map[string]string)
+	case ConditionBinding_FieldPathSelectorParams:
+		(*target).Params = fpv.value.(*structpb.Struct)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fpv.selector))
 	}
@@ -1754,6 +1783,8 @@ func (fpv *ConditionBinding_FieldTerminalPathValue) CompareWith(source *Conditio
 			return 1, true
 		}
 	case ConditionBinding_FieldPathSelectorParameters:
+		return 0, false
+	case ConditionBinding_FieldPathSelectorParams:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionBinding: %d", fpv.selector))
@@ -1930,6 +1961,10 @@ func (fpaov *ConditionBinding_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]map[string]string) {
 			values = append(values, v)
 		}
+	case ConditionBinding_FieldPathSelectorParams:
+		for _, v := range fpaov.values.([]*structpb.Struct) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1939,6 +1974,10 @@ func (fpaov *ConditionBinding_FieldTerminalPathArrayOfValues) AsConditionArrayOf
 }
 func (fpaov *ConditionBinding_FieldTerminalPathArrayOfValues) AsParametersArrayOfValues() ([]map[string]string, bool) {
 	res, ok := fpaov.values.([]map[string]string)
+	return res, ok
+}
+func (fpaov *ConditionBinding_FieldTerminalPathArrayOfValues) AsParamsArrayOfValues() ([]*structpb.Struct, bool) {
+	res, ok := fpaov.values.([]*structpb.Struct)
 	return res, ok
 }
 

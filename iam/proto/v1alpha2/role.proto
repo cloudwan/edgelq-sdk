@@ -29,8 +29,19 @@ message Role {
   repeated string included_permissions = 3
       [ (google.api.resource_reference) = {type : "Permission"} ];
 
-  // Default conditionBinding (optional)
+  // Default conditionBinding (optional), cannot be used with required
+  // TODO: Deprecated...
   ConditionBinding default_condition_binding = 5;
+
+  // Condition bindings that will be copied into created role bindings
+  // TODO: Works only if only one element is specified
+  repeated ConditionBinding included_condition_bindings = 6;
+
+  // List of conditions that must be used for this role. Parameters must be
+  // defined by client.
+  // TODO: Works only if only one element is specified
+  repeated string required_conditions = 7
+      [ (google.api.resource_reference) = {type : "Condition"} ];
 
   // Metadata
   ntt.types.Meta metadata = 4;

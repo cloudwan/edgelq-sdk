@@ -11,6 +11,7 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -21,6 +22,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
+	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -845,6 +847,9 @@ func (ConditionBindingFieldPathBuilder) Condition() ConditionBindingPathSelector
 func (ConditionBindingFieldPathBuilder) Parameters() ConditionBindingPathSelectorParameters {
 	return ConditionBindingPathSelectorParameters{}
 }
+func (ConditionBindingFieldPathBuilder) Params() ConditionBindingPathSelectorParams {
+	return ConditionBindingPathSelectorParams{}
+}
 
 type ConditionBindingPathSelectorCondition struct{}
 
@@ -892,4 +897,18 @@ func (s ConditionBindingMapPathSelectorParameters) WithValue(value string) *Cond
 
 func (s ConditionBindingMapPathSelectorParameters) WithArrayOfValues(values []string) *ConditionBinding_FieldPathMapArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConditionBinding_FieldPathMapArrayOfValues)
+}
+
+type ConditionBindingPathSelectorParams struct{}
+
+func (ConditionBindingPathSelectorParams) FieldPath() *ConditionBinding_FieldTerminalPath {
+	return &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParams}
+}
+
+func (s ConditionBindingPathSelectorParams) WithValue(value *structpb.Struct) *ConditionBinding_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionBinding_FieldTerminalPathValue)
+}
+
+func (s ConditionBindingPathSelectorParams) WithArrayOfValues(values []*structpb.Struct) *ConditionBinding_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionBinding_FieldTerminalPathArrayOfValues)
 }

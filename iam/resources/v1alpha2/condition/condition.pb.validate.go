@@ -26,6 +26,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 )
 
 var (
@@ -48,6 +49,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
+	_ = &structpb.Struct{}
 )
 
 func (obj *Condition) GotenValidate() error {

@@ -23,6 +23,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 )
 
 // ensure the imports are used
@@ -45,6 +46,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
+	_ = &structpb.Struct{}
 )
 
 type Condition_FieldMask struct {
@@ -648,6 +650,7 @@ func FullConditionBinding_FieldMask() *ConditionBinding_FieldMask {
 	res := &ConditionBinding_FieldMask{}
 	res.Paths = append(res.Paths, &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorCondition})
 	res.Paths = append(res.Paths, &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParameters})
+	res.Paths = append(res.Paths, &ConditionBinding_FieldTerminalPath{selector: ConditionBinding_FieldPathSelectorParams})
 	return res
 }
 
@@ -691,7 +694,7 @@ func (fieldMask *ConditionBinding_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ConditionBinding_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -721,7 +724,7 @@ func (fieldMask *ConditionBinding_FieldMask) Reset() {
 
 func (fieldMask *ConditionBinding_FieldMask) Subtract(other *ConditionBinding_FieldMask) *ConditionBinding_FieldMask {
 	result := &ConditionBinding_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -882,6 +885,8 @@ func (fieldMask *ConditionBinding_FieldMask) Project(source *ConditionBinding) *
 			case ConditionBinding_FieldPathSelectorParameters:
 				result.Parameters = source.Parameters
 				wholeParametersAccepted = true
+			case ConditionBinding_FieldPathSelectorParams:
+				result.Params = source.Params
 			}
 		case *ConditionBinding_FieldPathMap:
 			switch tp.selector {
