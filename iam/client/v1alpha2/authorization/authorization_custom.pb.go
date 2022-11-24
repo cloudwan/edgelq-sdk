@@ -135,7 +135,7 @@ func (m *Check) SetPermissions(fv []*permission.Reference) {
 	m.Permissions = fv
 }
 
-// ConditionalGrant represents grant on repeated list of permissions if any of
+// ConditionalGrant represents grant on repeated list of permissions if all of
 // conditions is met.
 type ConditionalGrant struct {
 	state             protoimpl.MessageState

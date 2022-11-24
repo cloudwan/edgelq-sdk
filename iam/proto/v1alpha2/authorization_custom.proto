@@ -22,7 +22,7 @@ message Check {
       [ (google.api.resource_reference) = {type : "Permission"} ];
 }
 
-// ConditionalGrant represents grant on repeated list of permissions if any of
+// ConditionalGrant represents grant on repeated list of permissions if all of
 // conditions is met.
 message ConditionalGrant {
   repeated string permissions = 1
