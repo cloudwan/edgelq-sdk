@@ -5,6 +5,8 @@ package ntt.iam.v1alpha2;
 import "edgelq-sdk/iam/proto/v1alpha2/authorization_custom.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/permission_change.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/role.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/role_change.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -37,6 +39,14 @@ service AuthorizationService {
       returns (CheckMyPermissionsResponse) {
     option (google.api.http) = {
       post : "/v1alpha2/permissions:checkMy"
+      body : "*"
+    };
+  }
+
+  // CheckMyRoles
+  rpc CheckMyRoles(CheckMyRolesRequest) returns (CheckMyRolesResponse) {
+    option (google.api.http) = {
+      post : "/v1alpha2/roles:checkMy"
       body : "*"
     };
   }

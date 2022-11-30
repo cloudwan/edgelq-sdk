@@ -9546,6 +9546,31 @@ TODO: Works only if only one element is specified</p>
 
 
 <div class="operation">
+<h5 id="operation-CheckMyRoles">CheckMyRoles</h5>
+
+<pre class="signature">rpc CheckMyRoles(<a href="#message-CheckMyRolesRequest">CheckMyRolesRequest</a>) returns (<a href="#message-CheckMyRolesResponse">CheckMyRolesResponse</a>)</pre>
+
+<div class="description">
+<p>CheckMyRoles</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/roles:checkMy (BODY: *)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
 <h5 id="operation-GetRole">GetRole</h5>
 
 <pre class="signature">rpc GetRole(<a href="#message-GetRoleRequest">GetRoleRequest</a>) returns (<a href="#message-Role">Role</a>)</pre>
@@ -9746,6 +9771,88 @@ Equivalent REST API:
  
 
 <h4>Messages</h4>
+
+
+
+<h5 id="message-CheckMyRolesRequest">CheckMyRolesRequest</h5>
+
+<p>Request message for method
+[CheckMyRoles][ntt.iam.v1alpha2.CheckMyRoles]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">object</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Object name forming scope of the check, for example projects/&lt;project_id&gt;</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CheckMyRolesResponse">CheckMyRolesResponse</h5>
+
+<p>Response message for method
+[CheckMyRoles][ntt.iam.v1alpha2.CheckMyRoles]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">object</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Object with scope</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">granted_roles</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>All unconditionally granted roles</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">conditionally_granted_roles</th>
+<td class="type"><pre>repeated <a href="#message-CheckMyRolesResponse.ConditionalGrant">CheckMyRolesResponse.ConditionalGrant</a></pre></td>
+</tr>
+<tr><td class="description"><p>All conditionally granted roles. Each grant should be checked separately</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CheckMyRolesResponse.ConditionalGrant">CheckMyRolesResponse.ConditionalGrant</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">role</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Role name</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">condition_bindings</th>
+<td class="type"><pre>repeated <a href="#message-ConditionBinding">ConditionBinding</a></pre></td>
+</tr>
+<tr><td class="description"><p>All conditions that must be accepted for role to be granted</p>
+</td></tr>
+ 
+</tbody>
+</table>
 
 
 

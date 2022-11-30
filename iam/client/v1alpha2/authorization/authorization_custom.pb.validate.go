@@ -25,6 +25,7 @@ import (
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 var (
@@ -46,6 +47,7 @@ var (
 var (
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 func (obj *Check) GotenValidate() error {
@@ -145,6 +147,47 @@ func (obj *CheckMyPermissionsResponse) GotenValidate() error {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("CheckMyPermissionsResponse", "checkResults", obj.CheckResults[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CheckMyRolesRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CheckMyRolesResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.ConditionallyGrantedRoles {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("CheckMyRolesResponse", "conditionallyGrantedRoles", obj.ConditionallyGrantedRoles[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CheckMyRolesResponse_ConditionalGrant) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.ConditionBindings {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConditionalGrant", "conditionBindings", obj.ConditionBindings[idx], "nested object validation failed", err)
 			}
 		}
 	}

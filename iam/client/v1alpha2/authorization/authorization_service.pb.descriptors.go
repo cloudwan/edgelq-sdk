@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 var (
@@ -33,6 +35,7 @@ var (
 	authorizationServiceDescriptor *AuthorizationServiceDescriptor
 	checkPermissionsDescriptor     *CheckPermissionsDescriptor
 	checkMyPermissionsDescriptor   *CheckMyPermissionsDescriptor
+	checkMyRolesDescriptor         *CheckMyRolesDescriptor
 )
 
 type CheckPermissionsDescriptor struct{}
@@ -327,12 +330,159 @@ func GetCheckMyPermissionsDescriptor() *CheckMyPermissionsDescriptor {
 	return checkMyPermissionsDescriptor
 }
 
+type CheckMyRolesDescriptor struct{}
+
+type CheckMyRolesDescriptorClientMsgHandle struct{}
+
+type CheckMyRolesDescriptorServerMsgHandle struct{}
+
+func (d *CheckMyRolesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &CheckMyRolesRequest{}
+}
+
+func (d *CheckMyRolesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &CheckMyRolesResponse{}
+}
+
+func (d *CheckMyRolesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *CheckMyRolesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *CheckMyRolesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *CheckMyRolesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *CheckMyRolesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *CheckMyRolesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *CheckMyRolesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *CheckMyRolesDescriptor) GetVerb() string {
+	return "checkMy"
+}
+
+func (d *CheckMyRolesDescriptor) GetMethodName() string {
+	return "CheckMyRoles"
+}
+
+func (d *CheckMyRolesDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.AuthorizationService/CheckMyRoles"
+}
+
+func (d *CheckMyRolesDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *CheckMyRolesDescriptor) GetApiName() string {
+	return "AuthorizationService"
+}
+
+func (d *CheckMyRolesDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *CheckMyRolesDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *CheckMyRolesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return authorizationServiceDescriptor
+}
+
+func (d *CheckMyRolesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return role.GetDescriptor()
+}
+
+func (d *CheckMyRolesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CheckMyRolesDescriptorClientMsgHandle{}
+}
+
+func (d *CheckMyRolesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &CheckMyRolesDescriptorServerMsgHandle{}
+}
+
+func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CheckMyRolesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*CheckMyRolesRequest) *role.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*CheckMyRolesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*CheckMyRolesRequest) []*role.Name
+	})
+	if ok {
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*CheckMyRolesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*CheckMyRolesResponse) *role.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*CheckMyRolesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*CheckMyRolesResponse) []*role.Name
+	})
+	if ok {
+		return role.RoleNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *CheckMyRolesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func GetCheckMyRolesDescriptor() *CheckMyRolesDescriptor {
+	return checkMyRolesDescriptor
+}
+
 type AuthorizationServiceDescriptor struct{}
 
 func (d *AuthorizationServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
 	return []gotenclient.MethodDescriptor{
 		checkPermissionsDescriptor,
 		checkMyPermissionsDescriptor,
+		checkMyRolesDescriptor,
 	}
 }
 
@@ -364,9 +514,11 @@ func initDescriptors() {
 	authorizationServiceDescriptor = &AuthorizationServiceDescriptor{}
 	checkPermissionsDescriptor = &CheckPermissionsDescriptor{}
 	checkMyPermissionsDescriptor = &CheckMyPermissionsDescriptor{}
+	checkMyRolesDescriptor = &CheckMyRolesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(authorizationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(checkPermissionsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(checkMyPermissionsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(checkMyRolesDescriptor)
 }
 
 func init() {

@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -49,6 +51,7 @@ const _ = grpc.SupportPackageIsVersion6
 type AuthorizationServiceClient interface {
 	CheckPermissions(ctx context.Context, in *CheckPermissionsRequest, opts ...grpc.CallOption) (*CheckPermissionsResponse, error)
 	CheckMyPermissions(ctx context.Context, in *CheckMyPermissionsRequest, opts ...grpc.CallOption) (*CheckMyPermissionsResponse, error)
+	CheckMyRoles(ctx context.Context, in *CheckMyRolesRequest, opts ...grpc.CallOption) (*CheckMyRolesResponse, error)
 }
 
 type client struct {
@@ -71,6 +74,15 @@ func (c *client) CheckPermissions(ctx context.Context, in *CheckPermissionsReque
 func (c *client) CheckMyPermissions(ctx context.Context, in *CheckMyPermissionsRequest, opts ...grpc.CallOption) (*CheckMyPermissionsResponse, error) {
 	out := new(CheckMyPermissionsResponse)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.AuthorizationService/CheckMyPermissions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) CheckMyRoles(ctx context.Context, in *CheckMyRolesRequest, opts ...grpc.CallOption) (*CheckMyRolesResponse, error) {
+	out := new(CheckMyRolesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.AuthorizationService/CheckMyRoles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

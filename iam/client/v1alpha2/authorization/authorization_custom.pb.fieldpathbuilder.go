@@ -12,6 +12,7 @@ import (
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -25,6 +26,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
+	_ = &role.Role{}
 	_ = &meta_service.Service{}
 	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
@@ -1162,4 +1164,384 @@ func (s CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPe
 
 func (s CheckMyPermissionsResponsePathSelectorCheckResultsConditionallyGrantedPermissionsConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckMyPermissionsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyPermissionsResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesRequestFieldPathBuilder struct{}
+
+func NewCheckMyRolesRequestFieldPathBuilder() CheckMyRolesRequestFieldPathBuilder {
+	return CheckMyRolesRequestFieldPathBuilder{}
+}
+func (CheckMyRolesRequestFieldPathBuilder) Object() CheckMyRolesRequestPathSelectorObject {
+	return CheckMyRolesRequestPathSelectorObject{}
+}
+
+type CheckMyRolesRequestPathSelectorObject struct{}
+
+func (CheckMyRolesRequestPathSelectorObject) FieldPath() *CheckMyRolesRequest_FieldTerminalPath {
+	return &CheckMyRolesRequest_FieldTerminalPath{selector: CheckMyRolesRequest_FieldPathSelectorObject}
+}
+
+func (s CheckMyRolesRequestPathSelectorObject) WithValue(value string) *CheckMyRolesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesRequest_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesRequestPathSelectorObject) WithArrayOfValues(values []string) *CheckMyRolesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type CheckMyRolesResponseFieldPathBuilder struct{}
+
+func NewCheckMyRolesResponseFieldPathBuilder() CheckMyRolesResponseFieldPathBuilder {
+	return CheckMyRolesResponseFieldPathBuilder{}
+}
+func (CheckMyRolesResponseFieldPathBuilder) Object() CheckMyRolesResponsePathSelectorObject {
+	return CheckMyRolesResponsePathSelectorObject{}
+}
+func (CheckMyRolesResponseFieldPathBuilder) GrantedRoles() CheckMyRolesResponsePathSelectorGrantedRoles {
+	return CheckMyRolesResponsePathSelectorGrantedRoles{}
+}
+func (CheckMyRolesResponseFieldPathBuilder) ConditionallyGrantedRoles() CheckMyRolesResponsePathSelectorConditionallyGrantedRoles {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRoles{}
+}
+
+type CheckMyRolesResponsePathSelectorObject struct{}
+
+func (CheckMyRolesResponsePathSelectorObject) FieldPath() *CheckMyRolesResponse_FieldTerminalPath {
+	return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorObject}
+}
+
+func (s CheckMyRolesResponsePathSelectorObject) WithValue(value string) *CheckMyRolesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorObject) WithArrayOfValues(values []string) *CheckMyRolesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type CheckMyRolesResponsePathSelectorGrantedRoles struct{}
+
+func (CheckMyRolesResponsePathSelectorGrantedRoles) FieldPath() *CheckMyRolesResponse_FieldTerminalPath {
+	return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorGrantedRoles}
+}
+
+func (s CheckMyRolesResponsePathSelectorGrantedRoles) WithValue(value []*role.Reference) *CheckMyRolesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorGrantedRoles) WithArrayOfValues(values [][]*role.Reference) *CheckMyRolesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (s CheckMyRolesResponsePathSelectorGrantedRoles) WithItemValue(value *role.Reference) *CheckMyRolesResponse_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CheckMyRolesResponse_FieldTerminalPathArrayItemValue)
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRoles struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) FieldPath() *CheckMyRolesResponse_FieldTerminalPath {
+	return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithValue(value []*CheckMyRolesResponse_ConditionalGrant) *CheckMyRolesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithArrayOfValues(values [][]*CheckMyRolesResponse_ConditionalGrant) *CheckMyRolesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithItemValue(value *CheckMyRolesResponse_ConditionalGrant) *CheckMyRolesResponse_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CheckMyRolesResponse_FieldTerminalPathArrayItemValue)
+}
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithSubPath(subPath CheckMyRolesResponseConditionalGrant_FieldPath) *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles, subPath: subPath}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithSubValue(subPathValue CheckMyRolesResponseConditionalGrant_FieldPathValue) *CheckMyRolesResponse_FieldSubPathValue {
+	return &CheckMyRolesResponse_FieldSubPathValue{CheckMyRolesResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithSubArrayOfValues(subPathArrayOfValues CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return &CheckMyRolesResponse_FieldSubPathArrayOfValues{CheckMyRolesResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) WithSubArrayItemValue(subPathArrayItemValue CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue) *CheckMyRolesResponse_FieldSubPathArrayItemValue {
+	return &CheckMyRolesResponse_FieldSubPathArrayItemValue{CheckMyRolesResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) Role() CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole{}
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRoles) ConditionBindings() CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings{}
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().Role().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole) WithValue(value *role.Reference) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesRole) WithArrayOfValues(values []*role.Reference) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().ConditionBindings().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) WithValue(value []*condition.ConditionBinding) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) WithItemValue(value *condition.ConditionBinding) *CheckMyRolesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CheckMyRolesResponse_FieldSubPathArrayItemValue)
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) Condition() CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition{}
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) Parameters() CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters{}
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindings) Params() CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams {
+	return CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams{}
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().ConditionBindings().Condition().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition) WithValue(value *condition.Reference) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().ConditionBindings().Parameters().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters) WithValue(value map[string]string) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParameters) WithKey(key string) CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters {
+	return CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters{key: key}
+}
+
+type CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters struct {
+	key string
+}
+
+func (s CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().ConditionBindings().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters) WithValue(value string) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponseMapPathSelectorConditionallyGrantedRolesConditionBindingsParameters) WithArrayOfValues(values []string) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams struct{}
+
+func (CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams) FieldPath() *CheckMyRolesResponse_FieldSubPath {
+	return &CheckMyRolesResponse_FieldSubPath{
+		selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles,
+		subPath:  NewCheckMyRolesResponseConditionalGrantFieldPathBuilder().ConditionBindings().Params().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams) WithValue(value *structpb.Struct) *CheckMyRolesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponse_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponsePathSelectorConditionallyGrantedRolesConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckMyRolesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponse_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponseConditionalGrantFieldPathBuilder struct{}
+
+func NewCheckMyRolesResponseConditionalGrantFieldPathBuilder() CheckMyRolesResponseConditionalGrantFieldPathBuilder {
+	return CheckMyRolesResponseConditionalGrantFieldPathBuilder{}
+}
+func (CheckMyRolesResponseConditionalGrantFieldPathBuilder) Role() CheckMyRolesResponse_ConditionalGrantPathSelectorRole {
+	return CheckMyRolesResponse_ConditionalGrantPathSelectorRole{}
+}
+func (CheckMyRolesResponseConditionalGrantFieldPathBuilder) ConditionBindings() CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings {
+	return CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings{}
+}
+
+type CheckMyRolesResponse_ConditionalGrantPathSelectorRole struct{}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorRole) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldTerminalPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorRole) WithValue(value *role.Reference) *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorRole) WithArrayOfValues(values []*role.Reference) *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues)
+}
+
+type CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings struct{}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldTerminalPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithValue(value []*condition.ConditionBinding) *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithArrayOfValues(values [][]*condition.ConditionBinding) *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithItemValue(value *condition.ConditionBinding) *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue)
+}
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithSubPath(subPath condition.ConditionBinding_FieldPath) *CheckMyRolesResponseConditionalGrant_FieldSubPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings, subPath: subPath}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithSubValue(subPathValue condition.ConditionBinding_FieldPathValue) *CheckMyRolesResponseConditionalGrant_FieldSubPathValue {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathValue{CheckMyRolesResponseConditionalGrant_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithSubArrayOfValues(subPathArrayOfValues condition.ConditionBinding_FieldPathArrayOfValues) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues{CheckMyRolesResponseConditionalGrant_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) WithSubArrayItemValue(subPathArrayItemValue condition.ConditionBinding_FieldPathArrayItemValue) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue{CheckMyRolesResponseConditionalGrant_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) Condition() CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition {
+	return CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition{}
+}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) Parameters() CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters {
+	return CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters{}
+}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindings) Params() CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams {
+	return CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams{}
+}
+
+type CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition struct{}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldSubPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPath{
+		selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Condition().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition) WithValue(value *condition.Reference) *CheckMyRolesResponseConditionalGrant_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsCondition) WithArrayOfValues(values []*condition.Reference) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters struct{}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldSubPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPath{
+		selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Parameters().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters) WithValue(value map[string]string) *CheckMyRolesResponseConditionalGrant_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters) WithArrayOfValues(values []map[string]string) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues)
+}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParameters) WithKey(key string) CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters {
+	return CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters{key: key}
+}
+
+type CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters struct {
+	key string
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldSubPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPath{
+		selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Parameters().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters) WithValue(value string) *CheckMyRolesResponseConditionalGrant_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantMapPathSelectorConditionBindingsParameters) WithArrayOfValues(values []string) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues)
+}
+
+type CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams struct{}
+
+func (CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams) FieldPath() *CheckMyRolesResponseConditionalGrant_FieldSubPath {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPath{
+		selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings,
+		subPath:  condition.NewConditionBindingFieldPathBuilder().Params().FieldPath(),
+	}
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams) WithValue(value *structpb.Struct) *CheckMyRolesResponseConditionalGrant_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CheckMyRolesResponseConditionalGrant_FieldSubPathValue)
+}
+
+func (s CheckMyRolesResponse_ConditionalGrantPathSelectorConditionBindingsParams) WithArrayOfValues(values []*structpb.Struct) *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues)
 }

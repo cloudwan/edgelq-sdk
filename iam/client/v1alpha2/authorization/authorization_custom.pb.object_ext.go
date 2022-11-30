@@ -18,6 +18,7 @@ import (
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 // ensure the imports are used
@@ -35,6 +36,7 @@ var (
 var (
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 func (o *Check) GotenObjectExt() {}
@@ -732,4 +734,293 @@ func (o *CheckMyPermissionsResponse) Merge(source *CheckMyPermissionsResponse) {
 
 func (o *CheckMyPermissionsResponse) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*CheckMyPermissionsResponse))
+}
+
+func (o *CheckMyRolesRequest) GotenObjectExt() {}
+
+func (o *CheckMyRolesRequest) MakeFullFieldMask() *CheckMyRolesRequest_FieldMask {
+	return FullCheckMyRolesRequest_FieldMask()
+}
+
+func (o *CheckMyRolesRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullCheckMyRolesRequest_FieldMask()
+}
+
+func (o *CheckMyRolesRequest) MakeDiffFieldMask(other *CheckMyRolesRequest) *CheckMyRolesRequest_FieldMask {
+	if o == nil && other == nil {
+		return &CheckMyRolesRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullCheckMyRolesRequest_FieldMask()
+	}
+
+	res := &CheckMyRolesRequest_FieldMask{}
+	if o.GetObject() != other.GetObject() {
+		res.Paths = append(res.Paths, &CheckMyRolesRequest_FieldTerminalPath{selector: CheckMyRolesRequest_FieldPathSelectorObject})
+	}
+	return res
+}
+
+func (o *CheckMyRolesRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*CheckMyRolesRequest))
+}
+
+func (o *CheckMyRolesRequest) Clone() *CheckMyRolesRequest {
+	if o == nil {
+		return nil
+	}
+	result := &CheckMyRolesRequest{}
+	result.Object = o.Object
+	return result
+}
+
+func (o *CheckMyRolesRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *CheckMyRolesRequest) Merge(source *CheckMyRolesRequest) {
+	o.Object = source.GetObject()
+}
+
+func (o *CheckMyRolesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*CheckMyRolesRequest))
+}
+
+func (o *CheckMyRolesResponse) GotenObjectExt() {}
+
+func (o *CheckMyRolesResponse) MakeFullFieldMask() *CheckMyRolesResponse_FieldMask {
+	return FullCheckMyRolesResponse_FieldMask()
+}
+
+func (o *CheckMyRolesResponse) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullCheckMyRolesResponse_FieldMask()
+}
+
+func (o *CheckMyRolesResponse) MakeDiffFieldMask(other *CheckMyRolesResponse) *CheckMyRolesResponse_FieldMask {
+	if o == nil && other == nil {
+		return &CheckMyRolesResponse_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullCheckMyRolesResponse_FieldMask()
+	}
+
+	res := &CheckMyRolesResponse_FieldMask{}
+	if o.GetObject() != other.GetObject() {
+		res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorObject})
+	}
+
+	if len(o.GetGrantedRoles()) == len(other.GetGrantedRoles()) {
+		for i, lValue := range o.GetGrantedRoles() {
+			rValue := other.GetGrantedRoles()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorGrantedRoles})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorGrantedRoles})
+	}
+
+	if len(o.GetConditionallyGrantedRoles()) == len(other.GetConditionallyGrantedRoles()) {
+		for i, lValue := range o.GetConditionallyGrantedRoles() {
+			rValue := other.GetConditionallyGrantedRoles()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles})
+	}
+	return res
+}
+
+func (o *CheckMyRolesResponse) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*CheckMyRolesResponse))
+}
+
+func (o *CheckMyRolesResponse) Clone() *CheckMyRolesResponse {
+	if o == nil {
+		return nil
+	}
+	result := &CheckMyRolesResponse{}
+	result.Object = o.Object
+	result.GrantedRoles = make([]*role.Reference, len(o.GrantedRoles))
+	for i, sourceValue := range o.GrantedRoles {
+		if sourceValue == nil {
+			result.GrantedRoles[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.GrantedRoles[i] = &role.Reference{}
+			if err := result.GrantedRoles[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
+	result.ConditionallyGrantedRoles = make([]*CheckMyRolesResponse_ConditionalGrant, len(o.ConditionallyGrantedRoles))
+	for i, sourceValue := range o.ConditionallyGrantedRoles {
+		result.ConditionallyGrantedRoles[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *CheckMyRolesResponse) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *CheckMyRolesResponse) Merge(source *CheckMyRolesResponse) {
+	o.Object = source.GetObject()
+	for _, sourceValue := range source.GetGrantedRoles() {
+		exists := false
+		for _, currentValue := range o.GrantedRoles {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *role.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &role.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.GrantedRoles = append(o.GrantedRoles, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetConditionallyGrantedRoles() {
+		exists := false
+		for _, currentValue := range o.ConditionallyGrantedRoles {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *CheckMyRolesResponse_ConditionalGrant
+			if sourceValue != nil {
+				newDstElement = new(CheckMyRolesResponse_ConditionalGrant)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ConditionallyGrantedRoles = append(o.ConditionallyGrantedRoles, newDstElement)
+		}
+	}
+
+}
+
+func (o *CheckMyRolesResponse) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*CheckMyRolesResponse))
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) GotenObjectExt() {}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) MakeFullFieldMask() *CheckMyRolesResponse_ConditionalGrant_FieldMask {
+	return FullCheckMyRolesResponse_ConditionalGrant_FieldMask()
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullCheckMyRolesResponse_ConditionalGrant_FieldMask()
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) MakeDiffFieldMask(other *CheckMyRolesResponse_ConditionalGrant) *CheckMyRolesResponse_ConditionalGrant_FieldMask {
+	if o == nil && other == nil {
+		return &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullCheckMyRolesResponse_ConditionalGrant_FieldMask()
+	}
+
+	res := &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	if o.GetRole().String() != other.GetRole().String() {
+		res.Paths = append(res.Paths, &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole})
+	}
+
+	if len(o.GetConditionBindings()) == len(other.GetConditionBindings()) {
+		for i, lValue := range o.GetConditionBindings() {
+			rValue := other.GetConditionBindings()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings})
+	}
+	return res
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) Clone() *CheckMyRolesResponse_ConditionalGrant {
+	if o == nil {
+		return nil
+	}
+	result := &CheckMyRolesResponse_ConditionalGrant{}
+	if o.Role == nil {
+		result.Role = nil
+	} else if data, err := o.Role.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Role = &role.Reference{}
+		if err := result.Role.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.ConditionBindings = make([]*condition.ConditionBinding, len(o.ConditionBindings))
+	for i, sourceValue := range o.ConditionBindings {
+		result.ConditionBindings[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) Merge(source *CheckMyRolesResponse_ConditionalGrant) {
+	if source.GetRole() != nil {
+		if data, err := source.GetRole().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Role = &role.Reference{}
+			if err := o.Role.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Role = nil
+	}
+	for _, sourceValue := range source.GetConditionBindings() {
+		exists := false
+		for _, currentValue := range o.ConditionBindings {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *condition.ConditionBinding
+			if sourceValue != nil {
+				newDstElement = new(condition.ConditionBinding)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ConditionBindings = append(o.ConditionBindings, newDstElement)
+		}
+	}
+
+}
+
+func (o *CheckMyRolesResponse_ConditionalGrant) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*CheckMyRolesResponse_ConditionalGrant))
 }

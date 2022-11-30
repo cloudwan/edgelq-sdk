@@ -26,6 +26,7 @@ import (
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 // ensure the imports are used
@@ -51,6 +52,7 @@ var (
 var (
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 // FieldPath provides implementation to handle
@@ -4256,5 +4258,1699 @@ func (fpsaov *CheckMyPermissionsResponse_FieldSubPathArrayOfValues) GetRawValues
 }
 func (fpsaov *CheckMyPermissionsResponse_FieldSubPathArrayOfValues) AsCheckResultsPathArrayOfValues() (CheckResult_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(CheckResult_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type CheckMyRolesRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() CheckMyRolesRequest_FieldPathSelector
+	Get(source *CheckMyRolesRequest) []interface{}
+	GetSingle(source *CheckMyRolesRequest) (interface{}, bool)
+	ClearValue(item *CheckMyRolesRequest)
+
+	// Those methods build corresponding CheckMyRolesRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) CheckMyRolesRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) CheckMyRolesRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) CheckMyRolesRequest_FieldPathArrayItemValue
+}
+
+type CheckMyRolesRequest_FieldPathSelector int32
+
+const (
+	CheckMyRolesRequest_FieldPathSelectorObject CheckMyRolesRequest_FieldPathSelector = 0
+)
+
+func (s CheckMyRolesRequest_FieldPathSelector) String() string {
+	switch s {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		return "object"
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", s))
+	}
+}
+
+func BuildCheckMyRolesRequest_FieldPath(fp gotenobject.RawFieldPath) (CheckMyRolesRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object CheckMyRolesRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "object":
+			return &CheckMyRolesRequest_FieldTerminalPath{selector: CheckMyRolesRequest_FieldPathSelectorObject}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object CheckMyRolesRequest", fp)
+}
+
+func ParseCheckMyRolesRequest_FieldPath(rawField string) (CheckMyRolesRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildCheckMyRolesRequest_FieldPath(fp)
+}
+
+func MustParseCheckMyRolesRequest_FieldPath(rawField string) CheckMyRolesRequest_FieldPath {
+	fp, err := ParseCheckMyRolesRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type CheckMyRolesRequest_FieldTerminalPath struct {
+	selector CheckMyRolesRequest_FieldPathSelector
+}
+
+var _ CheckMyRolesRequest_FieldPath = (*CheckMyRolesRequest_FieldTerminalPath)(nil)
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) Selector() CheckMyRolesRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *CheckMyRolesRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *CheckMyRolesRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source CheckMyRolesRequest
+func (fp *CheckMyRolesRequest_FieldTerminalPath) Get(source *CheckMyRolesRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case CheckMyRolesRequest_FieldPathSelectorObject:
+			values = append(values, source.Object)
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*CheckMyRolesRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source CheckMyRolesRequest
+func (fp *CheckMyRolesRequest_FieldTerminalPath) GetSingle(source *CheckMyRolesRequest) (interface{}, bool) {
+	switch fp.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		return source.GetObject(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*CheckMyRolesRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *CheckMyRolesRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) ClearValue(item *CheckMyRolesRequest) {
+	if item != nil {
+		switch fp.selector {
+		case CheckMyRolesRequest_FieldPathSelectorObject:
+			item.Object = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*CheckMyRolesRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *CheckMyRolesRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == CheckMyRolesRequest_FieldPathSelectorObject
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithIValue(value interface{}) CheckMyRolesRequest_FieldPathValue {
+	switch fp.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		return &CheckMyRolesRequest_FieldTerminalPathValue{CheckMyRolesRequest_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) CheckMyRolesRequest_FieldPathArrayOfValues {
+	fpaov := &CheckMyRolesRequest_FieldTerminalPathArrayOfValues{CheckMyRolesRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		return &CheckMyRolesRequest_FieldTerminalPathArrayOfValues{CheckMyRolesRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) CheckMyRolesRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// CheckMyRolesRequest_FieldPathValue allows storing values for CheckMyRolesRequest fields according to their type
+type CheckMyRolesRequest_FieldPathValue interface {
+	CheckMyRolesRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **CheckMyRolesRequest)
+	CompareWith(*CheckMyRolesRequest) (cmp int, comparable bool)
+}
+
+func ParseCheckMyRolesRequest_FieldPathValue(pathStr, valueStr string) (CheckMyRolesRequest_FieldPathValue, error) {
+	fp, err := ParseCheckMyRolesRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(CheckMyRolesRequest_FieldPathValue), nil
+}
+
+func MustParseCheckMyRolesRequest_FieldPathValue(pathStr, valueStr string) CheckMyRolesRequest_FieldPathValue {
+	fpv, err := ParseCheckMyRolesRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type CheckMyRolesRequest_FieldTerminalPathValue struct {
+	CheckMyRolesRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesRequest_FieldPathValue = (*CheckMyRolesRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'CheckMyRolesRequest' as interface{}
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) AsObjectValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object CheckMyRolesRequest
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) SetTo(target **CheckMyRolesRequest) {
+	if *target == nil {
+		*target = new(CheckMyRolesRequest)
+	}
+	switch fpv.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		(*target).Object = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*CheckMyRolesRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'CheckMyRolesRequest_FieldTerminalPathValue' with the value under path in 'CheckMyRolesRequest'.
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) CompareWith(source *CheckMyRolesRequest) (int, bool) {
+	switch fpv.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetObject()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*CheckMyRolesRequest))
+}
+
+// CheckMyRolesRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for CheckMyRolesRequest according to their type
+// Present only for array (repeated) types.
+type CheckMyRolesRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	CheckMyRolesRequest_FieldPath
+	ContainsValue(*CheckMyRolesRequest) bool
+}
+
+// ParseCheckMyRolesRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseCheckMyRolesRequest_FieldPathArrayItemValue(pathStr, valueStr string) (CheckMyRolesRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseCheckMyRolesRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(CheckMyRolesRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseCheckMyRolesRequest_FieldPathArrayItemValue(pathStr, valueStr string) CheckMyRolesRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseCheckMyRolesRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type CheckMyRolesRequest_FieldTerminalPathArrayItemValue struct {
+	CheckMyRolesRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesRequest_FieldPathArrayItemValue = (*CheckMyRolesRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object CheckMyRolesRequest as interface{}
+func (fpaiv *CheckMyRolesRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *CheckMyRolesRequest_FieldTerminalPathArrayItemValue) GetSingle(source *CheckMyRolesRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *CheckMyRolesRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*CheckMyRolesRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'CheckMyRolesRequest'
+func (fpaiv *CheckMyRolesRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *CheckMyRolesRequest) bool {
+	slice := fpaiv.CheckMyRolesRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// CheckMyRolesRequest_FieldPathArrayOfValues allows storing slice of values for CheckMyRolesRequest fields according to their type
+type CheckMyRolesRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	CheckMyRolesRequest_FieldPath
+}
+
+func ParseCheckMyRolesRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (CheckMyRolesRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseCheckMyRolesRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(CheckMyRolesRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseCheckMyRolesRequest_FieldPathArrayOfValues(pathStr, valuesStr string) CheckMyRolesRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseCheckMyRolesRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type CheckMyRolesRequest_FieldTerminalPathArrayOfValues struct {
+	CheckMyRolesRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ CheckMyRolesRequest_FieldPathArrayOfValues = (*CheckMyRolesRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *CheckMyRolesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case CheckMyRolesRequest_FieldPathSelectorObject:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *CheckMyRolesRequest_FieldTerminalPathArrayOfValues) AsObjectArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type CheckMyRolesResponse_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() CheckMyRolesResponse_FieldPathSelector
+	Get(source *CheckMyRolesResponse) []interface{}
+	GetSingle(source *CheckMyRolesResponse) (interface{}, bool)
+	ClearValue(item *CheckMyRolesResponse)
+
+	// Those methods build corresponding CheckMyRolesResponse_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) CheckMyRolesResponse_FieldPathValue
+	WithIArrayOfValues(values interface{}) CheckMyRolesResponse_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) CheckMyRolesResponse_FieldPathArrayItemValue
+}
+
+type CheckMyRolesResponse_FieldPathSelector int32
+
+const (
+	CheckMyRolesResponse_FieldPathSelectorObject                    CheckMyRolesResponse_FieldPathSelector = 0
+	CheckMyRolesResponse_FieldPathSelectorGrantedRoles              CheckMyRolesResponse_FieldPathSelector = 1
+	CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles CheckMyRolesResponse_FieldPathSelector = 2
+)
+
+func (s CheckMyRolesResponse_FieldPathSelector) String() string {
+	switch s {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		return "object"
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return "granted_roles"
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return "conditionally_granted_roles"
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", s))
+	}
+}
+
+func BuildCheckMyRolesResponse_FieldPath(fp gotenobject.RawFieldPath) (CheckMyRolesResponse_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object CheckMyRolesResponse")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "object":
+			return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorObject}, nil
+		case "granted_roles", "grantedRoles", "granted-roles":
+			return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorGrantedRoles}, nil
+		case "conditionally_granted_roles", "conditionallyGrantedRoles", "conditionally-granted-roles":
+			return &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "conditionally_granted_roles", "conditionallyGrantedRoles", "conditionally-granted-roles":
+			if subpath, err := BuildCheckMyRolesResponseConditionalGrant_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CheckMyRolesResponse_FieldSubPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object CheckMyRolesResponse", fp)
+}
+
+func ParseCheckMyRolesResponse_FieldPath(rawField string) (CheckMyRolesResponse_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildCheckMyRolesResponse_FieldPath(fp)
+}
+
+func MustParseCheckMyRolesResponse_FieldPath(rawField string) CheckMyRolesResponse_FieldPath {
+	fp, err := ParseCheckMyRolesResponse_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type CheckMyRolesResponse_FieldTerminalPath struct {
+	selector CheckMyRolesResponse_FieldPathSelector
+}
+
+var _ CheckMyRolesResponse_FieldPath = (*CheckMyRolesResponse_FieldTerminalPath)(nil)
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) Selector() CheckMyRolesResponse_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *CheckMyRolesResponse_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *CheckMyRolesResponse_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source CheckMyRolesResponse
+func (fp *CheckMyRolesResponse_FieldTerminalPath) Get(source *CheckMyRolesResponse) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case CheckMyRolesResponse_FieldPathSelectorObject:
+			values = append(values, source.Object)
+		case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+			for _, value := range source.GetGrantedRoles() {
+				values = append(values, value)
+			}
+		case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+			for _, value := range source.GetConditionallyGrantedRoles() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*CheckMyRolesResponse))
+}
+
+// GetSingle returns value pointed by specific field of from source CheckMyRolesResponse
+func (fp *CheckMyRolesResponse_FieldTerminalPath) GetSingle(source *CheckMyRolesResponse) (interface{}, bool) {
+	switch fp.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		return source.GetObject(), source != nil
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		res := source.GetGrantedRoles()
+		return res, res != nil
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		res := source.GetConditionallyGrantedRoles()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*CheckMyRolesResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *CheckMyRolesResponse_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		return ""
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return ([]*role.Reference)(nil)
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return ([]*CheckMyRolesResponse_ConditionalGrant)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) ClearValue(item *CheckMyRolesResponse) {
+	if item != nil {
+		switch fp.selector {
+		case CheckMyRolesResponse_FieldPathSelectorObject:
+			item.Object = ""
+		case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+			item.GrantedRoles = nil
+		case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+			item.ConditionallyGrantedRoles = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*CheckMyRolesResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *CheckMyRolesResponse_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == CheckMyRolesResponse_FieldPathSelectorObject ||
+		fp.selector == CheckMyRolesResponse_FieldPathSelectorGrantedRoles
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithIValue(value interface{}) CheckMyRolesResponse_FieldPathValue {
+	switch fp.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		return &CheckMyRolesResponse_FieldTerminalPathValue{CheckMyRolesResponse_FieldTerminalPath: *fp, value: value.(string)}
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathValue{CheckMyRolesResponse_FieldTerminalPath: *fp, value: value.([]*role.Reference)}
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathValue{CheckMyRolesResponse_FieldTerminalPath: *fp, value: value.([]*CheckMyRolesResponse_ConditionalGrant)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithIArrayOfValues(values interface{}) CheckMyRolesResponse_FieldPathArrayOfValues {
+	fpaov := &CheckMyRolesResponse_FieldTerminalPathArrayOfValues{CheckMyRolesResponse_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		return &CheckMyRolesResponse_FieldTerminalPathArrayOfValues{CheckMyRolesResponse_FieldTerminalPath: *fp, values: values.([]string)}
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathArrayOfValues{CheckMyRolesResponse_FieldTerminalPath: *fp, values: values.([][]*role.Reference)}
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathArrayOfValues{CheckMyRolesResponse_FieldTerminalPath: *fp, values: values.([][]*CheckMyRolesResponse_ConditionalGrant)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithIArrayItemValue(value interface{}) CheckMyRolesResponse_FieldPathArrayItemValue {
+	switch fp.selector {
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathArrayItemValue{CheckMyRolesResponse_FieldTerminalPath: *fp, value: value.(*role.Reference)}
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return &CheckMyRolesResponse_FieldTerminalPathArrayItemValue{CheckMyRolesResponse_FieldTerminalPath: *fp, value: value.(*CheckMyRolesResponse_ConditionalGrant)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponse_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type CheckMyRolesResponse_FieldSubPath struct {
+	selector CheckMyRolesResponse_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ CheckMyRolesResponse_FieldPath = (*CheckMyRolesResponse_FieldSubPath)(nil)
+
+func (fps *CheckMyRolesResponse_FieldSubPath) Selector() CheckMyRolesResponse_FieldPathSelector {
+	return fps.selector
+}
+func (fps *CheckMyRolesResponse_FieldSubPath) AsConditionallyGrantedRolesSubPath() (CheckMyRolesResponseConditionalGrant_FieldPath, bool) {
+	res, ok := fps.subPath.(CheckMyRolesResponseConditionalGrant_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *CheckMyRolesResponse_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *CheckMyRolesResponse_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source CheckMyRolesResponse
+func (fps *CheckMyRolesResponse_FieldSubPath) Get(source *CheckMyRolesResponse) (values []interface{}) {
+	if asConditionalGrantFieldPath, ok := fps.AsConditionallyGrantedRolesSubPath(); ok {
+		for _, item := range source.GetConditionallyGrantedRoles() {
+			values = append(values, asConditionalGrantFieldPath.Get(item)...)
+		}
+	} else {
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*CheckMyRolesResponse))
+}
+
+// GetSingle returns value of selected field from source CheckMyRolesResponse
+func (fps *CheckMyRolesResponse_FieldSubPath) GetSingle(source *CheckMyRolesResponse) (interface{}, bool) {
+	switch fps.selector {
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		if len(source.GetConditionallyGrantedRoles()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetConditionallyGrantedRoles()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fps.selector))
+	}
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*CheckMyRolesResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *CheckMyRolesResponse_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) ClearValue(item *CheckMyRolesResponse) {
+	if item != nil {
+		switch fps.selector {
+		case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+			for _, subItem := range item.ConditionallyGrantedRoles {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*CheckMyRolesResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *CheckMyRolesResponse_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CheckMyRolesResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithIValue(value interface{}) CheckMyRolesResponse_FieldPathValue {
+	return &CheckMyRolesResponse_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithIArrayOfValues(values interface{}) CheckMyRolesResponse_FieldPathArrayOfValues {
+	return &CheckMyRolesResponse_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithIArrayItemValue(value interface{}) CheckMyRolesResponse_FieldPathArrayItemValue {
+	return &CheckMyRolesResponse_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *CheckMyRolesResponse_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// CheckMyRolesResponse_FieldPathValue allows storing values for CheckMyRolesResponse fields according to their type
+type CheckMyRolesResponse_FieldPathValue interface {
+	CheckMyRolesResponse_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **CheckMyRolesResponse)
+	CompareWith(*CheckMyRolesResponse) (cmp int, comparable bool)
+}
+
+func ParseCheckMyRolesResponse_FieldPathValue(pathStr, valueStr string) (CheckMyRolesResponse_FieldPathValue, error) {
+	fp, err := ParseCheckMyRolesResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesResponse field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(CheckMyRolesResponse_FieldPathValue), nil
+}
+
+func MustParseCheckMyRolesResponse_FieldPathValue(pathStr, valueStr string) CheckMyRolesResponse_FieldPathValue {
+	fpv, err := ParseCheckMyRolesResponse_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type CheckMyRolesResponse_FieldTerminalPathValue struct {
+	CheckMyRolesResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesResponse_FieldPathValue = (*CheckMyRolesResponse_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'CheckMyRolesResponse' as interface{}
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) AsObjectValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) AsGrantedRolesValue() ([]*role.Reference, bool) {
+	res, ok := fpv.value.([]*role.Reference)
+	return res, ok
+}
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) AsConditionallyGrantedRolesValue() ([]*CheckMyRolesResponse_ConditionalGrant, bool) {
+	res, ok := fpv.value.([]*CheckMyRolesResponse_ConditionalGrant)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object CheckMyRolesResponse
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) SetTo(target **CheckMyRolesResponse) {
+	if *target == nil {
+		*target = new(CheckMyRolesResponse)
+	}
+	switch fpv.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		(*target).Object = fpv.value.(string)
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		(*target).GrantedRoles = fpv.value.([]*role.Reference)
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		(*target).ConditionallyGrantedRoles = fpv.value.([]*CheckMyRolesResponse_ConditionalGrant)
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*CheckMyRolesResponse)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'CheckMyRolesResponse_FieldTerminalPathValue' with the value under path in 'CheckMyRolesResponse'.
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) CompareWith(source *CheckMyRolesResponse) (int, bool) {
+	switch fpv.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetObject()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		return 0, false
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesResponse_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*CheckMyRolesResponse))
+}
+
+type CheckMyRolesResponse_FieldSubPathValue struct {
+	CheckMyRolesResponse_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ CheckMyRolesResponse_FieldPathValue = (*CheckMyRolesResponse_FieldSubPathValue)(nil)
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) AsConditionallyGrantedRolesPathValue() (CheckMyRolesResponseConditionalGrant_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(CheckMyRolesResponseConditionalGrant_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) SetTo(target **CheckMyRolesResponse) {
+	if *target == nil {
+		*target = new(CheckMyRolesResponse)
+	}
+	switch fpvs.Selector() {
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*CheckMyRolesResponse)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) CompareWith(source *CheckMyRolesResponse) (int, bool) {
+	switch fpvs.Selector() {
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *CheckMyRolesResponse_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*CheckMyRolesResponse))
+}
+
+// CheckMyRolesResponse_FieldPathArrayItemValue allows storing single item in Path-specific values for CheckMyRolesResponse according to their type
+// Present only for array (repeated) types.
+type CheckMyRolesResponse_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	CheckMyRolesResponse_FieldPath
+	ContainsValue(*CheckMyRolesResponse) bool
+}
+
+// ParseCheckMyRolesResponse_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseCheckMyRolesResponse_FieldPathArrayItemValue(pathStr, valueStr string) (CheckMyRolesResponse_FieldPathArrayItemValue, error) {
+	fp, err := ParseCheckMyRolesResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesResponse field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(CheckMyRolesResponse_FieldPathArrayItemValue), nil
+}
+
+func MustParseCheckMyRolesResponse_FieldPathArrayItemValue(pathStr, valueStr string) CheckMyRolesResponse_FieldPathArrayItemValue {
+	fpaiv, err := ParseCheckMyRolesResponse_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type CheckMyRolesResponse_FieldTerminalPathArrayItemValue struct {
+	CheckMyRolesResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesResponse_FieldPathArrayItemValue = (*CheckMyRolesResponse_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object CheckMyRolesResponse as interface{}
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) AsGrantedRolesItemValue() (*role.Reference, bool) {
+	res, ok := fpaiv.value.(*role.Reference)
+	return res, ok
+}
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) AsConditionallyGrantedRolesItemValue() (*CheckMyRolesResponse_ConditionalGrant, bool) {
+	res, ok := fpaiv.value.(*CheckMyRolesResponse_ConditionalGrant)
+	return res, ok
+}
+
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) GetSingle(source *CheckMyRolesResponse) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*CheckMyRolesResponse))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'CheckMyRolesResponse'
+func (fpaiv *CheckMyRolesResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *CheckMyRolesResponse) bool {
+	slice := fpaiv.CheckMyRolesResponse_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type CheckMyRolesResponse_FieldSubPathArrayItemValue struct {
+	CheckMyRolesResponse_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *CheckMyRolesResponse_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *CheckMyRolesResponse_FieldSubPathArrayItemValue) AsConditionallyGrantedRolesPathItemValue() (CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'CheckMyRolesResponse'
+func (fpaivs *CheckMyRolesResponse_FieldSubPathArrayItemValue) ContainsValue(source *CheckMyRolesResponse) bool {
+	switch fpaivs.Selector() {
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse: %d", fpaivs.Selector()))
+	}
+}
+
+// CheckMyRolesResponse_FieldPathArrayOfValues allows storing slice of values for CheckMyRolesResponse fields according to their type
+type CheckMyRolesResponse_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	CheckMyRolesResponse_FieldPath
+}
+
+func ParseCheckMyRolesResponse_FieldPathArrayOfValues(pathStr, valuesStr string) (CheckMyRolesResponse_FieldPathArrayOfValues, error) {
+	fp, err := ParseCheckMyRolesResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CheckMyRolesResponse field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(CheckMyRolesResponse_FieldPathArrayOfValues), nil
+}
+
+func MustParseCheckMyRolesResponse_FieldPathArrayOfValues(pathStr, valuesStr string) CheckMyRolesResponse_FieldPathArrayOfValues {
+	fpaov, err := ParseCheckMyRolesResponse_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type CheckMyRolesResponse_FieldTerminalPathArrayOfValues struct {
+	CheckMyRolesResponse_FieldTerminalPath
+	values interface{}
+}
+
+var _ CheckMyRolesResponse_FieldPathArrayOfValues = (*CheckMyRolesResponse_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *CheckMyRolesResponse_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case CheckMyRolesResponse_FieldPathSelectorObject:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+		for _, v := range fpaov.values.([][]*role.Reference) {
+			values = append(values, v)
+		}
+	case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+		for _, v := range fpaov.values.([][]*CheckMyRolesResponse_ConditionalGrant) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *CheckMyRolesResponse_FieldTerminalPathArrayOfValues) AsObjectArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *CheckMyRolesResponse_FieldTerminalPathArrayOfValues) AsGrantedRolesArrayOfValues() ([][]*role.Reference, bool) {
+	res, ok := fpaov.values.([][]*role.Reference)
+	return res, ok
+}
+func (fpaov *CheckMyRolesResponse_FieldTerminalPathArrayOfValues) AsConditionallyGrantedRolesArrayOfValues() ([][]*CheckMyRolesResponse_ConditionalGrant, bool) {
+	res, ok := fpaov.values.([][]*CheckMyRolesResponse_ConditionalGrant)
+	return res, ok
+}
+
+type CheckMyRolesResponse_FieldSubPathArrayOfValues struct {
+	CheckMyRolesResponse_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ CheckMyRolesResponse_FieldPathArrayOfValues = (*CheckMyRolesResponse_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *CheckMyRolesResponse_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *CheckMyRolesResponse_FieldSubPathArrayOfValues) AsConditionallyGrantedRolesPathArrayOfValues() (CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type CheckMyRolesResponseConditionalGrant_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() CheckMyRolesResponseConditionalGrant_FieldPathSelector
+	Get(source *CheckMyRolesResponse_ConditionalGrant) []interface{}
+	GetSingle(source *CheckMyRolesResponse_ConditionalGrant) (interface{}, bool)
+	ClearValue(item *CheckMyRolesResponse_ConditionalGrant)
+
+	// Those methods build corresponding CheckMyRolesResponseConditionalGrant_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathValue
+	WithIArrayOfValues(values interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldPathSelector int32
+
+const (
+	CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole              CheckMyRolesResponseConditionalGrant_FieldPathSelector = 0
+	CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings CheckMyRolesResponseConditionalGrant_FieldPathSelector = 1
+)
+
+func (s CheckMyRolesResponseConditionalGrant_FieldPathSelector) String() string {
+	switch s {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		return "role"
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return "condition_bindings"
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", s))
+	}
+}
+
+func BuildCheckMyRolesResponseConditionalGrant_FieldPath(fp gotenobject.RawFieldPath) (CheckMyRolesResponseConditionalGrant_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object CheckMyRolesResponse_ConditionalGrant")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "role":
+			return &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole}, nil
+		case "condition_bindings", "conditionBindings", "condition-bindings":
+			return &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "condition_bindings", "conditionBindings", "condition-bindings":
+			if subpath, err := condition.BuildConditionBinding_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &CheckMyRolesResponseConditionalGrant_FieldSubPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object CheckMyRolesResponse_ConditionalGrant", fp)
+}
+
+func ParseCheckMyRolesResponseConditionalGrant_FieldPath(rawField string) (CheckMyRolesResponseConditionalGrant_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildCheckMyRolesResponseConditionalGrant_FieldPath(fp)
+}
+
+func MustParseCheckMyRolesResponseConditionalGrant_FieldPath(rawField string) CheckMyRolesResponseConditionalGrant_FieldPath {
+	fp, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldTerminalPath struct {
+	selector CheckMyRolesResponseConditionalGrant_FieldPathSelector
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPath = (*CheckMyRolesResponseConditionalGrant_FieldTerminalPath)(nil)
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) Selector() CheckMyRolesResponseConditionalGrant_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source CheckMyRolesResponse_ConditionalGrant
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) Get(source *CheckMyRolesResponse_ConditionalGrant) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+			if source.Role != nil {
+				values = append(values, source.Role)
+			}
+		case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+			for _, value := range source.GetConditionBindings() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// GetSingle returns value pointed by specific field of from source CheckMyRolesResponse_ConditionalGrant
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) GetSingle(source *CheckMyRolesResponse_ConditionalGrant) (interface{}, bool) {
+	switch fp.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		res := source.GetRole()
+		return res, res != nil
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		res := source.GetConditionBindings()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		return (*role.Reference)(nil)
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return ([]*condition.ConditionBinding)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) ClearValue(item *CheckMyRolesResponse_ConditionalGrant) {
+	if item != nil {
+		switch fp.selector {
+		case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+			item.Role = nil
+		case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+			item.ConditionBindings = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithIValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathValue {
+	switch fp.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		return &CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp, value: value.(*role.Reference)}
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return &CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp, value: value.([]*condition.ConditionBinding)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithIArrayOfValues(values interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues {
+	fpaov := &CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		return &CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp, values: values.([]*role.Reference)}
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return &CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp, values: values.([][]*condition.ConditionBinding)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithIArrayItemValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue {
+	switch fp.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return &CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue{CheckMyRolesResponseConditionalGrant_FieldTerminalPath: *fp, value: value.(*condition.ConditionBinding)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fp.selector))
+	}
+}
+
+func (fp *CheckMyRolesResponseConditionalGrant_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldSubPath struct {
+	selector CheckMyRolesResponseConditionalGrant_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPath = (*CheckMyRolesResponseConditionalGrant_FieldSubPath)(nil)
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) Selector() CheckMyRolesResponseConditionalGrant_FieldPathSelector {
+	return fps.selector
+}
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) AsConditionBindingsSubPath() (condition.ConditionBinding_FieldPath, bool) {
+	res, ok := fps.subPath.(condition.ConditionBinding_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source CheckMyRolesResponse_ConditionalGrant
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) Get(source *CheckMyRolesResponse_ConditionalGrant) (values []interface{}) {
+	if asConditionBindingFieldPath, ok := fps.AsConditionBindingsSubPath(); ok {
+		for _, item := range source.GetConditionBindings() {
+			values = append(values, asConditionBindingFieldPath.Get(item)...)
+		}
+	} else {
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// GetSingle returns value of selected field from source CheckMyRolesResponse_ConditionalGrant
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) GetSingle(source *CheckMyRolesResponse_ConditionalGrant) (interface{}, bool) {
+	switch fps.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		if len(source.GetConditionBindings()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetConditionBindings()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fps.selector))
+	}
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) ClearValue(item *CheckMyRolesResponse_ConditionalGrant) {
+	if item != nil {
+		switch fps.selector {
+		case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+			for _, subItem := range item.ConditionBindings {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithIValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathValue {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithIArrayOfValues(values interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithIArrayItemValue(value interface{}) CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue {
+	return &CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *CheckMyRolesResponseConditionalGrant_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// CheckMyRolesResponseConditionalGrant_FieldPathValue allows storing values for ConditionalGrant fields according to their type
+type CheckMyRolesResponseConditionalGrant_FieldPathValue interface {
+	CheckMyRolesResponseConditionalGrant_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **CheckMyRolesResponse_ConditionalGrant)
+	CompareWith(*CheckMyRolesResponse_ConditionalGrant) (cmp int, comparable bool)
+}
+
+func ParseCheckMyRolesResponseConditionalGrant_FieldPathValue(pathStr, valueStr string) (CheckMyRolesResponseConditionalGrant_FieldPathValue, error) {
+	fp, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ConditionalGrant field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(CheckMyRolesResponseConditionalGrant_FieldPathValue), nil
+}
+
+func MustParseCheckMyRolesResponseConditionalGrant_FieldPathValue(pathStr, valueStr string) CheckMyRolesResponseConditionalGrant_FieldPathValue {
+	fpv, err := ParseCheckMyRolesResponseConditionalGrant_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue struct {
+	CheckMyRolesResponseConditionalGrant_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPathValue = (*CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ConditionalGrant' as interface{}
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) AsRoleValue() (*role.Reference, bool) {
+	res, ok := fpv.value.(*role.Reference)
+	return res, ok
+}
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) AsConditionBindingsValue() ([]*condition.ConditionBinding, bool) {
+	res, ok := fpv.value.([]*condition.ConditionBinding)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ConditionalGrant
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) SetTo(target **CheckMyRolesResponse_ConditionalGrant) {
+	if *target == nil {
+		*target = new(CheckMyRolesResponse_ConditionalGrant)
+	}
+	switch fpv.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		(*target).Role = fpv.value.(*role.Reference)
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		(*target).ConditionBindings = fpv.value.([]*condition.ConditionBinding)
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*CheckMyRolesResponse_ConditionalGrant)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue' with the value under path in 'CheckMyRolesResponse_ConditionalGrant'.
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) CompareWith(source *CheckMyRolesResponse_ConditionalGrant) (int, bool) {
+	switch fpv.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		leftValue := fpv.value.(*role.Reference)
+		rightValue := source.GetRole()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fpv.selector))
+	}
+}
+
+func (fpv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldSubPathValue struct {
+	CheckMyRolesResponseConditionalGrant_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPathValue = (*CheckMyRolesResponseConditionalGrant_FieldSubPathValue)(nil)
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) AsConditionBindingsPathValue() (condition.ConditionBinding_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(condition.ConditionBinding_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) SetTo(target **CheckMyRolesResponse_ConditionalGrant) {
+	if *target == nil {
+		*target = new(CheckMyRolesResponse_ConditionalGrant)
+	}
+	switch fpvs.Selector() {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*CheckMyRolesResponse_ConditionalGrant)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) CompareWith(source *CheckMyRolesResponse_ConditionalGrant) (int, bool) {
+	switch fpvs.Selector() {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *CheckMyRolesResponseConditionalGrant_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue allows storing single item in Path-specific values for ConditionalGrant according to their type
+// Present only for array (repeated) types.
+type CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	CheckMyRolesResponseConditionalGrant_FieldPath
+	ContainsValue(*CheckMyRolesResponse_ConditionalGrant) bool
+}
+
+// ParseCheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseCheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue(pathStr, valueStr string) (CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue, error) {
+	fp, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ConditionalGrant field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue), nil
+}
+
+func MustParseCheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue(pathStr, valueStr string) CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue {
+	fpaiv, err := ParseCheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue struct {
+	CheckMyRolesResponseConditionalGrant_FieldTerminalPath
+	value interface{}
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPathArrayItemValue = (*CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object CheckMyRolesResponse_ConditionalGrant as interface{}
+func (fpaiv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue) AsConditionBindingsItemValue() (*condition.ConditionBinding, bool) {
+	res, ok := fpaiv.value.(*condition.ConditionBinding)
+	return res, ok
+}
+
+func (fpaiv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue) GetSingle(source *CheckMyRolesResponse_ConditionalGrant) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ConditionalGrant'
+func (fpaiv *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayItemValue) ContainsValue(source *CheckMyRolesResponse_ConditionalGrant) bool {
+	slice := fpaiv.CheckMyRolesResponseConditionalGrant_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue struct {
+	CheckMyRolesResponseConditionalGrant_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue) AsConditionBindingsPathItemValue() (condition.ConditionBinding_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(condition.ConditionBinding_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ConditionalGrant'
+func (fpaivs *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayItemValue) ContainsValue(source *CheckMyRolesResponse_ConditionalGrant) bool {
+	switch fpaivs.Selector() {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for CheckMyRolesResponse_ConditionalGrant: %d", fpaivs.Selector()))
+	}
+}
+
+// CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues allows storing slice of values for ConditionalGrant fields according to their type
+type CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	CheckMyRolesResponseConditionalGrant_FieldPath
+}
+
+func ParseCheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues(pathStr, valuesStr string) (CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues, error) {
+	fp, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ConditionalGrant field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues), nil
+}
+
+func MustParseCheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues(pathStr, valuesStr string) CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues {
+	fpaov, err := ParseCheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues struct {
+	CheckMyRolesResponseConditionalGrant_FieldTerminalPath
+	values interface{}
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues = (*CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+		for _, v := range fpaov.values.([]*role.Reference) {
+			values = append(values, v)
+		}
+	case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+		for _, v := range fpaov.values.([][]*condition.ConditionBinding) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues) AsRoleArrayOfValues() ([]*role.Reference, bool) {
+	res, ok := fpaov.values.([]*role.Reference)
+	return res, ok
+}
+func (fpaov *CheckMyRolesResponseConditionalGrant_FieldTerminalPathArrayOfValues) AsConditionBindingsArrayOfValues() ([][]*condition.ConditionBinding, bool) {
+	res, ok := fpaov.values.([][]*condition.ConditionBinding)
+	return res, ok
+}
+
+type CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues struct {
+	CheckMyRolesResponseConditionalGrant_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ CheckMyRolesResponseConditionalGrant_FieldPathArrayOfValues = (*CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *CheckMyRolesResponseConditionalGrant_FieldSubPathArrayOfValues) AsConditionBindingsPathArrayOfValues() (condition.ConditionBinding_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(condition.ConditionBinding_FieldPathArrayOfValues)
 	return res, ok
 }

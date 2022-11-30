@@ -22,6 +22,7 @@ import (
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
+	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
 )
 
 // ensure the imports are used
@@ -43,6 +44,7 @@ var (
 var (
 	_ = &condition.Condition{}
 	_ = &permission.Permission{}
+	_ = &role.Role{}
 )
 
 type Check_FieldMask struct {
@@ -2065,6 +2067,852 @@ func (fieldMask *CheckMyPermissionsResponse_FieldMask) ProjectRaw(source gotenob
 }
 
 func (fieldMask *CheckMyPermissionsResponse_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type CheckMyRolesRequest_FieldMask struct {
+	Paths []CheckMyRolesRequest_FieldPath
+}
+
+func FullCheckMyRolesRequest_FieldMask() *CheckMyRolesRequest_FieldMask {
+	res := &CheckMyRolesRequest_FieldMask{}
+	res.Paths = append(res.Paths, &CheckMyRolesRequest_FieldTerminalPath{selector: CheckMyRolesRequest_FieldPathSelectorObject})
+	return res
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *CheckMyRolesRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseCheckMyRolesRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*CheckMyRolesRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseCheckMyRolesRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Subtract(other *CheckMyRolesRequest_FieldMask) *CheckMyRolesRequest_FieldMask {
+	result := &CheckMyRolesRequest_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *CheckMyRolesRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*CheckMyRolesRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *CheckMyRolesRequest_FieldMask) FilterInputFields() *CheckMyRolesRequest_FieldMask {
+	result := &CheckMyRolesRequest_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *CheckMyRolesRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]CheckMyRolesRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseCheckMyRolesRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask CheckMyRolesRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask CheckMyRolesRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) AppendPath(path CheckMyRolesRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(CheckMyRolesRequest_FieldPath))
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) GetPaths() []CheckMyRolesRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseCheckMyRolesRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Set(target, source *CheckMyRolesRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*CheckMyRolesRequest), source.(*CheckMyRolesRequest))
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) Project(source *CheckMyRolesRequest) *CheckMyRolesRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &CheckMyRolesRequest{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *CheckMyRolesRequest_FieldTerminalPath:
+			switch tp.selector {
+			case CheckMyRolesRequest_FieldPathSelectorObject:
+				result.Object = source.Object
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*CheckMyRolesRequest))
+}
+
+func (fieldMask *CheckMyRolesRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type CheckMyRolesResponse_FieldMask struct {
+	Paths []CheckMyRolesResponse_FieldPath
+}
+
+func FullCheckMyRolesResponse_FieldMask() *CheckMyRolesResponse_FieldMask {
+	res := &CheckMyRolesResponse_FieldMask{}
+	res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorObject})
+	res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorGrantedRoles})
+	res.Paths = append(res.Paths, &CheckMyRolesResponse_FieldTerminalPath{selector: CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles})
+	return res
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *CheckMyRolesResponse_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseCheckMyRolesResponse_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*CheckMyRolesResponse_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseCheckMyRolesResponse_FieldPath(raw)
+	})
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) ProtoMessage() {}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Subtract(other *CheckMyRolesResponse_FieldMask) *CheckMyRolesResponse_FieldMask {
+	result := &CheckMyRolesResponse_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[CheckMyRolesResponse_FieldPathSelector]gotenobject.FieldMask{
+		CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles: &CheckMyRolesResponse_ConditionalGrant_FieldMask{},
+	}
+	mySubMasks := map[CheckMyRolesResponse_FieldPathSelector]gotenobject.FieldMask{
+		CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles: &CheckMyRolesResponse_ConditionalGrant_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *CheckMyRolesResponse_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *CheckMyRolesResponse_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*CheckMyRolesResponse_FieldTerminalPath); ok {
+					switch tp.selector {
+					case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+						mySubMasks[CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles] = FullCheckMyRolesResponse_ConditionalGrant_FieldMask()
+					}
+				} else if tp, ok := path.(*CheckMyRolesResponse_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &CheckMyRolesResponse_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*CheckMyRolesResponse_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *CheckMyRolesResponse_FieldMask) FilterInputFields() *CheckMyRolesResponse_FieldMask {
+	result := &CheckMyRolesResponse_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *CheckMyRolesResponse_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]CheckMyRolesResponse_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseCheckMyRolesResponse_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask CheckMyRolesResponse_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask CheckMyRolesResponse_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) AppendPath(path CheckMyRolesResponse_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(CheckMyRolesResponse_FieldPath))
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) GetPaths() []CheckMyRolesResponse_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseCheckMyRolesResponse_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Set(target, source *CheckMyRolesResponse) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*CheckMyRolesResponse), source.(*CheckMyRolesResponse))
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) Project(source *CheckMyRolesResponse) *CheckMyRolesResponse {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &CheckMyRolesResponse{}
+	conditionallyGrantedRolesMask := &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	wholeConditionallyGrantedRolesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *CheckMyRolesResponse_FieldTerminalPath:
+			switch tp.selector {
+			case CheckMyRolesResponse_FieldPathSelectorObject:
+				result.Object = source.Object
+			case CheckMyRolesResponse_FieldPathSelectorGrantedRoles:
+				result.GrantedRoles = source.GrantedRoles
+			case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+				result.ConditionallyGrantedRoles = source.ConditionallyGrantedRoles
+				wholeConditionallyGrantedRolesAccepted = true
+			}
+		case *CheckMyRolesResponse_FieldSubPath:
+			switch tp.selector {
+			case CheckMyRolesResponse_FieldPathSelectorConditionallyGrantedRoles:
+				conditionallyGrantedRolesMask.AppendPath(tp.subPath.(CheckMyRolesResponseConditionalGrant_FieldPath))
+			}
+		}
+	}
+	if wholeConditionallyGrantedRolesAccepted == false && len(conditionallyGrantedRolesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetConditionallyGrantedRoles() {
+			result.ConditionallyGrantedRoles = append(result.ConditionallyGrantedRoles, conditionallyGrantedRolesMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*CheckMyRolesResponse))
+}
+
+func (fieldMask *CheckMyRolesResponse_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type CheckMyRolesResponse_ConditionalGrant_FieldMask struct {
+	Paths []CheckMyRolesResponseConditionalGrant_FieldPath
+}
+
+func FullCheckMyRolesResponse_ConditionalGrant_FieldMask() *CheckMyRolesResponse_ConditionalGrant_FieldMask {
+	res := &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	res.Paths = append(res.Paths, &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole})
+	res.Paths = append(res.Paths, &CheckMyRolesResponseConditionalGrant_FieldTerminalPath{selector: CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings})
+	return res
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*CheckMyRolesResponseConditionalGrant_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseCheckMyRolesResponseConditionalGrant_FieldPath(raw)
+	})
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) ProtoMessage() {}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Subtract(other *CheckMyRolesResponse_ConditionalGrant_FieldMask) *CheckMyRolesResponse_ConditionalGrant_FieldMask {
+	result := &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[CheckMyRolesResponseConditionalGrant_FieldPathSelector]gotenobject.FieldMask{
+		CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings: &condition.ConditionBinding_FieldMask{},
+	}
+	mySubMasks := map[CheckMyRolesResponseConditionalGrant_FieldPathSelector]gotenobject.FieldMask{
+		CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings: &condition.ConditionBinding_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *CheckMyRolesResponseConditionalGrant_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *CheckMyRolesResponseConditionalGrant_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*CheckMyRolesResponseConditionalGrant_FieldTerminalPath); ok {
+					switch tp.selector {
+					case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+						mySubMasks[CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings] = condition.FullConditionBinding_FieldMask()
+					}
+				} else if tp, ok := path.(*CheckMyRolesResponseConditionalGrant_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &CheckMyRolesResponseConditionalGrant_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*CheckMyRolesResponse_ConditionalGrant_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) FilterInputFields() *CheckMyRolesResponse_ConditionalGrant_FieldMask {
+	result := &CheckMyRolesResponse_ConditionalGrant_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]CheckMyRolesResponseConditionalGrant_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask CheckMyRolesResponse_ConditionalGrant_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask CheckMyRolesResponse_ConditionalGrant_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) AppendPath(path CheckMyRolesResponseConditionalGrant_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(CheckMyRolesResponseConditionalGrant_FieldPath))
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) GetPaths() []CheckMyRolesResponseConditionalGrant_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseCheckMyRolesResponseConditionalGrant_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Set(target, source *CheckMyRolesResponse_ConditionalGrant) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*CheckMyRolesResponse_ConditionalGrant), source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) Project(source *CheckMyRolesResponse_ConditionalGrant) *CheckMyRolesResponse_ConditionalGrant {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &CheckMyRolesResponse_ConditionalGrant{}
+	conditionBindingsMask := &condition.ConditionBinding_FieldMask{}
+	wholeConditionBindingsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *CheckMyRolesResponseConditionalGrant_FieldTerminalPath:
+			switch tp.selector {
+			case CheckMyRolesResponseConditionalGrant_FieldPathSelectorRole:
+				result.Role = source.Role
+			case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+				result.ConditionBindings = source.ConditionBindings
+				wholeConditionBindingsAccepted = true
+			}
+		case *CheckMyRolesResponseConditionalGrant_FieldSubPath:
+			switch tp.selector {
+			case CheckMyRolesResponseConditionalGrant_FieldPathSelectorConditionBindings:
+				conditionBindingsMask.AppendPath(tp.subPath.(condition.ConditionBinding_FieldPath))
+			}
+		}
+	}
+	if wholeConditionBindingsAccepted == false && len(conditionBindingsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetConditionBindings() {
+			result.ConditionBindings = append(result.ConditionBindings, conditionBindingsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*CheckMyRolesResponse_ConditionalGrant))
+}
+
+func (fieldMask *CheckMyRolesResponse_ConditionalGrant_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

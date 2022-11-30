@@ -5,6 +5,7 @@ package ntt.iam.v1alpha2;
 import "edgelq-sdk/iam/proto/v1alpha2/condition.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/permission.proto";
 import "edgelq-sdk/iam/proto/v1alpha2/permission_change.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/role.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1alpha2/authorization;authorization_client";
@@ -81,3 +82,32 @@ message CheckMyPermissionsRequest {
 // Response message for method
 // [CheckMyPermissions][ntt.iam.v1alpha2.CheckMyPermissions]
 message CheckMyPermissionsResponse { repeated CheckResult check_results = 1; }
+
+// Request message for method
+// [CheckMyRoles][ntt.iam.v1alpha2.CheckMyRoles]
+message CheckMyRolesRequest {
+  // Object name forming scope of the check, for example projects/<project_id>
+  string object = 1;
+}
+
+// Response message for method
+// [CheckMyRoles][ntt.iam.v1alpha2.CheckMyRoles]
+message CheckMyRolesResponse {
+  // Object with scope
+  string object = 1;
+
+  // All unconditionally granted roles
+  repeated string granted_roles = 2
+      [ (google.api.resource_reference) = {type : "Role"} ];
+
+  // All conditionally granted roles. Each grant should be checked separately
+  repeated ConditionalGrant conditionally_granted_roles = 3;
+
+  message ConditionalGrant {
+    // Role name
+    string role = 1 [ (google.api.resource_reference) = {type : "Role"} ];
+
+    // All conditions that must be accepted for role to be granted
+    repeated ConditionBinding condition_bindings = 2;
+  }
+}
