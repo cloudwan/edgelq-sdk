@@ -72,12 +72,21 @@ type ListMyOrganizationsRequest_FieldPath interface {
 type ListMyOrganizationsRequest_FieldPathSelector int32
 
 const (
-	ListMyOrganizationsRequest_FieldPathSelectorFilter    ListMyOrganizationsRequest_FieldPathSelector = 0
-	ListMyOrganizationsRequest_FieldPathSelectorFieldMask ListMyOrganizationsRequest_FieldPathSelector = 1
+	ListMyOrganizationsRequest_FieldPathSelectorPageSize  ListMyOrganizationsRequest_FieldPathSelector = 0
+	ListMyOrganizationsRequest_FieldPathSelectorPageToken ListMyOrganizationsRequest_FieldPathSelector = 1
+	ListMyOrganizationsRequest_FieldPathSelectorOrderBy   ListMyOrganizationsRequest_FieldPathSelector = 2
+	ListMyOrganizationsRequest_FieldPathSelectorFilter    ListMyOrganizationsRequest_FieldPathSelector = 3
+	ListMyOrganizationsRequest_FieldPathSelectorFieldMask ListMyOrganizationsRequest_FieldPathSelector = 4
 )
 
 func (s ListMyOrganizationsRequest_FieldPathSelector) String() string {
 	switch s {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		return "page_size"
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		return "page_token"
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		return "order_by"
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -93,6 +102,12 @@ func BuildListMyOrganizationsRequest_FieldPath(fp gotenobject.RawFieldPath) (Lis
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
+		case "page_size", "pageSize", "page-size":
+			return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageSize}, nil
+		case "page_token", "pageToken", "page-token":
+			return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageToken}, nil
+		case "order_by", "orderBy", "order-by":
+			return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorOrderBy}, nil
 		case "filter":
 			return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -142,6 +157,16 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) JSONString() string {
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) Get(source *ListMyOrganizationsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
+		case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+			values = append(values, source.PageSize)
+		case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+			if source.PageToken != nil {
+				values = append(values, source.PageToken)
+			}
+		case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+			if source.OrderBy != nil {
+				values = append(values, source.OrderBy)
+			}
 		case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -164,6 +189,14 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) GetRaw(source proto.Mess
 // GetSingle returns value pointed by specific field of from source ListMyOrganizationsRequest
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) GetSingle(source *ListMyOrganizationsRequest) (interface{}, bool) {
 	switch fp.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		return source.GetPageSize(), source != nil
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		res := source.GetPageToken()
+		return res, res != nil
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		res := source.GetOrderBy()
+		return res, res != nil
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -182,6 +215,12 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) GetSingleRaw(source prot
 // GetDefault returns a default value of the field type
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		return int32(0)
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		return (*organization.PagerCursor)(nil)
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		return (*organization.OrderBy)(nil)
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		return (*organization.Filter)(nil)
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -194,6 +233,12 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) GetDefault() interface{}
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) ClearValue(item *ListMyOrganizationsRequest) {
 	if item != nil {
 		switch fp.selector {
+		case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+			item.PageSize = int32(0)
+		case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+			item.PageToken = nil
+		case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+			item.OrderBy = nil
 		case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -210,7 +255,10 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) ClearValueRaw(item proto
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ListMyOrganizationsRequest_FieldPathSelectorFilter ||
+	return fp.selector == ListMyOrganizationsRequest_FieldPathSelectorPageSize ||
+		fp.selector == ListMyOrganizationsRequest_FieldPathSelectorPageToken ||
+		fp.selector == ListMyOrganizationsRequest_FieldPathSelectorOrderBy ||
+		fp.selector == ListMyOrganizationsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListMyOrganizationsRequest_FieldPathSelectorFieldMask
 }
 
@@ -220,6 +268,12 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) SplitIntoTerminalIPaths(
 
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyOrganizationsRequest_FieldPathValue {
 	switch fp.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		return &ListMyOrganizationsRequest_FieldTerminalPathValue{ListMyOrganizationsRequest_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		return &ListMyOrganizationsRequest_FieldTerminalPathValue{ListMyOrganizationsRequest_FieldTerminalPath: *fp, value: value.(*organization.PagerCursor)}
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		return &ListMyOrganizationsRequest_FieldTerminalPathValue{ListMyOrganizationsRequest_FieldTerminalPath: *fp, value: value.(*organization.OrderBy)}
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		return &ListMyOrganizationsRequest_FieldTerminalPathValue{ListMyOrganizationsRequest_FieldTerminalPath: *fp, value: value.(*organization.Filter)}
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -236,6 +290,12 @@ func (fp *ListMyOrganizationsRequest_FieldTerminalPath) WithRawIValue(value inte
 func (fp *ListMyOrganizationsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListMyOrganizationsRequest_FieldPathArrayOfValues {
 	fpaov := &ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		return &ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		return &ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.PagerCursor)}
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		return &ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.OrderBy)}
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		return &ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues{ListMyOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.Filter)}
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -300,6 +360,18 @@ var _ ListMyOrganizationsRequest_FieldPathValue = (*ListMyOrganizationsRequest_F
 func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
+func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) AsPageTokenValue() (*organization.PagerCursor, bool) {
+	res, ok := fpv.value.(*organization.PagerCursor)
+	return res, ok
+}
+func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) AsOrderByValue() (*organization.OrderBy, bool) {
+	res, ok := fpv.value.(*organization.OrderBy)
+	return res, ok
+}
 func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) AsFilterValue() (*organization.Filter, bool) {
 	res, ok := fpv.value.(*organization.Filter)
 	return res, ok
@@ -315,6 +387,12 @@ func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) SetTo(target **Lis
 		*target = new(ListMyOrganizationsRequest)
 	}
 	switch fpv.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		(*target).PageSize = fpv.value.(int32)
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		(*target).PageToken = fpv.value.(*organization.PagerCursor)
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		(*target).OrderBy = fpv.value.(*organization.OrderBy)
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*organization.Filter)
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -332,6 +410,20 @@ func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) SetToRaw(target pr
 // CompareWith compares value in the 'ListMyOrganizationsRequest_FieldTerminalPathValue' with the value under path in 'ListMyOrganizationsRequest'.
 func (fpv *ListMyOrganizationsRequest_FieldTerminalPathValue) CompareWith(source *ListMyOrganizationsRequest) (int, bool) {
 	switch fpv.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetPageSize()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		return 0, false
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		return 0, false
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		return 0, false
 	case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -444,6 +536,18 @@ var _ ListMyOrganizationsRequest_FieldPathArrayOfValues = (*ListMyOrganizationsR
 
 func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
+	case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+		for _, v := range fpaov.values.([]*organization.PagerCursor) {
+			values = append(values, v)
+		}
+	case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+		for _, v := range fpaov.values.([]*organization.OrderBy) {
+			values = append(values, v)
+		}
 	case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*organization.Filter) {
 			values = append(values, v)
@@ -454,6 +558,18 @@ func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		}
 	}
 	return
+}
+func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) AsPageTokenArrayOfValues() ([]*organization.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*organization.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfValues() ([]*organization.OrderBy, bool) {
+	res, ok := fpaov.values.([]*organization.OrderBy)
+	return res, ok
 }
 func (fpaov *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*organization.Filter, bool) {
 	res, ok := fpaov.values.([]*organization.Filter)
@@ -484,12 +600,18 @@ type ListMyOrganizationsResponse_FieldPathSelector int32
 
 const (
 	ListMyOrganizationsResponse_FieldPathSelectorOrganizations ListMyOrganizationsResponse_FieldPathSelector = 0
+	ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken ListMyOrganizationsResponse_FieldPathSelector = 1
+	ListMyOrganizationsResponse_FieldPathSelectorNextPageToken ListMyOrganizationsResponse_FieldPathSelector = 2
 )
 
 func (s ListMyOrganizationsResponse_FieldPathSelector) String() string {
 	switch s {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		return "organizations"
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		return "prev_page_token"
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		return "next_page_token"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", s))
 	}
@@ -503,6 +625,10 @@ func BuildListMyOrganizationsResponse_FieldPath(fp gotenobject.RawFieldPath) (Li
 		switch fp[0] {
 		case "organizations":
 			return &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations}, nil
+		case "prev_page_token", "prevPageToken", "prev-page-token":
+			return &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken}, nil
+		case "next_page_token", "nextPageToken", "next-page-token":
+			return &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorNextPageToken}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -561,6 +687,14 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) Get(source *ListMyOrgan
 			for _, value := range source.GetOrganizations() {
 				values = append(values, value)
 			}
+		case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+			if source.PrevPageToken != nil {
+				values = append(values, source.PrevPageToken)
+			}
+		case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+			if source.NextPageToken != nil {
+				values = append(values, source.NextPageToken)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 		}
@@ -578,6 +712,12 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) GetSingle(source *ListM
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		res := source.GetOrganizations()
 		return res, res != nil
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		res := source.GetPrevPageToken()
+		return res, res != nil
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		res := source.GetNextPageToken()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 	}
@@ -592,6 +732,10 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) GetDefault() interface{
 	switch fp.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		return ([]*organization.Organization)(nil)
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		return (*organization.PagerCursor)(nil)
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		return (*organization.PagerCursor)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 	}
@@ -602,6 +746,10 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) ClearValue(item *ListMy
 		switch fp.selector {
 		case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 			item.Organizations = nil
+		case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+			item.PrevPageToken = nil
+		case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+			item.NextPageToken = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 		}
@@ -614,7 +762,8 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) ClearValueRaw(item prot
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMyOrganizationsResponse_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken ||
+		fp.selector == ListMyOrganizationsResponse_FieldPathSelectorNextPageToken
 }
 
 func (fp *ListMyOrganizationsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -625,6 +774,10 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) WithIValue(value interf
 	switch fp.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		return &ListMyOrganizationsResponse_FieldTerminalPathValue{ListMyOrganizationsResponse_FieldTerminalPath: *fp, value: value.([]*organization.Organization)}
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		return &ListMyOrganizationsResponse_FieldTerminalPathValue{ListMyOrganizationsResponse_FieldTerminalPath: *fp, value: value.(*organization.PagerCursor)}
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		return &ListMyOrganizationsResponse_FieldTerminalPathValue{ListMyOrganizationsResponse_FieldTerminalPath: *fp, value: value.(*organization.PagerCursor)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 	}
@@ -639,6 +792,10 @@ func (fp *ListMyOrganizationsResponse_FieldTerminalPath) WithIArrayOfValues(valu
 	switch fp.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		return &ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues{ListMyOrganizationsResponse_FieldTerminalPath: *fp, values: values.([][]*organization.Organization)}
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		return &ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues{ListMyOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]*organization.PagerCursor)}
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		return &ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues{ListMyOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]*organization.PagerCursor)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fp.selector))
 	}
@@ -820,6 +977,14 @@ func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) AsOrganizationsVa
 	res, ok := fpv.value.([]*organization.Organization)
 	return res, ok
 }
+func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) AsPrevPageTokenValue() (*organization.PagerCursor, bool) {
+	res, ok := fpv.value.(*organization.PagerCursor)
+	return res, ok
+}
+func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*organization.PagerCursor, bool) {
+	res, ok := fpv.value.(*organization.PagerCursor)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMyOrganizationsResponse
 func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) SetTo(target **ListMyOrganizationsResponse) {
@@ -829,6 +994,10 @@ func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) SetTo(target **Li
 	switch fpv.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		(*target).Organizations = fpv.value.([]*organization.Organization)
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		(*target).PrevPageToken = fpv.value.(*organization.PagerCursor)
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		(*target).NextPageToken = fpv.value.(*organization.PagerCursor)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fpv.selector))
 	}
@@ -843,6 +1012,10 @@ func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) SetToRaw(target p
 func (fpv *ListMyOrganizationsResponse_FieldTerminalPathValue) CompareWith(source *ListMyOrganizationsResponse) (int, bool) {
 	switch fpv.selector {
 	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
+		return 0, false
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		return 0, false
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fpv.selector))
@@ -1030,11 +1203,27 @@ func (fpaov *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([][]*organization.Organization) {
 			values = append(values, v)
 		}
+	case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+		for _, v := range fpaov.values.([]*organization.PagerCursor) {
+			values = append(values, v)
+		}
+	case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+		for _, v := range fpaov.values.([]*organization.PagerCursor) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues) AsOrganizationsArrayOfValues() ([][]*organization.Organization, bool) {
 	res, ok := fpaov.values.([][]*organization.Organization)
+	return res, ok
+}
+func (fpaov *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArrayOfValues() ([]*organization.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*organization.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*organization.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*organization.PagerCursor)
 	return res, ok
 }
 

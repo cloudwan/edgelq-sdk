@@ -72,12 +72,21 @@ type ListMyProjectsRequest_FieldPath interface {
 type ListMyProjectsRequest_FieldPathSelector int32
 
 const (
-	ListMyProjectsRequest_FieldPathSelectorFilter    ListMyProjectsRequest_FieldPathSelector = 0
-	ListMyProjectsRequest_FieldPathSelectorFieldMask ListMyProjectsRequest_FieldPathSelector = 1
+	ListMyProjectsRequest_FieldPathSelectorPageSize  ListMyProjectsRequest_FieldPathSelector = 0
+	ListMyProjectsRequest_FieldPathSelectorPageToken ListMyProjectsRequest_FieldPathSelector = 1
+	ListMyProjectsRequest_FieldPathSelectorOrderBy   ListMyProjectsRequest_FieldPathSelector = 2
+	ListMyProjectsRequest_FieldPathSelectorFilter    ListMyProjectsRequest_FieldPathSelector = 3
+	ListMyProjectsRequest_FieldPathSelectorFieldMask ListMyProjectsRequest_FieldPathSelector = 4
 )
 
 func (s ListMyProjectsRequest_FieldPathSelector) String() string {
 	switch s {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		return "page_size"
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		return "page_token"
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		return "order_by"
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		return "filter"
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -93,6 +102,12 @@ func BuildListMyProjectsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListMyPr
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
+		case "page_size", "pageSize", "page-size":
+			return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageSize}, nil
+		case "page_token", "pageToken", "page-token":
+			return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageToken}, nil
+		case "order_by", "orderBy", "order-by":
+			return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorOrderBy}, nil
 		case "filter":
 			return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorFilter}, nil
 		case "field_mask", "fieldMask", "field-mask":
@@ -142,6 +157,16 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) JSONString() string {
 func (fp *ListMyProjectsRequest_FieldTerminalPath) Get(source *ListMyProjectsRequest) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
+		case ListMyProjectsRequest_FieldPathSelectorPageSize:
+			values = append(values, source.PageSize)
+		case ListMyProjectsRequest_FieldPathSelectorPageToken:
+			if source.PageToken != nil {
+				values = append(values, source.PageToken)
+			}
+		case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+			if source.OrderBy != nil {
+				values = append(values, source.OrderBy)
+			}
 		case ListMyProjectsRequest_FieldPathSelectorFilter:
 			if source.Filter != nil {
 				values = append(values, source.Filter)
@@ -164,6 +189,14 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) GetRaw(source proto.Message) 
 // GetSingle returns value pointed by specific field of from source ListMyProjectsRequest
 func (fp *ListMyProjectsRequest_FieldTerminalPath) GetSingle(source *ListMyProjectsRequest) (interface{}, bool) {
 	switch fp.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		return source.GetPageSize(), source != nil
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		res := source.GetPageToken()
+		return res, res != nil
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		res := source.GetOrderBy()
+		return res, res != nil
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		res := source.GetFilter()
 		return res, res != nil
@@ -182,6 +215,12 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) GetSingleRaw(source proto.Mes
 // GetDefault returns a default value of the field type
 func (fp *ListMyProjectsRequest_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		return int32(0)
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		return (*project.PagerCursor)(nil)
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		return (*project.OrderBy)(nil)
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		return (*project.Filter)(nil)
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -194,6 +233,12 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) GetDefault() interface{} {
 func (fp *ListMyProjectsRequest_FieldTerminalPath) ClearValue(item *ListMyProjectsRequest) {
 	if item != nil {
 		switch fp.selector {
+		case ListMyProjectsRequest_FieldPathSelectorPageSize:
+			item.PageSize = int32(0)
+		case ListMyProjectsRequest_FieldPathSelectorPageToken:
+			item.PageToken = nil
+		case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+			item.OrderBy = nil
 		case ListMyProjectsRequest_FieldPathSelectorFilter:
 			item.Filter = nil
 		case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -210,7 +255,10 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) ClearValueRaw(item proto.Mess
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMyProjectsRequest_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == ListMyProjectsRequest_FieldPathSelectorFilter ||
+	return fp.selector == ListMyProjectsRequest_FieldPathSelectorPageSize ||
+		fp.selector == ListMyProjectsRequest_FieldPathSelectorPageToken ||
+		fp.selector == ListMyProjectsRequest_FieldPathSelectorOrderBy ||
+		fp.selector == ListMyProjectsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListMyProjectsRequest_FieldPathSelectorFieldMask
 }
 
@@ -220,6 +268,12 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []g
 
 func (fp *ListMyProjectsRequest_FieldTerminalPath) WithIValue(value interface{}) ListMyProjectsRequest_FieldPathValue {
 	switch fp.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		return &ListMyProjectsRequest_FieldTerminalPathValue{ListMyProjectsRequest_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		return &ListMyProjectsRequest_FieldTerminalPathValue{ListMyProjectsRequest_FieldTerminalPath: *fp, value: value.(*project.PagerCursor)}
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		return &ListMyProjectsRequest_FieldTerminalPathValue{ListMyProjectsRequest_FieldTerminalPath: *fp, value: value.(*project.OrderBy)}
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		return &ListMyProjectsRequest_FieldTerminalPathValue{ListMyProjectsRequest_FieldTerminalPath: *fp, value: value.(*project.Filter)}
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -236,6 +290,12 @@ func (fp *ListMyProjectsRequest_FieldTerminalPath) WithRawIValue(value interface
 func (fp *ListMyProjectsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListMyProjectsRequest_FieldPathArrayOfValues {
 	fpaov := &ListMyProjectsRequest_FieldTerminalPathArrayOfValues{ListMyProjectsRequest_FieldTerminalPath: *fp}
 	switch fp.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		return &ListMyProjectsRequest_FieldTerminalPathArrayOfValues{ListMyProjectsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		return &ListMyProjectsRequest_FieldTerminalPathArrayOfValues{ListMyProjectsRequest_FieldTerminalPath: *fp, values: values.([]*project.PagerCursor)}
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		return &ListMyProjectsRequest_FieldTerminalPathArrayOfValues{ListMyProjectsRequest_FieldTerminalPath: *fp, values: values.([]*project.OrderBy)}
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		return &ListMyProjectsRequest_FieldTerminalPathArrayOfValues{ListMyProjectsRequest_FieldTerminalPath: *fp, values: values.([]*project.Filter)}
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -300,6 +360,18 @@ var _ ListMyProjectsRequest_FieldPathValue = (*ListMyProjectsRequest_FieldTermin
 func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
+func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) AsPageTokenValue() (*project.PagerCursor, bool) {
+	res, ok := fpv.value.(*project.PagerCursor)
+	return res, ok
+}
+func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) AsOrderByValue() (*project.OrderBy, bool) {
+	res, ok := fpv.value.(*project.OrderBy)
+	return res, ok
+}
 func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) AsFilterValue() (*project.Filter, bool) {
 	res, ok := fpv.value.(*project.Filter)
 	return res, ok
@@ -315,6 +387,12 @@ func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) SetTo(target **ListMyPr
 		*target = new(ListMyProjectsRequest)
 	}
 	switch fpv.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		(*target).PageSize = fpv.value.(int32)
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		(*target).PageToken = fpv.value.(*project.PagerCursor)
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		(*target).OrderBy = fpv.value.(*project.OrderBy)
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		(*target).Filter = fpv.value.(*project.Filter)
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -332,6 +410,20 @@ func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) SetToRaw(target proto.M
 // CompareWith compares value in the 'ListMyProjectsRequest_FieldTerminalPathValue' with the value under path in 'ListMyProjectsRequest'.
 func (fpv *ListMyProjectsRequest_FieldTerminalPathValue) CompareWith(source *ListMyProjectsRequest) (int, bool) {
 	switch fpv.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetPageSize()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		return 0, false
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		return 0, false
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		return 0, false
 	case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -444,6 +536,18 @@ var _ ListMyProjectsRequest_FieldPathArrayOfValues = (*ListMyProjectsRequest_Fie
 
 func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
+	case ListMyProjectsRequest_FieldPathSelectorPageSize:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListMyProjectsRequest_FieldPathSelectorPageToken:
+		for _, v := range fpaov.values.([]*project.PagerCursor) {
+			values = append(values, v)
+		}
+	case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+		for _, v := range fpaov.values.([]*project.OrderBy) {
+			values = append(values, v)
+		}
 	case ListMyProjectsRequest_FieldPathSelectorFilter:
 		for _, v := range fpaov.values.([]*project.Filter) {
 			values = append(values, v)
@@ -454,6 +558,18 @@ func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		}
 	}
 	return
+}
+func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) AsPageTokenArrayOfValues() ([]*project.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*project.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfValues() ([]*project.OrderBy, bool) {
+	res, ok := fpaov.values.([]*project.OrderBy)
+	return res, ok
 }
 func (fpaov *ListMyProjectsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*project.Filter, bool) {
 	res, ok := fpaov.values.([]*project.Filter)
@@ -483,13 +599,19 @@ type ListMyProjectsResponse_FieldPath interface {
 type ListMyProjectsResponse_FieldPathSelector int32
 
 const (
-	ListMyProjectsResponse_FieldPathSelectorProjects ListMyProjectsResponse_FieldPathSelector = 0
+	ListMyProjectsResponse_FieldPathSelectorProjects      ListMyProjectsResponse_FieldPathSelector = 0
+	ListMyProjectsResponse_FieldPathSelectorPrevPageToken ListMyProjectsResponse_FieldPathSelector = 1
+	ListMyProjectsResponse_FieldPathSelectorNextPageToken ListMyProjectsResponse_FieldPathSelector = 2
 )
 
 func (s ListMyProjectsResponse_FieldPathSelector) String() string {
 	switch s {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		return "projects"
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		return "prev_page_token"
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		return "next_page_token"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", s))
 	}
@@ -503,6 +625,10 @@ func BuildListMyProjectsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListMyP
 		switch fp[0] {
 		case "projects":
 			return &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorProjects}, nil
+		case "prev_page_token", "prevPageToken", "prev-page-token":
+			return &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorPrevPageToken}, nil
+		case "next_page_token", "nextPageToken", "next-page-token":
+			return &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorNextPageToken}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -561,6 +687,14 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) Get(source *ListMyProjectsRe
 			for _, value := range source.GetProjects() {
 				values = append(values, value)
 			}
+		case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+			if source.PrevPageToken != nil {
+				values = append(values, source.PrevPageToken)
+			}
+		case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+			if source.NextPageToken != nil {
+				values = append(values, source.NextPageToken)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 		}
@@ -578,6 +712,12 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) GetSingle(source *ListMyProj
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		res := source.GetProjects()
 		return res, res != nil
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		res := source.GetPrevPageToken()
+		return res, res != nil
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		res := source.GetNextPageToken()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 	}
@@ -592,6 +732,10 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		return ([]*project.Project)(nil)
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		return (*project.PagerCursor)(nil)
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		return (*project.PagerCursor)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 	}
@@ -602,6 +746,10 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) ClearValue(item *ListMyProje
 		switch fp.selector {
 		case ListMyProjectsResponse_FieldPathSelectorProjects:
 			item.Projects = nil
+		case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+			item.PrevPageToken = nil
+		case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+			item.NextPageToken = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 		}
@@ -614,7 +762,8 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) ClearValueRaw(item proto.Mes
 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMyProjectsResponse_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == ListMyProjectsResponse_FieldPathSelectorPrevPageToken ||
+		fp.selector == ListMyProjectsResponse_FieldPathSelectorNextPageToken
 }
 
 func (fp *ListMyProjectsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -625,6 +774,10 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) WithIValue(value interface{}
 	switch fp.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		return &ListMyProjectsResponse_FieldTerminalPathValue{ListMyProjectsResponse_FieldTerminalPath: *fp, value: value.([]*project.Project)}
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		return &ListMyProjectsResponse_FieldTerminalPathValue{ListMyProjectsResponse_FieldTerminalPath: *fp, value: value.(*project.PagerCursor)}
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		return &ListMyProjectsResponse_FieldTerminalPathValue{ListMyProjectsResponse_FieldTerminalPath: *fp, value: value.(*project.PagerCursor)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 	}
@@ -639,6 +792,10 @@ func (fp *ListMyProjectsResponse_FieldTerminalPath) WithIArrayOfValues(values in
 	switch fp.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		return &ListMyProjectsResponse_FieldTerminalPathArrayOfValues{ListMyProjectsResponse_FieldTerminalPath: *fp, values: values.([][]*project.Project)}
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		return &ListMyProjectsResponse_FieldTerminalPathArrayOfValues{ListMyProjectsResponse_FieldTerminalPath: *fp, values: values.([]*project.PagerCursor)}
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		return &ListMyProjectsResponse_FieldTerminalPathArrayOfValues{ListMyProjectsResponse_FieldTerminalPath: *fp, values: values.([]*project.PagerCursor)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fp.selector))
 	}
@@ -820,6 +977,14 @@ func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) AsProjectsValue() ([]*
 	res, ok := fpv.value.([]*project.Project)
 	return res, ok
 }
+func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) AsPrevPageTokenValue() (*project.PagerCursor, bool) {
+	res, ok := fpv.value.(*project.PagerCursor)
+	return res, ok
+}
+func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*project.PagerCursor, bool) {
+	res, ok := fpv.value.(*project.PagerCursor)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMyProjectsResponse
 func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) SetTo(target **ListMyProjectsResponse) {
@@ -829,6 +994,10 @@ func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) SetTo(target **ListMyP
 	switch fpv.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
 		(*target).Projects = fpv.value.([]*project.Project)
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		(*target).PrevPageToken = fpv.value.(*project.PagerCursor)
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		(*target).NextPageToken = fpv.value.(*project.PagerCursor)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fpv.selector))
 	}
@@ -843,6 +1012,10 @@ func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) SetToRaw(target proto.
 func (fpv *ListMyProjectsResponse_FieldTerminalPathValue) CompareWith(source *ListMyProjectsResponse) (int, bool) {
 	switch fpv.selector {
 	case ListMyProjectsResponse_FieldPathSelectorProjects:
+		return 0, false
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		return 0, false
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyProjectsResponse: %d", fpv.selector))
@@ -1030,11 +1203,27 @@ func (fpaov *ListMyProjectsResponse_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([][]*project.Project) {
 			values = append(values, v)
 		}
+	case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+		for _, v := range fpaov.values.([]*project.PagerCursor) {
+			values = append(values, v)
+		}
+	case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+		for _, v := range fpaov.values.([]*project.PagerCursor) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *ListMyProjectsResponse_FieldTerminalPathArrayOfValues) AsProjectsArrayOfValues() ([][]*project.Project, bool) {
 	res, ok := fpaov.values.([][]*project.Project)
+	return res, ok
+}
+func (fpaov *ListMyProjectsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArrayOfValues() ([]*project.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*project.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMyProjectsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*project.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*project.PagerCursor)
 	return res, ok
 }
 

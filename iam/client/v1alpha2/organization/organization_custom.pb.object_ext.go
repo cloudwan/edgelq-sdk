@@ -56,6 +56,15 @@ func (o *ListMyOrganizationsRequest) MakeDiffFieldMask(other *ListMyOrganization
 	}
 
 	res := &ListMyOrganizationsRequest_FieldMask{}
+	if o.GetPageSize() != other.GetPageSize() {
+		res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageSize})
+	}
+	if o.GetPageToken().String() != other.GetPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageToken})
+	}
+	if o.GetOrderBy().String() != other.GetOrderBy().String() {
+		res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorOrderBy})
+	}
 	if o.GetFilter().String() != other.GetFilter().String() {
 		res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorFilter})
 	}
@@ -74,6 +83,27 @@ func (o *ListMyOrganizationsRequest) Clone() *ListMyOrganizationsRequest {
 		return nil
 	}
 	result := &ListMyOrganizationsRequest{}
+	result.PageSize = o.PageSize
+	if o.PageToken == nil {
+		result.PageToken = nil
+	} else if data, err := o.PageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PageToken = &organization.PagerCursor{}
+		if err := result.PageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.OrderBy == nil {
+		result.OrderBy = nil
+	} else if data, err := o.OrderBy.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.OrderBy = &organization.OrderBy{}
+		if err := result.OrderBy.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
 	if o.Filter == nil {
 		result.Filter = nil
 	} else if data, err := o.Filter.ProtoString(); err != nil {
@@ -93,6 +123,31 @@ func (o *ListMyOrganizationsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *ListMyOrganizationsRequest) Merge(source *ListMyOrganizationsRequest) {
+	o.PageSize = source.GetPageSize()
+	if source.GetPageToken() != nil {
+		if data, err := source.GetPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PageToken = &organization.PagerCursor{}
+			if err := o.PageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PageToken = nil
+	}
+	if source.GetOrderBy() != nil {
+		if data, err := source.GetOrderBy().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.OrderBy = &organization.OrderBy{}
+			if err := o.OrderBy.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.OrderBy = nil
+	}
 	if source.GetFilter() != nil {
 		if data, err := source.GetFilter().ProtoString(); err != nil {
 			panic(err)
@@ -151,6 +206,12 @@ func (o *ListMyOrganizationsResponse) MakeDiffFieldMask(other *ListMyOrganizatio
 	} else {
 		res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations})
 	}
+	if o.GetPrevPageToken().String() != other.GetPrevPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken})
+	}
+	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorNextPageToken})
+	}
 	return res
 }
 
@@ -166,6 +227,26 @@ func (o *ListMyOrganizationsResponse) Clone() *ListMyOrganizationsResponse {
 	result.Organizations = make([]*organization.Organization, len(o.Organizations))
 	for i, sourceValue := range o.Organizations {
 		result.Organizations[i] = sourceValue.Clone()
+	}
+	if o.PrevPageToken == nil {
+		result.PrevPageToken = nil
+	} else if data, err := o.PrevPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PrevPageToken = &organization.PagerCursor{}
+		if err := result.PrevPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.NextPageToken == nil {
+		result.NextPageToken = nil
+	} else if data, err := o.NextPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.NextPageToken = &organization.PagerCursor{}
+		if err := result.NextPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
 	}
 	return result
 }
@@ -193,6 +274,30 @@ func (o *ListMyOrganizationsResponse) Merge(source *ListMyOrganizationsResponse)
 		}
 	}
 
+	if source.GetPrevPageToken() != nil {
+		if data, err := source.GetPrevPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PrevPageToken = &organization.PagerCursor{}
+			if err := o.PrevPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PrevPageToken = nil
+	}
+	if source.GetNextPageToken() != nil {
+		if data, err := source.GetNextPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.NextPageToken = &organization.PagerCursor{}
+			if err := o.NextPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.NextPageToken = nil
+	}
 }
 
 func (o *ListMyOrganizationsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

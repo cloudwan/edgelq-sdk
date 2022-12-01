@@ -5248,6 +5248,34 @@ compare.</p>
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
 <tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Organizations than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListOrganizationsResponse.next_page_token][ntt.iam.v1alpha2.ListOrganizationsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
 <th rowspan="2">filter</th>
 <td class="type"><pre>string</pre></td>
 </tr>
@@ -5287,6 +5315,22 @@ will cause response items to contain all present fields.</p>
 <td class="type"><pre>repeated <a href="#message-Organization">Organization</a></pre></td>
 </tr>
 <tr><td class="description"><p>The list of Organizations</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]</p>
 </td></tr>
  
 </tbody>
@@ -8291,6 +8335,34 @@ compare.</p>
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
 <tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Projects than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListProjectsResponse.next_page_token][ntt.iam.v1alpha2.ListProjectsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
 <th rowspan="2">filter</th>
 <td class="type"><pre>string</pre></td>
 </tr>
@@ -8329,6 +8401,22 @@ will cause response items to contain all present fields.</p>
 <td class="type"><pre>repeated <a href="#message-Project">Project</a></pre></td>
 </tr>
 <tr><td class="description"><p>The list of Projects</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListProjectsRequest.page_token][ntt.iam.v1alpha2.ListProjectsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListProjectsRequest.page_token][ntt.iam.v1alpha2.ListProjectsRequest.page_token]</p>
 </td></tr>
  
 </tbody>

@@ -51,6 +51,9 @@ type ListMyProjectsRequest_FieldMask struct {
 
 func FullListMyProjectsRequest_FieldMask() *ListMyProjectsRequest_FieldMask {
 	res := &ListMyProjectsRequest_FieldMask{}
+	res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageSize})
+	res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageToken})
+	res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorOrderBy})
 	res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorFieldMask})
 	return res
@@ -96,7 +99,7 @@ func (fieldMask *ListMyProjectsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMyProjectsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -126,7 +129,7 @@ func (fieldMask *ListMyProjectsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListMyProjectsRequest_FieldMask) Subtract(other *ListMyProjectsRequest_FieldMask) *ListMyProjectsRequest_FieldMask {
 	result := &ListMyProjectsRequest_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 5)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -280,6 +283,12 @@ func (fieldMask *ListMyProjectsRequest_FieldMask) Project(source *ListMyProjects
 		switch tp := p.(type) {
 		case *ListMyProjectsRequest_FieldTerminalPath:
 			switch tp.selector {
+			case ListMyProjectsRequest_FieldPathSelectorPageSize:
+				result.PageSize = source.PageSize
+			case ListMyProjectsRequest_FieldPathSelectorPageToken:
+				result.PageToken = source.PageToken
+			case ListMyProjectsRequest_FieldPathSelectorOrderBy:
+				result.OrderBy = source.OrderBy
 			case ListMyProjectsRequest_FieldPathSelectorFilter:
 				result.Filter = source.Filter
 			case ListMyProjectsRequest_FieldPathSelectorFieldMask:
@@ -308,6 +317,8 @@ type ListMyProjectsResponse_FieldMask struct {
 func FullListMyProjectsResponse_FieldMask() *ListMyProjectsResponse_FieldMask {
 	res := &ListMyProjectsResponse_FieldMask{}
 	res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorProjects})
+	res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorPrevPageToken})
+	res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorNextPageToken})
 	return res
 }
 
@@ -351,7 +362,7 @@ func (fieldMask *ListMyProjectsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMyProjectsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -381,7 +392,7 @@ func (fieldMask *ListMyProjectsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListMyProjectsResponse_FieldMask) Subtract(other *ListMyProjectsResponse_FieldMask) *ListMyProjectsResponse_FieldMask {
 	result := &ListMyProjectsResponse_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[ListMyProjectsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListMyProjectsResponse_FieldPathSelectorProjects: &project.Project_FieldMask{},
 	}
@@ -584,6 +595,10 @@ func (fieldMask *ListMyProjectsResponse_FieldMask) Project(source *ListMyProject
 			case ListMyProjectsResponse_FieldPathSelectorProjects:
 				result.Projects = source.Projects
 				wholeProjectsAccepted = true
+			case ListMyProjectsResponse_FieldPathSelectorPrevPageToken:
+				result.PrevPageToken = source.PrevPageToken
+			case ListMyProjectsResponse_FieldPathSelectorNextPageToken:
+				result.NextPageToken = source.NextPageToken
 			}
 		case *ListMyProjectsResponse_FieldSubPath:
 			switch tp.selector {

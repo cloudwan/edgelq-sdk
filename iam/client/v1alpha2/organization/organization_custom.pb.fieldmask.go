@@ -51,6 +51,9 @@ type ListMyOrganizationsRequest_FieldMask struct {
 
 func FullListMyOrganizationsRequest_FieldMask() *ListMyOrganizationsRequest_FieldMask {
 	res := &ListMyOrganizationsRequest_FieldMask{}
+	res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageSize})
+	res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageToken})
+	res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorOrderBy})
 	res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorFieldMask})
 	return res
@@ -96,7 +99,7 @@ func (fieldMask *ListMyOrganizationsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMyOrganizationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -126,7 +129,7 @@ func (fieldMask *ListMyOrganizationsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListMyOrganizationsRequest_FieldMask) Subtract(other *ListMyOrganizationsRequest_FieldMask) *ListMyOrganizationsRequest_FieldMask {
 	result := &ListMyOrganizationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 5)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -280,6 +283,12 @@ func (fieldMask *ListMyOrganizationsRequest_FieldMask) Project(source *ListMyOrg
 		switch tp := p.(type) {
 		case *ListMyOrganizationsRequest_FieldTerminalPath:
 			switch tp.selector {
+			case ListMyOrganizationsRequest_FieldPathSelectorPageSize:
+				result.PageSize = source.PageSize
+			case ListMyOrganizationsRequest_FieldPathSelectorPageToken:
+				result.PageToken = source.PageToken
+			case ListMyOrganizationsRequest_FieldPathSelectorOrderBy:
+				result.OrderBy = source.OrderBy
 			case ListMyOrganizationsRequest_FieldPathSelectorFilter:
 				result.Filter = source.Filter
 			case ListMyOrganizationsRequest_FieldPathSelectorFieldMask:
@@ -308,6 +317,8 @@ type ListMyOrganizationsResponse_FieldMask struct {
 func FullListMyOrganizationsResponse_FieldMask() *ListMyOrganizationsResponse_FieldMask {
 	res := &ListMyOrganizationsResponse_FieldMask{}
 	res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations})
+	res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken})
+	res.Paths = append(res.Paths, &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorNextPageToken})
 	return res
 }
 
@@ -351,7 +362,7 @@ func (fieldMask *ListMyOrganizationsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMyOrganizationsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -381,7 +392,7 @@ func (fieldMask *ListMyOrganizationsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListMyOrganizationsResponse_FieldMask) Subtract(other *ListMyOrganizationsResponse_FieldMask) *ListMyOrganizationsResponse_FieldMask {
 	result := &ListMyOrganizationsResponse_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[ListMyOrganizationsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListMyOrganizationsResponse_FieldPathSelectorOrganizations: &organization.Organization_FieldMask{},
 	}
@@ -584,6 +595,10 @@ func (fieldMask *ListMyOrganizationsResponse_FieldMask) Project(source *ListMyOr
 			case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 				result.Organizations = source.Organizations
 				wholeOrganizationsAccepted = true
+			case ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken:
+				result.PrevPageToken = source.PrevPageToken
+			case ListMyOrganizationsResponse_FieldPathSelectorNextPageToken:
+				result.NextPageToken = source.NextPageToken
 			}
 		case *ListMyOrganizationsResponse_FieldSubPath:
 			switch tp.selector {

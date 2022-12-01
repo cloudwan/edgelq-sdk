@@ -52,6 +52,9 @@ func (obj *ListMyOrganizationsRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("ListMyOrganizationsRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

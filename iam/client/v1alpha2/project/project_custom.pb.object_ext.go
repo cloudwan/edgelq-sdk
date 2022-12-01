@@ -56,6 +56,15 @@ func (o *ListMyProjectsRequest) MakeDiffFieldMask(other *ListMyProjectsRequest) 
 	}
 
 	res := &ListMyProjectsRequest_FieldMask{}
+	if o.GetPageSize() != other.GetPageSize() {
+		res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageSize})
+	}
+	if o.GetPageToken().String() != other.GetPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageToken})
+	}
+	if o.GetOrderBy().String() != other.GetOrderBy().String() {
+		res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorOrderBy})
+	}
 	if o.GetFilter().String() != other.GetFilter().String() {
 		res.Paths = append(res.Paths, &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorFilter})
 	}
@@ -74,6 +83,27 @@ func (o *ListMyProjectsRequest) Clone() *ListMyProjectsRequest {
 		return nil
 	}
 	result := &ListMyProjectsRequest{}
+	result.PageSize = o.PageSize
+	if o.PageToken == nil {
+		result.PageToken = nil
+	} else if data, err := o.PageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PageToken = &project.PagerCursor{}
+		if err := result.PageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.OrderBy == nil {
+		result.OrderBy = nil
+	} else if data, err := o.OrderBy.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.OrderBy = &project.OrderBy{}
+		if err := result.OrderBy.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
 	if o.Filter == nil {
 		result.Filter = nil
 	} else if data, err := o.Filter.ProtoString(); err != nil {
@@ -93,6 +123,31 @@ func (o *ListMyProjectsRequest) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *ListMyProjectsRequest) Merge(source *ListMyProjectsRequest) {
+	o.PageSize = source.GetPageSize()
+	if source.GetPageToken() != nil {
+		if data, err := source.GetPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PageToken = &project.PagerCursor{}
+			if err := o.PageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PageToken = nil
+	}
+	if source.GetOrderBy() != nil {
+		if data, err := source.GetOrderBy().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.OrderBy = &project.OrderBy{}
+			if err := o.OrderBy.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.OrderBy = nil
+	}
 	if source.GetFilter() != nil {
 		if data, err := source.GetFilter().ProtoString(); err != nil {
 			panic(err)
@@ -151,6 +206,12 @@ func (o *ListMyProjectsResponse) MakeDiffFieldMask(other *ListMyProjectsResponse
 	} else {
 		res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorProjects})
 	}
+	if o.GetPrevPageToken().String() != other.GetPrevPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorPrevPageToken})
+	}
+	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
+		res.Paths = append(res.Paths, &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorNextPageToken})
+	}
 	return res
 }
 
@@ -166,6 +227,26 @@ func (o *ListMyProjectsResponse) Clone() *ListMyProjectsResponse {
 	result.Projects = make([]*project.Project, len(o.Projects))
 	for i, sourceValue := range o.Projects {
 		result.Projects[i] = sourceValue.Clone()
+	}
+	if o.PrevPageToken == nil {
+		result.PrevPageToken = nil
+	} else if data, err := o.PrevPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PrevPageToken = &project.PagerCursor{}
+		if err := result.PrevPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.NextPageToken == nil {
+		result.NextPageToken = nil
+	} else if data, err := o.NextPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.NextPageToken = &project.PagerCursor{}
+		if err := result.NextPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
 	}
 	return result
 }
@@ -193,6 +274,30 @@ func (o *ListMyProjectsResponse) Merge(source *ListMyProjectsResponse) {
 		}
 	}
 
+	if source.GetPrevPageToken() != nil {
+		if data, err := source.GetPrevPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PrevPageToken = &project.PagerCursor{}
+			if err := o.PrevPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PrevPageToken = nil
+	}
+	if source.GetNextPageToken() != nil {
+		if data, err := source.GetNextPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.NextPageToken = &project.PagerCursor{}
+			if err := o.NextPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.NextPageToken = nil
+	}
 }
 
 func (o *ListMyProjectsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

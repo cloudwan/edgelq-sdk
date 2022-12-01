@@ -31,11 +31,62 @@ type ListMyProjectsRequestFieldPathBuilder struct{}
 func NewListMyProjectsRequestFieldPathBuilder() ListMyProjectsRequestFieldPathBuilder {
 	return ListMyProjectsRequestFieldPathBuilder{}
 }
+func (ListMyProjectsRequestFieldPathBuilder) PageSize() ListMyProjectsRequestPathSelectorPageSize {
+	return ListMyProjectsRequestPathSelectorPageSize{}
+}
+func (ListMyProjectsRequestFieldPathBuilder) PageToken() ListMyProjectsRequestPathSelectorPageToken {
+	return ListMyProjectsRequestPathSelectorPageToken{}
+}
+func (ListMyProjectsRequestFieldPathBuilder) OrderBy() ListMyProjectsRequestPathSelectorOrderBy {
+	return ListMyProjectsRequestPathSelectorOrderBy{}
+}
 func (ListMyProjectsRequestFieldPathBuilder) Filter() ListMyProjectsRequestPathSelectorFilter {
 	return ListMyProjectsRequestPathSelectorFilter{}
 }
 func (ListMyProjectsRequestFieldPathBuilder) FieldMask() ListMyProjectsRequestPathSelectorFieldMask {
 	return ListMyProjectsRequestPathSelectorFieldMask{}
+}
+
+type ListMyProjectsRequestPathSelectorPageSize struct{}
+
+func (ListMyProjectsRequestPathSelectorPageSize) FieldPath() *ListMyProjectsRequest_FieldTerminalPath {
+	return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageSize}
+}
+
+func (s ListMyProjectsRequestPathSelectorPageSize) WithValue(value int32) *ListMyProjectsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyProjectsRequestPathSelectorPageSize) WithArrayOfValues(values []int32) *ListMyProjectsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyProjectsRequestPathSelectorPageToken struct{}
+
+func (ListMyProjectsRequestPathSelectorPageToken) FieldPath() *ListMyProjectsRequest_FieldTerminalPath {
+	return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorPageToken}
+}
+
+func (s ListMyProjectsRequestPathSelectorPageToken) WithValue(value *project.PagerCursor) *ListMyProjectsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyProjectsRequestPathSelectorPageToken) WithArrayOfValues(values []*project.PagerCursor) *ListMyProjectsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyProjectsRequestPathSelectorOrderBy struct{}
+
+func (ListMyProjectsRequestPathSelectorOrderBy) FieldPath() *ListMyProjectsRequest_FieldTerminalPath {
+	return &ListMyProjectsRequest_FieldTerminalPath{selector: ListMyProjectsRequest_FieldPathSelectorOrderBy}
+}
+
+func (s ListMyProjectsRequestPathSelectorOrderBy) WithValue(value *project.OrderBy) *ListMyProjectsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyProjectsRequestPathSelectorOrderBy) WithArrayOfValues(values []*project.OrderBy) *ListMyProjectsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type ListMyProjectsRequestPathSelectorFilter struct{}
@@ -73,6 +124,12 @@ func NewListMyProjectsResponseFieldPathBuilder() ListMyProjectsResponseFieldPath
 }
 func (ListMyProjectsResponseFieldPathBuilder) Projects() ListMyProjectsResponsePathSelectorProjects {
 	return ListMyProjectsResponsePathSelectorProjects{}
+}
+func (ListMyProjectsResponseFieldPathBuilder) PrevPageToken() ListMyProjectsResponsePathSelectorPrevPageToken {
+	return ListMyProjectsResponsePathSelectorPrevPageToken{}
+}
+func (ListMyProjectsResponseFieldPathBuilder) NextPageToken() ListMyProjectsResponsePathSelectorNextPageToken {
+	return ListMyProjectsResponsePathSelectorNextPageToken{}
 }
 
 type ListMyProjectsResponsePathSelectorProjects struct{}
@@ -1001,4 +1058,32 @@ func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithArrayOfVa
 
 func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithItemValue(value *meta_service.Reference) *ListMyProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListMyProjectsResponsePathSelectorPrevPageToken struct{}
+
+func (ListMyProjectsResponsePathSelectorPrevPageToken) FieldPath() *ListMyProjectsResponse_FieldTerminalPath {
+	return &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorPrevPageToken}
+}
+
+func (s ListMyProjectsResponsePathSelectorPrevPageToken) WithValue(value *project.PagerCursor) *ListMyProjectsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*project.PagerCursor) *ListMyProjectsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorNextPageToken struct{}
+
+func (ListMyProjectsResponsePathSelectorNextPageToken) FieldPath() *ListMyProjectsResponse_FieldTerminalPath {
+	return &ListMyProjectsResponse_FieldTerminalPath{selector: ListMyProjectsResponse_FieldPathSelectorNextPageToken}
+}
+
+func (s ListMyProjectsResponsePathSelectorNextPageToken) WithValue(value *project.PagerCursor) *ListMyProjectsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*project.PagerCursor) *ListMyProjectsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldTerminalPathArrayOfValues)
 }

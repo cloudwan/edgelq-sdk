@@ -27,11 +27,62 @@ type ListMyOrganizationsRequestFieldPathBuilder struct{}
 func NewListMyOrganizationsRequestFieldPathBuilder() ListMyOrganizationsRequestFieldPathBuilder {
 	return ListMyOrganizationsRequestFieldPathBuilder{}
 }
+func (ListMyOrganizationsRequestFieldPathBuilder) PageSize() ListMyOrganizationsRequestPathSelectorPageSize {
+	return ListMyOrganizationsRequestPathSelectorPageSize{}
+}
+func (ListMyOrganizationsRequestFieldPathBuilder) PageToken() ListMyOrganizationsRequestPathSelectorPageToken {
+	return ListMyOrganizationsRequestPathSelectorPageToken{}
+}
+func (ListMyOrganizationsRequestFieldPathBuilder) OrderBy() ListMyOrganizationsRequestPathSelectorOrderBy {
+	return ListMyOrganizationsRequestPathSelectorOrderBy{}
+}
 func (ListMyOrganizationsRequestFieldPathBuilder) Filter() ListMyOrganizationsRequestPathSelectorFilter {
 	return ListMyOrganizationsRequestPathSelectorFilter{}
 }
 func (ListMyOrganizationsRequestFieldPathBuilder) FieldMask() ListMyOrganizationsRequestPathSelectorFieldMask {
 	return ListMyOrganizationsRequestPathSelectorFieldMask{}
+}
+
+type ListMyOrganizationsRequestPathSelectorPageSize struct{}
+
+func (ListMyOrganizationsRequestPathSelectorPageSize) FieldPath() *ListMyOrganizationsRequest_FieldTerminalPath {
+	return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageSize}
+}
+
+func (s ListMyOrganizationsRequestPathSelectorPageSize) WithValue(value int32) *ListMyOrganizationsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyOrganizationsRequestPathSelectorPageSize) WithArrayOfValues(values []int32) *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyOrganizationsRequestPathSelectorPageToken struct{}
+
+func (ListMyOrganizationsRequestPathSelectorPageToken) FieldPath() *ListMyOrganizationsRequest_FieldTerminalPath {
+	return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorPageToken}
+}
+
+func (s ListMyOrganizationsRequestPathSelectorPageToken) WithValue(value *organization.PagerCursor) *ListMyOrganizationsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyOrganizationsRequestPathSelectorPageToken) WithArrayOfValues(values []*organization.PagerCursor) *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyOrganizationsRequestPathSelectorOrderBy struct{}
+
+func (ListMyOrganizationsRequestPathSelectorOrderBy) FieldPath() *ListMyOrganizationsRequest_FieldTerminalPath {
+	return &ListMyOrganizationsRequest_FieldTerminalPath{selector: ListMyOrganizationsRequest_FieldPathSelectorOrderBy}
+}
+
+func (s ListMyOrganizationsRequestPathSelectorOrderBy) WithValue(value *organization.OrderBy) *ListMyOrganizationsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMyOrganizationsRequestPathSelectorOrderBy) WithArrayOfValues(values []*organization.OrderBy) *ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsRequest_FieldTerminalPathArrayOfValues)
 }
 
 type ListMyOrganizationsRequestPathSelectorFilter struct{}
@@ -69,6 +120,12 @@ func NewListMyOrganizationsResponseFieldPathBuilder() ListMyOrganizationsRespons
 }
 func (ListMyOrganizationsResponseFieldPathBuilder) Organizations() ListMyOrganizationsResponsePathSelectorOrganizations {
 	return ListMyOrganizationsResponsePathSelectorOrganizations{}
+}
+func (ListMyOrganizationsResponseFieldPathBuilder) PrevPageToken() ListMyOrganizationsResponsePathSelectorPrevPageToken {
+	return ListMyOrganizationsResponsePathSelectorPrevPageToken{}
+}
+func (ListMyOrganizationsResponseFieldPathBuilder) NextPageToken() ListMyOrganizationsResponsePathSelectorNextPageToken {
+	return ListMyOrganizationsResponsePathSelectorNextPageToken{}
 }
 
 type ListMyOrganizationsResponsePathSelectorOrganizations struct{}
@@ -972,4 +1029,32 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCri
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorPrevPageToken struct{}
+
+func (ListMyOrganizationsResponsePathSelectorPrevPageToken) FieldPath() *ListMyOrganizationsResponse_FieldTerminalPath {
+	return &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorPrevPageToken}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorPrevPageToken) WithValue(value *organization.PagerCursor) *ListMyOrganizationsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*organization.PagerCursor) *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorNextPageToken struct{}
+
+func (ListMyOrganizationsResponsePathSelectorNextPageToken) FieldPath() *ListMyOrganizationsResponse_FieldTerminalPath {
+	return &ListMyOrganizationsResponse_FieldTerminalPath{selector: ListMyOrganizationsResponse_FieldPathSelectorNextPageToken}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorNextPageToken) WithValue(value *organization.PagerCursor) *ListMyOrganizationsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*organization.PagerCursor) *ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldTerminalPathArrayOfValues)
 }

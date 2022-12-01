@@ -13,6 +13,22 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Request message for method [ListMyProjects][ntt.iam.v1alpha2.ListMyProjects]
 message ListMyProjectsRequest {
+  // Requested page size. Server may return fewer Projects than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [ListProjectsResponse.next_page_token][ntt.iam.v1alpha2.ListProjectsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
   // Filter - filter results by field criteria. Simplified SQL-like syntax with
   // following operators:
   // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
@@ -31,4 +47,12 @@ message ListMyProjectsRequest {
 message ListMyProjectsResponse {
   // The list of Projects
   repeated Project projects = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [ListProjectsRequest.page_token][ntt.iam.v1alpha2.ListProjectsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [ListProjectsRequest.page_token][ntt.iam.v1alpha2.ListProjectsRequest.page_token]
+  string next_page_token = 4;
 }
