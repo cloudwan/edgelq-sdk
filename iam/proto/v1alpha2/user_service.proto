@@ -394,6 +394,13 @@ service UserService {
     };
   }
 
+  // IsUserVerified
+  rpc IsUserVerified(IsUserVerifiedRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1alpha2/users:isUserVerified"
+    };
+  }
+
   // ResetMFAIfRecoveryKeyUsed
   rpc ResetMFAIfRecoveryKeyUsed(ResetMFAIfRecoveryKeyUsedRequest)
       returns (google.protobuf.Empty) {

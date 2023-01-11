@@ -13773,6 +13773,31 @@ Equivalent REST API:
 
 
 <div class="operation">
+<h5 id="operation-IsUserVerified">IsUserVerified</h5>
+
+<pre class="signature">rpc IsUserVerified(<a href="#message-IsUserVerifiedRequest">IsUserVerifiedRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>IsUserVerified</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/users:isUserVerified </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
 <h5 id="operation-ResetMFAIfRecoveryKeyUsed">ResetMFAIfRecoveryKeyUsed</h5>
 
 <pre class="signature">rpc ResetMFAIfRecoveryKeyUsed(<a href="#message-ResetMFAIfRecoveryKeyUsedRequest">ResetMFAIfRecoveryKeyUsedRequest</a>) returns (Empty)</pre>
@@ -14664,6 +14689,22 @@ Additional fields can be amended by request field field_mask</p>
 
 <p>Request message for method
 [ResendVerificationEmail][ntt.iam.v1alpha2.ResendVerificationEmail]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody> 
+<tr><td class="none">none</td></tr>
+
+</tbody>
+</table>
+
+
+
+<h5 id="message-IsUserVerifiedRequest">IsUserVerifiedRequest</h5>
+
+<p>Request message for method
+[IsUserVerified][ntt.iam.v1alpha2.IsUserVerified]</p>
 
 
 <table class="fields">

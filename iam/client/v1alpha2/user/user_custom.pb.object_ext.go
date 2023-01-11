@@ -675,6 +675,51 @@ func (o *ResendVerificationEmailRequest) MergeRaw(source gotenobject.GotenObject
 	o.Merge(source.(*ResendVerificationEmailRequest))
 }
 
+func (o *IsUserVerifiedRequest) GotenObjectExt() {}
+
+func (o *IsUserVerifiedRequest) MakeFullFieldMask() *IsUserVerifiedRequest_FieldMask {
+	return FullIsUserVerifiedRequest_FieldMask()
+}
+
+func (o *IsUserVerifiedRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullIsUserVerifiedRequest_FieldMask()
+}
+
+func (o *IsUserVerifiedRequest) MakeDiffFieldMask(other *IsUserVerifiedRequest) *IsUserVerifiedRequest_FieldMask {
+	if o == nil && other == nil {
+		return &IsUserVerifiedRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullIsUserVerifiedRequest_FieldMask()
+	}
+
+	res := &IsUserVerifiedRequest_FieldMask{}
+	return res
+}
+
+func (o *IsUserVerifiedRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*IsUserVerifiedRequest))
+}
+
+func (o *IsUserVerifiedRequest) Clone() *IsUserVerifiedRequest {
+	if o == nil {
+		return nil
+	}
+	result := &IsUserVerifiedRequest{}
+	return result
+}
+
+func (o *IsUserVerifiedRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *IsUserVerifiedRequest) Merge(source *IsUserVerifiedRequest) {
+}
+
+func (o *IsUserVerifiedRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*IsUserVerifiedRequest))
+}
+
 func (o *ResetMFAIfRecoveryKeyUsedRequest) GotenObjectExt() {}
 
 func (o *ResetMFAIfRecoveryKeyUsedRequest) MakeFullFieldMask() *ResetMFAIfRecoveryKeyUsedRequest_FieldMask {

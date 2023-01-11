@@ -91,6 +91,10 @@ message RefreshUserFromIdTokenResponse {}
 message ResendVerificationEmailRequest {}
 
 // Request message for method
+// [IsUserVerified][ntt.iam.v1alpha2.IsUserVerified]
+message IsUserVerifiedRequest {}
+
+// Request message for method
 // [ResetMFAIfRecoveryKeyUsed][ntt.iam.v1alpha2.ResetMFAIfRecoveryKeyUsed]
 message ResetMFAIfRecoveryKeyUsedRequest {}
 

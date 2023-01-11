@@ -63,6 +63,7 @@ type UserServiceClient interface {
 	SetMySettings(ctx context.Context, in *SetMySettingsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFromIdTokenRequest, opts ...grpc.CallOption) (*RefreshUserFromIdTokenResponse, error)
 	ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*empty.Empty, error)
 }
@@ -251,6 +252,15 @@ func (c *client) RefreshUserFromIdToken(ctx context.Context, in *RefreshUserFrom
 func (c *client) ResendVerificationEmail(ctx context.Context, in *ResendVerificationEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/ResendVerificationEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1alpha2.UserService/IsUserVerified", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

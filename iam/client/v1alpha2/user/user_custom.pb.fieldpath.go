@@ -4302,6 +4302,341 @@ func (fpaov *ResendVerificationEmailRequest_FieldTerminalPathArrayOfValues) GetR
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type IsUserVerifiedRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() IsUserVerifiedRequest_FieldPathSelector
+	Get(source *IsUserVerifiedRequest) []interface{}
+	GetSingle(source *IsUserVerifiedRequest) (interface{}, bool)
+	ClearValue(item *IsUserVerifiedRequest)
+
+	// Those methods build corresponding IsUserVerifiedRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) IsUserVerifiedRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) IsUserVerifiedRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) IsUserVerifiedRequest_FieldPathArrayItemValue
+}
+
+type IsUserVerifiedRequest_FieldPathSelector int32
+
+func (s IsUserVerifiedRequest_FieldPathSelector) String() string {
+	switch s {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", s))
+	}
+}
+
+func BuildIsUserVerifiedRequest_FieldPath(fp gotenobject.RawFieldPath) (IsUserVerifiedRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object IsUserVerifiedRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object IsUserVerifiedRequest", fp)
+}
+
+func ParseIsUserVerifiedRequest_FieldPath(rawField string) (IsUserVerifiedRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildIsUserVerifiedRequest_FieldPath(fp)
+}
+
+func MustParseIsUserVerifiedRequest_FieldPath(rawField string) IsUserVerifiedRequest_FieldPath {
+	fp, err := ParseIsUserVerifiedRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type IsUserVerifiedRequest_FieldTerminalPath struct {
+	selector IsUserVerifiedRequest_FieldPathSelector
+}
+
+var _ IsUserVerifiedRequest_FieldPath = (*IsUserVerifiedRequest_FieldTerminalPath)(nil)
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) Selector() IsUserVerifiedRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source IsUserVerifiedRequest
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) Get(source *IsUserVerifiedRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*IsUserVerifiedRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source IsUserVerifiedRequest
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) GetSingle(source *IsUserVerifiedRequest) (interface{}, bool) {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*IsUserVerifiedRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) ClearValue(item *IsUserVerifiedRequest) {
+	if item != nil {
+		switch fp.selector {
+		default:
+			panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*IsUserVerifiedRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithIValue(value interface{}) IsUserVerifiedRequest_FieldPathValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) IsUserVerifiedRequest_FieldPathArrayOfValues {
+	fpaov := &IsUserVerifiedRequest_FieldTerminalPathArrayOfValues{IsUserVerifiedRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) IsUserVerifiedRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fp.selector))
+	}
+}
+
+func (fp *IsUserVerifiedRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// IsUserVerifiedRequest_FieldPathValue allows storing values for IsUserVerifiedRequest fields according to their type
+type IsUserVerifiedRequest_FieldPathValue interface {
+	IsUserVerifiedRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **IsUserVerifiedRequest)
+	CompareWith(*IsUserVerifiedRequest) (cmp int, comparable bool)
+}
+
+func ParseIsUserVerifiedRequest_FieldPathValue(pathStr, valueStr string) (IsUserVerifiedRequest_FieldPathValue, error) {
+	fp, err := ParseIsUserVerifiedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IsUserVerifiedRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(IsUserVerifiedRequest_FieldPathValue), nil
+}
+
+func MustParseIsUserVerifiedRequest_FieldPathValue(pathStr, valueStr string) IsUserVerifiedRequest_FieldPathValue {
+	fpv, err := ParseIsUserVerifiedRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type IsUserVerifiedRequest_FieldTerminalPathValue struct {
+	IsUserVerifiedRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ IsUserVerifiedRequest_FieldPathValue = (*IsUserVerifiedRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'IsUserVerifiedRequest' as interface{}
+func (fpv *IsUserVerifiedRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+
+// SetTo stores value for selected field for object IsUserVerifiedRequest
+func (fpv *IsUserVerifiedRequest_FieldTerminalPathValue) SetTo(target **IsUserVerifiedRequest) {
+	if *target == nil {
+		*target = new(IsUserVerifiedRequest)
+	}
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *IsUserVerifiedRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*IsUserVerifiedRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'IsUserVerifiedRequest_FieldTerminalPathValue' with the value under path in 'IsUserVerifiedRequest'.
+func (fpv *IsUserVerifiedRequest_FieldTerminalPathValue) CompareWith(source *IsUserVerifiedRequest) (int, bool) {
+	switch fpv.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for IsUserVerifiedRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *IsUserVerifiedRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*IsUserVerifiedRequest))
+}
+
+// IsUserVerifiedRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for IsUserVerifiedRequest according to their type
+// Present only for array (repeated) types.
+type IsUserVerifiedRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	IsUserVerifiedRequest_FieldPath
+	ContainsValue(*IsUserVerifiedRequest) bool
+}
+
+// ParseIsUserVerifiedRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseIsUserVerifiedRequest_FieldPathArrayItemValue(pathStr, valueStr string) (IsUserVerifiedRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseIsUserVerifiedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IsUserVerifiedRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(IsUserVerifiedRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseIsUserVerifiedRequest_FieldPathArrayItemValue(pathStr, valueStr string) IsUserVerifiedRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseIsUserVerifiedRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type IsUserVerifiedRequest_FieldTerminalPathArrayItemValue struct {
+	IsUserVerifiedRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ IsUserVerifiedRequest_FieldPathArrayItemValue = (*IsUserVerifiedRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object IsUserVerifiedRequest as interface{}
+func (fpaiv *IsUserVerifiedRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *IsUserVerifiedRequest_FieldTerminalPathArrayItemValue) GetSingle(source *IsUserVerifiedRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *IsUserVerifiedRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*IsUserVerifiedRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'IsUserVerifiedRequest'
+func (fpaiv *IsUserVerifiedRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *IsUserVerifiedRequest) bool {
+	slice := fpaiv.IsUserVerifiedRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// IsUserVerifiedRequest_FieldPathArrayOfValues allows storing slice of values for IsUserVerifiedRequest fields according to their type
+type IsUserVerifiedRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	IsUserVerifiedRequest_FieldPath
+}
+
+func ParseIsUserVerifiedRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (IsUserVerifiedRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseIsUserVerifiedRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IsUserVerifiedRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(IsUserVerifiedRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseIsUserVerifiedRequest_FieldPathArrayOfValues(pathStr, valuesStr string) IsUserVerifiedRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseIsUserVerifiedRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type IsUserVerifiedRequest_FieldTerminalPathArrayOfValues struct {
+	IsUserVerifiedRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ IsUserVerifiedRequest_FieldPathArrayOfValues = (*IsUserVerifiedRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *IsUserVerifiedRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	}
+	return
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type ResetMFAIfRecoveryKeyUsedRequest_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() ResetMFAIfRecoveryKeyUsedRequest_FieldPathSelector

@@ -47,6 +47,7 @@ var (
 	setMySettingsDescriptor             *SetMySettingsDescriptor
 	refreshUserFromIdTokenDescriptor    *RefreshUserFromIdTokenDescriptor
 	resendVerificationEmailDescriptor   *ResendVerificationEmailDescriptor
+	isUserVerifiedDescriptor            *IsUserVerifiedDescriptor
 	resetMFAIfRecoveryKeyUsedDescriptor *ResetMFAIfRecoveryKeyUsedDescriptor
 	setUsersNameInAuth0Descriptor       *SetUsersNameInAuth0Descriptor
 )
@@ -2196,6 +2197,152 @@ func GetResendVerificationEmailDescriptor() *ResendVerificationEmailDescriptor {
 	return resendVerificationEmailDescriptor
 }
 
+type IsUserVerifiedDescriptor struct{}
+
+type IsUserVerifiedDescriptorClientMsgHandle struct{}
+
+type IsUserVerifiedDescriptorServerMsgHandle struct{}
+
+func (d *IsUserVerifiedDescriptor) NewEmptyClientMsg() proto.Message {
+	return &IsUserVerifiedRequest{}
+}
+
+func (d *IsUserVerifiedDescriptor) NewEmptyServerMsg() proto.Message {
+	return &empty.Empty{}
+}
+
+func (d *IsUserVerifiedDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *IsUserVerifiedDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *IsUserVerifiedDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *IsUserVerifiedDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *IsUserVerifiedDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *IsUserVerifiedDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *IsUserVerifiedDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *IsUserVerifiedDescriptor) GetVerb() string {
+	return "isUserVerified"
+}
+
+func (d *IsUserVerifiedDescriptor) GetMethodName() string {
+	return "IsUserVerified"
+}
+
+func (d *IsUserVerifiedDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1alpha2.UserService/IsUserVerified"
+}
+
+func (d *IsUserVerifiedDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1alpha2"
+}
+
+func (d *IsUserVerifiedDescriptor) GetApiName() string {
+	return "UserService"
+}
+
+func (d *IsUserVerifiedDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *IsUserVerifiedDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *IsUserVerifiedDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return userServiceDescriptor
+}
+
+func (d *IsUserVerifiedDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return user.GetDescriptor()
+}
+
+func (d *IsUserVerifiedDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &IsUserVerifiedDescriptorClientMsgHandle{}
+}
+
+func (d *IsUserVerifiedDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &IsUserVerifiedDescriptorServerMsgHandle{}
+}
+
+func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*IsUserVerifiedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*IsUserVerifiedRequest) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*IsUserVerifiedRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*IsUserVerifiedRequest) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*empty.Empty) *user.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*empty.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*empty.Empty) []*user.Name
+	})
+	if ok {
+		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *IsUserVerifiedDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func GetIsUserVerifiedDescriptor() *IsUserVerifiedDescriptor {
+	return isUserVerifiedDescriptor
+}
+
 type ResetMFAIfRecoveryKeyUsedDescriptor struct{}
 
 type ResetMFAIfRecoveryKeyUsedDescriptorClientMsgHandle struct{}
@@ -2506,6 +2653,7 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		setMySettingsDescriptor,
 		refreshUserFromIdTokenDescriptor,
 		resendVerificationEmailDescriptor,
+		isUserVerifiedDescriptor,
 		resetMFAIfRecoveryKeyUsedDescriptor,
 		setUsersNameInAuth0Descriptor,
 	}
@@ -2551,6 +2699,7 @@ func initDescriptors() {
 	setMySettingsDescriptor = &SetMySettingsDescriptor{}
 	refreshUserFromIdTokenDescriptor = &RefreshUserFromIdTokenDescriptor{}
 	resendVerificationEmailDescriptor = &ResendVerificationEmailDescriptor{}
+	isUserVerifiedDescriptor = &IsUserVerifiedDescriptor{}
 	resetMFAIfRecoveryKeyUsedDescriptor = &ResetMFAIfRecoveryKeyUsedDescriptor{}
 	setUsersNameInAuth0Descriptor = &SetUsersNameInAuth0Descriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
@@ -2568,6 +2717,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setMySettingsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(refreshUserFromIdTokenDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resendVerificationEmailDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(isUserVerifiedDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resetMFAIfRecoveryKeyUsedDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setUsersNameInAuth0Descriptor)
 }

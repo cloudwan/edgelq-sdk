@@ -138,6 +138,15 @@ func (obj *ResendVerificationEmailRequest) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *IsUserVerifiedRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *ResetMFAIfRecoveryKeyUsedRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

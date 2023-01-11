@@ -1203,6 +1203,12 @@ func NewResendVerificationEmailRequestFieldPathBuilder() ResendVerificationEmail
 	return ResendVerificationEmailRequestFieldPathBuilder{}
 }
 
+type IsUserVerifiedRequestFieldPathBuilder struct{}
+
+func NewIsUserVerifiedRequestFieldPathBuilder() IsUserVerifiedRequestFieldPathBuilder {
+	return IsUserVerifiedRequestFieldPathBuilder{}
+}
+
 type ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder struct{}
 
 func NewResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder() ResetMFAIfRecoveryKeyUsedRequestFieldPathBuilder {
