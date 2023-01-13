@@ -13,6 +13,8 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -26,6 +28,8 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
+	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -194,6 +198,22 @@ func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 
 func (b *filterCndBuilder) MultiRegionPolicy() *filterCndBuilderMultiRegionPolicy {
 	return &filterCndBuilderMultiRegionPolicy{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AllowedServices() *filterCndBuilderAllowedServices {
+	return &filterCndBuilderAllowedServices{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BusinessTier() *filterCndBuilderBusinessTier {
+	return &filterCndBuilderBusinessTier{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServiceTiers() *filterCndBuilderServiceTiers {
+	return &filterCndBuilderServiceTiers{builder: b.builder}
+}
+
+func (b *filterCndBuilder) ServiceErrors() *filterCndBuilderServiceErrors {
+	return &filterCndBuilderServiceErrors{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2892,5 +2912,499 @@ func (b *filterCndBuilderMultiRegionPolicyCriteriaForDisabledSyncDestRegion) com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().MultiRegionPolicy().CriteriaForDisabledSync().DestRegion().WithValue(value),
+	})
+}
+
+type filterCndBuilderAllowedServices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAllowedServices) Eq(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAllowedServices) Neq(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAllowedServices) Gt(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAllowedServices) Gte(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAllowedServices) Lt(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAllowedServices) Lte(value []*meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAllowedServices) In(values [][]*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) NotIn(values [][]*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().AllowedServices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) Contains(value *meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+		Value:     NewOrganizationFieldPathBuilder().AllowedServices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) ContainsAnyOf(values []*meta_service.Reference) *FilterBuilder {
+	pathSelector := NewOrganizationFieldPathBuilder().AllowedServices()
+	itemValues := make([]Organization_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) ContainsAll(values []*meta_service.Reference) *FilterBuilder {
+	pathSelector := NewOrganizationFieldPathBuilder().AllowedServices()
+	itemValues := make([]Organization_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAllowedServices) compare(op gotenfilter.CompareOperator, value []*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().AllowedServices().WithValue(value),
+	})
+}
+
+type filterCndBuilderBusinessTier struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBusinessTier) Eq(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Neq(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Gt(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Gte(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Lt(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Lte(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBusinessTier) In(values []iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) NotIn(values []iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) compare(op gotenfilter.CompareOperator, value iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().BusinessTier().WithValue(value),
+	})
+}
+
+type filterCndBuilderServiceTiers struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServiceTiers) Eq(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServiceTiers) Neq(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServiceTiers) Gt(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServiceTiers) Gte(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServiceTiers) Lt(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServiceTiers) Lte(value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServiceTiers) In(values [][]*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) NotIn(values [][]*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) Contains(value *iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+		Value:     NewOrganizationFieldPathBuilder().ServiceTiers().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) ContainsAnyOf(values []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	pathSelector := NewOrganizationFieldPathBuilder().ServiceTiers()
+	itemValues := make([]Organization_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) ContainsAll(values []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	pathSelector := NewOrganizationFieldPathBuilder().ServiceTiers()
+	itemValues := make([]Organization_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) compare(op gotenfilter.CompareOperator, value []*iam_common.ServiceBusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().ServiceTiers().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderServiceTiers) Service() *filterCndBuilderServiceTiersService {
+	return &filterCndBuilderServiceTiersService{builder: b.builder}
+}
+
+func (b *filterCndBuilderServiceTiers) BusinessTier() *filterCndBuilderServiceTiersBusinessTier {
+	return &filterCndBuilderServiceTiersBusinessTier{builder: b.builder}
+}
+
+type filterCndBuilderServiceTiersService struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServiceTiersService) Eq(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) Neq(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) Gt(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) Gte(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) Lt(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) Lte(value *meta_service.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServiceTiersService) In(values []*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().Service().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersService) NotIn(values []*meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().Service().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersService) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().Service().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersService) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().Service().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersService) compare(op gotenfilter.CompareOperator, value *meta_service.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().ServiceTiers().Service().WithValue(value),
+	})
+}
+
+type filterCndBuilderServiceTiersBusinessTier struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Eq(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Neq(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Gt(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Gte(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Lt(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) Lte(value iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) In(values []iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) NotIn(values []iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceTiersBusinessTier) compare(op gotenfilter.CompareOperator, value iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().WithValue(value),
+	})
+}
+
+type filterCndBuilderServiceErrors struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServiceErrors) Eq(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServiceErrors) Neq(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServiceErrors) Gt(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServiceErrors) Gte(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServiceErrors) Lt(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServiceErrors) Lte(value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServiceErrors) In(values []map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceErrors().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceErrors) NotIn(values []map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceErrors().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceErrors) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceErrors().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceErrors) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceErrors().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceErrors) compare(op gotenfilter.CompareOperator, value map[string]*iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().ServiceErrors().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderServiceErrors) WithKey(key string) *mapFilterCndBuilderServiceErrors {
+	return &mapFilterCndBuilderServiceErrors{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderServiceErrors struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Eq(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Neq(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Gt(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Gte(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Lt(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) Lte(value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderServiceErrors) In(values []*iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderServiceErrors) NotIn(values []*iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderServiceErrors) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderServiceErrors) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderServiceErrors) compare(op gotenfilter.CompareOperator, value *iam_common.ServiceErrors) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(b.key).WithValue(value),
 	})
 }

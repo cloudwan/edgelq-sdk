@@ -361,7 +361,11 @@ func (ref *Reference) Resolve(resolved *Permission) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*Permission); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*Permission); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

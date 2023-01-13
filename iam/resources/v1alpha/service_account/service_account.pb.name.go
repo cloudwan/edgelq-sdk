@@ -402,7 +402,11 @@ func (ref *Reference) Resolve(resolved *ServiceAccount) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*ServiceAccount); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*ServiceAccount); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

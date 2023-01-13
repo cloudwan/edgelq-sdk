@@ -22,6 +22,7 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -45,6 +46,7 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &meta_service.Service{}
 )
@@ -63,6 +65,9 @@ func FullProject_FieldMask() *Project_FieldMask {
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy})
 	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers})
+	res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors})
 	return res
 }
 
@@ -106,7 +111,7 @@ func (fieldMask *Project_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Project_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -136,14 +141,16 @@ func (fieldMask *Project_FieldMask) Reset() {
 
 func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_FieldMask {
 	result := &Project_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
+		Project_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
 	mySubMasks := map[Project_FieldPathSelector]gotenobject.FieldMask{
 		Project_FieldPathSelectorMetadata:          &ntt_meta.Meta_FieldMask{},
 		Project_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
+		Project_FieldPathSelectorServiceTiers:      &iam_common.ServiceBusinessTier_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -163,6 +170,8 @@ func (fieldMask *Project_FieldMask) Subtract(other *Project_FieldMask) *Project_
 						mySubMasks[Project_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
 					case Project_FieldPathSelectorMultiRegionPolicy:
 						mySubMasks[Project_FieldPathSelectorMultiRegionPolicy] = multi_region_policy.FullMultiRegionPolicy_FieldMask()
+					case Project_FieldPathSelectorServiceTiers:
+						mySubMasks[Project_FieldPathSelectorServiceTiers] = iam_common.FullServiceBusinessTier_FieldMask()
 					}
 				} else if tp, ok := path.(*Project_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -337,6 +346,10 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 	wholeMetadataAccepted := false
 	multiRegionPolicyMask := &multi_region_policy.MultiRegionPolicy_FieldMask{}
 	wholeMultiRegionPolicyAccepted := false
+	serviceTiersMask := &iam_common.ServiceBusinessTier_FieldMask{}
+	wholeServiceTiersAccepted := false
+	var serviceErrorsMapKeys []string
+	wholeServiceErrorsAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -360,6 +373,14 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				wholeMultiRegionPolicyAccepted = true
 			case Project_FieldPathSelectorEnabledServices:
 				result.EnabledServices = source.EnabledServices
+			case Project_FieldPathSelectorBusinessTier:
+				result.BusinessTier = source.BusinessTier
+			case Project_FieldPathSelectorServiceTiers:
+				result.ServiceTiers = source.ServiceTiers
+				wholeServiceTiersAccepted = true
+			case Project_FieldPathSelectorServiceErrors:
+				result.ServiceErrors = source.ServiceErrors
+				wholeServiceErrorsAccepted = true
 			}
 		case *Project_FieldSubPath:
 			switch tp.selector {
@@ -367,6 +388,13 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
 			case Project_FieldPathSelectorMultiRegionPolicy:
 				multiRegionPolicyMask.AppendPath(tp.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath))
+			case Project_FieldPathSelectorServiceTiers:
+				serviceTiersMask.AppendPath(tp.subPath.(iam_common.ServiceBusinessTier_FieldPath))
+			}
+		case *Project_FieldPathMap:
+			switch tp.selector {
+			case Project_FieldPathSelectorServiceErrors:
+				serviceErrorsMapKeys = append(serviceErrorsMapKeys, tp.key)
 			}
 		}
 	}
@@ -375,6 +403,19 @@ func (fieldMask *Project_FieldMask) Project(source *Project) *Project {
 	}
 	if wholeMultiRegionPolicyAccepted == false && len(multiRegionPolicyMask.Paths) > 0 {
 		result.MultiRegionPolicy = multiRegionPolicyMask.Project(source.GetMultiRegionPolicy())
+	}
+	if wholeServiceTiersAccepted == false && len(serviceTiersMask.Paths) > 0 {
+		for _, sourceItem := range source.GetServiceTiers() {
+			result.ServiceTiers = append(result.ServiceTiers, serviceTiersMask.Project(sourceItem))
+		}
+	}
+	if wholeServiceErrorsAccepted == false && len(serviceErrorsMapKeys) > 0 && source.GetServiceErrors() != nil {
+		copiedMap := map[string]*iam_common.ServiceErrors{}
+		sourceMap := source.GetServiceErrors()
+		for _, key := range serviceErrorsMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.ServiceErrors = copiedMap
 	}
 	return result
 }

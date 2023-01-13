@@ -7,6 +7,7 @@ package plan
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
@@ -16,6 +17,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
@@ -38,6 +40,12 @@ func (PlanFieldPathBuilder) Service() PlanPathSelectorService {
 }
 func (PlanFieldPathBuilder) ResourceLimits() PlanPathSelectorResourceLimits {
 	return PlanPathSelectorResourceLimits{}
+}
+func (PlanFieldPathBuilder) PlanLevel() PlanPathSelectorPlanLevel {
+	return PlanPathSelectorPlanLevel{}
+}
+func (PlanFieldPathBuilder) BusinessTier() PlanPathSelectorBusinessTier {
+	return PlanPathSelectorBusinessTier{}
 }
 func (PlanFieldPathBuilder) Metadata() PlanPathSelectorMetadata {
 	return PlanPathSelectorMetadata{}
@@ -158,6 +166,34 @@ func (s PlanPathSelectorResourceLimitsValue) WithValue(value int64) *Plan_FieldS
 
 func (s PlanPathSelectorResourceLimitsValue) WithArrayOfValues(values []int64) *Plan_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Plan_FieldSubPathArrayOfValues)
+}
+
+type PlanPathSelectorPlanLevel struct{}
+
+func (PlanPathSelectorPlanLevel) FieldPath() *Plan_FieldTerminalPath {
+	return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorPlanLevel}
+}
+
+func (s PlanPathSelectorPlanLevel) WithValue(value Plan_PlanLevel) *Plan_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Plan_FieldTerminalPathValue)
+}
+
+func (s PlanPathSelectorPlanLevel) WithArrayOfValues(values []Plan_PlanLevel) *Plan_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Plan_FieldTerminalPathArrayOfValues)
+}
+
+type PlanPathSelectorBusinessTier struct{}
+
+func (PlanPathSelectorBusinessTier) FieldPath() *Plan_FieldTerminalPath {
+	return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorBusinessTier}
+}
+
+func (s PlanPathSelectorBusinessTier) WithValue(value iam_iam_common.BusinessTier) *Plan_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Plan_FieldTerminalPathValue)
+}
+
+func (s PlanPathSelectorBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *Plan_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Plan_FieldTerminalPathArrayOfValues)
 }
 
 type PlanPathSelectorMetadata struct{}

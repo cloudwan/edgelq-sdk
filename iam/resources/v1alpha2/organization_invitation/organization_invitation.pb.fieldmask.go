@@ -21,7 +21,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 )
 
@@ -43,7 +43,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 )
 
@@ -131,11 +131,11 @@ func (fieldMask *OrganizationInvitation_FieldMask) Subtract(other *OrganizationI
 	result := &OrganizationInvitation_FieldMask{}
 	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[OrganizationInvitation_FieldPathSelector]gotenobject.FieldMask{
-		OrganizationInvitation_FieldPathSelectorInvitation: &iam_common.Invitation_FieldMask{},
+		OrganizationInvitation_FieldPathSelectorInvitation: &iam_invitation.Invitation_FieldMask{},
 		OrganizationInvitation_FieldPathSelectorMetadata:   &ntt_meta.Meta_FieldMask{},
 	}
 	mySubMasks := map[OrganizationInvitation_FieldPathSelector]gotenobject.FieldMask{
-		OrganizationInvitation_FieldPathSelectorInvitation: &iam_common.Invitation_FieldMask{},
+		OrganizationInvitation_FieldPathSelectorInvitation: &iam_invitation.Invitation_FieldMask{},
 		OrganizationInvitation_FieldPathSelectorMetadata:   &ntt_meta.Meta_FieldMask{},
 	}
 
@@ -153,7 +153,7 @@ func (fieldMask *OrganizationInvitation_FieldMask) Subtract(other *OrganizationI
 				if tp, ok := path.(*OrganizationInvitation_FieldTerminalPath); ok {
 					switch tp.selector {
 					case OrganizationInvitation_FieldPathSelectorInvitation:
-						mySubMasks[OrganizationInvitation_FieldPathSelectorInvitation] = iam_common.FullInvitation_FieldMask()
+						mySubMasks[OrganizationInvitation_FieldPathSelectorInvitation] = iam_invitation.FullInvitation_FieldMask()
 					case OrganizationInvitation_FieldPathSelectorMetadata:
 						mySubMasks[OrganizationInvitation_FieldPathSelectorMetadata] = ntt_meta.FullMeta_FieldMask()
 					}
@@ -326,7 +326,7 @@ func (fieldMask *OrganizationInvitation_FieldMask) Project(source *OrganizationI
 		return source
 	}
 	result := &OrganizationInvitation{}
-	invitationMask := &iam_common.Invitation_FieldMask{}
+	invitationMask := &iam_invitation.Invitation_FieldMask{}
 	wholeInvitationAccepted := false
 	metadataMask := &ntt_meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
@@ -347,7 +347,7 @@ func (fieldMask *OrganizationInvitation_FieldMask) Project(source *OrganizationI
 		case *OrganizationInvitation_FieldSubPath:
 			switch tp.selector {
 			case OrganizationInvitation_FieldPathSelectorInvitation:
-				invitationMask.AppendPath(tp.subPath.(iam_common.Invitation_FieldPath))
+				invitationMask.AppendPath(tp.subPath.(iam_invitation.Invitation_FieldPath))
 			case OrganizationInvitation_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(ntt_meta.Meta_FieldPath))
 			}

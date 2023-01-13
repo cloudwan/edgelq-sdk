@@ -31,15 +31,16 @@ var (
 )
 
 var (
-	descriptorsInitialized   bool
-	limitServiceDescriptor   *LimitServiceDescriptor
-	getLimitDescriptor       *GetLimitDescriptor
-	batchGetLimitsDescriptor *BatchGetLimitsDescriptor
-	listLimitsDescriptor     *ListLimitsDescriptor
-	watchLimitDescriptor     *WatchLimitDescriptor
-	watchLimitsDescriptor    *WatchLimitsDescriptor
-	updateLimitDescriptor    *UpdateLimitDescriptor
-	deleteLimitDescriptor    *DeleteLimitDescriptor
+	descriptorsInitialized       bool
+	limitServiceDescriptor       *LimitServiceDescriptor
+	getLimitDescriptor           *GetLimitDescriptor
+	batchGetLimitsDescriptor     *BatchGetLimitsDescriptor
+	listLimitsDescriptor         *ListLimitsDescriptor
+	watchLimitDescriptor         *WatchLimitDescriptor
+	watchLimitsDescriptor        *WatchLimitsDescriptor
+	updateLimitDescriptor        *UpdateLimitDescriptor
+	deleteLimitDescriptor        *DeleteLimitDescriptor
+	migrateLimitSourceDescriptor *MigrateLimitSourceDescriptor
 )
 
 type GetLimitDescriptor struct{}
@@ -1276,6 +1277,178 @@ func GetDeleteLimitDescriptor() *DeleteLimitDescriptor {
 	return deleteLimitDescriptor
 }
 
+type MigrateLimitSourceDescriptor struct{}
+
+type MigrateLimitSourceDescriptorClientMsgHandle struct{}
+
+type MigrateLimitSourceDescriptorServerMsgHandle struct{}
+
+func (d *MigrateLimitSourceDescriptor) NewEmptyClientMsg() proto.Message {
+	return &MigrateLimitSourceRequest{}
+}
+
+func (d *MigrateLimitSourceDescriptor) NewEmptyServerMsg() proto.Message {
+	return &limit.Limit{}
+}
+
+func (d *MigrateLimitSourceDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *MigrateLimitSourceDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *MigrateLimitSourceDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *MigrateLimitSourceDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *MigrateLimitSourceDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *MigrateLimitSourceDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *MigrateLimitSourceDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *MigrateLimitSourceDescriptor) GetVerb() string {
+	return "migrate"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetMethodName() string {
+	return "MigrateLimitSource"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetFullMethodName() string {
+	return "/ntt.limits.v1alpha2.LimitService/MigrateLimitSource"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetProtoPkgName() string {
+	return "ntt.limits.v1alpha2"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetApiName() string {
+	return "LimitService"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetServiceDomain() string {
+	return "limits.edgelq.com"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *MigrateLimitSourceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return limitServiceDescriptor
+}
+
+func (d *MigrateLimitSourceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return limit.GetDescriptor()
+}
+
+func (d *MigrateLimitSourceDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigrateLimitSourceDescriptorClientMsgHandle{}
+}
+
+func (d *MigrateLimitSourceDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigrateLimitSourceDescriptorServerMsgHandle{}
+}
+
+func (h *MigrateLimitSourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigrateLimitSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*MigrateLimitSourceRequest) *limit.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*limit.Name)(nil)
+}
+
+func (h *MigrateLimitSourceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*MigrateLimitSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*MigrateLimitSourceRequest) []*limit.Name
+	})
+	if ok {
+		return limit.LimitNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigrateLimitSourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigrateLimitSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*MigrateLimitSourceRequest) *limit.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigrateLimitSourceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*limit.Limit)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*limit.Limit) *limit.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*limit.Name)(nil)
+}
+
+func (h *MigrateLimitSourceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*limit.Limit)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*limit.Limit) []*limit.Name
+	})
+	if ok {
+		return limit.LimitNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigrateLimitSourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*limit.Limit)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*limit.Limit) *limit.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetMigrateLimitSourceDescriptor() *MigrateLimitSourceDescriptor {
+	return migrateLimitSourceDescriptor
+}
+
 type LimitServiceDescriptor struct{}
 
 func (d *LimitServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1287,6 +1460,7 @@ func (d *LimitServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDesc
 		watchLimitsDescriptor,
 		updateLimitDescriptor,
 		deleteLimitDescriptor,
+		migrateLimitSourceDescriptor,
 	}
 }
 
@@ -1323,6 +1497,7 @@ func initDescriptors() {
 	watchLimitsDescriptor = &WatchLimitsDescriptor{}
 	updateLimitDescriptor = &UpdateLimitDescriptor{}
 	deleteLimitDescriptor = &DeleteLimitDescriptor{}
+	migrateLimitSourceDescriptor = &MigrateLimitSourceDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(limitServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getLimitDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetLimitsDescriptor)
@@ -1331,6 +1506,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchLimitsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateLimitDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteLimitDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(migrateLimitSourceDescriptor)
 }
 
 func init() {

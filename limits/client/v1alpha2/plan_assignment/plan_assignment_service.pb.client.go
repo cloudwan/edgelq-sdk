@@ -57,6 +57,7 @@ type PlanAssignmentServiceClient interface {
 	CreatePlanAssignment(ctx context.Context, in *CreatePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
 	UpdatePlanAssignment(ctx context.Context, in *UpdatePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
 	DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	MigratePlanAssignment(ctx context.Context, in *MigratePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdatePlanAssignment(ctx context.Context, in *UpdatePlanAssignm
 func (c *client) DeletePlanAssignment(ctx context.Context, in *DeletePlanAssignmentRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentService/DeletePlanAssignment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) MigratePlanAssignment(ctx context.Context, in *MigratePlanAssignmentRequest, opts ...grpc.CallOption) (*plan_assignment.PlanAssignment, error) {
+	out := new(plan_assignment.PlanAssignment)
+	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentService/MigratePlanAssignment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

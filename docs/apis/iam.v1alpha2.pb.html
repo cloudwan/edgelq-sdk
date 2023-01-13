@@ -4396,6 +4396,40 @@ descendants.</p>
 </tr>
 <tr><td class="description"><p>Multi region policy for child resources</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">allowed_services</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Allowed services for child organizations and projects. This field is
+checked only for non-core edgelq services.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">business_tier</th>
+<td class="type"><pre><a href="#enum-BusinessTier">BusinessTier</a></pre></td>
+</tr>
+<tr><td class="description"><p>Business tier applicable for all allowed services.
+This value defines:</p>
+<ul>
+<li>Default business tier for child projects (if not defined on creation)</li>
+<li>Default business tier to this organization.</li>
+</ul>
+</td></tr>
+
+<tr>
+<th rowspan="2">service_tiers</th>
+<td class="type"><pre>repeated <a href="#message-ServiceBusinessTier">ServiceBusinessTier</a></pre></td>
+</tr>
+<tr><td class="description"><p>Overwrites business_tier for each service.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service_errors</th>
+<td class="type"><pre><a href="#message-ServiceErrors">ServiceErrors</a></pre></td>
+</tr>
+<tr><td class="description"><p>Service errors reported for this organization by category</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -7491,6 +7525,27 @@ compare.</p>
 <td class="type"><pre>repeated string</pre></td>
 </tr>
 <tr><td class="description"><p>Enabled services. This field is checked only for non-core edgelq services.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">business_tier</th>
+<td class="type"><pre><a href="#enum-BusinessTier">BusinessTier</a></pre></td>
+</tr>
+<tr><td class="description"><p>Default business tier for core EdgeLQ services and all enabled services.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service_tiers</th>
+<td class="type"><pre>repeated <a href="#message-ServiceBusinessTier">ServiceBusinessTier</a></pre></td>
+</tr>
+<tr><td class="description"><p>Overwrites business_tier for each service.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service_errors</th>
+<td class="type"><pre><a href="#message-ServiceErrors">ServiceErrors</a></pre></td>
+</tr>
+<tr><td class="description"><p>Service errors reported for this project</p>
 </td></tr>
  
 </tbody>
@@ -17254,6 +17309,82 @@ stateless watch type.</p>
 
 
 
+<h5 id="message-ServiceBusinessTier">ServiceBusinessTier</h5>
+
+<p>ServiceBusinessTier binds specific service with specific business tier.
+It may be useful if two services use different tier in one organizational
+entity (project or organization).</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">business_tier</th>
+<td class="type"><pre><a href="#enum-BusinessTier">BusinessTier</a></pre></td>
+</tr>
+<tr><td class="description"><p>Entity tier value for given service.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ServiceErrors">ServiceErrors</h5>
+
+<p>ServiceErrors is generic container wrapping errors with services.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">errors</th>
+<td class="type"><pre>repeated <a href="#message-ServiceErrors.Error">ServiceErrors.Error</a></pre></td>
+</tr>
+<tr><td class="description"><p>Errors</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ServiceErrors.Error">ServiceErrors.Error</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service for which there are error reports. May be skipped if error is
+cross-service or is about core EdgeLQ components.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">message</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Error message</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
 <h5 id="message-UserChange">UserChange</h5>
 
 <p>UserChange is used by Watch notifications Responses to describe change of
@@ -17424,6 +17555,50 @@ type.</p>
 
 
 <h4>Enums</h4>
+
+
+
+<h5 id="enum-BusinessTier">BusinessTier</h5>
+
+<p>BusinessTier indicates size of organizational entity (project or
+organization)</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>LARGE</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>MEDIUM</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SMALL</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>TINY</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
 
 
 

@@ -8,6 +8,7 @@ package project_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
@@ -19,6 +20,7 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &meta_service.Service{}
@@ -195,6 +197,18 @@ func (ListMyProjectsResponsePathSelectorProjects) MultiRegionPolicy() ListMyProj
 
 func (ListMyProjectsResponsePathSelectorProjects) EnabledServices() ListMyProjectsResponsePathSelectorProjectsEnabledServices {
 	return ListMyProjectsResponsePathSelectorProjectsEnabledServices{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjects) BusinessTier() ListMyProjectsResponsePathSelectorProjectsBusinessTier {
+	return ListMyProjectsResponsePathSelectorProjectsBusinessTier{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjects) ServiceTiers() ListMyProjectsResponsePathSelectorProjectsServiceTiers {
+	return ListMyProjectsResponsePathSelectorProjectsServiceTiers{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjects) ServiceErrors() ListMyProjectsResponsePathSelectorProjectsServiceErrors {
+	return ListMyProjectsResponsePathSelectorProjectsServiceErrors{}
 }
 
 type ListMyProjectsResponsePathSelectorProjectsName struct{}
@@ -1058,6 +1072,126 @@ func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithArrayOfVa
 
 func (s ListMyProjectsResponsePathSelectorProjectsEnabledServices) WithItemValue(value *meta_service.Reference) *ListMyProjectsResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsBusinessTier struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsBusinessTier) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsBusinessTier) WithValue(value iam_common.BusinessTier) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsServiceTiers struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceTiers) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().ServiceTiers().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiers) WithValue(value []*iam_common.ServiceBusinessTier) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiers) WithArrayOfValues(values [][]*iam_common.ServiceBusinessTier) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiers) WithItemValue(value *iam_common.ServiceBusinessTier) *ListMyProjectsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListMyProjectsResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceTiers) Service() ListMyProjectsResponsePathSelectorProjectsServiceTiersService {
+	return ListMyProjectsResponsePathSelectorProjectsServiceTiersService{}
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceTiers) BusinessTier() ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier {
+	return ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier{}
+}
+
+type ListMyProjectsResponsePathSelectorProjectsServiceTiersService struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceTiersService) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().ServiceTiers().Service().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiersService) WithValue(value *meta_service.Reference) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiersService) WithArrayOfValues(values []*meta_service.Reference) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().ServiceTiers().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier) WithValue(value iam_common.BusinessTier) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceTiersBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyProjectsResponsePathSelectorProjectsServiceErrors struct{}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceErrors) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().ServiceErrors().FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceErrors) WithValue(value map[string]*iam_common.ServiceErrors) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponsePathSelectorProjectsServiceErrors) WithArrayOfValues(values []map[string]*iam_common.ServiceErrors) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyProjectsResponsePathSelectorProjectsServiceErrors) WithKey(key string) ListMyProjectsResponseMapPathSelectorProjectsServiceErrors {
+	return ListMyProjectsResponseMapPathSelectorProjectsServiceErrors{key: key}
+}
+
+type ListMyProjectsResponseMapPathSelectorProjectsServiceErrors struct {
+	key string
+}
+
+func (s ListMyProjectsResponseMapPathSelectorProjectsServiceErrors) FieldPath() *ListMyProjectsResponse_FieldSubPath {
+	return &ListMyProjectsResponse_FieldSubPath{
+		selector: ListMyProjectsResponse_FieldPathSelectorProjects,
+		subPath:  project.NewProjectFieldPathBuilder().ServiceErrors().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListMyProjectsResponseMapPathSelectorProjectsServiceErrors) WithValue(value *iam_common.ServiceErrors) *ListMyProjectsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyProjectsResponse_FieldSubPathValue)
+}
+
+func (s ListMyProjectsResponseMapPathSelectorProjectsServiceErrors) WithArrayOfValues(values []*iam_common.ServiceErrors) *ListMyProjectsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectsResponse_FieldSubPathArrayOfValues)
 }
 
 type ListMyProjectsResponsePathSelectorPrevPageToken struct{}

@@ -45,7 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &project.Project{}
 )
 
@@ -404,7 +404,11 @@ func (ref *Reference) Resolve(resolved *AttestationDomain) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*AttestationDomain); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*AttestationDomain); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

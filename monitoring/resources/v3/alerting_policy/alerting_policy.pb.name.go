@@ -405,7 +405,11 @@ func (ref *Reference) Resolve(resolved *AlertingPolicy) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*AlertingPolicy); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*AlertingPolicy); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

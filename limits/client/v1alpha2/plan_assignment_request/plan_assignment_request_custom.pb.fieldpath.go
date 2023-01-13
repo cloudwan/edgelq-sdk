@@ -27,6 +27,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
+	view "github.com/cloudwan/goten-sdk/runtime/api/view"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -53,7 +55,632 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
+	_ = &field_mask.FieldMask{}
+	_ = view.View(0)
 )
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ListApproverPlanAssignmentRequestsRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ListApproverPlanAssignmentRequestsRequest_FieldPathSelector
+	Get(source *ListApproverPlanAssignmentRequestsRequest) []interface{}
+	GetSingle(source *ListApproverPlanAssignmentRequestsRequest) (interface{}, bool)
+	ClearValue(item *ListApproverPlanAssignmentRequestsRequest)
+
+	// Those methods build corresponding ListApproverPlanAssignmentRequestsRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue
+}
+
+type ListApproverPlanAssignmentRequestsRequest_FieldPathSelector int32
+
+const (
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover  ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 0
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize  ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 1
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 2
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy   ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 3
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter    ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 4
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 5
+	ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView      ListApproverPlanAssignmentRequestsRequest_FieldPathSelector = 6
+)
+
+func (s ListApproverPlanAssignmentRequestsRequest_FieldPathSelector) String() string {
+	switch s {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		return "approver"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		return "page_size"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		return "page_token"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		return "order_by"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		return "filter"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		return "field_mask"
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		return "view"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", s))
+	}
+}
+
+func BuildListApproverPlanAssignmentRequestsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListApproverPlanAssignmentRequestsRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ListApproverPlanAssignmentRequestsRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "approver":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover}, nil
+		case "page_size", "pageSize", "page-size":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize}, nil
+		case "page_token", "pageToken", "page-token":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken}, nil
+		case "order_by", "orderBy", "order-by":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy}, nil
+		case "filter":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter}, nil
+		case "field_mask", "fieldMask", "field-mask":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask}, nil
+		case "view":
+			return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListApproverPlanAssignmentRequestsRequest", fp)
+}
+
+func ParseListApproverPlanAssignmentRequestsRequest_FieldPath(rawField string) (ListApproverPlanAssignmentRequestsRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildListApproverPlanAssignmentRequestsRequest_FieldPath(fp)
+}
+
+func MustParseListApproverPlanAssignmentRequestsRequest_FieldPath(rawField string) ListApproverPlanAssignmentRequestsRequest_FieldPath {
+	fp, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath struct {
+	selector ListApproverPlanAssignmentRequestsRequest_FieldPathSelector
+}
+
+var _ ListApproverPlanAssignmentRequestsRequest_FieldPath = (*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath)(nil)
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) Selector() ListApproverPlanAssignmentRequestsRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ListApproverPlanAssignmentRequestsRequest
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) Get(source *ListApproverPlanAssignmentRequestsRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+			if source.Approver != nil {
+				values = append(values, source.Approver)
+			}
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+			values = append(values, source.PageSize)
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+			if source.PageToken != nil {
+				values = append(values, source.PageToken)
+			}
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+			if source.OrderBy != nil {
+				values = append(values, source.OrderBy)
+			}
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+			if source.Filter != nil {
+				values = append(values, source.Filter)
+			}
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+			if source.FieldMask != nil {
+				values = append(values, source.FieldMask)
+			}
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+			values = append(values, source.View)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source ListApproverPlanAssignmentRequestsRequest
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) GetSingle(source *ListApproverPlanAssignmentRequestsRequest) (interface{}, bool) {
+	switch fp.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		res := source.GetApprover()
+		return res, res != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		return source.GetPageSize(), source != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		res := source.GetPageToken()
+		return res, res != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		res := source.GetOrderBy()
+		return res, res != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		res := source.GetFilter()
+		return res, res != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		res := source.GetFieldMask()
+		return res, res != nil
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		return source.GetView(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		return (*iam_organization.Reference)(nil)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		return int32(0)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		return (*plan_assignment_request.PagerCursor)(nil)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		return (*plan_assignment_request.OrderBy)(nil)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		return (*plan_assignment_request.Filter)(nil)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		return (*plan_assignment_request.PlanAssignmentRequest_FieldMask)(nil)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		return view.View_UNSPECIFIED
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) ClearValue(item *ListApproverPlanAssignmentRequestsRequest) {
+	if item != nil {
+		switch fp.selector {
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+			item.Approver = nil
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+			item.PageSize = int32(0)
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+			item.PageToken = nil
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+			item.OrderBy = nil
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+			item.Filter = nil
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+			item.FieldMask = nil
+		case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+			item.View = view.View_UNSPECIFIED
+		default:
+			panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask ||
+		fp.selector == ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithIValue(value interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathValue {
+	switch fp.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*iam_organization.Reference)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.PagerCursor)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.OrderBy)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.Filter)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment_request.PlanAssignmentRequest_FieldMask)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues {
+	fpaov := &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*iam_organization.Reference)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.PagerCursor)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.OrderBy)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.Filter)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment_request.PlanAssignmentRequest_FieldMask)}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues{ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ListApproverPlanAssignmentRequestsRequest_FieldPathValue allows storing values for ListApproverPlanAssignmentRequestsRequest fields according to their type
+type ListApproverPlanAssignmentRequestsRequest_FieldPathValue interface {
+	ListApproverPlanAssignmentRequestsRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ListApproverPlanAssignmentRequestsRequest)
+	CompareWith(*ListApproverPlanAssignmentRequestsRequest) (cmp int, comparable bool)
+}
+
+func ParseListApproverPlanAssignmentRequestsRequest_FieldPathValue(pathStr, valueStr string) (ListApproverPlanAssignmentRequestsRequest_FieldPathValue, error) {
+	fp, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ListApproverPlanAssignmentRequestsRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ListApproverPlanAssignmentRequestsRequest_FieldPathValue), nil
+}
+
+func MustParseListApproverPlanAssignmentRequestsRequest_FieldPathValue(pathStr, valueStr string) ListApproverPlanAssignmentRequestsRequest_FieldPathValue {
+	fpv, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue struct {
+	ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ListApproverPlanAssignmentRequestsRequest_FieldPathValue = (*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ListApproverPlanAssignmentRequestsRequest' as interface{}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsApproverValue() (*iam_organization.Reference, bool) {
+	res, ok := fpv.value.(*iam_organization.Reference)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsPageTokenValue() (*plan_assignment_request.PagerCursor, bool) {
+	res, ok := fpv.value.(*plan_assignment_request.PagerCursor)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsOrderByValue() (*plan_assignment_request.OrderBy, bool) {
+	res, ok := fpv.value.(*plan_assignment_request.OrderBy)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsFilterValue() (*plan_assignment_request.Filter, bool) {
+	res, ok := fpv.value.(*plan_assignment_request.Filter)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsFieldMaskValue() (*plan_assignment_request.PlanAssignmentRequest_FieldMask, bool) {
+	res, ok := fpv.value.(*plan_assignment_request.PlanAssignmentRequest_FieldMask)
+	return res, ok
+}
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) AsViewValue() (view.View, bool) {
+	res, ok := fpv.value.(view.View)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ListApproverPlanAssignmentRequestsRequest
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) SetTo(target **ListApproverPlanAssignmentRequestsRequest) {
+	if *target == nil {
+		*target = new(ListApproverPlanAssignmentRequestsRequest)
+	}
+	switch fpv.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		(*target).Approver = fpv.value.(*iam_organization.Reference)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		(*target).PageSize = fpv.value.(int32)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		(*target).PageToken = fpv.value.(*plan_assignment_request.PagerCursor)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		(*target).OrderBy = fpv.value.(*plan_assignment_request.OrderBy)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		(*target).Filter = fpv.value.(*plan_assignment_request.Filter)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		(*target).FieldMask = fpv.value.(*plan_assignment_request.PlanAssignmentRequest_FieldMask)
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		(*target).View = fpv.value.(view.View)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ListApproverPlanAssignmentRequestsRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue' with the value under path in 'ListApproverPlanAssignmentRequestsRequest'.
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) CompareWith(source *ListApproverPlanAssignmentRequestsRequest) (int, bool) {
+	switch fpv.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		leftValue := fpv.value.(*iam_organization.Reference)
+		rightValue := source.GetApprover()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetPageSize()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		return 0, false
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		return 0, false
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		return 0, false
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		return 0, false
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		leftValue := fpv.value.(view.View)
+		rightValue := source.GetView()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ListApproverPlanAssignmentRequestsRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+// ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for ListApproverPlanAssignmentRequestsRequest according to their type
+// Present only for array (repeated) types.
+type ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ListApproverPlanAssignmentRequestsRequest_FieldPath
+	ContainsValue(*ListApproverPlanAssignmentRequestsRequest) bool
+}
+
+// ParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue(pathStr, valueStr string) (ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ListApproverPlanAssignmentRequestsRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue(pathStr, valueStr string) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue struct {
+	ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ ListApproverPlanAssignmentRequestsRequest_FieldPathArrayItemValue = (*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ListApproverPlanAssignmentRequestsRequest as interface{}
+func (fpaiv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue) GetSingle(source *ListApproverPlanAssignmentRequestsRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ListApproverPlanAssignmentRequestsRequest'
+func (fpaiv *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *ListApproverPlanAssignmentRequestsRequest) bool {
+	slice := fpaiv.ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues allows storing slice of values for ListApproverPlanAssignmentRequestsRequest fields according to their type
+type ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ListApproverPlanAssignmentRequestsRequest_FieldPath
+}
+
+func ParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ListApproverPlanAssignmentRequestsRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues(pathStr, valuesStr string) ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues struct {
+	ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ ListApproverPlanAssignmentRequestsRequest_FieldPathArrayOfValues = (*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+		for _, v := range fpaov.values.([]*iam_organization.Reference) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+		for _, v := range fpaov.values.([]*plan_assignment_request.PagerCursor) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+		for _, v := range fpaov.values.([]*plan_assignment_request.OrderBy) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+		for _, v := range fpaov.values.([]*plan_assignment_request.Filter) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+		for _, v := range fpaov.values.([]*plan_assignment_request.PlanAssignmentRequest_FieldMask) {
+			values = append(values, v)
+		}
+	case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+		for _, v := range fpaov.values.([]view.View) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsApproverArrayOfValues() ([]*iam_organization.Reference, bool) {
+	res, ok := fpaov.values.([]*iam_organization.Reference)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsPageTokenArrayOfValues() ([]*plan_assignment_request.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*plan_assignment_request.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfValues() ([]*plan_assignment_request.OrderBy, bool) {
+	res, ok := fpaov.values.([]*plan_assignment_request.OrderBy)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*plan_assignment_request.Filter, bool) {
+	res, ok := fpaov.values.([]*plan_assignment_request.Filter)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsFieldMaskArrayOfValues() ([]*plan_assignment_request.PlanAssignmentRequest_FieldMask, bool) {
+	res, ok := fpaov.values.([]*plan_assignment_request.PlanAssignmentRequest_FieldMask)
+	return res, ok
+}
+func (fpaov *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfValues() ([]view.View, bool) {
+	res, ok := fpaov.values.([]view.View)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto

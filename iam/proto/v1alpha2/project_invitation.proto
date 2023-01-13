@@ -3,7 +3,7 @@ syntax = "proto3";
 package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
-import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/invitation.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 

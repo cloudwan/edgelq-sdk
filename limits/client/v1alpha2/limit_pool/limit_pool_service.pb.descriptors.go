@@ -31,15 +31,16 @@ var (
 )
 
 var (
-	descriptorsInitialized       bool
-	limitPoolServiceDescriptor   *LimitPoolServiceDescriptor
-	getLimitPoolDescriptor       *GetLimitPoolDescriptor
-	batchGetLimitPoolsDescriptor *BatchGetLimitPoolsDescriptor
-	listLimitPoolsDescriptor     *ListLimitPoolsDescriptor
-	watchLimitPoolDescriptor     *WatchLimitPoolDescriptor
-	watchLimitPoolsDescriptor    *WatchLimitPoolsDescriptor
-	updateLimitPoolDescriptor    *UpdateLimitPoolDescriptor
-	deleteLimitPoolDescriptor    *DeleteLimitPoolDescriptor
+	descriptorsInitialized           bool
+	limitPoolServiceDescriptor       *LimitPoolServiceDescriptor
+	getLimitPoolDescriptor           *GetLimitPoolDescriptor
+	batchGetLimitPoolsDescriptor     *BatchGetLimitPoolsDescriptor
+	listLimitPoolsDescriptor         *ListLimitPoolsDescriptor
+	watchLimitPoolDescriptor         *WatchLimitPoolDescriptor
+	watchLimitPoolsDescriptor        *WatchLimitPoolsDescriptor
+	updateLimitPoolDescriptor        *UpdateLimitPoolDescriptor
+	deleteLimitPoolDescriptor        *DeleteLimitPoolDescriptor
+	migrateLimitPoolSourceDescriptor *MigrateLimitPoolSourceDescriptor
 )
 
 type GetLimitPoolDescriptor struct{}
@@ -1276,6 +1277,178 @@ func GetDeleteLimitPoolDescriptor() *DeleteLimitPoolDescriptor {
 	return deleteLimitPoolDescriptor
 }
 
+type MigrateLimitPoolSourceDescriptor struct{}
+
+type MigrateLimitPoolSourceDescriptorClientMsgHandle struct{}
+
+type MigrateLimitPoolSourceDescriptorServerMsgHandle struct{}
+
+func (d *MigrateLimitPoolSourceDescriptor) NewEmptyClientMsg() proto.Message {
+	return &MigrateLimitPoolSourceRequest{}
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) NewEmptyServerMsg() proto.Message {
+	return &limit_pool.LimitPool{}
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetVerb() string {
+	return "migrate"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetMethodName() string {
+	return "MigrateLimitPoolSource"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetFullMethodName() string {
+	return "/ntt.limits.v1alpha2.LimitPoolService/MigrateLimitPoolSource"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetProtoPkgName() string {
+	return "ntt.limits.v1alpha2"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetApiName() string {
+	return "LimitPoolService"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetServiceDomain() string {
+	return "limits.edgelq.com"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return limitPoolServiceDescriptor
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return limit_pool.GetDescriptor()
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigrateLimitPoolSourceDescriptorClientMsgHandle{}
+}
+
+func (d *MigrateLimitPoolSourceDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigrateLimitPoolSourceDescriptorServerMsgHandle{}
+}
+
+func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigrateLimitPoolSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*MigrateLimitPoolSourceRequest) *limit_pool.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if ref := typedMsg.GetName(); ref != nil {
+			return &ref.Name
+		}
+	}
+	return (*limit_pool.Name)(nil)
+}
+
+func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*MigrateLimitPoolSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*MigrateLimitPoolSourceRequest) []*limit_pool.Name
+	})
+	if ok {
+		return limit_pool.LimitPoolNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigrateLimitPoolSourceRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*MigrateLimitPoolSourceRequest) *limit_pool.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*limit_pool.LimitPool) *limit_pool.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*limit_pool.Name)(nil)
+}
+
+func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*limit_pool.LimitPool) []*limit_pool.Name
+	})
+	if ok {
+		return limit_pool.LimitPoolNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigrateLimitPoolSourceDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*limit_pool.LimitPool)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*limit_pool.LimitPool) *limit_pool.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetMigrateLimitPoolSourceDescriptor() *MigrateLimitPoolSourceDescriptor {
+	return migrateLimitPoolSourceDescriptor
+}
+
 type LimitPoolServiceDescriptor struct{}
 
 func (d *LimitPoolServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1287,6 +1460,7 @@ func (d *LimitPoolServiceDescriptor) AllMethodDescriptors() []gotenclient.Method
 		watchLimitPoolsDescriptor,
 		updateLimitPoolDescriptor,
 		deleteLimitPoolDescriptor,
+		migrateLimitPoolSourceDescriptor,
 	}
 }
 
@@ -1323,6 +1497,7 @@ func initDescriptors() {
 	watchLimitPoolsDescriptor = &WatchLimitPoolsDescriptor{}
 	updateLimitPoolDescriptor = &UpdateLimitPoolDescriptor{}
 	deleteLimitPoolDescriptor = &DeleteLimitPoolDescriptor{}
+	migrateLimitPoolSourceDescriptor = &MigrateLimitPoolSourceDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(limitPoolServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getLimitPoolDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetLimitPoolsDescriptor)
@@ -1331,6 +1506,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchLimitPoolsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateLimitPoolDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteLimitPoolDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(migrateLimitPoolSourceDescriptor)
 }
 
 func init() {

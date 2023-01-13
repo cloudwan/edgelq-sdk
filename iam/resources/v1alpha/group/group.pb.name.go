@@ -428,7 +428,11 @@ func (ref *Reference) Resolve(resolved *Group) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*Group); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*Group); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

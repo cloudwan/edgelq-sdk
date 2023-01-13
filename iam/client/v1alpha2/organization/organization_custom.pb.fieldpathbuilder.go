@@ -8,7 +8,9 @@ package organization_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
@@ -17,7 +19,9 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &meta_service.Service{}
 	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
 )
@@ -187,6 +191,22 @@ func (ListMyOrganizationsResponsePathSelectorOrganizations) Metadata() ListMyOrg
 
 func (ListMyOrganizationsResponsePathSelectorOrganizations) MultiRegionPolicy() ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy {
 	return ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicy{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizations) AllowedServices() ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizations) BusinessTier() ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizations) ServiceTiers() ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizations) ServiceErrors() ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors{}
 }
 
 type ListMyOrganizationsResponsePathSelectorOrganizationsName struct{}
@@ -1028,6 +1048,147 @@ func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCri
 }
 
 func (s ListMyOrganizationsResponsePathSelectorOrganizationsMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().AllowedServices().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices) WithValue(value []*meta_service.Reference) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices) WithArrayOfValues(values [][]*meta_service.Reference) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsAllowedServices) WithItemValue(value *meta_service.Reference) *ListMyOrganizationsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListMyOrganizationsResponse_FieldSubPathArrayItemValue)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier) WithValue(value iam_common.BusinessTier) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().ServiceTiers().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) WithValue(value []*iam_common.ServiceBusinessTier) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) WithArrayOfValues(values [][]*iam_common.ServiceBusinessTier) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) WithItemValue(value *iam_common.ServiceBusinessTier) *ListMyOrganizationsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListMyOrganizationsResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) Service() ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService{}
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiers) BusinessTier() ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier {
+	return ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier{}
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().ServiceTiers().Service().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService) WithValue(value *meta_service.Reference) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersService) WithArrayOfValues(values []*meta_service.Reference) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().ServiceTiers().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier) WithValue(value iam_common.BusinessTier) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceTiersBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors struct{}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().ServiceErrors().FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors) WithValue(value map[string]*iam_common.ServiceErrors) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors) WithArrayOfValues(values []map[string]*iam_common.ServiceErrors) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListMyOrganizationsResponsePathSelectorOrganizationsServiceErrors) WithKey(key string) ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors {
+	return ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors{key: key}
+}
+
+type ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors struct {
+	key string
+}
+
+func (s ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors) FieldPath() *ListMyOrganizationsResponse_FieldSubPath {
+	return &ListMyOrganizationsResponse_FieldSubPath{
+		selector: ListMyOrganizationsResponse_FieldPathSelectorOrganizations,
+		subPath:  organization.NewOrganizationFieldPathBuilder().ServiceErrors().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors) WithValue(value *iam_common.ServiceErrors) *ListMyOrganizationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMyOrganizationsResponse_FieldSubPathValue)
+}
+
+func (s ListMyOrganizationsResponseMapPathSelectorOrganizationsServiceErrors) WithArrayOfValues(values []*iam_common.ServiceErrors) *ListMyOrganizationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationsResponse_FieldSubPathArrayOfValues)
 }
 

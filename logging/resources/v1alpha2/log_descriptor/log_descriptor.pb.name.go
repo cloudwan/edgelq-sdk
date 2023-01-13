@@ -430,7 +430,11 @@ func (ref *Reference) Resolve(resolved *LogDescriptor) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*LogDescriptor); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*LogDescriptor); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

@@ -21,6 +21,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -43,6 +44,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
 )
@@ -57,6 +59,8 @@ func FullPlan_FieldMask() *Plan_FieldMask {
 	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorService})
 	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorResourceLimits})
+	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorPlanLevel})
+	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorBusinessTier})
 	res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorMetadata})
 	return res
 }
@@ -101,7 +105,7 @@ func (fieldMask *Plan_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Plan_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -131,7 +135,7 @@ func (fieldMask *Plan_FieldMask) Reset() {
 
 func (fieldMask *Plan_FieldMask) Subtract(other *Plan_FieldMask) *Plan_FieldMask {
 	result := &Plan_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Plan_FieldPathSelector]gotenobject.FieldMask{
 		Plan_FieldPathSelectorResourceLimits: &common.Allowance_FieldMask{},
 		Plan_FieldPathSelectorMetadata:       &ntt_meta.Meta_FieldMask{},
@@ -346,6 +350,10 @@ func (fieldMask *Plan_FieldMask) Project(source *Plan) *Plan {
 			case Plan_FieldPathSelectorResourceLimits:
 				result.ResourceLimits = source.ResourceLimits
 				wholeResourceLimitsAccepted = true
+			case Plan_FieldPathSelectorPlanLevel:
+				result.PlanLevel = source.PlanLevel
+			case Plan_FieldPathSelectorBusinessTier:
+				result.BusinessTier = source.BusinessTier
 			case Plan_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true

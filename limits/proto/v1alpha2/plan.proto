@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.limits.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/common.proto";
 import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/resource.proto";
@@ -33,6 +34,23 @@ message Plan {
   // services (dependant services)
   repeated Allowance resource_limits = 4;
 
+  // Plan level
+  PlanLevel plan_level = 6;
+
+  // Business tier
+  ntt.iam.v1alpha2.BusinessTier business_tier = 7;
+
   // Metadata
   ntt.types.Meta metadata = 5;
+
+  // PlanLevel defines entity level for whom plan can be assigned
+  enum PlanLevel {
+    UNDEFINED = 0;
+
+    SYSTEM = 1;
+
+    ORGANIZATION = 2;
+
+    PROJECT = 3;
+  }
 }

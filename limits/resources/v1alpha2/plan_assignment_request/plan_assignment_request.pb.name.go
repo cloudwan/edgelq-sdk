@@ -430,7 +430,11 @@ func (ref *Reference) Resolve(resolved *PlanAssignmentRequest) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*PlanAssignmentRequest); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*PlanAssignmentRequest); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

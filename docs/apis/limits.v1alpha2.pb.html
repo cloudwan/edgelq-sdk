@@ -1347,6 +1347,31 @@ Equivalent REST API:
 
 </div>
 
+
+
+<div class="operation">
+<h5 id="operation-MigrateLimitSource">MigrateLimitSource</h5>
+
+<pre class="signature">rpc MigrateLimitSource(<a href="#message-MigrateLimitSourceRequest">MigrateLimitSourceRequest</a>) returns (<a href="#message-Limit">Limit</a>)</pre>
+
+<div class="description">
+<p>MigrateLimitSource</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=projects/*/limits/*}:migrate </pre>
+
+</div>
+
+
+</div>
+
  
 
 <h4>Messages</h4>
@@ -1942,6 +1967,27 @@ compare.</p>
 </tbody>
 </table>
 
+
+
+<h5 id="message-MigrateLimitSourceRequest">MigrateLimitSourceRequest</h5>
+
+<p>Request message for method
+[MigrateLimitSource][ntt.limits.v1alpha2.MigrateLimitSource]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.limits.v1alpha2.Limit</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
   
 
 
@@ -2228,6 +2274,33 @@ Equivalent REST API:
 <pre>DELETE /v1alpha2/{name=limitPools/*} </pre>
 
 <pre>DELETE /v1alpha2/{name=organizations/*/limitPools/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-MigrateLimitPoolSource">MigrateLimitPoolSource</h5>
+
+<pre class="signature">rpc MigrateLimitPoolSource(<a href="#message-MigrateLimitPoolSourceRequest">MigrateLimitPoolSourceRequest</a>) returns (<a href="#message-LimitPool">LimitPool</a>)</pre>
+
+<div class="description">
+<p>MigrateLimitPoolSource</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v1alpha2/{name=limitPools/*}:migrate </pre>
+
+<pre>POST /v1alpha2/{name=organizations/*/limitPools/*}:migrate </pre>
 
 </div>
 
@@ -2835,6 +2908,27 @@ compare.</p>
 </tbody>
 </table>
 
+
+
+<h5 id="message-MigrateLimitPoolSourceRequest">MigrateLimitPoolSourceRequest</h5>
+
+<p>Request message for method
+[MigrateLimitPoolSource][ntt.limits.v1alpha2.MigrateLimitPoolSource]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.limits.v1alpha2.LimitPool</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
   
 
 
@@ -2875,6 +2969,20 @@ but it can also include resources from imported services too.</p>
 </tr>
 <tr><td class="description"><p>List of limits per each resource. Resources may belong to different
 services (dependant services)</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">plan_level</th>
+<td class="type"><pre><a href="#enum-Plan.PlanLevel">Plan.PlanLevel</a></pre></td>
+</tr>
+<tr><td class="description"><p>Plan level</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">business_tier</th>
+<td class="type"><pre>.ntt.iam.v1alpha2.BusinessTier</pre></td>
+</tr>
+<tr><td class="description"><p>Business tier</p>
 </td></tr>
 
 <tr>
@@ -3689,7 +3797,48 @@ compare.</p>
 </tbody>
 </table>
 
-  
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-Plan.PlanLevel">Plan.PlanLevel</h5>
+
+<p>PlanLevel defines entity level for whom plan can be assigned</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SYSTEM</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ORGANIZATION</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>PROJECT</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
 
 
 
@@ -3985,6 +4134,35 @@ Equivalent REST API:
 <pre>DELETE /v1alpha2/{name=projects/*/planAssignments/*} </pre>
 
 <pre>DELETE /v1alpha2/{name=organizations/*/planAssignments/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-MigratePlanAssignment">MigratePlanAssignment</h5>
+
+<pre class="signature">rpc MigratePlanAssignment(<a href="#message-MigratePlanAssignmentRequest">MigratePlanAssignmentRequest</a>) returns (<a href="#message-PlanAssignment">PlanAssignment</a>)</pre>
+
+<div class="description">
+<p>MigratePlanAssignment</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v1alpha2/{plan_assignment.name=planAssignments/*}:migrate (BODY: plan_assignment)</pre>
+
+<pre>PUT /v1alpha2/{plan_assignment.name=projects/*/planAssignments/*}:migrate </pre>
+
+<pre>PUT /v1alpha2/{plan_assignment.name=organizations/*/planAssignments/*}:migrate </pre>
 
 </div>
 
@@ -4621,6 +4799,27 @@ compare.</p>
 </tbody>
 </table>
 
+
+
+<h5 id="message-MigratePlanAssignmentRequest">MigratePlanAssignmentRequest</h5>
+
+<p>Request message for method
+[MigratePlanAssignment][ntt.limits.v1alpha2.MigratePlanAssignment]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">plan_assignment</th>
+<td class="type"><pre><a href="#message-PlanAssignment">PlanAssignment</a></pre></td>
+</tr>
+<tr><td class="description"><p>PlanAssignment resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
   
 
 
@@ -4954,6 +5153,31 @@ Equivalent REST API:
 <pre>POST /v1alpha2/{name=projects/*/planAssignmentRequests/*}:decline </pre>
 
 <pre>POST /v1alpha2/{name=organizations/*/planAssignmentRequests/*}:decline </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListApproverPlanAssignmentRequests">ListApproverPlanAssignmentRequests</h5>
+
+<pre class="signature">rpc ListApproverPlanAssignmentRequests(<a href="#message-ListApproverPlanAssignmentRequestsRequest">ListApproverPlanAssignmentRequestsRequest</a>) returns (<a href="#message-ListPlanAssignmentRequestsResponse">ListPlanAssignmentRequestsResponse</a>)</pre>
+
+<div class="description">
+<p>ListApproverPlanAssignmentRequests</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v1alpha2/planAssignmentRequests:listApprover </pre>
 
 </div>
 
@@ -5887,6 +6111,83 @@ PlanAssignmentRequest.</p>
 <tbody> 
 <tr><td class="none">none</td></tr>
 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListApproverPlanAssignmentRequestsRequest">ListApproverPlanAssignmentRequestsRequest</h5>
+
+<p>Request message for method
+[ListApproverPlanAssignmentRequests][ntt.limits.v1alpha2.ListApproverPlanAssignmentRequests]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">approver</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Approver of the plan assignment requests</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer PlanAssignmentRequests than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListPlanAssignmentRequestsResponse.next_page_token][ntt.limits.v1alpha2.ListPlanAssignmentRequestsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
 </tbody>
 </table>
 

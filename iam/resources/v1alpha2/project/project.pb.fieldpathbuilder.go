@@ -8,6 +8,7 @@ package project
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -17,6 +18,7 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
@@ -50,6 +52,15 @@ func (ProjectFieldPathBuilder) MultiRegionPolicy() ProjectPathSelectorMultiRegio
 }
 func (ProjectFieldPathBuilder) EnabledServices() ProjectPathSelectorEnabledServices {
 	return ProjectPathSelectorEnabledServices{}
+}
+func (ProjectFieldPathBuilder) BusinessTier() ProjectPathSelectorBusinessTier {
+	return ProjectPathSelectorBusinessTier{}
+}
+func (ProjectFieldPathBuilder) ServiceTiers() ProjectPathSelectorServiceTiers {
+	return ProjectPathSelectorServiceTiers{}
+}
+func (ProjectFieldPathBuilder) ServiceErrors() ProjectPathSelectorServiceErrors {
+	return ProjectPathSelectorServiceErrors{}
 }
 
 type ProjectPathSelectorName struct{}
@@ -921,4 +932,127 @@ func (s ProjectPathSelectorEnabledServices) WithArrayOfValues(values [][]*meta_s
 
 func (s ProjectPathSelectorEnabledServices) WithItemValue(value *meta_service.Reference) *Project_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
+}
+
+type ProjectPathSelectorBusinessTier struct{}
+
+func (ProjectPathSelectorBusinessTier) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier}
+}
+
+func (s ProjectPathSelectorBusinessTier) WithValue(value iam_common.BusinessTier) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+type ProjectPathSelectorServiceTiers struct{}
+
+func (ProjectPathSelectorServiceTiers) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers}
+}
+
+func (s ProjectPathSelectorServiceTiers) WithValue(value []*iam_common.ServiceBusinessTier) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorServiceTiers) WithArrayOfValues(values [][]*iam_common.ServiceBusinessTier) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+func (s ProjectPathSelectorServiceTiers) WithItemValue(value *iam_common.ServiceBusinessTier) *Project_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Project_FieldTerminalPathArrayItemValue)
+}
+func (ProjectPathSelectorServiceTiers) WithSubPath(subPath iam_common.ServiceBusinessTier_FieldPath) *Project_FieldSubPath {
+	return &Project_FieldSubPath{selector: Project_FieldPathSelectorServiceTiers, subPath: subPath}
+}
+
+func (s ProjectPathSelectorServiceTiers) WithSubValue(subPathValue iam_common.ServiceBusinessTier_FieldPathValue) *Project_FieldSubPathValue {
+	return &Project_FieldSubPathValue{Project_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ProjectPathSelectorServiceTiers) WithSubArrayOfValues(subPathArrayOfValues iam_common.ServiceBusinessTier_FieldPathArrayOfValues) *Project_FieldSubPathArrayOfValues {
+	return &Project_FieldSubPathArrayOfValues{Project_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ProjectPathSelectorServiceTiers) WithSubArrayItemValue(subPathArrayItemValue iam_common.ServiceBusinessTier_FieldPathArrayItemValue) *Project_FieldSubPathArrayItemValue {
+	return &Project_FieldSubPathArrayItemValue{Project_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ProjectPathSelectorServiceTiers) Service() ProjectPathSelectorServiceTiersService {
+	return ProjectPathSelectorServiceTiersService{}
+}
+
+func (ProjectPathSelectorServiceTiers) BusinessTier() ProjectPathSelectorServiceTiersBusinessTier {
+	return ProjectPathSelectorServiceTiersBusinessTier{}
+}
+
+type ProjectPathSelectorServiceTiersService struct{}
+
+func (ProjectPathSelectorServiceTiersService) FieldPath() *Project_FieldSubPath {
+	return &Project_FieldSubPath{
+		selector: Project_FieldPathSelectorServiceTiers,
+		subPath:  iam_common.NewServiceBusinessTierFieldPathBuilder().Service().FieldPath(),
+	}
+}
+
+func (s ProjectPathSelectorServiceTiersService) WithValue(value *meta_service.Reference) *Project_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldSubPathValue)
+}
+
+func (s ProjectPathSelectorServiceTiersService) WithArrayOfValues(values []*meta_service.Reference) *Project_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
+}
+
+type ProjectPathSelectorServiceTiersBusinessTier struct{}
+
+func (ProjectPathSelectorServiceTiersBusinessTier) FieldPath() *Project_FieldSubPath {
+	return &Project_FieldSubPath{
+		selector: Project_FieldPathSelectorServiceTiers,
+		subPath:  iam_common.NewServiceBusinessTierFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ProjectPathSelectorServiceTiersBusinessTier) WithValue(value iam_common.BusinessTier) *Project_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldSubPathValue)
+}
+
+func (s ProjectPathSelectorServiceTiersBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *Project_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
+}
+
+type ProjectPathSelectorServiceErrors struct{}
+
+func (ProjectPathSelectorServiceErrors) FieldPath() *Project_FieldTerminalPath {
+	return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors}
+}
+
+func (s ProjectPathSelectorServiceErrors) WithValue(value map[string]*iam_common.ServiceErrors) *Project_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldTerminalPathValue)
+}
+
+func (s ProjectPathSelectorServiceErrors) WithArrayOfValues(values []map[string]*iam_common.ServiceErrors) *Project_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldTerminalPathArrayOfValues)
+}
+
+func (ProjectPathSelectorServiceErrors) WithKey(key string) ProjectMapPathSelectorServiceErrors {
+	return ProjectMapPathSelectorServiceErrors{key: key}
+}
+
+type ProjectMapPathSelectorServiceErrors struct {
+	key string
+}
+
+func (s ProjectMapPathSelectorServiceErrors) FieldPath() *Project_FieldPathMap {
+	return &Project_FieldPathMap{selector: Project_FieldPathSelectorServiceErrors, key: s.key}
+}
+
+func (s ProjectMapPathSelectorServiceErrors) WithValue(value *iam_common.ServiceErrors) *Project_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldPathMapValue)
+}
+
+func (s ProjectMapPathSelectorServiceErrors) WithArrayOfValues(values []*iam_common.ServiceErrors) *Project_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldPathMapArrayOfValues)
 }

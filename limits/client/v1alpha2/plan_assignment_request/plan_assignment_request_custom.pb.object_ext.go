@@ -19,6 +19,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
+	view "github.com/cloudwan/goten-sdk/runtime/api/view"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -37,7 +39,177 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
+	_ = &field_mask.FieldMask{}
+	_ = view.View(0)
 )
+
+func (o *ListApproverPlanAssignmentRequestsRequest) GotenObjectExt() {}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) MakeFullFieldMask() *ListApproverPlanAssignmentRequestsRequest_FieldMask {
+	return FullListApproverPlanAssignmentRequestsRequest_FieldMask()
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullListApproverPlanAssignmentRequestsRequest_FieldMask()
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) MakeDiffFieldMask(other *ListApproverPlanAssignmentRequestsRequest) *ListApproverPlanAssignmentRequestsRequest_FieldMask {
+	if o == nil && other == nil {
+		return &ListApproverPlanAssignmentRequestsRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullListApproverPlanAssignmentRequestsRequest_FieldMask()
+	}
+
+	res := &ListApproverPlanAssignmentRequestsRequest_FieldMask{}
+	if o.GetApprover().String() != other.GetApprover().String() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover})
+	}
+	if o.GetPageSize() != other.GetPageSize() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize})
+	}
+	if o.GetPageToken().String() != other.GetPageToken().String() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken})
+	}
+	if o.GetOrderBy().String() != other.GetOrderBy().String() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy})
+	}
+	if o.GetFilter().String() != other.GetFilter().String() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter})
+	}
+	if !proto.Equal(o.GetFieldMask(), other.GetFieldMask()) {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask})
+	}
+	if o.GetView() != other.GetView() {
+		res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView})
+	}
+	return res
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) Clone() *ListApproverPlanAssignmentRequestsRequest {
+	if o == nil {
+		return nil
+	}
+	result := &ListApproverPlanAssignmentRequestsRequest{}
+	if o.Approver == nil {
+		result.Approver = nil
+	} else if data, err := o.Approver.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Approver = &iam_organization.Reference{}
+		if err := result.Approver.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.PageSize = o.PageSize
+	if o.PageToken == nil {
+		result.PageToken = nil
+	} else if data, err := o.PageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PageToken = &plan_assignment_request.PagerCursor{}
+		if err := result.PageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.OrderBy == nil {
+		result.OrderBy = nil
+	} else if data, err := o.OrderBy.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.OrderBy = &plan_assignment_request.OrderBy{}
+		if err := result.OrderBy.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.Filter == nil {
+		result.Filter = nil
+	} else if data, err := o.Filter.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Filter = &plan_assignment_request.Filter{}
+		if err := result.Filter.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.FieldMask = proto.Clone(o.FieldMask).(*plan_assignment_request.PlanAssignmentRequest_FieldMask)
+	result.View = o.View
+	return result
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) Merge(source *ListApproverPlanAssignmentRequestsRequest) {
+	if source.GetApprover() != nil {
+		if data, err := source.GetApprover().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Approver = &iam_organization.Reference{}
+			if err := o.Approver.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Approver = nil
+	}
+	o.PageSize = source.GetPageSize()
+	if source.GetPageToken() != nil {
+		if data, err := source.GetPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PageToken = &plan_assignment_request.PagerCursor{}
+			if err := o.PageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PageToken = nil
+	}
+	if source.GetOrderBy() != nil {
+		if data, err := source.GetOrderBy().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.OrderBy = &plan_assignment_request.OrderBy{}
+			if err := o.OrderBy.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.OrderBy = nil
+	}
+	if source.GetFilter() != nil {
+		if data, err := source.GetFilter().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Filter = &plan_assignment_request.Filter{}
+			if err := o.Filter.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Filter = nil
+	}
+	if source.GetFieldMask() != nil {
+		if o.FieldMask == nil {
+			o.FieldMask = new(plan_assignment_request.PlanAssignmentRequest_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
+		if err := o.FieldMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+	o.View = source.GetView()
+}
+
+func (o *ListApproverPlanAssignmentRequestsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
 
 func (o *AcceptPlanAssignmentRequest) GotenObjectExt() {}
 

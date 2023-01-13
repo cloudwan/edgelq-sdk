@@ -10,6 +10,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -26,8 +27,9 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
@@ -239,11 +241,11 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) 
 	}
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) WithValue(value *iam_common.Invitation) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) WithValue(value *iam_invitation.Invitation) *ListMyProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) WithArrayOfValues(values []*iam_common.Invitation) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -309,11 +311,11 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationIn
 	}
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterActor) WithValue(value *iam_common.Actor) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterActor) WithValue(value *iam_invitation.Actor) *ListMyProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -497,11 +499,11 @@ func (ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationSt
 	}
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationState) WithValue(value iam_common.Invitation_State) *ListMyProjectInvitationsResponse_FieldSubPathValue {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationState) WithValue(value iam_invitation.Invitation_State) *ListMyProjectInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyProjectInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyProjectInvitationsResponsePathSelectorProjectInvitationsInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyProjectInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1228,11 +1230,11 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) Fi
 	}
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) WithValue(value *iam_common.Invitation) *ResendProjectInvitationResponse_FieldSubPathValue {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) WithValue(value *iam_invitation.Invitation) *ResendProjectInvitationResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) WithArrayOfValues(values []*iam_common.Invitation) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1298,11 +1300,11 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInvi
 	}
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterActor) WithValue(value *iam_common.Actor) *ResendProjectInvitationResponse_FieldSubPathValue {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterActor) WithValue(value *iam_invitation.Actor) *ResendProjectInvitationResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1486,11 +1488,11 @@ func (ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationStat
 	}
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationState) WithValue(value iam_common.Invitation_State) *ResendProjectInvitationResponse_FieldSubPathValue {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationState) WithValue(value iam_invitation.Invitation_State) *ResendProjectInvitationResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ResendProjectInvitationResponse_FieldSubPathValue)
 }
 
-func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
+func (s ResendProjectInvitationResponsePathSelectorProjectInvitationInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *ResendProjectInvitationResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResendProjectInvitationResponse_FieldSubPathArrayOfValues)
 }
 

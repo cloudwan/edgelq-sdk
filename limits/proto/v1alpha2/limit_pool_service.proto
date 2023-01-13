@@ -4,6 +4,7 @@ package ntt.limits.v1alpha2;
 
 import "edgelq-sdk/limits/proto/v1alpha2/limit_pool.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/limit_pool_change.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit_pool_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -364,6 +365,17 @@ service LimitPoolService {
       delete : "/v1alpha2/{name=limitPools/*}"
       additional_bindings : <
         delete : "/v1alpha2/{name=organizations/*/limitPools/*}"
+      >
+    };
+  }
+
+  // MigrateLimitPoolSource
+  rpc MigrateLimitPoolSource(MigrateLimitPoolSourceRequest)
+      returns (LimitPool) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=limitPools/*}:migrate"
+      additional_bindings : <
+        post : "/v1alpha2/{name=organizations/*/limitPools/*}:migrate"
       >
     };
   }

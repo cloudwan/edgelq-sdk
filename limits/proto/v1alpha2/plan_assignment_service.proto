@@ -4,6 +4,7 @@ package ntt.limits.v1alpha2;
 
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_change.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -412,6 +413,23 @@ service PlanAssignmentService {
       >
       additional_bindings : <
         delete : "/v1alpha2/{name=organizations/*/planAssignments/*}"
+      >
+    };
+  }
+
+  // MigratePlanAssignment
+  rpc MigratePlanAssignment(MigratePlanAssignmentRequest)
+      returns (PlanAssignment) {
+    option (google.api.http) = {
+      put : "/v1alpha2/{plan_assignment.name=planAssignments/*}:migrate"
+      body : "plan_assignment"
+      additional_bindings : <
+        put : "/v1alpha2/{plan_assignment.name=projects/*/planAssignments/"
+              "*}:migrate"
+      >
+      additional_bindings : <
+        put : "/v1alpha2/{plan_assignment.name=organizations/*/planAssignments/"
+              "*}:migrate"
       >
     };
   }

@@ -10,6 +10,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
@@ -31,8 +32,9 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &organization_invitation.OrganizationInvitation{}
 	_ = &permission.Permission{}
@@ -251,11 +253,11 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	}
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_common.Invitation) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_invitation.Invitation) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_common.Invitation) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -321,11 +323,11 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	}
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_common.Actor) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_invitation.Actor) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -509,11 +511,11 @@ func (BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitations
 	}
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_common.Invitation_State) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_invitation.Invitation_State) *BatchGetOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1348,11 +1350,11 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	}
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_common.Invitation) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_invitation.Invitation) *ListOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_common.Invitation) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1418,11 +1420,11 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	}
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_common.Actor) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_invitation.Actor) *ListOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1606,11 +1608,11 @@ func (ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvi
 	}
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_common.Invitation_State) *ListOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_invitation.Invitation_State) *ListOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2838,11 +2840,11 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithValue(value *iam_common.Invitation) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithValue(value *iam_invitation.Invitation) *CreateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithArrayOfValues(values []*iam_common.Invitation) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -2908,11 +2910,11 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithValue(value *iam_common.Actor) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithValue(value *iam_invitation.Actor) *CreateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3096,11 +3098,11 @@ func (CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithValue(value iam_common.Invitation_State) *CreateOrganizationInvitationRequest_FieldSubPathValue {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithValue(value iam_invitation.Invitation_State) *CreateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s CreateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3789,11 +3791,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithValue(value *iam_common.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithValue(value *iam_invitation.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithArrayOfValues(values []*iam_common.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3859,11 +3861,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithValue(value *iam_common.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithValue(value *iam_invitation.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4047,11 +4049,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvit
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithValue(value iam_common.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithValue(value iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorOrganizationInvitationInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4764,11 +4766,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) WithValue(value *iam_common.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) WithValue(value *iam_invitation.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) WithArrayOfValues(values []*iam_common.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4834,11 +4836,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterActor) WithValue(value *iam_common.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterActor) WithValue(value *iam_invitation.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5022,11 +5024,11 @@ func (UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitati
 	}
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState) WithValue(value iam_common.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState) WithValue(value iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequest_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequestPathSelectorCasConditionalStateInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5729,11 +5731,11 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	}
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) WithValue(value *iam_common.Invitation) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) WithValue(value *iam_invitation.Invitation) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) WithArrayOfValues(values []*iam_common.Invitation) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5799,11 +5801,11 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	}
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterActor) WithValue(value *iam_common.Actor) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterActor) WithValue(value *iam_invitation.Actor) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -5987,11 +5989,11 @@ func (UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitat
 	}
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState) WithValue(value iam_common.Invitation_State) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState) WithValue(value iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateOrganizationInvitationRequest_CASPathSelectorConditionalStateInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateOrganizationInvitationRequestCAS_FieldSubPathArrayOfValues)
 }
 

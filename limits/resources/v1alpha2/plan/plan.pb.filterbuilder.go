@@ -12,6 +12,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
@@ -27,6 +28,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
@@ -186,6 +188,14 @@ func (b *filterCndBuilder) Service() *filterCndBuilderService {
 
 func (b *filterCndBuilder) ResourceLimits() *filterCndBuilderResourceLimits {
 	return &filterCndBuilderResourceLimits{builder: b.builder}
+}
+
+func (b *filterCndBuilder) PlanLevel() *filterCndBuilderPlanLevel {
+	return &filterCndBuilderPlanLevel{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BusinessTier() *filterCndBuilderBusinessTier {
+	return &filterCndBuilderBusinessTier{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
@@ -585,6 +595,124 @@ func (b *filterCndBuilderResourceLimitsValue) compare(op gotenfilter.CompareOper
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:            op,
 		Plan_FieldPathValue: NewPlanFieldPathBuilder().ResourceLimits().Value().WithValue(value),
+	})
+}
+
+type filterCndBuilderPlanLevel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderPlanLevel) Eq(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderPlanLevel) Neq(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderPlanLevel) Gt(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderPlanLevel) Gte(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderPlanLevel) Lt(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderPlanLevel) Lte(value Plan_PlanLevel) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderPlanLevel) In(values []Plan_PlanLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Plan_FieldPathArrayOfValues: NewPlanFieldPathBuilder().PlanLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderPlanLevel) NotIn(values []Plan_PlanLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Plan_FieldPathArrayOfValues: NewPlanFieldPathBuilder().PlanLevel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderPlanLevel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderPlanLevel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderPlanLevel) compare(op gotenfilter.CompareOperator, value Plan_PlanLevel) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Plan_FieldPathValue: NewPlanFieldPathBuilder().PlanLevel().WithValue(value),
+	})
+}
+
+type filterCndBuilderBusinessTier struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBusinessTier) Eq(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Neq(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Gt(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Gte(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Lt(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBusinessTier) Lte(value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBusinessTier) In(values []iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Plan_FieldPathArrayOfValues: NewPlanFieldPathBuilder().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) NotIn(values []iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Plan_FieldPathArrayOfValues: NewPlanFieldPathBuilder().BusinessTier().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBusinessTier) compare(op gotenfilter.CompareOperator, value iam_iam_common.BusinessTier) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Plan_FieldPathValue: NewPlanFieldPathBuilder().BusinessTier().WithValue(value),
 	})
 }
 

@@ -10,6 +10,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	organization_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization_invitation"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
@@ -27,8 +28,9 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &organization_invitation.OrganizationInvitation{}
 	_ = &permission.Permission{}
@@ -237,11 +239,11 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	}
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_common.Invitation) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithValue(value *iam_invitation.Invitation) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_common.Invitation) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -307,11 +309,11 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	}
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_common.Actor) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithValue(value *iam_invitation.Actor) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -495,11 +497,11 @@ func (ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsIn
 	}
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_common.Invitation_State) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithValue(value iam_invitation.Invitation_State) *ListMyOrganizationInvitationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListMyOrganizationInvitationsResponse_FieldSubPathValue)
 }
 
-func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
+func (s ListMyOrganizationInvitationsResponsePathSelectorOrganizationInvitationsInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMyOrganizationInvitationsResponse_FieldSubPathArrayOfValues)
 }
 

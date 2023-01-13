@@ -17,6 +17,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -35,6 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
 )
@@ -78,6 +80,12 @@ func (o *Plan) MakeDiffFieldMask(other *Plan) *Plan_FieldMask {
 		}
 	} else {
 		res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorResourceLimits})
+	}
+	if o.GetPlanLevel() != other.GetPlanLevel() {
+		res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorPlanLevel})
+	}
+	if o.GetBusinessTier() != other.GetBusinessTier() {
+		res.Paths = append(res.Paths, &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorBusinessTier})
 	}
 	{
 		subMask := o.GetMetadata().MakeDiffFieldMask(other.GetMetadata())
@@ -126,6 +134,8 @@ func (o *Plan) Clone() *Plan {
 	for i, sourceValue := range o.ResourceLimits {
 		result.ResourceLimits[i] = sourceValue.Clone()
 	}
+	result.PlanLevel = o.PlanLevel
+	result.BusinessTier = o.BusinessTier
 	result.Metadata = o.Metadata.Clone()
 	return result
 }
@@ -178,6 +188,8 @@ func (o *Plan) Merge(source *Plan) {
 		}
 	}
 
+	o.PlanLevel = source.GetPlanLevel()
+	o.BusinessTier = source.GetBusinessTier()
 	if source.GetMetadata() != nil {
 		if o.Metadata == nil {
 			o.Metadata = new(ntt_meta.Meta)

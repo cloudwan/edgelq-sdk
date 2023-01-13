@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.iam.v1alpha2;
 
+import "edgelq-sdk/meta/proto/v1alpha2/service.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/struct.proto";
@@ -10,59 +11,6 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common;iam_common";
 option java_multiple_files = true;
 option java_package = "com.ntt.iam.pb.v1alpha2";
-
-// Actor is a party performing an action
-message Actor {
-  string user = 1 [ (google.api.resource_reference) = {type : "User"} ];
-
-  string service_account = 2
-      [ (google.api.resource_reference) = {type : "ServiceAccount"} ];
-}
-
-// Common invitation body. It's used in Project/Organization Invitations
-message Invitation {
-  // Invitee Email address
-  string invitee_email = 3;
-
-  // Inviter User
-  Actor inviter_actor = 6 [ (google.api.field_behavior) = OUTPUT_ONLY ];
-
-  // Denormalized data - TODO: remove it
-  string inviter_full_name = 5 [ (google.api.field_behavior) = OUTPUT_ONLY ];
-
-  // Inviter Email
-  string inviter_email = 10 [ (google.api.field_behavior) = OUTPUT_ONLY ];
-
-  // Invitation ISO language code. Defaults to "en-us" (American English).
-  string language_code = 11;
-
-  // List of Roles to be granted on project when invitation is accepted
-  repeated string roles = 7;
-
-  // Expiration date
-  google.protobuf.Timestamp expiration_date = 8;
-
-  // Extra custom fields to further customize invitation experience.
-  // Fields should be agreed between sender (usually UI) and documented in
-  // the template of email service provider.
-  map<string, string> extras = 12;
-
-  // Status of Invitation
-  State state = 9 [ (google.api.field_behavior) = OUTPUT_ONLY ];
-
-  // Invitation FSM States
-  enum State {
-    STATE_UNSPECIFIED = 0;
-
-    PENDING = 1;
-
-    ACCEPTED = 2;
-
-    DECLINED = 3;
-
-    EXPIRED = 4;
-  }
-}
 
 message PCR {
   uint32 index = 1;
@@ -74,6 +22,32 @@ message PCR {
 
   // User's comments for this entry
   string comment = 4;
+}
+
+// ServiceBusinessTier binds specific service with specific business tier.
+// It may be useful if two services use different tier in one organizational
+// entity (project or organization).
+message ServiceBusinessTier {
+  // Service
+  string service = 1;
+
+  // Entity tier value for given service.
+  BusinessTier business_tier = 2;
+}
+
+// ServiceErrors is generic container wrapping errors with services.
+message ServiceErrors {
+  // Errors
+  repeated Error errors = 2;
+
+  message Error {
+    // Service for which there are error reports. May be skipped if error is
+    // cross-service or is about core EdgeLQ components.
+    string service = 1;
+
+    // Error message
+    string message = 2;
+  }
 }
 
 enum TpmVersion {
@@ -88,4 +62,18 @@ enum DigestAlg {
   SHA1 = 0;
 
   SHA256 = 1;
+}
+
+// BusinessTier indicates size of organizational entity (project or
+// organization)
+enum BusinessTier {
+  UNDEFINED = 0;
+
+  LARGE = 1;
+
+  MEDIUM = 2;
+
+  SMALL = 3;
+
+  TINY = 4;
 }

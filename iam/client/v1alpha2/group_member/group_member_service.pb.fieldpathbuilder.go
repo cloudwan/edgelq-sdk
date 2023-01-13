@@ -8,6 +8,7 @@ package group_member_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group"
 	group_member "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/group_member"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
@@ -24,6 +25,7 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &group.Group{}
 	_ = &group_member.GroupMember{}
 	_ = &organization.Organization{}

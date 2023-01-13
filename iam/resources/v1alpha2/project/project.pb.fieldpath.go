@@ -26,6 +26,7 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -53,6 +54,7 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &meta_service.Service{}
 )
@@ -84,6 +86,9 @@ const (
 	Project_FieldPathSelectorMetadata           Project_FieldPathSelector = 5
 	Project_FieldPathSelectorMultiRegionPolicy  Project_FieldPathSelector = 6
 	Project_FieldPathSelectorEnabledServices    Project_FieldPathSelector = 7
+	Project_FieldPathSelectorBusinessTier       Project_FieldPathSelector = 8
+	Project_FieldPathSelectorServiceTiers       Project_FieldPathSelector = 9
+	Project_FieldPathSelectorServiceErrors      Project_FieldPathSelector = 10
 )
 
 func (s Project_FieldPathSelector) String() string {
@@ -104,6 +109,12 @@ func (s Project_FieldPathSelector) String() string {
 		return "multi_region_policy"
 	case Project_FieldPathSelectorEnabledServices:
 		return "enabled_services"
+	case Project_FieldPathSelectorBusinessTier:
+		return "business_tier"
+	case Project_FieldPathSelectorServiceTiers:
+		return "service_tiers"
+	case Project_FieldPathSelectorServiceErrors:
+		return "service_errors"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", s))
 	}
@@ -131,6 +142,12 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorMultiRegionPolicy}, nil
 		case "enabled_services", "enabledServices", "enabled-services":
 			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices}, nil
+		case "business_tier", "businessTier", "business-tier":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier}, nil
+		case "service_tiers", "serviceTiers", "service-tiers":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers}, nil
+		case "service_errors", "serviceErrors", "service-errors":
+			return &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -146,6 +163,17 @@ func BuildProject_FieldPath(fp gotenobject.RawFieldPath) (Project_FieldPath, err
 			} else {
 				return &Project_FieldSubPath{selector: Project_FieldPathSelectorMultiRegionPolicy, subPath: subpath}, nil
 			}
+		case "service_tiers", "serviceTiers", "service-tiers":
+			if subpath, err := iam_common.BuildServiceBusinessTier_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Project_FieldSubPath{selector: Project_FieldPathSelectorServiceTiers, subPath: subpath}, nil
+			}
+		case "service_errors", "serviceErrors", "service-errors":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object Project)", fp)
+			}
+			return &Project_FieldPathMap{selector: Project_FieldPathSelectorServiceErrors, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Project", fp)
@@ -221,6 +249,16 @@ func (fp *Project_FieldTerminalPath) Get(source *Project) (values []interface{})
 			for _, value := range source.GetEnabledServices() {
 				values = append(values, value)
 			}
+		case Project_FieldPathSelectorBusinessTier:
+			values = append(values, source.BusinessTier)
+		case Project_FieldPathSelectorServiceTiers:
+			for _, value := range source.GetServiceTiers() {
+				values = append(values, value)
+			}
+		case Project_FieldPathSelectorServiceErrors:
+			if source.ServiceErrors != nil {
+				values = append(values, source.ServiceErrors)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -258,6 +296,14 @@ func (fp *Project_FieldTerminalPath) GetSingle(source *Project) (interface{}, bo
 	case Project_FieldPathSelectorEnabledServices:
 		res := source.GetEnabledServices()
 		return res, res != nil
+	case Project_FieldPathSelectorBusinessTier:
+		return source.GetBusinessTier(), source != nil
+	case Project_FieldPathSelectorServiceTiers:
+		res := source.GetServiceTiers()
+		return res, res != nil
+	case Project_FieldPathSelectorServiceErrors:
+		res := source.GetServiceErrors()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -286,6 +332,12 @@ func (fp *Project_FieldTerminalPath) GetDefault() interface{} {
 		return (*multi_region_policy.MultiRegionPolicy)(nil)
 	case Project_FieldPathSelectorEnabledServices:
 		return ([]*meta_service.Reference)(nil)
+	case Project_FieldPathSelectorBusinessTier:
+		return iam_common.BusinessTier_UNDEFINED
+	case Project_FieldPathSelectorServiceTiers:
+		return ([]*iam_common.ServiceBusinessTier)(nil)
+	case Project_FieldPathSelectorServiceErrors:
+		return (map[string]*iam_common.ServiceErrors)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -310,6 +362,12 @@ func (fp *Project_FieldTerminalPath) ClearValue(item *Project) {
 			item.MultiRegionPolicy = nil
 		case Project_FieldPathSelectorEnabledServices:
 			item.EnabledServices = nil
+		case Project_FieldPathSelectorBusinessTier:
+			item.BusinessTier = iam_common.BusinessTier_UNDEFINED
+		case Project_FieldPathSelectorServiceTiers:
+			item.ServiceTiers = nil
+		case Project_FieldPathSelectorServiceErrors:
+			item.ServiceErrors = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 		}
@@ -327,7 +385,8 @@ func (fp *Project_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Project_FieldPathSelectorParentOrganization ||
 		fp.selector == Project_FieldPathSelectorRootOrganization ||
 		fp.selector == Project_FieldPathSelectorAncestryPath ||
-		fp.selector == Project_FieldPathSelectorEnabledServices
+		fp.selector == Project_FieldPathSelectorEnabledServices ||
+		fp.selector == Project_FieldPathSelectorBusinessTier
 }
 
 func (fp *Project_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -352,6 +411,12 @@ func (fp *Project_FieldTerminalPath) WithIValue(value interface{}) Project_Field
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(*multi_region_policy.MultiRegionPolicy)}
 	case Project_FieldPathSelectorEnabledServices:
 		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*meta_service.Reference)}
+	case Project_FieldPathSelectorBusinessTier:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(iam_common.BusinessTier)}
+	case Project_FieldPathSelectorServiceTiers:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.([]*iam_common.ServiceBusinessTier)}
+	case Project_FieldPathSelectorServiceErrors:
+		return &Project_FieldTerminalPathValue{Project_FieldTerminalPath: *fp, value: value.(map[string]*iam_common.ServiceErrors)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -380,6 +445,12 @@ func (fp *Project_FieldTerminalPath) WithIArrayOfValues(values interface{}) Proj
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]*multi_region_policy.MultiRegionPolicy)}
 	case Project_FieldPathSelectorEnabledServices:
 		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*meta_service.Reference)}
+	case Project_FieldPathSelectorBusinessTier:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]iam_common.BusinessTier)}
+	case Project_FieldPathSelectorServiceTiers:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([][]*iam_common.ServiceBusinessTier)}
+	case Project_FieldPathSelectorServiceErrors:
+		return &Project_FieldTerminalPathArrayOfValues{Project_FieldTerminalPath: *fp, values: values.([]map[string]*iam_common.ServiceErrors)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -396,6 +467,8 @@ func (fp *Project_FieldTerminalPath) WithIArrayItemValue(value interface{}) Proj
 		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*organization.Reference)}
 	case Project_FieldPathSelectorEnabledServices:
 		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
+	case Project_FieldPathSelectorServiceTiers:
+		return &Project_FieldTerminalPathArrayItemValue{Project_FieldTerminalPath: *fp, value: value.(*iam_common.ServiceBusinessTier)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fp.selector))
 	}
@@ -403,6 +476,138 @@ func (fp *Project_FieldTerminalPath) WithIArrayItemValue(value interface{}) Proj
 
 func (fp *Project_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type Project_FieldPathMap struct {
+	key      string
+	selector Project_FieldPathSelector
+}
+
+var _ Project_FieldPath = (*Project_FieldPathMap)(nil)
+
+func (fpm *Project_FieldPathMap) Selector() Project_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *Project_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *Project_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *Project_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source Project
+func (fpm *Project_FieldPathMap) Get(source *Project) (values []interface{}) {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		if value, ok := source.GetServiceErrors()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *Project_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*Project))
+}
+
+// GetSingle returns value by selected field map key from source Project
+func (fpm *Project_FieldPathMap) GetSingle(source *Project) (interface{}, bool) {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		res, ok := source.GetServiceErrors()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+}
+
+func (fpm *Project_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*Project))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *Project_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		var v *iam_common.ServiceErrors
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+}
+
+func (fpm *Project_FieldPathMap) ClearValue(item *Project) {
+	if item != nil {
+		switch fpm.selector {
+		case Project_FieldPathSelectorServiceErrors:
+			delete(item.ServiceErrors, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *Project_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*Project))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *Project_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+}
+
+func (fpm *Project_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *Project_FieldPathMap) WithIValue(value interface{}) Project_FieldPathValue {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		return &Project_FieldPathMapValue{Project_FieldPathMap: *fpm, value: value.(*iam_common.ServiceErrors)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+}
+
+func (fpm *Project_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *Project_FieldPathMap) WithIArrayOfValues(values interface{}) Project_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		return &Project_FieldPathMapArrayOfValues{Project_FieldPathMap: *fpm, values: values.([]*iam_common.ServiceErrors)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpm.selector))
+	}
+}
+
+func (fpm *Project_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *Project_FieldPathMap) WithIArrayItemValue(value interface{}) Project_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *Project_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
 }
 
 type Project_FieldSubPath struct {
@@ -423,6 +628,10 @@ func (fps *Project_FieldSubPath) AsMultiRegionPolicySubPath() (multi_region_poli
 	res, ok := fps.subPath.(multi_region_policy.MultiRegionPolicy_FieldPath)
 	return res, ok
 }
+func (fps *Project_FieldSubPath) AsServiceTiersSubPath() (iam_common.ServiceBusinessTier_FieldPath, bool) {
+	res, ok := fps.subPath.(iam_common.ServiceBusinessTier_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *Project_FieldSubPath) String() string {
@@ -440,6 +649,10 @@ func (fps *Project_FieldSubPath) Get(source *Project) (values []interface{}) {
 		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
 	} else if asMultiRegionPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
 		values = append(values, asMultiRegionPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
+	} else if asServiceBusinessTierFieldPath, ok := fps.AsServiceTiersSubPath(); ok {
+		for _, item := range source.GetServiceTiers() {
+			values = append(values, asServiceBusinessTierFieldPath.Get(item)...)
+		}
 	} else {
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fps.selector))
 	}
@@ -463,6 +676,11 @@ func (fps *Project_FieldSubPath) GetSingle(source *Project) (interface{}, bool) 
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorServiceTiers:
+		if len(source.GetServiceTiers()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetServiceTiers()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fps.selector))
 	}
@@ -484,6 +702,10 @@ func (fps *Project_FieldSubPath) ClearValue(item *Project) {
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case Project_FieldPathSelectorMultiRegionPolicy:
 			fps.subPath.ClearValueRaw(item.MultiRegionPolicy)
+		case Project_FieldPathSelectorServiceTiers:
+			for _, subItem := range item.ServiceTiers {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Project: %d", fps.selector))
 		}
@@ -600,6 +822,18 @@ func (fpv *Project_FieldTerminalPathValue) AsEnabledServicesValue() ([]*meta_ser
 	res, ok := fpv.value.([]*meta_service.Reference)
 	return res, ok
 }
+func (fpv *Project_FieldTerminalPathValue) AsBusinessTierValue() (iam_common.BusinessTier, bool) {
+	res, ok := fpv.value.(iam_common.BusinessTier)
+	return res, ok
+}
+func (fpv *Project_FieldTerminalPathValue) AsServiceTiersValue() ([]*iam_common.ServiceBusinessTier, bool) {
+	res, ok := fpv.value.([]*iam_common.ServiceBusinessTier)
+	return res, ok
+}
+func (fpv *Project_FieldTerminalPathValue) AsServiceErrorsValue() (map[string]*iam_common.ServiceErrors, bool) {
+	res, ok := fpv.value.(map[string]*iam_common.ServiceErrors)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Project
 func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
@@ -623,6 +857,12 @@ func (fpv *Project_FieldTerminalPathValue) SetTo(target **Project) {
 		(*target).MultiRegionPolicy = fpv.value.(*multi_region_policy.MultiRegionPolicy)
 	case Project_FieldPathSelectorEnabledServices:
 		(*target).EnabledServices = fpv.value.([]*meta_service.Reference)
+	case Project_FieldPathSelectorBusinessTier:
+		(*target).BusinessTier = fpv.value.(iam_common.BusinessTier)
+	case Project_FieldPathSelectorServiceTiers:
+		(*target).ServiceTiers = fpv.value.([]*iam_common.ServiceBusinessTier)
+	case Project_FieldPathSelectorServiceErrors:
+		(*target).ServiceErrors = fpv.value.(map[string]*iam_common.ServiceErrors)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -711,6 +951,20 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 		return 0, false
 	case Project_FieldPathSelectorEnabledServices:
 		return 0, false
+	case Project_FieldPathSelectorBusinessTier:
+		leftValue := fpv.value.(iam_common.BusinessTier)
+		rightValue := source.GetBusinessTier()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Project_FieldPathSelectorServiceTiers:
+		return 0, false
+	case Project_FieldPathSelectorServiceErrors:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpv.selector))
 	}
@@ -718,6 +972,57 @@ func (fpv *Project_FieldTerminalPathValue) CompareWith(source *Project) (int, bo
 
 func (fpv *Project_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*Project))
+}
+
+type Project_FieldPathMapValue struct {
+	Project_FieldPathMap
+	value interface{}
+}
+
+var _ Project_FieldPathValue = (*Project_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in Project as interface{}
+func (fpmv *Project_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *Project_FieldPathMapValue) AsServiceErrorsElementValue() (*iam_common.ServiceErrors, bool) {
+	res, ok := fpmv.value.(*iam_common.ServiceErrors)
+	return res, ok
+}
+
+// SetTo stores value for selected field in Project
+func (fpmv *Project_FieldPathMapValue) SetTo(target **Project) {
+	if *target == nil {
+		*target = new(Project)
+	}
+	switch fpmv.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		if (*target).ServiceErrors == nil {
+			(*target).ServiceErrors = make(map[string]*iam_common.ServiceErrors)
+		}
+		(*target).ServiceErrors[fpmv.key] = fpmv.value.(*iam_common.ServiceErrors)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *Project_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Project)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Project_FieldPathMapValue' with the value under path in 'Project'.
+func (fpmv *Project_FieldPathMapValue) CompareWith(source *Project) (int, bool) {
+	switch fpmv.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Project: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *Project_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*Project))
 }
 
 type Project_FieldSubPathValue struct {
@@ -735,6 +1040,10 @@ func (fpvs *Project_FieldSubPathValue) AsMultiRegionPolicyPathValue() (multi_reg
 	res, ok := fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Project_FieldSubPathValue) AsServiceTiersPathValue() (iam_common.ServiceBusinessTier_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(iam_common.ServiceBusinessTier_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *Project_FieldSubPathValue) SetTo(target **Project) {
 	if *target == nil {
@@ -745,6 +1054,8 @@ func (fpvs *Project_FieldSubPathValue) SetTo(target **Project) {
 		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).SetTo(&(*target).MultiRegionPolicy)
+	case Project_FieldPathSelectorServiceTiers:
+		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpvs.Selector()))
 	}
@@ -765,6 +1076,8 @@ func (fpvs *Project_FieldSubPathValue) CompareWith(source *Project) (int, bool) 
 		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpvs.subPathValue.(multi_region_policy.MultiRegionPolicy_FieldPathValue).CompareWith(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorServiceTiers:
+		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpvs.Selector()))
 	}
@@ -822,6 +1135,10 @@ func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsEnabledServicesItemValue
 	res, ok := fpaiv.value.(*meta_service.Reference)
 	return res, ok
 }
+func (fpaiv *Project_FieldTerminalPathArrayItemValue) AsServiceTiersItemValue() (*iam_common.ServiceBusinessTier, bool) {
+	res, ok := fpaiv.value.(*iam_common.ServiceBusinessTier)
+	return res, ok
+}
 
 func (fpaiv *Project_FieldTerminalPathArrayItemValue) GetSingle(source *Project) (interface{}, bool) {
 	return nil, false
@@ -863,6 +1180,10 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) AsMultiRegionPolicyPathItemVal
 	res, ok := fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Project_FieldSubPathArrayItemValue) AsServiceTiersPathItemValue() (iam_common.ServiceBusinessTier_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(iam_common.ServiceBusinessTier_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Project'
 func (fpaivs *Project_FieldSubPathArrayItemValue) ContainsValue(source *Project) bool {
@@ -871,6 +1192,8 @@ func (fpaivs *Project_FieldSubPathArrayItemValue) ContainsValue(source *Project)
 		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Project_FieldPathSelectorMultiRegionPolicy:
 		return fpaivs.subPathItemValue.(multi_region_policy.MultiRegionPolicy_FieldPathArrayItemValue).ContainsValue(source.GetMultiRegionPolicy())
+	case Project_FieldPathSelectorServiceTiers:
+		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Project: %d", fpaivs.Selector()))
 	}
@@ -943,6 +1266,18 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([][]*meta_service.Reference) {
 			values = append(values, v)
 		}
+	case Project_FieldPathSelectorBusinessTier:
+		for _, v := range fpaov.values.([]iam_common.BusinessTier) {
+			values = append(values, v)
+		}
+	case Project_FieldPathSelectorServiceTiers:
+		for _, v := range fpaov.values.([][]*iam_common.ServiceBusinessTier) {
+			values = append(values, v)
+		}
+	case Project_FieldPathSelectorServiceErrors:
+		for _, v := range fpaov.values.([]map[string]*iam_common.ServiceErrors) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -978,6 +1313,39 @@ func (fpaov *Project_FieldTerminalPathArrayOfValues) AsEnabledServicesArrayOfVal
 	res, ok := fpaov.values.([][]*meta_service.Reference)
 	return res, ok
 }
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() ([]iam_common.BusinessTier, bool) {
+	res, ok := fpaov.values.([]iam_common.BusinessTier)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServiceTiersArrayOfValues() ([][]*iam_common.ServiceBusinessTier, bool) {
+	res, ok := fpaov.values.([][]*iam_common.ServiceBusinessTier)
+	return res, ok
+}
+func (fpaov *Project_FieldTerminalPathArrayOfValues) AsServiceErrorsArrayOfValues() ([]map[string]*iam_common.ServiceErrors, bool) {
+	res, ok := fpaov.values.([]map[string]*iam_common.ServiceErrors)
+	return res, ok
+}
+
+type Project_FieldPathMapArrayOfValues struct {
+	Project_FieldPathMap
+	values interface{}
+}
+
+var _ Project_FieldPathArrayOfValues = (*Project_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *Project_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case Project_FieldPathSelectorServiceErrors:
+		for _, v := range fpmaov.values.([]*iam_common.ServiceErrors) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *Project_FieldPathMapArrayOfValues) AsServiceErrorsArrayOfElementValues() ([]*iam_common.ServiceErrors, bool) {
+	res, ok := fpmaov.values.([]*iam_common.ServiceErrors)
+	return res, ok
+}
 
 type Project_FieldSubPathArrayOfValues struct {
 	Project_FieldPath
@@ -995,5 +1363,9 @@ func (fpsaov *Project_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (
 }
 func (fpsaov *Project_FieldSubPathArrayOfValues) AsMultiRegionPolicyPathArrayOfValues() (multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(multi_region_policy.MultiRegionPolicy_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Project_FieldSubPathArrayOfValues) AsServiceTiersPathArrayOfValues() (iam_common.ServiceBusinessTier_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(iam_common.ServiceBusinessTier_FieldPathArrayOfValues)
 	return res, ok
 }

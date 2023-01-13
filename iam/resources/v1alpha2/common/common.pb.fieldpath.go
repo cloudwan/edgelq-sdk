@@ -24,10 +24,7 @@ import (
 
 // proto imports
 import (
-	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
-	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 // ensure the imports are used
@@ -51,1593 +48,8 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &role.Role{}
-	_ = &service_account.ServiceAccount{}
-	_ = &user.User{}
-	_ = &timestamp.Timestamp{}
+	_ = &meta_service.Service{}
 )
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type Actor_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() Actor_FieldPathSelector
-	Get(source *Actor) []interface{}
-	GetSingle(source *Actor) (interface{}, bool)
-	ClearValue(item *Actor)
-
-	// Those methods build corresponding Actor_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) Actor_FieldPathValue
-	WithIArrayOfValues(values interface{}) Actor_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) Actor_FieldPathArrayItemValue
-}
-
-type Actor_FieldPathSelector int32
-
-const (
-	Actor_FieldPathSelectorUser           Actor_FieldPathSelector = 0
-	Actor_FieldPathSelectorServiceAccount Actor_FieldPathSelector = 1
-)
-
-func (s Actor_FieldPathSelector) String() string {
-	switch s {
-	case Actor_FieldPathSelectorUser:
-		return "user"
-	case Actor_FieldPathSelectorServiceAccount:
-		return "service_account"
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", s))
-	}
-}
-
-func BuildActor_FieldPath(fp gotenobject.RawFieldPath) (Actor_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Actor")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "user":
-			return &Actor_FieldTerminalPath{selector: Actor_FieldPathSelectorUser}, nil
-		case "service_account", "serviceAccount", "service-account":
-			return &Actor_FieldTerminalPath{selector: Actor_FieldPathSelectorServiceAccount}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Actor", fp)
-}
-
-func ParseActor_FieldPath(rawField string) (Actor_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildActor_FieldPath(fp)
-}
-
-func MustParseActor_FieldPath(rawField string) Actor_FieldPath {
-	fp, err := ParseActor_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type Actor_FieldTerminalPath struct {
-	selector Actor_FieldPathSelector
-}
-
-var _ Actor_FieldPath = (*Actor_FieldTerminalPath)(nil)
-
-func (fp *Actor_FieldTerminalPath) Selector() Actor_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *Actor_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *Actor_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source Actor
-func (fp *Actor_FieldTerminalPath) Get(source *Actor) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case Actor_FieldPathSelectorUser:
-			if source.User != nil {
-				values = append(values, source.User)
-			}
-		case Actor_FieldPathSelectorServiceAccount:
-			if source.ServiceAccount != nil {
-				values = append(values, source.ServiceAccount)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *Actor_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Actor))
-}
-
-// GetSingle returns value pointed by specific field of from source Actor
-func (fp *Actor_FieldTerminalPath) GetSingle(source *Actor) (interface{}, bool) {
-	switch fp.selector {
-	case Actor_FieldPathSelectorUser:
-		res := source.GetUser()
-		return res, res != nil
-	case Actor_FieldPathSelectorServiceAccount:
-		res := source.GetServiceAccount()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-	}
-}
-
-func (fp *Actor_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Actor))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *Actor_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case Actor_FieldPathSelectorUser:
-		return (*user.Reference)(nil)
-	case Actor_FieldPathSelectorServiceAccount:
-		return (*service_account.Reference)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-	}
-}
-
-func (fp *Actor_FieldTerminalPath) ClearValue(item *Actor) {
-	if item != nil {
-		switch fp.selector {
-		case Actor_FieldPathSelectorUser:
-			item.User = nil
-		case Actor_FieldPathSelectorServiceAccount:
-			item.ServiceAccount = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *Actor_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Actor))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *Actor_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == Actor_FieldPathSelectorUser ||
-		fp.selector == Actor_FieldPathSelectorServiceAccount
-}
-
-func (fp *Actor_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *Actor_FieldTerminalPath) WithIValue(value interface{}) Actor_FieldPathValue {
-	switch fp.selector {
-	case Actor_FieldPathSelectorUser:
-		return &Actor_FieldTerminalPathValue{Actor_FieldTerminalPath: *fp, value: value.(*user.Reference)}
-	case Actor_FieldPathSelectorServiceAccount:
-		return &Actor_FieldTerminalPathValue{Actor_FieldTerminalPath: *fp, value: value.(*service_account.Reference)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-	}
-}
-
-func (fp *Actor_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *Actor_FieldTerminalPath) WithIArrayOfValues(values interface{}) Actor_FieldPathArrayOfValues {
-	fpaov := &Actor_FieldTerminalPathArrayOfValues{Actor_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case Actor_FieldPathSelectorUser:
-		return &Actor_FieldTerminalPathArrayOfValues{Actor_FieldTerminalPath: *fp, values: values.([]*user.Reference)}
-	case Actor_FieldPathSelectorServiceAccount:
-		return &Actor_FieldTerminalPathArrayOfValues{Actor_FieldTerminalPath: *fp, values: values.([]*service_account.Reference)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *Actor_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *Actor_FieldTerminalPath) WithIArrayItemValue(value interface{}) Actor_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fp.selector))
-	}
-}
-
-func (fp *Actor_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// Actor_FieldPathValue allows storing values for Actor fields according to their type
-type Actor_FieldPathValue interface {
-	Actor_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **Actor)
-	CompareWith(*Actor) (cmp int, comparable bool)
-}
-
-func ParseActor_FieldPathValue(pathStr, valueStr string) (Actor_FieldPathValue, error) {
-	fp, err := ParseActor_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Actor field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(Actor_FieldPathValue), nil
-}
-
-func MustParseActor_FieldPathValue(pathStr, valueStr string) Actor_FieldPathValue {
-	fpv, err := ParseActor_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type Actor_FieldTerminalPathValue struct {
-	Actor_FieldTerminalPath
-	value interface{}
-}
-
-var _ Actor_FieldPathValue = (*Actor_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Actor' as interface{}
-func (fpv *Actor_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *Actor_FieldTerminalPathValue) AsUserValue() (*user.Reference, bool) {
-	res, ok := fpv.value.(*user.Reference)
-	return res, ok
-}
-func (fpv *Actor_FieldTerminalPathValue) AsServiceAccountValue() (*service_account.Reference, bool) {
-	res, ok := fpv.value.(*service_account.Reference)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Actor
-func (fpv *Actor_FieldTerminalPathValue) SetTo(target **Actor) {
-	if *target == nil {
-		*target = new(Actor)
-	}
-	switch fpv.selector {
-	case Actor_FieldPathSelectorUser:
-		(*target).User = fpv.value.(*user.Reference)
-	case Actor_FieldPathSelectorServiceAccount:
-		(*target).ServiceAccount = fpv.value.(*service_account.Reference)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fpv.selector))
-	}
-}
-
-func (fpv *Actor_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Actor)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'Actor_FieldTerminalPathValue' with the value under path in 'Actor'.
-func (fpv *Actor_FieldTerminalPathValue) CompareWith(source *Actor) (int, bool) {
-	switch fpv.selector {
-	case Actor_FieldPathSelectorUser:
-		leftValue := fpv.value.(*user.Reference)
-		rightValue := source.GetUser()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Actor_FieldPathSelectorServiceAccount:
-		leftValue := fpv.value.(*service_account.Reference)
-		rightValue := source.GetServiceAccount()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Actor: %d", fpv.selector))
-	}
-}
-
-func (fpv *Actor_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Actor))
-}
-
-// Actor_FieldPathArrayItemValue allows storing single item in Path-specific values for Actor according to their type
-// Present only for array (repeated) types.
-type Actor_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	Actor_FieldPath
-	ContainsValue(*Actor) bool
-}
-
-// ParseActor_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseActor_FieldPathArrayItemValue(pathStr, valueStr string) (Actor_FieldPathArrayItemValue, error) {
-	fp, err := ParseActor_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Actor field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(Actor_FieldPathArrayItemValue), nil
-}
-
-func MustParseActor_FieldPathArrayItemValue(pathStr, valueStr string) Actor_FieldPathArrayItemValue {
-	fpaiv, err := ParseActor_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type Actor_FieldTerminalPathArrayItemValue struct {
-	Actor_FieldTerminalPath
-	value interface{}
-}
-
-var _ Actor_FieldPathArrayItemValue = (*Actor_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object Actor as interface{}
-func (fpaiv *Actor_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *Actor_FieldTerminalPathArrayItemValue) GetSingle(source *Actor) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *Actor_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Actor))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Actor'
-func (fpaiv *Actor_FieldTerminalPathArrayItemValue) ContainsValue(source *Actor) bool {
-	slice := fpaiv.Actor_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// Actor_FieldPathArrayOfValues allows storing slice of values for Actor fields according to their type
-type Actor_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	Actor_FieldPath
-}
-
-func ParseActor_FieldPathArrayOfValues(pathStr, valuesStr string) (Actor_FieldPathArrayOfValues, error) {
-	fp, err := ParseActor_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Actor field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(Actor_FieldPathArrayOfValues), nil
-}
-
-func MustParseActor_FieldPathArrayOfValues(pathStr, valuesStr string) Actor_FieldPathArrayOfValues {
-	fpaov, err := ParseActor_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type Actor_FieldTerminalPathArrayOfValues struct {
-	Actor_FieldTerminalPath
-	values interface{}
-}
-
-var _ Actor_FieldPathArrayOfValues = (*Actor_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *Actor_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case Actor_FieldPathSelectorUser:
-		for _, v := range fpaov.values.([]*user.Reference) {
-			values = append(values, v)
-		}
-	case Actor_FieldPathSelectorServiceAccount:
-		for _, v := range fpaov.values.([]*service_account.Reference) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *Actor_FieldTerminalPathArrayOfValues) AsUserArrayOfValues() ([]*user.Reference, bool) {
-	res, ok := fpaov.values.([]*user.Reference)
-	return res, ok
-}
-func (fpaov *Actor_FieldTerminalPathArrayOfValues) AsServiceAccountArrayOfValues() ([]*service_account.Reference, bool) {
-	res, ok := fpaov.values.([]*service_account.Reference)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type Invitation_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() Invitation_FieldPathSelector
-	Get(source *Invitation) []interface{}
-	GetSingle(source *Invitation) (interface{}, bool)
-	ClearValue(item *Invitation)
-
-	// Those methods build corresponding Invitation_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) Invitation_FieldPathValue
-	WithIArrayOfValues(values interface{}) Invitation_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) Invitation_FieldPathArrayItemValue
-}
-
-type Invitation_FieldPathSelector int32
-
-const (
-	Invitation_FieldPathSelectorInviteeEmail    Invitation_FieldPathSelector = 0
-	Invitation_FieldPathSelectorInviterActor    Invitation_FieldPathSelector = 1
-	Invitation_FieldPathSelectorInviterFullName Invitation_FieldPathSelector = 2
-	Invitation_FieldPathSelectorInviterEmail    Invitation_FieldPathSelector = 3
-	Invitation_FieldPathSelectorLanguageCode    Invitation_FieldPathSelector = 4
-	Invitation_FieldPathSelectorRoles           Invitation_FieldPathSelector = 5
-	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 6
-	Invitation_FieldPathSelectorExtras          Invitation_FieldPathSelector = 7
-	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 8
-)
-
-func (s Invitation_FieldPathSelector) String() string {
-	switch s {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		return "invitee_email"
-	case Invitation_FieldPathSelectorInviterActor:
-		return "inviter_actor"
-	case Invitation_FieldPathSelectorInviterFullName:
-		return "inviter_full_name"
-	case Invitation_FieldPathSelectorInviterEmail:
-		return "inviter_email"
-	case Invitation_FieldPathSelectorLanguageCode:
-		return "language_code"
-	case Invitation_FieldPathSelectorRoles:
-		return "roles"
-	case Invitation_FieldPathSelectorExpirationDate:
-		return "expiration_date"
-	case Invitation_FieldPathSelectorExtras:
-		return "extras"
-	case Invitation_FieldPathSelectorState:
-		return "state"
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", s))
-	}
-}
-
-func BuildInvitation_FieldPath(fp gotenobject.RawFieldPath) (Invitation_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Invitation")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "invitee_email", "inviteeEmail", "invitee-email":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviteeEmail}, nil
-		case "inviter_actor", "inviterActor", "inviter-actor":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterActor}, nil
-		case "inviter_full_name", "inviterFullName", "inviter-full-name":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterFullName}, nil
-		case "inviter_email", "inviterEmail", "inviter-email":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail}, nil
-		case "language_code", "languageCode", "language-code":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode}, nil
-		case "roles":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles}, nil
-		case "expiration_date", "expirationDate", "expiration-date":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate}, nil
-		case "extras":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras}, nil
-		case "state":
-			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "inviter_actor", "inviterActor", "inviter-actor":
-			if subpath, err := BuildActor_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &Invitation_FieldSubPath{selector: Invitation_FieldPathSelectorInviterActor, subPath: subpath}, nil
-			}
-		case "extras":
-			if len(fp) > 2 {
-				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object Invitation)", fp)
-			}
-			return &Invitation_FieldPathMap{selector: Invitation_FieldPathSelectorExtras, key: fp[1]}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Invitation", fp)
-}
-
-func ParseInvitation_FieldPath(rawField string) (Invitation_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildInvitation_FieldPath(fp)
-}
-
-func MustParseInvitation_FieldPath(rawField string) Invitation_FieldPath {
-	fp, err := ParseInvitation_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type Invitation_FieldTerminalPath struct {
-	selector Invitation_FieldPathSelector
-}
-
-var _ Invitation_FieldPath = (*Invitation_FieldTerminalPath)(nil)
-
-func (fp *Invitation_FieldTerminalPath) Selector() Invitation_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *Invitation_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *Invitation_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source Invitation
-func (fp *Invitation_FieldTerminalPath) Get(source *Invitation) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case Invitation_FieldPathSelectorInviteeEmail:
-			values = append(values, source.InviteeEmail)
-		case Invitation_FieldPathSelectorInviterActor:
-			if source.InviterActor != nil {
-				values = append(values, source.InviterActor)
-			}
-		case Invitation_FieldPathSelectorInviterFullName:
-			values = append(values, source.InviterFullName)
-		case Invitation_FieldPathSelectorInviterEmail:
-			values = append(values, source.InviterEmail)
-		case Invitation_FieldPathSelectorLanguageCode:
-			values = append(values, source.LanguageCode)
-		case Invitation_FieldPathSelectorRoles:
-			for _, value := range source.GetRoles() {
-				values = append(values, value)
-			}
-		case Invitation_FieldPathSelectorExpirationDate:
-			if source.ExpirationDate != nil {
-				values = append(values, source.ExpirationDate)
-			}
-		case Invitation_FieldPathSelectorExtras:
-			values = append(values, source.Extras)
-		case Invitation_FieldPathSelectorState:
-			values = append(values, source.State)
-		default:
-			panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *Invitation_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Invitation))
-}
-
-// GetSingle returns value pointed by specific field of from source Invitation
-func (fp *Invitation_FieldTerminalPath) GetSingle(source *Invitation) (interface{}, bool) {
-	switch fp.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		return source.GetInviteeEmail(), source != nil
-	case Invitation_FieldPathSelectorInviterActor:
-		res := source.GetInviterActor()
-		return res, res != nil
-	case Invitation_FieldPathSelectorInviterFullName:
-		return source.GetInviterFullName(), source != nil
-	case Invitation_FieldPathSelectorInviterEmail:
-		return source.GetInviterEmail(), source != nil
-	case Invitation_FieldPathSelectorLanguageCode:
-		return source.GetLanguageCode(), source != nil
-	case Invitation_FieldPathSelectorRoles:
-		res := source.GetRoles()
-		return res, res != nil
-	case Invitation_FieldPathSelectorExpirationDate:
-		res := source.GetExpirationDate()
-		return res, res != nil
-	case Invitation_FieldPathSelectorExtras:
-		res := source.GetExtras()
-		return res, res != nil
-	case Invitation_FieldPathSelectorState:
-		return source.GetState(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-	}
-}
-
-func (fp *Invitation_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Invitation))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *Invitation_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		return ""
-	case Invitation_FieldPathSelectorInviterActor:
-		return (*Actor)(nil)
-	case Invitation_FieldPathSelectorInviterFullName:
-		return ""
-	case Invitation_FieldPathSelectorInviterEmail:
-		return ""
-	case Invitation_FieldPathSelectorLanguageCode:
-		return ""
-	case Invitation_FieldPathSelectorRoles:
-		return ([]*role.Reference)(nil)
-	case Invitation_FieldPathSelectorExpirationDate:
-		return (*timestamp.Timestamp)(nil)
-	case Invitation_FieldPathSelectorExtras:
-		return (map[string]string)(nil)
-	case Invitation_FieldPathSelectorState:
-		return Invitation_STATE_UNSPECIFIED
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-	}
-}
-
-func (fp *Invitation_FieldTerminalPath) ClearValue(item *Invitation) {
-	if item != nil {
-		switch fp.selector {
-		case Invitation_FieldPathSelectorInviteeEmail:
-			item.InviteeEmail = ""
-		case Invitation_FieldPathSelectorInviterActor:
-			item.InviterActor = nil
-		case Invitation_FieldPathSelectorInviterFullName:
-			item.InviterFullName = ""
-		case Invitation_FieldPathSelectorInviterEmail:
-			item.InviterEmail = ""
-		case Invitation_FieldPathSelectorLanguageCode:
-			item.LanguageCode = ""
-		case Invitation_FieldPathSelectorRoles:
-			item.Roles = nil
-		case Invitation_FieldPathSelectorExpirationDate:
-			item.ExpirationDate = nil
-		case Invitation_FieldPathSelectorExtras:
-			item.Extras = nil
-		case Invitation_FieldPathSelectorState:
-			item.State = Invitation_STATE_UNSPECIFIED
-		default:
-			panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *Invitation_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Invitation))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *Invitation_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == Invitation_FieldPathSelectorInviteeEmail ||
-		fp.selector == Invitation_FieldPathSelectorInviterFullName ||
-		fp.selector == Invitation_FieldPathSelectorInviterEmail ||
-		fp.selector == Invitation_FieldPathSelectorLanguageCode ||
-		fp.selector == Invitation_FieldPathSelectorRoles ||
-		fp.selector == Invitation_FieldPathSelectorExpirationDate ||
-		fp.selector == Invitation_FieldPathSelectorExtras ||
-		fp.selector == Invitation_FieldPathSelectorState
-}
-
-func (fp *Invitation_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation_FieldPathValue {
-	switch fp.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
-	case Invitation_FieldPathSelectorInviterActor:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*Actor)}
-	case Invitation_FieldPathSelectorInviterFullName:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
-	case Invitation_FieldPathSelectorInviterEmail:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
-	case Invitation_FieldPathSelectorLanguageCode:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
-	case Invitation_FieldPathSelectorRoles:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*role.Reference)}
-	case Invitation_FieldPathSelectorExpirationDate:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*timestamp.Timestamp)}
-	case Invitation_FieldPathSelectorExtras:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(map[string]string)}
-	case Invitation_FieldPathSelectorState:
-		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(Invitation_State)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-	}
-}
-
-func (fp *Invitation_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *Invitation_FieldTerminalPath) WithIArrayOfValues(values interface{}) Invitation_FieldPathArrayOfValues {
-	fpaov := &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
-	case Invitation_FieldPathSelectorInviterActor:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*Actor)}
-	case Invitation_FieldPathSelectorInviterFullName:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
-	case Invitation_FieldPathSelectorInviterEmail:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
-	case Invitation_FieldPathSelectorLanguageCode:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
-	case Invitation_FieldPathSelectorRoles:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*role.Reference)}
-	case Invitation_FieldPathSelectorExpirationDate:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*timestamp.Timestamp)}
-	case Invitation_FieldPathSelectorExtras:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]map[string]string)}
-	case Invitation_FieldPathSelectorState:
-		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]Invitation_State)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *Invitation_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *Invitation_FieldTerminalPath) WithIArrayItemValue(value interface{}) Invitation_FieldPathArrayItemValue {
-	switch fp.selector {
-	case Invitation_FieldPathSelectorRoles:
-		return &Invitation_FieldTerminalPathArrayItemValue{Invitation_FieldTerminalPath: *fp, value: value.(*role.Reference)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
-	}
-}
-
-func (fp *Invitation_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// FieldPath for map type with additional Key information
-type Invitation_FieldPathMap struct {
-	key      string
-	selector Invitation_FieldPathSelector
-}
-
-var _ Invitation_FieldPath = (*Invitation_FieldPathMap)(nil)
-
-func (fpm *Invitation_FieldPathMap) Selector() Invitation_FieldPathSelector {
-	return fpm.selector
-}
-
-func (fpm *Invitation_FieldPathMap) Key() string {
-	return fpm.key
-}
-
-// String returns path representation in proto convention
-func (fpm *Invitation_FieldPathMap) String() string {
-	return fpm.selector.String() + "." + fpm.key
-}
-
-// JSONString returns path representation is JSON convention. Note that map keys are not transformed
-func (fpm *Invitation_FieldPathMap) JSONString() string {
-	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
-}
-
-// Get returns all values pointed by selected field map key from source Invitation
-func (fpm *Invitation_FieldPathMap) Get(source *Invitation) (values []interface{}) {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		if value, ok := source.GetExtras()[fpm.key]; ok {
-			values = append(values, value)
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-	return
-}
-
-func (fpm *Invitation_FieldPathMap) GetRaw(source proto.Message) []interface{} {
-	return fpm.Get(source.(*Invitation))
-}
-
-// GetSingle returns value by selected field map key from source Invitation
-func (fpm *Invitation_FieldPathMap) GetSingle(source *Invitation) (interface{}, bool) {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		res, ok := source.GetExtras()[fpm.key]
-		return res, ok
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpm.GetSingle(source.(*Invitation))
-}
-
-// GetDefault returns a default value of the field type
-func (fpm *Invitation_FieldPathMap) GetDefault() interface{} {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		var v string
-		return v
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) ClearValue(item *Invitation) {
-	if item != nil {
-		switch fpm.selector {
-		case Invitation_FieldPathSelectorExtras:
-			delete(item.Extras, fpm.key)
-		default:
-			panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-		}
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) ClearValueRaw(item proto.Message) {
-	fpm.ClearValue(item.(*Invitation))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fpm *Invitation_FieldPathMap) IsLeaf() bool {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		return true
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fpm}
-}
-
-func (fpm *Invitation_FieldPathMap) WithIValue(value interface{}) Invitation_FieldPathValue {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		return &Invitation_FieldPathMapValue{Invitation_FieldPathMap: *fpm, value: value.(string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fpm.WithIValue(value)
-}
-
-func (fpm *Invitation_FieldPathMap) WithIArrayOfValues(values interface{}) Invitation_FieldPathArrayOfValues {
-	switch fpm.selector {
-	case Invitation_FieldPathSelectorExtras:
-		return &Invitation_FieldPathMapArrayOfValues{Invitation_FieldPathMap: *fpm, values: values.([]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpm.selector))
-	}
-}
-
-func (fpm *Invitation_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fpm.WithIArrayOfValues(values)
-}
-
-func (fpm *Invitation_FieldPathMap) WithIArrayItemValue(value interface{}) Invitation_FieldPathArrayItemValue {
-	panic("Cannot create array item value from map fieldpath")
-}
-
-func (fpm *Invitation_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fpm.WithIArrayItemValue(value)
-}
-
-type Invitation_FieldSubPath struct {
-	selector Invitation_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ Invitation_FieldPath = (*Invitation_FieldSubPath)(nil)
-
-func (fps *Invitation_FieldSubPath) Selector() Invitation_FieldPathSelector {
-	return fps.selector
-}
-func (fps *Invitation_FieldSubPath) AsInviterActorSubPath() (Actor_FieldPath, bool) {
-	res, ok := fps.subPath.(Actor_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *Invitation_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *Invitation_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source Invitation
-func (fps *Invitation_FieldSubPath) Get(source *Invitation) (values []interface{}) {
-	if asActorFieldPath, ok := fps.AsInviterActorSubPath(); ok {
-		values = append(values, asActorFieldPath.Get(source.GetInviterActor())...)
-	} else {
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *Invitation_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*Invitation))
-}
-
-// GetSingle returns value of selected field from source Invitation
-func (fps *Invitation_FieldSubPath) GetSingle(source *Invitation) (interface{}, bool) {
-	switch fps.selector {
-	case Invitation_FieldPathSelectorInviterActor:
-		if source.GetInviterActor() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetInviterActor())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fps.selector))
-	}
-}
-
-func (fps *Invitation_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*Invitation))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *Invitation_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *Invitation_FieldSubPath) ClearValue(item *Invitation) {
-	if item != nil {
-		switch fps.selector {
-		case Invitation_FieldPathSelectorInviterActor:
-			fps.subPath.ClearValueRaw(item.InviterActor)
-		default:
-			panic(fmt.Sprintf("Invalid selector for Invitation: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *Invitation_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*Invitation))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *Invitation_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *Invitation_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&Invitation_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *Invitation_FieldSubPath) WithIValue(value interface{}) Invitation_FieldPathValue {
-	return &Invitation_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *Invitation_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *Invitation_FieldSubPath) WithIArrayOfValues(values interface{}) Invitation_FieldPathArrayOfValues {
-	return &Invitation_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *Invitation_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *Invitation_FieldSubPath) WithIArrayItemValue(value interface{}) Invitation_FieldPathArrayItemValue {
-	return &Invitation_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *Invitation_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// Invitation_FieldPathValue allows storing values for Invitation fields according to their type
-type Invitation_FieldPathValue interface {
-	Invitation_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **Invitation)
-	CompareWith(*Invitation) (cmp int, comparable bool)
-}
-
-func ParseInvitation_FieldPathValue(pathStr, valueStr string) (Invitation_FieldPathValue, error) {
-	fp, err := ParseInvitation_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Invitation field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(Invitation_FieldPathValue), nil
-}
-
-func MustParseInvitation_FieldPathValue(pathStr, valueStr string) Invitation_FieldPathValue {
-	fpv, err := ParseInvitation_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type Invitation_FieldTerminalPathValue struct {
-	Invitation_FieldTerminalPath
-	value interface{}
-}
-
-var _ Invitation_FieldPathValue = (*Invitation_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Invitation' as interface{}
-func (fpv *Invitation_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsInviteeEmailValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsInviterActorValue() (*Actor, bool) {
-	res, ok := fpv.value.(*Actor)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsInviterFullNameValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsInviterEmailValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsLanguageCodeValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsRolesValue() ([]*role.Reference, bool) {
-	res, ok := fpv.value.([]*role.Reference)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsExpirationDateValue() (*timestamp.Timestamp, bool) {
-	res, ok := fpv.value.(*timestamp.Timestamp)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsExtrasValue() (map[string]string, bool) {
-	res, ok := fpv.value.(map[string]string)
-	return res, ok
-}
-func (fpv *Invitation_FieldTerminalPathValue) AsStateValue() (Invitation_State, bool) {
-	res, ok := fpv.value.(Invitation_State)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Invitation
-func (fpv *Invitation_FieldTerminalPathValue) SetTo(target **Invitation) {
-	if *target == nil {
-		*target = new(Invitation)
-	}
-	switch fpv.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		(*target).InviteeEmail = fpv.value.(string)
-	case Invitation_FieldPathSelectorInviterActor:
-		(*target).InviterActor = fpv.value.(*Actor)
-	case Invitation_FieldPathSelectorInviterFullName:
-		(*target).InviterFullName = fpv.value.(string)
-	case Invitation_FieldPathSelectorInviterEmail:
-		(*target).InviterEmail = fpv.value.(string)
-	case Invitation_FieldPathSelectorLanguageCode:
-		(*target).LanguageCode = fpv.value.(string)
-	case Invitation_FieldPathSelectorRoles:
-		(*target).Roles = fpv.value.([]*role.Reference)
-	case Invitation_FieldPathSelectorExpirationDate:
-		(*target).ExpirationDate = fpv.value.(*timestamp.Timestamp)
-	case Invitation_FieldPathSelectorExtras:
-		(*target).Extras = fpv.value.(map[string]string)
-	case Invitation_FieldPathSelectorState:
-		(*target).State = fpv.value.(Invitation_State)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpv.selector))
-	}
-}
-
-func (fpv *Invitation_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Invitation)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'Invitation_FieldTerminalPathValue' with the value under path in 'Invitation'.
-func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (int, bool) {
-	switch fpv.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetInviteeEmail()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Invitation_FieldPathSelectorInviterActor:
-		return 0, false
-	case Invitation_FieldPathSelectorInviterFullName:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetInviterFullName()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Invitation_FieldPathSelectorInviterEmail:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetInviterEmail()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Invitation_FieldPathSelectorLanguageCode:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetLanguageCode()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Invitation_FieldPathSelectorRoles:
-		return 0, false
-	case Invitation_FieldPathSelectorExpirationDate:
-		leftValue := fpv.value.(*timestamp.Timestamp)
-		rightValue := source.GetExpirationDate()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsTime().Equal(rightValue.AsTime()) {
-			return 0, true
-		} else if leftValue.AsTime().Before(rightValue.AsTime()) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case Invitation_FieldPathSelectorExtras:
-		return 0, false
-	case Invitation_FieldPathSelectorState:
-		leftValue := fpv.value.(Invitation_State)
-		rightValue := source.GetState()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpv.selector))
-	}
-}
-
-func (fpv *Invitation_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Invitation))
-}
-
-type Invitation_FieldPathMapValue struct {
-	Invitation_FieldPathMap
-	value interface{}
-}
-
-var _ Invitation_FieldPathValue = (*Invitation_FieldPathMapValue)(nil)
-
-// GetValue returns value stored under selected field in Invitation as interface{}
-func (fpmv *Invitation_FieldPathMapValue) GetRawValue() interface{} {
-	return fpmv.value
-}
-func (fpmv *Invitation_FieldPathMapValue) AsExtrasElementValue() (string, bool) {
-	res, ok := fpmv.value.(string)
-	return res, ok
-}
-
-// SetTo stores value for selected field in Invitation
-func (fpmv *Invitation_FieldPathMapValue) SetTo(target **Invitation) {
-	if *target == nil {
-		*target = new(Invitation)
-	}
-	switch fpmv.selector {
-	case Invitation_FieldPathSelectorExtras:
-		if (*target).Extras == nil {
-			(*target).Extras = make(map[string]string)
-		}
-		(*target).Extras[fpmv.key] = fpmv.value.(string)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpmv.selector))
-	}
-}
-
-func (fpmv *Invitation_FieldPathMapValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Invitation)
-	fpmv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'Invitation_FieldPathMapValue' with the value under path in 'Invitation'.
-func (fpmv *Invitation_FieldPathMapValue) CompareWith(source *Invitation) (int, bool) {
-	switch fpmv.selector {
-	case Invitation_FieldPathSelectorExtras:
-		leftValue := fpmv.value.(string)
-		rightValue := source.GetExtras()[fpmv.key]
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpmv.selector))
-	}
-}
-
-func (fpmv *Invitation_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpmv.CompareWith(source.(*Invitation))
-}
-
-type Invitation_FieldSubPathValue struct {
-	Invitation_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ Invitation_FieldPathValue = (*Invitation_FieldSubPathValue)(nil)
-
-func (fpvs *Invitation_FieldSubPathValue) AsInviterActorPathValue() (Actor_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(Actor_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *Invitation_FieldSubPathValue) SetTo(target **Invitation) {
-	if *target == nil {
-		*target = new(Invitation)
-	}
-	switch fpvs.Selector() {
-	case Invitation_FieldPathSelectorInviterActor:
-		fpvs.subPathValue.(Actor_FieldPathValue).SetTo(&(*target).InviterActor)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *Invitation_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Invitation)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *Invitation_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *Invitation_FieldSubPathValue) CompareWith(source *Invitation) (int, bool) {
-	switch fpvs.Selector() {
-	case Invitation_FieldPathSelectorInviterActor:
-		return fpvs.subPathValue.(Actor_FieldPathValue).CompareWith(source.GetInviterActor())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *Invitation_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*Invitation))
-}
-
-// Invitation_FieldPathArrayItemValue allows storing single item in Path-specific values for Invitation according to their type
-// Present only for array (repeated) types.
-type Invitation_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	Invitation_FieldPath
-	ContainsValue(*Invitation) bool
-}
-
-// ParseInvitation_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseInvitation_FieldPathArrayItemValue(pathStr, valueStr string) (Invitation_FieldPathArrayItemValue, error) {
-	fp, err := ParseInvitation_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Invitation field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(Invitation_FieldPathArrayItemValue), nil
-}
-
-func MustParseInvitation_FieldPathArrayItemValue(pathStr, valueStr string) Invitation_FieldPathArrayItemValue {
-	fpaiv, err := ParseInvitation_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type Invitation_FieldTerminalPathArrayItemValue struct {
-	Invitation_FieldTerminalPath
-	value interface{}
-}
-
-var _ Invitation_FieldPathArrayItemValue = (*Invitation_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object Invitation as interface{}
-func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) AsRolesItemValue() (*role.Reference, bool) {
-	res, ok := fpaiv.value.(*role.Reference)
-	return res, ok
-}
-
-func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) GetSingle(source *Invitation) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Invitation))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Invitation'
-func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) ContainsValue(source *Invitation) bool {
-	slice := fpaiv.Invitation_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type Invitation_FieldSubPathArrayItemValue struct {
-	Invitation_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *Invitation_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *Invitation_FieldSubPathArrayItemValue) AsInviterActorPathItemValue() (Actor_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(Actor_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Invitation'
-func (fpaivs *Invitation_FieldSubPathArrayItemValue) ContainsValue(source *Invitation) bool {
-	switch fpaivs.Selector() {
-	case Invitation_FieldPathSelectorInviterActor:
-		return fpaivs.subPathItemValue.(Actor_FieldPathArrayItemValue).ContainsValue(source.GetInviterActor())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fpaivs.Selector()))
-	}
-}
-
-// Invitation_FieldPathArrayOfValues allows storing slice of values for Invitation fields according to their type
-type Invitation_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	Invitation_FieldPath
-}
-
-func ParseInvitation_FieldPathArrayOfValues(pathStr, valuesStr string) (Invitation_FieldPathArrayOfValues, error) {
-	fp, err := ParseInvitation_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Invitation field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(Invitation_FieldPathArrayOfValues), nil
-}
-
-func MustParseInvitation_FieldPathArrayOfValues(pathStr, valuesStr string) Invitation_FieldPathArrayOfValues {
-	fpaov, err := ParseInvitation_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type Invitation_FieldTerminalPathArrayOfValues struct {
-	Invitation_FieldTerminalPath
-	values interface{}
-}
-
-var _ Invitation_FieldPathArrayOfValues = (*Invitation_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case Invitation_FieldPathSelectorInviteeEmail:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorInviterActor:
-		for _, v := range fpaov.values.([]*Actor) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorInviterFullName:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorInviterEmail:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorLanguageCode:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorRoles:
-		for _, v := range fpaov.values.([][]*role.Reference) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorExpirationDate:
-		for _, v := range fpaov.values.([]*timestamp.Timestamp) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorExtras:
-		for _, v := range fpaov.values.([]map[string]string) {
-			values = append(values, v)
-		}
-	case Invitation_FieldPathSelectorState:
-		for _, v := range fpaov.values.([]Invitation_State) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviteeEmailArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviterActorArrayOfValues() ([]*Actor, bool) {
-	res, ok := fpaov.values.([]*Actor)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviterFullNameArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsInviterEmailArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsLanguageCodeArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsRolesArrayOfValues() ([][]*role.Reference, bool) {
-	res, ok := fpaov.values.([][]*role.Reference)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExpirationDateArrayOfValues() ([]*timestamp.Timestamp, bool) {
-	res, ok := fpaov.values.([]*timestamp.Timestamp)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExtrasArrayOfValues() ([]map[string]string, bool) {
-	res, ok := fpaov.values.([]map[string]string)
-	return res, ok
-}
-func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsStateArrayOfValues() ([]Invitation_State, bool) {
-	res, ok := fpaov.values.([]Invitation_State)
-	return res, ok
-}
-
-type Invitation_FieldPathMapArrayOfValues struct {
-	Invitation_FieldPathMap
-	values interface{}
-}
-
-var _ Invitation_FieldPathArrayOfValues = (*Invitation_FieldPathMapArrayOfValues)(nil)
-
-func (fpmaov *Invitation_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpmaov.selector {
-	case Invitation_FieldPathSelectorExtras:
-		for _, v := range fpmaov.values.([]string) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpmaov *Invitation_FieldPathMapArrayOfValues) AsExtrasArrayOfElementValues() ([]string, bool) {
-	res, ok := fpmaov.values.([]string)
-	return res, ok
-}
-
-type Invitation_FieldSubPathArrayOfValues struct {
-	Invitation_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ Invitation_FieldPathArrayOfValues = (*Invitation_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *Invitation_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *Invitation_FieldSubPathArrayOfValues) AsInviterActorPathArrayOfValues() (Actor_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(Actor_FieldPathArrayOfValues)
-	return res, ok
-}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2140,6 +552,1461 @@ func (fpaov *PCR_FieldTerminalPathArrayOfValues) AsDigestAlgArrayOfValues() ([]D
 	return res, ok
 }
 func (fpaov *PCR_FieldTerminalPathArrayOfValues) AsCommentArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ServiceBusinessTier_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ServiceBusinessTier_FieldPathSelector
+	Get(source *ServiceBusinessTier) []interface{}
+	GetSingle(source *ServiceBusinessTier) (interface{}, bool)
+	ClearValue(item *ServiceBusinessTier)
+
+	// Those methods build corresponding ServiceBusinessTier_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ServiceBusinessTier_FieldPathValue
+	WithIArrayOfValues(values interface{}) ServiceBusinessTier_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ServiceBusinessTier_FieldPathArrayItemValue
+}
+
+type ServiceBusinessTier_FieldPathSelector int32
+
+const (
+	ServiceBusinessTier_FieldPathSelectorService      ServiceBusinessTier_FieldPathSelector = 0
+	ServiceBusinessTier_FieldPathSelectorBusinessTier ServiceBusinessTier_FieldPathSelector = 1
+)
+
+func (s ServiceBusinessTier_FieldPathSelector) String() string {
+	switch s {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		return "service"
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		return "business_tier"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", s))
+	}
+}
+
+func BuildServiceBusinessTier_FieldPath(fp gotenobject.RawFieldPath) (ServiceBusinessTier_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ServiceBusinessTier")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "service":
+			return &ServiceBusinessTier_FieldTerminalPath{selector: ServiceBusinessTier_FieldPathSelectorService}, nil
+		case "business_tier", "businessTier", "business-tier":
+			return &ServiceBusinessTier_FieldTerminalPath{selector: ServiceBusinessTier_FieldPathSelectorBusinessTier}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ServiceBusinessTier", fp)
+}
+
+func ParseServiceBusinessTier_FieldPath(rawField string) (ServiceBusinessTier_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildServiceBusinessTier_FieldPath(fp)
+}
+
+func MustParseServiceBusinessTier_FieldPath(rawField string) ServiceBusinessTier_FieldPath {
+	fp, err := ParseServiceBusinessTier_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ServiceBusinessTier_FieldTerminalPath struct {
+	selector ServiceBusinessTier_FieldPathSelector
+}
+
+var _ ServiceBusinessTier_FieldPath = (*ServiceBusinessTier_FieldTerminalPath)(nil)
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) Selector() ServiceBusinessTier_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ServiceBusinessTier_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ServiceBusinessTier_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ServiceBusinessTier
+func (fp *ServiceBusinessTier_FieldTerminalPath) Get(source *ServiceBusinessTier) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ServiceBusinessTier_FieldPathSelectorService:
+			if source.Service != nil {
+				values = append(values, source.Service)
+			}
+		case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+			values = append(values, source.BusinessTier)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ServiceBusinessTier))
+}
+
+// GetSingle returns value pointed by specific field of from source ServiceBusinessTier
+func (fp *ServiceBusinessTier_FieldTerminalPath) GetSingle(source *ServiceBusinessTier) (interface{}, bool) {
+	switch fp.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		res := source.GetService()
+		return res, res != nil
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		return source.GetBusinessTier(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ServiceBusinessTier))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ServiceBusinessTier_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		return (*meta_service.Reference)(nil)
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		return BusinessTier_UNDEFINED
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) ClearValue(item *ServiceBusinessTier) {
+	if item != nil {
+		switch fp.selector {
+		case ServiceBusinessTier_FieldPathSelectorService:
+			item.Service = nil
+		case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+			item.BusinessTier = BusinessTier_UNDEFINED
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ServiceBusinessTier))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ServiceBusinessTier_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ServiceBusinessTier_FieldPathSelectorService ||
+		fp.selector == ServiceBusinessTier_FieldPathSelectorBusinessTier
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithIValue(value interface{}) ServiceBusinessTier_FieldPathValue {
+	switch fp.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		return &ServiceBusinessTier_FieldTerminalPathValue{ServiceBusinessTier_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		return &ServiceBusinessTier_FieldTerminalPathValue{ServiceBusinessTier_FieldTerminalPath: *fp, value: value.(BusinessTier)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithIArrayOfValues(values interface{}) ServiceBusinessTier_FieldPathArrayOfValues {
+	fpaov := &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		return &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		return &ServiceBusinessTier_FieldTerminalPathArrayOfValues{ServiceBusinessTier_FieldTerminalPath: *fp, values: values.([]BusinessTier)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithIArrayItemValue(value interface{}) ServiceBusinessTier_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceBusinessTier_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ServiceBusinessTier_FieldPathValue allows storing values for ServiceBusinessTier fields according to their type
+type ServiceBusinessTier_FieldPathValue interface {
+	ServiceBusinessTier_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ServiceBusinessTier)
+	CompareWith(*ServiceBusinessTier) (cmp int, comparable bool)
+}
+
+func ParseServiceBusinessTier_FieldPathValue(pathStr, valueStr string) (ServiceBusinessTier_FieldPathValue, error) {
+	fp, err := ParseServiceBusinessTier_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceBusinessTier field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ServiceBusinessTier_FieldPathValue), nil
+}
+
+func MustParseServiceBusinessTier_FieldPathValue(pathStr, valueStr string) ServiceBusinessTier_FieldPathValue {
+	fpv, err := ParseServiceBusinessTier_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ServiceBusinessTier_FieldTerminalPathValue struct {
+	ServiceBusinessTier_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceBusinessTier_FieldPathValue = (*ServiceBusinessTier_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ServiceBusinessTier' as interface{}
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) AsServiceValue() (*meta_service.Reference, bool) {
+	res, ok := fpv.value.(*meta_service.Reference)
+	return res, ok
+}
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) AsBusinessTierValue() (BusinessTier, bool) {
+	res, ok := fpv.value.(BusinessTier)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ServiceBusinessTier
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) SetTo(target **ServiceBusinessTier) {
+	if *target == nil {
+		*target = new(ServiceBusinessTier)
+	}
+	switch fpv.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		(*target).Service = fpv.value.(*meta_service.Reference)
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		(*target).BusinessTier = fpv.value.(BusinessTier)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ServiceBusinessTier)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ServiceBusinessTier_FieldTerminalPathValue' with the value under path in 'ServiceBusinessTier'.
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) CompareWith(source *ServiceBusinessTier) (int, bool) {
+	switch fpv.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		leftValue := fpv.value.(*meta_service.Reference)
+		rightValue := source.GetService()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		leftValue := fpv.value.(BusinessTier)
+		rightValue := source.GetBusinessTier()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceBusinessTier: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceBusinessTier_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ServiceBusinessTier))
+}
+
+// ServiceBusinessTier_FieldPathArrayItemValue allows storing single item in Path-specific values for ServiceBusinessTier according to their type
+// Present only for array (repeated) types.
+type ServiceBusinessTier_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ServiceBusinessTier_FieldPath
+	ContainsValue(*ServiceBusinessTier) bool
+}
+
+// ParseServiceBusinessTier_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseServiceBusinessTier_FieldPathArrayItemValue(pathStr, valueStr string) (ServiceBusinessTier_FieldPathArrayItemValue, error) {
+	fp, err := ParseServiceBusinessTier_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceBusinessTier field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ServiceBusinessTier_FieldPathArrayItemValue), nil
+}
+
+func MustParseServiceBusinessTier_FieldPathArrayItemValue(pathStr, valueStr string) ServiceBusinessTier_FieldPathArrayItemValue {
+	fpaiv, err := ParseServiceBusinessTier_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ServiceBusinessTier_FieldTerminalPathArrayItemValue struct {
+	ServiceBusinessTier_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceBusinessTier_FieldPathArrayItemValue = (*ServiceBusinessTier_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ServiceBusinessTier as interface{}
+func (fpaiv *ServiceBusinessTier_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ServiceBusinessTier_FieldTerminalPathArrayItemValue) GetSingle(source *ServiceBusinessTier) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ServiceBusinessTier_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ServiceBusinessTier))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ServiceBusinessTier'
+func (fpaiv *ServiceBusinessTier_FieldTerminalPathArrayItemValue) ContainsValue(source *ServiceBusinessTier) bool {
+	slice := fpaiv.ServiceBusinessTier_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ServiceBusinessTier_FieldPathArrayOfValues allows storing slice of values for ServiceBusinessTier fields according to their type
+type ServiceBusinessTier_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ServiceBusinessTier_FieldPath
+}
+
+func ParseServiceBusinessTier_FieldPathArrayOfValues(pathStr, valuesStr string) (ServiceBusinessTier_FieldPathArrayOfValues, error) {
+	fp, err := ParseServiceBusinessTier_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceBusinessTier field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ServiceBusinessTier_FieldPathArrayOfValues), nil
+}
+
+func MustParseServiceBusinessTier_FieldPathArrayOfValues(pathStr, valuesStr string) ServiceBusinessTier_FieldPathArrayOfValues {
+	fpaov, err := ParseServiceBusinessTier_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ServiceBusinessTier_FieldTerminalPathArrayOfValues struct {
+	ServiceBusinessTier_FieldTerminalPath
+	values interface{}
+}
+
+var _ ServiceBusinessTier_FieldPathArrayOfValues = (*ServiceBusinessTier_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ServiceBusinessTier_FieldPathSelectorService:
+		for _, v := range fpaov.values.([]*meta_service.Reference) {
+			values = append(values, v)
+		}
+	case ServiceBusinessTier_FieldPathSelectorBusinessTier:
+		for _, v := range fpaov.values.([]BusinessTier) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Reference, bool) {
+	res, ok := fpaov.values.([]*meta_service.Reference)
+	return res, ok
+}
+func (fpaov *ServiceBusinessTier_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() ([]BusinessTier, bool) {
+	res, ok := fpaov.values.([]BusinessTier)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ServiceErrors_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ServiceErrors_FieldPathSelector
+	Get(source *ServiceErrors) []interface{}
+	GetSingle(source *ServiceErrors) (interface{}, bool)
+	ClearValue(item *ServiceErrors)
+
+	// Those methods build corresponding ServiceErrors_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ServiceErrors_FieldPathValue
+	WithIArrayOfValues(values interface{}) ServiceErrors_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ServiceErrors_FieldPathArrayItemValue
+}
+
+type ServiceErrors_FieldPathSelector int32
+
+const (
+	ServiceErrors_FieldPathSelectorErrors ServiceErrors_FieldPathSelector = 0
+)
+
+func (s ServiceErrors_FieldPathSelector) String() string {
+	switch s {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return "errors"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", s))
+	}
+}
+
+func BuildServiceErrors_FieldPath(fp gotenobject.RawFieldPath) (ServiceErrors_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ServiceErrors")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "errors":
+			return &ServiceErrors_FieldTerminalPath{selector: ServiceErrors_FieldPathSelectorErrors}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "errors":
+			if subpath, err := BuildServiceErrorsError_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ServiceErrors_FieldSubPath{selector: ServiceErrors_FieldPathSelectorErrors, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ServiceErrors", fp)
+}
+
+func ParseServiceErrors_FieldPath(rawField string) (ServiceErrors_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildServiceErrors_FieldPath(fp)
+}
+
+func MustParseServiceErrors_FieldPath(rawField string) ServiceErrors_FieldPath {
+	fp, err := ParseServiceErrors_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ServiceErrors_FieldTerminalPath struct {
+	selector ServiceErrors_FieldPathSelector
+}
+
+var _ ServiceErrors_FieldPath = (*ServiceErrors_FieldTerminalPath)(nil)
+
+func (fp *ServiceErrors_FieldTerminalPath) Selector() ServiceErrors_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ServiceErrors_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ServiceErrors_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ServiceErrors
+func (fp *ServiceErrors_FieldTerminalPath) Get(source *ServiceErrors) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ServiceErrors_FieldPathSelectorErrors:
+			for _, value := range source.GetErrors() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ServiceErrors))
+}
+
+// GetSingle returns value pointed by specific field of from source ServiceErrors
+func (fp *ServiceErrors_FieldTerminalPath) GetSingle(source *ServiceErrors) (interface{}, bool) {
+	switch fp.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		res := source.GetErrors()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ServiceErrors))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ServiceErrors_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return ([]*ServiceErrors_Error)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) ClearValue(item *ServiceErrors) {
+	if item != nil {
+		switch fp.selector {
+		case ServiceErrors_FieldPathSelectorErrors:
+			item.Errors = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ServiceErrors))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ServiceErrors_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithIValue(value interface{}) ServiceErrors_FieldPathValue {
+	switch fp.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return &ServiceErrors_FieldTerminalPathValue{ServiceErrors_FieldTerminalPath: *fp, value: value.([]*ServiceErrors_Error)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithIArrayOfValues(values interface{}) ServiceErrors_FieldPathArrayOfValues {
+	fpaov := &ServiceErrors_FieldTerminalPathArrayOfValues{ServiceErrors_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return &ServiceErrors_FieldTerminalPathArrayOfValues{ServiceErrors_FieldTerminalPath: *fp, values: values.([][]*ServiceErrors_Error)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithIArrayItemValue(value interface{}) ServiceErrors_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return &ServiceErrors_FieldTerminalPathArrayItemValue{ServiceErrors_FieldTerminalPath: *fp, value: value.(*ServiceErrors_Error)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrors_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type ServiceErrors_FieldSubPath struct {
+	selector ServiceErrors_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ ServiceErrors_FieldPath = (*ServiceErrors_FieldSubPath)(nil)
+
+func (fps *ServiceErrors_FieldSubPath) Selector() ServiceErrors_FieldPathSelector {
+	return fps.selector
+}
+func (fps *ServiceErrors_FieldSubPath) AsErrorsSubPath() (ServiceErrorsError_FieldPath, bool) {
+	res, ok := fps.subPath.(ServiceErrorsError_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *ServiceErrors_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *ServiceErrors_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source ServiceErrors
+func (fps *ServiceErrors_FieldSubPath) Get(source *ServiceErrors) (values []interface{}) {
+	if asErrorFieldPath, ok := fps.AsErrorsSubPath(); ok {
+		for _, item := range source.GetErrors() {
+			values = append(values, asErrorFieldPath.Get(item)...)
+		}
+	} else {
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *ServiceErrors_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*ServiceErrors))
+}
+
+// GetSingle returns value of selected field from source ServiceErrors
+func (fps *ServiceErrors_FieldSubPath) GetSingle(source *ServiceErrors) (interface{}, bool) {
+	switch fps.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		if len(source.GetErrors()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetErrors()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fps.selector))
+	}
+}
+
+func (fps *ServiceErrors_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*ServiceErrors))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *ServiceErrors_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *ServiceErrors_FieldSubPath) ClearValue(item *ServiceErrors) {
+	if item != nil {
+		switch fps.selector {
+		case ServiceErrors_FieldPathSelectorErrors:
+			for _, subItem := range item.Errors {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *ServiceErrors_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*ServiceErrors))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *ServiceErrors_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *ServiceErrors_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&ServiceErrors_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithIValue(value interface{}) ServiceErrors_FieldPathValue {
+	return &ServiceErrors_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithIArrayOfValues(values interface{}) ServiceErrors_FieldPathArrayOfValues {
+	return &ServiceErrors_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithIArrayItemValue(value interface{}) ServiceErrors_FieldPathArrayItemValue {
+	return &ServiceErrors_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *ServiceErrors_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// ServiceErrors_FieldPathValue allows storing values for ServiceErrors fields according to their type
+type ServiceErrors_FieldPathValue interface {
+	ServiceErrors_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ServiceErrors)
+	CompareWith(*ServiceErrors) (cmp int, comparable bool)
+}
+
+func ParseServiceErrors_FieldPathValue(pathStr, valueStr string) (ServiceErrors_FieldPathValue, error) {
+	fp, err := ParseServiceErrors_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceErrors field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ServiceErrors_FieldPathValue), nil
+}
+
+func MustParseServiceErrors_FieldPathValue(pathStr, valueStr string) ServiceErrors_FieldPathValue {
+	fpv, err := ParseServiceErrors_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ServiceErrors_FieldTerminalPathValue struct {
+	ServiceErrors_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceErrors_FieldPathValue = (*ServiceErrors_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ServiceErrors' as interface{}
+func (fpv *ServiceErrors_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ServiceErrors_FieldTerminalPathValue) AsErrorsValue() ([]*ServiceErrors_Error, bool) {
+	res, ok := fpv.value.([]*ServiceErrors_Error)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ServiceErrors
+func (fpv *ServiceErrors_FieldTerminalPathValue) SetTo(target **ServiceErrors) {
+	if *target == nil {
+		*target = new(ServiceErrors)
+	}
+	switch fpv.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		(*target).Errors = fpv.value.([]*ServiceErrors_Error)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceErrors_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ServiceErrors)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ServiceErrors_FieldTerminalPathValue' with the value under path in 'ServiceErrors'.
+func (fpv *ServiceErrors_FieldTerminalPathValue) CompareWith(source *ServiceErrors) (int, bool) {
+	switch fpv.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceErrors_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ServiceErrors))
+}
+
+type ServiceErrors_FieldSubPathValue struct {
+	ServiceErrors_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ ServiceErrors_FieldPathValue = (*ServiceErrors_FieldSubPathValue)(nil)
+
+func (fpvs *ServiceErrors_FieldSubPathValue) AsErrorsPathValue() (ServiceErrorsError_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ServiceErrorsError_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *ServiceErrors_FieldSubPathValue) SetTo(target **ServiceErrors) {
+	if *target == nil {
+		*target = new(ServiceErrors)
+	}
+	switch fpvs.Selector() {
+	case ServiceErrors_FieldPathSelectorErrors:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ServiceErrors_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ServiceErrors)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *ServiceErrors_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *ServiceErrors_FieldSubPathValue) CompareWith(source *ServiceErrors) (int, bool) {
+	switch fpvs.Selector() {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *ServiceErrors_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*ServiceErrors))
+}
+
+// ServiceErrors_FieldPathArrayItemValue allows storing single item in Path-specific values for ServiceErrors according to their type
+// Present only for array (repeated) types.
+type ServiceErrors_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ServiceErrors_FieldPath
+	ContainsValue(*ServiceErrors) bool
+}
+
+// ParseServiceErrors_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseServiceErrors_FieldPathArrayItemValue(pathStr, valueStr string) (ServiceErrors_FieldPathArrayItemValue, error) {
+	fp, err := ParseServiceErrors_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceErrors field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ServiceErrors_FieldPathArrayItemValue), nil
+}
+
+func MustParseServiceErrors_FieldPathArrayItemValue(pathStr, valueStr string) ServiceErrors_FieldPathArrayItemValue {
+	fpaiv, err := ParseServiceErrors_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ServiceErrors_FieldTerminalPathArrayItemValue struct {
+	ServiceErrors_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceErrors_FieldPathArrayItemValue = (*ServiceErrors_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ServiceErrors as interface{}
+func (fpaiv *ServiceErrors_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ServiceErrors_FieldTerminalPathArrayItemValue) AsErrorsItemValue() (*ServiceErrors_Error, bool) {
+	res, ok := fpaiv.value.(*ServiceErrors_Error)
+	return res, ok
+}
+
+func (fpaiv *ServiceErrors_FieldTerminalPathArrayItemValue) GetSingle(source *ServiceErrors) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ServiceErrors_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ServiceErrors))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ServiceErrors'
+func (fpaiv *ServiceErrors_FieldTerminalPathArrayItemValue) ContainsValue(source *ServiceErrors) bool {
+	slice := fpaiv.ServiceErrors_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type ServiceErrors_FieldSubPathArrayItemValue struct {
+	ServiceErrors_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *ServiceErrors_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *ServiceErrors_FieldSubPathArrayItemValue) AsErrorsPathItemValue() (ServiceErrorsError_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ServiceErrorsError_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ServiceErrors'
+func (fpaivs *ServiceErrors_FieldSubPathArrayItemValue) ContainsValue(source *ServiceErrors) bool {
+	switch fpaivs.Selector() {
+	case ServiceErrors_FieldPathSelectorErrors:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fpaivs.Selector()))
+	}
+}
+
+// ServiceErrors_FieldPathArrayOfValues allows storing slice of values for ServiceErrors fields according to their type
+type ServiceErrors_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ServiceErrors_FieldPath
+}
+
+func ParseServiceErrors_FieldPathArrayOfValues(pathStr, valuesStr string) (ServiceErrors_FieldPathArrayOfValues, error) {
+	fp, err := ParseServiceErrors_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ServiceErrors field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ServiceErrors_FieldPathArrayOfValues), nil
+}
+
+func MustParseServiceErrors_FieldPathArrayOfValues(pathStr, valuesStr string) ServiceErrors_FieldPathArrayOfValues {
+	fpaov, err := ParseServiceErrors_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ServiceErrors_FieldTerminalPathArrayOfValues struct {
+	ServiceErrors_FieldTerminalPath
+	values interface{}
+}
+
+var _ ServiceErrors_FieldPathArrayOfValues = (*ServiceErrors_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ServiceErrors_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
+		for _, v := range fpaov.values.([][]*ServiceErrors_Error) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ServiceErrors_FieldTerminalPathArrayOfValues) AsErrorsArrayOfValues() ([][]*ServiceErrors_Error, bool) {
+	res, ok := fpaov.values.([][]*ServiceErrors_Error)
+	return res, ok
+}
+
+type ServiceErrors_FieldSubPathArrayOfValues struct {
+	ServiceErrors_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ ServiceErrors_FieldPathArrayOfValues = (*ServiceErrors_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *ServiceErrors_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *ServiceErrors_FieldSubPathArrayOfValues) AsErrorsPathArrayOfValues() (ServiceErrorsError_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ServiceErrorsError_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ServiceErrorsError_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ServiceErrorsError_FieldPathSelector
+	Get(source *ServiceErrors_Error) []interface{}
+	GetSingle(source *ServiceErrors_Error) (interface{}, bool)
+	ClearValue(item *ServiceErrors_Error)
+
+	// Those methods build corresponding ServiceErrorsError_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ServiceErrorsError_FieldPathValue
+	WithIArrayOfValues(values interface{}) ServiceErrorsError_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ServiceErrorsError_FieldPathArrayItemValue
+}
+
+type ServiceErrorsError_FieldPathSelector int32
+
+const (
+	ServiceErrorsError_FieldPathSelectorService ServiceErrorsError_FieldPathSelector = 0
+	ServiceErrorsError_FieldPathSelectorMessage ServiceErrorsError_FieldPathSelector = 1
+)
+
+func (s ServiceErrorsError_FieldPathSelector) String() string {
+	switch s {
+	case ServiceErrorsError_FieldPathSelectorService:
+		return "service"
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		return "message"
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", s))
+	}
+}
+
+func BuildServiceErrorsError_FieldPath(fp gotenobject.RawFieldPath) (ServiceErrorsError_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object ServiceErrors_Error")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "service":
+			return &ServiceErrorsError_FieldTerminalPath{selector: ServiceErrorsError_FieldPathSelectorService}, nil
+		case "message":
+			return &ServiceErrorsError_FieldTerminalPath{selector: ServiceErrorsError_FieldPathSelectorMessage}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ServiceErrors_Error", fp)
+}
+
+func ParseServiceErrorsError_FieldPath(rawField string) (ServiceErrorsError_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildServiceErrorsError_FieldPath(fp)
+}
+
+func MustParseServiceErrorsError_FieldPath(rawField string) ServiceErrorsError_FieldPath {
+	fp, err := ParseServiceErrorsError_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ServiceErrorsError_FieldTerminalPath struct {
+	selector ServiceErrorsError_FieldPathSelector
+}
+
+var _ ServiceErrorsError_FieldPath = (*ServiceErrorsError_FieldTerminalPath)(nil)
+
+func (fp *ServiceErrorsError_FieldTerminalPath) Selector() ServiceErrorsError_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ServiceErrorsError_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ServiceErrorsError_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source ServiceErrors_Error
+func (fp *ServiceErrorsError_FieldTerminalPath) Get(source *ServiceErrors_Error) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ServiceErrorsError_FieldPathSelectorService:
+			if source.Service != nil {
+				values = append(values, source.Service)
+			}
+		case ServiceErrorsError_FieldPathSelectorMessage:
+			values = append(values, source.Message)
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*ServiceErrors_Error))
+}
+
+// GetSingle returns value pointed by specific field of from source ServiceErrors_Error
+func (fp *ServiceErrorsError_FieldTerminalPath) GetSingle(source *ServiceErrors_Error) (interface{}, bool) {
+	switch fp.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		res := source.GetService()
+		return res, res != nil
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		return source.GetMessage(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*ServiceErrors_Error))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ServiceErrorsError_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		return (*meta_service.Reference)(nil)
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) ClearValue(item *ServiceErrors_Error) {
+	if item != nil {
+		switch fp.selector {
+		case ServiceErrorsError_FieldPathSelectorService:
+			item.Service = nil
+		case ServiceErrorsError_FieldPathSelectorMessage:
+			item.Message = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*ServiceErrors_Error))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ServiceErrorsError_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ServiceErrorsError_FieldPathSelectorService ||
+		fp.selector == ServiceErrorsError_FieldPathSelectorMessage
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithIValue(value interface{}) ServiceErrorsError_FieldPathValue {
+	switch fp.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		return &ServiceErrorsError_FieldTerminalPathValue{ServiceErrorsError_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		return &ServiceErrorsError_FieldTerminalPathValue{ServiceErrorsError_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithIArrayOfValues(values interface{}) ServiceErrorsError_FieldPathArrayOfValues {
+	fpaov := &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		return &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		return &ServiceErrorsError_FieldTerminalPathArrayOfValues{ServiceErrorsError_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithIArrayItemValue(value interface{}) ServiceErrorsError_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fp.selector))
+	}
+}
+
+func (fp *ServiceErrorsError_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ServiceErrorsError_FieldPathValue allows storing values for Error fields according to their type
+type ServiceErrorsError_FieldPathValue interface {
+	ServiceErrorsError_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **ServiceErrors_Error)
+	CompareWith(*ServiceErrors_Error) (cmp int, comparable bool)
+}
+
+func ParseServiceErrorsError_FieldPathValue(pathStr, valueStr string) (ServiceErrorsError_FieldPathValue, error) {
+	fp, err := ParseServiceErrorsError_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Error field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ServiceErrorsError_FieldPathValue), nil
+}
+
+func MustParseServiceErrorsError_FieldPathValue(pathStr, valueStr string) ServiceErrorsError_FieldPathValue {
+	fpv, err := ParseServiceErrorsError_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ServiceErrorsError_FieldTerminalPathValue struct {
+	ServiceErrorsError_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceErrorsError_FieldPathValue = (*ServiceErrorsError_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Error' as interface{}
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) AsServiceValue() (*meta_service.Reference, bool) {
+	res, ok := fpv.value.(*meta_service.Reference)
+	return res, ok
+}
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) AsMessageValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Error
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) SetTo(target **ServiceErrors_Error) {
+	if *target == nil {
+		*target = new(ServiceErrors_Error)
+	}
+	switch fpv.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		(*target).Service = fpv.value.(*meta_service.Reference)
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		(*target).Message = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*ServiceErrors_Error)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ServiceErrorsError_FieldTerminalPathValue' with the value under path in 'ServiceErrors_Error'.
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) CompareWith(source *ServiceErrors_Error) (int, bool) {
+	switch fpv.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		leftValue := fpv.value.(*meta_service.Reference)
+		rightValue := source.GetService()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetMessage()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for ServiceErrors_Error: %d", fpv.selector))
+	}
+}
+
+func (fpv *ServiceErrorsError_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*ServiceErrors_Error))
+}
+
+// ServiceErrorsError_FieldPathArrayItemValue allows storing single item in Path-specific values for Error according to their type
+// Present only for array (repeated) types.
+type ServiceErrorsError_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ServiceErrorsError_FieldPath
+	ContainsValue(*ServiceErrors_Error) bool
+}
+
+// ParseServiceErrorsError_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseServiceErrorsError_FieldPathArrayItemValue(pathStr, valueStr string) (ServiceErrorsError_FieldPathArrayItemValue, error) {
+	fp, err := ParseServiceErrorsError_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Error field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ServiceErrorsError_FieldPathArrayItemValue), nil
+}
+
+func MustParseServiceErrorsError_FieldPathArrayItemValue(pathStr, valueStr string) ServiceErrorsError_FieldPathArrayItemValue {
+	fpaiv, err := ParseServiceErrorsError_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ServiceErrorsError_FieldTerminalPathArrayItemValue struct {
+	ServiceErrorsError_FieldTerminalPath
+	value interface{}
+}
+
+var _ ServiceErrorsError_FieldPathArrayItemValue = (*ServiceErrorsError_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object ServiceErrors_Error as interface{}
+func (fpaiv *ServiceErrorsError_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *ServiceErrorsError_FieldTerminalPathArrayItemValue) GetSingle(source *ServiceErrors_Error) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ServiceErrorsError_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*ServiceErrors_Error))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Error'
+func (fpaiv *ServiceErrorsError_FieldTerminalPathArrayItemValue) ContainsValue(source *ServiceErrors_Error) bool {
+	slice := fpaiv.ServiceErrorsError_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ServiceErrorsError_FieldPathArrayOfValues allows storing slice of values for Error fields according to their type
+type ServiceErrorsError_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ServiceErrorsError_FieldPath
+}
+
+func ParseServiceErrorsError_FieldPathArrayOfValues(pathStr, valuesStr string) (ServiceErrorsError_FieldPathArrayOfValues, error) {
+	fp, err := ParseServiceErrorsError_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Error field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ServiceErrorsError_FieldPathArrayOfValues), nil
+}
+
+func MustParseServiceErrorsError_FieldPathArrayOfValues(pathStr, valuesStr string) ServiceErrorsError_FieldPathArrayOfValues {
+	fpaov, err := ParseServiceErrorsError_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ServiceErrorsError_FieldTerminalPathArrayOfValues struct {
+	ServiceErrorsError_FieldTerminalPath
+	values interface{}
+}
+
+var _ ServiceErrorsError_FieldPathArrayOfValues = (*ServiceErrorsError_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ServiceErrorsError_FieldPathSelectorService:
+		for _, v := range fpaov.values.([]*meta_service.Reference) {
+			values = append(values, v)
+		}
+	case ServiceErrorsError_FieldPathSelectorMessage:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*meta_service.Reference, bool) {
+	res, ok := fpaov.values.([]*meta_service.Reference)
+	return res, ok
+}
+func (fpaov *ServiceErrorsError_FieldTerminalPathArrayOfValues) AsMessageArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

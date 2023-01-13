@@ -41,6 +41,7 @@ var (
 	createPlanAssignmentDescriptor    *CreatePlanAssignmentDescriptor
 	updatePlanAssignmentDescriptor    *UpdatePlanAssignmentDescriptor
 	deletePlanAssignmentDescriptor    *DeletePlanAssignmentDescriptor
+	migratePlanAssignmentDescriptor   *MigratePlanAssignmentDescriptor
 )
 
 type GetPlanAssignmentDescriptor struct{}
@@ -1455,6 +1456,179 @@ func GetDeletePlanAssignmentDescriptor() *DeletePlanAssignmentDescriptor {
 	return deletePlanAssignmentDescriptor
 }
 
+type MigratePlanAssignmentDescriptor struct{}
+
+type MigratePlanAssignmentDescriptorClientMsgHandle struct{}
+
+type MigratePlanAssignmentDescriptorServerMsgHandle struct{}
+
+func (d *MigratePlanAssignmentDescriptor) NewEmptyClientMsg() proto.Message {
+	return &MigratePlanAssignmentRequest{}
+}
+
+func (d *MigratePlanAssignmentDescriptor) NewEmptyServerMsg() proto.Message {
+	return &plan_assignment.PlanAssignment{}
+}
+
+func (d *MigratePlanAssignmentDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *MigratePlanAssignmentDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *MigratePlanAssignmentDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *MigratePlanAssignmentDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *MigratePlanAssignmentDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *MigratePlanAssignmentDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *MigratePlanAssignmentDescriptor) RequestHasResourceBody() bool {
+	return true
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetVerb() string {
+	return "migrate"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetMethodName() string {
+	return "MigratePlanAssignment"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetFullMethodName() string {
+	return "/ntt.limits.v1alpha2.PlanAssignmentService/MigratePlanAssignment"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetProtoPkgName() string {
+	return "ntt.limits.v1alpha2"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetApiName() string {
+	return "PlanAssignmentService"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetServiceDomain() string {
+	return "limits.edgelq.com"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return planAssignmentServiceDescriptor
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return plan_assignment.GetDescriptor()
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigratePlanAssignmentDescriptorClientMsgHandle{}
+}
+
+func (d *MigratePlanAssignmentDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &MigratePlanAssignmentDescriptorServerMsgHandle{}
+}
+
+func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigratePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*MigratePlanAssignmentRequest) *plan_assignment.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		res := typedMsg.GetPlanAssignment()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*plan_assignment.Name)(nil)
+}
+
+func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*MigratePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*MigratePlanAssignmentRequest) []*plan_assignment.Name
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigratePlanAssignmentDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*MigratePlanAssignmentRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*MigratePlanAssignmentRequest) *plan_assignment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*plan_assignment.PlanAssignment) *plan_assignment.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*plan_assignment.Name)(nil)
+}
+
+func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*plan_assignment.PlanAssignment) []*plan_assignment.Name
+	})
+	if ok {
+		return plan_assignment.PlanAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *MigratePlanAssignmentDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*plan_assignment.PlanAssignment)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*plan_assignment.PlanAssignment) *plan_assignment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetMigratePlanAssignmentDescriptor() *MigratePlanAssignmentDescriptor {
+	return migratePlanAssignmentDescriptor
+}
+
 type PlanAssignmentServiceDescriptor struct{}
 
 func (d *PlanAssignmentServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1467,6 +1641,7 @@ func (d *PlanAssignmentServiceDescriptor) AllMethodDescriptors() []gotenclient.M
 		createPlanAssignmentDescriptor,
 		updatePlanAssignmentDescriptor,
 		deletePlanAssignmentDescriptor,
+		migratePlanAssignmentDescriptor,
 	}
 }
 
@@ -1504,6 +1679,7 @@ func initDescriptors() {
 	createPlanAssignmentDescriptor = &CreatePlanAssignmentDescriptor{}
 	updatePlanAssignmentDescriptor = &UpdatePlanAssignmentDescriptor{}
 	deletePlanAssignmentDescriptor = &DeletePlanAssignmentDescriptor{}
+	migratePlanAssignmentDescriptor = &MigratePlanAssignmentDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(planAssignmentServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getPlanAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetPlanAssignmentsDescriptor)
@@ -1513,6 +1689,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createPlanAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updatePlanAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deletePlanAssignmentDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(migratePlanAssignmentDescriptor)
 }
 
 func init() {

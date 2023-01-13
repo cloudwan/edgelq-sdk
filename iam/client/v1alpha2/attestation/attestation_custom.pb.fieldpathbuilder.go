@@ -10,15 +10,9 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
-	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
-	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -27,16 +21,10 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &attestation_domain.AttestationDomain{}
-	_ = &iam_common.Actor{}
-	_ = &condition.Condition{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
-	_ = &permission.Permission{}
 	_ = &project.Project{}
-	_ = &role.Role{}
-	_ = &service_account.ServiceAccount{}
-	_ = &user.User{}
 	_ = &meta_service.Service{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
 

@@ -15,6 +15,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -36,8 +37,9 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
@@ -326,37 +328,37 @@ type filterCndBuilderInvitation struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderInvitation) Eq(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Eq(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderInvitation) Neq(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Neq(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderInvitation) Gt(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Gt(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderInvitation) Gte(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Gte(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderInvitation) Lt(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Lt(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderInvitation) Lte(value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) Lte(value *iam_invitation.Invitation) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderInvitation) In(values []*iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) In(values []*iam_invitation.Invitation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderInvitation) NotIn(values []*iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) NotIn(values []*iam_invitation.Invitation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().WithArrayOfValues(values),
 	})
@@ -374,7 +376,7 @@ func (b *filterCndBuilderInvitation) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderInvitation) compare(op gotenfilter.CompareOperator, value *iam_common.Invitation) *FilterBuilder {
+func (b *filterCndBuilderInvitation) compare(op gotenfilter.CompareOperator, value *iam_invitation.Invitation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().WithValue(value),
@@ -480,37 +482,37 @@ type filterCndBuilderInvitationInviterActor struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Eq(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Eq(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Neq(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Neq(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Gt(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Gt(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Gte(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Gte(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Lt(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Lt(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) Lte(value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) Lte(value *iam_invitation.Actor) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderInvitationInviterActor) In(values []*iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) In(values []*iam_invitation.Actor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().InviterActor().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderInvitationInviterActor) NotIn(values []*iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) NotIn(values []*iam_invitation.Actor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().InviterActor().WithArrayOfValues(values),
 	})
@@ -528,7 +530,7 @@ func (b *filterCndBuilderInvitationInviterActor) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderInvitationInviterActor) compare(op gotenfilter.CompareOperator, value *iam_common.Actor) *FilterBuilder {
+func (b *filterCndBuilderInvitationInviterActor) compare(op gotenfilter.CompareOperator, value *iam_invitation.Actor) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().InviterActor().WithValue(value),
@@ -1117,37 +1119,37 @@ type filterCndBuilderInvitationState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderInvitationState) Eq(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Eq(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderInvitationState) Neq(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Neq(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderInvitationState) Gt(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Gt(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderInvitationState) Gte(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Gte(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderInvitationState) Lt(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Lt(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderInvitationState) Lte(value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) Lte(value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderInvitationState) In(values []iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) In(values []iam_invitation.Invitation_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderInvitationState) NotIn(values []iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) NotIn(values []iam_invitation.Invitation_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().State().WithArrayOfValues(values),
 	})
@@ -1165,7 +1167,7 @@ func (b *filterCndBuilderInvitationState) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderInvitationState) compare(op gotenfilter.CompareOperator, value iam_common.Invitation_State) *FilterBuilder {
+func (b *filterCndBuilderInvitationState) compare(op gotenfilter.CompareOperator, value iam_invitation.Invitation_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().State().WithValue(value),

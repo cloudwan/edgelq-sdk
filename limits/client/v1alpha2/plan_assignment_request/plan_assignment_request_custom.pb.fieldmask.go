@@ -23,6 +23,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
+	view "github.com/cloudwan/goten-sdk/runtime/api/view"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // ensure the imports are used
@@ -45,7 +47,280 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
+	_ = &field_mask.FieldMask{}
+	_ = view.View(0)
 )
+
+type ListApproverPlanAssignmentRequestsRequest_FieldMask struct {
+	Paths []ListApproverPlanAssignmentRequestsRequest_FieldPath
+}
+
+func FullListApproverPlanAssignmentRequestsRequest_FieldMask() *ListApproverPlanAssignmentRequestsRequest_FieldMask {
+	res := &ListApproverPlanAssignmentRequestsRequest_FieldMask{}
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask})
+	res.Paths = append(res.Paths, &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView})
+	return res
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 7)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseListApproverPlanAssignmentRequestsRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Subtract(other *ListApproverPlanAssignmentRequestsRequest_FieldMask) *ListApproverPlanAssignmentRequestsRequest_FieldMask {
+	result := &ListApproverPlanAssignmentRequestsRequest_FieldMask{}
+	removedSelectors := make([]bool, 7)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*ListApproverPlanAssignmentRequestsRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) FilterInputFields() *ListApproverPlanAssignmentRequestsRequest_FieldMask {
+	result := &ListApproverPlanAssignmentRequestsRequest_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ListApproverPlanAssignmentRequestsRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask ListApproverPlanAssignmentRequestsRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask ListApproverPlanAssignmentRequestsRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) AppendPath(path ListApproverPlanAssignmentRequestsRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ListApproverPlanAssignmentRequestsRequest_FieldPath))
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) GetPaths() []ListApproverPlanAssignmentRequestsRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseListApproverPlanAssignmentRequestsRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Set(target, source *ListApproverPlanAssignmentRequestsRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*ListApproverPlanAssignmentRequestsRequest), source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) Project(source *ListApproverPlanAssignmentRequestsRequest) *ListApproverPlanAssignmentRequestsRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &ListApproverPlanAssignmentRequestsRequest{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath:
+			switch tp.selector {
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover:
+				result.Approver = source.Approver
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize:
+				result.PageSize = source.PageSize
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken:
+				result.PageToken = source.PageToken
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy:
+				result.OrderBy = source.OrderBy
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter:
+				result.Filter = source.Filter
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask:
+				result.FieldMask = source.FieldMask
+			case ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView:
+				result.View = source.View
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*ListApproverPlanAssignmentRequestsRequest))
+}
+
+func (fieldMask *ListApproverPlanAssignmentRequestsRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
 
 type AcceptPlanAssignmentRequest_FieldMask struct {
 	Paths []AcceptPlanAssignmentRequest_FieldPath

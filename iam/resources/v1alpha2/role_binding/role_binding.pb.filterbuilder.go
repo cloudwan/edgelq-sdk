@@ -13,6 +13,7 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
@@ -33,6 +34,7 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}

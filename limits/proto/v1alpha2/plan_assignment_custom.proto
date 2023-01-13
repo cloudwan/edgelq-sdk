@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ntt.limits.v1alpha2;
+
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/plan_assignment_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/limits/client/v1alpha2/plan_assignment;plan_assignment_client";
+option java_multiple_files = false;
+option java_outer_classname = "PlanAssignmentCustomProto";
+option java_package = "com.ntt.limits.pb.v1alpha2";
+
+// Request message for method
+// [MigratePlanAssignment][ntt.limits.v1alpha2.MigratePlanAssignment]
+message MigratePlanAssignmentRequest {
+  // PlanAssignment resource body
+  PlanAssignment plan_assignment = 2;
+}

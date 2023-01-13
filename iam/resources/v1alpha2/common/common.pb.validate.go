@@ -23,10 +23,7 @@ import (
 
 // proto imports
 import (
-	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
-	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 var (
@@ -46,54 +43,47 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &role.Role{}
-	_ = &service_account.ServiceAccount{}
-	_ = &user.User{}
-	_ = &timestamp.Timestamp{}
+	_ = &meta_service.Service{}
 )
 
-func (obj *Actor) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Invitation) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if err := gotenvalidate.ValidateEmail(string(obj.InviteeEmail)); err != nil {
-		return gotenvalidate.NewValidationError("Invitation", "inviteeEmail", obj.InviteeEmail, "field must contain a valid email address", err)
-	}
-	if subobj, ok := interface{}(obj.InviterActor).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Invitation", "inviterActor", obj.InviterActor, "nested object validation failed", err)
-		}
-	}
-	if obj.LanguageCode != "" && obj.LanguageCode != "en-us" && obj.LanguageCode != "ja-jp" {
-		return gotenvalidate.NewValidationError("Invitation", "languageCode", obj.LanguageCode, "field must be equal to exactly one of the following values: , en-us, ja-jp", nil)
-	}
-	if len(obj.Roles) < 1 {
-		return gotenvalidate.NewValidationError("Invitation", "roles", obj.Roles, "field must have at least 1 items", nil)
-	}
-	if len(obj.Roles) > 1 {
-		values := make(map[*role.Reference]struct{})
-		for _, v := range obj.Roles {
-			if _, ok := values[v]; ok {
-				return gotenvalidate.NewValidationError("Invitation", "roles", obj.Roles, "field must contain unique items", nil)
-			}
-			values[v] = struct{}{}
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *PCR) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ServiceBusinessTier) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if _, ok := BusinessTier_name[int32(obj.BusinessTier)]; !ok {
+		return gotenvalidate.NewValidationError("ServiceBusinessTier", "businessTier", obj.BusinessTier, "field must be a defined enum value", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ServiceErrors) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Errors {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ServiceErrors", "errors", obj.Errors[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ServiceErrors_Error) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

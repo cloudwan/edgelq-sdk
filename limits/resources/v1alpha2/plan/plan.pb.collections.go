@@ -11,6 +11,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -23,6 +24,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
 )

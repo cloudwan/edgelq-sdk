@@ -10,6 +10,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
@@ -25,8 +26,9 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
@@ -73,27 +75,27 @@ func (OrganizationInvitationPathSelectorInvitation) FieldPath() *OrganizationInv
 	return &OrganizationInvitation_FieldTerminalPath{selector: OrganizationInvitation_FieldPathSelectorInvitation}
 }
 
-func (s OrganizationInvitationPathSelectorInvitation) WithValue(value *iam_common.Invitation) *OrganizationInvitation_FieldTerminalPathValue {
+func (s OrganizationInvitationPathSelectorInvitation) WithValue(value *iam_invitation.Invitation) *OrganizationInvitation_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldTerminalPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorInvitation) WithArrayOfValues(values []*iam_common.Invitation) *OrganizationInvitation_FieldTerminalPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorInvitation) WithArrayOfValues(values []*iam_invitation.Invitation) *OrganizationInvitation_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldTerminalPathArrayOfValues)
 }
 
-func (OrganizationInvitationPathSelectorInvitation) WithSubPath(subPath iam_common.Invitation_FieldPath) *OrganizationInvitation_FieldSubPath {
+func (OrganizationInvitationPathSelectorInvitation) WithSubPath(subPath iam_invitation.Invitation_FieldPath) *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{selector: OrganizationInvitation_FieldPathSelectorInvitation, subPath: subPath}
 }
 
-func (s OrganizationInvitationPathSelectorInvitation) WithSubValue(subPathValue iam_common.Invitation_FieldPathValue) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorInvitation) WithSubValue(subPathValue iam_invitation.Invitation_FieldPathValue) *OrganizationInvitation_FieldSubPathValue {
 	return &OrganizationInvitation_FieldSubPathValue{OrganizationInvitation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s OrganizationInvitationPathSelectorInvitation) WithSubArrayOfValues(subPathArrayOfValues iam_common.Invitation_FieldPathArrayOfValues) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorInvitation) WithSubArrayOfValues(subPathArrayOfValues iam_invitation.Invitation_FieldPathArrayOfValues) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return &OrganizationInvitation_FieldSubPathArrayOfValues{OrganizationInvitation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s OrganizationInvitationPathSelectorInvitation) WithSubArrayItemValue(subPathArrayItemValue iam_common.Invitation_FieldPathArrayItemValue) *OrganizationInvitation_FieldSubPathArrayItemValue {
+func (s OrganizationInvitationPathSelectorInvitation) WithSubArrayItemValue(subPathArrayItemValue iam_invitation.Invitation_FieldPathArrayItemValue) *OrganizationInvitation_FieldSubPathArrayItemValue {
 	return &OrganizationInvitation_FieldSubPathArrayItemValue{OrganizationInvitation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -138,7 +140,7 @@ type OrganizationInvitationPathSelectorInvitationInviteeEmail struct{}
 func (OrganizationInvitationPathSelectorInvitationInviteeEmail) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviteeEmail().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviteeEmail().FieldPath(),
 	}
 }
 
@@ -155,15 +157,15 @@ type OrganizationInvitationPathSelectorInvitationInviterActor struct{}
 func (OrganizationInvitationPathSelectorInvitationInviterActor) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviterActor().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviterActor().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorInvitationInviterActor) WithValue(value *iam_common.Actor) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorInvitationInviterActor) WithValue(value *iam_invitation.Actor) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorInvitationInviterActor) WithArrayOfValues(values []*iam_common.Actor) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorInvitationInviterActor) WithArrayOfValues(values []*iam_invitation.Actor) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 
@@ -180,7 +182,7 @@ type OrganizationInvitationPathSelectorInvitationInviterActorUser struct{}
 func (OrganizationInvitationPathSelectorInvitationInviterActorUser) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviterActor().User().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviterActor().User().FieldPath(),
 	}
 }
 
@@ -197,7 +199,7 @@ type OrganizationInvitationPathSelectorInvitationInviterActorServiceAccount stru
 func (OrganizationInvitationPathSelectorInvitationInviterActorServiceAccount) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviterActor().ServiceAccount().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviterActor().ServiceAccount().FieldPath(),
 	}
 }
 
@@ -214,7 +216,7 @@ type OrganizationInvitationPathSelectorInvitationInviterFullName struct{}
 func (OrganizationInvitationPathSelectorInvitationInviterFullName) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviterFullName().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviterFullName().FieldPath(),
 	}
 }
 
@@ -231,7 +233,7 @@ type OrganizationInvitationPathSelectorInvitationInviterEmail struct{}
 func (OrganizationInvitationPathSelectorInvitationInviterEmail) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().InviterEmail().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().InviterEmail().FieldPath(),
 	}
 }
 
@@ -248,7 +250,7 @@ type OrganizationInvitationPathSelectorInvitationLanguageCode struct{}
 func (OrganizationInvitationPathSelectorInvitationLanguageCode) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().LanguageCode().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().LanguageCode().FieldPath(),
 	}
 }
 
@@ -265,7 +267,7 @@ type OrganizationInvitationPathSelectorInvitationRoles struct{}
 func (OrganizationInvitationPathSelectorInvitationRoles) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().Roles().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().Roles().FieldPath(),
 	}
 }
 
@@ -286,7 +288,7 @@ type OrganizationInvitationPathSelectorInvitationExpirationDate struct{}
 func (OrganizationInvitationPathSelectorInvitationExpirationDate) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().ExpirationDate().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().ExpirationDate().FieldPath(),
 	}
 }
 
@@ -303,7 +305,7 @@ type OrganizationInvitationPathSelectorInvitationExtras struct{}
 func (OrganizationInvitationPathSelectorInvitationExtras) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().Extras().FieldPath(),
 	}
 }
 
@@ -326,7 +328,7 @@ type OrganizationInvitationMapPathSelectorInvitationExtras struct {
 func (s OrganizationInvitationMapPathSelectorInvitationExtras) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().Extras().WithKey(s.key).FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().Extras().WithKey(s.key).FieldPath(),
 	}
 }
 
@@ -343,15 +345,15 @@ type OrganizationInvitationPathSelectorInvitationState struct{}
 func (OrganizationInvitationPathSelectorInvitationState) FieldPath() *OrganizationInvitation_FieldSubPath {
 	return &OrganizationInvitation_FieldSubPath{
 		selector: OrganizationInvitation_FieldPathSelectorInvitation,
-		subPath:  iam_common.NewInvitationFieldPathBuilder().State().FieldPath(),
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s OrganizationInvitationPathSelectorInvitationState) WithValue(value iam_common.Invitation_State) *OrganizationInvitation_FieldSubPathValue {
+func (s OrganizationInvitationPathSelectorInvitationState) WithValue(value iam_invitation.Invitation_State) *OrganizationInvitation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
 }
 
-func (s OrganizationInvitationPathSelectorInvitationState) WithArrayOfValues(values []iam_common.Invitation_State) *OrganizationInvitation_FieldSubPathArrayOfValues {
+func (s OrganizationInvitationPathSelectorInvitationState) WithArrayOfValues(values []iam_invitation.Invitation_State) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
 }
 

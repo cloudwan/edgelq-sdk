@@ -32,7 +32,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 	_ = &project.Project{}
 )
 

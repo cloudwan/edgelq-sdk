@@ -31,18 +31,19 @@ var (
 )
 
 var (
-	descriptorsInitialized                   bool
-	planAssignmentRequestServiceDescriptor   *PlanAssignmentRequestServiceDescriptor
-	getPlanAssignmentRequestDescriptor       *GetPlanAssignmentRequestDescriptor
-	batchGetPlanAssignmentRequestsDescriptor *BatchGetPlanAssignmentRequestsDescriptor
-	listPlanAssignmentRequestsDescriptor     *ListPlanAssignmentRequestsDescriptor
-	watchPlanAssignmentRequestDescriptor     *WatchPlanAssignmentRequestDescriptor
-	watchPlanAssignmentRequestsDescriptor    *WatchPlanAssignmentRequestsDescriptor
-	createPlanAssignmentRequestDescriptor    *CreatePlanAssignmentRequestDescriptor
-	updatePlanAssignmentRequestDescriptor    *UpdatePlanAssignmentRequestDescriptor
-	deletePlanAssignmentRequestDescriptor    *DeletePlanAssignmentRequestDescriptor
-	acceptPlanAssignmentDescriptor           *AcceptPlanAssignmentDescriptor
-	declinePlanAssignmentDescriptor          *DeclinePlanAssignmentDescriptor
+	descriptorsInitialized                       bool
+	planAssignmentRequestServiceDescriptor       *PlanAssignmentRequestServiceDescriptor
+	getPlanAssignmentRequestDescriptor           *GetPlanAssignmentRequestDescriptor
+	batchGetPlanAssignmentRequestsDescriptor     *BatchGetPlanAssignmentRequestsDescriptor
+	listPlanAssignmentRequestsDescriptor         *ListPlanAssignmentRequestsDescriptor
+	watchPlanAssignmentRequestDescriptor         *WatchPlanAssignmentRequestDescriptor
+	watchPlanAssignmentRequestsDescriptor        *WatchPlanAssignmentRequestsDescriptor
+	createPlanAssignmentRequestDescriptor        *CreatePlanAssignmentRequestDescriptor
+	updatePlanAssignmentRequestDescriptor        *UpdatePlanAssignmentRequestDescriptor
+	deletePlanAssignmentRequestDescriptor        *DeletePlanAssignmentRequestDescriptor
+	acceptPlanAssignmentDescriptor               *AcceptPlanAssignmentDescriptor
+	declinePlanAssignmentDescriptor              *DeclinePlanAssignmentDescriptor
+	listApproverPlanAssignmentRequestsDescriptor *ListApproverPlanAssignmentRequestsDescriptor
 )
 
 type GetPlanAssignmentRequestDescriptor struct{}
@@ -1791,6 +1792,168 @@ func GetDeclinePlanAssignmentDescriptor() *DeclinePlanAssignmentDescriptor {
 	return declinePlanAssignmentDescriptor
 }
 
+type ListApproverPlanAssignmentRequestsDescriptor struct{}
+
+type ListApproverPlanAssignmentRequestsDescriptorClientMsgHandle struct{}
+
+type ListApproverPlanAssignmentRequestsDescriptorServerMsgHandle struct{}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ListApproverPlanAssignmentRequestsRequest{}
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ListPlanAssignmentRequestsResponse{}
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetVerb() string {
+	return "listApprover"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetMethodName() string {
+	return "ListApproverPlanAssignmentRequests"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetFullMethodName() string {
+	return "/ntt.limits.v1alpha2.PlanAssignmentRequestService/ListApproverPlanAssignmentRequests"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetProtoPkgName() string {
+	return "ntt.limits.v1alpha2"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetApiName() string {
+	return "PlanAssignmentRequestService"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetServiceDomain() string {
+	return "limits.edgelq.com"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetServiceVersion() string {
+	return "v1alpha2"
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return planAssignmentRequestServiceDescriptor
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return plan_assignment_request.GetDescriptor()
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListApproverPlanAssignmentRequestsDescriptorClientMsgHandle{}
+}
+
+func (d *ListApproverPlanAssignmentRequestsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListApproverPlanAssignmentRequestsDescriptorServerMsgHandle{}
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListApproverPlanAssignmentRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListApproverPlanAssignmentRequestsRequest) *plan_assignment_request.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListApproverPlanAssignmentRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListApproverPlanAssignmentRequestsRequest) []*plan_assignment_request.Name
+	})
+	if ok {
+		return plan_assignment_request.PlanAssignmentRequestNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListApproverPlanAssignmentRequestsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListApproverPlanAssignmentRequestsRequest) *plan_assignment_request.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPlanAssignmentRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListPlanAssignmentRequestsResponse) *plan_assignment_request.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListPlanAssignmentRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListPlanAssignmentRequestsResponse) []*plan_assignment_request.Name
+	})
+	if ok {
+		return plan_assignment_request.PlanAssignmentRequestNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListApproverPlanAssignmentRequestsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListPlanAssignmentRequestsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListPlanAssignmentRequestsResponse) *plan_assignment_request.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetListApproverPlanAssignmentRequestsDescriptor() *ListApproverPlanAssignmentRequestsDescriptor {
+	return listApproverPlanAssignmentRequestsDescriptor
+}
+
 type PlanAssignmentRequestServiceDescriptor struct{}
 
 func (d *PlanAssignmentRequestServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1805,6 +1968,7 @@ func (d *PlanAssignmentRequestServiceDescriptor) AllMethodDescriptors() []gotenc
 		deletePlanAssignmentRequestDescriptor,
 		acceptPlanAssignmentDescriptor,
 		declinePlanAssignmentDescriptor,
+		listApproverPlanAssignmentRequestsDescriptor,
 	}
 }
 
@@ -1844,6 +2008,7 @@ func initDescriptors() {
 	deletePlanAssignmentRequestDescriptor = &DeletePlanAssignmentRequestDescriptor{}
 	acceptPlanAssignmentDescriptor = &AcceptPlanAssignmentDescriptor{}
 	declinePlanAssignmentDescriptor = &DeclinePlanAssignmentDescriptor{}
+	listApproverPlanAssignmentRequestsDescriptor = &ListApproverPlanAssignmentRequestsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(planAssignmentRequestServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getPlanAssignmentRequestDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetPlanAssignmentRequestsDescriptor)
@@ -1855,6 +2020,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deletePlanAssignmentRequestDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(acceptPlanAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(declinePlanAssignmentDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(listApproverPlanAssignmentRequestsDescriptor)
 }
 
 func init() {

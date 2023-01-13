@@ -367,7 +367,11 @@ func (ref *Reference) Resolve(resolved *MonitoredResourceDescriptor) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*MonitoredResourceDescriptor); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*MonitoredResourceDescriptor); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

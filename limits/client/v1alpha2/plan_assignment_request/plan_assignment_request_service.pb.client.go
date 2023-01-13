@@ -59,6 +59,7 @@ type PlanAssignmentRequestServiceClient interface {
 	DeletePlanAssignmentRequest(ctx context.Context, in *DeletePlanAssignmentRequestRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	AcceptPlanAssignment(ctx context.Context, in *AcceptPlanAssignmentRequest, opts ...grpc.CallOption) (*AcceptPlanAssignmentResponse, error)
 	DeclinePlanAssignment(ctx context.Context, in *DeclinePlanAssignmentRequest, opts ...grpc.CallOption) (*DeclinePlanAssignmentResponse, error)
+	ListApproverPlanAssignmentRequests(ctx context.Context, in *ListApproverPlanAssignmentRequestsRequest, opts ...grpc.CallOption) (*ListPlanAssignmentRequestsResponse, error)
 }
 
 type client struct {
@@ -209,6 +210,15 @@ func (c *client) AcceptPlanAssignment(ctx context.Context, in *AcceptPlanAssignm
 func (c *client) DeclinePlanAssignment(ctx context.Context, in *DeclinePlanAssignmentRequest, opts ...grpc.CallOption) (*DeclinePlanAssignmentResponse, error) {
 	out := new(DeclinePlanAssignmentResponse)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentRequestService/DeclinePlanAssignment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ListApproverPlanAssignmentRequests(ctx context.Context, in *ListApproverPlanAssignmentRequestsRequest, opts ...grpc.CallOption) (*ListPlanAssignmentRequestsResponse, error) {
+	out := new(ListPlanAssignmentRequestsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.PlanAssignmentRequestService/ListApproverPlanAssignmentRequests", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

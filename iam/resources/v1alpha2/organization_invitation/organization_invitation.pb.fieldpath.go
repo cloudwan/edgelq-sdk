@@ -25,7 +25,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 )
 
@@ -51,7 +51,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 )
 
@@ -108,7 +108,7 @@ func BuildOrganizationInvitation_FieldPath(fp gotenobject.RawFieldPath) (Organiz
 	} else {
 		switch fp[0] {
 		case "invitation":
-			if subpath, err := iam_common.BuildInvitation_FieldPath(fp[1:]); err != nil {
+			if subpath, err := iam_invitation.BuildInvitation_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &OrganizationInvitation_FieldSubPath{selector: OrganizationInvitation_FieldPathSelectorInvitation, subPath: subpath}, nil
@@ -214,7 +214,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) GetDefault() interface{} {
 	case OrganizationInvitation_FieldPathSelectorName:
 		return (*Name)(nil)
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		return (*iam_common.Invitation)(nil)
+		return (*iam_invitation.Invitation)(nil)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -255,7 +255,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) WithIValue(value interface{}
 	case OrganizationInvitation_FieldPathSelectorName:
 		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*Name)}
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*iam_common.Invitation)}
+		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*iam_invitation.Invitation)}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		return &OrganizationInvitation_FieldTerminalPathValue{OrganizationInvitation_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -273,7 +273,7 @@ func (fp *OrganizationInvitation_FieldTerminalPath) WithIArrayOfValues(values in
 	case OrganizationInvitation_FieldPathSelectorName:
 		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*iam_common.Invitation)}
+		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*iam_invitation.Invitation)}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		return &OrganizationInvitation_FieldTerminalPathArrayOfValues{OrganizationInvitation_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -307,8 +307,8 @@ var _ OrganizationInvitation_FieldPath = (*OrganizationInvitation_FieldSubPath)(
 func (fps *OrganizationInvitation_FieldSubPath) Selector() OrganizationInvitation_FieldPathSelector {
 	return fps.selector
 }
-func (fps *OrganizationInvitation_FieldSubPath) AsInvitationSubPath() (iam_common.Invitation_FieldPath, bool) {
-	res, ok := fps.subPath.(iam_common.Invitation_FieldPath)
+func (fps *OrganizationInvitation_FieldSubPath) AsInvitationSubPath() (iam_invitation.Invitation_FieldPath, bool) {
+	res, ok := fps.subPath.(iam_invitation.Invitation_FieldPath)
 	return res, ok
 }
 func (fps *OrganizationInvitation_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
@@ -464,8 +464,8 @@ func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsNameValue() (*Name, 
 	res, ok := fpv.value.(*Name)
 	return res, ok
 }
-func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsInvitationValue() (*iam_common.Invitation, bool) {
-	res, ok := fpv.value.(*iam_common.Invitation)
+func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsInvitationValue() (*iam_invitation.Invitation, bool) {
+	res, ok := fpv.value.(*iam_invitation.Invitation)
 	return res, ok
 }
 func (fpv *OrganizationInvitation_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
@@ -482,7 +482,7 @@ func (fpv *OrganizationInvitation_FieldTerminalPathValue) SetTo(target **Organiz
 	case OrganizationInvitation_FieldPathSelectorName:
 		(*target).Name = fpv.value.(*Name)
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		(*target).Invitation = fpv.value.(*iam_common.Invitation)
+		(*target).Invitation = fpv.value.(*iam_invitation.Invitation)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -537,8 +537,8 @@ type OrganizationInvitation_FieldSubPathValue struct {
 
 var _ OrganizationInvitation_FieldPathValue = (*OrganizationInvitation_FieldSubPathValue)(nil)
 
-func (fpvs *OrganizationInvitation_FieldSubPathValue) AsInvitationPathValue() (iam_common.Invitation_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(iam_common.Invitation_FieldPathValue)
+func (fpvs *OrganizationInvitation_FieldSubPathValue) AsInvitationPathValue() (iam_invitation.Invitation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue)
 	return res, ok
 }
 func (fpvs *OrganizationInvitation_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
@@ -552,7 +552,7 @@ func (fpvs *OrganizationInvitation_FieldSubPathValue) SetTo(target **Organizatio
 	}
 	switch fpvs.Selector() {
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		fpvs.subPathValue.(iam_common.Invitation_FieldPathValue).SetTo(&(*target).Invitation)
+		fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).SetTo(&(*target).Invitation)
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
@@ -572,7 +572,7 @@ func (fpvs *OrganizationInvitation_FieldSubPathValue) GetRawValue() interface{} 
 func (fpvs *OrganizationInvitation_FieldSubPathValue) CompareWith(source *OrganizationInvitation) (int, bool) {
 	switch fpvs.Selector() {
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		return fpvs.subPathValue.(iam_common.Invitation_FieldPathValue).CompareWith(source.GetInvitation())
+		return fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).CompareWith(source.GetInvitation())
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
@@ -657,8 +657,8 @@ type OrganizationInvitation_FieldSubPathArrayItemValue struct {
 func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsInvitationPathItemValue() (iam_common.Invitation_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(iam_common.Invitation_FieldPathArrayItemValue)
+func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsInvitationPathItemValue() (iam_invitation.Invitation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
@@ -670,7 +670,7 @@ func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) AsMetadataPathI
 func (fpaivs *OrganizationInvitation_FieldSubPathArrayItemValue) ContainsValue(source *OrganizationInvitation) bool {
 	switch fpaivs.Selector() {
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		return fpaivs.subPathItemValue.(iam_common.Invitation_FieldPathArrayItemValue).ContainsValue(source.GetInvitation())
+		return fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue).ContainsValue(source.GetInvitation())
 	case OrganizationInvitation_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
@@ -718,7 +718,7 @@ func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) GetRawValues
 			values = append(values, v)
 		}
 	case OrganizationInvitation_FieldPathSelectorInvitation:
-		for _, v := range fpaov.values.([]*iam_common.Invitation) {
+		for _, v := range fpaov.values.([]*iam_invitation.Invitation) {
 			values = append(values, v)
 		}
 	case OrganizationInvitation_FieldPathSelectorMetadata:
@@ -732,8 +732,8 @@ func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsNameArrayO
 	res, ok := fpaov.values.([]*Name)
 	return res, ok
 }
-func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsInvitationArrayOfValues() ([]*iam_common.Invitation, bool) {
-	res, ok := fpaov.values.([]*iam_common.Invitation)
+func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsInvitationArrayOfValues() ([]*iam_invitation.Invitation, bool) {
+	res, ok := fpaov.values.([]*iam_invitation.Invitation)
 	return res, ok
 }
 func (fpaov *OrganizationInvitation_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
@@ -751,8 +751,8 @@ var _ OrganizationInvitation_FieldPathArrayOfValues = (*OrganizationInvitation_F
 func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsInvitationPathArrayOfValues() (iam_common.Invitation_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(iam_common.Invitation_FieldPathArrayOfValues)
+func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsInvitationPathArrayOfValues() (iam_invitation.Invitation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(iam_invitation.Invitation_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *OrganizationInvitation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {

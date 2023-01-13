@@ -39,7 +39,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
-	_ = &iam_iam_common.Actor{}
+	_ = &iam_iam_common.PCR{}
 	_ = &iam_service_account.ServiceAccount{}
 	_ = &duration.Duration{}
 	_ = &field_mask.FieldMask{}

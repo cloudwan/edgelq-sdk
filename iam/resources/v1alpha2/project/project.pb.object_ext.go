@@ -18,6 +18,7 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -37,6 +38,7 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &meta_service.Service{}
 )
@@ -116,6 +118,33 @@ func (o *Project) MakeDiffFieldMask(other *Project) *Project_FieldMask {
 	} else {
 		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorEnabledServices})
 	}
+	if o.GetBusinessTier() != other.GetBusinessTier() {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorBusinessTier})
+	}
+
+	if len(o.GetServiceTiers()) == len(other.GetServiceTiers()) {
+		for i, lValue := range o.GetServiceTiers() {
+			rValue := other.GetServiceTiers()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceTiers})
+	}
+
+	if len(o.GetServiceErrors()) == len(other.GetServiceErrors()) {
+		for i, lValue := range o.GetServiceErrors() {
+			rValue := other.GetServiceErrors()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Project_FieldTerminalPath{selector: Project_FieldPathSelectorServiceErrors})
+	}
 	return res
 }
 
@@ -186,6 +215,15 @@ func (o *Project) Clone() *Project {
 				panic(err)
 			}
 		}
+	}
+	result.BusinessTier = o.BusinessTier
+	result.ServiceTiers = make([]*iam_common.ServiceBusinessTier, len(o.ServiceTiers))
+	for i, sourceValue := range o.ServiceTiers {
+		result.ServiceTiers[i] = sourceValue.Clone()
+	}
+	result.ServiceErrors = map[string]*iam_common.ServiceErrors{}
+	for key, sourceValue := range o.ServiceErrors {
+		result.ServiceErrors[key] = sourceValue.Clone()
 	}
 	return result
 }
@@ -296,6 +334,38 @@ func (o *Project) Merge(source *Project) {
 		}
 	}
 
+	o.BusinessTier = source.GetBusinessTier()
+	for _, sourceValue := range source.GetServiceTiers() {
+		exists := false
+		for _, currentValue := range o.ServiceTiers {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *iam_common.ServiceBusinessTier
+			if sourceValue != nil {
+				newDstElement = new(iam_common.ServiceBusinessTier)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ServiceTiers = append(o.ServiceTiers, newDstElement)
+		}
+	}
+
+	if source.GetServiceErrors() != nil {
+		if o.ServiceErrors == nil {
+			o.ServiceErrors = make(map[string]*iam_common.ServiceErrors, len(source.GetServiceErrors()))
+		}
+		for key, sourceValue := range source.GetServiceErrors() {
+			if sourceValue != nil {
+				if o.ServiceErrors[key] == nil {
+					o.ServiceErrors[key] = new(iam_common.ServiceErrors)
+				}
+				o.ServiceErrors[key].Merge(sourceValue)
+			}
+		}
+	}
 }
 
 func (o *Project) MergeRaw(source gotenobject.GotenObjectExt) {

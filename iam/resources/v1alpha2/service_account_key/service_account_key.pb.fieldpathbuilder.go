@@ -8,6 +8,7 @@ package service_account_key
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
@@ -19,6 +20,7 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &service_account.ServiceAccount{}

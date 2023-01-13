@@ -4,6 +4,7 @@ package ntt.limits.v1alpha2;
 
 import "edgelq-sdk/limits/proto/v1alpha2/limit.proto";
 import "edgelq-sdk/limits/proto/v1alpha2/limit_change.proto";
+import "edgelq-sdk/limits/proto/v1alpha2/limit_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -338,6 +339,13 @@ service LimitService {
   rpc DeleteLimit(DeleteLimitRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v1alpha2/{name=projects/*/limits/*}"
+    };
+  }
+
+  // MigrateLimitSource
+  rpc MigrateLimitSource(MigrateLimitSourceRequest) returns (Limit) {
+    option (google.api.http) = {
+      post : "/v1alpha2/{name=projects/*/limits/*}:migrate"
     };
   }
 }

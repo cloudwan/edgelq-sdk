@@ -25,6 +25,8 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
 
 var (
@@ -46,6 +48,8 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
+	_ = &meta_service.Service{}
 )
 
 func (obj *Organization) GotenValidate() error {
@@ -63,6 +67,13 @@ func (obj *Organization) GotenValidate() error {
 	if subobj, ok := interface{}(obj.MultiRegionPolicy).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Organization", "multiRegionPolicy", obj.MultiRegionPolicy, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.ServiceTiers {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Organization", "serviceTiers", obj.ServiceTiers[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

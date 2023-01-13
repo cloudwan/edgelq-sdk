@@ -7,315 +7,16 @@ package iam_common
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
-	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/condition"
-	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
-	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/permission"
-	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
-	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/role"
-	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/service_account"
-	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/user"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
-	structpb "github.com/golang/protobuf/ptypes/struct"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &multi_region_policy.MultiRegionPolicy{}
-	_ = &condition.Condition{}
-	_ = &organization.Organization{}
-	_ = &permission.Permission{}
-	_ = &project.Project{}
-	_ = &role.Role{}
-	_ = &service_account.ServiceAccount{}
-	_ = &user.User{}
 	_ = &meta_service.Service{}
-	_ = &structpb.Struct{}
 	_ = &timestamp.Timestamp{}
 )
-
-type ActorFieldPathBuilder struct{}
-
-func NewActorFieldPathBuilder() ActorFieldPathBuilder {
-	return ActorFieldPathBuilder{}
-}
-func (ActorFieldPathBuilder) User() ActorPathSelectorUser {
-	return ActorPathSelectorUser{}
-}
-func (ActorFieldPathBuilder) ServiceAccount() ActorPathSelectorServiceAccount {
-	return ActorPathSelectorServiceAccount{}
-}
-
-type ActorPathSelectorUser struct{}
-
-func (ActorPathSelectorUser) FieldPath() *Actor_FieldTerminalPath {
-	return &Actor_FieldTerminalPath{selector: Actor_FieldPathSelectorUser}
-}
-
-func (s ActorPathSelectorUser) WithValue(value *user.Reference) *Actor_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Actor_FieldTerminalPathValue)
-}
-
-func (s ActorPathSelectorUser) WithArrayOfValues(values []*user.Reference) *Actor_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Actor_FieldTerminalPathArrayOfValues)
-}
-
-type ActorPathSelectorServiceAccount struct{}
-
-func (ActorPathSelectorServiceAccount) FieldPath() *Actor_FieldTerminalPath {
-	return &Actor_FieldTerminalPath{selector: Actor_FieldPathSelectorServiceAccount}
-}
-
-func (s ActorPathSelectorServiceAccount) WithValue(value *service_account.Reference) *Actor_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Actor_FieldTerminalPathValue)
-}
-
-func (s ActorPathSelectorServiceAccount) WithArrayOfValues(values []*service_account.Reference) *Actor_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Actor_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationFieldPathBuilder struct{}
-
-func NewInvitationFieldPathBuilder() InvitationFieldPathBuilder {
-	return InvitationFieldPathBuilder{}
-}
-func (InvitationFieldPathBuilder) InviteeEmail() InvitationPathSelectorInviteeEmail {
-	return InvitationPathSelectorInviteeEmail{}
-}
-func (InvitationFieldPathBuilder) InviterActor() InvitationPathSelectorInviterActor {
-	return InvitationPathSelectorInviterActor{}
-}
-func (InvitationFieldPathBuilder) InviterFullName() InvitationPathSelectorInviterFullName {
-	return InvitationPathSelectorInviterFullName{}
-}
-func (InvitationFieldPathBuilder) InviterEmail() InvitationPathSelectorInviterEmail {
-	return InvitationPathSelectorInviterEmail{}
-}
-func (InvitationFieldPathBuilder) LanguageCode() InvitationPathSelectorLanguageCode {
-	return InvitationPathSelectorLanguageCode{}
-}
-func (InvitationFieldPathBuilder) Roles() InvitationPathSelectorRoles {
-	return InvitationPathSelectorRoles{}
-}
-func (InvitationFieldPathBuilder) ExpirationDate() InvitationPathSelectorExpirationDate {
-	return InvitationPathSelectorExpirationDate{}
-}
-func (InvitationFieldPathBuilder) Extras() InvitationPathSelectorExtras {
-	return InvitationPathSelectorExtras{}
-}
-func (InvitationFieldPathBuilder) State() InvitationPathSelectorState {
-	return InvitationPathSelectorState{}
-}
-
-type InvitationPathSelectorInviteeEmail struct{}
-
-func (InvitationPathSelectorInviteeEmail) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviteeEmail}
-}
-
-func (s InvitationPathSelectorInviteeEmail) WithValue(value string) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorInviteeEmail) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationPathSelectorInviterActor struct{}
-
-func (InvitationPathSelectorInviterActor) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterActor}
-}
-
-func (s InvitationPathSelectorInviterActor) WithValue(value *Actor) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorInviterActor) WithArrayOfValues(values []*Actor) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-func (InvitationPathSelectorInviterActor) WithSubPath(subPath Actor_FieldPath) *Invitation_FieldSubPath {
-	return &Invitation_FieldSubPath{selector: Invitation_FieldPathSelectorInviterActor, subPath: subPath}
-}
-
-func (s InvitationPathSelectorInviterActor) WithSubValue(subPathValue Actor_FieldPathValue) *Invitation_FieldSubPathValue {
-	return &Invitation_FieldSubPathValue{Invitation_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s InvitationPathSelectorInviterActor) WithSubArrayOfValues(subPathArrayOfValues Actor_FieldPathArrayOfValues) *Invitation_FieldSubPathArrayOfValues {
-	return &Invitation_FieldSubPathArrayOfValues{Invitation_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s InvitationPathSelectorInviterActor) WithSubArrayItemValue(subPathArrayItemValue Actor_FieldPathArrayItemValue) *Invitation_FieldSubPathArrayItemValue {
-	return &Invitation_FieldSubPathArrayItemValue{Invitation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (InvitationPathSelectorInviterActor) User() InvitationPathSelectorInviterActorUser {
-	return InvitationPathSelectorInviterActorUser{}
-}
-
-func (InvitationPathSelectorInviterActor) ServiceAccount() InvitationPathSelectorInviterActorServiceAccount {
-	return InvitationPathSelectorInviterActorServiceAccount{}
-}
-
-type InvitationPathSelectorInviterActorUser struct{}
-
-func (InvitationPathSelectorInviterActorUser) FieldPath() *Invitation_FieldSubPath {
-	return &Invitation_FieldSubPath{
-		selector: Invitation_FieldPathSelectorInviterActor,
-		subPath:  NewActorFieldPathBuilder().User().FieldPath(),
-	}
-}
-
-func (s InvitationPathSelectorInviterActorUser) WithValue(value *user.Reference) *Invitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldSubPathValue)
-}
-
-func (s InvitationPathSelectorInviterActorUser) WithArrayOfValues(values []*user.Reference) *Invitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldSubPathArrayOfValues)
-}
-
-type InvitationPathSelectorInviterActorServiceAccount struct{}
-
-func (InvitationPathSelectorInviterActorServiceAccount) FieldPath() *Invitation_FieldSubPath {
-	return &Invitation_FieldSubPath{
-		selector: Invitation_FieldPathSelectorInviterActor,
-		subPath:  NewActorFieldPathBuilder().ServiceAccount().FieldPath(),
-	}
-}
-
-func (s InvitationPathSelectorInviterActorServiceAccount) WithValue(value *service_account.Reference) *Invitation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldSubPathValue)
-}
-
-func (s InvitationPathSelectorInviterActorServiceAccount) WithArrayOfValues(values []*service_account.Reference) *Invitation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldSubPathArrayOfValues)
-}
-
-type InvitationPathSelectorInviterFullName struct{}
-
-func (InvitationPathSelectorInviterFullName) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterFullName}
-}
-
-func (s InvitationPathSelectorInviterFullName) WithValue(value string) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorInviterFullName) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationPathSelectorInviterEmail struct{}
-
-func (InvitationPathSelectorInviterEmail) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail}
-}
-
-func (s InvitationPathSelectorInviterEmail) WithValue(value string) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorInviterEmail) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationPathSelectorLanguageCode struct{}
-
-func (InvitationPathSelectorLanguageCode) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode}
-}
-
-func (s InvitationPathSelectorLanguageCode) WithValue(value string) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorLanguageCode) WithArrayOfValues(values []string) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationPathSelectorRoles struct{}
-
-func (InvitationPathSelectorRoles) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorRoles}
-}
-
-func (s InvitationPathSelectorRoles) WithValue(value []*role.Reference) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorRoles) WithArrayOfValues(values [][]*role.Reference) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-func (s InvitationPathSelectorRoles) WithItemValue(value *role.Reference) *Invitation_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*Invitation_FieldTerminalPathArrayItemValue)
-}
-
-type InvitationPathSelectorExpirationDate struct{}
-
-func (InvitationPathSelectorExpirationDate) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate}
-}
-
-func (s InvitationPathSelectorExpirationDate) WithValue(value *timestamp.Timestamp) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorExpirationDate) WithArrayOfValues(values []*timestamp.Timestamp) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-type InvitationPathSelectorExtras struct{}
-
-func (InvitationPathSelectorExtras) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras}
-}
-
-func (s InvitationPathSelectorExtras) WithValue(value map[string]string) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorExtras) WithArrayOfValues(values []map[string]string) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
-
-func (InvitationPathSelectorExtras) WithKey(key string) InvitationMapPathSelectorExtras {
-	return InvitationMapPathSelectorExtras{key: key}
-}
-
-type InvitationMapPathSelectorExtras struct {
-	key string
-}
-
-func (s InvitationMapPathSelectorExtras) FieldPath() *Invitation_FieldPathMap {
-	return &Invitation_FieldPathMap{selector: Invitation_FieldPathSelectorExtras, key: s.key}
-}
-
-func (s InvitationMapPathSelectorExtras) WithValue(value string) *Invitation_FieldPathMapValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldPathMapValue)
-}
-
-func (s InvitationMapPathSelectorExtras) WithArrayOfValues(values []string) *Invitation_FieldPathMapArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldPathMapArrayOfValues)
-}
-
-type InvitationPathSelectorState struct{}
-
-func (InvitationPathSelectorState) FieldPath() *Invitation_FieldTerminalPath {
-	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState}
-}
-
-func (s InvitationPathSelectorState) WithValue(value Invitation_State) *Invitation_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
-}
-
-func (s InvitationPathSelectorState) WithArrayOfValues(values []Invitation_State) *Invitation_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
-}
 
 type PCRFieldPathBuilder struct{}
 
@@ -389,4 +90,168 @@ func (s PCRPathSelectorComment) WithValue(value string) *PCR_FieldTerminalPathVa
 
 func (s PCRPathSelectorComment) WithArrayOfValues(values []string) *PCR_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PCR_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceBusinessTierFieldPathBuilder struct{}
+
+func NewServiceBusinessTierFieldPathBuilder() ServiceBusinessTierFieldPathBuilder {
+	return ServiceBusinessTierFieldPathBuilder{}
+}
+func (ServiceBusinessTierFieldPathBuilder) Service() ServiceBusinessTierPathSelectorService {
+	return ServiceBusinessTierPathSelectorService{}
+}
+func (ServiceBusinessTierFieldPathBuilder) BusinessTier() ServiceBusinessTierPathSelectorBusinessTier {
+	return ServiceBusinessTierPathSelectorBusinessTier{}
+}
+
+type ServiceBusinessTierPathSelectorService struct{}
+
+func (ServiceBusinessTierPathSelectorService) FieldPath() *ServiceBusinessTier_FieldTerminalPath {
+	return &ServiceBusinessTier_FieldTerminalPath{selector: ServiceBusinessTier_FieldPathSelectorService}
+}
+
+func (s ServiceBusinessTierPathSelectorService) WithValue(value *meta_service.Reference) *ServiceBusinessTier_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceBusinessTier_FieldTerminalPathValue)
+}
+
+func (s ServiceBusinessTierPathSelectorService) WithArrayOfValues(values []*meta_service.Reference) *ServiceBusinessTier_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceBusinessTier_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceBusinessTierPathSelectorBusinessTier struct{}
+
+func (ServiceBusinessTierPathSelectorBusinessTier) FieldPath() *ServiceBusinessTier_FieldTerminalPath {
+	return &ServiceBusinessTier_FieldTerminalPath{selector: ServiceBusinessTier_FieldPathSelectorBusinessTier}
+}
+
+func (s ServiceBusinessTierPathSelectorBusinessTier) WithValue(value BusinessTier) *ServiceBusinessTier_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceBusinessTier_FieldTerminalPathValue)
+}
+
+func (s ServiceBusinessTierPathSelectorBusinessTier) WithArrayOfValues(values []BusinessTier) *ServiceBusinessTier_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceBusinessTier_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceErrorsFieldPathBuilder struct{}
+
+func NewServiceErrorsFieldPathBuilder() ServiceErrorsFieldPathBuilder {
+	return ServiceErrorsFieldPathBuilder{}
+}
+func (ServiceErrorsFieldPathBuilder) Errors() ServiceErrorsPathSelectorErrors {
+	return ServiceErrorsPathSelectorErrors{}
+}
+
+type ServiceErrorsPathSelectorErrors struct{}
+
+func (ServiceErrorsPathSelectorErrors) FieldPath() *ServiceErrors_FieldTerminalPath {
+	return &ServiceErrors_FieldTerminalPath{selector: ServiceErrors_FieldPathSelectorErrors}
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithValue(value []*ServiceErrors_Error) *ServiceErrors_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceErrors_FieldTerminalPathValue)
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithArrayOfValues(values [][]*ServiceErrors_Error) *ServiceErrors_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrors_FieldTerminalPathArrayOfValues)
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithItemValue(value *ServiceErrors_Error) *ServiceErrors_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ServiceErrors_FieldTerminalPathArrayItemValue)
+}
+func (ServiceErrorsPathSelectorErrors) WithSubPath(subPath ServiceErrorsError_FieldPath) *ServiceErrors_FieldSubPath {
+	return &ServiceErrors_FieldSubPath{selector: ServiceErrors_FieldPathSelectorErrors, subPath: subPath}
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithSubValue(subPathValue ServiceErrorsError_FieldPathValue) *ServiceErrors_FieldSubPathValue {
+	return &ServiceErrors_FieldSubPathValue{ServiceErrors_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithSubArrayOfValues(subPathArrayOfValues ServiceErrorsError_FieldPathArrayOfValues) *ServiceErrors_FieldSubPathArrayOfValues {
+	return &ServiceErrors_FieldSubPathArrayOfValues{ServiceErrors_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ServiceErrorsPathSelectorErrors) WithSubArrayItemValue(subPathArrayItemValue ServiceErrorsError_FieldPathArrayItemValue) *ServiceErrors_FieldSubPathArrayItemValue {
+	return &ServiceErrors_FieldSubPathArrayItemValue{ServiceErrors_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ServiceErrorsPathSelectorErrors) Service() ServiceErrorsPathSelectorErrorsService {
+	return ServiceErrorsPathSelectorErrorsService{}
+}
+
+func (ServiceErrorsPathSelectorErrors) Message() ServiceErrorsPathSelectorErrorsMessage {
+	return ServiceErrorsPathSelectorErrorsMessage{}
+}
+
+type ServiceErrorsPathSelectorErrorsService struct{}
+
+func (ServiceErrorsPathSelectorErrorsService) FieldPath() *ServiceErrors_FieldSubPath {
+	return &ServiceErrors_FieldSubPath{
+		selector: ServiceErrors_FieldPathSelectorErrors,
+		subPath:  NewServiceErrorsErrorFieldPathBuilder().Service().FieldPath(),
+	}
+}
+
+func (s ServiceErrorsPathSelectorErrorsService) WithValue(value *meta_service.Reference) *ServiceErrors_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceErrors_FieldSubPathValue)
+}
+
+func (s ServiceErrorsPathSelectorErrorsService) WithArrayOfValues(values []*meta_service.Reference) *ServiceErrors_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrors_FieldSubPathArrayOfValues)
+}
+
+type ServiceErrorsPathSelectorErrorsMessage struct{}
+
+func (ServiceErrorsPathSelectorErrorsMessage) FieldPath() *ServiceErrors_FieldSubPath {
+	return &ServiceErrors_FieldSubPath{
+		selector: ServiceErrors_FieldPathSelectorErrors,
+		subPath:  NewServiceErrorsErrorFieldPathBuilder().Message().FieldPath(),
+	}
+}
+
+func (s ServiceErrorsPathSelectorErrorsMessage) WithValue(value string) *ServiceErrors_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceErrors_FieldSubPathValue)
+}
+
+func (s ServiceErrorsPathSelectorErrorsMessage) WithArrayOfValues(values []string) *ServiceErrors_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrors_FieldSubPathArrayOfValues)
+}
+
+type ServiceErrorsErrorFieldPathBuilder struct{}
+
+func NewServiceErrorsErrorFieldPathBuilder() ServiceErrorsErrorFieldPathBuilder {
+	return ServiceErrorsErrorFieldPathBuilder{}
+}
+func (ServiceErrorsErrorFieldPathBuilder) Service() ServiceErrors_ErrorPathSelectorService {
+	return ServiceErrors_ErrorPathSelectorService{}
+}
+func (ServiceErrorsErrorFieldPathBuilder) Message() ServiceErrors_ErrorPathSelectorMessage {
+	return ServiceErrors_ErrorPathSelectorMessage{}
+}
+
+type ServiceErrors_ErrorPathSelectorService struct{}
+
+func (ServiceErrors_ErrorPathSelectorService) FieldPath() *ServiceErrorsError_FieldTerminalPath {
+	return &ServiceErrorsError_FieldTerminalPath{selector: ServiceErrorsError_FieldPathSelectorService}
+}
+
+func (s ServiceErrors_ErrorPathSelectorService) WithValue(value *meta_service.Reference) *ServiceErrorsError_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceErrorsError_FieldTerminalPathValue)
+}
+
+func (s ServiceErrors_ErrorPathSelectorService) WithArrayOfValues(values []*meta_service.Reference) *ServiceErrorsError_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrorsError_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceErrors_ErrorPathSelectorMessage struct{}
+
+func (ServiceErrors_ErrorPathSelectorMessage) FieldPath() *ServiceErrorsError_FieldTerminalPath {
+	return &ServiceErrorsError_FieldTerminalPath{selector: ServiceErrorsError_FieldPathSelectorMessage}
+}
+
+func (s ServiceErrors_ErrorPathSelectorMessage) WithValue(value string) *ServiceErrorsError_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceErrorsError_FieldTerminalPathValue)
+}
+
+func (s ServiceErrors_ErrorPathSelectorMessage) WithArrayOfValues(values []string) *ServiceErrorsError_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceErrorsError_FieldTerminalPathArrayOfValues)
 }

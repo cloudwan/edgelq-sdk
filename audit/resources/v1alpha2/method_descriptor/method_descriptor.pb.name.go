@@ -367,7 +367,11 @@ func (ref *Reference) Resolve(resolved *MethodDescriptor) {
 }
 
 func (ref *Reference) ResolveRaw(res gotenresource.Resource) error {
-	if typedRes, ok := res.(*MethodDescriptor); ok && typedRes != nil {
+	if res == nil {
+		ref.Resolve(nil)
+		return nil
+	}
+	if typedRes, ok := res.(*MethodDescriptor); ok {
 		ref.Resolve(typedRes)
 		return nil
 	}

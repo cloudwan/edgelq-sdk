@@ -424,4 +424,13 @@ service PlanAssignmentRequestService {
       >
     };
   }
+
+  // ListApproverPlanAssignmentRequests
+  rpc ListApproverPlanAssignmentRequests(
+      ListApproverPlanAssignmentRequestsRequest)
+      returns (ListPlanAssignmentRequestsResponse) {
+    option (google.api.http) = {
+      get : "/v1alpha2/planAssignmentRequests:listApprover"
+    };
+  }
 }

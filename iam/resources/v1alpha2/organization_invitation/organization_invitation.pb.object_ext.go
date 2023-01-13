@@ -17,7 +17,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 )
 
@@ -35,7 +35,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 )
 
@@ -127,7 +127,7 @@ func (o *OrganizationInvitation) Merge(source *OrganizationInvitation) {
 	}
 	if source.GetInvitation() != nil {
 		if o.Invitation == nil {
-			o.Invitation = new(iam_common.Invitation)
+			o.Invitation = new(iam_invitation.Invitation)
 		}
 		o.Invitation.Merge(source.GetInvitation())
 	}

@@ -56,6 +56,7 @@ type LimitServiceClient interface {
 	WatchLimits(ctx context.Context, in *WatchLimitsRequest, opts ...grpc.CallOption) (WatchLimitsClientStream, error)
 	UpdateLimit(ctx context.Context, in *UpdateLimitRequest, opts ...grpc.CallOption) (*limit.Limit, error)
 	DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	MigrateLimitSource(ctx context.Context, in *MigrateLimitSourceRequest, opts ...grpc.CallOption) (*limit.Limit, error)
 }
 
 type client struct {
@@ -179,6 +180,15 @@ func (c *client) UpdateLimit(ctx context.Context, in *UpdateLimitRequest, opts .
 func (c *client) DeleteLimit(ctx context.Context, in *DeleteLimitRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitService/DeleteLimit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) MigrateLimitSource(ctx context.Context, in *MigrateLimitSourceRequest, opts ...grpc.CallOption) (*limit.Limit, error) {
+	out := new(limit.Limit)
+	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitService/MigrateLimitSource", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

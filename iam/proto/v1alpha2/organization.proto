@@ -4,6 +4,7 @@ package ntt.iam.v1alpha2;
 
 import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/common/types/multi_region_policy.proto";
+import "edgelq-sdk/iam/proto/v1alpha2/common.proto";
 import "google/api/resource.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization;organization";
@@ -47,4 +48,20 @@ message Organization {
 
   // Multi region policy for child resources
   ntt.types.MultiRegionPolicy multi_region_policy = 7;
+
+  // Allowed services for child organizations and projects. This field is
+  // checked only for non-core edgelq services.
+  repeated string allowed_services = 8;
+
+  // Business tier applicable for all allowed services.
+  // This value defines:
+  // * Default business tier for child projects (if not defined on creation)
+  // * Default business tier to this organization.
+  BusinessTier business_tier = 9;
+
+  // Overwrites business_tier for each service.
+  repeated ServiceBusinessTier service_tiers = 10;
+
+  // Service errors reported for this organization by category
+  map<string, ServiceErrors> service_errors = 12;
 }

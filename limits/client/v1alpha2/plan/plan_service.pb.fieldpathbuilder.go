@@ -7,6 +7,7 @@ package plan_client
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
@@ -21,6 +22,7 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &plan.Plan{}
 	_ = &meta_resource.Resource{}
@@ -211,6 +213,14 @@ func (BatchGetPlansResponsePathSelectorPlans) ResourceLimits() BatchGetPlansResp
 	return BatchGetPlansResponsePathSelectorPlansResourceLimits{}
 }
 
+func (BatchGetPlansResponsePathSelectorPlans) PlanLevel() BatchGetPlansResponsePathSelectorPlansPlanLevel {
+	return BatchGetPlansResponsePathSelectorPlansPlanLevel{}
+}
+
+func (BatchGetPlansResponsePathSelectorPlans) BusinessTier() BatchGetPlansResponsePathSelectorPlansBusinessTier {
+	return BatchGetPlansResponsePathSelectorPlansBusinessTier{}
+}
+
 func (BatchGetPlansResponsePathSelectorPlans) Metadata() BatchGetPlansResponsePathSelectorPlansMetadata {
 	return BatchGetPlansResponsePathSelectorPlansMetadata{}
 }
@@ -326,6 +336,40 @@ func (s BatchGetPlansResponsePathSelectorPlansResourceLimitsValue) WithValue(val
 }
 
 func (s BatchGetPlansResponsePathSelectorPlansResourceLimitsValue) WithArrayOfValues(values []int64) *BatchGetPlansResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlansResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlansResponsePathSelectorPlansPlanLevel struct{}
+
+func (BatchGetPlansResponsePathSelectorPlansPlanLevel) FieldPath() *BatchGetPlansResponse_FieldSubPath {
+	return &BatchGetPlansResponse_FieldSubPath{
+		selector: BatchGetPlansResponse_FieldPathSelectorPlans,
+		subPath:  plan.NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	}
+}
+
+func (s BatchGetPlansResponsePathSelectorPlansPlanLevel) WithValue(value plan.Plan_PlanLevel) *BatchGetPlansResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlansResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlansResponsePathSelectorPlansPlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *BatchGetPlansResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlansResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetPlansResponsePathSelectorPlansBusinessTier struct{}
+
+func (BatchGetPlansResponsePathSelectorPlansBusinessTier) FieldPath() *BatchGetPlansResponse_FieldSubPath {
+	return &BatchGetPlansResponse_FieldSubPath{
+		selector: BatchGetPlansResponse_FieldPathSelectorPlans,
+		subPath:  plan.NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s BatchGetPlansResponsePathSelectorPlansBusinessTier) WithValue(value iam_iam_common.BusinessTier) *BatchGetPlansResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetPlansResponse_FieldSubPathValue)
+}
+
+func (s BatchGetPlansResponsePathSelectorPlansBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *BatchGetPlansResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetPlansResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1121,6 +1165,14 @@ func (ListPlansResponsePathSelectorPlans) ResourceLimits() ListPlansResponsePath
 	return ListPlansResponsePathSelectorPlansResourceLimits{}
 }
 
+func (ListPlansResponsePathSelectorPlans) PlanLevel() ListPlansResponsePathSelectorPlansPlanLevel {
+	return ListPlansResponsePathSelectorPlansPlanLevel{}
+}
+
+func (ListPlansResponsePathSelectorPlans) BusinessTier() ListPlansResponsePathSelectorPlansBusinessTier {
+	return ListPlansResponsePathSelectorPlansBusinessTier{}
+}
+
 func (ListPlansResponsePathSelectorPlans) Metadata() ListPlansResponsePathSelectorPlansMetadata {
 	return ListPlansResponsePathSelectorPlansMetadata{}
 }
@@ -1236,6 +1288,40 @@ func (s ListPlansResponsePathSelectorPlansResourceLimitsValue) WithValue(value i
 }
 
 func (s ListPlansResponsePathSelectorPlansResourceLimitsValue) WithArrayOfValues(values []int64) *ListPlansResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlansResponsePathSelectorPlansPlanLevel struct{}
+
+func (ListPlansResponsePathSelectorPlansPlanLevel) FieldPath() *ListPlansResponse_FieldSubPath {
+	return &ListPlansResponse_FieldSubPath{
+		selector: ListPlansResponse_FieldPathSelectorPlans,
+		subPath:  plan.NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	}
+}
+
+func (s ListPlansResponsePathSelectorPlansPlanLevel) WithValue(value plan.Plan_PlanLevel) *ListPlansResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlansResponse_FieldSubPathValue)
+}
+
+func (s ListPlansResponsePathSelectorPlansPlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *ListPlansResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPlansResponsePathSelectorPlansBusinessTier struct{}
+
+func (ListPlansResponsePathSelectorPlansBusinessTier) FieldPath() *ListPlansResponse_FieldSubPath {
+	return &ListPlansResponse_FieldSubPath{
+		selector: ListPlansResponse_FieldPathSelectorPlans,
+		subPath:  plan.NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s ListPlansResponsePathSelectorPlansBusinessTier) WithValue(value iam_iam_common.BusinessTier) *ListPlansResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlansResponse_FieldSubPathValue)
+}
+
+func (s ListPlansResponsePathSelectorPlansBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *ListPlansResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2407,6 +2493,14 @@ func (CreatePlanRequestPathSelectorPlan) ResourceLimits() CreatePlanRequestPathS
 	return CreatePlanRequestPathSelectorPlanResourceLimits{}
 }
 
+func (CreatePlanRequestPathSelectorPlan) PlanLevel() CreatePlanRequestPathSelectorPlanPlanLevel {
+	return CreatePlanRequestPathSelectorPlanPlanLevel{}
+}
+
+func (CreatePlanRequestPathSelectorPlan) BusinessTier() CreatePlanRequestPathSelectorPlanBusinessTier {
+	return CreatePlanRequestPathSelectorPlanBusinessTier{}
+}
+
 func (CreatePlanRequestPathSelectorPlan) Metadata() CreatePlanRequestPathSelectorPlanMetadata {
 	return CreatePlanRequestPathSelectorPlanMetadata{}
 }
@@ -2522,6 +2616,40 @@ func (s CreatePlanRequestPathSelectorPlanResourceLimitsValue) WithValue(value in
 }
 
 func (s CreatePlanRequestPathSelectorPlanResourceLimitsValue) WithArrayOfValues(values []int64) *CreatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanRequestPathSelectorPlanPlanLevel struct{}
+
+func (CreatePlanRequestPathSelectorPlanPlanLevel) FieldPath() *CreatePlanRequest_FieldSubPath {
+	return &CreatePlanRequest_FieldSubPath{
+		selector: CreatePlanRequest_FieldPathSelectorPlan,
+		subPath:  plan.NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	}
+}
+
+func (s CreatePlanRequestPathSelectorPlanPlanLevel) WithValue(value plan.Plan_PlanLevel) *CreatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanRequestPathSelectorPlanPlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *CreatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type CreatePlanRequestPathSelectorPlanBusinessTier struct{}
+
+func (CreatePlanRequestPathSelectorPlanBusinessTier) FieldPath() *CreatePlanRequest_FieldSubPath {
+	return &CreatePlanRequest_FieldSubPath{
+		selector: CreatePlanRequest_FieldPathSelectorPlan,
+		subPath:  plan.NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s CreatePlanRequestPathSelectorPlanBusinessTier) WithValue(value iam_iam_common.BusinessTier) *CreatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreatePlanRequest_FieldSubPathValue)
+}
+
+func (s CreatePlanRequestPathSelectorPlanBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *CreatePlanRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreatePlanRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3188,6 +3316,14 @@ func (UpdatePlanRequestPathSelectorPlan) ResourceLimits() UpdatePlanRequestPathS
 	return UpdatePlanRequestPathSelectorPlanResourceLimits{}
 }
 
+func (UpdatePlanRequestPathSelectorPlan) PlanLevel() UpdatePlanRequestPathSelectorPlanPlanLevel {
+	return UpdatePlanRequestPathSelectorPlanPlanLevel{}
+}
+
+func (UpdatePlanRequestPathSelectorPlan) BusinessTier() UpdatePlanRequestPathSelectorPlanBusinessTier {
+	return UpdatePlanRequestPathSelectorPlanBusinessTier{}
+}
+
 func (UpdatePlanRequestPathSelectorPlan) Metadata() UpdatePlanRequestPathSelectorPlanMetadata {
 	return UpdatePlanRequestPathSelectorPlanMetadata{}
 }
@@ -3303,6 +3439,40 @@ func (s UpdatePlanRequestPathSelectorPlanResourceLimitsValue) WithValue(value in
 }
 
 func (s UpdatePlanRequestPathSelectorPlanResourceLimitsValue) WithArrayOfValues(values []int64) *UpdatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequestPathSelectorPlanPlanLevel struct{}
+
+func (UpdatePlanRequestPathSelectorPlanPlanLevel) FieldPath() *UpdatePlanRequest_FieldSubPath {
+	return &UpdatePlanRequest_FieldSubPath{
+		selector: UpdatePlanRequest_FieldPathSelectorPlan,
+		subPath:  plan.NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequestPathSelectorPlanPlanLevel) WithValue(value plan.Plan_PlanLevel) *UpdatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequestPathSelectorPlanPlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *UpdatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequestPathSelectorPlanBusinessTier struct{}
+
+func (UpdatePlanRequestPathSelectorPlanBusinessTier) FieldPath() *UpdatePlanRequest_FieldSubPath {
+	return &UpdatePlanRequest_FieldSubPath{
+		selector: UpdatePlanRequest_FieldPathSelectorPlan,
+		subPath:  plan.NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequestPathSelectorPlanBusinessTier) WithValue(value iam_iam_common.BusinessTier) *UpdatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequestPathSelectorPlanBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *UpdatePlanRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3993,6 +4163,14 @@ func (UpdatePlanRequestPathSelectorCasConditionalState) ResourceLimits() UpdateP
 	return UpdatePlanRequestPathSelectorCasConditionalStateResourceLimits{}
 }
 
+func (UpdatePlanRequestPathSelectorCasConditionalState) PlanLevel() UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel {
+	return UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel{}
+}
+
+func (UpdatePlanRequestPathSelectorCasConditionalState) BusinessTier() UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier {
+	return UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier{}
+}
+
 func (UpdatePlanRequestPathSelectorCasConditionalState) Metadata() UpdatePlanRequestPathSelectorCasConditionalStateMetadata {
 	return UpdatePlanRequestPathSelectorCasConditionalStateMetadata{}
 }
@@ -4108,6 +4286,40 @@ func (s UpdatePlanRequestPathSelectorCasConditionalStateResourceLimitsValue) Wit
 }
 
 func (s UpdatePlanRequestPathSelectorCasConditionalStateResourceLimitsValue) WithArrayOfValues(values []int64) *UpdatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel struct{}
+
+func (UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel) FieldPath() *UpdatePlanRequest_FieldSubPath {
+	return &UpdatePlanRequest_FieldSubPath{
+		selector: UpdatePlanRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanRequestCASFieldPathBuilder().ConditionalState().PlanLevel().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel) WithValue(value plan.Plan_PlanLevel) *UpdatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequestPathSelectorCasConditionalStatePlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *UpdatePlanRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier struct{}
+
+func (UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier) FieldPath() *UpdatePlanRequest_FieldSubPath {
+	return &UpdatePlanRequest_FieldSubPath{
+		selector: UpdatePlanRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePlanRequestCASFieldPathBuilder().ConditionalState().BusinessTier().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier) WithValue(value iam_iam_common.BusinessTier) *UpdatePlanRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequest_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequestPathSelectorCasConditionalStateBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *UpdatePlanRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4788,6 +5000,14 @@ func (UpdatePlanRequest_CASPathSelectorConditionalState) ResourceLimits() Update
 	return UpdatePlanRequest_CASPathSelectorConditionalStateResourceLimits{}
 }
 
+func (UpdatePlanRequest_CASPathSelectorConditionalState) PlanLevel() UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel {
+	return UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel{}
+}
+
+func (UpdatePlanRequest_CASPathSelectorConditionalState) BusinessTier() UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier {
+	return UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier{}
+}
+
 func (UpdatePlanRequest_CASPathSelectorConditionalState) Metadata() UpdatePlanRequest_CASPathSelectorConditionalStateMetadata {
 	return UpdatePlanRequest_CASPathSelectorConditionalStateMetadata{}
 }
@@ -4903,6 +5123,40 @@ func (s UpdatePlanRequest_CASPathSelectorConditionalStateResourceLimitsValue) Wi
 }
 
 func (s UpdatePlanRequest_CASPathSelectorConditionalStateResourceLimitsValue) WithArrayOfValues(values []int64) *UpdatePlanRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel struct{}
+
+func (UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel) FieldPath() *UpdatePlanRequestCAS_FieldSubPath {
+	return &UpdatePlanRequestCAS_FieldSubPath{
+		selector: UpdatePlanRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan.NewPlanFieldPathBuilder().PlanLevel().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel) WithValue(value plan.Plan_PlanLevel) *UpdatePlanRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequest_CASPathSelectorConditionalStatePlanLevel) WithArrayOfValues(values []plan.Plan_PlanLevel) *UpdatePlanRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier struct{}
+
+func (UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier) FieldPath() *UpdatePlanRequestCAS_FieldSubPath {
+	return &UpdatePlanRequestCAS_FieldSubPath{
+		selector: UpdatePlanRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  plan.NewPlanFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier) WithValue(value iam_iam_common.BusinessTier) *UpdatePlanRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePlanRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePlanRequest_CASPathSelectorConditionalStateBusinessTier) WithArrayOfValues(values []iam_iam_common.BusinessTier) *UpdatePlanRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePlanRequestCAS_FieldSubPathArrayOfValues)
 }
 

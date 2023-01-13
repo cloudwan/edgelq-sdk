@@ -8,6 +8,8 @@ package organization
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -15,6 +17,8 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_common.PCR{}
+	_ = &meta_service.Service{}
 	_ = &timestamp.Timestamp{}
 )
 
@@ -43,6 +47,18 @@ func (OrganizationFieldPathBuilder) Metadata() OrganizationPathSelectorMetadata 
 }
 func (OrganizationFieldPathBuilder) MultiRegionPolicy() OrganizationPathSelectorMultiRegionPolicy {
 	return OrganizationPathSelectorMultiRegionPolicy{}
+}
+func (OrganizationFieldPathBuilder) AllowedServices() OrganizationPathSelectorAllowedServices {
+	return OrganizationPathSelectorAllowedServices{}
+}
+func (OrganizationFieldPathBuilder) BusinessTier() OrganizationPathSelectorBusinessTier {
+	return OrganizationPathSelectorBusinessTier{}
+}
+func (OrganizationFieldPathBuilder) ServiceTiers() OrganizationPathSelectorServiceTiers {
+	return OrganizationPathSelectorServiceTiers{}
+}
+func (OrganizationFieldPathBuilder) ServiceErrors() OrganizationPathSelectorServiceErrors {
+	return OrganizationPathSelectorServiceErrors{}
 }
 
 type OrganizationPathSelectorName struct{}
@@ -896,4 +912,145 @@ func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegi
 
 func (s OrganizationPathSelectorMultiRegionPolicyCriteriaForDisabledSyncDestRegion) WithArrayOfValues(values []string) *Organization_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldSubPathArrayOfValues)
+}
+
+type OrganizationPathSelectorAllowedServices struct{}
+
+func (OrganizationPathSelectorAllowedServices) FieldPath() *Organization_FieldTerminalPath {
+	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorAllowedServices}
+}
+
+func (s OrganizationPathSelectorAllowedServices) WithValue(value []*meta_service.Reference) *Organization_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
+}
+
+func (s OrganizationPathSelectorAllowedServices) WithArrayOfValues(values [][]*meta_service.Reference) *Organization_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
+}
+
+func (s OrganizationPathSelectorAllowedServices) WithItemValue(value *meta_service.Reference) *Organization_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Organization_FieldTerminalPathArrayItemValue)
+}
+
+type OrganizationPathSelectorBusinessTier struct{}
+
+func (OrganizationPathSelectorBusinessTier) FieldPath() *Organization_FieldTerminalPath {
+	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorBusinessTier}
+}
+
+func (s OrganizationPathSelectorBusinessTier) WithValue(value iam_common.BusinessTier) *Organization_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
+}
+
+func (s OrganizationPathSelectorBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *Organization_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
+}
+
+type OrganizationPathSelectorServiceTiers struct{}
+
+func (OrganizationPathSelectorServiceTiers) FieldPath() *Organization_FieldTerminalPath {
+	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorServiceTiers}
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithValue(value []*iam_common.ServiceBusinessTier) *Organization_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithArrayOfValues(values [][]*iam_common.ServiceBusinessTier) *Organization_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithItemValue(value *iam_common.ServiceBusinessTier) *Organization_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Organization_FieldTerminalPathArrayItemValue)
+}
+func (OrganizationPathSelectorServiceTiers) WithSubPath(subPath iam_common.ServiceBusinessTier_FieldPath) *Organization_FieldSubPath {
+	return &Organization_FieldSubPath{selector: Organization_FieldPathSelectorServiceTiers, subPath: subPath}
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithSubValue(subPathValue iam_common.ServiceBusinessTier_FieldPathValue) *Organization_FieldSubPathValue {
+	return &Organization_FieldSubPathValue{Organization_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithSubArrayOfValues(subPathArrayOfValues iam_common.ServiceBusinessTier_FieldPathArrayOfValues) *Organization_FieldSubPathArrayOfValues {
+	return &Organization_FieldSubPathArrayOfValues{Organization_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s OrganizationPathSelectorServiceTiers) WithSubArrayItemValue(subPathArrayItemValue iam_common.ServiceBusinessTier_FieldPathArrayItemValue) *Organization_FieldSubPathArrayItemValue {
+	return &Organization_FieldSubPathArrayItemValue{Organization_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (OrganizationPathSelectorServiceTiers) Service() OrganizationPathSelectorServiceTiersService {
+	return OrganizationPathSelectorServiceTiersService{}
+}
+
+func (OrganizationPathSelectorServiceTiers) BusinessTier() OrganizationPathSelectorServiceTiersBusinessTier {
+	return OrganizationPathSelectorServiceTiersBusinessTier{}
+}
+
+type OrganizationPathSelectorServiceTiersService struct{}
+
+func (OrganizationPathSelectorServiceTiersService) FieldPath() *Organization_FieldSubPath {
+	return &Organization_FieldSubPath{
+		selector: Organization_FieldPathSelectorServiceTiers,
+		subPath:  iam_common.NewServiceBusinessTierFieldPathBuilder().Service().FieldPath(),
+	}
+}
+
+func (s OrganizationPathSelectorServiceTiersService) WithValue(value *meta_service.Reference) *Organization_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldSubPathValue)
+}
+
+func (s OrganizationPathSelectorServiceTiersService) WithArrayOfValues(values []*meta_service.Reference) *Organization_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldSubPathArrayOfValues)
+}
+
+type OrganizationPathSelectorServiceTiersBusinessTier struct{}
+
+func (OrganizationPathSelectorServiceTiersBusinessTier) FieldPath() *Organization_FieldSubPath {
+	return &Organization_FieldSubPath{
+		selector: Organization_FieldPathSelectorServiceTiers,
+		subPath:  iam_common.NewServiceBusinessTierFieldPathBuilder().BusinessTier().FieldPath(),
+	}
+}
+
+func (s OrganizationPathSelectorServiceTiersBusinessTier) WithValue(value iam_common.BusinessTier) *Organization_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldSubPathValue)
+}
+
+func (s OrganizationPathSelectorServiceTiersBusinessTier) WithArrayOfValues(values []iam_common.BusinessTier) *Organization_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldSubPathArrayOfValues)
+}
+
+type OrganizationPathSelectorServiceErrors struct{}
+
+func (OrganizationPathSelectorServiceErrors) FieldPath() *Organization_FieldTerminalPath {
+	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorServiceErrors}
+}
+
+func (s OrganizationPathSelectorServiceErrors) WithValue(value map[string]*iam_common.ServiceErrors) *Organization_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
+}
+
+func (s OrganizationPathSelectorServiceErrors) WithArrayOfValues(values []map[string]*iam_common.ServiceErrors) *Organization_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
+}
+
+func (OrganizationPathSelectorServiceErrors) WithKey(key string) OrganizationMapPathSelectorServiceErrors {
+	return OrganizationMapPathSelectorServiceErrors{key: key}
+}
+
+type OrganizationMapPathSelectorServiceErrors struct {
+	key string
+}
+
+func (s OrganizationMapPathSelectorServiceErrors) FieldPath() *Organization_FieldPathMap {
+	return &Organization_FieldPathMap{selector: Organization_FieldPathSelectorServiceErrors, key: s.key}
+}
+
+func (s OrganizationMapPathSelectorServiceErrors) WithValue(value *iam_common.ServiceErrors) *Organization_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldPathMapValue)
+}
+
+func (s OrganizationMapPathSelectorServiceErrors) WithArrayOfValues(values []*iam_common.ServiceErrors) *Organization_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldPathMapArrayOfValues)
 }

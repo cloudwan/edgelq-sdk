@@ -50,7 +50,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &attestation_domain.AttestationDomain{}
-	_ = &iam_common.Actor{}
+	_ = &iam_common.PCR{}
 )
 
 // FieldPath provides implementation to handle

@@ -26,6 +26,8 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
+	view "github.com/cloudwan/goten-sdk/runtime/api/view"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 var (
@@ -48,8 +50,22 @@ var (
 	_ = &iam_organization.Organization{}
 	_ = &accepted_plan.AcceptedPlan{}
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
+	_ = &field_mask.FieldMask{}
+	_ = view.View(0)
 )
 
+func (obj *ListApproverPlanAssignmentRequestsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("ListApproverPlanAssignmentRequestsRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *AcceptPlanAssignmentRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

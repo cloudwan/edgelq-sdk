@@ -25,7 +25,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
-	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
+	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/invitation"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 )
 
@@ -51,7 +51,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
-	_ = &iam_common.Actor{}
+	_ = &iam_invitation.Actor{}
 	_ = &project.Project{}
 )
 
@@ -113,7 +113,7 @@ func BuildProjectInvitation_FieldPath(fp gotenobject.RawFieldPath) (ProjectInvit
 	} else {
 		switch fp[0] {
 		case "invitation":
-			if subpath, err := iam_common.BuildInvitation_FieldPath(fp[1:]); err != nil {
+			if subpath, err := iam_invitation.BuildInvitation_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &ProjectInvitation_FieldSubPath{selector: ProjectInvitation_FieldPathSelectorInvitation, subPath: subpath}, nil
@@ -225,7 +225,7 @@ func (fp *ProjectInvitation_FieldTerminalPath) GetDefault() interface{} {
 	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
 		return ""
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		return (*iam_common.Invitation)(nil)
+		return (*iam_invitation.Invitation)(nil)
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -271,7 +271,7 @@ func (fp *ProjectInvitation_FieldTerminalPath) WithIValue(value interface{}) Pro
 	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
 		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(string)}
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(*iam_common.Invitation)}
+		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(*iam_invitation.Invitation)}
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		return &ProjectInvitation_FieldTerminalPathValue{ProjectInvitation_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -291,7 +291,7 @@ func (fp *ProjectInvitation_FieldTerminalPath) WithIArrayOfValues(values interfa
 	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
 		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]string)}
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]*iam_common.Invitation)}
+		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]*iam_invitation.Invitation)}
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		return &ProjectInvitation_FieldTerminalPathArrayOfValues{ProjectInvitation_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -325,8 +325,8 @@ var _ ProjectInvitation_FieldPath = (*ProjectInvitation_FieldSubPath)(nil)
 func (fps *ProjectInvitation_FieldSubPath) Selector() ProjectInvitation_FieldPathSelector {
 	return fps.selector
 }
-func (fps *ProjectInvitation_FieldSubPath) AsInvitationSubPath() (iam_common.Invitation_FieldPath, bool) {
-	res, ok := fps.subPath.(iam_common.Invitation_FieldPath)
+func (fps *ProjectInvitation_FieldSubPath) AsInvitationSubPath() (iam_invitation.Invitation_FieldPath, bool) {
+	res, ok := fps.subPath.(iam_invitation.Invitation_FieldPath)
 	return res, ok
 }
 func (fps *ProjectInvitation_FieldSubPath) AsMetadataSubPath() (ntt_meta.Meta_FieldPath, bool) {
@@ -486,8 +486,8 @@ func (fpv *ProjectInvitation_FieldTerminalPathValue) AsProjectDisplayNameValue()
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *ProjectInvitation_FieldTerminalPathValue) AsInvitationValue() (*iam_common.Invitation, bool) {
-	res, ok := fpv.value.(*iam_common.Invitation)
+func (fpv *ProjectInvitation_FieldTerminalPathValue) AsInvitationValue() (*iam_invitation.Invitation, bool) {
+	res, ok := fpv.value.(*iam_invitation.Invitation)
 	return res, ok
 }
 func (fpv *ProjectInvitation_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
@@ -506,7 +506,7 @@ func (fpv *ProjectInvitation_FieldTerminalPathValue) SetTo(target **ProjectInvit
 	case ProjectInvitation_FieldPathSelectorProjectDisplayName:
 		(*target).ProjectDisplayName = fpv.value.(string)
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		(*target).Invitation = fpv.value.(*iam_common.Invitation)
+		(*target).Invitation = fpv.value.(*iam_invitation.Invitation)
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -571,8 +571,8 @@ type ProjectInvitation_FieldSubPathValue struct {
 
 var _ ProjectInvitation_FieldPathValue = (*ProjectInvitation_FieldSubPathValue)(nil)
 
-func (fpvs *ProjectInvitation_FieldSubPathValue) AsInvitationPathValue() (iam_common.Invitation_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(iam_common.Invitation_FieldPathValue)
+func (fpvs *ProjectInvitation_FieldSubPathValue) AsInvitationPathValue() (iam_invitation.Invitation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue)
 	return res, ok
 }
 func (fpvs *ProjectInvitation_FieldSubPathValue) AsMetadataPathValue() (ntt_meta.Meta_FieldPathValue, bool) {
@@ -586,7 +586,7 @@ func (fpvs *ProjectInvitation_FieldSubPathValue) SetTo(target **ProjectInvitatio
 	}
 	switch fpvs.Selector() {
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		fpvs.subPathValue.(iam_common.Invitation_FieldPathValue).SetTo(&(*target).Invitation)
+		fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).SetTo(&(*target).Invitation)
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	default:
@@ -606,7 +606,7 @@ func (fpvs *ProjectInvitation_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *ProjectInvitation_FieldSubPathValue) CompareWith(source *ProjectInvitation) (int, bool) {
 	switch fpvs.Selector() {
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		return fpvs.subPathValue.(iam_common.Invitation_FieldPathValue).CompareWith(source.GetInvitation())
+		return fpvs.subPathValue.(iam_invitation.Invitation_FieldPathValue).CompareWith(source.GetInvitation())
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(ntt_meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	default:
@@ -691,8 +691,8 @@ type ProjectInvitation_FieldSubPathArrayItemValue struct {
 func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) AsInvitationPathItemValue() (iam_common.Invitation_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(iam_common.Invitation_FieldPathArrayItemValue)
+func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) AsInvitationPathItemValue() (iam_invitation.Invitation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (ntt_meta.Meta_FieldPathArrayItemValue, bool) {
@@ -704,7 +704,7 @@ func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) AsMetadataPathItemVa
 func (fpaivs *ProjectInvitation_FieldSubPathArrayItemValue) ContainsValue(source *ProjectInvitation) bool {
 	switch fpaivs.Selector() {
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		return fpaivs.subPathItemValue.(iam_common.Invitation_FieldPathArrayItemValue).ContainsValue(source.GetInvitation())
+		return fpaivs.subPathItemValue.(iam_invitation.Invitation_FieldPathArrayItemValue).ContainsValue(source.GetInvitation())
 	case ProjectInvitation_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(ntt_meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	default:
@@ -756,7 +756,7 @@ func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) GetRawValues() (v
 			values = append(values, v)
 		}
 	case ProjectInvitation_FieldPathSelectorInvitation:
-		for _, v := range fpaov.values.([]*iam_common.Invitation) {
+		for _, v := range fpaov.values.([]*iam_invitation.Invitation) {
 			values = append(values, v)
 		}
 	case ProjectInvitation_FieldPathSelectorMetadata:
@@ -774,8 +774,8 @@ func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsProjectDisplayN
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsInvitationArrayOfValues() ([]*iam_common.Invitation, bool) {
-	res, ok := fpaov.values.([]*iam_common.Invitation)
+func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsInvitationArrayOfValues() ([]*iam_invitation.Invitation, bool) {
+	res, ok := fpaov.values.([]*iam_invitation.Invitation)
 	return res, ok
 }
 func (fpaov *ProjectInvitation_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {
@@ -793,8 +793,8 @@ var _ ProjectInvitation_FieldPathArrayOfValues = (*ProjectInvitation_FieldSubPat
 func (fpsaov *ProjectInvitation_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *ProjectInvitation_FieldSubPathArrayOfValues) AsInvitationPathArrayOfValues() (iam_common.Invitation_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(iam_common.Invitation_FieldPathArrayOfValues)
+func (fpsaov *ProjectInvitation_FieldSubPathArrayOfValues) AsInvitationPathArrayOfValues() (iam_invitation.Invitation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(iam_invitation.Invitation_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *ProjectInvitation_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (ntt_meta.Meta_FieldPathArrayOfValues, bool) {

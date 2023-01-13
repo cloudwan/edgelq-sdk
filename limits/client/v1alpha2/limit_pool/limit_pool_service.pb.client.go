@@ -56,6 +56,7 @@ type LimitPoolServiceClient interface {
 	WatchLimitPools(ctx context.Context, in *WatchLimitPoolsRequest, opts ...grpc.CallOption) (WatchLimitPoolsClientStream, error)
 	UpdateLimitPool(ctx context.Context, in *UpdateLimitPoolRequest, opts ...grpc.CallOption) (*limit_pool.LimitPool, error)
 	DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	MigrateLimitPoolSource(ctx context.Context, in *MigrateLimitPoolSourceRequest, opts ...grpc.CallOption) (*limit_pool.LimitPool, error)
 }
 
 type client struct {
@@ -179,6 +180,15 @@ func (c *client) UpdateLimitPool(ctx context.Context, in *UpdateLimitPoolRequest
 func (c *client) DeleteLimitPool(ctx context.Context, in *DeleteLimitPoolRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitPoolService/DeleteLimitPool", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) MigrateLimitPoolSource(ctx context.Context, in *MigrateLimitPoolSourceRequest, opts ...grpc.CallOption) (*limit_pool.LimitPool, error) {
+	out := new(limit_pool.LimitPool)
+	err := c.cc.Invoke(ctx, "/ntt.limits.v1alpha2.LimitPoolService/MigrateLimitPoolSource", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

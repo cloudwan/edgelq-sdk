@@ -25,6 +25,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/common"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
 )
@@ -51,6 +52,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &iam_iam_common.PCR{}
 	_ = &common.Allowance{}
 	_ = &meta_service.Service{}
 )
@@ -78,7 +80,9 @@ const (
 	Plan_FieldPathSelectorDisplayName    Plan_FieldPathSelector = 1
 	Plan_FieldPathSelectorService        Plan_FieldPathSelector = 2
 	Plan_FieldPathSelectorResourceLimits Plan_FieldPathSelector = 3
-	Plan_FieldPathSelectorMetadata       Plan_FieldPathSelector = 4
+	Plan_FieldPathSelectorPlanLevel      Plan_FieldPathSelector = 4
+	Plan_FieldPathSelectorBusinessTier   Plan_FieldPathSelector = 5
+	Plan_FieldPathSelectorMetadata       Plan_FieldPathSelector = 6
 )
 
 func (s Plan_FieldPathSelector) String() string {
@@ -91,6 +95,10 @@ func (s Plan_FieldPathSelector) String() string {
 		return "service"
 	case Plan_FieldPathSelectorResourceLimits:
 		return "resource_limits"
+	case Plan_FieldPathSelectorPlanLevel:
+		return "plan_level"
+	case Plan_FieldPathSelectorBusinessTier:
+		return "business_tier"
 	case Plan_FieldPathSelectorMetadata:
 		return "metadata"
 	default:
@@ -112,6 +120,10 @@ func BuildPlan_FieldPath(fp gotenobject.RawFieldPath) (Plan_FieldPath, error) {
 			return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorService}, nil
 		case "resource_limits", "resourceLimits", "resource-limits":
 			return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorResourceLimits}, nil
+		case "plan_level", "planLevel", "plan-level":
+			return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorPlanLevel}, nil
+		case "business_tier", "businessTier", "business-tier":
+			return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorBusinessTier}, nil
 		case "metadata":
 			return &Plan_FieldTerminalPath{selector: Plan_FieldPathSelectorMetadata}, nil
 		}
@@ -188,6 +200,10 @@ func (fp *Plan_FieldTerminalPath) Get(source *Plan) (values []interface{}) {
 			for _, value := range source.GetResourceLimits() {
 				values = append(values, value)
 			}
+		case Plan_FieldPathSelectorPlanLevel:
+			values = append(values, source.PlanLevel)
+		case Plan_FieldPathSelectorBusinessTier:
+			values = append(values, source.BusinessTier)
 		case Plan_FieldPathSelectorMetadata:
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
@@ -217,6 +233,10 @@ func (fp *Plan_FieldTerminalPath) GetSingle(source *Plan) (interface{}, bool) {
 	case Plan_FieldPathSelectorResourceLimits:
 		res := source.GetResourceLimits()
 		return res, res != nil
+	case Plan_FieldPathSelectorPlanLevel:
+		return source.GetPlanLevel(), source != nil
+	case Plan_FieldPathSelectorBusinessTier:
+		return source.GetBusinessTier(), source != nil
 	case Plan_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
@@ -240,6 +260,10 @@ func (fp *Plan_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta_service.Reference)(nil)
 	case Plan_FieldPathSelectorResourceLimits:
 		return ([]*common.Allowance)(nil)
+	case Plan_FieldPathSelectorPlanLevel:
+		return Plan_UNDEFINED
+	case Plan_FieldPathSelectorBusinessTier:
+		return iam_iam_common.BusinessTier_UNDEFINED
 	case Plan_FieldPathSelectorMetadata:
 		return (*ntt_meta.Meta)(nil)
 	default:
@@ -258,6 +282,10 @@ func (fp *Plan_FieldTerminalPath) ClearValue(item *Plan) {
 			item.Service = nil
 		case Plan_FieldPathSelectorResourceLimits:
 			item.ResourceLimits = nil
+		case Plan_FieldPathSelectorPlanLevel:
+			item.PlanLevel = Plan_UNDEFINED
+		case Plan_FieldPathSelectorBusinessTier:
+			item.BusinessTier = iam_iam_common.BusinessTier_UNDEFINED
 		case Plan_FieldPathSelectorMetadata:
 			item.Metadata = nil
 		default:
@@ -274,7 +302,9 @@ func (fp *Plan_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Plan_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Plan_FieldPathSelectorName ||
 		fp.selector == Plan_FieldPathSelectorDisplayName ||
-		fp.selector == Plan_FieldPathSelectorService
+		fp.selector == Plan_FieldPathSelectorService ||
+		fp.selector == Plan_FieldPathSelectorPlanLevel ||
+		fp.selector == Plan_FieldPathSelectorBusinessTier
 }
 
 func (fp *Plan_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -291,6 +321,10 @@ func (fp *Plan_FieldTerminalPath) WithIValue(value interface{}) Plan_FieldPathVa
 		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(*meta_service.Reference)}
 	case Plan_FieldPathSelectorResourceLimits:
 		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.([]*common.Allowance)}
+	case Plan_FieldPathSelectorPlanLevel:
+		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(Plan_PlanLevel)}
+	case Plan_FieldPathSelectorBusinessTier:
+		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(iam_iam_common.BusinessTier)}
 	case Plan_FieldPathSelectorMetadata:
 		return &Plan_FieldTerminalPathValue{Plan_FieldTerminalPath: *fp, value: value.(*ntt_meta.Meta)}
 	default:
@@ -313,6 +347,10 @@ func (fp *Plan_FieldTerminalPath) WithIArrayOfValues(values interface{}) Plan_Fi
 		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]*meta_service.Reference)}
 	case Plan_FieldPathSelectorResourceLimits:
 		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([][]*common.Allowance)}
+	case Plan_FieldPathSelectorPlanLevel:
+		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]Plan_PlanLevel)}
+	case Plan_FieldPathSelectorBusinessTier:
+		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]iam_iam_common.BusinessTier)}
 	case Plan_FieldPathSelectorMetadata:
 		return &Plan_FieldTerminalPathArrayOfValues{Plan_FieldTerminalPath: *fp, values: values.([]*ntt_meta.Meta)}
 	default:
@@ -521,6 +559,14 @@ func (fpv *Plan_FieldTerminalPathValue) AsResourceLimitsValue() ([]*common.Allow
 	res, ok := fpv.value.([]*common.Allowance)
 	return res, ok
 }
+func (fpv *Plan_FieldTerminalPathValue) AsPlanLevelValue() (Plan_PlanLevel, bool) {
+	res, ok := fpv.value.(Plan_PlanLevel)
+	return res, ok
+}
+func (fpv *Plan_FieldTerminalPathValue) AsBusinessTierValue() (iam_iam_common.BusinessTier, bool) {
+	res, ok := fpv.value.(iam_iam_common.BusinessTier)
+	return res, ok
+}
 func (fpv *Plan_FieldTerminalPathValue) AsMetadataValue() (*ntt_meta.Meta, bool) {
 	res, ok := fpv.value.(*ntt_meta.Meta)
 	return res, ok
@@ -540,6 +586,10 @@ func (fpv *Plan_FieldTerminalPathValue) SetTo(target **Plan) {
 		(*target).Service = fpv.value.(*meta_service.Reference)
 	case Plan_FieldPathSelectorResourceLimits:
 		(*target).ResourceLimits = fpv.value.([]*common.Allowance)
+	case Plan_FieldPathSelectorPlanLevel:
+		(*target).PlanLevel = fpv.value.(Plan_PlanLevel)
+	case Plan_FieldPathSelectorBusinessTier:
+		(*target).BusinessTier = fpv.value.(iam_iam_common.BusinessTier)
 	case Plan_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*ntt_meta.Meta)
 	default:
@@ -605,6 +655,26 @@ func (fpv *Plan_FieldTerminalPathValue) CompareWith(source *Plan) (int, bool) {
 		}
 	case Plan_FieldPathSelectorResourceLimits:
 		return 0, false
+	case Plan_FieldPathSelectorPlanLevel:
+		leftValue := fpv.value.(Plan_PlanLevel)
+		rightValue := source.GetPlanLevel()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Plan_FieldPathSelectorBusinessTier:
+		leftValue := fpv.value.(iam_iam_common.BusinessTier)
+		rightValue := source.GetBusinessTier()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	case Plan_FieldPathSelectorMetadata:
 		return 0, false
 	default:
@@ -819,6 +889,14 @@ func (fpaov *Plan_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([][]*common.Allowance) {
 			values = append(values, v)
 		}
+	case Plan_FieldPathSelectorPlanLevel:
+		for _, v := range fpaov.values.([]Plan_PlanLevel) {
+			values = append(values, v)
+		}
+	case Plan_FieldPathSelectorBusinessTier:
+		for _, v := range fpaov.values.([]iam_iam_common.BusinessTier) {
+			values = append(values, v)
+		}
 	case Plan_FieldPathSelectorMetadata:
 		for _, v := range fpaov.values.([]*ntt_meta.Meta) {
 			values = append(values, v)
@@ -840,6 +918,14 @@ func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsServiceArrayOfValues() ([]*m
 }
 func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsResourceLimitsArrayOfValues() ([][]*common.Allowance, bool) {
 	res, ok := fpaov.values.([][]*common.Allowance)
+	return res, ok
+}
+func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsPlanLevelArrayOfValues() ([]Plan_PlanLevel, bool) {
+	res, ok := fpaov.values.([]Plan_PlanLevel)
+	return res, ok
+}
+func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsBusinessTierArrayOfValues() ([]iam_iam_common.BusinessTier, bool) {
+	res, ok := fpaov.values.([]iam_iam_common.BusinessTier)
 	return res, ok
 }
 func (fpaov *Plan_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*ntt_meta.Meta, bool) {

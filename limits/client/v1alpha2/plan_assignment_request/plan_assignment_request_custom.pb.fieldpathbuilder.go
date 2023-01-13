@@ -8,6 +8,7 @@ package plan_assignment_request_client
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1alpha2/project"
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/accepted_plan"
@@ -17,13 +18,16 @@ import (
 	plan_assignment_request "github.com/cloudwan/edgelq-sdk/limits/resources/v1alpha2/plan_assignment_request"
 	meta_resource "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/resource"
 	meta_service "github.com/cloudwan/edgelq-sdk/meta/resources/v1alpha2/service"
+	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
 	_ = &accepted_plan.AcceptedPlan{}
@@ -33,8 +37,135 @@ var (
 	_ = &plan_assignment_request.PlanAssignmentRequest{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
+	_ = &field_mask.FieldMask{}
 	_ = &timestamp.Timestamp{}
+	_ = view.View(0)
 )
+
+type ListApproverPlanAssignmentRequestsRequestFieldPathBuilder struct{}
+
+func NewListApproverPlanAssignmentRequestsRequestFieldPathBuilder() ListApproverPlanAssignmentRequestsRequestFieldPathBuilder {
+	return ListApproverPlanAssignmentRequestsRequestFieldPathBuilder{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) Approver() ListApproverPlanAssignmentRequestsRequestPathSelectorApprover {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorApprover{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) PageSize() ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) PageToken() ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) OrderBy() ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) Filter() ListApproverPlanAssignmentRequestsRequestPathSelectorFilter {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorFilter{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) FieldMask() ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask{}
+}
+func (ListApproverPlanAssignmentRequestsRequestFieldPathBuilder) View() ListApproverPlanAssignmentRequestsRequestPathSelectorView {
+	return ListApproverPlanAssignmentRequestsRequestPathSelectorView{}
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorApprover struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorApprover) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorApprover}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorApprover) WithValue(value *iam_organization.Reference) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorApprover) WithArrayOfValues(values []*iam_organization.Reference) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageSize}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize) WithValue(value int32) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorPageSize) WithArrayOfValues(values []int32) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorPageToken}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken) WithValue(value *plan_assignment_request.PagerCursor) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorPageToken) WithArrayOfValues(values []*plan_assignment_request.PagerCursor) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorOrderBy}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy) WithValue(value *plan_assignment_request.OrderBy) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorOrderBy) WithArrayOfValues(values []*plan_assignment_request.OrderBy) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorFilter struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorFilter) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFilter}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorFilter) WithValue(value *plan_assignment_request.Filter) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorFilter) WithArrayOfValues(values []*plan_assignment_request.Filter) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask) WithValue(value *plan_assignment_request.PlanAssignmentRequest_FieldMask) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorFieldMask) WithArrayOfValues(values []*plan_assignment_request.PlanAssignmentRequest_FieldMask) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type ListApproverPlanAssignmentRequestsRequestPathSelectorView struct{}
+
+func (ListApproverPlanAssignmentRequestsRequestPathSelectorView) FieldPath() *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath {
+	return &ListApproverPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListApproverPlanAssignmentRequestsRequest_FieldPathSelectorView}
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorView) WithValue(value view.View) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListApproverPlanAssignmentRequestsRequestPathSelectorView) WithArrayOfValues(values []view.View) *ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListApproverPlanAssignmentRequestsRequest_FieldTerminalPathArrayOfValues)
+}
 
 type AcceptPlanAssignmentRequestFieldPathBuilder struct{}
 
