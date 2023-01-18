@@ -336,13 +336,14 @@ func (fps *Point_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Point
 func (fps *Point_FieldSubPath) Get(source *Point) (values []interface{}) {
-	if asTimeIntervalFieldPath, ok := fps.AsIntervalSubPath(); ok {
-		values = append(values, asTimeIntervalFieldPath.Get(source.GetInterval())...)
-	} else if asTypedValueFieldPath, ok := fps.AsValueSubPath(); ok {
-		values = append(values, asTypedValueFieldPath.Get(source.GetValue())...)
-	} else if asAggregationFieldPath, ok := fps.AsAggregationSubPath(); ok {
-		values = append(values, asAggregationFieldPath.Get(source.GetAggregation())...)
-	} else {
+	switch fps.selector {
+	case Point_FieldPathSelectorInterval:
+		values = append(values, fps.subPath.GetRaw(source.GetInterval())...)
+	case Point_FieldPathSelectorValue:
+		values = append(values, fps.subPath.GetRaw(source.GetValue())...)
+	case Point_FieldPathSelectorAggregation:
+		values = append(values, fps.subPath.GetRaw(source.GetAggregation())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Point: %d", fps.selector))
 	}
 	return
@@ -1183,17 +1184,18 @@ func (fps *TimeSerie_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source TimeSerie
 func (fps *TimeSerie_FieldSubPath) Get(source *TimeSerie) (values []interface{}) {
-	if asMetricFieldPath, ok := fps.AsMetricSubPath(); ok {
-		values = append(values, asMetricFieldPath.Get(source.GetMetric())...)
-	} else if asMonitoredResourceFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asMonitoredResourceFieldPath.Get(source.GetResource())...)
-	} else if asMonitoredResourceMetadataFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMonitoredResourceMetadataFieldPath.Get(source.GetMetadata())...)
-	} else if asPointFieldPath, ok := fps.AsPointsSubPath(); ok {
+	switch fps.selector {
+	case TimeSerie_FieldPathSelectorMetric:
+		values = append(values, fps.subPath.GetRaw(source.GetMetric())...)
+	case TimeSerie_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	case TimeSerie_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case TimeSerie_FieldPathSelectorPoints:
 		for _, item := range source.GetPoints() {
-			values = append(values, asPointFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for TimeSerie: %d", fps.selector))
 	}
 	return
@@ -2013,11 +2015,12 @@ func (fps *BulkTimeSeries_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BulkTimeSeries
 func (fps *BulkTimeSeries_FieldSubPath) Get(source *BulkTimeSeries) (values []interface{}) {
-	if asTimeSerieFieldPath, ok := fps.AsTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case BulkTimeSeries_FieldPathSelectorTimeSeries:
 		for _, item := range source.GetTimeSeries() {
-			values = append(values, asTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BulkTimeSeries: %d", fps.selector))
 	}
 	return

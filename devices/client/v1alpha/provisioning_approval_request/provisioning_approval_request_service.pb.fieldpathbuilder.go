@@ -958,6 +958,9 @@ func (ListProvisioningApprovalRequestsRequestFieldPathBuilder) FieldMask() ListP
 func (ListProvisioningApprovalRequestsRequestFieldPathBuilder) View() ListProvisioningApprovalRequestsRequestPathSelectorView {
 	return ListProvisioningApprovalRequestsRequestPathSelectorView{}
 }
+func (ListProvisioningApprovalRequestsRequestFieldPathBuilder) IncludePagingInfo() ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo {
+	return ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListProvisioningApprovalRequestsRequestPathSelectorParent struct{}
 
@@ -1057,6 +1060,20 @@ func (s ListProvisioningApprovalRequestsRequestPathSelectorView) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo) FieldPath() *ListProvisioningApprovalRequestsRequest_FieldTerminalPath {
+	return &ListProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: ListProvisioningApprovalRequestsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListProvisioningApprovalRequestsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProvisioningApprovalRequestsRequest_FieldTerminalPathValue)
+}
+
+func (s ListProvisioningApprovalRequestsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListProvisioningApprovalRequestsResponseFieldPathBuilder struct{}
 
 func NewListProvisioningApprovalRequestsResponseFieldPathBuilder() ListProvisioningApprovalRequestsResponseFieldPathBuilder {
@@ -1070,6 +1087,12 @@ func (ListProvisioningApprovalRequestsResponseFieldPathBuilder) PrevPageToken() 
 }
 func (ListProvisioningApprovalRequestsResponseFieldPathBuilder) NextPageToken() ListProvisioningApprovalRequestsResponsePathSelectorNextPageToken {
 	return ListProvisioningApprovalRequestsResponsePathSelectorNextPageToken{}
+}
+func (ListProvisioningApprovalRequestsResponseFieldPathBuilder) CurrentOffset() ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset {
+	return ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset{}
+}
+func (ListProvisioningApprovalRequestsResponseFieldPathBuilder) TotalResultsCount() ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount {
+	return ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListProvisioningApprovalRequestsResponsePathSelectorProvisioningApprovalRequests struct{}
@@ -1841,6 +1864,34 @@ func (s ListProvisioningApprovalRequestsResponsePathSelectorNextPageToken) WithV
 }
 
 func (s ListProvisioningApprovalRequestsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*provisioning_approval_request.PagerCursor) *ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset struct{}
+
+func (ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset) FieldPath() *ListProvisioningApprovalRequestsResponse_FieldTerminalPath {
+	return &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListProvisioningApprovalRequestsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProvisioningApprovalRequestsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProvisioningApprovalRequestsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount) FieldPath() *ListProvisioningApprovalRequestsResponse_FieldTerminalPath {
+	return &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListProvisioningApprovalRequestsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProvisioningApprovalRequestsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProvisioningApprovalRequestsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProvisioningApprovalRequestsResponse_FieldTerminalPathArrayOfValues)
 }
 

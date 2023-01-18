@@ -421,6 +421,9 @@ func (o *ListLogDescriptorsRequest) MakeDiffFieldMask(other *ListLogDescriptorsR
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -476,6 +479,7 @@ func (o *ListLogDescriptorsRequest) Clone() *ListLogDescriptorsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*log_descriptor.LogDescriptor_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -543,6 +547,7 @@ func (o *ListLogDescriptorsRequest) Merge(source *ListLogDescriptorsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListLogDescriptorsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -586,6 +591,12 @@ func (o *ListLogDescriptorsResponse) MakeDiffFieldMask(other *ListLogDescriptors
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -622,6 +633,8 @@ func (o *ListLogDescriptorsResponse) Clone() *ListLogDescriptorsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -672,6 +685,8 @@ func (o *ListLogDescriptorsResponse) Merge(source *ListLogDescriptorsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListLogDescriptorsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -81,8 +81,9 @@ func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs 
 
 func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *distribution.ListQuery) (*distribution.QueryResultSnapshot, error) {
 	request := &distribution_client.ListDistributionsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *d
 		return nil, err
 	}
 	return &distribution.QueryResultSnapshot{
-		Distributions:  resp.Distributions,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Distributions:     resp.Distributions,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

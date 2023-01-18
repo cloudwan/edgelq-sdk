@@ -81,8 +81,9 @@ func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []
 
 func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *group_member.ListQuery) (*group_member.QueryResultSnapshot, error) {
 	request := &group_member_client.ListGroupMembersRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *gro
 		return nil, err
 	}
 	return &group_member.QueryResultSnapshot{
-		GroupMembers:   resp.GroupMembers,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		GroupMembers:      resp.GroupMembers,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

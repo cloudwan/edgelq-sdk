@@ -433,17 +433,18 @@ func (fps *PlanAssignment_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source PlanAssignment
 func (fps *PlanAssignment_FieldSubPath) Get(source *PlanAssignment) (values []interface{}) {
-	if asAllowanceFieldPath, ok := fps.AsExtensionsSubPath(); ok {
+	switch fps.selector {
+	case PlanAssignment_FieldPathSelectorExtensions:
 		for _, item := range source.GetExtensions() {
-			values = append(values, asAllowanceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asRegionalDistributionFieldPath, ok := fps.AsRegionalDistributionsSubPath(); ok {
+	case PlanAssignment_FieldPathSelectorRegionalDistributions:
 		for _, item := range source.GetRegionalDistributions() {
-			values = append(values, asRegionalDistributionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case PlanAssignment_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for PlanAssignment: %d", fps.selector))
 	}
 	return

@@ -1239,11 +1239,12 @@ func (fps *BatchGetPodsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetPodsResponse
 func (fps *BatchGetPodsResponse_FieldSubPath) Get(source *BatchGetPodsResponse) (values []interface{}) {
-	if asPodFieldPath, ok := fps.AsPodsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetPodsResponse_FieldPathSelectorPods:
 		for _, item := range source.GetPods() {
-			values = append(values, asPodFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetPodsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListPodsRequest_FieldPath interface {
 type ListPodsRequest_FieldPathSelector int32
 
 const (
-	ListPodsRequest_FieldPathSelectorParent    ListPodsRequest_FieldPathSelector = 0
-	ListPodsRequest_FieldPathSelectorPageSize  ListPodsRequest_FieldPathSelector = 1
-	ListPodsRequest_FieldPathSelectorPageToken ListPodsRequest_FieldPathSelector = 2
-	ListPodsRequest_FieldPathSelectorOrderBy   ListPodsRequest_FieldPathSelector = 3
-	ListPodsRequest_FieldPathSelectorFilter    ListPodsRequest_FieldPathSelector = 4
-	ListPodsRequest_FieldPathSelectorFieldMask ListPodsRequest_FieldPathSelector = 5
-	ListPodsRequest_FieldPathSelectorView      ListPodsRequest_FieldPathSelector = 6
+	ListPodsRequest_FieldPathSelectorParent            ListPodsRequest_FieldPathSelector = 0
+	ListPodsRequest_FieldPathSelectorPageSize          ListPodsRequest_FieldPathSelector = 1
+	ListPodsRequest_FieldPathSelectorPageToken         ListPodsRequest_FieldPathSelector = 2
+	ListPodsRequest_FieldPathSelectorOrderBy           ListPodsRequest_FieldPathSelector = 3
+	ListPodsRequest_FieldPathSelectorFilter            ListPodsRequest_FieldPathSelector = 4
+	ListPodsRequest_FieldPathSelectorFieldMask         ListPodsRequest_FieldPathSelector = 5
+	ListPodsRequest_FieldPathSelectorView              ListPodsRequest_FieldPathSelector = 6
+	ListPodsRequest_FieldPathSelectorIncludePagingInfo ListPodsRequest_FieldPathSelector = 7
 )
 
 func (s ListPodsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListPodsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListPodsRequest_FieldPathSelectorView:
 		return "view"
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListPodsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListPodsReques
 			return &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListPodsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) Get(source *ListPodsRequest) (value
 			}
 		case ListPodsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) GetSingle(source *ListPodsRequest) 
 		return res, res != nil
 	case ListPodsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*pod.Pod_FieldMask)(nil)
 	case ListPodsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) ClearValue(item *ListPodsRequest) {
 			item.FieldMask = nil
 		case ListPodsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPodsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListPodsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListPodsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListPodsRequest_FieldPathSelectorView
+		fp.selector == ListPodsRequest_FieldPathSelectorView ||
+		fp.selector == ListPodsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListPodsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) WithIValue(value interface{}) ListP
 		return &ListPodsRequest_FieldTerminalPathValue{ListPodsRequest_FieldTerminalPath: *fp, value: value.(*pod.Pod_FieldMask)}
 	case ListPodsRequest_FieldPathSelectorView:
 		return &ListPodsRequest_FieldTerminalPathValue{ListPodsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPodsRequest_FieldTerminalPathValue{ListPodsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListPodsRequest_FieldTerminalPath) WithIArrayOfValues(values interface
 		return &ListPodsRequest_FieldTerminalPathArrayOfValues{ListPodsRequest_FieldTerminalPath: *fp, values: values.([]*pod.Pod_FieldMask)}
 	case ListPodsRequest_FieldPathSelectorView:
 		return &ListPodsRequest_FieldTerminalPathArrayOfValues{ListPodsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPodsRequest_FieldTerminalPathArrayOfValues{ListPodsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListPodsRequest_FieldTerminalPathValue) AsViewValue() (view.View, boo
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListPodsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPodsRequest
 func (fpv *ListPodsRequest_FieldTerminalPathValue) SetTo(target **ListPodsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListPodsRequest_FieldTerminalPathValue) SetTo(target **ListPodsReques
 		(*target).FieldMask = fpv.value.(*pod.Pod_FieldMask)
 	case ListPodsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListPodsRequest_FieldTerminalPathValue) CompareWith(source *ListPodsR
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListPodsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (val
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListPodsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfValues
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListPodsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListPodsResponse_FieldPath interface {
 type ListPodsResponse_FieldPathSelector int32
 
 const (
-	ListPodsResponse_FieldPathSelectorPods          ListPodsResponse_FieldPathSelector = 0
-	ListPodsResponse_FieldPathSelectorPrevPageToken ListPodsResponse_FieldPathSelector = 1
-	ListPodsResponse_FieldPathSelectorNextPageToken ListPodsResponse_FieldPathSelector = 2
+	ListPodsResponse_FieldPathSelectorPods              ListPodsResponse_FieldPathSelector = 0
+	ListPodsResponse_FieldPathSelectorPrevPageToken     ListPodsResponse_FieldPathSelector = 1
+	ListPodsResponse_FieldPathSelectorNextPageToken     ListPodsResponse_FieldPathSelector = 2
+	ListPodsResponse_FieldPathSelectorCurrentOffset     ListPodsResponse_FieldPathSelector = 3
+	ListPodsResponse_FieldPathSelectorTotalResultsCount ListPodsResponse_FieldPathSelector = 4
 )
 
 func (s ListPodsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListPodsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListPodsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListPodsRespo
 			return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) Get(source *ListPodsResponse) (val
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListPodsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) GetSingle(source *ListPodsResponse
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*pod.PagerCursor)(nil)
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		return (*pod.PagerCursor)(nil)
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) ClearValue(item *ListPodsResponse)
 			item.PrevPageToken = nil
 		case ListPodsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListPodsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListPodsResponse_FieldTerminalPath) ClearValueRaw(item proto.Message) 
 // IsLeaf - whether field path is holds simple value
 func (fp *ListPodsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListPodsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListPodsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListPodsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListPodsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListPodsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListPodsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) WithIValue(value interface{}) List
 		return &ListPodsResponse_FieldTerminalPathValue{ListPodsResponse_FieldTerminalPath: *fp, value: value.(*pod.PagerCursor)}
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		return &ListPodsResponse_FieldTerminalPathValue{ListPodsResponse_FieldTerminalPath: *fp, value: value.(*pod.PagerCursor)}
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPodsResponse_FieldTerminalPathValue{ListPodsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPodsResponse_FieldTerminalPathValue{ListPodsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListPodsResponse_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &ListPodsResponse_FieldTerminalPathArrayOfValues{ListPodsResponse_FieldTerminalPath: *fp, values: values.([]*pod.PagerCursor)}
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		return &ListPodsResponse_FieldTerminalPathArrayOfValues{ListPodsResponse_FieldTerminalPath: *fp, values: values.([]*pod.PagerCursor)}
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPodsResponse_FieldTerminalPathArrayOfValues{ListPodsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPodsResponse_FieldTerminalPathArrayOfValues{ListPodsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListPodsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListPodsResponse
 func (fps *ListPodsResponse_FieldSubPath) Get(source *ListPodsResponse) (values []interface{}) {
-	if asPodFieldPath, ok := fps.AsPodsSubPath(); ok {
+	switch fps.selector {
+	case ListPodsResponse_FieldPathSelectorPods:
 		for _, item := range source.GetPods() {
-			values = append(values, asPodFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListPodsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*pod
 	res, ok := fpv.value.(*pod.PagerCursor)
 	return res, ok
 }
+func (fpv *ListPodsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListPodsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPodsResponse
 func (fpv *ListPodsResponse_FieldTerminalPathValue) SetTo(target **ListPodsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListPodsResponse_FieldTerminalPathValue) SetTo(target **ListPodsRespo
 		(*target).PrevPageToken = fpv.value.(*pod.PagerCursor)
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*pod.PagerCursor)
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListPodsResponse_FieldTerminalPathValue) CompareWith(source *ListPods
 		return 0, false
 	case ListPodsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPodsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListPodsResponse_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*pod.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListPodsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListPodsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArr
 }
 func (fpaov *ListPodsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*pod.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*pod.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListPodsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListPodsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchPodsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchPodsResponse
 func (fps *WatchPodsResponse_FieldSubPath) Get(source *WatchPodsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchPodsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchPodsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreatePodRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreatePodRequest
 func (fps *CreatePodRequest_FieldSubPath) Get(source *CreatePodRequest) (values []interface{}) {
-	if asPodFieldPath, ok := fps.AsPodSubPath(); ok {
-		values = append(values, asPodFieldPath.Get(source.GetPod())...)
-	} else {
+	switch fps.selector {
+	case CreatePodRequest_FieldPathSelectorPod:
+		values = append(values, fps.subPath.GetRaw(source.GetPod())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreatePodRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdatePodRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePodRequest
 func (fps *UpdatePodRequest_FieldSubPath) Get(source *UpdatePodRequest) (values []interface{}) {
-	if asPodFieldPath, ok := fps.AsPodSubPath(); ok {
-		values = append(values, asPodFieldPath.Get(source.GetPod())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdatePodRequest_FieldPathSelectorPod:
+		values = append(values, fps.subPath.GetRaw(source.GetPod())...)
+	case UpdatePodRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdatePodRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePodRequest_CAS
 func (fps *UpdatePodRequestCAS_FieldSubPath) Get(source *UpdatePodRequest_CAS) (values []interface{}) {
-	if asPodFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asPodFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdatePodRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePodRequest_CAS: %d", fps.selector))
 	}
 	return

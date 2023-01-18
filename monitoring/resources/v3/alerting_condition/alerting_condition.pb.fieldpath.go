@@ -396,13 +396,14 @@ func (fps *AlertingCondition_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingCondition
 func (fps *AlertingCondition_FieldSubPath) Get(source *AlertingCondition) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStateFieldPath, ok := fps.AsStateSubPath(); ok {
-		values = append(values, asStateFieldPath.Get(source.GetState())...)
-	} else {
+	switch fps.selector {
+	case AlertingCondition_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case AlertingCondition_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case AlertingCondition_FieldPathSelectorState:
+		values = append(values, fps.subPath.GetRaw(source.GetState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition: %d", fps.selector))
 	}
 	return
@@ -1172,11 +1173,12 @@ func (fps *AlertingConditionSpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingCondition_Spec
 func (fps *AlertingConditionSpec_FieldSubPath) Get(source *AlertingCondition_Spec) (values []interface{}) {
-	if asTimeSeriesFieldPath, ok := fps.AsTimeSeriesSubPath(); ok {
-		values = append(values, asTimeSeriesFieldPath.Get(source.GetTimeSeries())...)
-	} else if asTriggerFieldPath, ok := fps.AsTriggerSubPath(); ok {
-		values = append(values, asTriggerFieldPath.Get(source.GetTrigger())...)
-	} else {
+	switch fps.selector {
+	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
+		values = append(values, fps.subPath.GetRaw(source.GetTimeSeries())...)
+	case AlertingConditionSpec_FieldPathSelectorTrigger:
+		values = append(values, fps.subPath.GetRaw(source.GetTrigger())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fps.selector))
 	}
 	return
@@ -2253,13 +2255,14 @@ func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingCondition_Spec_TimeSeries
 func (fps *AlertingConditionSpecTimeSeries_FieldSubPath) Get(source *AlertingCondition_Spec_TimeSeries) (values []interface{}) {
-	if asQueryFieldPath, ok := fps.AsQuerySubPath(); ok {
-		values = append(values, asQueryFieldPath.Get(source.GetQuery())...)
-	} else if asThresholdFieldPath, ok := fps.AsThresholdSubPath(); ok {
-		values = append(values, asThresholdFieldPath.Get(source.GetThreshold())...)
-	} else if asCombineThresholdFieldPath, ok := fps.AsCombineThresholdSubPath(); ok {
-		values = append(values, asCombineThresholdFieldPath.Get(source.GetCombineThreshold())...)
-	} else {
+	switch fps.selector {
+	case AlertingConditionSpecTimeSeries_FieldPathSelectorQuery:
+		values = append(values, fps.subPath.GetRaw(source.GetQuery())...)
+	case AlertingConditionSpecTimeSeries_FieldPathSelectorThreshold:
+		values = append(values, fps.subPath.GetRaw(source.GetThreshold())...)
+	case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
+		values = append(values, fps.subPath.GetRaw(source.GetCombineThreshold())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries: %d", fps.selector))
 	}
 	return
@@ -3360,11 +3363,12 @@ func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) JSONString() strin
 
 // Get returns all values pointed by selected field from source AlertingCondition_Spec_TimeSeries_Query
 func (fps *AlertingConditionSpecTimeSeriesQuery_FieldSubPath) Get(source *AlertingCondition_Spec_TimeSeries_Query) (values []interface{}) {
-	if asTimeSeriesSelectorFieldPath, ok := fps.AsSelectorSubPath(); ok {
-		values = append(values, asTimeSeriesSelectorFieldPath.Get(source.GetSelector())...)
-	} else if asAggregationFieldPath, ok := fps.AsAggregationSubPath(); ok {
-		values = append(values, asAggregationFieldPath.Get(source.GetAggregation())...)
-	} else {
+	switch fps.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:
+		values = append(values, fps.subPath.GetRaw(source.GetSelector())...)
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
+		values = append(values, fps.subPath.GetRaw(source.GetAggregation())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fps.selector))
 	}
 	return

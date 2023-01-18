@@ -901,6 +901,7 @@ func FullListPlanAssignmentsRequest_FieldMask() *ListPlanAssignmentsRequest_Fiel
 	res.Paths = append(res.Paths, &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -944,7 +945,7 @@ func (fieldMask *ListPlanAssignmentsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlanAssignmentsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -974,7 +975,7 @@ func (fieldMask *ListPlanAssignmentsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPlanAssignmentsRequest_FieldMask) Subtract(other *ListPlanAssignmentsRequest_FieldMask) *ListPlanAssignmentsRequest_FieldMask {
 	result := &ListPlanAssignmentsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1142,6 +1143,8 @@ func (fieldMask *ListPlanAssignmentsRequest_FieldMask) Project(source *ListPlanA
 				result.FieldMask = source.FieldMask
 			case ListPlanAssignmentsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1168,6 +1171,8 @@ func FullListPlanAssignmentsResponse_FieldMask() *ListPlanAssignmentsResponse_Fi
 	res.Paths = append(res.Paths, &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorPlanAssignments})
 	res.Paths = append(res.Paths, &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1211,7 +1216,7 @@ func (fieldMask *ListPlanAssignmentsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlanAssignmentsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1241,7 +1246,7 @@ func (fieldMask *ListPlanAssignmentsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPlanAssignmentsResponse_FieldMask) Subtract(other *ListPlanAssignmentsResponse_FieldMask) *ListPlanAssignmentsResponse_FieldMask {
 	result := &ListPlanAssignmentsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPlanAssignmentsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPlanAssignmentsResponse_FieldPathSelectorPlanAssignments: &plan_assignment.PlanAssignment_FieldMask{},
 	}
@@ -1448,6 +1453,10 @@ func (fieldMask *ListPlanAssignmentsResponse_FieldMask) Project(source *ListPlan
 				result.PrevPageToken = source.PrevPageToken
 			case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPlanAssignmentsResponse_FieldSubPath:
 			switch tp.selector {

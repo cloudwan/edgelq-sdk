@@ -1241,11 +1241,12 @@ func (fps *BatchGetRoleBindingsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetRoleBindingsResponse
 func (fps *BatchGetRoleBindingsResponse_FieldSubPath) Get(source *BatchGetRoleBindingsResponse) (values []interface{}) {
-	if asRoleBindingFieldPath, ok := fps.AsRoleBindingsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetRoleBindingsResponse_FieldPathSelectorRoleBindings:
 		for _, item := range source.GetRoleBindings() {
-			values = append(values, asRoleBindingFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetRoleBindingsResponse: %d", fps.selector))
 	}
 	return
@@ -1644,13 +1645,14 @@ type ListRoleBindingsRequest_FieldPath interface {
 type ListRoleBindingsRequest_FieldPathSelector int32
 
 const (
-	ListRoleBindingsRequest_FieldPathSelectorParent    ListRoleBindingsRequest_FieldPathSelector = 0
-	ListRoleBindingsRequest_FieldPathSelectorPageSize  ListRoleBindingsRequest_FieldPathSelector = 1
-	ListRoleBindingsRequest_FieldPathSelectorPageToken ListRoleBindingsRequest_FieldPathSelector = 2
-	ListRoleBindingsRequest_FieldPathSelectorOrderBy   ListRoleBindingsRequest_FieldPathSelector = 3
-	ListRoleBindingsRequest_FieldPathSelectorFilter    ListRoleBindingsRequest_FieldPathSelector = 4
-	ListRoleBindingsRequest_FieldPathSelectorFieldMask ListRoleBindingsRequest_FieldPathSelector = 5
-	ListRoleBindingsRequest_FieldPathSelectorView      ListRoleBindingsRequest_FieldPathSelector = 6
+	ListRoleBindingsRequest_FieldPathSelectorParent            ListRoleBindingsRequest_FieldPathSelector = 0
+	ListRoleBindingsRequest_FieldPathSelectorPageSize          ListRoleBindingsRequest_FieldPathSelector = 1
+	ListRoleBindingsRequest_FieldPathSelectorPageToken         ListRoleBindingsRequest_FieldPathSelector = 2
+	ListRoleBindingsRequest_FieldPathSelectorOrderBy           ListRoleBindingsRequest_FieldPathSelector = 3
+	ListRoleBindingsRequest_FieldPathSelectorFilter            ListRoleBindingsRequest_FieldPathSelector = 4
+	ListRoleBindingsRequest_FieldPathSelectorFieldMask         ListRoleBindingsRequest_FieldPathSelector = 5
+	ListRoleBindingsRequest_FieldPathSelectorView              ListRoleBindingsRequest_FieldPathSelector = 6
+	ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo ListRoleBindingsRequest_FieldPathSelector = 7
 )
 
 func (s ListRoleBindingsRequest_FieldPathSelector) String() string {
@@ -1669,6 +1671,8 @@ func (s ListRoleBindingsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		return "view"
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", s))
 	}
@@ -1694,6 +1698,8 @@ func BuildListRoleBindingsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListRo
 			return &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListRoleBindingsRequest", fp)
@@ -1763,6 +1769,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) Get(source *ListRoleBinding
 			}
 		case ListRoleBindingsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 		}
@@ -1796,6 +1804,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) GetSingle(source *ListRoleB
 		return res, res != nil
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 	}
@@ -1822,6 +1832,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*role_binding.RoleBinding_FieldMask)(nil)
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 	}
@@ -1844,6 +1856,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) ClearValue(item *ListRoleBi
 			item.FieldMask = nil
 		case ListRoleBindingsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 		}
@@ -1862,7 +1876,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListRoleBindingsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListRoleBindingsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListRoleBindingsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListRoleBindingsRequest_FieldPathSelectorView
+		fp.selector == ListRoleBindingsRequest_FieldPathSelectorView ||
+		fp.selector == ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListRoleBindingsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1885,6 +1900,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) WithIValue(value interface{
 		return &ListRoleBindingsRequest_FieldTerminalPathValue{ListRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(*role_binding.RoleBinding_FieldMask)}
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		return &ListRoleBindingsRequest_FieldTerminalPathValue{ListRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRoleBindingsRequest_FieldTerminalPathValue{ListRoleBindingsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 	}
@@ -1911,6 +1928,8 @@ func (fp *ListRoleBindingsRequest_FieldTerminalPath) WithIArrayOfValues(values i
 		return &ListRoleBindingsRequest_FieldTerminalPathArrayOfValues{ListRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]*role_binding.RoleBinding_FieldMask)}
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		return &ListRoleBindingsRequest_FieldTerminalPathArrayOfValues{ListRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRoleBindingsRequest_FieldTerminalPathArrayOfValues{ListRoleBindingsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fp.selector))
 	}
@@ -1999,6 +2018,10 @@ func (fpv *ListRoleBindingsRequest_FieldTerminalPathValue) AsViewValue() (view.V
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListRoleBindingsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRoleBindingsRequest
 func (fpv *ListRoleBindingsRequest_FieldTerminalPathValue) SetTo(target **ListRoleBindingsRequest) {
@@ -2020,6 +2043,8 @@ func (fpv *ListRoleBindingsRequest_FieldTerminalPathValue) SetTo(target **ListRo
 		(*target).FieldMask = fpv.value.(*role_binding.RoleBinding_FieldMask)
 	case ListRoleBindingsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsRequest: %d", fpv.selector))
 	}
@@ -2076,6 +2101,16 @@ func (fpv *ListRoleBindingsRequest_FieldTerminalPathValue) CompareWith(source *L
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2216,6 +2251,10 @@ func (fpaov *ListRoleBindingsRequest_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2247,6 +2286,10 @@ func (fpaov *ListRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsViewArray
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListRoleBindingsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2267,9 +2310,11 @@ type ListRoleBindingsResponse_FieldPath interface {
 type ListRoleBindingsResponse_FieldPathSelector int32
 
 const (
-	ListRoleBindingsResponse_FieldPathSelectorRoleBindings  ListRoleBindingsResponse_FieldPathSelector = 0
-	ListRoleBindingsResponse_FieldPathSelectorPrevPageToken ListRoleBindingsResponse_FieldPathSelector = 1
-	ListRoleBindingsResponse_FieldPathSelectorNextPageToken ListRoleBindingsResponse_FieldPathSelector = 2
+	ListRoleBindingsResponse_FieldPathSelectorRoleBindings      ListRoleBindingsResponse_FieldPathSelector = 0
+	ListRoleBindingsResponse_FieldPathSelectorPrevPageToken     ListRoleBindingsResponse_FieldPathSelector = 1
+	ListRoleBindingsResponse_FieldPathSelectorNextPageToken     ListRoleBindingsResponse_FieldPathSelector = 2
+	ListRoleBindingsResponse_FieldPathSelectorCurrentOffset     ListRoleBindingsResponse_FieldPathSelector = 3
+	ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount ListRoleBindingsResponse_FieldPathSelector = 4
 )
 
 func (s ListRoleBindingsResponse_FieldPathSelector) String() string {
@@ -2280,6 +2325,10 @@ func (s ListRoleBindingsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", s))
 	}
@@ -2297,6 +2346,10 @@ func BuildListRoleBindingsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListR
 			return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2363,6 +2416,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) Get(source *ListRoleBindin
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 		}
@@ -2386,6 +2443,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) GetSingle(source *ListRole
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 	}
@@ -2404,6 +2465,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*role_binding.PagerCursor)(nil)
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		return (*role_binding.PagerCursor)(nil)
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 	}
@@ -2418,6 +2483,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) ClearValue(item *ListRoleB
 			item.PrevPageToken = nil
 		case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 		}
@@ -2431,7 +2500,9 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) ClearValueRaw(item proto.M
 // IsLeaf - whether field path is holds simple value
 func (fp *ListRoleBindingsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListRoleBindingsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListRoleBindingsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListRoleBindingsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListRoleBindingsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListRoleBindingsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2446,6 +2517,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) WithIValue(value interface
 		return &ListRoleBindingsResponse_FieldTerminalPathValue{ListRoleBindingsResponse_FieldTerminalPath: *fp, value: value.(*role_binding.PagerCursor)}
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		return &ListRoleBindingsResponse_FieldTerminalPathValue{ListRoleBindingsResponse_FieldTerminalPath: *fp, value: value.(*role_binding.PagerCursor)}
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		return &ListRoleBindingsResponse_FieldTerminalPathValue{ListRoleBindingsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRoleBindingsResponse_FieldTerminalPathValue{ListRoleBindingsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 	}
@@ -2464,6 +2539,10 @@ func (fp *ListRoleBindingsResponse_FieldTerminalPath) WithIArrayOfValues(values 
 		return &ListRoleBindingsResponse_FieldTerminalPathArrayOfValues{ListRoleBindingsResponse_FieldTerminalPath: *fp, values: values.([]*role_binding.PagerCursor)}
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		return &ListRoleBindingsResponse_FieldTerminalPathArrayOfValues{ListRoleBindingsResponse_FieldTerminalPath: *fp, values: values.([]*role_binding.PagerCursor)}
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		return &ListRoleBindingsResponse_FieldTerminalPathArrayOfValues{ListRoleBindingsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRoleBindingsResponse_FieldTerminalPathArrayOfValues{ListRoleBindingsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fp.selector))
 	}
@@ -2514,11 +2593,12 @@ func (fps *ListRoleBindingsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListRoleBindingsResponse
 func (fps *ListRoleBindingsResponse_FieldSubPath) Get(source *ListRoleBindingsResponse) (values []interface{}) {
-	if asRoleBindingFieldPath, ok := fps.AsRoleBindingsSubPath(); ok {
+	switch fps.selector {
+	case ListRoleBindingsResponse_FieldPathSelectorRoleBindings:
 		for _, item := range source.GetRoleBindings() {
-			values = append(values, asRoleBindingFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fps.selector))
 	}
 	return
@@ -2653,6 +2733,14 @@ func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) AsNextPageTokenValue
 	res, ok := fpv.value.(*role_binding.PagerCursor)
 	return res, ok
 }
+func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRoleBindingsResponse
 func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) SetTo(target **ListRoleBindingsResponse) {
@@ -2666,6 +2754,10 @@ func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) SetTo(target **ListR
 		(*target).PrevPageToken = fpv.value.(*role_binding.PagerCursor)
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*role_binding.PagerCursor)
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fpv.selector))
 	}
@@ -2685,6 +2777,26 @@ func (fpv *ListRoleBindingsResponse_FieldTerminalPathValue) CompareWith(source *
 		return 0, false
 	case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRoleBindingsResponse: %d", fpv.selector))
 	}
@@ -2879,6 +2991,14 @@ func (fpaov *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues) GetRawValu
 		for _, v := range fpaov.values.([]*role_binding.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2892,6 +3012,14 @@ func (fpaov *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues) AsPrevPage
 }
 func (fpaov *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*role_binding.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*role_binding.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4892,9 +5020,10 @@ func (fps *WatchRoleBindingsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchRoleBindingsResponse
 func (fps *WatchRoleBindingsResponse_FieldSubPath) Get(source *WatchRoleBindingsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchRoleBindingsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchRoleBindingsResponse: %d", fps.selector))
 	}
 	return
@@ -6042,9 +6171,10 @@ func (fps *CreateRoleBindingRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateRoleBindingRequest
 func (fps *CreateRoleBindingRequest_FieldSubPath) Get(source *CreateRoleBindingRequest) (values []interface{}) {
-	if asRoleBindingFieldPath, ok := fps.AsRoleBindingSubPath(); ok {
-		values = append(values, asRoleBindingFieldPath.Get(source.GetRoleBinding())...)
-	} else {
+	switch fps.selector {
+	case CreateRoleBindingRequest_FieldPathSelectorRoleBinding:
+		values = append(values, fps.subPath.GetRaw(source.GetRoleBinding())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateRoleBindingRequest: %d", fps.selector))
 	}
 	return
@@ -6704,11 +6834,12 @@ func (fps *UpdateRoleBindingRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRoleBindingRequest
 func (fps *UpdateRoleBindingRequest_FieldSubPath) Get(source *UpdateRoleBindingRequest) (values []interface{}) {
-	if asRoleBindingFieldPath, ok := fps.AsRoleBindingSubPath(); ok {
-		values = append(values, asRoleBindingFieldPath.Get(source.GetRoleBinding())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateRoleBindingRequest_FieldPathSelectorRoleBinding:
+		values = append(values, fps.subPath.GetRaw(source.GetRoleBinding())...)
+	case UpdateRoleBindingRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest: %d", fps.selector))
 	}
 	return
@@ -7362,9 +7493,10 @@ func (fps *UpdateRoleBindingRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRoleBindingRequest_CAS
 func (fps *UpdateRoleBindingRequestCAS_FieldSubPath) Get(source *UpdateRoleBindingRequest_CAS) (values []interface{}) {
-	if asRoleBindingFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asRoleBindingFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateRoleBindingRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleBindingRequest_CAS: %d", fps.selector))
 	}
 	return

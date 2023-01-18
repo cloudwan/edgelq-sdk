@@ -885,6 +885,9 @@ func (ListDeploymentsRequestFieldPathBuilder) FieldMask() ListDeploymentsRequest
 func (ListDeploymentsRequestFieldPathBuilder) View() ListDeploymentsRequestPathSelectorView {
 	return ListDeploymentsRequestPathSelectorView{}
 }
+func (ListDeploymentsRequestFieldPathBuilder) IncludePagingInfo() ListDeploymentsRequestPathSelectorIncludePagingInfo {
+	return ListDeploymentsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListDeploymentsRequestPathSelectorParent struct{}
 
@@ -984,6 +987,20 @@ func (s ListDeploymentsRequestPathSelectorView) WithArrayOfValues(values []view.
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListDeploymentsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListDeploymentsRequestPathSelectorIncludePagingInfo) FieldPath() *ListDeploymentsRequest_FieldTerminalPath {
+	return &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListDeploymentsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListDeploymentsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDeploymentsRequest_FieldTerminalPathValue)
+}
+
+func (s ListDeploymentsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListDeploymentsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListDeploymentsResponseFieldPathBuilder struct{}
 
 func NewListDeploymentsResponseFieldPathBuilder() ListDeploymentsResponseFieldPathBuilder {
@@ -997,6 +1014,12 @@ func (ListDeploymentsResponseFieldPathBuilder) PrevPageToken() ListDeploymentsRe
 }
 func (ListDeploymentsResponseFieldPathBuilder) NextPageToken() ListDeploymentsResponsePathSelectorNextPageToken {
 	return ListDeploymentsResponsePathSelectorNextPageToken{}
+}
+func (ListDeploymentsResponseFieldPathBuilder) CurrentOffset() ListDeploymentsResponsePathSelectorCurrentOffset {
+	return ListDeploymentsResponsePathSelectorCurrentOffset{}
+}
+func (ListDeploymentsResponseFieldPathBuilder) TotalResultsCount() ListDeploymentsResponsePathSelectorTotalResultsCount {
+	return ListDeploymentsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListDeploymentsResponsePathSelectorDeployments struct{}
@@ -1705,6 +1728,34 @@ func (s ListDeploymentsResponsePathSelectorNextPageToken) WithValue(value *deplo
 }
 
 func (s ListDeploymentsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*deployment.PagerCursor) *ListDeploymentsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListDeploymentsResponsePathSelectorCurrentOffset struct{}
+
+func (ListDeploymentsResponsePathSelectorCurrentOffset) FieldPath() *ListDeploymentsResponse_FieldTerminalPath {
+	return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListDeploymentsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListDeploymentsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDeploymentsResponse_FieldTerminalPathValue)
+}
+
+func (s ListDeploymentsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListDeploymentsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListDeploymentsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListDeploymentsResponsePathSelectorTotalResultsCount) FieldPath() *ListDeploymentsResponse_FieldTerminalPath {
+	return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListDeploymentsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListDeploymentsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDeploymentsResponse_FieldTerminalPathValue)
+}
+
+func (s ListDeploymentsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListDeploymentsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDeploymentsResponse_FieldTerminalPathArrayOfValues)
 }
 

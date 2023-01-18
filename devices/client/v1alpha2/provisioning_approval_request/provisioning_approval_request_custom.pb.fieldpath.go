@@ -296,9 +296,10 @@ func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) JSONString() s
 
 // Get returns all values pointed by selected field from source ProvisionDeviceForApprovedRequestRequest
 func (fps *ProvisionDeviceForApprovedRequestRequest_FieldSubPath) Get(source *ProvisionDeviceForApprovedRequestRequest) (values []interface{}) {
-	if asStatusFieldPath, ok := fps.AsDeviceStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetDeviceStatus())...)
-	} else {
+	switch fps.selector {
+	case ProvisionDeviceForApprovedRequestRequest_FieldPathSelectorDeviceStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetDeviceStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionDeviceForApprovedRequestRequest: %d", fps.selector))
 	}
 	return
@@ -908,9 +909,10 @@ func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) JSONString() 
 
 // Get returns all values pointed by selected field from source ProvisionDeviceForApprovedRequestResponse
 func (fps *ProvisionDeviceForApprovedRequestResponse_FieldSubPath) Get(source *ProvisionDeviceForApprovedRequestResponse) (values []interface{}) {
-	if asDeviceFieldPath, ok := fps.AsDeviceSubPath(); ok {
-		values = append(values, asDeviceFieldPath.Get(source.GetDevice())...)
-	} else {
+	switch fps.selector {
+	case ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice:
+		values = append(values, fps.subPath.GetRaw(source.GetDevice())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionDeviceForApprovedRequestResponse: %d", fps.selector))
 	}
 	return

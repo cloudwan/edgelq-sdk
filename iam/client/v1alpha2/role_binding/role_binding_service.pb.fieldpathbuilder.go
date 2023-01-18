@@ -1094,6 +1094,9 @@ func (ListRoleBindingsRequestFieldPathBuilder) FieldMask() ListRoleBindingsReque
 func (ListRoleBindingsRequestFieldPathBuilder) View() ListRoleBindingsRequestPathSelectorView {
 	return ListRoleBindingsRequestPathSelectorView{}
 }
+func (ListRoleBindingsRequestFieldPathBuilder) IncludePagingInfo() ListRoleBindingsRequestPathSelectorIncludePagingInfo {
+	return ListRoleBindingsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListRoleBindingsRequestPathSelectorParent struct{}
 
@@ -1193,6 +1196,20 @@ func (s ListRoleBindingsRequestPathSelectorView) WithArrayOfValues(values []view
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListRoleBindingsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListRoleBindingsRequestPathSelectorIncludePagingInfo) FieldPath() *ListRoleBindingsRequest_FieldTerminalPath {
+	return &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListRoleBindingsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListRoleBindingsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsRequest_FieldTerminalPathValue)
+}
+
+func (s ListRoleBindingsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListRoleBindingsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListRoleBindingsResponseFieldPathBuilder struct{}
 
 func NewListRoleBindingsResponseFieldPathBuilder() ListRoleBindingsResponseFieldPathBuilder {
@@ -1206,6 +1223,12 @@ func (ListRoleBindingsResponseFieldPathBuilder) PrevPageToken() ListRoleBindings
 }
 func (ListRoleBindingsResponseFieldPathBuilder) NextPageToken() ListRoleBindingsResponsePathSelectorNextPageToken {
 	return ListRoleBindingsResponsePathSelectorNextPageToken{}
+}
+func (ListRoleBindingsResponseFieldPathBuilder) CurrentOffset() ListRoleBindingsResponsePathSelectorCurrentOffset {
+	return ListRoleBindingsResponsePathSelectorCurrentOffset{}
+}
+func (ListRoleBindingsResponseFieldPathBuilder) TotalResultsCount() ListRoleBindingsResponsePathSelectorTotalResultsCount {
+	return ListRoleBindingsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListRoleBindingsResponsePathSelectorRoleBindings struct{}
@@ -2109,6 +2132,34 @@ func (s ListRoleBindingsResponsePathSelectorNextPageToken) WithValue(value *role
 }
 
 func (s ListRoleBindingsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*role_binding.PagerCursor) *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorCurrentOffset struct{}
+
+func (ListRoleBindingsResponsePathSelectorCurrentOffset) FieldPath() *ListRoleBindingsResponse_FieldTerminalPath {
+	return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListRoleBindingsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListRoleBindingsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldTerminalPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRoleBindingsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListRoleBindingsResponsePathSelectorTotalResultsCount) FieldPath() *ListRoleBindingsResponse_FieldTerminalPath {
+	return &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListRoleBindingsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListRoleBindingsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRoleBindingsResponse_FieldTerminalPathValue)
+}
+
+func (s ListRoleBindingsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListRoleBindingsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRoleBindingsResponse_FieldTerminalPathArrayOfValues)
 }
 

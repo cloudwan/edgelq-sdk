@@ -643,15 +643,16 @@ func (fps *Organization_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Organization
 func (fps *Organization_FieldSubPath) Get(source *Organization) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asMultiRegionPolicyFieldPath, ok := fps.AsMultiRegionPolicySubPath(); ok {
-		values = append(values, asMultiRegionPolicyFieldPath.Get(source.GetMultiRegionPolicy())...)
-	} else if asServiceBusinessTierFieldPath, ok := fps.AsServiceTiersSubPath(); ok {
+	switch fps.selector {
+	case Organization_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Organization_FieldPathSelectorMultiRegionPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetMultiRegionPolicy())...)
+	case Organization_FieldPathSelectorServiceTiers:
 		for _, item := range source.GetServiceTiers() {
-			values = append(values, asServiceBusinessTierFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Organization: %d", fps.selector))
 	}
 	return

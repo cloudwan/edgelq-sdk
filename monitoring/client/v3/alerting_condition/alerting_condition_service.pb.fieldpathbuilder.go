@@ -1539,6 +1539,9 @@ func (ListAlertingConditionsRequestFieldPathBuilder) FieldMask() ListAlertingCon
 func (ListAlertingConditionsRequestFieldPathBuilder) View() ListAlertingConditionsRequestPathSelectorView {
 	return ListAlertingConditionsRequestPathSelectorView{}
 }
+func (ListAlertingConditionsRequestFieldPathBuilder) IncludePagingInfo() ListAlertingConditionsRequestPathSelectorIncludePagingInfo {
+	return ListAlertingConditionsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListAlertingConditionsRequestPathSelectorParent struct{}
 
@@ -1638,6 +1641,20 @@ func (s ListAlertingConditionsRequestPathSelectorView) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListAlertingConditionsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListAlertingConditionsRequestPathSelectorIncludePagingInfo) FieldPath() *ListAlertingConditionsRequest_FieldTerminalPath {
+	return &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListAlertingConditionsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s ListAlertingConditionsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListAlertingConditionsResponseFieldPathBuilder struct{}
 
 func NewListAlertingConditionsResponseFieldPathBuilder() ListAlertingConditionsResponseFieldPathBuilder {
@@ -1651,6 +1668,12 @@ func (ListAlertingConditionsResponseFieldPathBuilder) PrevPageToken() ListAlerti
 }
 func (ListAlertingConditionsResponseFieldPathBuilder) NextPageToken() ListAlertingConditionsResponsePathSelectorNextPageToken {
 	return ListAlertingConditionsResponsePathSelectorNextPageToken{}
+}
+func (ListAlertingConditionsResponseFieldPathBuilder) CurrentOffset() ListAlertingConditionsResponsePathSelectorCurrentOffset {
+	return ListAlertingConditionsResponsePathSelectorCurrentOffset{}
+}
+func (ListAlertingConditionsResponseFieldPathBuilder) TotalResultsCount() ListAlertingConditionsResponsePathSelectorTotalResultsCount {
+	return ListAlertingConditionsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListAlertingConditionsResponsePathSelectorAlertingConditions struct{}
@@ -3007,6 +3030,34 @@ func (s ListAlertingConditionsResponsePathSelectorNextPageToken) WithValue(value
 }
 
 func (s ListAlertingConditionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*alerting_condition.PagerCursor) *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorCurrentOffset struct{}
+
+func (ListAlertingConditionsResponsePathSelectorCurrentOffset) FieldPath() *ListAlertingConditionsResponse_FieldTerminalPath {
+	return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertingConditionsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListAlertingConditionsResponsePathSelectorTotalResultsCount) FieldPath() *ListAlertingConditionsResponse_FieldTerminalPath {
+	return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListAlertingConditionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertingConditionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
 }
 

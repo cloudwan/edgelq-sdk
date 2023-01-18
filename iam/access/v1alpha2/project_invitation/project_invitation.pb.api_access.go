@@ -81,8 +81,9 @@ func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Cont
 
 func (a *apiProjectInvitationAccess) QueryProjectInvitations(ctx context.Context, query *project_invitation.ListQuery) (*project_invitation.QueryResultSnapshot, error) {
 	request := &project_invitation_client.ListProjectInvitationsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiProjectInvitationAccess) QueryProjectInvitations(ctx context.Context
 		ProjectInvitations: resp.ProjectInvitations,
 		NextPageCursor:     resp.NextPageToken,
 		PrevPageCursor:     resp.PrevPageToken,
+		TotalResultsCount:  resp.TotalResultsCount,
+		CurrentOffset:      resp.CurrentOffset,
 	}, nil
 }
 

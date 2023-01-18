@@ -896,6 +896,7 @@ func FullListRegionsRequest_FieldMask() *ListRegionsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -939,7 +940,7 @@ func (fieldMask *ListRegionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRegionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -969,7 +970,7 @@ func (fieldMask *ListRegionsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListRegionsRequest_FieldMask) Subtract(other *ListRegionsRequest_FieldMask) *ListRegionsRequest_FieldMask {
 	result := &ListRegionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1135,6 +1136,8 @@ func (fieldMask *ListRegionsRequest_FieldMask) Project(source *ListRegionsReques
 				result.FieldMask = source.FieldMask
 			case ListRegionsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1161,6 +1164,8 @@ func FullListRegionsResponse_FieldMask() *ListRegionsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorRegions})
 	res.Paths = append(res.Paths, &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1204,7 +1209,7 @@ func (fieldMask *ListRegionsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRegionsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1234,7 +1239,7 @@ func (fieldMask *ListRegionsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListRegionsResponse_FieldMask) Subtract(other *ListRegionsResponse_FieldMask) *ListRegionsResponse_FieldMask {
 	result := &ListRegionsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListRegionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListRegionsResponse_FieldPathSelectorRegions: &region.Region_FieldMask{},
 	}
@@ -1441,6 +1446,10 @@ func (fieldMask *ListRegionsResponse_FieldMask) Project(source *ListRegionsRespo
 				result.PrevPageToken = source.PrevPageToken
 			case ListRegionsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListRegionsResponse_FieldSubPath:
 			switch tp.selector {

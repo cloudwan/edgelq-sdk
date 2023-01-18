@@ -722,11 +722,12 @@ func (fps *ConditionalGrant_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConditionalGrant
 func (fps *ConditionalGrant_FieldSubPath) Get(source *ConditionalGrant) (values []interface{}) {
-	if asConditionBindingFieldPath, ok := fps.AsConditionBindingsSubPath(); ok {
+	switch fps.selector {
+	case ConditionalGrant_FieldPathSelectorConditionBindings:
 		for _, item := range source.GetConditionBindings() {
-			values = append(values, asConditionBindingFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConditionalGrant: %d", fps.selector))
 	}
 	return
@@ -1371,11 +1372,12 @@ func (fps *CheckResult_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CheckResult
 func (fps *CheckResult_FieldSubPath) Get(source *CheckResult) (values []interface{}) {
-	if asConditionalGrantFieldPath, ok := fps.AsConditionallyGrantedPermissionsSubPath(); ok {
+	switch fps.selector {
+	case CheckResult_FieldPathSelectorConditionallyGrantedPermissions:
 		for _, item := range source.GetConditionallyGrantedPermissions() {
-			values = append(values, asConditionalGrantFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CheckResult: %d", fps.selector))
 	}
 	return
@@ -2039,11 +2041,12 @@ func (fps *CheckPermissionsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CheckPermissionsRequest
 func (fps *CheckPermissionsRequest_FieldSubPath) Get(source *CheckPermissionsRequest) (values []interface{}) {
-	if asCheckFieldPath, ok := fps.AsChecksSubPath(); ok {
+	switch fps.selector {
+	case CheckPermissionsRequest_FieldPathSelectorChecks:
 		for _, item := range source.GetChecks() {
-			values = append(values, asCheckFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CheckPermissionsRequest: %d", fps.selector))
 	}
 	return
@@ -2676,11 +2679,12 @@ func (fps *CheckPermissionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CheckPermissionsResponse
 func (fps *CheckPermissionsResponse_FieldSubPath) Get(source *CheckPermissionsResponse) (values []interface{}) {
-	if asCheckResultFieldPath, ok := fps.AsCheckResultsSubPath(); ok {
+	switch fps.selector {
+	case CheckPermissionsResponse_FieldPathSelectorCheckResults:
 		for _, item := range source.GetCheckResults() {
-			values = append(values, asCheckResultFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CheckPermissionsResponse: %d", fps.selector))
 	}
 	return
@@ -3282,11 +3286,12 @@ func (fps *CheckMyPermissionsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CheckMyPermissionsRequest
 func (fps *CheckMyPermissionsRequest_FieldSubPath) Get(source *CheckMyPermissionsRequest) (values []interface{}) {
-	if asCheckFieldPath, ok := fps.AsChecksSubPath(); ok {
+	switch fps.selector {
+	case CheckMyPermissionsRequest_FieldPathSelectorChecks:
 		for _, item := range source.GetChecks() {
-			values = append(values, asCheckFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CheckMyPermissionsRequest: %d", fps.selector))
 	}
 	return
@@ -3895,11 +3900,12 @@ func (fps *CheckMyPermissionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CheckMyPermissionsResponse
 func (fps *CheckMyPermissionsResponse_FieldSubPath) Get(source *CheckMyPermissionsResponse) (values []interface{}) {
-	if asCheckResultFieldPath, ok := fps.AsCheckResultsSubPath(); ok {
+	switch fps.selector {
+	case CheckMyPermissionsResponse_FieldPathSelectorCheckResults:
 		for _, item := range source.GetCheckResults() {
-			values = append(values, asCheckResultFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CheckMyPermissionsResponse: %d", fps.selector))
 	}
 	return

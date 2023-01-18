@@ -899,6 +899,7 @@ func FullListLimitsRequest_FieldMask() *ListLimitsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListLimitsRequest_FieldTerminalPath{selector: ListLimitsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListLimitsRequest_FieldTerminalPath{selector: ListLimitsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListLimitsRequest_FieldTerminalPath{selector: ListLimitsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListLimitsRequest_FieldTerminalPath{selector: ListLimitsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListLimitsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLimitsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListLimitsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListLimitsRequest_FieldMask) Subtract(other *ListLimitsRequest_FieldMask) *ListLimitsRequest_FieldMask {
 	result := &ListLimitsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListLimitsRequest_FieldMask) Project(source *ListLimitsRequest)
 				result.FieldMask = source.FieldMask
 			case ListLimitsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListLimitsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListLimitsResponse_FieldMask() *ListLimitsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorLimits})
 	res.Paths = append(res.Paths, &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListLimitsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLimitsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListLimitsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListLimitsResponse_FieldMask) Subtract(other *ListLimitsResponse_FieldMask) *ListLimitsResponse_FieldMask {
 	result := &ListLimitsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListLimitsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListLimitsResponse_FieldPathSelectorLimits: &limit.Limit_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListLimitsResponse_FieldMask) Project(source *ListLimitsRespons
 				result.PrevPageToken = source.PrevPageToken
 			case ListLimitsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListLimitsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListLimitsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListLimitsResponse_FieldSubPath:
 			switch tp.selector {

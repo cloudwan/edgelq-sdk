@@ -1241,11 +1241,12 @@ func (fps *BatchGetLogDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetLogDescriptorsResponse
 func (fps *BatchGetLogDescriptorsResponse_FieldSubPath) Get(source *BatchGetLogDescriptorsResponse) (values []interface{}) {
-	if asLogDescriptorFieldPath, ok := fps.AsLogDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetLogDescriptorsResponse_FieldPathSelectorLogDescriptors:
 		for _, item := range source.GetLogDescriptors() {
-			values = append(values, asLogDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetLogDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -1644,13 +1645,14 @@ type ListLogDescriptorsRequest_FieldPath interface {
 type ListLogDescriptorsRequest_FieldPathSelector int32
 
 const (
-	ListLogDescriptorsRequest_FieldPathSelectorParent    ListLogDescriptorsRequest_FieldPathSelector = 0
-	ListLogDescriptorsRequest_FieldPathSelectorPageSize  ListLogDescriptorsRequest_FieldPathSelector = 1
-	ListLogDescriptorsRequest_FieldPathSelectorPageToken ListLogDescriptorsRequest_FieldPathSelector = 2
-	ListLogDescriptorsRequest_FieldPathSelectorOrderBy   ListLogDescriptorsRequest_FieldPathSelector = 3
-	ListLogDescriptorsRequest_FieldPathSelectorFilter    ListLogDescriptorsRequest_FieldPathSelector = 4
-	ListLogDescriptorsRequest_FieldPathSelectorFieldMask ListLogDescriptorsRequest_FieldPathSelector = 5
-	ListLogDescriptorsRequest_FieldPathSelectorView      ListLogDescriptorsRequest_FieldPathSelector = 6
+	ListLogDescriptorsRequest_FieldPathSelectorParent            ListLogDescriptorsRequest_FieldPathSelector = 0
+	ListLogDescriptorsRequest_FieldPathSelectorPageSize          ListLogDescriptorsRequest_FieldPathSelector = 1
+	ListLogDescriptorsRequest_FieldPathSelectorPageToken         ListLogDescriptorsRequest_FieldPathSelector = 2
+	ListLogDescriptorsRequest_FieldPathSelectorOrderBy           ListLogDescriptorsRequest_FieldPathSelector = 3
+	ListLogDescriptorsRequest_FieldPathSelectorFilter            ListLogDescriptorsRequest_FieldPathSelector = 4
+	ListLogDescriptorsRequest_FieldPathSelectorFieldMask         ListLogDescriptorsRequest_FieldPathSelector = 5
+	ListLogDescriptorsRequest_FieldPathSelectorView              ListLogDescriptorsRequest_FieldPathSelector = 6
+	ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo ListLogDescriptorsRequest_FieldPathSelector = 7
 )
 
 func (s ListLogDescriptorsRequest_FieldPathSelector) String() string {
@@ -1669,6 +1671,8 @@ func (s ListLogDescriptorsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		return "view"
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", s))
 	}
@@ -1694,6 +1698,8 @@ func BuildListLogDescriptorsRequest_FieldPath(fp gotenobject.RawFieldPath) (List
 			return &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListLogDescriptorsRequest", fp)
@@ -1763,6 +1769,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) Get(source *ListLogDescri
 			}
 		case ListLogDescriptorsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 		}
@@ -1796,6 +1804,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) GetSingle(source *ListLog
 		return res, res != nil
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 	}
@@ -1822,6 +1832,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) GetDefault() interface{} 
 		return (*log_descriptor.LogDescriptor_FieldMask)(nil)
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 	}
@@ -1844,6 +1856,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) ClearValue(item *ListLogD
 			item.FieldMask = nil
 		case ListLogDescriptorsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 		}
@@ -1862,7 +1876,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorView
+		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorView ||
+		fp.selector == ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListLogDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1885,6 +1900,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) WithIValue(value interfac
 		return &ListLogDescriptorsRequest_FieldTerminalPathValue{ListLogDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*log_descriptor.LogDescriptor_FieldMask)}
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		return &ListLogDescriptorsRequest_FieldTerminalPathValue{ListLogDescriptorsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListLogDescriptorsRequest_FieldTerminalPathValue{ListLogDescriptorsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 	}
@@ -1911,6 +1928,8 @@ func (fp *ListLogDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(values
 		return &ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues{ListLogDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*log_descriptor.LogDescriptor_FieldMask)}
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		return &ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues{ListLogDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues{ListLogDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fp.selector))
 	}
@@ -1999,6 +2018,10 @@ func (fpv *ListLogDescriptorsRequest_FieldTerminalPathValue) AsViewValue() (view
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListLogDescriptorsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListLogDescriptorsRequest
 func (fpv *ListLogDescriptorsRequest_FieldTerminalPathValue) SetTo(target **ListLogDescriptorsRequest) {
@@ -2020,6 +2043,8 @@ func (fpv *ListLogDescriptorsRequest_FieldTerminalPathValue) SetTo(target **List
 		(*target).FieldMask = fpv.value.(*log_descriptor.LogDescriptor_FieldMask)
 	case ListLogDescriptorsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsRequest: %d", fpv.selector))
 	}
@@ -2076,6 +2101,16 @@ func (fpv *ListLogDescriptorsRequest_FieldTerminalPathValue) CompareWith(source 
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2216,6 +2251,10 @@ func (fpaov *ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2247,6 +2286,10 @@ func (fpaov *ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues) AsViewArr
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2267,9 +2310,11 @@ type ListLogDescriptorsResponse_FieldPath interface {
 type ListLogDescriptorsResponse_FieldPathSelector int32
 
 const (
-	ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors ListLogDescriptorsResponse_FieldPathSelector = 0
-	ListLogDescriptorsResponse_FieldPathSelectorPrevPageToken  ListLogDescriptorsResponse_FieldPathSelector = 1
-	ListLogDescriptorsResponse_FieldPathSelectorNextPageToken  ListLogDescriptorsResponse_FieldPathSelector = 2
+	ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors    ListLogDescriptorsResponse_FieldPathSelector = 0
+	ListLogDescriptorsResponse_FieldPathSelectorPrevPageToken     ListLogDescriptorsResponse_FieldPathSelector = 1
+	ListLogDescriptorsResponse_FieldPathSelectorNextPageToken     ListLogDescriptorsResponse_FieldPathSelector = 2
+	ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset     ListLogDescriptorsResponse_FieldPathSelector = 3
+	ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount ListLogDescriptorsResponse_FieldPathSelector = 4
 )
 
 func (s ListLogDescriptorsResponse_FieldPathSelector) String() string {
@@ -2280,6 +2325,10 @@ func (s ListLogDescriptorsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", s))
 	}
@@ -2297,6 +2346,10 @@ func BuildListLogDescriptorsResponse_FieldPath(fp gotenobject.RawFieldPath) (Lis
 			return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2363,6 +2416,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) Get(source *ListLogDescr
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 		}
@@ -2386,6 +2443,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) GetSingle(source *ListLo
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 	}
@@ -2404,6 +2465,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) GetDefault() interface{}
 		return (*log_descriptor.PagerCursor)(nil)
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return (*log_descriptor.PagerCursor)(nil)
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 	}
@@ -2418,6 +2483,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) ClearValue(item *ListLog
 			item.PrevPageToken = nil
 		case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 		}
@@ -2431,7 +2500,9 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) ClearValueRaw(item proto
 // IsLeaf - whether field path is holds simple value
 func (fp *ListLogDescriptorsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListLogDescriptorsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListLogDescriptorsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListLogDescriptorsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListLogDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2446,6 +2517,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) WithIValue(value interfa
 		return &ListLogDescriptorsResponse_FieldTerminalPathValue{ListLogDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*log_descriptor.PagerCursor)}
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return &ListLogDescriptorsResponse_FieldTerminalPathValue{ListLogDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*log_descriptor.PagerCursor)}
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListLogDescriptorsResponse_FieldTerminalPathValue{ListLogDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListLogDescriptorsResponse_FieldTerminalPathValue{ListLogDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 	}
@@ -2464,6 +2539,10 @@ func (fp *ListLogDescriptorsResponse_FieldTerminalPath) WithIArrayOfValues(value
 		return &ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues{ListLogDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*log_descriptor.PagerCursor)}
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return &ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues{ListLogDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*log_descriptor.PagerCursor)}
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues{ListLogDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues{ListLogDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fp.selector))
 	}
@@ -2514,11 +2593,12 @@ func (fps *ListLogDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListLogDescriptorsResponse
 func (fps *ListLogDescriptorsResponse_FieldSubPath) Get(source *ListLogDescriptorsResponse) (values []interface{}) {
-	if asLogDescriptorFieldPath, ok := fps.AsLogDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors:
 		for _, item := range source.GetLogDescriptors() {
-			values = append(values, asLogDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -2653,6 +2733,14 @@ func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) AsNextPageTokenVal
 	res, ok := fpv.value.(*log_descriptor.PagerCursor)
 	return res, ok
 }
+func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListLogDescriptorsResponse
 func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) SetTo(target **ListLogDescriptorsResponse) {
@@ -2666,6 +2754,10 @@ func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) SetTo(target **Lis
 		(*target).PrevPageToken = fpv.value.(*log_descriptor.PagerCursor)
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*log_descriptor.PagerCursor)
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fpv.selector))
 	}
@@ -2685,6 +2777,26 @@ func (fpv *ListLogDescriptorsResponse_FieldTerminalPathValue) CompareWith(source
 		return 0, false
 	case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogDescriptorsResponse: %d", fpv.selector))
 	}
@@ -2879,6 +2991,14 @@ func (fpaov *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues) GetRawVa
 		for _, v := range fpaov.values.([]*log_descriptor.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2892,6 +3012,14 @@ func (fpaov *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues) AsPrevPa
 }
 func (fpaov *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*log_descriptor.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*log_descriptor.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4892,9 +5020,10 @@ func (fps *WatchLogDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchLogDescriptorsResponse
 func (fps *WatchLogDescriptorsResponse_FieldSubPath) Get(source *WatchLogDescriptorsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchLogDescriptorsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchLogDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -6042,9 +6171,10 @@ func (fps *CreateLogDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateLogDescriptorRequest
 func (fps *CreateLogDescriptorRequest_FieldSubPath) Get(source *CreateLogDescriptorRequest) (values []interface{}) {
-	if asLogDescriptorFieldPath, ok := fps.AsLogDescriptorSubPath(); ok {
-		values = append(values, asLogDescriptorFieldPath.Get(source.GetLogDescriptor())...)
-	} else {
+	switch fps.selector {
+	case CreateLogDescriptorRequest_FieldPathSelectorLogDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetLogDescriptor())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateLogDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -6704,11 +6834,12 @@ func (fps *UpdateLogDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateLogDescriptorRequest
 func (fps *UpdateLogDescriptorRequest_FieldSubPath) Get(source *UpdateLogDescriptorRequest) (values []interface{}) {
-	if asLogDescriptorFieldPath, ok := fps.AsLogDescriptorSubPath(); ok {
-		values = append(values, asLogDescriptorFieldPath.Get(source.GetLogDescriptor())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateLogDescriptorRequest_FieldPathSelectorLogDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetLogDescriptor())...)
+	case UpdateLogDescriptorRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -7362,9 +7493,10 @@ func (fps *UpdateLogDescriptorRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateLogDescriptorRequest_CAS
 func (fps *UpdateLogDescriptorRequestCAS_FieldSubPath) Get(source *UpdateLogDescriptorRequest_CAS) (values []interface{}) {
-	if asLogDescriptorFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asLogDescriptorFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateLogDescriptorRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLogDescriptorRequest_CAS: %d", fps.selector))
 	}
 	return

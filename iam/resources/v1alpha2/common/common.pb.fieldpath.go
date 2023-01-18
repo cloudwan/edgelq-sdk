@@ -1214,11 +1214,12 @@ func (fps *ServiceErrors_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ServiceErrors
 func (fps *ServiceErrors_FieldSubPath) Get(source *ServiceErrors) (values []interface{}) {
-	if asErrorFieldPath, ok := fps.AsErrorsSubPath(); ok {
+	switch fps.selector {
+	case ServiceErrors_FieldPathSelectorErrors:
 		for _, item := range source.GetErrors() {
-			values = append(values, asErrorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceErrors: %d", fps.selector))
 	}
 	return

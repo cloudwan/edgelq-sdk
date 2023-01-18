@@ -1239,11 +1239,12 @@ func (fps *BatchGetLimitPoolsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetLimitPoolsResponse
 func (fps *BatchGetLimitPoolsResponse_FieldSubPath) Get(source *BatchGetLimitPoolsResponse) (values []interface{}) {
-	if asLimitPoolFieldPath, ok := fps.AsLimitPoolsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetLimitPoolsResponse_FieldPathSelectorLimitPools:
 		for _, item := range source.GetLimitPools() {
-			values = append(values, asLimitPoolFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetLimitPoolsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListLimitPoolsRequest_FieldPath interface {
 type ListLimitPoolsRequest_FieldPathSelector int32
 
 const (
-	ListLimitPoolsRequest_FieldPathSelectorParent    ListLimitPoolsRequest_FieldPathSelector = 0
-	ListLimitPoolsRequest_FieldPathSelectorPageSize  ListLimitPoolsRequest_FieldPathSelector = 1
-	ListLimitPoolsRequest_FieldPathSelectorPageToken ListLimitPoolsRequest_FieldPathSelector = 2
-	ListLimitPoolsRequest_FieldPathSelectorOrderBy   ListLimitPoolsRequest_FieldPathSelector = 3
-	ListLimitPoolsRequest_FieldPathSelectorFilter    ListLimitPoolsRequest_FieldPathSelector = 4
-	ListLimitPoolsRequest_FieldPathSelectorFieldMask ListLimitPoolsRequest_FieldPathSelector = 5
-	ListLimitPoolsRequest_FieldPathSelectorView      ListLimitPoolsRequest_FieldPathSelector = 6
+	ListLimitPoolsRequest_FieldPathSelectorParent            ListLimitPoolsRequest_FieldPathSelector = 0
+	ListLimitPoolsRequest_FieldPathSelectorPageSize          ListLimitPoolsRequest_FieldPathSelector = 1
+	ListLimitPoolsRequest_FieldPathSelectorPageToken         ListLimitPoolsRequest_FieldPathSelector = 2
+	ListLimitPoolsRequest_FieldPathSelectorOrderBy           ListLimitPoolsRequest_FieldPathSelector = 3
+	ListLimitPoolsRequest_FieldPathSelectorFilter            ListLimitPoolsRequest_FieldPathSelector = 4
+	ListLimitPoolsRequest_FieldPathSelectorFieldMask         ListLimitPoolsRequest_FieldPathSelector = 5
+	ListLimitPoolsRequest_FieldPathSelectorView              ListLimitPoolsRequest_FieldPathSelector = 6
+	ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo ListLimitPoolsRequest_FieldPathSelector = 7
 )
 
 func (s ListLimitPoolsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListLimitPoolsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		return "view"
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListLimitPoolsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListLimi
 			return &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListLimitPoolsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) Get(source *ListLimitPoolsReq
 			}
 		case ListLimitPoolsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) GetSingle(source *ListLimitPo
 		return res, res != nil
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*limit_pool.LimitPool_FieldMask)(nil)
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) ClearValue(item *ListLimitPoo
 			item.FieldMask = nil
 		case ListLimitPoolsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListLimitPoolsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListLimitPoolsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListLimitPoolsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListLimitPoolsRequest_FieldPathSelectorView
+		fp.selector == ListLimitPoolsRequest_FieldPathSelectorView ||
+		fp.selector == ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListLimitPoolsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) WithIValue(value interface{})
 		return &ListLimitPoolsRequest_FieldTerminalPathValue{ListLimitPoolsRequest_FieldTerminalPath: *fp, value: value.(*limit_pool.LimitPool_FieldMask)}
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		return &ListLimitPoolsRequest_FieldTerminalPathValue{ListLimitPoolsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListLimitPoolsRequest_FieldTerminalPathValue{ListLimitPoolsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListLimitPoolsRequest_FieldTerminalPath) WithIArrayOfValues(values int
 		return &ListLimitPoolsRequest_FieldTerminalPathArrayOfValues{ListLimitPoolsRequest_FieldTerminalPath: *fp, values: values.([]*limit_pool.LimitPool_FieldMask)}
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		return &ListLimitPoolsRequest_FieldTerminalPathArrayOfValues{ListLimitPoolsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListLimitPoolsRequest_FieldTerminalPathArrayOfValues{ListLimitPoolsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListLimitPoolsRequest_FieldTerminalPathValue) AsViewValue() (view.Vie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListLimitPoolsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListLimitPoolsRequest
 func (fpv *ListLimitPoolsRequest_FieldTerminalPathValue) SetTo(target **ListLimitPoolsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListLimitPoolsRequest_FieldTerminalPathValue) SetTo(target **ListLimi
 		(*target).FieldMask = fpv.value.(*limit_pool.LimitPool_FieldMask)
 	case ListLimitPoolsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListLimitPoolsRequest_FieldTerminalPathValue) CompareWith(source *Lis
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListLimitPoolsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListLimitPoolsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOf
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListLimitPoolsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListLimitPoolsResponse_FieldPath interface {
 type ListLimitPoolsResponse_FieldPathSelector int32
 
 const (
-	ListLimitPoolsResponse_FieldPathSelectorLimitPools    ListLimitPoolsResponse_FieldPathSelector = 0
-	ListLimitPoolsResponse_FieldPathSelectorPrevPageToken ListLimitPoolsResponse_FieldPathSelector = 1
-	ListLimitPoolsResponse_FieldPathSelectorNextPageToken ListLimitPoolsResponse_FieldPathSelector = 2
+	ListLimitPoolsResponse_FieldPathSelectorLimitPools        ListLimitPoolsResponse_FieldPathSelector = 0
+	ListLimitPoolsResponse_FieldPathSelectorPrevPageToken     ListLimitPoolsResponse_FieldPathSelector = 1
+	ListLimitPoolsResponse_FieldPathSelectorNextPageToken     ListLimitPoolsResponse_FieldPathSelector = 2
+	ListLimitPoolsResponse_FieldPathSelectorCurrentOffset     ListLimitPoolsResponse_FieldPathSelector = 3
+	ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount ListLimitPoolsResponse_FieldPathSelector = 4
 )
 
 func (s ListLimitPoolsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListLimitPoolsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListLimitPoolsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListLim
 			return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) Get(source *ListLimitPoolsRe
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) GetSingle(source *ListLimitP
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*limit_pool.PagerCursor)(nil)
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		return (*limit_pool.PagerCursor)(nil)
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) ClearValue(item *ListLimitPo
 			item.PrevPageToken = nil
 		case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fp *ListLimitPoolsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListLimitPoolsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListLimitPoolsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListLimitPoolsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListLimitPoolsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListLimitPoolsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) WithIValue(value interface{}
 		return &ListLimitPoolsResponse_FieldTerminalPathValue{ListLimitPoolsResponse_FieldTerminalPath: *fp, value: value.(*limit_pool.PagerCursor)}
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		return &ListLimitPoolsResponse_FieldTerminalPathValue{ListLimitPoolsResponse_FieldTerminalPath: *fp, value: value.(*limit_pool.PagerCursor)}
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		return &ListLimitPoolsResponse_FieldTerminalPathValue{ListLimitPoolsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListLimitPoolsResponse_FieldTerminalPathValue{ListLimitPoolsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListLimitPoolsResponse_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ListLimitPoolsResponse_FieldTerminalPathArrayOfValues{ListLimitPoolsResponse_FieldTerminalPath: *fp, values: values.([]*limit_pool.PagerCursor)}
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		return &ListLimitPoolsResponse_FieldTerminalPathArrayOfValues{ListLimitPoolsResponse_FieldTerminalPath: *fp, values: values.([]*limit_pool.PagerCursor)}
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		return &ListLimitPoolsResponse_FieldTerminalPathArrayOfValues{ListLimitPoolsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListLimitPoolsResponse_FieldTerminalPathArrayOfValues{ListLimitPoolsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListLimitPoolsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListLimitPoolsResponse
 func (fps *ListLimitPoolsResponse_FieldSubPath) Get(source *ListLimitPoolsResponse) (values []interface{}) {
-	if asLimitPoolFieldPath, ok := fps.AsLimitPoolsSubPath(); ok {
+	switch fps.selector {
+	case ListLimitPoolsResponse_FieldPathSelectorLimitPools:
 		for _, item := range source.GetLimitPools() {
-			values = append(values, asLimitPoolFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) AsNextPageTokenValue()
 	res, ok := fpv.value.(*limit_pool.PagerCursor)
 	return res, ok
 }
+func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListLimitPoolsResponse
 func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) SetTo(target **ListLimitPoolsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) SetTo(target **ListLim
 		(*target).PrevPageToken = fpv.value.(*limit_pool.PagerCursor)
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*limit_pool.PagerCursor)
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListLimitPoolsResponse_FieldTerminalPathValue) CompareWith(source *Li
 		return 0, false
 	case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListLimitPoolsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*limit_pool.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTo
 }
 func (fpaov *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*limit_pool.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*limit_pool.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchLimitPoolsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchLimitPoolsResponse
 func (fps *WatchLimitPoolsResponse_FieldSubPath) Get(source *WatchLimitPoolsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchLimitPoolsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchLimitPoolsResponse: %d", fps.selector))
 	}
 	return
@@ -6070,11 +6199,12 @@ func (fps *UpdateLimitPoolRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateLimitPoolRequest
 func (fps *UpdateLimitPoolRequest_FieldSubPath) Get(source *UpdateLimitPoolRequest) (values []interface{}) {
-	if asLimitPoolFieldPath, ok := fps.AsLimitPoolSubPath(); ok {
-		values = append(values, asLimitPoolFieldPath.Get(source.GetLimitPool())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateLimitPoolRequest_FieldPathSelectorLimitPool:
+		values = append(values, fps.subPath.GetRaw(source.GetLimitPool())...)
+	case UpdateLimitPoolRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLimitPoolRequest: %d", fps.selector))
 	}
 	return
@@ -6728,9 +6858,10 @@ func (fps *UpdateLimitPoolRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateLimitPoolRequest_CAS
 func (fps *UpdateLimitPoolRequestCAS_FieldSubPath) Get(source *UpdateLimitPoolRequest_CAS) (values []interface{}) {
-	if asLimitPoolFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asLimitPoolFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateLimitPoolRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateLimitPoolRequest_CAS: %d", fps.selector))
 	}
 	return

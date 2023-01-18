@@ -419,6 +419,9 @@ func (o *ListSecretsRequest) MakeDiffFieldMask(other *ListSecretsRequest) *ListS
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListSecretsRequest) Clone() *ListSecretsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*secret.Secret_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListSecretsRequest) Merge(source *ListSecretsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListSecretsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListSecretsResponse) MakeDiffFieldMask(other *ListSecretsResponse) *Lis
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListSecretsResponse) Clone() *ListSecretsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListSecretsResponse) Merge(source *ListSecretsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListSecretsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

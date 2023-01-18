@@ -514,9 +514,10 @@ func (fps *ConfigMap_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConfigMap
 func (fps *ConfigMap_FieldSubPath) Get(source *ConfigMap) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case ConfigMap_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConfigMap: %d", fps.selector))
 	}
 	return

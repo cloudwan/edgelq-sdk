@@ -81,8 +81,9 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 
 func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context, query *alerting_condition.ListQuery) (*alerting_condition.QueryResultSnapshot, error) {
 	request := &alerting_condition_client.ListAlertingConditionsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context
 		AlertingConditions: resp.AlertingConditions,
 		NextPageCursor:     resp.NextPageToken,
 		PrevPageCursor:     resp.PrevPageToken,
+		TotalResultsCount:  resp.TotalResultsCount,
+		CurrentOffset:      resp.CurrentOffset,
 	}, nil
 }
 

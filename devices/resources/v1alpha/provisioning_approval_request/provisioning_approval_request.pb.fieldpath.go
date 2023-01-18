@@ -358,13 +358,14 @@ func (fps *ProvisioningApprovalRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisioningApprovalRequest
 func (fps *ProvisioningApprovalRequest_FieldSubPath) Get(source *ProvisioningApprovalRequest) (values []interface{}) {
-	if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case ProvisioningApprovalRequest_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case ProvisioningApprovalRequest_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	case ProvisioningApprovalRequest_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningApprovalRequest: %d", fps.selector))
 	}
 	return

@@ -715,15 +715,16 @@ func (fps *Meta_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Meta
 func (fps *Meta_FieldSubPath) Get(source *Meta) (values []interface{}) {
-	if asOwnerReferenceFieldPath, ok := fps.AsOwnerReferencesSubPath(); ok {
+	switch fps.selector {
+	case Meta_FieldPathSelectorOwnerReferences:
 		for _, item := range source.GetOwnerReferences() {
-			values = append(values, asOwnerReferenceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asSyncingMetaFieldPath, ok := fps.AsSyncingSubPath(); ok {
-		values = append(values, asSyncingMetaFieldPath.Get(source.GetSyncing())...)
-	} else if asLifecycleFieldPath, ok := fps.AsLifecycleSubPath(); ok {
-		values = append(values, asLifecycleFieldPath.Get(source.GetLifecycle())...)
-	} else {
+	case Meta_FieldPathSelectorSyncing:
+		values = append(values, fps.subPath.GetRaw(source.GetSyncing())...)
+	case Meta_FieldPathSelectorLifecycle:
+		values = append(values, fps.subPath.GetRaw(source.GetLifecycle())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Meta: %d", fps.selector))
 	}
 	return
@@ -1918,11 +1919,12 @@ func (fps *LabelSelector_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source LabelSelector
 func (fps *LabelSelector_FieldSubPath) Get(source *LabelSelector) (values []interface{}) {
-	if asLabelSelectorRequirementFieldPath, ok := fps.AsMatchExpressionsSubPath(); ok {
+	switch fps.selector {
+	case LabelSelector_FieldPathSelectorMatchExpressions:
 		for _, item := range source.GetMatchExpressions() {
-			values = append(values, asLabelSelectorRequirementFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for LabelSelector: %d", fps.selector))
 	}
 	return

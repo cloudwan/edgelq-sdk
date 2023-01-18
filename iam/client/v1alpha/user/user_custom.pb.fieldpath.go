@@ -1303,11 +1303,12 @@ func (fps *BatchGetUsersByEmailResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetUsersByEmailResponse
 func (fps *BatchGetUsersByEmailResponse_FieldSubPath) Get(source *BatchGetUsersByEmailResponse) (values []interface{}) {
-	if asUserFieldPath, ok := fps.AsUsersSubPath(); ok {
+	switch fps.selector {
+	case BatchGetUsersByEmailResponse_FieldPathSelectorUsers:
 		for _, item := range source.GetUsers() {
-			values = append(values, asUserFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetUsersByEmailResponse: %d", fps.selector))
 	}
 	return

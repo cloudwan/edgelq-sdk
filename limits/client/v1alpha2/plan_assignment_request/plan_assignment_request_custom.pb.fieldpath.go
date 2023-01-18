@@ -1350,9 +1350,10 @@ func (fps *AcceptPlanAssignmentResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AcceptPlanAssignmentResponse
 func (fps *AcceptPlanAssignmentResponse_FieldSubPath) Get(source *AcceptPlanAssignmentResponse) (values []interface{}) {
-	if asAcceptedPlanFieldPath, ok := fps.AsAcceptedPlanSubPath(); ok {
-		values = append(values, asAcceptedPlanFieldPath.Get(source.GetAcceptedPlan())...)
-	} else {
+	switch fps.selector {
+	case AcceptPlanAssignmentResponse_FieldPathSelectorAcceptedPlan:
+		values = append(values, fps.subPath.GetRaw(source.GetAcceptedPlan())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptPlanAssignmentResponse: %d", fps.selector))
 	}
 	return

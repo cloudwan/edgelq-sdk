@@ -419,6 +419,9 @@ func (o *ListAcceptedPlansRequest) MakeDiffFieldMask(other *ListAcceptedPlansReq
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListAcceptedPlansRequest) Clone() *ListAcceptedPlansRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*accepted_plan.AcceptedPlan_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListAcceptedPlansRequest) Merge(source *ListAcceptedPlansRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListAcceptedPlansRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListAcceptedPlansResponse) MakeDiffFieldMask(other *ListAcceptedPlansRe
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListAcceptedPlansResponse) Clone() *ListAcceptedPlansResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListAcceptedPlansResponse) Merge(source *ListAcceptedPlansResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListAcceptedPlansResponse) MergeRaw(source gotenobject.GotenObjectExt) {

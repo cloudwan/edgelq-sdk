@@ -60,6 +60,9 @@ func (ListMetricDescriptorsRequestFieldPathBuilder) FieldMask() ListMetricDescri
 func (ListMetricDescriptorsRequestFieldPathBuilder) View() ListMetricDescriptorsRequestPathSelectorView {
 	return ListMetricDescriptorsRequestPathSelectorView{}
 }
+func (ListMetricDescriptorsRequestFieldPathBuilder) IncludePagingInfo() ListMetricDescriptorsRequestPathSelectorIncludePagingInfo {
+	return ListMetricDescriptorsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListMetricDescriptorsRequestPathSelectorParent struct{}
 
@@ -159,6 +162,20 @@ func (s ListMetricDescriptorsRequestPathSelectorView) WithArrayOfValues(values [
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListMetricDescriptorsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListMetricDescriptorsRequestPathSelectorIncludePagingInfo) FieldPath() *ListMetricDescriptorsRequest_FieldTerminalPath {
+	return &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListMetricDescriptorsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListMetricDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMetricDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMetricDescriptorsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListMetricDescriptorsResponseFieldPathBuilder struct{}
 
 func NewListMetricDescriptorsResponseFieldPathBuilder() ListMetricDescriptorsResponseFieldPathBuilder {
@@ -172,6 +189,12 @@ func (ListMetricDescriptorsResponseFieldPathBuilder) NextPageToken() ListMetricD
 }
 func (ListMetricDescriptorsResponseFieldPathBuilder) PrevPageToken() ListMetricDescriptorsResponsePathSelectorPrevPageToken {
 	return ListMetricDescriptorsResponsePathSelectorPrevPageToken{}
+}
+func (ListMetricDescriptorsResponseFieldPathBuilder) CurrentOffset() ListMetricDescriptorsResponsePathSelectorCurrentOffset {
+	return ListMetricDescriptorsResponsePathSelectorCurrentOffset{}
+}
+func (ListMetricDescriptorsResponseFieldPathBuilder) TotalResultsCount() ListMetricDescriptorsResponsePathSelectorTotalResultsCount {
+	return ListMetricDescriptorsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListMetricDescriptorsResponsePathSelectorMetricDescriptors struct{}
@@ -1735,6 +1758,34 @@ func (s ListMetricDescriptorsResponsePathSelectorPrevPageToken) WithValue(value 
 }
 
 func (s ListMetricDescriptorsResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*metric_descriptor.PagerCursor) *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMetricDescriptorsResponsePathSelectorCurrentOffset struct{}
+
+func (ListMetricDescriptorsResponsePathSelectorCurrentOffset) FieldPath() *ListMetricDescriptorsResponse_FieldTerminalPath {
+	return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListMetricDescriptorsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListMetricDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMetricDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMetricDescriptorsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMetricDescriptorsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListMetricDescriptorsResponsePathSelectorTotalResultsCount) FieldPath() *ListMetricDescriptorsResponse_FieldTerminalPath {
+	return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListMetricDescriptorsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListMetricDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMetricDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMetricDescriptorsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues)
 }
 

@@ -376,13 +376,14 @@ func (fps *Alert_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Alert
 func (fps *Alert_FieldSubPath) Get(source *Alert) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asInfoFieldPath, ok := fps.AsInfoSubPath(); ok {
-		values = append(values, asInfoFieldPath.Get(source.GetInfo())...)
-	} else if asStateFieldPath, ok := fps.AsStateSubPath(); ok {
-		values = append(values, asStateFieldPath.Get(source.GetState())...)
-	} else {
+	switch fps.selector {
+	case Alert_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Alert_FieldPathSelectorInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetInfo())...)
+	case Alert_FieldPathSelectorState:
+		values = append(values, fps.subPath.GetRaw(source.GetState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Alert: %d", fps.selector))
 	}
 	return
@@ -1128,11 +1129,12 @@ func (fps *AlertInfo_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Alert_Info
 func (fps *AlertInfo_FieldSubPath) Get(source *Alert_Info) (values []interface{}) {
-	if asTimeSerieFieldPath, ok := fps.AsTimeSerieSubPath(); ok {
-		values = append(values, asTimeSerieFieldPath.Get(source.GetTimeSerie())...)
-	} else if asObservedValuesFieldPath, ok := fps.AsObservedValuesSubPath(); ok {
-		values = append(values, asObservedValuesFieldPath.Get(source.GetObservedValues())...)
-	} else {
+	switch fps.selector {
+	case AlertInfo_FieldPathSelectorTimeSerie:
+		values = append(values, fps.subPath.GetRaw(source.GetTimeSerie())...)
+	case AlertInfo_FieldPathSelectorObservedValues:
+		values = append(values, fps.subPath.GetRaw(source.GetObservedValues())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info: %d", fps.selector))
 	}
 	return
@@ -1833,11 +1835,12 @@ func (fps *AlertState_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Alert_State
 func (fps *AlertState_FieldSubPath) Get(source *Alert_State) (values []interface{}) {
-	if asTimeRangeFieldPath, ok := fps.AsLifetimeSubPath(); ok {
-		values = append(values, asTimeRangeFieldPath.Get(source.GetLifetime())...)
-	} else if asNotificationFieldPath, ok := fps.AsNotificationSubPath(); ok {
-		values = append(values, asNotificationFieldPath.Get(source.GetNotification())...)
-	} else {
+	switch fps.selector {
+	case AlertState_FieldPathSelectorLifetime:
+		values = append(values, fps.subPath.GetRaw(source.GetLifetime())...)
+	case AlertState_FieldPathSelectorNotification:
+		values = append(values, fps.subPath.GetRaw(source.GetNotification())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fps.selector))
 	}
 	return
@@ -2575,11 +2578,12 @@ func (fps *AlertInfoTimeSerie_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Alert_Info_TimeSerie
 func (fps *AlertInfoTimeSerie_FieldSubPath) Get(source *Alert_Info_TimeSerie) (values []interface{}) {
-	if asMetricFieldPath, ok := fps.AsMetricSubPath(); ok {
-		values = append(values, asMetricFieldPath.Get(source.GetMetric())...)
-	} else if asMonitoredResourceFieldPath, ok := fps.AsMonitoredResourceSubPath(); ok {
-		values = append(values, asMonitoredResourceFieldPath.Get(source.GetMonitoredResource())...)
-	} else {
+	switch fps.selector {
+	case AlertInfoTimeSerie_FieldPathSelectorMetric:
+		values = append(values, fps.subPath.GetRaw(source.GetMetric())...)
+	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
+		values = append(values, fps.subPath.GetRaw(source.GetMonitoredResource())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fps.selector))
 	}
 	return
@@ -4561,9 +4565,10 @@ func (fps *AlertStateNotification_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Alert_State_Notification
 func (fps *AlertStateNotification_FieldSubPath) Get(source *Alert_State_Notification) (values []interface{}) {
-	if asSlackFieldPath, ok := fps.AsSlackSubPath(); ok {
-		values = append(values, asSlackFieldPath.Get(source.GetSlack())...)
-	} else {
+	switch fps.selector {
+	case AlertStateNotification_FieldPathSelectorSlack:
+		values = append(values, fps.subPath.GetRaw(source.GetSlack())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fps.selector))
 	}
 	return

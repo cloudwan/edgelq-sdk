@@ -1237,11 +1237,12 @@ func (fps *BatchGetPermissionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetPermissionsResponse
 func (fps *BatchGetPermissionsResponse_FieldSubPath) Get(source *BatchGetPermissionsResponse) (values []interface{}) {
-	if asPermissionFieldPath, ok := fps.AsPermissionsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetPermissionsResponse_FieldPathSelectorPermissions:
 		for _, item := range source.GetPermissions() {
-			values = append(values, asPermissionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetPermissionsResponse: %d", fps.selector))
 	}
 	return
@@ -1640,12 +1641,13 @@ type ListPermissionsRequest_FieldPath interface {
 type ListPermissionsRequest_FieldPathSelector int32
 
 const (
-	ListPermissionsRequest_FieldPathSelectorPageSize  ListPermissionsRequest_FieldPathSelector = 0
-	ListPermissionsRequest_FieldPathSelectorPageToken ListPermissionsRequest_FieldPathSelector = 1
-	ListPermissionsRequest_FieldPathSelectorOrderBy   ListPermissionsRequest_FieldPathSelector = 2
-	ListPermissionsRequest_FieldPathSelectorFilter    ListPermissionsRequest_FieldPathSelector = 3
-	ListPermissionsRequest_FieldPathSelectorFieldMask ListPermissionsRequest_FieldPathSelector = 4
-	ListPermissionsRequest_FieldPathSelectorView      ListPermissionsRequest_FieldPathSelector = 5
+	ListPermissionsRequest_FieldPathSelectorPageSize          ListPermissionsRequest_FieldPathSelector = 0
+	ListPermissionsRequest_FieldPathSelectorPageToken         ListPermissionsRequest_FieldPathSelector = 1
+	ListPermissionsRequest_FieldPathSelectorOrderBy           ListPermissionsRequest_FieldPathSelector = 2
+	ListPermissionsRequest_FieldPathSelectorFilter            ListPermissionsRequest_FieldPathSelector = 3
+	ListPermissionsRequest_FieldPathSelectorFieldMask         ListPermissionsRequest_FieldPathSelector = 4
+	ListPermissionsRequest_FieldPathSelectorView              ListPermissionsRequest_FieldPathSelector = 5
+	ListPermissionsRequest_FieldPathSelectorIncludePagingInfo ListPermissionsRequest_FieldPathSelector = 6
 )
 
 func (s ListPermissionsRequest_FieldPathSelector) String() string {
@@ -1662,6 +1664,8 @@ func (s ListPermissionsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListPermissionsRequest_FieldPathSelectorView:
 		return "view"
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", s))
 	}
@@ -1685,6 +1689,8 @@ func BuildListPermissionsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListPer
 			return &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListPermissionsRequest", fp)
@@ -1750,6 +1756,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) Get(source *ListPermissionsR
 			}
 		case ListPermissionsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 		}
@@ -1780,6 +1788,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) GetSingle(source *ListPermis
 		return res, res != nil
 	case ListPermissionsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 	}
@@ -1804,6 +1814,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*permission.Permission_FieldMask)(nil)
 	case ListPermissionsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 	}
@@ -1824,6 +1836,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) ClearValue(item *ListPermiss
 			item.FieldMask = nil
 		case ListPermissionsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 		}
@@ -1841,7 +1855,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPermissionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListPermissionsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListPermissionsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListPermissionsRequest_FieldPathSelectorView
+		fp.selector == ListPermissionsRequest_FieldPathSelectorView ||
+		fp.selector == ListPermissionsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListPermissionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1862,6 +1877,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) WithIValue(value interface{}
 		return &ListPermissionsRequest_FieldTerminalPathValue{ListPermissionsRequest_FieldTerminalPath: *fp, value: value.(*permission.Permission_FieldMask)}
 	case ListPermissionsRequest_FieldPathSelectorView:
 		return &ListPermissionsRequest_FieldTerminalPathValue{ListPermissionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPermissionsRequest_FieldTerminalPathValue{ListPermissionsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 	}
@@ -1886,6 +1903,8 @@ func (fp *ListPermissionsRequest_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ListPermissionsRequest_FieldTerminalPathArrayOfValues{ListPermissionsRequest_FieldTerminalPath: *fp, values: values.([]*permission.Permission_FieldMask)}
 	case ListPermissionsRequest_FieldPathSelectorView:
 		return &ListPermissionsRequest_FieldTerminalPathArrayOfValues{ListPermissionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPermissionsRequest_FieldTerminalPathArrayOfValues{ListPermissionsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fp.selector))
 	}
@@ -1970,6 +1989,10 @@ func (fpv *ListPermissionsRequest_FieldTerminalPathValue) AsViewValue() (view.Vi
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListPermissionsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPermissionsRequest
 func (fpv *ListPermissionsRequest_FieldTerminalPathValue) SetTo(target **ListPermissionsRequest) {
@@ -1989,6 +2012,8 @@ func (fpv *ListPermissionsRequest_FieldTerminalPathValue) SetTo(target **ListPer
 		(*target).FieldMask = fpv.value.(*permission.Permission_FieldMask)
 	case ListPermissionsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsRequest: %d", fpv.selector))
 	}
@@ -2026,6 +2051,16 @@ func (fpv *ListPermissionsRequest_FieldTerminalPathValue) CompareWith(source *Li
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2162,6 +2197,10 @@ func (fpaov *ListPermissionsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2189,6 +2228,10 @@ func (fpaov *ListPermissionsRequest_FieldTerminalPathArrayOfValues) AsViewArrayO
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListPermissionsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2209,9 +2252,11 @@ type ListPermissionsResponse_FieldPath interface {
 type ListPermissionsResponse_FieldPathSelector int32
 
 const (
-	ListPermissionsResponse_FieldPathSelectorPermissions   ListPermissionsResponse_FieldPathSelector = 0
-	ListPermissionsResponse_FieldPathSelectorPrevPageToken ListPermissionsResponse_FieldPathSelector = 1
-	ListPermissionsResponse_FieldPathSelectorNextPageToken ListPermissionsResponse_FieldPathSelector = 2
+	ListPermissionsResponse_FieldPathSelectorPermissions       ListPermissionsResponse_FieldPathSelector = 0
+	ListPermissionsResponse_FieldPathSelectorPrevPageToken     ListPermissionsResponse_FieldPathSelector = 1
+	ListPermissionsResponse_FieldPathSelectorNextPageToken     ListPermissionsResponse_FieldPathSelector = 2
+	ListPermissionsResponse_FieldPathSelectorCurrentOffset     ListPermissionsResponse_FieldPathSelector = 3
+	ListPermissionsResponse_FieldPathSelectorTotalResultsCount ListPermissionsResponse_FieldPathSelector = 4
 )
 
 func (s ListPermissionsResponse_FieldPathSelector) String() string {
@@ -2222,6 +2267,10 @@ func (s ListPermissionsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", s))
 	}
@@ -2239,6 +2288,10 @@ func BuildListPermissionsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListPe
 			return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2305,6 +2358,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) Get(source *ListPermissions
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 		}
@@ -2328,6 +2385,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) GetSingle(source *ListPermi
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 	}
@@ -2346,6 +2407,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*permission.PagerCursor)(nil)
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		return (*permission.PagerCursor)(nil)
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 	}
@@ -2360,6 +2425,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) ClearValue(item *ListPermis
 			item.PrevPageToken = nil
 		case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 		}
@@ -2373,7 +2442,9 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fp *ListPermissionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListPermissionsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListPermissionsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListPermissionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListPermissionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListPermissionsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListPermissionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2388,6 +2459,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) WithIValue(value interface{
 		return &ListPermissionsResponse_FieldTerminalPathValue{ListPermissionsResponse_FieldTerminalPath: *fp, value: value.(*permission.PagerCursor)}
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		return &ListPermissionsResponse_FieldTerminalPathValue{ListPermissionsResponse_FieldTerminalPath: *fp, value: value.(*permission.PagerCursor)}
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPermissionsResponse_FieldTerminalPathValue{ListPermissionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPermissionsResponse_FieldTerminalPathValue{ListPermissionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 	}
@@ -2406,6 +2481,10 @@ func (fp *ListPermissionsResponse_FieldTerminalPath) WithIArrayOfValues(values i
 		return &ListPermissionsResponse_FieldTerminalPathArrayOfValues{ListPermissionsResponse_FieldTerminalPath: *fp, values: values.([]*permission.PagerCursor)}
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		return &ListPermissionsResponse_FieldTerminalPathArrayOfValues{ListPermissionsResponse_FieldTerminalPath: *fp, values: values.([]*permission.PagerCursor)}
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPermissionsResponse_FieldTerminalPathArrayOfValues{ListPermissionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPermissionsResponse_FieldTerminalPathArrayOfValues{ListPermissionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fp.selector))
 	}
@@ -2456,11 +2535,12 @@ func (fps *ListPermissionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListPermissionsResponse
 func (fps *ListPermissionsResponse_FieldSubPath) Get(source *ListPermissionsResponse) (values []interface{}) {
-	if asPermissionFieldPath, ok := fps.AsPermissionsSubPath(); ok {
+	switch fps.selector {
+	case ListPermissionsResponse_FieldPathSelectorPermissions:
 		for _, item := range source.GetPermissions() {
-			values = append(values, asPermissionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fps.selector))
 	}
 	return
@@ -2595,6 +2675,14 @@ func (fpv *ListPermissionsResponse_FieldTerminalPathValue) AsNextPageTokenValue(
 	res, ok := fpv.value.(*permission.PagerCursor)
 	return res, ok
 }
+func (fpv *ListPermissionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListPermissionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPermissionsResponse
 func (fpv *ListPermissionsResponse_FieldTerminalPathValue) SetTo(target **ListPermissionsResponse) {
@@ -2608,6 +2696,10 @@ func (fpv *ListPermissionsResponse_FieldTerminalPathValue) SetTo(target **ListPe
 		(*target).PrevPageToken = fpv.value.(*permission.PagerCursor)
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*permission.PagerCursor)
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fpv.selector))
 	}
@@ -2627,6 +2719,26 @@ func (fpv *ListPermissionsResponse_FieldTerminalPathValue) CompareWith(source *L
 		return 0, false
 	case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPermissionsResponse: %d", fpv.selector))
 	}
@@ -2821,6 +2933,14 @@ func (fpaov *ListPermissionsResponse_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]*permission.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2834,6 +2954,14 @@ func (fpaov *ListPermissionsResponse_FieldTerminalPathArrayOfValues) AsPrevPageT
 }
 func (fpaov *ListPermissionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*permission.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*permission.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListPermissionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListPermissionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4780,9 +4908,10 @@ func (fps *WatchPermissionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchPermissionsResponse
 func (fps *WatchPermissionsResponse_FieldSubPath) Get(source *WatchPermissionsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchPermissionsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchPermissionsResponse: %d", fps.selector))
 	}
 	return
@@ -5910,9 +6039,10 @@ func (fps *CreatePermissionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreatePermissionRequest
 func (fps *CreatePermissionRequest_FieldSubPath) Get(source *CreatePermissionRequest) (values []interface{}) {
-	if asPermissionFieldPath, ok := fps.AsPermissionSubPath(); ok {
-		values = append(values, asPermissionFieldPath.Get(source.GetPermission())...)
-	} else {
+	switch fps.selector {
+	case CreatePermissionRequest_FieldPathSelectorPermission:
+		values = append(values, fps.subPath.GetRaw(source.GetPermission())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreatePermissionRequest: %d", fps.selector))
 	}
 	return
@@ -6539,11 +6669,12 @@ func (fps *UpdatePermissionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePermissionRequest
 func (fps *UpdatePermissionRequest_FieldSubPath) Get(source *UpdatePermissionRequest) (values []interface{}) {
-	if asPermissionFieldPath, ok := fps.AsPermissionSubPath(); ok {
-		values = append(values, asPermissionFieldPath.Get(source.GetPermission())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdatePermissionRequest_FieldPathSelectorPermission:
+		values = append(values, fps.subPath.GetRaw(source.GetPermission())...)
+	case UpdatePermissionRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest: %d", fps.selector))
 	}
 	return
@@ -7197,9 +7328,10 @@ func (fps *UpdatePermissionRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePermissionRequest_CAS
 func (fps *UpdatePermissionRequestCAS_FieldSubPath) Get(source *UpdatePermissionRequest_CAS) (values []interface{}) {
-	if asPermissionFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asPermissionFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdatePermissionRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePermissionRequest_CAS: %d", fps.selector))
 	}
 	return

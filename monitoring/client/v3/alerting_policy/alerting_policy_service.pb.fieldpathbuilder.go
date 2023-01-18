@@ -1162,6 +1162,9 @@ func (ListAlertingPoliciesRequestFieldPathBuilder) FieldMask() ListAlertingPolic
 func (ListAlertingPoliciesRequestFieldPathBuilder) View() ListAlertingPoliciesRequestPathSelectorView {
 	return ListAlertingPoliciesRequestPathSelectorView{}
 }
+func (ListAlertingPoliciesRequestFieldPathBuilder) IncludePagingInfo() ListAlertingPoliciesRequestPathSelectorIncludePagingInfo {
+	return ListAlertingPoliciesRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListAlertingPoliciesRequestPathSelectorParent struct{}
 
@@ -1261,6 +1264,20 @@ func (s ListAlertingPoliciesRequestPathSelectorView) WithArrayOfValues(values []
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListAlertingPoliciesRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListAlertingPoliciesRequestPathSelectorIncludePagingInfo) FieldPath() *ListAlertingPoliciesRequest_FieldTerminalPath {
+	return &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListAlertingPoliciesRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s ListAlertingPoliciesRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListAlertingPoliciesResponseFieldPathBuilder struct{}
 
 func NewListAlertingPoliciesResponseFieldPathBuilder() ListAlertingPoliciesResponseFieldPathBuilder {
@@ -1274,6 +1291,12 @@ func (ListAlertingPoliciesResponseFieldPathBuilder) PrevPageToken() ListAlerting
 }
 func (ListAlertingPoliciesResponseFieldPathBuilder) NextPageToken() ListAlertingPoliciesResponsePathSelectorNextPageToken {
 	return ListAlertingPoliciesResponsePathSelectorNextPageToken{}
+}
+func (ListAlertingPoliciesResponseFieldPathBuilder) CurrentOffset() ListAlertingPoliciesResponsePathSelectorCurrentOffset {
+	return ListAlertingPoliciesResponsePathSelectorCurrentOffset{}
+}
+func (ListAlertingPoliciesResponseFieldPathBuilder) TotalResultsCount() ListAlertingPoliciesResponsePathSelectorTotalResultsCount {
+	return ListAlertingPoliciesResponsePathSelectorTotalResultsCount{}
 }
 
 type ListAlertingPoliciesResponsePathSelectorAlertingPolicies struct{}
@@ -2259,6 +2282,34 @@ func (s ListAlertingPoliciesResponsePathSelectorNextPageToken) WithValue(value *
 }
 
 func (s ListAlertingPoliciesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*alerting_policy.PagerCursor) *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorCurrentOffset struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorCurrentOffset) FieldPath() *ListAlertingPoliciesResponse_FieldTerminalPath {
+	return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorCurrentOffset) WithValue(value int32) *ListAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertingPoliciesResponsePathSelectorTotalResultsCount struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorTotalResultsCount) FieldPath() *ListAlertingPoliciesResponse_FieldTerminalPath {
+	return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
 }
 

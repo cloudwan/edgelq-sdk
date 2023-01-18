@@ -1239,11 +1239,12 @@ func (fps *BatchGetProvisioningPoliciesResponse_FieldSubPath) JSONString() strin
 
 // Get returns all values pointed by selected field from source BatchGetProvisioningPoliciesResponse
 func (fps *BatchGetProvisioningPoliciesResponse_FieldSubPath) Get(source *BatchGetProvisioningPoliciesResponse) (values []interface{}) {
-	if asProvisioningPolicyFieldPath, ok := fps.AsProvisioningPoliciesSubPath(); ok {
+	switch fps.selector {
+	case BatchGetProvisioningPoliciesResponse_FieldPathSelectorProvisioningPolicies:
 		for _, item := range source.GetProvisioningPolicies() {
-			values = append(values, asProvisioningPolicyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetProvisioningPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListProvisioningPoliciesRequest_FieldPath interface {
 type ListProvisioningPoliciesRequest_FieldPathSelector int32
 
 const (
-	ListProvisioningPoliciesRequest_FieldPathSelectorParent    ListProvisioningPoliciesRequest_FieldPathSelector = 0
-	ListProvisioningPoliciesRequest_FieldPathSelectorPageSize  ListProvisioningPoliciesRequest_FieldPathSelector = 1
-	ListProvisioningPoliciesRequest_FieldPathSelectorPageToken ListProvisioningPoliciesRequest_FieldPathSelector = 2
-	ListProvisioningPoliciesRequest_FieldPathSelectorOrderBy   ListProvisioningPoliciesRequest_FieldPathSelector = 3
-	ListProvisioningPoliciesRequest_FieldPathSelectorFilter    ListProvisioningPoliciesRequest_FieldPathSelector = 4
-	ListProvisioningPoliciesRequest_FieldPathSelectorFieldMask ListProvisioningPoliciesRequest_FieldPathSelector = 5
-	ListProvisioningPoliciesRequest_FieldPathSelectorView      ListProvisioningPoliciesRequest_FieldPathSelector = 6
+	ListProvisioningPoliciesRequest_FieldPathSelectorParent            ListProvisioningPoliciesRequest_FieldPathSelector = 0
+	ListProvisioningPoliciesRequest_FieldPathSelectorPageSize          ListProvisioningPoliciesRequest_FieldPathSelector = 1
+	ListProvisioningPoliciesRequest_FieldPathSelectorPageToken         ListProvisioningPoliciesRequest_FieldPathSelector = 2
+	ListProvisioningPoliciesRequest_FieldPathSelectorOrderBy           ListProvisioningPoliciesRequest_FieldPathSelector = 3
+	ListProvisioningPoliciesRequest_FieldPathSelectorFilter            ListProvisioningPoliciesRequest_FieldPathSelector = 4
+	ListProvisioningPoliciesRequest_FieldPathSelectorFieldMask         ListProvisioningPoliciesRequest_FieldPathSelector = 5
+	ListProvisioningPoliciesRequest_FieldPathSelectorView              ListProvisioningPoliciesRequest_FieldPathSelector = 6
+	ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo ListProvisioningPoliciesRequest_FieldPathSelector = 7
 )
 
 func (s ListProvisioningPoliciesRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListProvisioningPoliciesRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		return "view"
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListProvisioningPoliciesRequest_FieldPath(fp gotenobject.RawFieldPath)
 			return &ListProvisioningPoliciesRequest_FieldTerminalPath{selector: ListProvisioningPoliciesRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListProvisioningPoliciesRequest_FieldTerminalPath{selector: ListProvisioningPoliciesRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListProvisioningPoliciesRequest_FieldTerminalPath{selector: ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListProvisioningPoliciesRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) Get(source *ListPro
 			}
 		case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) GetSingle(source *L
 		return res, res != nil
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) GetDefault() interf
 		return (*provisioning_policy.ProvisioningPolicy_FieldMask)(nil)
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) ClearValue(item *Li
 			item.FieldMask = nil
 		case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorFilter ||
 		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorView
+		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorView ||
+		fp.selector == ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) WithIValue(value in
 		return &ListProvisioningPoliciesRequest_FieldTerminalPathValue{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, value: value.(*provisioning_policy.ProvisioningPolicy_FieldMask)}
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		return &ListProvisioningPoliciesRequest_FieldTerminalPathValue{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListProvisioningPoliciesRequest_FieldTerminalPathValue{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListProvisioningPoliciesRequest_FieldTerminalPath) WithIArrayOfValues(
 		return &ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.ProvisioningPolicy_FieldMask)}
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		return &ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListProvisioningPoliciesRequest_FieldTerminalPathValue) AsViewValue()
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListProvisioningPoliciesRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListProvisioningPoliciesRequest
 func (fpv *ListProvisioningPoliciesRequest_FieldTerminalPathValue) SetTo(target **ListProvisioningPoliciesRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListProvisioningPoliciesRequest_FieldTerminalPathValue) SetTo(target 
 		(*target).FieldMask = fpv.value.(*provisioning_policy.ProvisioningPolicy_FieldMask)
 	case ListProvisioningPoliciesRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListProvisioningPoliciesRequest_FieldTerminalPathValue) CompareWith(s
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues) Get
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues) AsV
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListProvisioningPoliciesRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2268,6 +2311,8 @@ const (
 	ListProvisioningPoliciesResponse_FieldPathSelectorProvisioningPolicies ListProvisioningPoliciesResponse_FieldPathSelector = 0
 	ListProvisioningPoliciesResponse_FieldPathSelectorPrevPageToken        ListProvisioningPoliciesResponse_FieldPathSelector = 1
 	ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken        ListProvisioningPoliciesResponse_FieldPathSelector = 2
+	ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset        ListProvisioningPoliciesResponse_FieldPathSelector = 3
+	ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount    ListProvisioningPoliciesResponse_FieldPathSelector = 4
 )
 
 func (s ListProvisioningPoliciesResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListProvisioningPoliciesResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListProvisioningPoliciesResponse_FieldPath(fp gotenobject.RawFieldPath
 			return &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) Get(source *ListPr
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) GetSingle(source *
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) GetDefault() inter
 		return (*provisioning_policy.PagerCursor)(nil)
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		return (*provisioning_policy.PagerCursor)(nil)
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) ClearValue(item *L
 			item.PrevPageToken = nil
 		case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) ClearValueRaw(item
 // IsLeaf - whether field path is holds simple value
 func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListProvisioningPoliciesResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) WithIValue(value i
 		return &ListProvisioningPoliciesResponse_FieldTerminalPathValue{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, value: value.(*provisioning_policy.PagerCursor)}
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		return &ListProvisioningPoliciesResponse_FieldTerminalPathValue{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, value: value.(*provisioning_policy.PagerCursor)}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return &ListProvisioningPoliciesResponse_FieldTerminalPathValue{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListProvisioningPoliciesResponse_FieldTerminalPathValue{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListProvisioningPoliciesResponse_FieldTerminalPath) WithIArrayOfValues
 		return &ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.PagerCursor)}
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		return &ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.PagerCursor)}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return &ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues{ListProvisioningPoliciesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListProvisioningPoliciesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListProvisioningPoliciesResponse
 func (fps *ListProvisioningPoliciesResponse_FieldSubPath) Get(source *ListProvisioningPoliciesResponse) (values []interface{}) {
-	if asProvisioningPolicyFieldPath, ok := fps.AsProvisioningPoliciesSubPath(); ok {
+	switch fps.selector {
+	case ListProvisioningPoliciesResponse_FieldPathSelectorProvisioningPolicies:
 		for _, item := range source.GetProvisioningPolicies() {
-			values = append(values, asProvisioningPolicyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) AsNextPageTo
 	res, ok := fpv.value.(*provisioning_policy.PagerCursor)
 	return res, ok
 }
+func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListProvisioningPoliciesResponse
 func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) SetTo(target **ListProvisioningPoliciesResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) SetTo(target
 		(*target).PrevPageToken = fpv.value.(*provisioning_policy.PagerCursor)
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*provisioning_policy.PagerCursor)
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListProvisioningPoliciesResponse_FieldTerminalPathValue) CompareWith(
 		return 0, false
 	case ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProvisioningPoliciesResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues) Ge
 		for _, v := range fpaov.values.([]*provisioning_policy.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues) As
 }
 func (fpaov *ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*provisioning_policy.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*provisioning_policy.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListProvisioningPoliciesResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchProvisioningPoliciesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchProvisioningPoliciesResponse
 func (fps *WatchProvisioningPoliciesResponse_FieldSubPath) Get(source *WatchProvisioningPoliciesResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchProvisioningPoliciesResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchProvisioningPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateProvisioningPolicyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateProvisioningPolicyRequest
 func (fps *CreateProvisioningPolicyRequest_FieldSubPath) Get(source *CreateProvisioningPolicyRequest) (values []interface{}) {
-	if asProvisioningPolicyFieldPath, ok := fps.AsProvisioningPolicySubPath(); ok {
-		values = append(values, asProvisioningPolicyFieldPath.Get(source.GetProvisioningPolicy())...)
-	} else {
+	switch fps.selector {
+	case CreateProvisioningPolicyRequest_FieldPathSelectorProvisioningPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetProvisioningPolicy())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateProvisioningPolicyRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateProvisioningPolicyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateProvisioningPolicyRequest
 func (fps *UpdateProvisioningPolicyRequest_FieldSubPath) Get(source *UpdateProvisioningPolicyRequest) (values []interface{}) {
-	if asProvisioningPolicyFieldPath, ok := fps.AsProvisioningPolicySubPath(); ok {
-		values = append(values, asProvisioningPolicyFieldPath.Get(source.GetProvisioningPolicy())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorProvisioningPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetProvisioningPolicy())...)
+	case UpdateProvisioningPolicyRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateProvisioningPolicyRequestCAS_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source UpdateProvisioningPolicyRequest_CAS
 func (fps *UpdateProvisioningPolicyRequestCAS_FieldSubPath) Get(source *UpdateProvisioningPolicyRequest_CAS) (values []interface{}) {
-	if asProvisioningPolicyFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asProvisioningPolicyFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateProvisioningPolicyRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProvisioningPolicyRequest_CAS: %d", fps.selector))
 	}
 	return

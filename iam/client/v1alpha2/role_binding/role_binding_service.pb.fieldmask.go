@@ -901,6 +901,7 @@ func FullListRoleBindingsRequest_FieldMask() *ListRoleBindingsRequest_FieldMask 
 	res.Paths = append(res.Paths, &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListRoleBindingsRequest_FieldTerminalPath{selector: ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -944,7 +945,7 @@ func (fieldMask *ListRoleBindingsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRoleBindingsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -974,7 +975,7 @@ func (fieldMask *ListRoleBindingsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListRoleBindingsRequest_FieldMask) Subtract(other *ListRoleBindingsRequest_FieldMask) *ListRoleBindingsRequest_FieldMask {
 	result := &ListRoleBindingsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1142,6 +1143,8 @@ func (fieldMask *ListRoleBindingsRequest_FieldMask) Project(source *ListRoleBind
 				result.FieldMask = source.FieldMask
 			case ListRoleBindingsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListRoleBindingsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1168,6 +1171,8 @@ func FullListRoleBindingsResponse_FieldMask() *ListRoleBindingsResponse_FieldMas
 	res.Paths = append(res.Paths, &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorRoleBindings})
 	res.Paths = append(res.Paths, &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListRoleBindingsResponse_FieldTerminalPath{selector: ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1211,7 +1216,7 @@ func (fieldMask *ListRoleBindingsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRoleBindingsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1241,7 +1246,7 @@ func (fieldMask *ListRoleBindingsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListRoleBindingsResponse_FieldMask) Subtract(other *ListRoleBindingsResponse_FieldMask) *ListRoleBindingsResponse_FieldMask {
 	result := &ListRoleBindingsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListRoleBindingsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListRoleBindingsResponse_FieldPathSelectorRoleBindings: &role_binding.RoleBinding_FieldMask{},
 	}
@@ -1448,6 +1453,10 @@ func (fieldMask *ListRoleBindingsResponse_FieldMask) Project(source *ListRoleBin
 				result.PrevPageToken = source.PrevPageToken
 			case ListRoleBindingsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListRoleBindingsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListRoleBindingsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListRoleBindingsResponse_FieldSubPath:
 			switch tp.selector {

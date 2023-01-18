@@ -410,15 +410,16 @@ func (fps *Region_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Region
 func (fps *Region_FieldSubPath) Get(source *Region) (values []interface{}) {
-	if asRegionLocationFieldPath, ok := fps.AsLocationSubPath(); ok {
-		values = append(values, asRegionLocationFieldPath.Get(source.GetLocation())...)
-	} else if asRegionConnectivityPreferenceFieldPath, ok := fps.AsConnectivityScoresSubPath(); ok {
+	switch fps.selector {
+	case Region_FieldPathSelectorLocation:
+		values = append(values, fps.subPath.GetRaw(source.GetLocation())...)
+	case Region_FieldPathSelectorConnectivityScores:
 		for _, item := range source.GetConnectivityScores() {
-			values = append(values, asRegionConnectivityPreferenceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case Region_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Region: %d", fps.selector))
 	}
 	return

@@ -899,6 +899,9 @@ func (ListPermissionsRequestFieldPathBuilder) FieldMask() ListPermissionsRequest
 func (ListPermissionsRequestFieldPathBuilder) View() ListPermissionsRequestPathSelectorView {
 	return ListPermissionsRequestPathSelectorView{}
 }
+func (ListPermissionsRequestFieldPathBuilder) IncludePagingInfo() ListPermissionsRequestPathSelectorIncludePagingInfo {
+	return ListPermissionsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListPermissionsRequestPathSelectorPageSize struct{}
 
@@ -984,6 +987,20 @@ func (s ListPermissionsRequestPathSelectorView) WithArrayOfValues(values []view.
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListPermissionsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListPermissionsRequestPathSelectorIncludePagingInfo) FieldPath() *ListPermissionsRequest_FieldTerminalPath {
+	return &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListPermissionsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListPermissionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPermissionsRequest_FieldTerminalPathValue)
+}
+
+func (s ListPermissionsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListPermissionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListPermissionsResponseFieldPathBuilder struct{}
 
 func NewListPermissionsResponseFieldPathBuilder() ListPermissionsResponseFieldPathBuilder {
@@ -997,6 +1014,12 @@ func (ListPermissionsResponseFieldPathBuilder) PrevPageToken() ListPermissionsRe
 }
 func (ListPermissionsResponseFieldPathBuilder) NextPageToken() ListPermissionsResponsePathSelectorNextPageToken {
 	return ListPermissionsResponsePathSelectorNextPageToken{}
+}
+func (ListPermissionsResponseFieldPathBuilder) CurrentOffset() ListPermissionsResponsePathSelectorCurrentOffset {
+	return ListPermissionsResponsePathSelectorCurrentOffset{}
+}
+func (ListPermissionsResponseFieldPathBuilder) TotalResultsCount() ListPermissionsResponsePathSelectorTotalResultsCount {
+	return ListPermissionsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListPermissionsResponsePathSelectorPermissions struct{}
@@ -1726,6 +1749,34 @@ func (s ListPermissionsResponsePathSelectorNextPageToken) WithValue(value *permi
 }
 
 func (s ListPermissionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*permission.PagerCursor) *ListPermissionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPermissionsResponsePathSelectorCurrentOffset struct{}
+
+func (ListPermissionsResponsePathSelectorCurrentOffset) FieldPath() *ListPermissionsResponse_FieldTerminalPath {
+	return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListPermissionsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListPermissionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPermissionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPermissionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListPermissionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPermissionsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListPermissionsResponsePathSelectorTotalResultsCount) FieldPath() *ListPermissionsResponse_FieldTerminalPath {
+	return &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListPermissionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListPermissionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPermissionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPermissionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListPermissionsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPermissionsResponse_FieldTerminalPathArrayOfValues)
 }
 

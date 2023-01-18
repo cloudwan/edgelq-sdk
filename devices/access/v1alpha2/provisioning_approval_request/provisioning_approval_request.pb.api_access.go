@@ -81,8 +81,9 @@ func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalReque
 
 func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests(ctx context.Context, query *provisioning_approval_request.ListQuery) (*provisioning_approval_request.QueryResultSnapshot, error) {
 	request := &provisioning_approval_request_client.ListProvisioningApprovalRequestsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests
 		ProvisioningApprovalRequests: resp.ProvisioningApprovalRequests,
 		NextPageCursor:               resp.NextPageToken,
 		PrevPageCursor:               resp.PrevPageToken,
+		TotalResultsCount:            resp.TotalResultsCount,
+		CurrentOffset:                resp.CurrentOffset,
 	}, nil
 }
 

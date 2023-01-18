@@ -925,6 +925,9 @@ func (ListResourcesRequestFieldPathBuilder) FieldMask() ListResourcesRequestPath
 func (ListResourcesRequestFieldPathBuilder) View() ListResourcesRequestPathSelectorView {
 	return ListResourcesRequestPathSelectorView{}
 }
+func (ListResourcesRequestFieldPathBuilder) IncludePagingInfo() ListResourcesRequestPathSelectorIncludePagingInfo {
+	return ListResourcesRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListResourcesRequestPathSelectorParent struct{}
 
@@ -1024,6 +1027,20 @@ func (s ListResourcesRequestPathSelectorView) WithArrayOfValues(values []view.Vi
 	return s.FieldPath().WithIArrayOfValues(values).(*ListResourcesRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListResourcesRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListResourcesRequestPathSelectorIncludePagingInfo) FieldPath() *ListResourcesRequest_FieldTerminalPath {
+	return &ListResourcesRequest_FieldTerminalPath{selector: ListResourcesRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListResourcesRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListResourcesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourcesRequest_FieldTerminalPathValue)
+}
+
+func (s ListResourcesRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListResourcesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourcesRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListResourcesResponseFieldPathBuilder struct{}
 
 func NewListResourcesResponseFieldPathBuilder() ListResourcesResponseFieldPathBuilder {
@@ -1037,6 +1054,12 @@ func (ListResourcesResponseFieldPathBuilder) PrevPageToken() ListResourcesRespon
 }
 func (ListResourcesResponseFieldPathBuilder) NextPageToken() ListResourcesResponsePathSelectorNextPageToken {
 	return ListResourcesResponsePathSelectorNextPageToken{}
+}
+func (ListResourcesResponseFieldPathBuilder) CurrentOffset() ListResourcesResponsePathSelectorCurrentOffset {
+	return ListResourcesResponsePathSelectorCurrentOffset{}
+}
+func (ListResourcesResponseFieldPathBuilder) TotalResultsCount() ListResourcesResponsePathSelectorTotalResultsCount {
+	return ListResourcesResponsePathSelectorTotalResultsCount{}
 }
 
 type ListResourcesResponsePathSelectorResources struct{}
@@ -1787,6 +1810,34 @@ func (s ListResourcesResponsePathSelectorNextPageToken) WithValue(value *resourc
 }
 
 func (s ListResourcesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*resource.PagerCursor) *ListResourcesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourcesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListResourcesResponsePathSelectorCurrentOffset struct{}
+
+func (ListResourcesResponsePathSelectorCurrentOffset) FieldPath() *ListResourcesResponse_FieldTerminalPath {
+	return &ListResourcesResponse_FieldTerminalPath{selector: ListResourcesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListResourcesResponsePathSelectorCurrentOffset) WithValue(value int32) *ListResourcesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourcesResponse_FieldTerminalPathValue)
+}
+
+func (s ListResourcesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListResourcesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListResourcesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListResourcesResponsePathSelectorTotalResultsCount struct{}
+
+func (ListResourcesResponsePathSelectorTotalResultsCount) FieldPath() *ListResourcesResponse_FieldTerminalPath {
+	return &ListResourcesResponse_FieldTerminalPath{selector: ListResourcesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListResourcesResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListResourcesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListResourcesResponse_FieldTerminalPathValue)
+}
+
+func (s ListResourcesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListResourcesResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListResourcesResponse_FieldTerminalPathArrayOfValues)
 }
 

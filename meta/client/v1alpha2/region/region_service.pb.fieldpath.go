@@ -1237,11 +1237,12 @@ func (fps *BatchGetRegionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetRegionsResponse
 func (fps *BatchGetRegionsResponse_FieldSubPath) Get(source *BatchGetRegionsResponse) (values []interface{}) {
-	if asRegionFieldPath, ok := fps.AsRegionsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetRegionsResponse_FieldPathSelectorRegions:
 		for _, item := range source.GetRegions() {
-			values = append(values, asRegionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetRegionsResponse: %d", fps.selector))
 	}
 	return
@@ -1640,12 +1641,13 @@ type ListRegionsRequest_FieldPath interface {
 type ListRegionsRequest_FieldPathSelector int32
 
 const (
-	ListRegionsRequest_FieldPathSelectorPageSize  ListRegionsRequest_FieldPathSelector = 0
-	ListRegionsRequest_FieldPathSelectorPageToken ListRegionsRequest_FieldPathSelector = 1
-	ListRegionsRequest_FieldPathSelectorOrderBy   ListRegionsRequest_FieldPathSelector = 2
-	ListRegionsRequest_FieldPathSelectorFilter    ListRegionsRequest_FieldPathSelector = 3
-	ListRegionsRequest_FieldPathSelectorFieldMask ListRegionsRequest_FieldPathSelector = 4
-	ListRegionsRequest_FieldPathSelectorView      ListRegionsRequest_FieldPathSelector = 5
+	ListRegionsRequest_FieldPathSelectorPageSize          ListRegionsRequest_FieldPathSelector = 0
+	ListRegionsRequest_FieldPathSelectorPageToken         ListRegionsRequest_FieldPathSelector = 1
+	ListRegionsRequest_FieldPathSelectorOrderBy           ListRegionsRequest_FieldPathSelector = 2
+	ListRegionsRequest_FieldPathSelectorFilter            ListRegionsRequest_FieldPathSelector = 3
+	ListRegionsRequest_FieldPathSelectorFieldMask         ListRegionsRequest_FieldPathSelector = 4
+	ListRegionsRequest_FieldPathSelectorView              ListRegionsRequest_FieldPathSelector = 5
+	ListRegionsRequest_FieldPathSelectorIncludePagingInfo ListRegionsRequest_FieldPathSelector = 6
 )
 
 func (s ListRegionsRequest_FieldPathSelector) String() string {
@@ -1662,6 +1664,8 @@ func (s ListRegionsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListRegionsRequest_FieldPathSelectorView:
 		return "view"
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", s))
 	}
@@ -1685,6 +1689,8 @@ func BuildListRegionsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListRegions
 			return &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListRegionsRequest", fp)
@@ -1750,6 +1756,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) Get(source *ListRegionsRequest) 
 			}
 		case ListRegionsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 		}
@@ -1780,6 +1788,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) GetSingle(source *ListRegionsReq
 		return res, res != nil
 	case ListRegionsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 	}
@@ -1804,6 +1814,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*region.Region_FieldMask)(nil)
 	case ListRegionsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 	}
@@ -1824,6 +1836,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) ClearValue(item *ListRegionsRequ
 			item.FieldMask = nil
 		case ListRegionsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 		}
@@ -1841,7 +1855,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListRegionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListRegionsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListRegionsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListRegionsRequest_FieldPathSelectorView
+		fp.selector == ListRegionsRequest_FieldPathSelectorView ||
+		fp.selector == ListRegionsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListRegionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1862,6 +1877,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) WithIValue(value interface{}) Li
 		return &ListRegionsRequest_FieldTerminalPathValue{ListRegionsRequest_FieldTerminalPath: *fp, value: value.(*region.Region_FieldMask)}
 	case ListRegionsRequest_FieldPathSelectorView:
 		return &ListRegionsRequest_FieldTerminalPathValue{ListRegionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRegionsRequest_FieldTerminalPathValue{ListRegionsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 	}
@@ -1886,6 +1903,8 @@ func (fp *ListRegionsRequest_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &ListRegionsRequest_FieldTerminalPathArrayOfValues{ListRegionsRequest_FieldTerminalPath: *fp, values: values.([]*region.Region_FieldMask)}
 	case ListRegionsRequest_FieldPathSelectorView:
 		return &ListRegionsRequest_FieldTerminalPathArrayOfValues{ListRegionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRegionsRequest_FieldTerminalPathArrayOfValues{ListRegionsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fp.selector))
 	}
@@ -1970,6 +1989,10 @@ func (fpv *ListRegionsRequest_FieldTerminalPathValue) AsViewValue() (view.View, 
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListRegionsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRegionsRequest
 func (fpv *ListRegionsRequest_FieldTerminalPathValue) SetTo(target **ListRegionsRequest) {
@@ -1989,6 +2012,8 @@ func (fpv *ListRegionsRequest_FieldTerminalPathValue) SetTo(target **ListRegions
 		(*target).FieldMask = fpv.value.(*region.Region_FieldMask)
 	case ListRegionsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsRequest: %d", fpv.selector))
 	}
@@ -2026,6 +2051,16 @@ func (fpv *ListRegionsRequest_FieldTerminalPathValue) CompareWith(source *ListRe
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2162,6 +2197,10 @@ func (fpaov *ListRegionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListRegionsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2189,6 +2228,10 @@ func (fpaov *ListRegionsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfVal
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListRegionsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2209,9 +2252,11 @@ type ListRegionsResponse_FieldPath interface {
 type ListRegionsResponse_FieldPathSelector int32
 
 const (
-	ListRegionsResponse_FieldPathSelectorRegions       ListRegionsResponse_FieldPathSelector = 0
-	ListRegionsResponse_FieldPathSelectorPrevPageToken ListRegionsResponse_FieldPathSelector = 1
-	ListRegionsResponse_FieldPathSelectorNextPageToken ListRegionsResponse_FieldPathSelector = 2
+	ListRegionsResponse_FieldPathSelectorRegions           ListRegionsResponse_FieldPathSelector = 0
+	ListRegionsResponse_FieldPathSelectorPrevPageToken     ListRegionsResponse_FieldPathSelector = 1
+	ListRegionsResponse_FieldPathSelectorNextPageToken     ListRegionsResponse_FieldPathSelector = 2
+	ListRegionsResponse_FieldPathSelectorCurrentOffset     ListRegionsResponse_FieldPathSelector = 3
+	ListRegionsResponse_FieldPathSelectorTotalResultsCount ListRegionsResponse_FieldPathSelector = 4
 )
 
 func (s ListRegionsResponse_FieldPathSelector) String() string {
@@ -2222,6 +2267,10 @@ func (s ListRegionsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", s))
 	}
@@ -2239,6 +2288,10 @@ func BuildListRegionsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListRegion
 			return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2305,6 +2358,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) Get(source *ListRegionsResponse
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 		}
@@ -2328,6 +2385,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) GetSingle(source *ListRegionsRe
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 	}
@@ -2346,6 +2407,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*region.PagerCursor)(nil)
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		return (*region.PagerCursor)(nil)
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 	}
@@ -2360,6 +2425,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) ClearValue(item *ListRegionsRes
 			item.PrevPageToken = nil
 		case ListRegionsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 		}
@@ -2373,7 +2442,9 @@ func (fp *ListRegionsResponse_FieldTerminalPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fp *ListRegionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListRegionsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListRegionsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListRegionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListRegionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListRegionsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListRegionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2388,6 +2459,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) WithIValue(value interface{}) L
 		return &ListRegionsResponse_FieldTerminalPathValue{ListRegionsResponse_FieldTerminalPath: *fp, value: value.(*region.PagerCursor)}
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		return &ListRegionsResponse_FieldTerminalPathValue{ListRegionsResponse_FieldTerminalPath: *fp, value: value.(*region.PagerCursor)}
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListRegionsResponse_FieldTerminalPathValue{ListRegionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRegionsResponse_FieldTerminalPathValue{ListRegionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 	}
@@ -2406,6 +2481,10 @@ func (fp *ListRegionsResponse_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &ListRegionsResponse_FieldTerminalPathArrayOfValues{ListRegionsResponse_FieldTerminalPath: *fp, values: values.([]*region.PagerCursor)}
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		return &ListRegionsResponse_FieldTerminalPathArrayOfValues{ListRegionsResponse_FieldTerminalPath: *fp, values: values.([]*region.PagerCursor)}
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListRegionsResponse_FieldTerminalPathArrayOfValues{ListRegionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRegionsResponse_FieldTerminalPathArrayOfValues{ListRegionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fp.selector))
 	}
@@ -2456,11 +2535,12 @@ func (fps *ListRegionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListRegionsResponse
 func (fps *ListRegionsResponse_FieldSubPath) Get(source *ListRegionsResponse) (values []interface{}) {
-	if asRegionFieldPath, ok := fps.AsRegionsSubPath(); ok {
+	switch fps.selector {
+	case ListRegionsResponse_FieldPathSelectorRegions:
 		for _, item := range source.GetRegions() {
-			values = append(values, asRegionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fps.selector))
 	}
 	return
@@ -2595,6 +2675,14 @@ func (fpv *ListRegionsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*
 	res, ok := fpv.value.(*region.PagerCursor)
 	return res, ok
 }
+func (fpv *ListRegionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListRegionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRegionsResponse
 func (fpv *ListRegionsResponse_FieldTerminalPathValue) SetTo(target **ListRegionsResponse) {
@@ -2608,6 +2696,10 @@ func (fpv *ListRegionsResponse_FieldTerminalPathValue) SetTo(target **ListRegion
 		(*target).PrevPageToken = fpv.value.(*region.PagerCursor)
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*region.PagerCursor)
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fpv.selector))
 	}
@@ -2627,6 +2719,26 @@ func (fpv *ListRegionsResponse_FieldTerminalPathValue) CompareWith(source *ListR
 		return 0, false
 	case ListRegionsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRegionsResponse: %d", fpv.selector))
 	}
@@ -2821,6 +2933,14 @@ func (fpaov *ListRegionsResponse_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*region.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListRegionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListRegionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2834,6 +2954,14 @@ func (fpaov *ListRegionsResponse_FieldTerminalPathArrayOfValues) AsPrevPageToken
 }
 func (fpaov *ListRegionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*region.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*region.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListRegionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListRegionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4780,9 +4908,10 @@ func (fps *WatchRegionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchRegionsResponse
 func (fps *WatchRegionsResponse_FieldSubPath) Get(source *WatchRegionsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchRegionsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchRegionsResponse: %d", fps.selector))
 	}
 	return
@@ -5910,9 +6039,10 @@ func (fps *CreateRegionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateRegionRequest
 func (fps *CreateRegionRequest_FieldSubPath) Get(source *CreateRegionRequest) (values []interface{}) {
-	if asRegionFieldPath, ok := fps.AsRegionSubPath(); ok {
-		values = append(values, asRegionFieldPath.Get(source.GetRegion())...)
-	} else {
+	switch fps.selector {
+	case CreateRegionRequest_FieldPathSelectorRegion:
+		values = append(values, fps.subPath.GetRaw(source.GetRegion())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateRegionRequest: %d", fps.selector))
 	}
 	return
@@ -6539,11 +6669,12 @@ func (fps *UpdateRegionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRegionRequest
 func (fps *UpdateRegionRequest_FieldSubPath) Get(source *UpdateRegionRequest) (values []interface{}) {
-	if asRegionFieldPath, ok := fps.AsRegionSubPath(); ok {
-		values = append(values, asRegionFieldPath.Get(source.GetRegion())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateRegionRequest_FieldPathSelectorRegion:
+		values = append(values, fps.subPath.GetRaw(source.GetRegion())...)
+	case UpdateRegionRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest: %d", fps.selector))
 	}
 	return
@@ -7197,9 +7328,10 @@ func (fps *UpdateRegionRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRegionRequest_CAS
 func (fps *UpdateRegionRequestCAS_FieldSubPath) Get(source *UpdateRegionRequest_CAS) (values []interface{}) {
-	if asRegionFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asRegionFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateRegionRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRegionRequest_CAS: %d", fps.selector))
 	}
 	return

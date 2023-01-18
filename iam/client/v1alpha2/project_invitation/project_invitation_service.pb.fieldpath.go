@@ -1239,11 +1239,12 @@ func (fps *BatchGetProjectInvitationsResponse_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source BatchGetProjectInvitationsResponse
 func (fps *BatchGetProjectInvitationsResponse_FieldSubPath) Get(source *BatchGetProjectInvitationsResponse) (values []interface{}) {
-	if asProjectInvitationFieldPath, ok := fps.AsProjectInvitationsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetProjectInvitationsResponse_FieldPathSelectorProjectInvitations:
 		for _, item := range source.GetProjectInvitations() {
-			values = append(values, asProjectInvitationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetProjectInvitationsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListProjectInvitationsRequest_FieldPath interface {
 type ListProjectInvitationsRequest_FieldPathSelector int32
 
 const (
-	ListProjectInvitationsRequest_FieldPathSelectorParent    ListProjectInvitationsRequest_FieldPathSelector = 0
-	ListProjectInvitationsRequest_FieldPathSelectorPageSize  ListProjectInvitationsRequest_FieldPathSelector = 1
-	ListProjectInvitationsRequest_FieldPathSelectorPageToken ListProjectInvitationsRequest_FieldPathSelector = 2
-	ListProjectInvitationsRequest_FieldPathSelectorOrderBy   ListProjectInvitationsRequest_FieldPathSelector = 3
-	ListProjectInvitationsRequest_FieldPathSelectorFilter    ListProjectInvitationsRequest_FieldPathSelector = 4
-	ListProjectInvitationsRequest_FieldPathSelectorFieldMask ListProjectInvitationsRequest_FieldPathSelector = 5
-	ListProjectInvitationsRequest_FieldPathSelectorView      ListProjectInvitationsRequest_FieldPathSelector = 6
+	ListProjectInvitationsRequest_FieldPathSelectorParent            ListProjectInvitationsRequest_FieldPathSelector = 0
+	ListProjectInvitationsRequest_FieldPathSelectorPageSize          ListProjectInvitationsRequest_FieldPathSelector = 1
+	ListProjectInvitationsRequest_FieldPathSelectorPageToken         ListProjectInvitationsRequest_FieldPathSelector = 2
+	ListProjectInvitationsRequest_FieldPathSelectorOrderBy           ListProjectInvitationsRequest_FieldPathSelector = 3
+	ListProjectInvitationsRequest_FieldPathSelectorFilter            ListProjectInvitationsRequest_FieldPathSelector = 4
+	ListProjectInvitationsRequest_FieldPathSelectorFieldMask         ListProjectInvitationsRequest_FieldPathSelector = 5
+	ListProjectInvitationsRequest_FieldPathSelectorView              ListProjectInvitationsRequest_FieldPathSelector = 6
+	ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo ListProjectInvitationsRequest_FieldPathSelector = 7
 )
 
 func (s ListProjectInvitationsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListProjectInvitationsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		return "view"
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListProjectInvitationsRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListProjectInvitationsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) Get(source *ListProje
 			}
 		case ListProjectInvitationsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) GetSingle(source *Lis
 		return res, res != nil
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) GetDefault() interfac
 		return (*project_invitation.ProjectInvitation_FieldMask)(nil)
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) ClearValue(item *List
 			item.FieldMask = nil
 		case ListProjectInvitationsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorView
+		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorView ||
+		fp.selector == ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListProjectInvitationsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) WithIValue(value inte
 		return &ListProjectInvitationsRequest_FieldTerminalPathValue{ListProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(*project_invitation.ProjectInvitation_FieldMask)}
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		return &ListProjectInvitationsRequest_FieldTerminalPathValue{ListProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListProjectInvitationsRequest_FieldTerminalPathValue{ListProjectInvitationsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListProjectInvitationsRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]*project_invitation.ProjectInvitation_FieldMask)}
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		return &ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues{ListProjectInvitationsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListProjectInvitationsRequest_FieldTerminalPathValue) AsViewValue() (
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListProjectInvitationsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListProjectInvitationsRequest
 func (fpv *ListProjectInvitationsRequest_FieldTerminalPathValue) SetTo(target **ListProjectInvitationsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListProjectInvitationsRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).FieldMask = fpv.value.(*project_invitation.ProjectInvitation_FieldMask)
 	case ListProjectInvitationsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListProjectInvitationsRequest_FieldTerminalPathValue) CompareWith(sou
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsVie
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2268,6 +2311,8 @@ const (
 	ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations ListProjectInvitationsResponse_FieldPathSelector = 0
 	ListProjectInvitationsResponse_FieldPathSelectorPrevPageToken      ListProjectInvitationsResponse_FieldPathSelector = 1
 	ListProjectInvitationsResponse_FieldPathSelectorNextPageToken      ListProjectInvitationsResponse_FieldPathSelector = 2
+	ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset      ListProjectInvitationsResponse_FieldPathSelector = 3
+	ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount  ListProjectInvitationsResponse_FieldPathSelector = 4
 )
 
 func (s ListProjectInvitationsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListProjectInvitationsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListProjectInvitationsResponse_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) Get(source *ListProj
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) GetSingle(source *Li
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) GetDefault() interfa
 		return (*project_invitation.PagerCursor)(nil)
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		return (*project_invitation.PagerCursor)(nil)
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) ClearValue(item *Lis
 			item.PrevPageToken = nil
 		case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *ListProjectInvitationsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListProjectInvitationsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListProjectInvitationsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListProjectInvitationsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListProjectInvitationsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) WithIValue(value int
 		return &ListProjectInvitationsResponse_FieldTerminalPathValue{ListProjectInvitationsResponse_FieldTerminalPath: *fp, value: value.(*project_invitation.PagerCursor)}
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		return &ListProjectInvitationsResponse_FieldTerminalPathValue{ListProjectInvitationsResponse_FieldTerminalPath: *fp, value: value.(*project_invitation.PagerCursor)}
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		return &ListProjectInvitationsResponse_FieldTerminalPathValue{ListProjectInvitationsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListProjectInvitationsResponse_FieldTerminalPathValue{ListProjectInvitationsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListProjectInvitationsResponse_FieldTerminalPath) WithIArrayOfValues(v
 		return &ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues{ListProjectInvitationsResponse_FieldTerminalPath: *fp, values: values.([]*project_invitation.PagerCursor)}
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		return &ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues{ListProjectInvitationsResponse_FieldTerminalPath: *fp, values: values.([]*project_invitation.PagerCursor)}
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		return &ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues{ListProjectInvitationsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues{ListProjectInvitationsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListProjectInvitationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListProjectInvitationsResponse
 func (fps *ListProjectInvitationsResponse_FieldSubPath) Get(source *ListProjectInvitationsResponse) (values []interface{}) {
-	if asProjectInvitationFieldPath, ok := fps.AsProjectInvitationsSubPath(); ok {
+	switch fps.selector {
+	case ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations:
 		for _, item := range source.GetProjectInvitations() {
-			values = append(values, asProjectInvitationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) AsNextPageToke
 	res, ok := fpv.value.(*project_invitation.PagerCursor)
 	return res, ok
 }
+func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListProjectInvitationsResponse
 func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) SetTo(target **ListProjectInvitationsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) SetTo(target *
 		(*target).PrevPageToken = fpv.value.(*project_invitation.PagerCursor)
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*project_invitation.PagerCursor)
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListProjectInvitationsResponse_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListProjectInvitationsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*project_invitation.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues) AsPr
 }
 func (fpaov *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*project_invitation.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*project_invitation.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchProjectInvitationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchProjectInvitationsResponse
 func (fps *WatchProjectInvitationsResponse_FieldSubPath) Get(source *WatchProjectInvitationsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchProjectInvitationsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchProjectInvitationsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateProjectInvitationRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateProjectInvitationRequest
 func (fps *CreateProjectInvitationRequest_FieldSubPath) Get(source *CreateProjectInvitationRequest) (values []interface{}) {
-	if asProjectInvitationFieldPath, ok := fps.AsProjectInvitationSubPath(); ok {
-		values = append(values, asProjectInvitationFieldPath.Get(source.GetProjectInvitation())...)
-	} else {
+	switch fps.selector {
+	case CreateProjectInvitationRequest_FieldPathSelectorProjectInvitation:
+		values = append(values, fps.subPath.GetRaw(source.GetProjectInvitation())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateProjectInvitationRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateProjectInvitationRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateProjectInvitationRequest
 func (fps *UpdateProjectInvitationRequest_FieldSubPath) Get(source *UpdateProjectInvitationRequest) (values []interface{}) {
-	if asProjectInvitationFieldPath, ok := fps.AsProjectInvitationSubPath(); ok {
-		values = append(values, asProjectInvitationFieldPath.Get(source.GetProjectInvitation())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateProjectInvitationRequest_FieldPathSelectorProjectInvitation:
+		values = append(values, fps.subPath.GetRaw(source.GetProjectInvitation())...)
+	case UpdateProjectInvitationRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateProjectInvitationRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateProjectInvitationRequest_CAS
 func (fps *UpdateProjectInvitationRequestCAS_FieldSubPath) Get(source *UpdateProjectInvitationRequest_CAS) (values []interface{}) {
-	if asProjectInvitationFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asProjectInvitationFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateProjectInvitationRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateProjectInvitationRequest_CAS: %d", fps.selector))
 	}
 	return

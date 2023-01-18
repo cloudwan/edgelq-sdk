@@ -414,17 +414,18 @@ func (fps *MonitoredResourceDescriptor_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source MonitoredResourceDescriptor
 func (fps *MonitoredResourceDescriptor_FieldSubPath) Get(source *MonitoredResourceDescriptor) (values []interface{}) {
-	if asLabelDescriptorFieldPath, ok := fps.AsLabelsSubPath(); ok {
+	switch fps.selector {
+	case MonitoredResourceDescriptor_FieldPathSelectorLabels:
 		for _, item := range source.GetLabels() {
-			values = append(values, asLabelDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asLabelKeySetFieldPath, ok := fps.AsPromotedLabelKeySetsSubPath(); ok {
+	case MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		for _, item := range source.GetPromotedLabelKeySets() {
-			values = append(values, asLabelKeySetFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case MonitoredResourceDescriptor_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for MonitoredResourceDescriptor: %d", fps.selector))
 	}
 	return

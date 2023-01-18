@@ -81,8 +81,9 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 
 func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *condition.ListQuery) (*condition.QueryResultSnapshot, error) {
 	request := &condition_client.ListConditionsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *conditi
 		return nil, err
 	}
 	return &condition.QueryResultSnapshot{
-		Conditions:     resp.Conditions,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Conditions:        resp.Conditions,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

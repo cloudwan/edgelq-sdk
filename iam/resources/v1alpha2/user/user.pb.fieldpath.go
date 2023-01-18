@@ -557,11 +557,12 @@ func (fps *User_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source User
 func (fps *User_FieldSubPath) Get(source *User) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asAuthInfoFieldPath, ok := fps.AsAuthInfoSubPath(); ok {
-		values = append(values, asAuthInfoFieldPath.Get(source.GetAuthInfo())...)
-	} else {
+	switch fps.selector {
+	case User_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case User_FieldPathSelectorAuthInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetAuthInfo())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fps.selector))
 	}
 	return

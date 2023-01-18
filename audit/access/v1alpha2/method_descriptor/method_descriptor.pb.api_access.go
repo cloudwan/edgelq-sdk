@@ -81,8 +81,9 @@ func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Contex
 
 func (a *apiMethodDescriptorAccess) QueryMethodDescriptors(ctx context.Context, query *method_descriptor.ListQuery) (*method_descriptor.QueryResultSnapshot, error) {
 	request := &method_descriptor_client.ListMethodDescriptorsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiMethodDescriptorAccess) QueryMethodDescriptors(ctx context.Context, 
 		MethodDescriptors: resp.MethodDescriptors,
 		NextPageCursor:    resp.NextPageToken,
 		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

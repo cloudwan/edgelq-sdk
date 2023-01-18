@@ -1239,11 +1239,12 @@ func (fps *BatchGetDeploymentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetDeploymentsResponse
 func (fps *BatchGetDeploymentsResponse_FieldSubPath) Get(source *BatchGetDeploymentsResponse) (values []interface{}) {
-	if asDeploymentFieldPath, ok := fps.AsDeploymentsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetDeploymentsResponse_FieldPathSelectorDeployments:
 		for _, item := range source.GetDeployments() {
-			values = append(values, asDeploymentFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetDeploymentsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListDeploymentsRequest_FieldPath interface {
 type ListDeploymentsRequest_FieldPathSelector int32
 
 const (
-	ListDeploymentsRequest_FieldPathSelectorParent    ListDeploymentsRequest_FieldPathSelector = 0
-	ListDeploymentsRequest_FieldPathSelectorPageSize  ListDeploymentsRequest_FieldPathSelector = 1
-	ListDeploymentsRequest_FieldPathSelectorPageToken ListDeploymentsRequest_FieldPathSelector = 2
-	ListDeploymentsRequest_FieldPathSelectorOrderBy   ListDeploymentsRequest_FieldPathSelector = 3
-	ListDeploymentsRequest_FieldPathSelectorFilter    ListDeploymentsRequest_FieldPathSelector = 4
-	ListDeploymentsRequest_FieldPathSelectorFieldMask ListDeploymentsRequest_FieldPathSelector = 5
-	ListDeploymentsRequest_FieldPathSelectorView      ListDeploymentsRequest_FieldPathSelector = 6
+	ListDeploymentsRequest_FieldPathSelectorParent            ListDeploymentsRequest_FieldPathSelector = 0
+	ListDeploymentsRequest_FieldPathSelectorPageSize          ListDeploymentsRequest_FieldPathSelector = 1
+	ListDeploymentsRequest_FieldPathSelectorPageToken         ListDeploymentsRequest_FieldPathSelector = 2
+	ListDeploymentsRequest_FieldPathSelectorOrderBy           ListDeploymentsRequest_FieldPathSelector = 3
+	ListDeploymentsRequest_FieldPathSelectorFilter            ListDeploymentsRequest_FieldPathSelector = 4
+	ListDeploymentsRequest_FieldPathSelectorFieldMask         ListDeploymentsRequest_FieldPathSelector = 5
+	ListDeploymentsRequest_FieldPathSelectorView              ListDeploymentsRequest_FieldPathSelector = 6
+	ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo ListDeploymentsRequest_FieldPathSelector = 7
 )
 
 func (s ListDeploymentsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListDeploymentsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		return "view"
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListDeploymentsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListDep
 			return &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListDeploymentsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) Get(source *ListDeploymentsR
 			}
 		case ListDeploymentsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) GetSingle(source *ListDeploy
 		return res, res != nil
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*deployment.Deployment_FieldMask)(nil)
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) ClearValue(item *ListDeploym
 			item.FieldMask = nil
 		case ListDeploymentsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListDeploymentsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListDeploymentsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListDeploymentsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListDeploymentsRequest_FieldPathSelectorView
+		fp.selector == ListDeploymentsRequest_FieldPathSelectorView ||
+		fp.selector == ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListDeploymentsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) WithIValue(value interface{}
 		return &ListDeploymentsRequest_FieldTerminalPathValue{ListDeploymentsRequest_FieldTerminalPath: *fp, value: value.(*deployment.Deployment_FieldMask)}
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		return &ListDeploymentsRequest_FieldTerminalPathValue{ListDeploymentsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListDeploymentsRequest_FieldTerminalPathValue{ListDeploymentsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListDeploymentsRequest_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ListDeploymentsRequest_FieldTerminalPathArrayOfValues{ListDeploymentsRequest_FieldTerminalPath: *fp, values: values.([]*deployment.Deployment_FieldMask)}
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		return &ListDeploymentsRequest_FieldTerminalPathArrayOfValues{ListDeploymentsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListDeploymentsRequest_FieldTerminalPathArrayOfValues{ListDeploymentsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListDeploymentsRequest_FieldTerminalPathValue) AsViewValue() (view.Vi
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListDeploymentsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListDeploymentsRequest
 func (fpv *ListDeploymentsRequest_FieldTerminalPathValue) SetTo(target **ListDeploymentsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListDeploymentsRequest_FieldTerminalPathValue) SetTo(target **ListDep
 		(*target).FieldMask = fpv.value.(*deployment.Deployment_FieldMask)
 	case ListDeploymentsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListDeploymentsRequest_FieldTerminalPathValue) CompareWith(source *Li
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListDeploymentsRequest_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListDeploymentsRequest_FieldTerminalPathArrayOfValues) AsViewArrayO
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListDeploymentsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListDeploymentsResponse_FieldPath interface {
 type ListDeploymentsResponse_FieldPathSelector int32
 
 const (
-	ListDeploymentsResponse_FieldPathSelectorDeployments   ListDeploymentsResponse_FieldPathSelector = 0
-	ListDeploymentsResponse_FieldPathSelectorPrevPageToken ListDeploymentsResponse_FieldPathSelector = 1
-	ListDeploymentsResponse_FieldPathSelectorNextPageToken ListDeploymentsResponse_FieldPathSelector = 2
+	ListDeploymentsResponse_FieldPathSelectorDeployments       ListDeploymentsResponse_FieldPathSelector = 0
+	ListDeploymentsResponse_FieldPathSelectorPrevPageToken     ListDeploymentsResponse_FieldPathSelector = 1
+	ListDeploymentsResponse_FieldPathSelectorNextPageToken     ListDeploymentsResponse_FieldPathSelector = 2
+	ListDeploymentsResponse_FieldPathSelectorCurrentOffset     ListDeploymentsResponse_FieldPathSelector = 3
+	ListDeploymentsResponse_FieldPathSelectorTotalResultsCount ListDeploymentsResponse_FieldPathSelector = 4
 )
 
 func (s ListDeploymentsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListDeploymentsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListDeploymentsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListDe
 			return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) Get(source *ListDeployments
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) GetSingle(source *ListDeplo
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*deployment.PagerCursor)(nil)
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		return (*deployment.PagerCursor)(nil)
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) ClearValue(item *ListDeploy
 			item.PrevPageToken = nil
 		case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fp *ListDeploymentsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListDeploymentsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListDeploymentsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListDeploymentsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListDeploymentsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListDeploymentsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListDeploymentsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) WithIValue(value interface{
 		return &ListDeploymentsResponse_FieldTerminalPathValue{ListDeploymentsResponse_FieldTerminalPath: *fp, value: value.(*deployment.PagerCursor)}
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		return &ListDeploymentsResponse_FieldTerminalPathValue{ListDeploymentsResponse_FieldTerminalPath: *fp, value: value.(*deployment.PagerCursor)}
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		return &ListDeploymentsResponse_FieldTerminalPathValue{ListDeploymentsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListDeploymentsResponse_FieldTerminalPathValue{ListDeploymentsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListDeploymentsResponse_FieldTerminalPath) WithIArrayOfValues(values i
 		return &ListDeploymentsResponse_FieldTerminalPathArrayOfValues{ListDeploymentsResponse_FieldTerminalPath: *fp, values: values.([]*deployment.PagerCursor)}
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		return &ListDeploymentsResponse_FieldTerminalPathArrayOfValues{ListDeploymentsResponse_FieldTerminalPath: *fp, values: values.([]*deployment.PagerCursor)}
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		return &ListDeploymentsResponse_FieldTerminalPathArrayOfValues{ListDeploymentsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListDeploymentsResponse_FieldTerminalPathArrayOfValues{ListDeploymentsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListDeploymentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListDeploymentsResponse
 func (fps *ListDeploymentsResponse_FieldSubPath) Get(source *ListDeploymentsResponse) (values []interface{}) {
-	if asDeploymentFieldPath, ok := fps.AsDeploymentsSubPath(); ok {
+	switch fps.selector {
+	case ListDeploymentsResponse_FieldPathSelectorDeployments:
 		for _, item := range source.GetDeployments() {
-			values = append(values, asDeploymentFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) AsNextPageTokenValue(
 	res, ok := fpv.value.(*deployment.PagerCursor)
 	return res, ok
 }
+func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListDeploymentsResponse
 func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) SetTo(target **ListDeploymentsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) SetTo(target **ListDe
 		(*target).PrevPageToken = fpv.value.(*deployment.PagerCursor)
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*deployment.PagerCursor)
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListDeploymentsResponse_FieldTerminalPathValue) CompareWith(source *L
 		return 0, false
 	case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDeploymentsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListDeploymentsResponse_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]*deployment.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListDeploymentsResponse_FieldTerminalPathArrayOfValues) AsPrevPageT
 }
 func (fpaov *ListDeploymentsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*deployment.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*deployment.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListDeploymentsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListDeploymentsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchDeploymentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchDeploymentsResponse
 func (fps *WatchDeploymentsResponse_FieldSubPath) Get(source *WatchDeploymentsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchDeploymentsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchDeploymentsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateDeploymentRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateDeploymentRequest
 func (fps *CreateDeploymentRequest_FieldSubPath) Get(source *CreateDeploymentRequest) (values []interface{}) {
-	if asDeploymentFieldPath, ok := fps.AsDeploymentSubPath(); ok {
-		values = append(values, asDeploymentFieldPath.Get(source.GetDeployment())...)
-	} else {
+	switch fps.selector {
+	case CreateDeploymentRequest_FieldPathSelectorDeployment:
+		values = append(values, fps.subPath.GetRaw(source.GetDeployment())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateDeploymentRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateDeploymentRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateDeploymentRequest
 func (fps *UpdateDeploymentRequest_FieldSubPath) Get(source *UpdateDeploymentRequest) (values []interface{}) {
-	if asDeploymentFieldPath, ok := fps.AsDeploymentSubPath(); ok {
-		values = append(values, asDeploymentFieldPath.Get(source.GetDeployment())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateDeploymentRequest_FieldPathSelectorDeployment:
+		values = append(values, fps.subPath.GetRaw(source.GetDeployment())...)
+	case UpdateDeploymentRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateDeploymentRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateDeploymentRequest_CAS
 func (fps *UpdateDeploymentRequestCAS_FieldSubPath) Get(source *UpdateDeploymentRequest_CAS) (values []interface{}) {
-	if asDeploymentFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asDeploymentFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateDeploymentRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDeploymentRequest_CAS: %d", fps.selector))
 	}
 	return

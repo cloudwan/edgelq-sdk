@@ -62,6 +62,7 @@ func FullListMetricDescriptorsRequest_FieldMask() *ListMetricDescriptorsRequest_
 	res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorOrderBy})
 	res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -105,7 +106,7 @@ func (fieldMask *ListMetricDescriptorsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMetricDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -135,7 +136,7 @@ func (fieldMask *ListMetricDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListMetricDescriptorsRequest_FieldMask) Subtract(other *ListMetricDescriptorsRequest_FieldMask) *ListMetricDescriptorsRequest_FieldMask {
 	result := &ListMetricDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -303,6 +304,8 @@ func (fieldMask *ListMetricDescriptorsRequest_FieldMask) Project(source *ListMet
 				result.FieldMask = source.FieldMask
 			case ListMetricDescriptorsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -329,6 +332,8 @@ func FullListMetricDescriptorsResponse_FieldMask() *ListMetricDescriptorsRespons
 	res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors})
 	res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorNextPageToken})
 	res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken})
+	res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -372,7 +377,7 @@ func (fieldMask *ListMetricDescriptorsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMetricDescriptorsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -402,7 +407,7 @@ func (fieldMask *ListMetricDescriptorsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListMetricDescriptorsResponse_FieldMask) Subtract(other *ListMetricDescriptorsResponse_FieldMask) *ListMetricDescriptorsResponse_FieldMask {
 	result := &ListMetricDescriptorsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListMetricDescriptorsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors: &metric_descriptor.MetricDescriptor_FieldMask{},
 	}
@@ -609,6 +614,10 @@ func (fieldMask *ListMetricDescriptorsResponse_FieldMask) Project(source *ListMe
 				result.NextPageToken = source.NextPageToken
 			case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 				result.PrevPageToken = source.PrevPageToken
+			case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListMetricDescriptorsResponse_FieldSubPath:
 			switch tp.selector {

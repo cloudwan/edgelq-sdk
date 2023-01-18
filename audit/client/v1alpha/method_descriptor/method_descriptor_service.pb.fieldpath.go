@@ -1235,11 +1235,12 @@ func (fps *BatchGetMethodDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetMethodDescriptorsResponse
 func (fps *BatchGetMethodDescriptorsResponse_FieldSubPath) Get(source *BatchGetMethodDescriptorsResponse) (values []interface{}) {
-	if asMethodDescriptorFieldPath, ok := fps.AsMethodDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetMethodDescriptorsResponse_FieldPathSelectorMethodDescriptors:
 		for _, item := range source.GetMethodDescriptors() {
-			values = append(values, asMethodDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetMethodDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -1638,12 +1639,13 @@ type ListMethodDescriptorsRequest_FieldPath interface {
 type ListMethodDescriptorsRequest_FieldPathSelector int32
 
 const (
-	ListMethodDescriptorsRequest_FieldPathSelectorPageSize  ListMethodDescriptorsRequest_FieldPathSelector = 0
-	ListMethodDescriptorsRequest_FieldPathSelectorPageToken ListMethodDescriptorsRequest_FieldPathSelector = 1
-	ListMethodDescriptorsRequest_FieldPathSelectorOrderBy   ListMethodDescriptorsRequest_FieldPathSelector = 2
-	ListMethodDescriptorsRequest_FieldPathSelectorFilter    ListMethodDescriptorsRequest_FieldPathSelector = 3
-	ListMethodDescriptorsRequest_FieldPathSelectorFieldMask ListMethodDescriptorsRequest_FieldPathSelector = 4
-	ListMethodDescriptorsRequest_FieldPathSelectorView      ListMethodDescriptorsRequest_FieldPathSelector = 5
+	ListMethodDescriptorsRequest_FieldPathSelectorPageSize          ListMethodDescriptorsRequest_FieldPathSelector = 0
+	ListMethodDescriptorsRequest_FieldPathSelectorPageToken         ListMethodDescriptorsRequest_FieldPathSelector = 1
+	ListMethodDescriptorsRequest_FieldPathSelectorOrderBy           ListMethodDescriptorsRequest_FieldPathSelector = 2
+	ListMethodDescriptorsRequest_FieldPathSelectorFilter            ListMethodDescriptorsRequest_FieldPathSelector = 3
+	ListMethodDescriptorsRequest_FieldPathSelectorFieldMask         ListMethodDescriptorsRequest_FieldPathSelector = 4
+	ListMethodDescriptorsRequest_FieldPathSelectorView              ListMethodDescriptorsRequest_FieldPathSelector = 5
+	ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo ListMethodDescriptorsRequest_FieldPathSelector = 6
 )
 
 func (s ListMethodDescriptorsRequest_FieldPathSelector) String() string {
@@ -1660,6 +1662,8 @@ func (s ListMethodDescriptorsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		return "view"
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", s))
 	}
@@ -1683,6 +1687,8 @@ func BuildListMethodDescriptorsRequest_FieldPath(fp gotenobject.RawFieldPath) (L
 			return &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListMethodDescriptorsRequest", fp)
@@ -1748,6 +1754,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) Get(source *ListMethod
 			}
 		case ListMethodDescriptorsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 		}
@@ -1778,6 +1786,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) GetSingle(source *List
 		return res, res != nil
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 	}
@@ -1802,6 +1812,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) GetDefault() interface
 		return (*method_descriptor.MethodDescriptor_FieldMask)(nil)
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 	}
@@ -1822,6 +1834,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) ClearValue(item *ListM
 			item.FieldMask = nil
 		case ListMethodDescriptorsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 		}
@@ -1839,7 +1853,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorView
+		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorView ||
+		fp.selector == ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1860,6 +1875,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) WithIValue(value inter
 		return &ListMethodDescriptorsRequest_FieldTerminalPathValue{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*method_descriptor.MethodDescriptor_FieldMask)}
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		return &ListMethodDescriptorsRequest_FieldTerminalPathValue{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMethodDescriptorsRequest_FieldTerminalPathValue{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 	}
@@ -1884,6 +1901,8 @@ func (fp *ListMethodDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(val
 		return &ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*method_descriptor.MethodDescriptor_FieldMask)}
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		return &ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMethodDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fp.selector))
 	}
@@ -1968,6 +1987,10 @@ func (fpv *ListMethodDescriptorsRequest_FieldTerminalPathValue) AsViewValue() (v
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListMethodDescriptorsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMethodDescriptorsRequest
 func (fpv *ListMethodDescriptorsRequest_FieldTerminalPathValue) SetTo(target **ListMethodDescriptorsRequest) {
@@ -1987,6 +2010,8 @@ func (fpv *ListMethodDescriptorsRequest_FieldTerminalPathValue) SetTo(target **L
 		(*target).FieldMask = fpv.value.(*method_descriptor.MethodDescriptor_FieldMask)
 	case ListMethodDescriptorsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsRequest: %d", fpv.selector))
 	}
@@ -2024,6 +2049,16 @@ func (fpv *ListMethodDescriptorsRequest_FieldTerminalPathValue) CompareWith(sour
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2160,6 +2195,10 @@ func (fpaov *ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2187,6 +2226,10 @@ func (fpaov *ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) AsView
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2210,6 +2253,8 @@ const (
 	ListMethodDescriptorsResponse_FieldPathSelectorMethodDescriptors ListMethodDescriptorsResponse_FieldPathSelector = 0
 	ListMethodDescriptorsResponse_FieldPathSelectorPrevPageToken     ListMethodDescriptorsResponse_FieldPathSelector = 1
 	ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken     ListMethodDescriptorsResponse_FieldPathSelector = 2
+	ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset     ListMethodDescriptorsResponse_FieldPathSelector = 3
+	ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount ListMethodDescriptorsResponse_FieldPathSelector = 4
 )
 
 func (s ListMethodDescriptorsResponse_FieldPathSelector) String() string {
@@ -2220,6 +2265,10 @@ func (s ListMethodDescriptorsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", s))
 	}
@@ -2237,6 +2286,10 @@ func BuildListMethodDescriptorsResponse_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2303,6 +2356,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) Get(source *ListMetho
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 		}
@@ -2326,6 +2383,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) GetSingle(source *Lis
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 	}
@@ -2344,6 +2405,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) GetDefault() interfac
 		return (*method_descriptor.PagerCursor)(nil)
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return (*method_descriptor.PagerCursor)(nil)
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 	}
@@ -2358,6 +2423,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) ClearValue(item *List
 			item.PrevPageToken = nil
 		case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 		}
@@ -2371,7 +2440,9 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListMethodDescriptorsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2386,6 +2457,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) WithIValue(value inte
 		return &ListMethodDescriptorsResponse_FieldTerminalPathValue{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*method_descriptor.PagerCursor)}
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return &ListMethodDescriptorsResponse_FieldTerminalPathValue{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*method_descriptor.PagerCursor)}
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMethodDescriptorsResponse_FieldTerminalPathValue{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMethodDescriptorsResponse_FieldTerminalPathValue{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 	}
@@ -2404,6 +2479,10 @@ func (fp *ListMethodDescriptorsResponse_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*method_descriptor.PagerCursor)}
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return &ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*method_descriptor.PagerCursor)}
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMethodDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fp.selector))
 	}
@@ -2454,11 +2533,12 @@ func (fps *ListMethodDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListMethodDescriptorsResponse
 func (fps *ListMethodDescriptorsResponse_FieldSubPath) Get(source *ListMethodDescriptorsResponse) (values []interface{}) {
-	if asMethodDescriptorFieldPath, ok := fps.AsMethodDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case ListMethodDescriptorsResponse_FieldPathSelectorMethodDescriptors:
 		for _, item := range source.GetMethodDescriptors() {
-			values = append(values, asMethodDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -2593,6 +2673,14 @@ func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) AsNextPageToken
 	res, ok := fpv.value.(*method_descriptor.PagerCursor)
 	return res, ok
 }
+func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMethodDescriptorsResponse
 func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) SetTo(target **ListMethodDescriptorsResponse) {
@@ -2606,6 +2694,10 @@ func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) SetTo(target **
 		(*target).PrevPageToken = fpv.value.(*method_descriptor.PagerCursor)
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*method_descriptor.PagerCursor)
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fpv.selector))
 	}
@@ -2625,6 +2717,26 @@ func (fpv *ListMethodDescriptorsResponse_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMethodDescriptorsResponse: %d", fpv.selector))
 	}
@@ -2819,6 +2931,14 @@ func (fpaov *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*method_descriptor.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2832,6 +2952,14 @@ func (fpaov *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues) AsPre
 }
 func (fpaov *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*method_descriptor.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*method_descriptor.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4778,9 +4906,10 @@ func (fps *WatchMethodDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchMethodDescriptorsResponse
 func (fps *WatchMethodDescriptorsResponse_FieldSubPath) Get(source *WatchMethodDescriptorsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchMethodDescriptorsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchMethodDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -5908,9 +6037,10 @@ func (fps *CreateMethodDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateMethodDescriptorRequest
 func (fps *CreateMethodDescriptorRequest_FieldSubPath) Get(source *CreateMethodDescriptorRequest) (values []interface{}) {
-	if asMethodDescriptorFieldPath, ok := fps.AsMethodDescriptorSubPath(); ok {
-		values = append(values, asMethodDescriptorFieldPath.Get(source.GetMethodDescriptor())...)
-	} else {
+	switch fps.selector {
+	case CreateMethodDescriptorRequest_FieldPathSelectorMethodDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMethodDescriptor())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateMethodDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -6537,11 +6667,12 @@ func (fps *UpdateMethodDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateMethodDescriptorRequest
 func (fps *UpdateMethodDescriptorRequest_FieldSubPath) Get(source *UpdateMethodDescriptorRequest) (values []interface{}) {
-	if asMethodDescriptorFieldPath, ok := fps.AsMethodDescriptorSubPath(); ok {
-		values = append(values, asMethodDescriptorFieldPath.Get(source.GetMethodDescriptor())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateMethodDescriptorRequest_FieldPathSelectorMethodDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMethodDescriptor())...)
+	case UpdateMethodDescriptorRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -7195,9 +7326,10 @@ func (fps *UpdateMethodDescriptorRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateMethodDescriptorRequest_CAS
 func (fps *UpdateMethodDescriptorRequestCAS_FieldSubPath) Get(source *UpdateMethodDescriptorRequest_CAS) (values []interface{}) {
-	if asMethodDescriptorFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asMethodDescriptorFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateMethodDescriptorRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMethodDescriptorRequest_CAS: %d", fps.selector))
 	}
 	return

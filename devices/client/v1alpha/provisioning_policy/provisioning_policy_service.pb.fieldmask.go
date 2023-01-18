@@ -899,6 +899,7 @@ func FullListProvisioningPolicysRequest_FieldMask() *ListProvisioningPolicysRequ
 	res.Paths = append(res.Paths, &ListProvisioningPolicysRequest_FieldTerminalPath{selector: ListProvisioningPolicysRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListProvisioningPolicysRequest_FieldTerminalPath{selector: ListProvisioningPolicysRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListProvisioningPolicysRequest_FieldTerminalPath{selector: ListProvisioningPolicysRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListProvisioningPolicysRequest_FieldTerminalPath{selector: ListProvisioningPolicysRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListProvisioningPolicysRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProvisioningPolicysRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListProvisioningPolicysRequest_FieldMask) Reset() {
 
 func (fieldMask *ListProvisioningPolicysRequest_FieldMask) Subtract(other *ListProvisioningPolicysRequest_FieldMask) *ListProvisioningPolicysRequest_FieldMask {
 	result := &ListProvisioningPolicysRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListProvisioningPolicysRequest_FieldMask) Project(source *ListP
 				result.FieldMask = source.FieldMask
 			case ListProvisioningPolicysRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListProvisioningPolicysRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListProvisioningPolicysResponse_FieldMask() *ListProvisioningPolicysRes
 	res.Paths = append(res.Paths, &ListProvisioningPolicysResponse_FieldTerminalPath{selector: ListProvisioningPolicysResponse_FieldPathSelectorProvisioningPolicys})
 	res.Paths = append(res.Paths, &ListProvisioningPolicysResponse_FieldTerminalPath{selector: ListProvisioningPolicysResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListProvisioningPolicysResponse_FieldTerminalPath{selector: ListProvisioningPolicysResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListProvisioningPolicysResponse_FieldTerminalPath{selector: ListProvisioningPolicysResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListProvisioningPolicysResponse_FieldTerminalPath{selector: ListProvisioningPolicysResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListProvisioningPolicysResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProvisioningPolicysResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListProvisioningPolicysResponse_FieldMask) Reset() {
 
 func (fieldMask *ListProvisioningPolicysResponse_FieldMask) Subtract(other *ListProvisioningPolicysResponse_FieldMask) *ListProvisioningPolicysResponse_FieldMask {
 	result := &ListProvisioningPolicysResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListProvisioningPolicysResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListProvisioningPolicysResponse_FieldPathSelectorProvisioningPolicys: &provisioning_policy.ProvisioningPolicy_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListProvisioningPolicysResponse_FieldMask) Project(source *List
 				result.PrevPageToken = source.PrevPageToken
 			case ListProvisioningPolicysResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListProvisioningPolicysResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListProvisioningPolicysResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListProvisioningPolicysResponse_FieldSubPath:
 			switch tp.selector {

@@ -1239,11 +1239,12 @@ func (fps *BatchGetConfigMapsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetConfigMapsResponse
 func (fps *BatchGetConfigMapsResponse_FieldSubPath) Get(source *BatchGetConfigMapsResponse) (values []interface{}) {
-	if asConfigMapFieldPath, ok := fps.AsConfigMapsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetConfigMapsResponse_FieldPathSelectorConfigMaps:
 		for _, item := range source.GetConfigMaps() {
-			values = append(values, asConfigMapFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetConfigMapsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListConfigMapsRequest_FieldPath interface {
 type ListConfigMapsRequest_FieldPathSelector int32
 
 const (
-	ListConfigMapsRequest_FieldPathSelectorParent    ListConfigMapsRequest_FieldPathSelector = 0
-	ListConfigMapsRequest_FieldPathSelectorPageSize  ListConfigMapsRequest_FieldPathSelector = 1
-	ListConfigMapsRequest_FieldPathSelectorPageToken ListConfigMapsRequest_FieldPathSelector = 2
-	ListConfigMapsRequest_FieldPathSelectorOrderBy   ListConfigMapsRequest_FieldPathSelector = 3
-	ListConfigMapsRequest_FieldPathSelectorFilter    ListConfigMapsRequest_FieldPathSelector = 4
-	ListConfigMapsRequest_FieldPathSelectorFieldMask ListConfigMapsRequest_FieldPathSelector = 5
-	ListConfigMapsRequest_FieldPathSelectorView      ListConfigMapsRequest_FieldPathSelector = 6
+	ListConfigMapsRequest_FieldPathSelectorParent            ListConfigMapsRequest_FieldPathSelector = 0
+	ListConfigMapsRequest_FieldPathSelectorPageSize          ListConfigMapsRequest_FieldPathSelector = 1
+	ListConfigMapsRequest_FieldPathSelectorPageToken         ListConfigMapsRequest_FieldPathSelector = 2
+	ListConfigMapsRequest_FieldPathSelectorOrderBy           ListConfigMapsRequest_FieldPathSelector = 3
+	ListConfigMapsRequest_FieldPathSelectorFilter            ListConfigMapsRequest_FieldPathSelector = 4
+	ListConfigMapsRequest_FieldPathSelectorFieldMask         ListConfigMapsRequest_FieldPathSelector = 5
+	ListConfigMapsRequest_FieldPathSelectorView              ListConfigMapsRequest_FieldPathSelector = 6
+	ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo ListConfigMapsRequest_FieldPathSelector = 7
 )
 
 func (s ListConfigMapsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListConfigMapsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		return "view"
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListConfigMapsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListConf
 			return &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListConfigMapsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) Get(source *ListConfigMapsReq
 			}
 		case ListConfigMapsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) GetSingle(source *ListConfigM
 		return res, res != nil
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*config_map.ConfigMap_FieldMask)(nil)
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) ClearValue(item *ListConfigMa
 			item.FieldMask = nil
 		case ListConfigMapsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListConfigMapsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListConfigMapsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListConfigMapsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListConfigMapsRequest_FieldPathSelectorView
+		fp.selector == ListConfigMapsRequest_FieldPathSelectorView ||
+		fp.selector == ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListConfigMapsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) WithIValue(value interface{})
 		return &ListConfigMapsRequest_FieldTerminalPathValue{ListConfigMapsRequest_FieldTerminalPath: *fp, value: value.(*config_map.ConfigMap_FieldMask)}
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		return &ListConfigMapsRequest_FieldTerminalPathValue{ListConfigMapsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListConfigMapsRequest_FieldTerminalPathValue{ListConfigMapsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListConfigMapsRequest_FieldTerminalPath) WithIArrayOfValues(values int
 		return &ListConfigMapsRequest_FieldTerminalPathArrayOfValues{ListConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]*config_map.ConfigMap_FieldMask)}
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		return &ListConfigMapsRequest_FieldTerminalPathArrayOfValues{ListConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListConfigMapsRequest_FieldTerminalPathArrayOfValues{ListConfigMapsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListConfigMapsRequest_FieldTerminalPathValue) AsViewValue() (view.Vie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListConfigMapsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListConfigMapsRequest
 func (fpv *ListConfigMapsRequest_FieldTerminalPathValue) SetTo(target **ListConfigMapsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListConfigMapsRequest_FieldTerminalPathValue) SetTo(target **ListConf
 		(*target).FieldMask = fpv.value.(*config_map.ConfigMap_FieldMask)
 	case ListConfigMapsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListConfigMapsRequest_FieldTerminalPathValue) CompareWith(source *Lis
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListConfigMapsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListConfigMapsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOf
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListConfigMapsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListConfigMapsResponse_FieldPath interface {
 type ListConfigMapsResponse_FieldPathSelector int32
 
 const (
-	ListConfigMapsResponse_FieldPathSelectorConfigMaps    ListConfigMapsResponse_FieldPathSelector = 0
-	ListConfigMapsResponse_FieldPathSelectorPrevPageToken ListConfigMapsResponse_FieldPathSelector = 1
-	ListConfigMapsResponse_FieldPathSelectorNextPageToken ListConfigMapsResponse_FieldPathSelector = 2
+	ListConfigMapsResponse_FieldPathSelectorConfigMaps        ListConfigMapsResponse_FieldPathSelector = 0
+	ListConfigMapsResponse_FieldPathSelectorPrevPageToken     ListConfigMapsResponse_FieldPathSelector = 1
+	ListConfigMapsResponse_FieldPathSelectorNextPageToken     ListConfigMapsResponse_FieldPathSelector = 2
+	ListConfigMapsResponse_FieldPathSelectorCurrentOffset     ListConfigMapsResponse_FieldPathSelector = 3
+	ListConfigMapsResponse_FieldPathSelectorTotalResultsCount ListConfigMapsResponse_FieldPathSelector = 4
 )
 
 func (s ListConfigMapsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListConfigMapsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListConfigMapsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListCon
 			return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) Get(source *ListConfigMapsRe
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) GetSingle(source *ListConfig
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*config_map.PagerCursor)(nil)
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		return (*config_map.PagerCursor)(nil)
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) ClearValue(item *ListConfigM
 			item.PrevPageToken = nil
 		case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fp *ListConfigMapsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListConfigMapsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListConfigMapsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListConfigMapsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListConfigMapsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListConfigMapsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListConfigMapsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) WithIValue(value interface{}
 		return &ListConfigMapsResponse_FieldTerminalPathValue{ListConfigMapsResponse_FieldTerminalPath: *fp, value: value.(*config_map.PagerCursor)}
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		return &ListConfigMapsResponse_FieldTerminalPathValue{ListConfigMapsResponse_FieldTerminalPath: *fp, value: value.(*config_map.PagerCursor)}
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		return &ListConfigMapsResponse_FieldTerminalPathValue{ListConfigMapsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListConfigMapsResponse_FieldTerminalPathValue{ListConfigMapsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListConfigMapsResponse_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ListConfigMapsResponse_FieldTerminalPathArrayOfValues{ListConfigMapsResponse_FieldTerminalPath: *fp, values: values.([]*config_map.PagerCursor)}
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		return &ListConfigMapsResponse_FieldTerminalPathArrayOfValues{ListConfigMapsResponse_FieldTerminalPath: *fp, values: values.([]*config_map.PagerCursor)}
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		return &ListConfigMapsResponse_FieldTerminalPathArrayOfValues{ListConfigMapsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListConfigMapsResponse_FieldTerminalPathArrayOfValues{ListConfigMapsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListConfigMapsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListConfigMapsResponse
 func (fps *ListConfigMapsResponse_FieldSubPath) Get(source *ListConfigMapsResponse) (values []interface{}) {
-	if asConfigMapFieldPath, ok := fps.AsConfigMapsSubPath(); ok {
+	switch fps.selector {
+	case ListConfigMapsResponse_FieldPathSelectorConfigMaps:
 		for _, item := range source.GetConfigMaps() {
-			values = append(values, asConfigMapFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) AsNextPageTokenValue()
 	res, ok := fpv.value.(*config_map.PagerCursor)
 	return res, ok
 }
+func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListConfigMapsResponse
 func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) SetTo(target **ListConfigMapsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) SetTo(target **ListCon
 		(*target).PrevPageToken = fpv.value.(*config_map.PagerCursor)
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*config_map.PagerCursor)
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListConfigMapsResponse_FieldTerminalPathValue) CompareWith(source *Li
 		return 0, false
 	case ListConfigMapsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConfigMapsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListConfigMapsResponse_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*config_map.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListConfigMapsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListConfigMapsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListConfigMapsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTo
 }
 func (fpaov *ListConfigMapsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*config_map.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*config_map.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListConfigMapsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListConfigMapsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchConfigMapsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchConfigMapsResponse
 func (fps *WatchConfigMapsResponse_FieldSubPath) Get(source *WatchConfigMapsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchConfigMapsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchConfigMapsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateConfigMapRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateConfigMapRequest
 func (fps *CreateConfigMapRequest_FieldSubPath) Get(source *CreateConfigMapRequest) (values []interface{}) {
-	if asConfigMapFieldPath, ok := fps.AsConfigMapSubPath(); ok {
-		values = append(values, asConfigMapFieldPath.Get(source.GetConfigMap())...)
-	} else {
+	switch fps.selector {
+	case CreateConfigMapRequest_FieldPathSelectorConfigMap:
+		values = append(values, fps.subPath.GetRaw(source.GetConfigMap())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateConfigMapRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateConfigMapRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateConfigMapRequest
 func (fps *UpdateConfigMapRequest_FieldSubPath) Get(source *UpdateConfigMapRequest) (values []interface{}) {
-	if asConfigMapFieldPath, ok := fps.AsConfigMapSubPath(); ok {
-		values = append(values, asConfigMapFieldPath.Get(source.GetConfigMap())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateConfigMapRequest_FieldPathSelectorConfigMap:
+		values = append(values, fps.subPath.GetRaw(source.GetConfigMap())...)
+	case UpdateConfigMapRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateConfigMapRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateConfigMapRequest_CAS
 func (fps *UpdateConfigMapRequestCAS_FieldSubPath) Get(source *UpdateConfigMapRequest_CAS) (values []interface{}) {
-	if asConfigMapFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asConfigMapFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateConfigMapRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConfigMapRequest_CAS: %d", fps.selector))
 	}
 	return

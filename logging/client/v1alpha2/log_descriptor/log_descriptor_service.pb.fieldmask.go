@@ -901,6 +901,7 @@ func FullListLogDescriptorsRequest_FieldMask() *ListLogDescriptorsRequest_FieldM
 	res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -944,7 +945,7 @@ func (fieldMask *ListLogDescriptorsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLogDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -974,7 +975,7 @@ func (fieldMask *ListLogDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListLogDescriptorsRequest_FieldMask) Subtract(other *ListLogDescriptorsRequest_FieldMask) *ListLogDescriptorsRequest_FieldMask {
 	result := &ListLogDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1142,6 +1143,8 @@ func (fieldMask *ListLogDescriptorsRequest_FieldMask) Project(source *ListLogDes
 				result.FieldMask = source.FieldMask
 			case ListLogDescriptorsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1168,6 +1171,8 @@ func FullListLogDescriptorsResponse_FieldMask() *ListLogDescriptorsResponse_Fiel
 	res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors})
 	res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1211,7 +1216,7 @@ func (fieldMask *ListLogDescriptorsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLogDescriptorsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1241,7 +1246,7 @@ func (fieldMask *ListLogDescriptorsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListLogDescriptorsResponse_FieldMask) Subtract(other *ListLogDescriptorsResponse_FieldMask) *ListLogDescriptorsResponse_FieldMask {
 	result := &ListLogDescriptorsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListLogDescriptorsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListLogDescriptorsResponse_FieldPathSelectorLogDescriptors: &log_descriptor.LogDescriptor_FieldMask{},
 	}
@@ -1448,6 +1453,10 @@ func (fieldMask *ListLogDescriptorsResponse_FieldMask) Project(source *ListLogDe
 				result.PrevPageToken = source.PrevPageToken
 			case ListLogDescriptorsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListLogDescriptorsResponse_FieldSubPath:
 			switch tp.selector {

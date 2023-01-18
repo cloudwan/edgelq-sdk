@@ -971,6 +971,9 @@ func (ListConfigMapsRequestFieldPathBuilder) FieldMask() ListConfigMapsRequestPa
 func (ListConfigMapsRequestFieldPathBuilder) View() ListConfigMapsRequestPathSelectorView {
 	return ListConfigMapsRequestPathSelectorView{}
 }
+func (ListConfigMapsRequestFieldPathBuilder) IncludePagingInfo() ListConfigMapsRequestPathSelectorIncludePagingInfo {
+	return ListConfigMapsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListConfigMapsRequestPathSelectorParent struct{}
 
@@ -1070,6 +1073,20 @@ func (s ListConfigMapsRequestPathSelectorView) WithArrayOfValues(values []view.V
 	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListConfigMapsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListConfigMapsRequestPathSelectorIncludePagingInfo) FieldPath() *ListConfigMapsRequest_FieldTerminalPath {
+	return &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListConfigMapsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListConfigMapsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConfigMapsRequest_FieldTerminalPathValue)
+}
+
+func (s ListConfigMapsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListConfigMapsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListConfigMapsResponseFieldPathBuilder struct{}
 
 func NewListConfigMapsResponseFieldPathBuilder() ListConfigMapsResponseFieldPathBuilder {
@@ -1083,6 +1100,12 @@ func (ListConfigMapsResponseFieldPathBuilder) PrevPageToken() ListConfigMapsResp
 }
 func (ListConfigMapsResponseFieldPathBuilder) NextPageToken() ListConfigMapsResponsePathSelectorNextPageToken {
 	return ListConfigMapsResponsePathSelectorNextPageToken{}
+}
+func (ListConfigMapsResponseFieldPathBuilder) CurrentOffset() ListConfigMapsResponsePathSelectorCurrentOffset {
+	return ListConfigMapsResponsePathSelectorCurrentOffset{}
+}
+func (ListConfigMapsResponseFieldPathBuilder) TotalResultsCount() ListConfigMapsResponsePathSelectorTotalResultsCount {
+	return ListConfigMapsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListConfigMapsResponsePathSelectorConfigMaps struct{}
@@ -1879,6 +1902,34 @@ func (s ListConfigMapsResponsePathSelectorNextPageToken) WithValue(value *config
 }
 
 func (s ListConfigMapsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*config_map.PagerCursor) *ListConfigMapsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListConfigMapsResponsePathSelectorCurrentOffset struct{}
+
+func (ListConfigMapsResponsePathSelectorCurrentOffset) FieldPath() *ListConfigMapsResponse_FieldTerminalPath {
+	return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListConfigMapsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListConfigMapsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConfigMapsResponse_FieldTerminalPathValue)
+}
+
+func (s ListConfigMapsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListConfigMapsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListConfigMapsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListConfigMapsResponsePathSelectorTotalResultsCount) FieldPath() *ListConfigMapsResponse_FieldTerminalPath {
+	return &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListConfigMapsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListConfigMapsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConfigMapsResponse_FieldTerminalPathValue)
+}
+
+func (s ListConfigMapsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListConfigMapsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListConfigMapsResponse_FieldTerminalPathArrayOfValues)
 }
 

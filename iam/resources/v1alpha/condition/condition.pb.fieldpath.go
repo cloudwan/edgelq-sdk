@@ -352,11 +352,12 @@ func (fps *Condition_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Condition
 func (fps *Condition_FieldSubPath) Get(source *Condition) (values []interface{}) {
-	if asParameterDeclarationFieldPath, ok := fps.AsParameterDeclarationsSubPath(); ok {
+	switch fps.selector {
+	case Condition_FieldPathSelectorParameterDeclarations:
 		for _, item := range source.GetParameterDeclarations() {
-			values = append(values, asParameterDeclarationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Condition: %d", fps.selector))
 	}
 	return

@@ -2197,11 +2197,12 @@ func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) JSONString() stri
 
 // Get returns all values pointed by selected field from source ListMyOrganizationInvitationsResponse
 func (fps *ListMyOrganizationInvitationsResponse_FieldSubPath) Get(source *ListMyOrganizationInvitationsResponse) (values []interface{}) {
-	if asOrganizationInvitationFieldPath, ok := fps.AsOrganizationInvitationsSubPath(); ok {
+	switch fps.selector {
+	case ListMyOrganizationInvitationsResponse_FieldPathSelectorOrganizationInvitations:
 		for _, item := range source.GetOrganizationInvitations() {
-			values = append(values, asOrganizationInvitationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationInvitationsResponse: %d", fps.selector))
 	}
 	return

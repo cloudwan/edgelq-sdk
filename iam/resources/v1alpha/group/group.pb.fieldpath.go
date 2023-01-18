@@ -334,9 +334,10 @@ func (fps *Group_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Group
 func (fps *Group_FieldSubPath) Get(source *Group) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case Group_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Group: %d", fps.selector))
 	}
 	return

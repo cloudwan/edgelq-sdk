@@ -81,8 +81,9 @@ func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Re
 
 func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQuery) (*device.QueryResultSnapshot, error) {
 	request := &device_client.ListDevicesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQu
 		return nil, err
 	}
 	return &device.QueryResultSnapshot{
-		Devices:        resp.Devices,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Devices:           resp.Devices,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -667,9 +667,10 @@ func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) JSONString() st
 
 // Get returns all values pointed by selected field from source ProvisionServiceAccountToDeviceResponse
 func (fps *ProvisionServiceAccountToDeviceResponse_FieldSubPath) Get(source *ProvisionServiceAccountToDeviceResponse) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else {
+	switch fps.selector {
+	case ProvisionServiceAccountToDeviceResponse_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionServiceAccountToDeviceResponse: %d", fps.selector))
 	}
 	return

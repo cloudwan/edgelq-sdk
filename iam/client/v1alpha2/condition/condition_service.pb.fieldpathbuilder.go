@@ -1002,6 +1002,9 @@ func (ListConditionsRequestFieldPathBuilder) FieldMask() ListConditionsRequestPa
 func (ListConditionsRequestFieldPathBuilder) View() ListConditionsRequestPathSelectorView {
 	return ListConditionsRequestPathSelectorView{}
 }
+func (ListConditionsRequestFieldPathBuilder) IncludePagingInfo() ListConditionsRequestPathSelectorIncludePagingInfo {
+	return ListConditionsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListConditionsRequestPathSelectorParent struct{}
 
@@ -1101,6 +1104,20 @@ func (s ListConditionsRequestPathSelectorView) WithArrayOfValues(values []view.V
 	return s.FieldPath().WithIArrayOfValues(values).(*ListConditionsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListConditionsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListConditionsRequestPathSelectorIncludePagingInfo) FieldPath() *ListConditionsRequest_FieldTerminalPath {
+	return &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListConditionsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s ListConditionsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListConditionsResponseFieldPathBuilder struct{}
 
 func NewListConditionsResponseFieldPathBuilder() ListConditionsResponseFieldPathBuilder {
@@ -1114,6 +1131,12 @@ func (ListConditionsResponseFieldPathBuilder) PrevPageToken() ListConditionsResp
 }
 func (ListConditionsResponseFieldPathBuilder) NextPageToken() ListConditionsResponsePathSelectorNextPageToken {
 	return ListConditionsResponsePathSelectorNextPageToken{}
+}
+func (ListConditionsResponseFieldPathBuilder) CurrentOffset() ListConditionsResponsePathSelectorCurrentOffset {
+	return ListConditionsResponsePathSelectorCurrentOffset{}
+}
+func (ListConditionsResponseFieldPathBuilder) TotalResultsCount() ListConditionsResponsePathSelectorTotalResultsCount {
+	return ListConditionsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListConditionsResponsePathSelectorConditions struct{}
@@ -1931,6 +1954,34 @@ func (s ListConditionsResponsePathSelectorNextPageToken) WithValue(value *condit
 }
 
 func (s ListConditionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*condition.PagerCursor) *ListConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListConditionsResponsePathSelectorCurrentOffset struct{}
+
+func (ListConditionsResponsePathSelectorCurrentOffset) FieldPath() *ListConditionsResponse_FieldTerminalPath {
+	return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListConditionsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListConditionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListConditionsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListConditionsResponsePathSelectorTotalResultsCount) FieldPath() *ListConditionsResponse_FieldTerminalPath {
+	return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListConditionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListConditionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListConditionsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListConditionsResponse_FieldTerminalPathArrayOfValues)
 }
 

@@ -1239,11 +1239,12 @@ func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source BatchGetAttestationDomainsResponse
 func (fps *BatchGetAttestationDomainsResponse_FieldSubPath) Get(source *BatchGetAttestationDomainsResponse) (values []interface{}) {
-	if asAttestationDomainFieldPath, ok := fps.AsAttestationDomainsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetAttestationDomainsResponse_FieldPathSelectorAttestationDomains:
 		for _, item := range source.GetAttestationDomains() {
-			values = append(values, asAttestationDomainFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetAttestationDomainsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListAttestationDomainsRequest_FieldPath interface {
 type ListAttestationDomainsRequest_FieldPathSelector int32
 
 const (
-	ListAttestationDomainsRequest_FieldPathSelectorParent    ListAttestationDomainsRequest_FieldPathSelector = 0
-	ListAttestationDomainsRequest_FieldPathSelectorPageSize  ListAttestationDomainsRequest_FieldPathSelector = 1
-	ListAttestationDomainsRequest_FieldPathSelectorPageToken ListAttestationDomainsRequest_FieldPathSelector = 2
-	ListAttestationDomainsRequest_FieldPathSelectorOrderBy   ListAttestationDomainsRequest_FieldPathSelector = 3
-	ListAttestationDomainsRequest_FieldPathSelectorFilter    ListAttestationDomainsRequest_FieldPathSelector = 4
-	ListAttestationDomainsRequest_FieldPathSelectorFieldMask ListAttestationDomainsRequest_FieldPathSelector = 5
-	ListAttestationDomainsRequest_FieldPathSelectorView      ListAttestationDomainsRequest_FieldPathSelector = 6
+	ListAttestationDomainsRequest_FieldPathSelectorParent            ListAttestationDomainsRequest_FieldPathSelector = 0
+	ListAttestationDomainsRequest_FieldPathSelectorPageSize          ListAttestationDomainsRequest_FieldPathSelector = 1
+	ListAttestationDomainsRequest_FieldPathSelectorPageToken         ListAttestationDomainsRequest_FieldPathSelector = 2
+	ListAttestationDomainsRequest_FieldPathSelectorOrderBy           ListAttestationDomainsRequest_FieldPathSelector = 3
+	ListAttestationDomainsRequest_FieldPathSelectorFilter            ListAttestationDomainsRequest_FieldPathSelector = 4
+	ListAttestationDomainsRequest_FieldPathSelectorFieldMask         ListAttestationDomainsRequest_FieldPathSelector = 5
+	ListAttestationDomainsRequest_FieldPathSelectorView              ListAttestationDomainsRequest_FieldPathSelector = 6
+	ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo ListAttestationDomainsRequest_FieldPathSelector = 7
 )
 
 func (s ListAttestationDomainsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListAttestationDomainsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		return "view"
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListAttestationDomainsRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListAttestationDomainsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) Get(source *ListAttes
 			}
 		case ListAttestationDomainsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) GetSingle(source *Lis
 		return res, res != nil
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) GetDefault() interfac
 		return (*attestation_domain.AttestationDomain_FieldMask)(nil)
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) ClearValue(item *List
 			item.FieldMask = nil
 		case ListAttestationDomainsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorView
+		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorView ||
+		fp.selector == ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListAttestationDomainsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) WithIValue(value inte
 		return &ListAttestationDomainsRequest_FieldTerminalPathValue{ListAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(*attestation_domain.AttestationDomain_FieldMask)}
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		return &ListAttestationDomainsRequest_FieldTerminalPathValue{ListAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAttestationDomainsRequest_FieldTerminalPathValue{ListAttestationDomainsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListAttestationDomainsRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues{ListAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]*attestation_domain.AttestationDomain_FieldMask)}
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		return &ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues{ListAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues{ListAttestationDomainsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListAttestationDomainsRequest_FieldTerminalPathValue) AsViewValue() (
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListAttestationDomainsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAttestationDomainsRequest
 func (fpv *ListAttestationDomainsRequest_FieldTerminalPathValue) SetTo(target **ListAttestationDomainsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListAttestationDomainsRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).FieldMask = fpv.value.(*attestation_domain.AttestationDomain_FieldMask)
 	case ListAttestationDomainsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListAttestationDomainsRequest_FieldTerminalPathValue) CompareWith(sou
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsVie
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2268,6 +2311,8 @@ const (
 	ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains ListAttestationDomainsResponse_FieldPathSelector = 0
 	ListAttestationDomainsResponse_FieldPathSelectorPrevPageToken      ListAttestationDomainsResponse_FieldPathSelector = 1
 	ListAttestationDomainsResponse_FieldPathSelectorNextPageToken      ListAttestationDomainsResponse_FieldPathSelector = 2
+	ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset      ListAttestationDomainsResponse_FieldPathSelector = 3
+	ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount  ListAttestationDomainsResponse_FieldPathSelector = 4
 )
 
 func (s ListAttestationDomainsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListAttestationDomainsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListAttestationDomainsResponse_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) Get(source *ListAtte
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) GetSingle(source *Li
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) GetDefault() interfa
 		return (*attestation_domain.PagerCursor)(nil)
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		return (*attestation_domain.PagerCursor)(nil)
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) ClearValue(item *Lis
 			item.PrevPageToken = nil
 		case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *ListAttestationDomainsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListAttestationDomainsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListAttestationDomainsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListAttestationDomainsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListAttestationDomainsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) WithIValue(value int
 		return &ListAttestationDomainsResponse_FieldTerminalPathValue{ListAttestationDomainsResponse_FieldTerminalPath: *fp, value: value.(*attestation_domain.PagerCursor)}
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		return &ListAttestationDomainsResponse_FieldTerminalPathValue{ListAttestationDomainsResponse_FieldTerminalPath: *fp, value: value.(*attestation_domain.PagerCursor)}
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		return &ListAttestationDomainsResponse_FieldTerminalPathValue{ListAttestationDomainsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAttestationDomainsResponse_FieldTerminalPathValue{ListAttestationDomainsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListAttestationDomainsResponse_FieldTerminalPath) WithIArrayOfValues(v
 		return &ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues{ListAttestationDomainsResponse_FieldTerminalPath: *fp, values: values.([]*attestation_domain.PagerCursor)}
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		return &ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues{ListAttestationDomainsResponse_FieldTerminalPath: *fp, values: values.([]*attestation_domain.PagerCursor)}
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		return &ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues{ListAttestationDomainsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues{ListAttestationDomainsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListAttestationDomainsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListAttestationDomainsResponse
 func (fps *ListAttestationDomainsResponse_FieldSubPath) Get(source *ListAttestationDomainsResponse) (values []interface{}) {
-	if asAttestationDomainFieldPath, ok := fps.AsAttestationDomainsSubPath(); ok {
+	switch fps.selector {
+	case ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains:
 		for _, item := range source.GetAttestationDomains() {
-			values = append(values, asAttestationDomainFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) AsNextPageToke
 	res, ok := fpv.value.(*attestation_domain.PagerCursor)
 	return res, ok
 }
+func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAttestationDomainsResponse
 func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) SetTo(target **ListAttestationDomainsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) SetTo(target *
 		(*target).PrevPageToken = fpv.value.(*attestation_domain.PagerCursor)
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*attestation_domain.PagerCursor)
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListAttestationDomainsResponse_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAttestationDomainsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*attestation_domain.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues) AsPr
 }
 func (fpaov *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*attestation_domain.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*attestation_domain.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchAttestationDomainsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchAttestationDomainsResponse
 func (fps *WatchAttestationDomainsResponse_FieldSubPath) Get(source *WatchAttestationDomainsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchAttestationDomainsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchAttestationDomainsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateAttestationDomainRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateAttestationDomainRequest
 func (fps *CreateAttestationDomainRequest_FieldSubPath) Get(source *CreateAttestationDomainRequest) (values []interface{}) {
-	if asAttestationDomainFieldPath, ok := fps.AsAttestationDomainSubPath(); ok {
-		values = append(values, asAttestationDomainFieldPath.Get(source.GetAttestationDomain())...)
-	} else {
+	switch fps.selector {
+	case CreateAttestationDomainRequest_FieldPathSelectorAttestationDomain:
+		values = append(values, fps.subPath.GetRaw(source.GetAttestationDomain())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateAttestationDomainRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateAttestationDomainRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAttestationDomainRequest
 func (fps *UpdateAttestationDomainRequest_FieldSubPath) Get(source *UpdateAttestationDomainRequest) (values []interface{}) {
-	if asAttestationDomainFieldPath, ok := fps.AsAttestationDomainSubPath(); ok {
-		values = append(values, asAttestationDomainFieldPath.Get(source.GetAttestationDomain())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateAttestationDomainRequest_FieldPathSelectorAttestationDomain:
+		values = append(values, fps.subPath.GetRaw(source.GetAttestationDomain())...)
+	case UpdateAttestationDomainRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAttestationDomainRequest_CAS
 func (fps *UpdateAttestationDomainRequestCAS_FieldSubPath) Get(source *UpdateAttestationDomainRequest_CAS) (values []interface{}) {
-	if asAttestationDomainFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asAttestationDomainFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateAttestationDomainRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAttestationDomainRequest_CAS: %d", fps.selector))
 	}
 	return

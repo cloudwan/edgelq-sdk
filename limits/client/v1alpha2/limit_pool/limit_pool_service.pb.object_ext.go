@@ -419,6 +419,9 @@ func (o *ListLimitPoolsRequest) MakeDiffFieldMask(other *ListLimitPoolsRequest) 
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListLimitPoolsRequest) Clone() *ListLimitPoolsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*limit_pool.LimitPool_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListLimitPoolsRequest) Merge(source *ListLimitPoolsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListLimitPoolsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListLimitPoolsResponse) MakeDiffFieldMask(other *ListLimitPoolsResponse
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListLimitPoolsResponse) Clone() *ListLimitPoolsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListLimitPoolsResponse) Merge(source *ListLimitPoolsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListLimitPoolsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

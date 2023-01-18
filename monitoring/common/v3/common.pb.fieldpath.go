@@ -1351,11 +1351,12 @@ func (fps *Distribution_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Distribution
 func (fps *Distribution_FieldSubPath) Get(source *Distribution) (values []interface{}) {
-	if asRangeFieldPath, ok := fps.AsRangeSubPath(); ok {
-		values = append(values, asRangeFieldPath.Get(source.GetRange())...)
-	} else if asBucketOptionsFieldPath, ok := fps.AsBucketOptionsSubPath(); ok {
-		values = append(values, asBucketOptionsFieldPath.Get(source.GetBucketOptions())...)
-	} else {
+	switch fps.selector {
+	case Distribution_FieldPathSelectorRange:
+		values = append(values, fps.subPath.GetRaw(source.GetRange())...)
+	case Distribution_FieldPathSelectorBucketOptions:
+		values = append(values, fps.subPath.GetRaw(source.GetBucketOptions())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution: %d", fps.selector))
 	}
 	return
@@ -2592,15 +2593,16 @@ func (fps *DistributionBucketOptions_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Distribution_BucketOptions
 func (fps *DistributionBucketOptions_FieldSubPath) Get(source *Distribution_BucketOptions) (values []interface{}) {
-	if asLinearFieldPath, ok := fps.AsLinearBucketsSubPath(); ok {
-		values = append(values, asLinearFieldPath.Get(source.GetLinearBuckets())...)
-	} else if asExponentialFieldPath, ok := fps.AsExponentialBucketsSubPath(); ok {
-		values = append(values, asExponentialFieldPath.Get(source.GetExponentialBuckets())...)
-	} else if asExplicitFieldPath, ok := fps.AsExplicitBucketsSubPath(); ok {
-		values = append(values, asExplicitFieldPath.Get(source.GetExplicitBuckets())...)
-	} else if asDynamicFieldPath, ok := fps.AsDynamicBucketsSubPath(); ok {
-		values = append(values, asDynamicFieldPath.Get(source.GetDynamicBuckets())...)
-	} else {
+	switch fps.selector {
+	case DistributionBucketOptions_FieldPathSelectorLinearBuckets:
+		values = append(values, fps.subPath.GetRaw(source.GetLinearBuckets())...)
+	case DistributionBucketOptions_FieldPathSelectorExponentialBuckets:
+		values = append(values, fps.subPath.GetRaw(source.GetExponentialBuckets())...)
+	case DistributionBucketOptions_FieldPathSelectorExplicitBuckets:
+		values = append(values, fps.subPath.GetRaw(source.GetExplicitBuckets())...)
+	case DistributionBucketOptions_FieldPathSelectorDynamicBuckets:
+		values = append(values, fps.subPath.GetRaw(source.GetDynamicBuckets())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_BucketOptions: %d", fps.selector))
 	}
 	return
@@ -5159,9 +5161,10 @@ func (fps *TypedValue_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source TypedValue
 func (fps *TypedValue_FieldSubPath) Get(source *TypedValue) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsDistributionValueSubPath(); ok {
-		values = append(values, asDistributionFieldPath.Get(source.GetDistributionValue())...)
-	} else {
+	switch fps.selector {
+	case TypedValue_FieldPathSelectorDistributionValue:
+		values = append(values, fps.subPath.GetRaw(source.GetDistributionValue())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for TypedValue: %d", fps.selector))
 	}
 	return
@@ -10876,11 +10879,12 @@ func (fps *TimeSeriesSelector_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source TimeSeriesSelector
 func (fps *TimeSeriesSelector_FieldSubPath) Get(source *TimeSeriesSelector) (values []interface{}) {
-	if asMetricSelectorFieldPath, ok := fps.AsMetricSubPath(); ok {
-		values = append(values, asMetricSelectorFieldPath.Get(source.GetMetric())...)
-	} else if asMonitoredResourceSelectorFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asMonitoredResourceSelectorFieldPath.Get(source.GetResource())...)
-	} else {
+	switch fps.selector {
+	case TimeSeriesSelector_FieldPathSelectorMetric:
+		values = append(values, fps.subPath.GetRaw(source.GetMetric())...)
+	case TimeSeriesSelector_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for TimeSeriesSelector: %d", fps.selector))
 	}
 	return

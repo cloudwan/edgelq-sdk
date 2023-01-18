@@ -899,6 +899,7 @@ func FullListAlertingPoliciesRequest_FieldMask() *ListAlertingPoliciesRequest_Fi
 	res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListAlertingPoliciesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertingPoliciesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListAlertingPoliciesRequest_FieldMask) Reset() {
 
 func (fieldMask *ListAlertingPoliciesRequest_FieldMask) Subtract(other *ListAlertingPoliciesRequest_FieldMask) *ListAlertingPoliciesRequest_FieldMask {
 	result := &ListAlertingPoliciesRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListAlertingPoliciesRequest_FieldMask) Project(source *ListAler
 				result.FieldMask = source.FieldMask
 			case ListAlertingPoliciesRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListAlertingPoliciesResponse_FieldMask() *ListAlertingPoliciesResponse_
 	res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies})
 	res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListAlertingPoliciesResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertingPoliciesResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListAlertingPoliciesResponse_FieldMask) Reset() {
 
 func (fieldMask *ListAlertingPoliciesResponse_FieldMask) Subtract(other *ListAlertingPoliciesResponse_FieldMask) *ListAlertingPoliciesResponse_FieldMask {
 	result := &ListAlertingPoliciesResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListAlertingPoliciesResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies: &alerting_policy.AlertingPolicy_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListAlertingPoliciesResponse_FieldMask) Project(source *ListAle
 				result.PrevPageToken = source.PrevPageToken
 			case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListAlertingPoliciesResponse_FieldSubPath:
 			switch tp.selector {

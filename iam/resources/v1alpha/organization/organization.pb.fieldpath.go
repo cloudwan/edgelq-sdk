@@ -377,9 +377,10 @@ func (fps *Organization_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Organization
 func (fps *Organization_FieldSubPath) Get(source *Organization) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case Organization_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Organization: %d", fps.selector))
 	}
 	return

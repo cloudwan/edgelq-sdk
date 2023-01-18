@@ -901,6 +901,7 @@ func FullListPlanAssignmentRequestsRequest_FieldMask() *ListPlanAssignmentReques
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -944,7 +945,7 @@ func (fieldMask *ListPlanAssignmentRequestsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlanAssignmentRequestsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -974,7 +975,7 @@ func (fieldMask *ListPlanAssignmentRequestsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPlanAssignmentRequestsRequest_FieldMask) Subtract(other *ListPlanAssignmentRequestsRequest_FieldMask) *ListPlanAssignmentRequestsRequest_FieldMask {
 	result := &ListPlanAssignmentRequestsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1142,6 +1143,8 @@ func (fieldMask *ListPlanAssignmentRequestsRequest_FieldMask) Project(source *Li
 				result.FieldMask = source.FieldMask
 			case ListPlanAssignmentRequestsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPlanAssignmentRequestsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1168,6 +1171,8 @@ func FullListPlanAssignmentRequestsResponse_FieldMask() *ListPlanAssignmentReque
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests})
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1211,7 +1216,7 @@ func (fieldMask *ListPlanAssignmentRequestsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlanAssignmentRequestsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1241,7 +1246,7 @@ func (fieldMask *ListPlanAssignmentRequestsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPlanAssignmentRequestsResponse_FieldMask) Subtract(other *ListPlanAssignmentRequestsResponse_FieldMask) *ListPlanAssignmentRequestsResponse_FieldMask {
 	result := &ListPlanAssignmentRequestsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPlanAssignmentRequestsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPlanAssignmentRequestsResponse_FieldPathSelectorPlanAssignmentRequests: &plan_assignment_request.PlanAssignmentRequest_FieldMask{},
 	}
@@ -1448,6 +1453,10 @@ func (fieldMask *ListPlanAssignmentRequestsResponse_FieldMask) Project(source *L
 				result.PrevPageToken = source.PrevPageToken
 			case ListPlanAssignmentRequestsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPlanAssignmentRequestsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPlanAssignmentRequestsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPlanAssignmentRequestsResponse_FieldSubPath:
 			switch tp.selector {

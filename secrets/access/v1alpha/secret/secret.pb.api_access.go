@@ -81,8 +81,9 @@ func (a *apiSecretAccess) BatchGetSecrets(ctx context.Context, refs []*secret.Re
 
 func (a *apiSecretAccess) QuerySecrets(ctx context.Context, query *secret.ListQuery) (*secret.QueryResultSnapshot, error) {
 	request := &secret_client.ListSecretsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiSecretAccess) QuerySecrets(ctx context.Context, query *secret.ListQu
 		return nil, err
 	}
 	return &secret.QueryResultSnapshot{
-		Secrets:        resp.Secrets,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Secrets:           resp.Secrets,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

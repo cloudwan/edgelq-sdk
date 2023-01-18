@@ -419,6 +419,9 @@ func (o *ListAlertingPoliciesRequest) MakeDiffFieldMask(other *ListAlertingPolic
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListAlertingPoliciesRequest) Clone() *ListAlertingPoliciesRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*alerting_policy.AlertingPolicy_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListAlertingPoliciesRequest) Merge(source *ListAlertingPoliciesRequest)
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListAlertingPoliciesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListAlertingPoliciesResponse) MakeDiffFieldMask(other *ListAlertingPoli
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListAlertingPoliciesResponse) Clone() *ListAlertingPoliciesResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListAlertingPoliciesResponse) Merge(source *ListAlertingPoliciesRespons
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListAlertingPoliciesResponse) MergeRaw(source gotenobject.GotenObjectExt) {

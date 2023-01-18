@@ -407,13 +407,14 @@ func (fps *Plan_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Plan
 func (fps *Plan_FieldSubPath) Get(source *Plan) (values []interface{}) {
-	if asAllowanceFieldPath, ok := fps.AsResourceLimitsSubPath(); ok {
+	switch fps.selector {
+	case Plan_FieldPathSelectorResourceLimits:
 		for _, item := range source.GetResourceLimits() {
-			values = append(values, asAllowanceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case Plan_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Plan: %d", fps.selector))
 	}
 	return

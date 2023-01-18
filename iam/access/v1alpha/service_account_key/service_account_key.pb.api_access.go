@@ -81,8 +81,9 @@ func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Cont
 
 func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context, query *service_account_key.ListQuery) (*service_account_key.QueryResultSnapshot, error) {
 	request := &service_account_key_client.ListServiceAccountKeysRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context
 		ServiceAccountKeys: resp.ServiceAccountKeys,
 		NextPageCursor:     resp.NextPageToken,
 		PrevPageCursor:     resp.PrevPageToken,
+		TotalResultsCount:  resp.TotalResultsCount,
+		CurrentOffset:      resp.CurrentOffset,
 	}, nil
 }
 

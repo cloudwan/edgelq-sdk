@@ -1014,9 +1014,10 @@ func (fps *Invitation_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Invitation
 func (fps *Invitation_FieldSubPath) Get(source *Invitation) (values []interface{}) {
-	if asActorFieldPath, ok := fps.AsInviterActorSubPath(); ok {
-		values = append(values, asActorFieldPath.Get(source.GetInviterActor())...)
-	} else {
+	switch fps.selector {
+	case Invitation_FieldPathSelectorInviterActor:
+		values = append(values, fps.subPath.GetRaw(source.GetInviterActor())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fps.selector))
 	}
 	return

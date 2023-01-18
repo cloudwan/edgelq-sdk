@@ -899,6 +899,7 @@ func FullListLimitPoolsRequest_FieldMask() *ListLimitPoolsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListLimitPoolsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLimitPoolsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListLimitPoolsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListLimitPoolsRequest_FieldMask) Subtract(other *ListLimitPoolsRequest_FieldMask) *ListLimitPoolsRequest_FieldMask {
 	result := &ListLimitPoolsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListLimitPoolsRequest_FieldMask) Project(source *ListLimitPools
 				result.FieldMask = source.FieldMask
 			case ListLimitPoolsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListLimitPoolsResponse_FieldMask() *ListLimitPoolsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorLimitPools})
 	res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListLimitPoolsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListLimitPoolsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListLimitPoolsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListLimitPoolsResponse_FieldMask) Subtract(other *ListLimitPoolsResponse_FieldMask) *ListLimitPoolsResponse_FieldMask {
 	result := &ListLimitPoolsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListLimitPoolsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListLimitPoolsResponse_FieldPathSelectorLimitPools: &limit_pool.LimitPool_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListLimitPoolsResponse_FieldMask) Project(source *ListLimitPool
 				result.PrevPageToken = source.PrevPageToken
 			case ListLimitPoolsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListLimitPoolsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListLimitPoolsResponse_FieldSubPath:
 			switch tp.selector {

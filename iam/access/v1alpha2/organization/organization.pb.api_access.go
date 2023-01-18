@@ -81,8 +81,9 @@ func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs 
 
 func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *organization.ListQuery) (*organization.QueryResultSnapshot, error) {
 	request := &organization_client.ListOrganizationsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *o
 		return nil, err
 	}
 	return &organization.QueryResultSnapshot{
-		Organizations:  resp.Organizations,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Organizations:     resp.Organizations,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

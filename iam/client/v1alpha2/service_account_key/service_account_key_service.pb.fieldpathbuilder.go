@@ -1019,6 +1019,9 @@ func (ListServiceAccountKeysRequestFieldPathBuilder) FieldMask() ListServiceAcco
 func (ListServiceAccountKeysRequestFieldPathBuilder) View() ListServiceAccountKeysRequestPathSelectorView {
 	return ListServiceAccountKeysRequestPathSelectorView{}
 }
+func (ListServiceAccountKeysRequestFieldPathBuilder) IncludePagingInfo() ListServiceAccountKeysRequestPathSelectorIncludePagingInfo {
+	return ListServiceAccountKeysRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListServiceAccountKeysRequestPathSelectorParent struct{}
 
@@ -1118,6 +1121,20 @@ func (s ListServiceAccountKeysRequestPathSelectorView) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListServiceAccountKeysRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListServiceAccountKeysRequestPathSelectorIncludePagingInfo) FieldPath() *ListServiceAccountKeysRequest_FieldTerminalPath {
+	return &ListServiceAccountKeysRequest_FieldTerminalPath{selector: ListServiceAccountKeysRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListServiceAccountKeysRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListServiceAccountKeysRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountKeysRequest_FieldTerminalPathValue)
+}
+
+func (s ListServiceAccountKeysRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListServiceAccountKeysRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListServiceAccountKeysResponseFieldPathBuilder struct{}
 
 func NewListServiceAccountKeysResponseFieldPathBuilder() ListServiceAccountKeysResponseFieldPathBuilder {
@@ -1131,6 +1148,12 @@ func (ListServiceAccountKeysResponseFieldPathBuilder) PrevPageToken() ListServic
 }
 func (ListServiceAccountKeysResponseFieldPathBuilder) NextPageToken() ListServiceAccountKeysResponsePathSelectorNextPageToken {
 	return ListServiceAccountKeysResponsePathSelectorNextPageToken{}
+}
+func (ListServiceAccountKeysResponseFieldPathBuilder) CurrentOffset() ListServiceAccountKeysResponsePathSelectorCurrentOffset {
+	return ListServiceAccountKeysResponsePathSelectorCurrentOffset{}
+}
+func (ListServiceAccountKeysResponseFieldPathBuilder) TotalResultsCount() ListServiceAccountKeysResponsePathSelectorTotalResultsCount {
+	return ListServiceAccountKeysResponsePathSelectorTotalResultsCount{}
 }
 
 type ListServiceAccountKeysResponsePathSelectorServiceAccountKeys struct{}
@@ -1965,6 +1988,34 @@ func (s ListServiceAccountKeysResponsePathSelectorNextPageToken) WithValue(value
 }
 
 func (s ListServiceAccountKeysResponsePathSelectorNextPageToken) WithArrayOfValues(values []*service_account_key.PagerCursor) *ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListServiceAccountKeysResponsePathSelectorCurrentOffset struct{}
+
+func (ListServiceAccountKeysResponsePathSelectorCurrentOffset) FieldPath() *ListServiceAccountKeysResponse_FieldTerminalPath {
+	return &ListServiceAccountKeysResponse_FieldTerminalPath{selector: ListServiceAccountKeysResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorCurrentOffset) WithValue(value int32) *ListServiceAccountKeysResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountKeysResponse_FieldTerminalPathValue)
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListServiceAccountKeysResponsePathSelectorTotalResultsCount struct{}
+
+func (ListServiceAccountKeysResponsePathSelectorTotalResultsCount) FieldPath() *ListServiceAccountKeysResponse_FieldTerminalPath {
+	return &ListServiceAccountKeysResponse_FieldTerminalPath{selector: ListServiceAccountKeysResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListServiceAccountKeysResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServiceAccountKeysResponse_FieldTerminalPathValue)
+}
+
+func (s ListServiceAccountKeysResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServiceAccountKeysResponse_FieldTerminalPathArrayOfValues)
 }
 

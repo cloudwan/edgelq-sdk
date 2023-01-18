@@ -421,6 +421,9 @@ func (o *ListConditionsRequest) MakeDiffFieldMask(other *ListConditionsRequest) 
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -476,6 +479,7 @@ func (o *ListConditionsRequest) Clone() *ListConditionsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*condition.Condition_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -543,6 +547,7 @@ func (o *ListConditionsRequest) Merge(source *ListConditionsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListConditionsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -586,6 +591,12 @@ func (o *ListConditionsResponse) MakeDiffFieldMask(other *ListConditionsResponse
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -622,6 +633,8 @@ func (o *ListConditionsResponse) Clone() *ListConditionsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -672,6 +685,8 @@ func (o *ListConditionsResponse) Merge(source *ListConditionsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListConditionsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

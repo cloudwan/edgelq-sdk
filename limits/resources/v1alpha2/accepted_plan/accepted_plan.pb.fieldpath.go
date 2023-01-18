@@ -440,19 +440,20 @@ func (fps *AcceptedPlan_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AcceptedPlan
 func (fps *AcceptedPlan_FieldSubPath) Get(source *AcceptedPlan) (values []interface{}) {
-	if asAllowanceFieldPath, ok := fps.AsExtensionsSubPath(); ok {
+	switch fps.selector {
+	case AcceptedPlan_FieldPathSelectorExtensions:
 		for _, item := range source.GetExtensions() {
-			values = append(values, asAllowanceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asRegionalDistributionFieldPath, ok := fps.AsRegionalDistributionsSubPath(); ok {
+	case AcceptedPlan_FieldPathSelectorRegionalDistributions:
 		for _, item := range source.GetRegionalDistributions() {
-			values = append(values, asRegionalDistributionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asAssigneeFieldPath, ok := fps.AsAssigneeSubPath(); ok {
-		values = append(values, asAssigneeFieldPath.Get(source.GetAssignee())...)
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case AcceptedPlan_FieldPathSelectorAssignee:
+		values = append(values, fps.subPath.GetRaw(source.GetAssignee())...)
+	case AcceptedPlan_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan: %d", fps.selector))
 	}
 	return

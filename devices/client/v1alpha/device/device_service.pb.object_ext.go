@@ -419,6 +419,9 @@ func (o *ListDevicesRequest) MakeDiffFieldMask(other *ListDevicesRequest) *ListD
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListDevicesRequest_FieldTerminalPath{selector: ListDevicesRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListDevicesRequest_FieldTerminalPath{selector: ListDevicesRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListDevicesRequest) Clone() *ListDevicesRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*device.Device_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListDevicesRequest) Merge(source *ListDevicesRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListDevicesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListDevicesResponse) MakeDiffFieldMask(other *ListDevicesResponse) *Lis
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListDevicesResponse_FieldTerminalPath{selector: ListDevicesResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListDevicesResponse_FieldTerminalPath{selector: ListDevicesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListDevicesResponse_FieldTerminalPath{selector: ListDevicesResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListDevicesResponse) Clone() *ListDevicesResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListDevicesResponse) Merge(source *ListDevicesResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListDevicesResponse) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -899,6 +899,7 @@ func FullListPhantomTimeSeriesRequest_FieldMask() *ListPhantomTimeSeriesRequest_
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListPhantomTimeSeriesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPhantomTimeSeriesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListPhantomTimeSeriesRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPhantomTimeSeriesRequest_FieldMask) Subtract(other *ListPhantomTimeSeriesRequest_FieldMask) *ListPhantomTimeSeriesRequest_FieldMask {
 	result := &ListPhantomTimeSeriesRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListPhantomTimeSeriesRequest_FieldMask) Project(source *ListPha
 				result.FieldMask = source.FieldMask
 			case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListPhantomTimeSeriesResponse_FieldMask() *ListPhantomTimeSeriesRespons
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries})
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListPhantomTimeSeriesResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPhantomTimeSeriesResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListPhantomTimeSeriesResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPhantomTimeSeriesResponse_FieldMask) Subtract(other *ListPhantomTimeSeriesResponse_FieldMask) *ListPhantomTimeSeriesResponse_FieldMask {
 	result := &ListPhantomTimeSeriesResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPhantomTimeSeriesResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListPhantomTimeSeriesResponse_FieldMask) Project(source *ListPh
 				result.PrevPageToken = source.PrevPageToken
 			case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPhantomTimeSeriesResponse_FieldSubPath:
 			switch tp.selector {

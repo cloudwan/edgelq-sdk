@@ -1021,6 +1021,9 @@ func (ListLimitsRequestFieldPathBuilder) FieldMask() ListLimitsRequestPathSelect
 func (ListLimitsRequestFieldPathBuilder) View() ListLimitsRequestPathSelectorView {
 	return ListLimitsRequestPathSelectorView{}
 }
+func (ListLimitsRequestFieldPathBuilder) IncludePagingInfo() ListLimitsRequestPathSelectorIncludePagingInfo {
+	return ListLimitsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListLimitsRequestPathSelectorParent struct{}
 
@@ -1120,6 +1123,20 @@ func (s ListLimitsRequestPathSelectorView) WithArrayOfValues(values []view.View)
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListLimitsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListLimitsRequestPathSelectorIncludePagingInfo) FieldPath() *ListLimitsRequest_FieldTerminalPath {
+	return &ListLimitsRequest_FieldTerminalPath{selector: ListLimitsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListLimitsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListLimitsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsRequest_FieldTerminalPathValue)
+}
+
+func (s ListLimitsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListLimitsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListLimitsResponseFieldPathBuilder struct{}
 
 func NewListLimitsResponseFieldPathBuilder() ListLimitsResponseFieldPathBuilder {
@@ -1133,6 +1150,12 @@ func (ListLimitsResponseFieldPathBuilder) PrevPageToken() ListLimitsResponsePath
 }
 func (ListLimitsResponseFieldPathBuilder) NextPageToken() ListLimitsResponsePathSelectorNextPageToken {
 	return ListLimitsResponsePathSelectorNextPageToken{}
+}
+func (ListLimitsResponseFieldPathBuilder) CurrentOffset() ListLimitsResponsePathSelectorCurrentOffset {
+	return ListLimitsResponsePathSelectorCurrentOffset{}
+}
+func (ListLimitsResponseFieldPathBuilder) TotalResultsCount() ListLimitsResponsePathSelectorTotalResultsCount {
+	return ListLimitsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListLimitsResponsePathSelectorLimits struct{}
@@ -1967,6 +1990,34 @@ func (s ListLimitsResponsePathSelectorNextPageToken) WithValue(value *limit.Page
 }
 
 func (s ListLimitsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*limit.PagerCursor) *ListLimitsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorCurrentOffset struct{}
+
+func (ListLimitsResponsePathSelectorCurrentOffset) FieldPath() *ListLimitsResponse_FieldTerminalPath {
+	return &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListLimitsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListLimitsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListLimitsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLimitsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListLimitsResponsePathSelectorTotalResultsCount) FieldPath() *ListLimitsResponse_FieldTerminalPath {
+	return &ListLimitsResponse_FieldTerminalPath{selector: ListLimitsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListLimitsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListLimitsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLimitsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListLimitsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitsResponse_FieldTerminalPathArrayOfValues)
 }
 

@@ -899,6 +899,7 @@ func FullListAlertsRequest_FieldMask() *ListAlertsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListAlertsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListAlertsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListAlertsRequest_FieldMask) Subtract(other *ListAlertsRequest_FieldMask) *ListAlertsRequest_FieldMask {
 	result := &ListAlertsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListAlertsRequest_FieldMask) Project(source *ListAlertsRequest)
 				result.FieldMask = source.FieldMask
 			case ListAlertsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListAlertsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListAlertsResponse_FieldMask() *ListAlertsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorAlerts})
 	res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListAlertsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListAlertsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListAlertsResponse_FieldMask) Subtract(other *ListAlertsResponse_FieldMask) *ListAlertsResponse_FieldMask {
 	result := &ListAlertsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListAlertsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListAlertsResponse_FieldPathSelectorAlerts: &alert.Alert_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListAlertsResponse_FieldMask) Project(source *ListAlertsRespons
 				result.PrevPageToken = source.PrevPageToken
 			case ListAlertsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListAlertsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListAlertsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListAlertsResponse_FieldSubPath:
 			switch tp.selector {

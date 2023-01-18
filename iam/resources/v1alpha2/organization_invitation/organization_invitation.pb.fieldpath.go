@@ -328,11 +328,12 @@ func (fps *OrganizationInvitation_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source OrganizationInvitation
 func (fps *OrganizationInvitation_FieldSubPath) Get(source *OrganizationInvitation) (values []interface{}) {
-	if asInvitationFieldPath, ok := fps.AsInvitationSubPath(); ok {
-		values = append(values, asInvitationFieldPath.Get(source.GetInvitation())...)
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case OrganizationInvitation_FieldPathSelectorInvitation:
+		values = append(values, fps.subPath.GetRaw(source.GetInvitation())...)
+	case OrganizationInvitation_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for OrganizationInvitation: %d", fps.selector))
 	}
 	return

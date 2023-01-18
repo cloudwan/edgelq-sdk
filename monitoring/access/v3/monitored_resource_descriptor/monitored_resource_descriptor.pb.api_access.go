@@ -81,8 +81,9 @@ func (a *apiMonitoredResourceDescriptorAccess) BatchGetMonitoredResourceDescript
 
 func (a *apiMonitoredResourceDescriptorAccess) QueryMonitoredResourceDescriptors(ctx context.Context, query *monitored_resource_descriptor.ListQuery) (*monitored_resource_descriptor.QueryResultSnapshot, error) {
 	request := &monitored_resource_descriptor_client.ListMonitoredResourceDescriptorsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiMonitoredResourceDescriptorAccess) QueryMonitoredResourceDescriptors
 		MonitoredResourceDescriptors: resp.MonitoredResourceDescriptors,
 		NextPageCursor:               resp.NextPageToken,
 		PrevPageCursor:               resp.PrevPageToken,
+		TotalResultsCount:            resp.TotalResultsCount,
+		CurrentOffset:                resp.CurrentOffset,
 	}, nil
 }
 

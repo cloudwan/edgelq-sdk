@@ -484,6 +484,9 @@ func (ListProjectInvitationsRequestFieldPathBuilder) FieldMask() ListProjectInvi
 func (ListProjectInvitationsRequestFieldPathBuilder) View() ListProjectInvitationsRequestPathSelectorView {
 	return ListProjectInvitationsRequestPathSelectorView{}
 }
+func (ListProjectInvitationsRequestFieldPathBuilder) IncludePagingInfo() ListProjectInvitationsRequestPathSelectorIncludePagingInfo {
+	return ListProjectInvitationsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListProjectInvitationsRequestPathSelectorParent struct{}
 
@@ -583,6 +586,20 @@ func (s ListProjectInvitationsRequestPathSelectorView) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListProjectInvitationsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListProjectInvitationsRequestPathSelectorIncludePagingInfo) FieldPath() *ListProjectInvitationsRequest_FieldTerminalPath {
+	return &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListProjectInvitationsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListProjectInvitationsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsRequest_FieldTerminalPathValue)
+}
+
+func (s ListProjectInvitationsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListProjectInvitationsResponseFieldPathBuilder struct{}
 
 func NewListProjectInvitationsResponseFieldPathBuilder() ListProjectInvitationsResponseFieldPathBuilder {
@@ -596,6 +613,12 @@ func (ListProjectInvitationsResponseFieldPathBuilder) PrevPageToken() ListProjec
 }
 func (ListProjectInvitationsResponseFieldPathBuilder) NextPageToken() ListProjectInvitationsResponsePathSelectorNextPageToken {
 	return ListProjectInvitationsResponsePathSelectorNextPageToken{}
+}
+func (ListProjectInvitationsResponseFieldPathBuilder) CurrentOffset() ListProjectInvitationsResponsePathSelectorCurrentOffset {
+	return ListProjectInvitationsResponsePathSelectorCurrentOffset{}
+}
+func (ListProjectInvitationsResponseFieldPathBuilder) TotalResultsCount() ListProjectInvitationsResponsePathSelectorTotalResultsCount {
+	return ListProjectInvitationsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListProjectInvitationsResponsePathSelectorProjectInvitations struct{}
@@ -891,6 +914,34 @@ func (s ListProjectInvitationsResponsePathSelectorNextPageToken) WithValue(value
 }
 
 func (s ListProjectInvitationsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*project_invitation.PagerCursor) *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProjectInvitationsResponsePathSelectorCurrentOffset struct{}
+
+func (ListProjectInvitationsResponsePathSelectorCurrentOffset) FieldPath() *ListProjectInvitationsResponse_FieldTerminalPath {
+	return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListProjectInvitationsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListProjectInvitationsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProjectInvitationsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProjectInvitationsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListProjectInvitationsResponsePathSelectorTotalResultsCount) FieldPath() *ListProjectInvitationsResponse_FieldTerminalPath {
+	return &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListProjectInvitationsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListProjectInvitationsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectInvitationsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProjectInvitationsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectInvitationsResponse_FieldTerminalPathArrayOfValues)
 }
 

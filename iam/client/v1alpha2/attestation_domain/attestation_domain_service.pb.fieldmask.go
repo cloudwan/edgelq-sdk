@@ -899,6 +899,7 @@ func FullListAttestationDomainsRequest_FieldMask() *ListAttestationDomainsReques
 	res.Paths = append(res.Paths, &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListAttestationDomainsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAttestationDomainsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListAttestationDomainsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListAttestationDomainsRequest_FieldMask) Subtract(other *ListAttestationDomainsRequest_FieldMask) *ListAttestationDomainsRequest_FieldMask {
 	result := &ListAttestationDomainsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListAttestationDomainsRequest_FieldMask) Project(source *ListAt
 				result.FieldMask = source.FieldMask
 			case ListAttestationDomainsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListAttestationDomainsResponse_FieldMask() *ListAttestationDomainsRespo
 	res.Paths = append(res.Paths, &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains})
 	res.Paths = append(res.Paths, &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListAttestationDomainsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAttestationDomainsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListAttestationDomainsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListAttestationDomainsResponse_FieldMask) Subtract(other *ListAttestationDomainsResponse_FieldMask) *ListAttestationDomainsResponse_FieldMask {
 	result := &ListAttestationDomainsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListAttestationDomainsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListAttestationDomainsResponse_FieldPathSelectorAttestationDomains: &attestation_domain.AttestationDomain_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListAttestationDomainsResponse_FieldMask) Project(source *ListA
 				result.PrevPageToken = source.PrevPageToken
 			case ListAttestationDomainsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListAttestationDomainsResponse_FieldSubPath:
 			switch tp.selector {

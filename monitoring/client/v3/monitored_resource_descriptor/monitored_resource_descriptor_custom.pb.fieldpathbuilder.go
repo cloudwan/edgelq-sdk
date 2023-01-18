@@ -106,6 +106,9 @@ func (ListMonitoredResourceDescriptorsRequestFieldPathBuilder) FieldMask() ListM
 func (ListMonitoredResourceDescriptorsRequestFieldPathBuilder) View() ListMonitoredResourceDescriptorsRequestPathSelectorView {
 	return ListMonitoredResourceDescriptorsRequestPathSelectorView{}
 }
+func (ListMonitoredResourceDescriptorsRequestFieldPathBuilder) IncludePagingInfo() ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo {
+	return ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListMonitoredResourceDescriptorsRequestPathSelectorFilter struct{}
 
@@ -191,6 +194,20 @@ func (s ListMonitoredResourceDescriptorsRequestPathSelectorView) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo) FieldPath() *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath {
+	return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMonitoredResourceDescriptorsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListMonitoredResourceDescriptorsResponseFieldPathBuilder struct{}
 
 func NewListMonitoredResourceDescriptorsResponseFieldPathBuilder() ListMonitoredResourceDescriptorsResponseFieldPathBuilder {
@@ -204,6 +221,12 @@ func (ListMonitoredResourceDescriptorsResponseFieldPathBuilder) NextPageToken() 
 }
 func (ListMonitoredResourceDescriptorsResponseFieldPathBuilder) PrevPageToken() ListMonitoredResourceDescriptorsResponsePathSelectorPrevPageToken {
 	return ListMonitoredResourceDescriptorsResponsePathSelectorPrevPageToken{}
+}
+func (ListMonitoredResourceDescriptorsResponseFieldPathBuilder) CurrentOffset() ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset {
+	return ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset{}
+}
+func (ListMonitoredResourceDescriptorsResponseFieldPathBuilder) TotalResultsCount() ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount {
+	return ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListMonitoredResourceDescriptorsResponsePathSelectorMonitoredResourceDescriptors struct{}
@@ -1155,5 +1178,33 @@ func (s ListMonitoredResourceDescriptorsResponsePathSelectorPrevPageToken) WithV
 }
 
 func (s ListMonitoredResourceDescriptorsResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*monitored_resource_descriptor.PagerCursor) *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset struct{}
+
+func (ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset) FieldPath() *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath {
+	return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount) FieldPath() *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath {
+	return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMonitoredResourceDescriptorsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues)
 }

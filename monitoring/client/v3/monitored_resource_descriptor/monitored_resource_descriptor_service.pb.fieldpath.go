@@ -767,11 +767,12 @@ func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) JSONString
 
 // Get returns all values pointed by selected field from source BatchGetMonitoredResourceDescriptorsResponse
 func (fps *BatchGetMonitoredResourceDescriptorsResponse_FieldSubPath) Get(source *BatchGetMonitoredResourceDescriptorsResponse) (values []interface{}) {
-	if asMonitoredResourceDescriptorFieldPath, ok := fps.AsMonitoredResourceDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors:
 		for _, item := range source.GetMonitoredResourceDescriptors() {
-			values = append(values, asMonitoredResourceDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetMonitoredResourceDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -3079,9 +3080,10 @@ func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) JSONString() 
 
 // Get returns all values pointed by selected field from source WatchMonitoredResourceDescriptorsResponse
 func (fps *WatchMonitoredResourceDescriptorsResponse_FieldSubPath) Get(source *WatchMonitoredResourceDescriptorsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchMonitoredResourceDescriptorsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchMonitoredResourceDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -4209,9 +4211,10 @@ func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) JSONString() s
 
 // Get returns all values pointed by selected field from source CreateMonitoredResourceDescriptorRequest
 func (fps *CreateMonitoredResourceDescriptorRequest_FieldSubPath) Get(source *CreateMonitoredResourceDescriptorRequest) (values []interface{}) {
-	if asMonitoredResourceDescriptorFieldPath, ok := fps.AsMonitoredResourceDescriptorSubPath(); ok {
-		values = append(values, asMonitoredResourceDescriptorFieldPath.Get(source.GetMonitoredResourceDescriptor())...)
-	} else {
+	switch fps.selector {
+	case CreateMonitoredResourceDescriptorRequest_FieldPathSelectorMonitoredResourceDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMonitoredResourceDescriptor())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateMonitoredResourceDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -4838,11 +4841,12 @@ func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) JSONString() s
 
 // Get returns all values pointed by selected field from source UpdateMonitoredResourceDescriptorRequest
 func (fps *UpdateMonitoredResourceDescriptorRequest_FieldSubPath) Get(source *UpdateMonitoredResourceDescriptorRequest) (values []interface{}) {
-	if asMonitoredResourceDescriptorFieldPath, ok := fps.AsMonitoredResourceDescriptorSubPath(); ok {
-		values = append(values, asMonitoredResourceDescriptorFieldPath.Get(source.GetMonitoredResourceDescriptor())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorMonitoredResourceDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMonitoredResourceDescriptor())...)
+	case UpdateMonitoredResourceDescriptorRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -5496,9 +5500,10 @@ func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) JSONString(
 
 // Get returns all values pointed by selected field from source UpdateMonitoredResourceDescriptorRequest_CAS
 func (fps *UpdateMonitoredResourceDescriptorRequestCAS_FieldSubPath) Get(source *UpdateMonitoredResourceDescriptorRequest_CAS) (values []interface{}) {
-	if asMonitoredResourceDescriptorFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asMonitoredResourceDescriptorFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateMonitoredResourceDescriptorRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMonitoredResourceDescriptorRequest_CAS: %d", fps.selector))
 	}
 	return

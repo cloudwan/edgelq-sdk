@@ -81,8 +81,9 @@ func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Re
 
 func (a *apiRegionAccess) QueryRegions(ctx context.Context, query *region.ListQuery) (*region.QueryResultSnapshot, error) {
 	request := &region_client.ListRegionsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiRegionAccess) QueryRegions(ctx context.Context, query *region.ListQu
 		return nil, err
 	}
 	return &region.QueryResultSnapshot{
-		Regions:        resp.Regions,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Regions:           resp.Regions,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -1239,11 +1239,12 @@ func (fps *BatchGetAlertingConditionsResponse_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source BatchGetAlertingConditionsResponse
 func (fps *BatchGetAlertingConditionsResponse_FieldSubPath) Get(source *BatchGetAlertingConditionsResponse) (values []interface{}) {
-	if asAlertingConditionFieldPath, ok := fps.AsAlertingConditionsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
 		for _, item := range source.GetAlertingConditions() {
-			values = append(values, asAlertingConditionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetAlertingConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListAlertingConditionsRequest_FieldPath interface {
 type ListAlertingConditionsRequest_FieldPathSelector int32
 
 const (
-	ListAlertingConditionsRequest_FieldPathSelectorParent    ListAlertingConditionsRequest_FieldPathSelector = 0
-	ListAlertingConditionsRequest_FieldPathSelectorPageSize  ListAlertingConditionsRequest_FieldPathSelector = 1
-	ListAlertingConditionsRequest_FieldPathSelectorPageToken ListAlertingConditionsRequest_FieldPathSelector = 2
-	ListAlertingConditionsRequest_FieldPathSelectorOrderBy   ListAlertingConditionsRequest_FieldPathSelector = 3
-	ListAlertingConditionsRequest_FieldPathSelectorFilter    ListAlertingConditionsRequest_FieldPathSelector = 4
-	ListAlertingConditionsRequest_FieldPathSelectorFieldMask ListAlertingConditionsRequest_FieldPathSelector = 5
-	ListAlertingConditionsRequest_FieldPathSelectorView      ListAlertingConditionsRequest_FieldPathSelector = 6
+	ListAlertingConditionsRequest_FieldPathSelectorParent            ListAlertingConditionsRequest_FieldPathSelector = 0
+	ListAlertingConditionsRequest_FieldPathSelectorPageSize          ListAlertingConditionsRequest_FieldPathSelector = 1
+	ListAlertingConditionsRequest_FieldPathSelectorPageToken         ListAlertingConditionsRequest_FieldPathSelector = 2
+	ListAlertingConditionsRequest_FieldPathSelectorOrderBy           ListAlertingConditionsRequest_FieldPathSelector = 3
+	ListAlertingConditionsRequest_FieldPathSelectorFilter            ListAlertingConditionsRequest_FieldPathSelector = 4
+	ListAlertingConditionsRequest_FieldPathSelectorFieldMask         ListAlertingConditionsRequest_FieldPathSelector = 5
+	ListAlertingConditionsRequest_FieldPathSelectorView              ListAlertingConditionsRequest_FieldPathSelector = 6
+	ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo ListAlertingConditionsRequest_FieldPathSelector = 7
 )
 
 func (s ListAlertingConditionsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListAlertingConditionsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		return "view"
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListAlertingConditionsRequest_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListAlertingConditionsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) Get(source *ListAlert
 			}
 		case ListAlertingConditionsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) GetSingle(source *Lis
 		return res, res != nil
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) GetDefault() interfac
 		return (*alerting_condition.AlertingCondition_FieldMask)(nil)
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) ClearValue(item *List
 			item.FieldMask = nil
 		case ListAlertingConditionsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorView
+		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorView ||
+		fp.selector == ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListAlertingConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) WithIValue(value inte
 		return &ListAlertingConditionsRequest_FieldTerminalPathValue{ListAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.AlertingCondition_FieldMask)}
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		return &ListAlertingConditionsRequest_FieldTerminalPathValue{ListAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAlertingConditionsRequest_FieldTerminalPathValue{ListAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListAlertingConditionsRequest_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues{ListAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.AlertingCondition_FieldMask)}
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		return &ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues{ListAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues{ListAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListAlertingConditionsRequest_FieldTerminalPathValue) AsViewValue() (
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListAlertingConditionsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAlertingConditionsRequest
 func (fpv *ListAlertingConditionsRequest_FieldTerminalPathValue) SetTo(target **ListAlertingConditionsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListAlertingConditionsRequest_FieldTerminalPathValue) SetTo(target **
 		(*target).FieldMask = fpv.value.(*alerting_condition.AlertingCondition_FieldMask)
 	case ListAlertingConditionsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListAlertingConditionsRequest_FieldTerminalPathValue) CompareWith(sou
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsVie
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2268,6 +2311,8 @@ const (
 	ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions ListAlertingConditionsResponse_FieldPathSelector = 0
 	ListAlertingConditionsResponse_FieldPathSelectorPrevPageToken      ListAlertingConditionsResponse_FieldPathSelector = 1
 	ListAlertingConditionsResponse_FieldPathSelectorNextPageToken      ListAlertingConditionsResponse_FieldPathSelector = 2
+	ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset      ListAlertingConditionsResponse_FieldPathSelector = 3
+	ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount  ListAlertingConditionsResponse_FieldPathSelector = 4
 )
 
 func (s ListAlertingConditionsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListAlertingConditionsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListAlertingConditionsResponse_FieldPath(fp gotenobject.RawFieldPath) 
 			return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) Get(source *ListAler
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) GetSingle(source *Li
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) GetDefault() interfa
 		return (*alerting_condition.PagerCursor)(nil)
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		return (*alerting_condition.PagerCursor)(nil)
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) ClearValue(item *Lis
 			item.PrevPageToken = nil
 		case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *ListAlertingConditionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListAlertingConditionsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListAlertingConditionsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListAlertingConditionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListAlertingConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) WithIValue(value int
 		return &ListAlertingConditionsResponse_FieldTerminalPathValue{ListAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(*alerting_condition.PagerCursor)}
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		return &ListAlertingConditionsResponse_FieldTerminalPathValue{ListAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(*alerting_condition.PagerCursor)}
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListAlertingConditionsResponse_FieldTerminalPathValue{ListAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAlertingConditionsResponse_FieldTerminalPathValue{ListAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListAlertingConditionsResponse_FieldTerminalPath) WithIArrayOfValues(v
 		return &ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues{ListAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]*alerting_condition.PagerCursor)}
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		return &ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues{ListAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]*alerting_condition.PagerCursor)}
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues{ListAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues{ListAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListAlertingConditionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListAlertingConditionsResponse
 func (fps *ListAlertingConditionsResponse_FieldSubPath) Get(source *ListAlertingConditionsResponse) (values []interface{}) {
-	if asAlertingConditionFieldPath, ok := fps.AsAlertingConditionsSubPath(); ok {
+	switch fps.selector {
+	case ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
 		for _, item := range source.GetAlertingConditions() {
-			values = append(values, asAlertingConditionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) AsNextPageToke
 	res, ok := fpv.value.(*alerting_condition.PagerCursor)
 	return res, ok
 }
+func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAlertingConditionsResponse
 func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) SetTo(target **ListAlertingConditionsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) SetTo(target *
 		(*target).PrevPageToken = fpv.value.(*alerting_condition.PagerCursor)
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*alerting_condition.PagerCursor)
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListAlertingConditionsResponse_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingConditionsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*alerting_condition.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsPr
 }
 func (fpaov *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*alerting_condition.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchAlertingConditionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchAlertingConditionsResponse
 func (fps *WatchAlertingConditionsResponse_FieldSubPath) Get(source *WatchAlertingConditionsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchAlertingConditionsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchAlertingConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateAlertingConditionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateAlertingConditionRequest
 func (fps *CreateAlertingConditionRequest_FieldSubPath) Get(source *CreateAlertingConditionRequest) (values []interface{}) {
-	if asAlertingConditionFieldPath, ok := fps.AsAlertingConditionSubPath(); ok {
-		values = append(values, asAlertingConditionFieldPath.Get(source.GetAlertingCondition())...)
-	} else {
+	switch fps.selector {
+	case CreateAlertingConditionRequest_FieldPathSelectorAlertingCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetAlertingCondition())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateAlertingConditionRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateAlertingConditionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAlertingConditionRequest
 func (fps *UpdateAlertingConditionRequest_FieldSubPath) Get(source *UpdateAlertingConditionRequest) (values []interface{}) {
-	if asAlertingConditionFieldPath, ok := fps.AsAlertingConditionSubPath(); ok {
-		values = append(values, asAlertingConditionFieldPath.Get(source.GetAlertingCondition())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateAlertingConditionRequest_FieldPathSelectorAlertingCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetAlertingCondition())...)
+	case UpdateAlertingConditionRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateAlertingConditionRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAlertingConditionRequest_CAS
 func (fps *UpdateAlertingConditionRequestCAS_FieldSubPath) Get(source *UpdateAlertingConditionRequest_CAS) (values []interface{}) {
-	if asAlertingConditionFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asAlertingConditionFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateAlertingConditionRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingConditionRequest_CAS: %d", fps.selector))
 	}
 	return

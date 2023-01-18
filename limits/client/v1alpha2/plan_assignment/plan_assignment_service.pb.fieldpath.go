@@ -1241,11 +1241,12 @@ func (fps *BatchGetPlanAssignmentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetPlanAssignmentsResponse
 func (fps *BatchGetPlanAssignmentsResponse_FieldSubPath) Get(source *BatchGetPlanAssignmentsResponse) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsPlanAssignmentsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetPlanAssignmentsResponse_FieldPathSelectorPlanAssignments:
 		for _, item := range source.GetPlanAssignments() {
-			values = append(values, asPlanAssignmentFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetPlanAssignmentsResponse: %d", fps.selector))
 	}
 	return
@@ -1644,13 +1645,14 @@ type ListPlanAssignmentsRequest_FieldPath interface {
 type ListPlanAssignmentsRequest_FieldPathSelector int32
 
 const (
-	ListPlanAssignmentsRequest_FieldPathSelectorParent    ListPlanAssignmentsRequest_FieldPathSelector = 0
-	ListPlanAssignmentsRequest_FieldPathSelectorPageSize  ListPlanAssignmentsRequest_FieldPathSelector = 1
-	ListPlanAssignmentsRequest_FieldPathSelectorPageToken ListPlanAssignmentsRequest_FieldPathSelector = 2
-	ListPlanAssignmentsRequest_FieldPathSelectorOrderBy   ListPlanAssignmentsRequest_FieldPathSelector = 3
-	ListPlanAssignmentsRequest_FieldPathSelectorFilter    ListPlanAssignmentsRequest_FieldPathSelector = 4
-	ListPlanAssignmentsRequest_FieldPathSelectorFieldMask ListPlanAssignmentsRequest_FieldPathSelector = 5
-	ListPlanAssignmentsRequest_FieldPathSelectorView      ListPlanAssignmentsRequest_FieldPathSelector = 6
+	ListPlanAssignmentsRequest_FieldPathSelectorParent            ListPlanAssignmentsRequest_FieldPathSelector = 0
+	ListPlanAssignmentsRequest_FieldPathSelectorPageSize          ListPlanAssignmentsRequest_FieldPathSelector = 1
+	ListPlanAssignmentsRequest_FieldPathSelectorPageToken         ListPlanAssignmentsRequest_FieldPathSelector = 2
+	ListPlanAssignmentsRequest_FieldPathSelectorOrderBy           ListPlanAssignmentsRequest_FieldPathSelector = 3
+	ListPlanAssignmentsRequest_FieldPathSelectorFilter            ListPlanAssignmentsRequest_FieldPathSelector = 4
+	ListPlanAssignmentsRequest_FieldPathSelectorFieldMask         ListPlanAssignmentsRequest_FieldPathSelector = 5
+	ListPlanAssignmentsRequest_FieldPathSelectorView              ListPlanAssignmentsRequest_FieldPathSelector = 6
+	ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo ListPlanAssignmentsRequest_FieldPathSelector = 7
 )
 
 func (s ListPlanAssignmentsRequest_FieldPathSelector) String() string {
@@ -1669,6 +1671,8 @@ func (s ListPlanAssignmentsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		return "view"
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", s))
 	}
@@ -1694,6 +1698,8 @@ func BuildListPlanAssignmentsRequest_FieldPath(fp gotenobject.RawFieldPath) (Lis
 			return &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListPlanAssignmentsRequest", fp)
@@ -1763,6 +1769,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) Get(source *ListPlanAssi
 			}
 		case ListPlanAssignmentsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 		}
@@ -1796,6 +1804,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) GetSingle(source *ListPl
 		return res, res != nil
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 	}
@@ -1822,6 +1832,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) GetDefault() interface{}
 		return (*plan_assignment.PlanAssignment_FieldMask)(nil)
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 	}
@@ -1844,6 +1856,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) ClearValue(item *ListPla
 			item.FieldMask = nil
 		case ListPlanAssignmentsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 		}
@@ -1862,7 +1876,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorView
+		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorView ||
+		fp.selector == ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1885,6 +1900,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) WithIValue(value interfa
 		return &ListPlanAssignmentsRequest_FieldTerminalPathValue{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, value: value.(*plan_assignment.PlanAssignment_FieldMask)}
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		return &ListPlanAssignmentsRequest_FieldTerminalPathValue{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPlanAssignmentsRequest_FieldTerminalPathValue{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 	}
@@ -1911,6 +1928,8 @@ func (fp *ListPlanAssignmentsRequest_FieldTerminalPath) WithIArrayOfValues(value
 		return &ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, values: values.([]*plan_assignment.PlanAssignment_FieldMask)}
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		return &ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues{ListPlanAssignmentsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fp.selector))
 	}
@@ -1999,6 +2018,10 @@ func (fpv *ListPlanAssignmentsRequest_FieldTerminalPathValue) AsViewValue() (vie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListPlanAssignmentsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPlanAssignmentsRequest
 func (fpv *ListPlanAssignmentsRequest_FieldTerminalPathValue) SetTo(target **ListPlanAssignmentsRequest) {
@@ -2020,6 +2043,8 @@ func (fpv *ListPlanAssignmentsRequest_FieldTerminalPathValue) SetTo(target **Lis
 		(*target).FieldMask = fpv.value.(*plan_assignment.PlanAssignment_FieldMask)
 	case ListPlanAssignmentsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsRequest: %d", fpv.selector))
 	}
@@ -2076,6 +2101,16 @@ func (fpv *ListPlanAssignmentsRequest_FieldTerminalPathValue) CompareWith(source
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2216,6 +2251,10 @@ func (fpaov *ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2247,6 +2286,10 @@ func (fpaov *ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues) AsViewAr
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2267,9 +2310,11 @@ type ListPlanAssignmentsResponse_FieldPath interface {
 type ListPlanAssignmentsResponse_FieldPathSelector int32
 
 const (
-	ListPlanAssignmentsResponse_FieldPathSelectorPlanAssignments ListPlanAssignmentsResponse_FieldPathSelector = 0
-	ListPlanAssignmentsResponse_FieldPathSelectorPrevPageToken   ListPlanAssignmentsResponse_FieldPathSelector = 1
-	ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken   ListPlanAssignmentsResponse_FieldPathSelector = 2
+	ListPlanAssignmentsResponse_FieldPathSelectorPlanAssignments   ListPlanAssignmentsResponse_FieldPathSelector = 0
+	ListPlanAssignmentsResponse_FieldPathSelectorPrevPageToken     ListPlanAssignmentsResponse_FieldPathSelector = 1
+	ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken     ListPlanAssignmentsResponse_FieldPathSelector = 2
+	ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset     ListPlanAssignmentsResponse_FieldPathSelector = 3
+	ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount ListPlanAssignmentsResponse_FieldPathSelector = 4
 )
 
 func (s ListPlanAssignmentsResponse_FieldPathSelector) String() string {
@@ -2280,6 +2325,10 @@ func (s ListPlanAssignmentsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", s))
 	}
@@ -2297,6 +2346,10 @@ func BuildListPlanAssignmentsResponse_FieldPath(fp gotenobject.RawFieldPath) (Li
 			return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2363,6 +2416,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) Get(source *ListPlanAss
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 		}
@@ -2386,6 +2443,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) GetSingle(source *ListP
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 	}
@@ -2404,6 +2465,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) GetDefault() interface{
 		return (*plan_assignment.PagerCursor)(nil)
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		return (*plan_assignment.PagerCursor)(nil)
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 	}
@@ -2418,6 +2483,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) ClearValue(item *ListPl
 			item.PrevPageToken = nil
 		case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 		}
@@ -2431,7 +2500,9 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListPlanAssignmentsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2446,6 +2517,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) WithIValue(value interf
 		return &ListPlanAssignmentsResponse_FieldTerminalPathValue{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, value: value.(*plan_assignment.PagerCursor)}
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		return &ListPlanAssignmentsResponse_FieldTerminalPathValue{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, value: value.(*plan_assignment.PagerCursor)}
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPlanAssignmentsResponse_FieldTerminalPathValue{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPlanAssignmentsResponse_FieldTerminalPathValue{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 	}
@@ -2464,6 +2539,10 @@ func (fp *ListPlanAssignmentsResponse_FieldTerminalPath) WithIArrayOfValues(valu
 		return &ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, values: values.([]*plan_assignment.PagerCursor)}
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		return &ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, values: values.([]*plan_assignment.PagerCursor)}
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		return &ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues{ListPlanAssignmentsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fp.selector))
 	}
@@ -2514,11 +2593,12 @@ func (fps *ListPlanAssignmentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListPlanAssignmentsResponse
 func (fps *ListPlanAssignmentsResponse_FieldSubPath) Get(source *ListPlanAssignmentsResponse) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsPlanAssignmentsSubPath(); ok {
+	switch fps.selector {
+	case ListPlanAssignmentsResponse_FieldPathSelectorPlanAssignments:
 		for _, item := range source.GetPlanAssignments() {
-			values = append(values, asPlanAssignmentFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fps.selector))
 	}
 	return
@@ -2653,6 +2733,14 @@ func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) AsNextPageTokenVa
 	res, ok := fpv.value.(*plan_assignment.PagerCursor)
 	return res, ok
 }
+func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPlanAssignmentsResponse
 func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) SetTo(target **ListPlanAssignmentsResponse) {
@@ -2666,6 +2754,10 @@ func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) SetTo(target **Li
 		(*target).PrevPageToken = fpv.value.(*plan_assignment.PagerCursor)
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*plan_assignment.PagerCursor)
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fpv.selector))
 	}
@@ -2685,6 +2777,26 @@ func (fpv *ListPlanAssignmentsResponse_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case ListPlanAssignmentsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPlanAssignmentsResponse: %d", fpv.selector))
 	}
@@ -2879,6 +2991,14 @@ func (fpaov *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]*plan_assignment.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2892,6 +3012,14 @@ func (fpaov *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues) AsPrevP
 }
 func (fpaov *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*plan_assignment.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*plan_assignment.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4892,9 +5020,10 @@ func (fps *WatchPlanAssignmentsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchPlanAssignmentsResponse
 func (fps *WatchPlanAssignmentsResponse_FieldSubPath) Get(source *WatchPlanAssignmentsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchPlanAssignmentsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchPlanAssignmentsResponse: %d", fps.selector))
 	}
 	return
@@ -6042,9 +6171,10 @@ func (fps *CreatePlanAssignmentRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreatePlanAssignmentRequest
 func (fps *CreatePlanAssignmentRequest_FieldSubPath) Get(source *CreatePlanAssignmentRequest) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsPlanAssignmentSubPath(); ok {
-		values = append(values, asPlanAssignmentFieldPath.Get(source.GetPlanAssignment())...)
-	} else {
+	switch fps.selector {
+	case CreatePlanAssignmentRequest_FieldPathSelectorPlanAssignment:
+		values = append(values, fps.subPath.GetRaw(source.GetPlanAssignment())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreatePlanAssignmentRequest: %d", fps.selector))
 	}
 	return
@@ -6704,11 +6834,12 @@ func (fps *UpdatePlanAssignmentRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePlanAssignmentRequest
 func (fps *UpdatePlanAssignmentRequest_FieldSubPath) Get(source *UpdatePlanAssignmentRequest) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsPlanAssignmentSubPath(); ok {
-		values = append(values, asPlanAssignmentFieldPath.Get(source.GetPlanAssignment())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdatePlanAssignmentRequest_FieldPathSelectorPlanAssignment:
+		values = append(values, fps.subPath.GetRaw(source.GetPlanAssignment())...)
+	case UpdatePlanAssignmentRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest: %d", fps.selector))
 	}
 	return
@@ -7362,9 +7493,10 @@ func (fps *UpdatePlanAssignmentRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdatePlanAssignmentRequest_CAS
 func (fps *UpdatePlanAssignmentRequestCAS_FieldSubPath) Get(source *UpdatePlanAssignmentRequest_CAS) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asPlanAssignmentFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdatePlanAssignmentRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdatePlanAssignmentRequest_CAS: %d", fps.selector))
 	}
 	return

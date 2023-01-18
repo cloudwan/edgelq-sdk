@@ -1239,11 +1239,12 @@ func (fps *BatchGetSecretsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetSecretsResponse
 func (fps *BatchGetSecretsResponse_FieldSubPath) Get(source *BatchGetSecretsResponse) (values []interface{}) {
-	if asSecretFieldPath, ok := fps.AsSecretsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetSecretsResponse_FieldPathSelectorSecrets:
 		for _, item := range source.GetSecrets() {
-			values = append(values, asSecretFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetSecretsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListSecretsRequest_FieldPath interface {
 type ListSecretsRequest_FieldPathSelector int32
 
 const (
-	ListSecretsRequest_FieldPathSelectorParent    ListSecretsRequest_FieldPathSelector = 0
-	ListSecretsRequest_FieldPathSelectorPageSize  ListSecretsRequest_FieldPathSelector = 1
-	ListSecretsRequest_FieldPathSelectorPageToken ListSecretsRequest_FieldPathSelector = 2
-	ListSecretsRequest_FieldPathSelectorOrderBy   ListSecretsRequest_FieldPathSelector = 3
-	ListSecretsRequest_FieldPathSelectorFilter    ListSecretsRequest_FieldPathSelector = 4
-	ListSecretsRequest_FieldPathSelectorFieldMask ListSecretsRequest_FieldPathSelector = 5
-	ListSecretsRequest_FieldPathSelectorView      ListSecretsRequest_FieldPathSelector = 6
+	ListSecretsRequest_FieldPathSelectorParent            ListSecretsRequest_FieldPathSelector = 0
+	ListSecretsRequest_FieldPathSelectorPageSize          ListSecretsRequest_FieldPathSelector = 1
+	ListSecretsRequest_FieldPathSelectorPageToken         ListSecretsRequest_FieldPathSelector = 2
+	ListSecretsRequest_FieldPathSelectorOrderBy           ListSecretsRequest_FieldPathSelector = 3
+	ListSecretsRequest_FieldPathSelectorFilter            ListSecretsRequest_FieldPathSelector = 4
+	ListSecretsRequest_FieldPathSelectorFieldMask         ListSecretsRequest_FieldPathSelector = 5
+	ListSecretsRequest_FieldPathSelectorView              ListSecretsRequest_FieldPathSelector = 6
+	ListSecretsRequest_FieldPathSelectorIncludePagingInfo ListSecretsRequest_FieldPathSelector = 7
 )
 
 func (s ListSecretsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListSecretsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListSecretsRequest_FieldPathSelectorView:
 		return "view"
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListSecretsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListSecrets
 			return &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListSecretsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) Get(source *ListSecretsRequest) 
 			}
 		case ListSecretsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) GetSingle(source *ListSecretsReq
 		return res, res != nil
 	case ListSecretsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*secret.Secret_FieldMask)(nil)
 	case ListSecretsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) ClearValue(item *ListSecretsRequ
 			item.FieldMask = nil
 		case ListSecretsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListSecretsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListSecretsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListSecretsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListSecretsRequest_FieldPathSelectorView
+		fp.selector == ListSecretsRequest_FieldPathSelectorView ||
+		fp.selector == ListSecretsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListSecretsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) WithIValue(value interface{}) Li
 		return &ListSecretsRequest_FieldTerminalPathValue{ListSecretsRequest_FieldTerminalPath: *fp, value: value.(*secret.Secret_FieldMask)}
 	case ListSecretsRequest_FieldPathSelectorView:
 		return &ListSecretsRequest_FieldTerminalPathValue{ListSecretsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListSecretsRequest_FieldTerminalPathValue{ListSecretsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListSecretsRequest_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &ListSecretsRequest_FieldTerminalPathArrayOfValues{ListSecretsRequest_FieldTerminalPath: *fp, values: values.([]*secret.Secret_FieldMask)}
 	case ListSecretsRequest_FieldPathSelectorView:
 		return &ListSecretsRequest_FieldTerminalPathArrayOfValues{ListSecretsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListSecretsRequest_FieldTerminalPathArrayOfValues{ListSecretsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListSecretsRequest_FieldTerminalPathValue) AsViewValue() (view.View, 
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListSecretsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListSecretsRequest
 func (fpv *ListSecretsRequest_FieldTerminalPathValue) SetTo(target **ListSecretsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListSecretsRequest_FieldTerminalPathValue) SetTo(target **ListSecrets
 		(*target).FieldMask = fpv.value.(*secret.Secret_FieldMask)
 	case ListSecretsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListSecretsRequest_FieldTerminalPathValue) CompareWith(source *ListSe
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListSecretsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListSecretsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListSecretsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfVal
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListSecretsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListSecretsResponse_FieldPath interface {
 type ListSecretsResponse_FieldPathSelector int32
 
 const (
-	ListSecretsResponse_FieldPathSelectorSecrets       ListSecretsResponse_FieldPathSelector = 0
-	ListSecretsResponse_FieldPathSelectorPrevPageToken ListSecretsResponse_FieldPathSelector = 1
-	ListSecretsResponse_FieldPathSelectorNextPageToken ListSecretsResponse_FieldPathSelector = 2
+	ListSecretsResponse_FieldPathSelectorSecrets           ListSecretsResponse_FieldPathSelector = 0
+	ListSecretsResponse_FieldPathSelectorPrevPageToken     ListSecretsResponse_FieldPathSelector = 1
+	ListSecretsResponse_FieldPathSelectorNextPageToken     ListSecretsResponse_FieldPathSelector = 2
+	ListSecretsResponse_FieldPathSelectorCurrentOffset     ListSecretsResponse_FieldPathSelector = 3
+	ListSecretsResponse_FieldPathSelectorTotalResultsCount ListSecretsResponse_FieldPathSelector = 4
 )
 
 func (s ListSecretsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListSecretsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListSecretsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListSecret
 			return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) Get(source *ListSecretsResponse
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) GetSingle(source *ListSecretsRe
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*secret.PagerCursor)(nil)
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		return (*secret.PagerCursor)(nil)
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) ClearValue(item *ListSecretsRes
 			item.PrevPageToken = nil
 		case ListSecretsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListSecretsResponse_FieldTerminalPath) ClearValueRaw(item proto.Messag
 // IsLeaf - whether field path is holds simple value
 func (fp *ListSecretsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListSecretsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListSecretsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListSecretsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListSecretsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListSecretsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListSecretsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) WithIValue(value interface{}) L
 		return &ListSecretsResponse_FieldTerminalPathValue{ListSecretsResponse_FieldTerminalPath: *fp, value: value.(*secret.PagerCursor)}
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		return &ListSecretsResponse_FieldTerminalPathValue{ListSecretsResponse_FieldTerminalPath: *fp, value: value.(*secret.PagerCursor)}
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		return &ListSecretsResponse_FieldTerminalPathValue{ListSecretsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListSecretsResponse_FieldTerminalPathValue{ListSecretsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListSecretsResponse_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &ListSecretsResponse_FieldTerminalPathArrayOfValues{ListSecretsResponse_FieldTerminalPath: *fp, values: values.([]*secret.PagerCursor)}
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		return &ListSecretsResponse_FieldTerminalPathArrayOfValues{ListSecretsResponse_FieldTerminalPath: *fp, values: values.([]*secret.PagerCursor)}
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		return &ListSecretsResponse_FieldTerminalPathArrayOfValues{ListSecretsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListSecretsResponse_FieldTerminalPathArrayOfValues{ListSecretsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListSecretsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListSecretsResponse
 func (fps *ListSecretsResponse_FieldSubPath) Get(source *ListSecretsResponse) (values []interface{}) {
-	if asSecretFieldPath, ok := fps.AsSecretsSubPath(); ok {
+	switch fps.selector {
+	case ListSecretsResponse_FieldPathSelectorSecrets:
 		for _, item := range source.GetSecrets() {
-			values = append(values, asSecretFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListSecretsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*
 	res, ok := fpv.value.(*secret.PagerCursor)
 	return res, ok
 }
+func (fpv *ListSecretsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListSecretsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListSecretsResponse
 func (fpv *ListSecretsResponse_FieldTerminalPathValue) SetTo(target **ListSecretsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListSecretsResponse_FieldTerminalPathValue) SetTo(target **ListSecret
 		(*target).PrevPageToken = fpv.value.(*secret.PagerCursor)
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*secret.PagerCursor)
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListSecretsResponse_FieldTerminalPathValue) CompareWith(source *ListS
 		return 0, false
 	case ListSecretsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListSecretsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListSecretsResponse_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]*secret.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListSecretsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListSecretsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListSecretsResponse_FieldTerminalPathArrayOfValues) AsPrevPageToken
 }
 func (fpaov *ListSecretsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*secret.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*secret.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListSecretsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListSecretsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchSecretsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchSecretsResponse
 func (fps *WatchSecretsResponse_FieldSubPath) Get(source *WatchSecretsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchSecretsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchSecretsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateSecretRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateSecretRequest
 func (fps *CreateSecretRequest_FieldSubPath) Get(source *CreateSecretRequest) (values []interface{}) {
-	if asSecretFieldPath, ok := fps.AsSecretSubPath(); ok {
-		values = append(values, asSecretFieldPath.Get(source.GetSecret())...)
-	} else {
+	switch fps.selector {
+	case CreateSecretRequest_FieldPathSelectorSecret:
+		values = append(values, fps.subPath.GetRaw(source.GetSecret())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateSecretRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateSecretRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateSecretRequest
 func (fps *UpdateSecretRequest_FieldSubPath) Get(source *UpdateSecretRequest) (values []interface{}) {
-	if asSecretFieldPath, ok := fps.AsSecretSubPath(); ok {
-		values = append(values, asSecretFieldPath.Get(source.GetSecret())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateSecretRequest_FieldPathSelectorSecret:
+		values = append(values, fps.subPath.GetRaw(source.GetSecret())...)
+	case UpdateSecretRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateSecretRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateSecretRequest_CAS
 func (fps *UpdateSecretRequestCAS_FieldSubPath) Get(source *UpdateSecretRequest_CAS) (values []interface{}) {
-	if asSecretFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asSecretFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateSecretRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateSecretRequest_CAS: %d", fps.selector))
 	}
 	return

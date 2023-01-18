@@ -1241,11 +1241,12 @@ func (fps *BatchGetConditionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetConditionsResponse
 func (fps *BatchGetConditionsResponse_FieldSubPath) Get(source *BatchGetConditionsResponse) (values []interface{}) {
-	if asConditionFieldPath, ok := fps.AsConditionsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetConditionsResponse_FieldPathSelectorConditions:
 		for _, item := range source.GetConditions() {
-			values = append(values, asConditionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -1644,13 +1645,14 @@ type ListConditionsRequest_FieldPath interface {
 type ListConditionsRequest_FieldPathSelector int32
 
 const (
-	ListConditionsRequest_FieldPathSelectorParent    ListConditionsRequest_FieldPathSelector = 0
-	ListConditionsRequest_FieldPathSelectorPageSize  ListConditionsRequest_FieldPathSelector = 1
-	ListConditionsRequest_FieldPathSelectorPageToken ListConditionsRequest_FieldPathSelector = 2
-	ListConditionsRequest_FieldPathSelectorOrderBy   ListConditionsRequest_FieldPathSelector = 3
-	ListConditionsRequest_FieldPathSelectorFilter    ListConditionsRequest_FieldPathSelector = 4
-	ListConditionsRequest_FieldPathSelectorFieldMask ListConditionsRequest_FieldPathSelector = 5
-	ListConditionsRequest_FieldPathSelectorView      ListConditionsRequest_FieldPathSelector = 6
+	ListConditionsRequest_FieldPathSelectorParent            ListConditionsRequest_FieldPathSelector = 0
+	ListConditionsRequest_FieldPathSelectorPageSize          ListConditionsRequest_FieldPathSelector = 1
+	ListConditionsRequest_FieldPathSelectorPageToken         ListConditionsRequest_FieldPathSelector = 2
+	ListConditionsRequest_FieldPathSelectorOrderBy           ListConditionsRequest_FieldPathSelector = 3
+	ListConditionsRequest_FieldPathSelectorFilter            ListConditionsRequest_FieldPathSelector = 4
+	ListConditionsRequest_FieldPathSelectorFieldMask         ListConditionsRequest_FieldPathSelector = 5
+	ListConditionsRequest_FieldPathSelectorView              ListConditionsRequest_FieldPathSelector = 6
+	ListConditionsRequest_FieldPathSelectorIncludePagingInfo ListConditionsRequest_FieldPathSelector = 7
 )
 
 func (s ListConditionsRequest_FieldPathSelector) String() string {
@@ -1669,6 +1671,8 @@ func (s ListConditionsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListConditionsRequest_FieldPathSelectorView:
 		return "view"
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", s))
 	}
@@ -1694,6 +1698,8 @@ func BuildListConditionsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListCond
 			return &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListConditionsRequest", fp)
@@ -1763,6 +1769,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) Get(source *ListConditionsReq
 			}
 		case ListConditionsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 		}
@@ -1796,6 +1804,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) GetSingle(source *ListConditi
 		return res, res != nil
 	case ListConditionsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 	}
@@ -1822,6 +1832,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*condition.Condition_FieldMask)(nil)
 	case ListConditionsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 	}
@@ -1844,6 +1856,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) ClearValue(item *ListConditio
 			item.FieldMask = nil
 		case ListConditionsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 		}
@@ -1862,7 +1876,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListConditionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListConditionsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListConditionsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListConditionsRequest_FieldPathSelectorView
+		fp.selector == ListConditionsRequest_FieldPathSelectorView ||
+		fp.selector == ListConditionsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1885,6 +1900,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) WithIValue(value interface{})
 		return &ListConditionsRequest_FieldTerminalPathValue{ListConditionsRequest_FieldTerminalPath: *fp, value: value.(*condition.Condition_FieldMask)}
 	case ListConditionsRequest_FieldPathSelectorView:
 		return &ListConditionsRequest_FieldTerminalPathValue{ListConditionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListConditionsRequest_FieldTerminalPathValue{ListConditionsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 	}
@@ -1911,6 +1928,8 @@ func (fp *ListConditionsRequest_FieldTerminalPath) WithIArrayOfValues(values int
 		return &ListConditionsRequest_FieldTerminalPathArrayOfValues{ListConditionsRequest_FieldTerminalPath: *fp, values: values.([]*condition.Condition_FieldMask)}
 	case ListConditionsRequest_FieldPathSelectorView:
 		return &ListConditionsRequest_FieldTerminalPathArrayOfValues{ListConditionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListConditionsRequest_FieldTerminalPathArrayOfValues{ListConditionsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fp.selector))
 	}
@@ -1999,6 +2018,10 @@ func (fpv *ListConditionsRequest_FieldTerminalPathValue) AsViewValue() (view.Vie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListConditionsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListConditionsRequest
 func (fpv *ListConditionsRequest_FieldTerminalPathValue) SetTo(target **ListConditionsRequest) {
@@ -2020,6 +2043,8 @@ func (fpv *ListConditionsRequest_FieldTerminalPathValue) SetTo(target **ListCond
 		(*target).FieldMask = fpv.value.(*condition.Condition_FieldMask)
 	case ListConditionsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsRequest: %d", fpv.selector))
 	}
@@ -2076,6 +2101,16 @@ func (fpv *ListConditionsRequest_FieldTerminalPathValue) CompareWith(source *Lis
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2216,6 +2251,10 @@ func (fpaov *ListConditionsRequest_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2247,6 +2286,10 @@ func (fpaov *ListConditionsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOf
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListConditionsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2267,9 +2310,11 @@ type ListConditionsResponse_FieldPath interface {
 type ListConditionsResponse_FieldPathSelector int32
 
 const (
-	ListConditionsResponse_FieldPathSelectorConditions    ListConditionsResponse_FieldPathSelector = 0
-	ListConditionsResponse_FieldPathSelectorPrevPageToken ListConditionsResponse_FieldPathSelector = 1
-	ListConditionsResponse_FieldPathSelectorNextPageToken ListConditionsResponse_FieldPathSelector = 2
+	ListConditionsResponse_FieldPathSelectorConditions        ListConditionsResponse_FieldPathSelector = 0
+	ListConditionsResponse_FieldPathSelectorPrevPageToken     ListConditionsResponse_FieldPathSelector = 1
+	ListConditionsResponse_FieldPathSelectorNextPageToken     ListConditionsResponse_FieldPathSelector = 2
+	ListConditionsResponse_FieldPathSelectorCurrentOffset     ListConditionsResponse_FieldPathSelector = 3
+	ListConditionsResponse_FieldPathSelectorTotalResultsCount ListConditionsResponse_FieldPathSelector = 4
 )
 
 func (s ListConditionsResponse_FieldPathSelector) String() string {
@@ -2280,6 +2325,10 @@ func (s ListConditionsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", s))
 	}
@@ -2297,6 +2346,10 @@ func BuildListConditionsResponse_FieldPath(fp gotenobject.RawFieldPath) (ListCon
 			return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2363,6 +2416,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) Get(source *ListConditionsRe
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 		}
@@ -2386,6 +2443,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) GetSingle(source *ListCondit
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 	}
@@ -2404,6 +2465,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*condition.PagerCursor)(nil)
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		return (*condition.PagerCursor)(nil)
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 	}
@@ -2418,6 +2483,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) ClearValue(item *ListConditi
 			item.PrevPageToken = nil
 		case ListConditionsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 		}
@@ -2431,7 +2500,9 @@ func (fp *ListConditionsResponse_FieldTerminalPath) ClearValueRaw(item proto.Mes
 // IsLeaf - whether field path is holds simple value
 func (fp *ListConditionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListConditionsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListConditionsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListConditionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListConditionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListConditionsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2446,6 +2517,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) WithIValue(value interface{}
 		return &ListConditionsResponse_FieldTerminalPathValue{ListConditionsResponse_FieldTerminalPath: *fp, value: value.(*condition.PagerCursor)}
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		return &ListConditionsResponse_FieldTerminalPathValue{ListConditionsResponse_FieldTerminalPath: *fp, value: value.(*condition.PagerCursor)}
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListConditionsResponse_FieldTerminalPathValue{ListConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListConditionsResponse_FieldTerminalPathValue{ListConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 	}
@@ -2464,6 +2539,10 @@ func (fp *ListConditionsResponse_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ListConditionsResponse_FieldTerminalPathArrayOfValues{ListConditionsResponse_FieldTerminalPath: *fp, values: values.([]*condition.PagerCursor)}
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		return &ListConditionsResponse_FieldTerminalPathArrayOfValues{ListConditionsResponse_FieldTerminalPath: *fp, values: values.([]*condition.PagerCursor)}
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListConditionsResponse_FieldTerminalPathArrayOfValues{ListConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListConditionsResponse_FieldTerminalPathArrayOfValues{ListConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fp.selector))
 	}
@@ -2514,11 +2593,12 @@ func (fps *ListConditionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListConditionsResponse
 func (fps *ListConditionsResponse_FieldSubPath) Get(source *ListConditionsResponse) (values []interface{}) {
-	if asConditionFieldPath, ok := fps.AsConditionsSubPath(); ok {
+	switch fps.selector {
+	case ListConditionsResponse_FieldPathSelectorConditions:
 		for _, item := range source.GetConditions() {
-			values = append(values, asConditionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -2653,6 +2733,14 @@ func (fpv *ListConditionsResponse_FieldTerminalPathValue) AsNextPageTokenValue()
 	res, ok := fpv.value.(*condition.PagerCursor)
 	return res, ok
 }
+func (fpv *ListConditionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListConditionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListConditionsResponse
 func (fpv *ListConditionsResponse_FieldTerminalPathValue) SetTo(target **ListConditionsResponse) {
@@ -2666,6 +2754,10 @@ func (fpv *ListConditionsResponse_FieldTerminalPathValue) SetTo(target **ListCon
 		(*target).PrevPageToken = fpv.value.(*condition.PagerCursor)
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*condition.PagerCursor)
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fpv.selector))
 	}
@@ -2685,6 +2777,26 @@ func (fpv *ListConditionsResponse_FieldTerminalPathValue) CompareWith(source *Li
 		return 0, false
 	case ListConditionsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListConditionsResponse: %d", fpv.selector))
 	}
@@ -2879,6 +2991,14 @@ func (fpaov *ListConditionsResponse_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*condition.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2892,6 +3012,14 @@ func (fpaov *ListConditionsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTo
 }
 func (fpaov *ListConditionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*condition.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*condition.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListConditionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListConditionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4892,9 +5020,10 @@ func (fps *WatchConditionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchConditionsResponse
 func (fps *WatchConditionsResponse_FieldSubPath) Get(source *WatchConditionsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchConditionsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchConditionsResponse: %d", fps.selector))
 	}
 	return
@@ -6042,9 +6171,10 @@ func (fps *CreateConditionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateConditionRequest
 func (fps *CreateConditionRequest_FieldSubPath) Get(source *CreateConditionRequest) (values []interface{}) {
-	if asConditionFieldPath, ok := fps.AsConditionSubPath(); ok {
-		values = append(values, asConditionFieldPath.Get(source.GetCondition())...)
-	} else {
+	switch fps.selector {
+	case CreateConditionRequest_FieldPathSelectorCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetCondition())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateConditionRequest: %d", fps.selector))
 	}
 	return
@@ -6704,11 +6834,12 @@ func (fps *UpdateConditionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateConditionRequest
 func (fps *UpdateConditionRequest_FieldSubPath) Get(source *UpdateConditionRequest) (values []interface{}) {
-	if asConditionFieldPath, ok := fps.AsConditionSubPath(); ok {
-		values = append(values, asConditionFieldPath.Get(source.GetCondition())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateConditionRequest_FieldPathSelectorCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetCondition())...)
+	case UpdateConditionRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest: %d", fps.selector))
 	}
 	return
@@ -7362,9 +7493,10 @@ func (fps *UpdateConditionRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateConditionRequest_CAS
 func (fps *UpdateConditionRequestCAS_FieldSubPath) Get(source *UpdateConditionRequest_CAS) (values []interface{}) {
-	if asConditionFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asConditionFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateConditionRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateConditionRequest_CAS: %d", fps.selector))
 	}
 	return

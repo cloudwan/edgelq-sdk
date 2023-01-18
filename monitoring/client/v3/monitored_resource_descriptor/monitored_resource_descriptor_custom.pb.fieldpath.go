@@ -544,12 +544,13 @@ type ListMonitoredResourceDescriptorsRequest_FieldPath interface {
 type ListMonitoredResourceDescriptorsRequest_FieldPathSelector int32
 
 const (
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFilter    ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 0
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageSize  ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 1
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorOrderBy   ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 2
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageToken ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 3
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 4
-	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView      ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 5
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFilter            ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 0
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageSize          ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 1
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorOrderBy           ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 2
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageToken         ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 3
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask         ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 4
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView              ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 5
+	ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo ListMonitoredResourceDescriptorsRequest_FieldPathSelector = 6
 )
 
 func (s ListMonitoredResourceDescriptorsRequest_FieldPathSelector) String() string {
@@ -566,6 +567,8 @@ func (s ListMonitoredResourceDescriptorsRequest_FieldPathSelector) String() stri
 		return "field_mask"
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		return "view"
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", s))
 	}
@@ -589,6 +592,8 @@ func BuildListMonitoredResourceDescriptorsRequest_FieldPath(fp gotenobject.RawFi
 			return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListMonitoredResourceDescriptorsRequest", fp)
@@ -654,6 +659,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) Get(source 
 			}
 		case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 		}
@@ -684,6 +691,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetSingle(s
 		return res, res != nil
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 	}
@@ -708,6 +717,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) GetDefault(
 		return (*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)(nil)
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 	}
@@ -728,6 +739,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) ClearValue(
 			item.FieldMask = nil
 		case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 		}
@@ -745,7 +758,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) IsLeaf() bo
 		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageToken ||
 		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView
+		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView ||
+		fp.selector == ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -766,6 +780,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIValue(
 		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)}
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 	}
@@ -790,6 +806,8 @@ func (fp *ListMonitoredResourceDescriptorsRequest_FieldTerminalPath) WithIArrayO
 		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)}
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fp.selector))
 	}
@@ -874,6 +892,10 @@ func (fpv *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) AsVie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMonitoredResourceDescriptorsRequest
 func (fpv *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) SetTo(target **ListMonitoredResourceDescriptorsRequest) {
@@ -893,6 +915,8 @@ func (fpv *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) SetTo
 		(*target).FieldMask = fpv.value.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)
 	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsRequest: %d", fpv.selector))
 	}
@@ -930,6 +954,16 @@ func (fpv *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathValue) Compa
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1066,6 +1100,10 @@ func (fpaov *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfVal
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1093,6 +1131,10 @@ func (fpaov *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfVal
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListMonitoredResourceDescriptorsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -1116,6 +1158,8 @@ const (
 	ListMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors ListMonitoredResourceDescriptorsResponse_FieldPathSelector = 0
 	ListMonitoredResourceDescriptorsResponse_FieldPathSelectorNextPageToken                ListMonitoredResourceDescriptorsResponse_FieldPathSelector = 1
 	ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken                ListMonitoredResourceDescriptorsResponse_FieldPathSelector = 2
+	ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset                ListMonitoredResourceDescriptorsResponse_FieldPathSelector = 3
+	ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount            ListMonitoredResourceDescriptorsResponse_FieldPathSelector = 4
 )
 
 func (s ListMonitoredResourceDescriptorsResponse_FieldPathSelector) String() string {
@@ -1126,6 +1170,10 @@ func (s ListMonitoredResourceDescriptorsResponse_FieldPathSelector) String() str
 		return "next_page_token"
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return "prev_page_token"
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", s))
 	}
@@ -1143,6 +1191,10 @@ func BuildListMonitoredResourceDescriptorsResponse_FieldPath(fp gotenobject.RawF
 			return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorNextPageToken}, nil
 		case "prev_page_token", "prevPageToken", "prev-page-token":
 			return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1209,6 +1261,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) Get(source
 			if source.PrevPageToken != nil {
 				values = append(values, source.PrevPageToken)
 			}
+		case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 		}
@@ -1232,6 +1288,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) GetSingle(
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		res := source.GetPrevPageToken()
 		return res, res != nil
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 	}
@@ -1250,6 +1310,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) GetDefault
 		return (*monitored_resource_descriptor.PagerCursor)(nil)
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return (*monitored_resource_descriptor.PagerCursor)(nil)
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 	}
@@ -1264,6 +1328,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) ClearValue
 			item.NextPageToken = nil
 		case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 			item.PrevPageToken = nil
+		case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 		}
@@ -1277,7 +1345,9 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) ClearValue
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListMonitoredResourceDescriptorsResponse_FieldPathSelectorNextPageToken ||
-		fp.selector == ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken
+		fp.selector == ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken ||
+		fp.selector == ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1292,6 +1362,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) WithIValue
 		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*monitored_resource_descriptor.PagerCursor)}
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*monitored_resource_descriptor.PagerCursor)}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 	}
@@ -1310,6 +1384,10 @@ func (fp *ListMonitoredResourceDescriptorsResponse_FieldTerminalPath) WithIArray
 		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*monitored_resource_descriptor.PagerCursor)}
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*monitored_resource_descriptor.PagerCursor)}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMonitoredResourceDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fp.selector))
 	}
@@ -1360,11 +1438,12 @@ func (fps *ListMonitoredResourceDescriptorsResponse_FieldSubPath) JSONString() s
 
 // Get returns all values pointed by selected field from source ListMonitoredResourceDescriptorsResponse
 func (fps *ListMonitoredResourceDescriptorsResponse_FieldSubPath) Get(source *ListMonitoredResourceDescriptorsResponse) (values []interface{}) {
-	if asMonitoredResourceDescriptorFieldPath, ok := fps.AsMonitoredResourceDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors:
 		for _, item := range source.GetMonitoredResourceDescriptors() {
-			values = append(values, asMonitoredResourceDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -1499,6 +1578,14 @@ func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) AsPr
 	res, ok := fpv.value.(*monitored_resource_descriptor.PagerCursor)
 	return res, ok
 }
+func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMonitoredResourceDescriptorsResponse
 func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) SetTo(target **ListMonitoredResourceDescriptorsResponse) {
@@ -1512,6 +1599,10 @@ func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) SetT
 		(*target).NextPageToken = fpv.value.(*monitored_resource_descriptor.PagerCursor)
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		(*target).PrevPageToken = fpv.value.(*monitored_resource_descriptor.PagerCursor)
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fpv.selector))
 	}
@@ -1531,6 +1622,26 @@ func (fpv *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathValue) Comp
 		return 0, false
 	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return 0, false
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMonitoredResourceDescriptorsResponse: %d", fpv.selector))
 	}
@@ -1725,6 +1836,14 @@ func (fpaov *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfVa
 		for _, v := range fpaov.values.([]*monitored_resource_descriptor.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1738,6 +1857,14 @@ func (fpaov *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfVa
 }
 func (fpaov *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArrayOfValues() ([]*monitored_resource_descriptor.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*monitored_resource_descriptor.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListMonitoredResourceDescriptorsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 

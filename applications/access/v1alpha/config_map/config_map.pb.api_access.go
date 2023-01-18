@@ -81,8 +81,9 @@ func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*con
 
 func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_map.ListQuery) (*config_map.QueryResultSnapshot, error) {
 	request := &config_map_client.ListConfigMapsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_
 		return nil, err
 	}
 	return &config_map.QueryResultSnapshot{
-		ConfigMaps:     resp.ConfigMaps,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		ConfigMaps:        resp.ConfigMaps,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

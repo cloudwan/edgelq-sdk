@@ -81,8 +81,9 @@ func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service
 
 func (a *apiServiceAccess) QueryServices(ctx context.Context, query *service.ListQuery) (*service.QueryResultSnapshot, error) {
 	request := &service_client.ListServicesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiServiceAccess) QueryServices(ctx context.Context, query *service.Lis
 		return nil, err
 	}
 	return &service.QueryResultSnapshot{
-		Services:       resp.Services,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Services:          resp.Services,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -81,8 +81,9 @@ func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []
 
 func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *role_binding.ListQuery) (*role_binding.QueryResultSnapshot, error) {
 	request := &role_binding_client.ListRoleBindingsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *rol
 		return nil, err
 	}
 	return &role_binding.QueryResultSnapshot{
-		RoleBindings:   resp.RoleBindings,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		RoleBindings:      resp.RoleBindings,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

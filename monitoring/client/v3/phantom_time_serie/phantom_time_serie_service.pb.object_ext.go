@@ -419,6 +419,9 @@ func (o *ListPhantomTimeSeriesRequest) MakeDiffFieldMask(other *ListPhantomTimeS
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListPhantomTimeSeriesRequest) Clone() *ListPhantomTimeSeriesRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*phantom_time_serie.PhantomTimeSerie_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListPhantomTimeSeriesRequest) Merge(source *ListPhantomTimeSeriesReques
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListPhantomTimeSeriesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListPhantomTimeSeriesResponse) MakeDiffFieldMask(other *ListPhantomTime
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListPhantomTimeSeriesResponse) Clone() *ListPhantomTimeSeriesResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListPhantomTimeSeriesResponse) Merge(source *ListPhantomTimeSeriesRespo
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListPhantomTimeSeriesResponse) MergeRaw(source gotenobject.GotenObjectExt) {

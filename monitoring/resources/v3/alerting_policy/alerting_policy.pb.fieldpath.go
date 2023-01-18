@@ -392,13 +392,14 @@ func (fps *AlertingPolicy_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingPolicy
 func (fps *AlertingPolicy_FieldSubPath) Get(source *AlertingPolicy) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asDocumentationFieldPath, ok := fps.AsDocumentationSubPath(); ok {
-		values = append(values, asDocumentationFieldPath.Get(source.GetDocumentation())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else {
+	switch fps.selector {
+	case AlertingPolicy_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case AlertingPolicy_FieldPathSelectorDocumentation:
+		values = append(values, fps.subPath.GetRaw(source.GetDocumentation())...)
+	case AlertingPolicy_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy: %d", fps.selector))
 	}
 	return
@@ -1594,9 +1595,10 @@ func (fps *AlertingPolicySpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingPolicy_Spec
 func (fps *AlertingPolicySpec_FieldSubPath) Get(source *AlertingPolicy_Spec) (values []interface{}) {
-	if asNotificationFieldPath, ok := fps.AsNotificationSubPath(); ok {
-		values = append(values, asNotificationFieldPath.Get(source.GetNotification())...)
-	} else {
+	switch fps.selector {
+	case AlertingPolicySpec_FieldPathSelectorNotification:
+		values = append(values, fps.subPath.GetRaw(source.GetNotification())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec: %d", fps.selector))
 	}
 	return
@@ -2221,9 +2223,10 @@ func (fps *AlertingPolicySpecNotification_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AlertingPolicy_Spec_Notification
 func (fps *AlertingPolicySpecNotification_FieldSubPath) Get(source *AlertingPolicy_Spec_Notification) (values []interface{}) {
-	if asSlackFieldPath, ok := fps.AsSlackSubPath(); ok {
-		values = append(values, asSlackFieldPath.Get(source.GetSlack())...)
-	} else {
+	switch fps.selector {
+	case AlertingPolicySpecNotification_FieldPathSelectorSlack:
+		values = append(values, fps.subPath.GetRaw(source.GetSlack())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fps.selector))
 	}
 	return
@@ -2817,9 +2820,10 @@ func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) JSONString() string
 
 // Get returns all values pointed by selected field from source AlertingPolicy_Spec_Notification_Slack
 func (fps *AlertingPolicySpecNotificationSlack_FieldSubPath) Get(source *AlertingPolicy_Spec_Notification_Slack) (values []interface{}) {
-	if asAppFieldPath, ok := fps.AsAppSubPath(); ok {
-		values = append(values, asAppFieldPath.Get(source.GetApp())...)
-	} else {
+	switch fps.selector {
+	case AlertingPolicySpecNotificationSlack_FieldPathSelectorApp:
+		values = append(values, fps.subPath.GetRaw(source.GetApp())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification_Slack: %d", fps.selector))
 	}
 	return

@@ -312,11 +312,12 @@ func (fps *MultiRegionPolicy_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source MultiRegionPolicy
 func (fps *MultiRegionPolicy_FieldSubPath) Get(source *MultiRegionPolicy) (values []interface{}) {
-	if asCriteriaForDisabledSyncFieldPath, ok := fps.AsCriteriaForDisabledSyncSubPath(); ok {
+	switch fps.selector {
+	case MultiRegionPolicy_FieldPathSelectorCriteriaForDisabledSync:
 		for _, item := range source.GetCriteriaForDisabledSync() {
-			values = append(values, asCriteriaForDisabledSyncFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for MultiRegionPolicy: %d", fps.selector))
 	}
 	return

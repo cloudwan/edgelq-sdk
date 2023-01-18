@@ -1239,11 +1239,12 @@ func (fps *BatchGetDistributionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetDistributionsResponse
 func (fps *BatchGetDistributionsResponse_FieldSubPath) Get(source *BatchGetDistributionsResponse) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsDistributionsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetDistributionsResponse_FieldPathSelectorDistributions:
 		for _, item := range source.GetDistributions() {
-			values = append(values, asDistributionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetDistributionsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListDistributionsRequest_FieldPath interface {
 type ListDistributionsRequest_FieldPathSelector int32
 
 const (
-	ListDistributionsRequest_FieldPathSelectorParent    ListDistributionsRequest_FieldPathSelector = 0
-	ListDistributionsRequest_FieldPathSelectorPageSize  ListDistributionsRequest_FieldPathSelector = 1
-	ListDistributionsRequest_FieldPathSelectorPageToken ListDistributionsRequest_FieldPathSelector = 2
-	ListDistributionsRequest_FieldPathSelectorOrderBy   ListDistributionsRequest_FieldPathSelector = 3
-	ListDistributionsRequest_FieldPathSelectorFilter    ListDistributionsRequest_FieldPathSelector = 4
-	ListDistributionsRequest_FieldPathSelectorFieldMask ListDistributionsRequest_FieldPathSelector = 5
-	ListDistributionsRequest_FieldPathSelectorView      ListDistributionsRequest_FieldPathSelector = 6
+	ListDistributionsRequest_FieldPathSelectorParent            ListDistributionsRequest_FieldPathSelector = 0
+	ListDistributionsRequest_FieldPathSelectorPageSize          ListDistributionsRequest_FieldPathSelector = 1
+	ListDistributionsRequest_FieldPathSelectorPageToken         ListDistributionsRequest_FieldPathSelector = 2
+	ListDistributionsRequest_FieldPathSelectorOrderBy           ListDistributionsRequest_FieldPathSelector = 3
+	ListDistributionsRequest_FieldPathSelectorFilter            ListDistributionsRequest_FieldPathSelector = 4
+	ListDistributionsRequest_FieldPathSelectorFieldMask         ListDistributionsRequest_FieldPathSelector = 5
+	ListDistributionsRequest_FieldPathSelectorView              ListDistributionsRequest_FieldPathSelector = 6
+	ListDistributionsRequest_FieldPathSelectorIncludePagingInfo ListDistributionsRequest_FieldPathSelector = 7
 )
 
 func (s ListDistributionsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListDistributionsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListDistributionsRequest_FieldPathSelectorView:
 		return "view"
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListDistributionsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListD
 			return &ListDistributionsRequest_FieldTerminalPath{selector: ListDistributionsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListDistributionsRequest_FieldTerminalPath{selector: ListDistributionsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListDistributionsRequest_FieldTerminalPath{selector: ListDistributionsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListDistributionsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) Get(source *ListDistributi
 			}
 		case ListDistributionsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) GetSingle(source *ListDist
 		return res, res != nil
 	case ListDistributionsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*distribution.Distribution_FieldMask)(nil)
 	case ListDistributionsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) ClearValue(item *ListDistr
 			item.FieldMask = nil
 		case ListDistributionsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListDistributionsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListDistributionsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListDistributionsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListDistributionsRequest_FieldPathSelectorView
+		fp.selector == ListDistributionsRequest_FieldPathSelectorView ||
+		fp.selector == ListDistributionsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListDistributionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) WithIValue(value interface
 		return &ListDistributionsRequest_FieldTerminalPathValue{ListDistributionsRequest_FieldTerminalPath: *fp, value: value.(*distribution.Distribution_FieldMask)}
 	case ListDistributionsRequest_FieldPathSelectorView:
 		return &ListDistributionsRequest_FieldTerminalPathValue{ListDistributionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListDistributionsRequest_FieldTerminalPathValue{ListDistributionsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListDistributionsRequest_FieldTerminalPath) WithIArrayOfValues(values 
 		return &ListDistributionsRequest_FieldTerminalPathArrayOfValues{ListDistributionsRequest_FieldTerminalPath: *fp, values: values.([]*distribution.Distribution_FieldMask)}
 	case ListDistributionsRequest_FieldPathSelectorView:
 		return &ListDistributionsRequest_FieldTerminalPathArrayOfValues{ListDistributionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListDistributionsRequest_FieldTerminalPathArrayOfValues{ListDistributionsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListDistributionsRequest_FieldTerminalPathValue) AsViewValue() (view.
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListDistributionsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListDistributionsRequest
 func (fpv *ListDistributionsRequest_FieldTerminalPathValue) SetTo(target **ListDistributionsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListDistributionsRequest_FieldTerminalPathValue) SetTo(target **ListD
 		(*target).FieldMask = fpv.value.(*distribution.Distribution_FieldMask)
 	case ListDistributionsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListDistributionsRequest_FieldTerminalPathValue) CompareWith(source *
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListDistributionsRequest_FieldTerminalPathArrayOfValues) GetRawValu
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListDistributionsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListDistributionsRequest_FieldTerminalPathArrayOfValues) AsViewArra
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListDistributionsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListDistributionsResponse_FieldPath interface {
 type ListDistributionsResponse_FieldPathSelector int32
 
 const (
-	ListDistributionsResponse_FieldPathSelectorDistributions ListDistributionsResponse_FieldPathSelector = 0
-	ListDistributionsResponse_FieldPathSelectorPrevPageToken ListDistributionsResponse_FieldPathSelector = 1
-	ListDistributionsResponse_FieldPathSelectorNextPageToken ListDistributionsResponse_FieldPathSelector = 2
+	ListDistributionsResponse_FieldPathSelectorDistributions     ListDistributionsResponse_FieldPathSelector = 0
+	ListDistributionsResponse_FieldPathSelectorPrevPageToken     ListDistributionsResponse_FieldPathSelector = 1
+	ListDistributionsResponse_FieldPathSelectorNextPageToken     ListDistributionsResponse_FieldPathSelector = 2
+	ListDistributionsResponse_FieldPathSelectorCurrentOffset     ListDistributionsResponse_FieldPathSelector = 3
+	ListDistributionsResponse_FieldPathSelectorTotalResultsCount ListDistributionsResponse_FieldPathSelector = 4
 )
 
 func (s ListDistributionsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListDistributionsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListDistributionsResponse_FieldPath(fp gotenobject.RawFieldPath) (List
 			return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) Get(source *ListDistribut
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) GetSingle(source *ListDis
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) GetDefault() interface{} 
 		return (*distribution.PagerCursor)(nil)
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		return (*distribution.PagerCursor)(nil)
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) ClearValue(item *ListDist
 			item.PrevPageToken = nil
 		case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fp *ListDistributionsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListDistributionsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListDistributionsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListDistributionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListDistributionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListDistributionsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListDistributionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) WithIValue(value interfac
 		return &ListDistributionsResponse_FieldTerminalPathValue{ListDistributionsResponse_FieldTerminalPath: *fp, value: value.(*distribution.PagerCursor)}
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		return &ListDistributionsResponse_FieldTerminalPathValue{ListDistributionsResponse_FieldTerminalPath: *fp, value: value.(*distribution.PagerCursor)}
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListDistributionsResponse_FieldTerminalPathValue{ListDistributionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListDistributionsResponse_FieldTerminalPathValue{ListDistributionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListDistributionsResponse_FieldTerminalPath) WithIArrayOfValues(values
 		return &ListDistributionsResponse_FieldTerminalPathArrayOfValues{ListDistributionsResponse_FieldTerminalPath: *fp, values: values.([]*distribution.PagerCursor)}
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		return &ListDistributionsResponse_FieldTerminalPathArrayOfValues{ListDistributionsResponse_FieldTerminalPath: *fp, values: values.([]*distribution.PagerCursor)}
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		return &ListDistributionsResponse_FieldTerminalPathArrayOfValues{ListDistributionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListDistributionsResponse_FieldTerminalPathArrayOfValues{ListDistributionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListDistributionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListDistributionsResponse
 func (fps *ListDistributionsResponse_FieldSubPath) Get(source *ListDistributionsResponse) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsDistributionsSubPath(); ok {
+	switch fps.selector {
+	case ListDistributionsResponse_FieldPathSelectorDistributions:
 		for _, item := range source.GetDistributions() {
-			values = append(values, asDistributionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListDistributionsResponse_FieldTerminalPathValue) AsNextPageTokenValu
 	res, ok := fpv.value.(*distribution.PagerCursor)
 	return res, ok
 }
+func (fpv *ListDistributionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListDistributionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListDistributionsResponse
 func (fpv *ListDistributionsResponse_FieldTerminalPathValue) SetTo(target **ListDistributionsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListDistributionsResponse_FieldTerminalPathValue) SetTo(target **List
 		(*target).PrevPageToken = fpv.value.(*distribution.PagerCursor)
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*distribution.PagerCursor)
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListDistributionsResponse_FieldTerminalPathValue) CompareWith(source 
 		return 0, false
 	case ListDistributionsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListDistributionsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListDistributionsResponse_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]*distribution.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListDistributionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListDistributionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListDistributionsResponse_FieldTerminalPathArrayOfValues) AsPrevPag
 }
 func (fpaov *ListDistributionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*distribution.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*distribution.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListDistributionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListDistributionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchDistributionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchDistributionsResponse
 func (fps *WatchDistributionsResponse_FieldSubPath) Get(source *WatchDistributionsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchDistributionsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchDistributionsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateDistributionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateDistributionRequest
 func (fps *CreateDistributionRequest_FieldSubPath) Get(source *CreateDistributionRequest) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsDistributionSubPath(); ok {
-		values = append(values, asDistributionFieldPath.Get(source.GetDistribution())...)
-	} else {
+	switch fps.selector {
+	case CreateDistributionRequest_FieldPathSelectorDistribution:
+		values = append(values, fps.subPath.GetRaw(source.GetDistribution())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateDistributionRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateDistributionRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateDistributionRequest
 func (fps *UpdateDistributionRequest_FieldSubPath) Get(source *UpdateDistributionRequest) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsDistributionSubPath(); ok {
-		values = append(values, asDistributionFieldPath.Get(source.GetDistribution())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateDistributionRequest_FieldPathSelectorDistribution:
+		values = append(values, fps.subPath.GetRaw(source.GetDistribution())...)
+	case UpdateDistributionRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateDistributionRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateDistributionRequest_CAS
 func (fps *UpdateDistributionRequestCAS_FieldSubPath) Get(source *UpdateDistributionRequest_CAS) (values []interface{}) {
-	if asDistributionFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asDistributionFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateDistributionRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateDistributionRequest_CAS: %d", fps.selector))
 	}
 	return

@@ -901,6 +901,7 @@ func FullListConditionsRequest_FieldMask() *ListConditionsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListConditionsRequest_FieldTerminalPath{selector: ListConditionsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -944,7 +945,7 @@ func (fieldMask *ListConditionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListConditionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -974,7 +975,7 @@ func (fieldMask *ListConditionsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListConditionsRequest_FieldMask) Subtract(other *ListConditionsRequest_FieldMask) *ListConditionsRequest_FieldMask {
 	result := &ListConditionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1142,6 +1143,8 @@ func (fieldMask *ListConditionsRequest_FieldMask) Project(source *ListConditions
 				result.FieldMask = source.FieldMask
 			case ListConditionsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListConditionsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1168,6 +1171,8 @@ func FullListConditionsResponse_FieldMask() *ListConditionsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorConditions})
 	res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListConditionsResponse_FieldTerminalPath{selector: ListConditionsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1211,7 +1216,7 @@ func (fieldMask *ListConditionsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListConditionsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1241,7 +1246,7 @@ func (fieldMask *ListConditionsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListConditionsResponse_FieldMask) Subtract(other *ListConditionsResponse_FieldMask) *ListConditionsResponse_FieldMask {
 	result := &ListConditionsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListConditionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListConditionsResponse_FieldPathSelectorConditions: &condition.Condition_FieldMask{},
 	}
@@ -1448,6 +1453,10 @@ func (fieldMask *ListConditionsResponse_FieldMask) Project(source *ListCondition
 				result.PrevPageToken = source.PrevPageToken
 			case ListConditionsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListConditionsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListConditionsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListConditionsResponse_FieldSubPath:
 			switch tp.selector {

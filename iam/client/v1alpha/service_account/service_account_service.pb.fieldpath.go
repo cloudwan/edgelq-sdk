@@ -1239,11 +1239,12 @@ func (fps *BatchGetServiceAccountsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetServiceAccountsResponse
 func (fps *BatchGetServiceAccountsResponse_FieldSubPath) Get(source *BatchGetServiceAccountsResponse) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetServiceAccountsResponse_FieldPathSelectorServiceAccounts:
 		for _, item := range source.GetServiceAccounts() {
-			values = append(values, asServiceAccountFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetServiceAccountsResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListServiceAccountsRequest_FieldPath interface {
 type ListServiceAccountsRequest_FieldPathSelector int32
 
 const (
-	ListServiceAccountsRequest_FieldPathSelectorParent    ListServiceAccountsRequest_FieldPathSelector = 0
-	ListServiceAccountsRequest_FieldPathSelectorPageSize  ListServiceAccountsRequest_FieldPathSelector = 1
-	ListServiceAccountsRequest_FieldPathSelectorPageToken ListServiceAccountsRequest_FieldPathSelector = 2
-	ListServiceAccountsRequest_FieldPathSelectorOrderBy   ListServiceAccountsRequest_FieldPathSelector = 3
-	ListServiceAccountsRequest_FieldPathSelectorFilter    ListServiceAccountsRequest_FieldPathSelector = 4
-	ListServiceAccountsRequest_FieldPathSelectorFieldMask ListServiceAccountsRequest_FieldPathSelector = 5
-	ListServiceAccountsRequest_FieldPathSelectorView      ListServiceAccountsRequest_FieldPathSelector = 6
+	ListServiceAccountsRequest_FieldPathSelectorParent            ListServiceAccountsRequest_FieldPathSelector = 0
+	ListServiceAccountsRequest_FieldPathSelectorPageSize          ListServiceAccountsRequest_FieldPathSelector = 1
+	ListServiceAccountsRequest_FieldPathSelectorPageToken         ListServiceAccountsRequest_FieldPathSelector = 2
+	ListServiceAccountsRequest_FieldPathSelectorOrderBy           ListServiceAccountsRequest_FieldPathSelector = 3
+	ListServiceAccountsRequest_FieldPathSelectorFilter            ListServiceAccountsRequest_FieldPathSelector = 4
+	ListServiceAccountsRequest_FieldPathSelectorFieldMask         ListServiceAccountsRequest_FieldPathSelector = 5
+	ListServiceAccountsRequest_FieldPathSelectorView              ListServiceAccountsRequest_FieldPathSelector = 6
+	ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo ListServiceAccountsRequest_FieldPathSelector = 7
 )
 
 func (s ListServiceAccountsRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListServiceAccountsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		return "view"
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListServiceAccountsRequest_FieldPath(fp gotenobject.RawFieldPath) (Lis
 			return &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListServiceAccountsRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) Get(source *ListServiceA
 			}
 		case ListServiceAccountsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) GetSingle(source *ListSe
 		return res, res != nil
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) GetDefault() interface{}
 		return (*service_account.ServiceAccount_FieldMask)(nil)
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) ClearValue(item *ListSer
 			item.FieldMask = nil
 		case ListServiceAccountsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListServiceAccountsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListServiceAccountsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListServiceAccountsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListServiceAccountsRequest_FieldPathSelectorView
+		fp.selector == ListServiceAccountsRequest_FieldPathSelectorView ||
+		fp.selector == ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListServiceAccountsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) WithIValue(value interfa
 		return &ListServiceAccountsRequest_FieldTerminalPathValue{ListServiceAccountsRequest_FieldTerminalPath: *fp, value: value.(*service_account.ServiceAccount_FieldMask)}
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		return &ListServiceAccountsRequest_FieldTerminalPathValue{ListServiceAccountsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListServiceAccountsRequest_FieldTerminalPathValue{ListServiceAccountsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListServiceAccountsRequest_FieldTerminalPath) WithIArrayOfValues(value
 		return &ListServiceAccountsRequest_FieldTerminalPathArrayOfValues{ListServiceAccountsRequest_FieldTerminalPath: *fp, values: values.([]*service_account.ServiceAccount_FieldMask)}
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		return &ListServiceAccountsRequest_FieldTerminalPathArrayOfValues{ListServiceAccountsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListServiceAccountsRequest_FieldTerminalPathArrayOfValues{ListServiceAccountsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListServiceAccountsRequest_FieldTerminalPathValue) AsViewValue() (vie
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListServiceAccountsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListServiceAccountsRequest
 func (fpv *ListServiceAccountsRequest_FieldTerminalPathValue) SetTo(target **ListServiceAccountsRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListServiceAccountsRequest_FieldTerminalPathValue) SetTo(target **Lis
 		(*target).FieldMask = fpv.value.(*service_account.ServiceAccount_FieldMask)
 	case ListServiceAccountsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListServiceAccountsRequest_FieldTerminalPathValue) CompareWith(source
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListServiceAccountsRequest_FieldTerminalPathArrayOfValues) GetRawVa
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListServiceAccountsRequest_FieldTerminalPathArrayOfValues) AsViewAr
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListServiceAccountsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListServiceAccountsResponse_FieldPath interface {
 type ListServiceAccountsResponse_FieldPathSelector int32
 
 const (
-	ListServiceAccountsResponse_FieldPathSelectorServiceAccounts ListServiceAccountsResponse_FieldPathSelector = 0
-	ListServiceAccountsResponse_FieldPathSelectorPrevPageToken   ListServiceAccountsResponse_FieldPathSelector = 1
-	ListServiceAccountsResponse_FieldPathSelectorNextPageToken   ListServiceAccountsResponse_FieldPathSelector = 2
+	ListServiceAccountsResponse_FieldPathSelectorServiceAccounts   ListServiceAccountsResponse_FieldPathSelector = 0
+	ListServiceAccountsResponse_FieldPathSelectorPrevPageToken     ListServiceAccountsResponse_FieldPathSelector = 1
+	ListServiceAccountsResponse_FieldPathSelectorNextPageToken     ListServiceAccountsResponse_FieldPathSelector = 2
+	ListServiceAccountsResponse_FieldPathSelectorCurrentOffset     ListServiceAccountsResponse_FieldPathSelector = 3
+	ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount ListServiceAccountsResponse_FieldPathSelector = 4
 )
 
 func (s ListServiceAccountsResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListServiceAccountsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListServiceAccountsResponse_FieldPath(fp gotenobject.RawFieldPath) (Li
 			return &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) Get(source *ListService
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) GetSingle(source *ListS
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) GetDefault() interface{
 		return (*service_account.PagerCursor)(nil)
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		return (*service_account.PagerCursor)(nil)
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) ClearValue(item *ListSe
 			item.PrevPageToken = nil
 		case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) ClearValueRaw(item prot
 // IsLeaf - whether field path is holds simple value
 func (fp *ListServiceAccountsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListServiceAccountsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListServiceAccountsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListServiceAccountsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListServiceAccountsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListServiceAccountsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) WithIValue(value interf
 		return &ListServiceAccountsResponse_FieldTerminalPathValue{ListServiceAccountsResponse_FieldTerminalPath: *fp, value: value.(*service_account.PagerCursor)}
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		return &ListServiceAccountsResponse_FieldTerminalPathValue{ListServiceAccountsResponse_FieldTerminalPath: *fp, value: value.(*service_account.PagerCursor)}
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		return &ListServiceAccountsResponse_FieldTerminalPathValue{ListServiceAccountsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListServiceAccountsResponse_FieldTerminalPathValue{ListServiceAccountsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListServiceAccountsResponse_FieldTerminalPath) WithIArrayOfValues(valu
 		return &ListServiceAccountsResponse_FieldTerminalPathArrayOfValues{ListServiceAccountsResponse_FieldTerminalPath: *fp, values: values.([]*service_account.PagerCursor)}
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		return &ListServiceAccountsResponse_FieldTerminalPathArrayOfValues{ListServiceAccountsResponse_FieldTerminalPath: *fp, values: values.([]*service_account.PagerCursor)}
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		return &ListServiceAccountsResponse_FieldTerminalPathArrayOfValues{ListServiceAccountsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListServiceAccountsResponse_FieldTerminalPathArrayOfValues{ListServiceAccountsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListServiceAccountsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListServiceAccountsResponse
 func (fps *ListServiceAccountsResponse_FieldSubPath) Get(source *ListServiceAccountsResponse) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountsSubPath(); ok {
+	switch fps.selector {
+	case ListServiceAccountsResponse_FieldPathSelectorServiceAccounts:
 		for _, item := range source.GetServiceAccounts() {
-			values = append(values, asServiceAccountFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) AsNextPageTokenVa
 	res, ok := fpv.value.(*service_account.PagerCursor)
 	return res, ok
 }
+func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListServiceAccountsResponse
 func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) SetTo(target **ListServiceAccountsResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) SetTo(target **Li
 		(*target).PrevPageToken = fpv.value.(*service_account.PagerCursor)
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*service_account.PagerCursor)
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListServiceAccountsResponse_FieldTerminalPathValue) CompareWith(sourc
 		return 0, false
 	case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListServiceAccountsResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListServiceAccountsResponse_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]*service_account.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListServiceAccountsResponse_FieldTerminalPathArrayOfValues) AsPrevP
 }
 func (fpaov *ListServiceAccountsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*service_account.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*service_account.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListServiceAccountsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListServiceAccountsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchServiceAccountsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchServiceAccountsResponse
 func (fps *WatchServiceAccountsResponse_FieldSubPath) Get(source *WatchServiceAccountsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchServiceAccountsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchServiceAccountsResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateServiceAccountRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateServiceAccountRequest
 func (fps *CreateServiceAccountRequest_FieldSubPath) Get(source *CreateServiceAccountRequest) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else {
+	switch fps.selector {
+	case CreateServiceAccountRequest_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateServiceAccountRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateServiceAccountRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateServiceAccountRequest
 func (fps *UpdateServiceAccountRequest_FieldSubPath) Get(source *UpdateServiceAccountRequest) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateServiceAccountRequest_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	case UpdateServiceAccountRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateServiceAccountRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateServiceAccountRequest_CAS
 func (fps *UpdateServiceAccountRequestCAS_FieldSubPath) Get(source *UpdateServiceAccountRequest_CAS) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateServiceAccountRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateServiceAccountRequest_CAS: %d", fps.selector))
 	}
 	return

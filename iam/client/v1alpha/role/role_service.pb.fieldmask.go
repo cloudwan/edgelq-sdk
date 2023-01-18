@@ -878,6 +878,7 @@ func FullListRolesRequest_FieldMask() *ListRolesRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -921,7 +922,7 @@ func (fieldMask *ListRolesRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRolesRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -951,7 +952,7 @@ func (fieldMask *ListRolesRequest_FieldMask) Reset() {
 
 func (fieldMask *ListRolesRequest_FieldMask) Subtract(other *ListRolesRequest_FieldMask) *ListRolesRequest_FieldMask {
 	result := &ListRolesRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1117,6 +1118,8 @@ func (fieldMask *ListRolesRequest_FieldMask) Project(source *ListRolesRequest) *
 				result.FieldMask = source.FieldMask
 			case ListRolesRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1143,6 +1146,8 @@ func FullListRolesResponse_FieldMask() *ListRolesResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorRoles})
 	res.Paths = append(res.Paths, &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1186,7 +1191,7 @@ func (fieldMask *ListRolesResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListRolesResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1216,7 +1221,7 @@ func (fieldMask *ListRolesResponse_FieldMask) Reset() {
 
 func (fieldMask *ListRolesResponse_FieldMask) Subtract(other *ListRolesResponse_FieldMask) *ListRolesResponse_FieldMask {
 	result := &ListRolesResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListRolesResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListRolesResponse_FieldPathSelectorRoles: &role.Role_FieldMask{},
 	}
@@ -1405,6 +1410,10 @@ func (fieldMask *ListRolesResponse_FieldMask) Project(source *ListRolesResponse)
 				result.PrevPageToken = source.PrevPageToken
 			case ListRolesResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListRolesResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListRolesResponse_FieldSubPath:
 			switch tp.selector {

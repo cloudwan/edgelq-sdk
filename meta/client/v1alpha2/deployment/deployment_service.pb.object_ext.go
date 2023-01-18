@@ -419,6 +419,9 @@ func (o *ListDeploymentsRequest) MakeDiffFieldMask(other *ListDeploymentsRequest
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListDeploymentsRequest) Clone() *ListDeploymentsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*deployment.Deployment_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListDeploymentsRequest) Merge(source *ListDeploymentsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListDeploymentsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListDeploymentsResponse) MakeDiffFieldMask(other *ListDeploymentsRespon
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListDeploymentsResponse) Clone() *ListDeploymentsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListDeploymentsResponse) Merge(source *ListDeploymentsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListDeploymentsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

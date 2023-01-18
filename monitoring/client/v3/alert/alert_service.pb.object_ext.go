@@ -419,6 +419,9 @@ func (o *ListAlertsRequest) MakeDiffFieldMask(other *ListAlertsRequest) *ListAle
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListAlertsRequest) Clone() *ListAlertsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*alert.Alert_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListAlertsRequest) Merge(source *ListAlertsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListAlertsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListAlertsResponse) MakeDiffFieldMask(other *ListAlertsResponse) *ListA
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListAlertsResponse) Clone() *ListAlertsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListAlertsResponse) Merge(source *ListAlertsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListAlertsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

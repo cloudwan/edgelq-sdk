@@ -76,13 +76,14 @@ type ListMetricDescriptorsRequest_FieldPath interface {
 type ListMetricDescriptorsRequest_FieldPathSelector int32
 
 const (
-	ListMetricDescriptorsRequest_FieldPathSelectorParent    ListMetricDescriptorsRequest_FieldPathSelector = 0
-	ListMetricDescriptorsRequest_FieldPathSelectorFilter    ListMetricDescriptorsRequest_FieldPathSelector = 1
-	ListMetricDescriptorsRequest_FieldPathSelectorPageSize  ListMetricDescriptorsRequest_FieldPathSelector = 2
-	ListMetricDescriptorsRequest_FieldPathSelectorPageToken ListMetricDescriptorsRequest_FieldPathSelector = 3
-	ListMetricDescriptorsRequest_FieldPathSelectorOrderBy   ListMetricDescriptorsRequest_FieldPathSelector = 4
-	ListMetricDescriptorsRequest_FieldPathSelectorFieldMask ListMetricDescriptorsRequest_FieldPathSelector = 5
-	ListMetricDescriptorsRequest_FieldPathSelectorView      ListMetricDescriptorsRequest_FieldPathSelector = 6
+	ListMetricDescriptorsRequest_FieldPathSelectorParent            ListMetricDescriptorsRequest_FieldPathSelector = 0
+	ListMetricDescriptorsRequest_FieldPathSelectorFilter            ListMetricDescriptorsRequest_FieldPathSelector = 1
+	ListMetricDescriptorsRequest_FieldPathSelectorPageSize          ListMetricDescriptorsRequest_FieldPathSelector = 2
+	ListMetricDescriptorsRequest_FieldPathSelectorPageToken         ListMetricDescriptorsRequest_FieldPathSelector = 3
+	ListMetricDescriptorsRequest_FieldPathSelectorOrderBy           ListMetricDescriptorsRequest_FieldPathSelector = 4
+	ListMetricDescriptorsRequest_FieldPathSelectorFieldMask         ListMetricDescriptorsRequest_FieldPathSelector = 5
+	ListMetricDescriptorsRequest_FieldPathSelectorView              ListMetricDescriptorsRequest_FieldPathSelector = 6
+	ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo ListMetricDescriptorsRequest_FieldPathSelector = 7
 )
 
 func (s ListMetricDescriptorsRequest_FieldPathSelector) String() string {
@@ -101,6 +102,8 @@ func (s ListMetricDescriptorsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		return "view"
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", s))
 	}
@@ -126,6 +129,8 @@ func BuildListMetricDescriptorsRequest_FieldPath(fp gotenobject.RawFieldPath) (L
 			return &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListMetricDescriptorsRequest", fp)
@@ -195,6 +200,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) Get(source *ListMetric
 			}
 		case ListMetricDescriptorsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 		}
@@ -228,6 +235,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) GetSingle(source *List
 		return res, res != nil
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 	}
@@ -254,6 +263,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) GetDefault() interface
 		return (*metric_descriptor.MetricDescriptor_FieldMask)(nil)
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 	}
@@ -276,6 +287,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) ClearValue(item *ListM
 			item.FieldMask = nil
 		case ListMetricDescriptorsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 		}
@@ -294,7 +307,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorPageToken ||
 		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorView
+		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorView ||
+		fp.selector == ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -317,6 +331,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) WithIValue(value inter
 		return &ListMetricDescriptorsRequest_FieldTerminalPathValue{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(*metric_descriptor.MetricDescriptor_FieldMask)}
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		return &ListMetricDescriptorsRequest_FieldTerminalPathValue{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMetricDescriptorsRequest_FieldTerminalPathValue{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 	}
@@ -343,6 +359,8 @@ func (fp *ListMetricDescriptorsRequest_FieldTerminalPath) WithIArrayOfValues(val
 		return &ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]*metric_descriptor.MetricDescriptor_FieldMask)}
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		return &ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues{ListMetricDescriptorsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fp.selector))
 	}
@@ -431,6 +449,10 @@ func (fpv *ListMetricDescriptorsRequest_FieldTerminalPathValue) AsViewValue() (v
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListMetricDescriptorsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMetricDescriptorsRequest
 func (fpv *ListMetricDescriptorsRequest_FieldTerminalPathValue) SetTo(target **ListMetricDescriptorsRequest) {
@@ -452,6 +474,8 @@ func (fpv *ListMetricDescriptorsRequest_FieldTerminalPathValue) SetTo(target **L
 		(*target).FieldMask = fpv.value.(*metric_descriptor.MetricDescriptor_FieldMask)
 	case ListMetricDescriptorsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsRequest: %d", fpv.selector))
 	}
@@ -508,6 +532,16 @@ func (fpv *ListMetricDescriptorsRequest_FieldTerminalPathValue) CompareWith(sour
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -648,6 +682,10 @@ func (fpaov *ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -679,6 +717,10 @@ func (fpaov *ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsView
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListMetricDescriptorsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -702,6 +744,8 @@ const (
 	ListMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors ListMetricDescriptorsResponse_FieldPathSelector = 0
 	ListMetricDescriptorsResponse_FieldPathSelectorNextPageToken     ListMetricDescriptorsResponse_FieldPathSelector = 1
 	ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken     ListMetricDescriptorsResponse_FieldPathSelector = 2
+	ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset     ListMetricDescriptorsResponse_FieldPathSelector = 3
+	ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount ListMetricDescriptorsResponse_FieldPathSelector = 4
 )
 
 func (s ListMetricDescriptorsResponse_FieldPathSelector) String() string {
@@ -712,6 +756,10 @@ func (s ListMetricDescriptorsResponse_FieldPathSelector) String() string {
 		return "next_page_token"
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return "prev_page_token"
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", s))
 	}
@@ -729,6 +777,10 @@ func BuildListMetricDescriptorsResponse_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorNextPageToken}, nil
 		case "prev_page_token", "prevPageToken", "prev-page-token":
 			return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -795,6 +847,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) Get(source *ListMetri
 			if source.PrevPageToken != nil {
 				values = append(values, source.PrevPageToken)
 			}
+		case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 		}
@@ -818,6 +874,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) GetSingle(source *Lis
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		res := source.GetPrevPageToken()
 		return res, res != nil
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 	}
@@ -836,6 +896,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) GetDefault() interfac
 		return (*metric_descriptor.PagerCursor)(nil)
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return (*metric_descriptor.PagerCursor)(nil)
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 	}
@@ -850,6 +914,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) ClearValue(item *List
 			item.NextPageToken = nil
 		case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 			item.PrevPageToken = nil
+		case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 		}
@@ -863,7 +931,9 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorNextPageToken ||
-		fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken
+		fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken ||
+		fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -878,6 +948,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) WithIValue(value inte
 		return &ListMetricDescriptorsResponse_FieldTerminalPathValue{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*metric_descriptor.PagerCursor)}
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return &ListMetricDescriptorsResponse_FieldTerminalPathValue{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, value: value.(*metric_descriptor.PagerCursor)}
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMetricDescriptorsResponse_FieldTerminalPathValue{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMetricDescriptorsResponse_FieldTerminalPathValue{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 	}
@@ -896,6 +970,10 @@ func (fp *ListMetricDescriptorsResponse_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*metric_descriptor.PagerCursor)}
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return &ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]*metric_descriptor.PagerCursor)}
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		return &ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues{ListMetricDescriptorsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fp.selector))
 	}
@@ -946,11 +1024,12 @@ func (fps *ListMetricDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListMetricDescriptorsResponse
 func (fps *ListMetricDescriptorsResponse_FieldSubPath) Get(source *ListMetricDescriptorsResponse) (values []interface{}) {
-	if asMetricDescriptorFieldPath, ok := fps.AsMetricDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case ListMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors:
 		for _, item := range source.GetMetricDescriptors() {
-			values = append(values, asMetricDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -1085,6 +1164,14 @@ func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) AsPrevPageToken
 	res, ok := fpv.value.(*metric_descriptor.PagerCursor)
 	return res, ok
 }
+func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListMetricDescriptorsResponse
 func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) SetTo(target **ListMetricDescriptorsResponse) {
@@ -1098,6 +1185,10 @@ func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) SetTo(target **
 		(*target).NextPageToken = fpv.value.(*metric_descriptor.PagerCursor)
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		(*target).PrevPageToken = fpv.value.(*metric_descriptor.PagerCursor)
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fpv.selector))
 	}
@@ -1117,6 +1208,26 @@ func (fpv *ListMetricDescriptorsResponse_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken:
 		return 0, false
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListMetricDescriptorsResponse: %d", fpv.selector))
 	}
@@ -1311,6 +1422,14 @@ func (fpaov *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*metric_descriptor.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1324,6 +1443,14 @@ func (fpaov *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues) AsNex
 }
 func (fpaov *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArrayOfValues() ([]*metric_descriptor.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*metric_descriptor.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListMetricDescriptorsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -2055,9 +2182,10 @@ func (fps *CreateMetricDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateMetricDescriptorRequest
 func (fps *CreateMetricDescriptorRequest_FieldSubPath) Get(source *CreateMetricDescriptorRequest) (values []interface{}) {
-	if asMetricDescriptorFieldPath, ok := fps.AsMetricDescriptorSubPath(); ok {
-		values = append(values, asMetricDescriptorFieldPath.Get(source.GetMetricDescriptor())...)
-	} else {
+	switch fps.selector {
+	case CreateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMetricDescriptor())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateMetricDescriptorRequest: %d", fps.selector))
 	}
 	return

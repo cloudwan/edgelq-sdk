@@ -1072,6 +1072,9 @@ func (ListMethodDescriptorsRequestFieldPathBuilder) FieldMask() ListMethodDescri
 func (ListMethodDescriptorsRequestFieldPathBuilder) View() ListMethodDescriptorsRequestPathSelectorView {
 	return ListMethodDescriptorsRequestPathSelectorView{}
 }
+func (ListMethodDescriptorsRequestFieldPathBuilder) IncludePagingInfo() ListMethodDescriptorsRequestPathSelectorIncludePagingInfo {
+	return ListMethodDescriptorsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListMethodDescriptorsRequestPathSelectorPageSize struct{}
 
@@ -1157,6 +1160,20 @@ func (s ListMethodDescriptorsRequestPathSelectorView) WithArrayOfValues(values [
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListMethodDescriptorsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListMethodDescriptorsRequestPathSelectorIncludePagingInfo) FieldPath() *ListMethodDescriptorsRequest_FieldTerminalPath {
+	return &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListMethodDescriptorsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListMethodDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMethodDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s ListMethodDescriptorsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListMethodDescriptorsResponseFieldPathBuilder struct{}
 
 func NewListMethodDescriptorsResponseFieldPathBuilder() ListMethodDescriptorsResponseFieldPathBuilder {
@@ -1170,6 +1187,12 @@ func (ListMethodDescriptorsResponseFieldPathBuilder) PrevPageToken() ListMethodD
 }
 func (ListMethodDescriptorsResponseFieldPathBuilder) NextPageToken() ListMethodDescriptorsResponsePathSelectorNextPageToken {
 	return ListMethodDescriptorsResponsePathSelectorNextPageToken{}
+}
+func (ListMethodDescriptorsResponseFieldPathBuilder) CurrentOffset() ListMethodDescriptorsResponsePathSelectorCurrentOffset {
+	return ListMethodDescriptorsResponsePathSelectorCurrentOffset{}
+}
+func (ListMethodDescriptorsResponseFieldPathBuilder) TotalResultsCount() ListMethodDescriptorsResponsePathSelectorTotalResultsCount {
+	return ListMethodDescriptorsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListMethodDescriptorsResponsePathSelectorMethodDescriptors struct{}
@@ -2070,6 +2093,34 @@ func (s ListMethodDescriptorsResponsePathSelectorNextPageToken) WithValue(value 
 }
 
 func (s ListMethodDescriptorsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*method_descriptor.PagerCursor) *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMethodDescriptorsResponsePathSelectorCurrentOffset struct{}
+
+func (ListMethodDescriptorsResponsePathSelectorCurrentOffset) FieldPath() *ListMethodDescriptorsResponse_FieldTerminalPath {
+	return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListMethodDescriptorsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListMethodDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMethodDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMethodDescriptorsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListMethodDescriptorsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListMethodDescriptorsResponsePathSelectorTotalResultsCount) FieldPath() *ListMethodDescriptorsResponse_FieldTerminalPath {
+	return &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListMethodDescriptorsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListMethodDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListMethodDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListMethodDescriptorsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListMethodDescriptorsResponse_FieldTerminalPathArrayOfValues)
 }
 

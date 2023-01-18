@@ -899,6 +899,7 @@ func FullListAlertingConditionsRequest_FieldMask() *ListAlertingConditionsReques
 	res.Paths = append(res.Paths, &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListAlertingConditionsRequest_FieldTerminalPath{selector: ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListAlertingConditionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertingConditionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListAlertingConditionsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListAlertingConditionsRequest_FieldMask) Subtract(other *ListAlertingConditionsRequest_FieldMask) *ListAlertingConditionsRequest_FieldMask {
 	result := &ListAlertingConditionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListAlertingConditionsRequest_FieldMask) Project(source *ListAl
 				result.FieldMask = source.FieldMask
 			case ListAlertingConditionsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListAlertingConditionsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListAlertingConditionsResponse_FieldMask() *ListAlertingConditionsRespo
 	res.Paths = append(res.Paths, &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions})
 	res.Paths = append(res.Paths, &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListAlertingConditionsResponse_FieldTerminalPath{selector: ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListAlertingConditionsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAlertingConditionsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListAlertingConditionsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListAlertingConditionsResponse_FieldMask) Subtract(other *ListAlertingConditionsResponse_FieldMask) *ListAlertingConditionsResponse_FieldMask {
 	result := &ListAlertingConditionsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListAlertingConditionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListAlertingConditionsResponse_FieldPathSelectorAlertingConditions: &alerting_condition.AlertingCondition_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListAlertingConditionsResponse_FieldMask) Project(source *ListA
 				result.PrevPageToken = source.PrevPageToken
 			case ListAlertingConditionsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListAlertingConditionsResponse_FieldSubPath:
 			switch tp.selector {

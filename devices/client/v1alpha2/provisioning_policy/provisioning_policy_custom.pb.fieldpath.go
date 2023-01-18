@@ -671,9 +671,10 @@ func (fps *ProvisionServiceAccountToProvisioningPolicyResponse_FieldSubPath) JSO
 
 // Get returns all values pointed by selected field from source ProvisionServiceAccountToProvisioningPolicyResponse
 func (fps *ProvisionServiceAccountToProvisioningPolicyResponse_FieldSubPath) Get(source *ProvisionServiceAccountToProvisioningPolicyResponse) (values []interface{}) {
-	if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else {
+	switch fps.selector {
+	case ProvisionServiceAccountToProvisioningPolicyResponse_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionServiceAccountToProvisioningPolicyResponse: %d", fps.selector))
 	}
 	return
@@ -2058,9 +2059,10 @@ func (fps *ProvisionDeviceViaPolicyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisionDeviceViaPolicyRequest
 func (fps *ProvisionDeviceViaPolicyRequest_FieldSubPath) Get(source *ProvisionDeviceViaPolicyRequest) (values []interface{}) {
-	if asStatusFieldPath, ok := fps.AsDeviceStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetDeviceStatus())...)
-	} else {
+	switch fps.selector {
+	case ProvisionDeviceViaPolicyRequest_FieldPathSelectorDeviceStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetDeviceStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionDeviceViaPolicyRequest: %d", fps.selector))
 	}
 	return
@@ -2724,11 +2726,12 @@ func (fps *ProvisionDeviceViaPolicyResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisionDeviceViaPolicyResponse
 func (fps *ProvisionDeviceViaPolicyResponse_FieldSubPath) Get(source *ProvisionDeviceViaPolicyResponse) (values []interface{}) {
-	if asDeviceFieldPath, ok := fps.AsDeviceSubPath(); ok {
-		values = append(values, asDeviceFieldPath.Get(source.GetDevice())...)
-	} else if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else {
+	switch fps.selector {
+	case ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice:
+		values = append(values, fps.subPath.GetRaw(source.GetDevice())...)
+	case ProvisionDeviceViaPolicyResponse_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisionDeviceViaPolicyResponse: %d", fps.selector))
 	}
 	return
@@ -3809,11 +3812,12 @@ func (fps *RequestProvisioningApprovalResponse_FieldSubPath) JSONString() string
 
 // Get returns all values pointed by selected field from source RequestProvisioningApprovalResponse
 func (fps *RequestProvisioningApprovalResponse_FieldSubPath) Get(source *RequestProvisioningApprovalResponse) (values []interface{}) {
-	if asProvisioningApprovalRequestFieldPath, ok := fps.AsRequestSubPath(); ok {
-		values = append(values, asProvisioningApprovalRequestFieldPath.Get(source.GetRequest())...)
-	} else if asServiceAccountFieldPath, ok := fps.AsServiceAccountSubPath(); ok {
-		values = append(values, asServiceAccountFieldPath.Get(source.GetServiceAccount())...)
-	} else {
+	switch fps.selector {
+	case RequestProvisioningApprovalResponse_FieldPathSelectorRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetRequest())...)
+	case RequestProvisioningApprovalResponse_FieldPathSelectorServiceAccount:
+		values = append(values, fps.subPath.GetRaw(source.GetServiceAccount())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for RequestProvisioningApprovalResponse: %d", fps.selector))
 	}
 	return

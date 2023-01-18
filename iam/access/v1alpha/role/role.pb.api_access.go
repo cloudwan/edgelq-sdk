@@ -81,8 +81,9 @@ func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Referenc
 
 func (a *apiRoleAccess) QueryRoles(ctx context.Context, query *role.ListQuery) (*role.QueryResultSnapshot, error) {
 	request := &role_client.ListRolesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiRoleAccess) QueryRoles(ctx context.Context, query *role.ListQuery) (
 		return nil, err
 	}
 	return &role.QueryResultSnapshot{
-		Roles:          resp.Roles,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Roles:             resp.Roles,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

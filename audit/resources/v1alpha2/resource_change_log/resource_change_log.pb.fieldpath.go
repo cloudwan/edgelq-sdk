@@ -451,15 +451,16 @@ func (fps *ResourceChangeLog_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ResourceChangeLog
 func (fps *ResourceChangeLog_FieldSubPath) Get(source *ResourceChangeLog) (values []interface{}) {
-	if asAuthenticationFieldPath, ok := fps.AsAuthenticationSubPath(); ok {
-		values = append(values, asAuthenticationFieldPath.Get(source.GetAuthentication())...)
-	} else if asServiceDataFieldPath, ok := fps.AsServiceSubPath(); ok {
-		values = append(values, asServiceDataFieldPath.Get(source.GetService())...)
-	} else if asResourceChangeFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asResourceChangeFieldPath.Get(source.GetResource())...)
-	} else if asTransactionInfoFieldPath, ok := fps.AsTransactionSubPath(); ok {
-		values = append(values, asTransactionInfoFieldPath.Get(source.GetTransaction())...)
-	} else {
+	switch fps.selector {
+	case ResourceChangeLog_FieldPathSelectorAuthentication:
+		values = append(values, fps.subPath.GetRaw(source.GetAuthentication())...)
+	case ResourceChangeLog_FieldPathSelectorService:
+		values = append(values, fps.subPath.GetRaw(source.GetService())...)
+	case ResourceChangeLog_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	case ResourceChangeLog_FieldPathSelectorTransaction:
+		values = append(values, fps.subPath.GetRaw(source.GetTransaction())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog: %d", fps.selector))
 	}
 	return
@@ -1575,11 +1576,12 @@ func (fps *ResourceChangeLogResourceChange_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ResourceChangeLog_ResourceChange
 func (fps *ResourceChangeLogResourceChange_FieldSubPath) Get(source *ResourceChangeLog_ResourceChange) (values []interface{}) {
-	if asObjectStateFieldPath, ok := fps.AsPreSubPath(); ok {
-		values = append(values, asObjectStateFieldPath.Get(source.GetPre())...)
-	} else if asObjectStateFieldPath, ok := fps.AsPostSubPath(); ok {
-		values = append(values, asObjectStateFieldPath.Get(source.GetPost())...)
-	} else {
+	switch fps.selector {
+	case ResourceChangeLogResourceChange_FieldPathSelectorPre:
+		values = append(values, fps.subPath.GetRaw(source.GetPre())...)
+	case ResourceChangeLogResourceChange_FieldPathSelectorPost:
+		values = append(values, fps.subPath.GetRaw(source.GetPost())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ResourceChangeLog_ResourceChange: %d", fps.selector))
 	}
 	return

@@ -386,9 +386,10 @@ func (fps *ListResourceChangeLogsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListResourceChangeLogsRequest
 func (fps *ListResourceChangeLogsRequest_FieldSubPath) Get(source *ListResourceChangeLogsRequest) (values []interface{}) {
-	if asTimeIntervalFieldPath, ok := fps.AsIntervalSubPath(); ok {
-		values = append(values, asTimeIntervalFieldPath.Get(source.GetInterval())...)
-	} else {
+	switch fps.selector {
+	case ListResourceChangeLogsRequest_FieldPathSelectorInterval:
+		values = append(values, fps.subPath.GetRaw(source.GetInterval())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListResourceChangeLogsRequest: %d", fps.selector))
 	}
 	return
@@ -1120,15 +1121,16 @@ func (fps *ListResourceChangeLogsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListResourceChangeLogsResponse
 func (fps *ListResourceChangeLogsResponse_FieldSubPath) Get(source *ListResourceChangeLogsResponse) (values []interface{}) {
-	if asResourceChangeLogFieldPath, ok := fps.AsResourceChangeLogsSubPath(); ok {
+	switch fps.selector {
+	case ListResourceChangeLogsResponse_FieldPathSelectorResourceChangeLogs:
 		for _, item := range source.GetResourceChangeLogs() {
-			values = append(values, asResourceChangeLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asStatusFieldPath, ok := fps.AsExecutionErrorsSubPath(); ok {
+	case ListResourceChangeLogsResponse_FieldPathSelectorExecutionErrors:
 		for _, item := range source.GetExecutionErrors() {
-			values = append(values, asStatusFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListResourceChangeLogsResponse: %d", fps.selector))
 	}
 	return
@@ -2291,17 +2293,18 @@ func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) JSONString(
 
 // Get returns all values pointed by selected field from source CreatePreCommittedResourceChangeLogsRequest
 func (fps *CreatePreCommittedResourceChangeLogsRequest_FieldSubPath) Get(source *CreatePreCommittedResourceChangeLogsRequest) (values []interface{}) {
-	if asAuthenticationFieldPath, ok := fps.AsAuthenticationSubPath(); ok {
-		values = append(values, asAuthenticationFieldPath.Get(source.GetAuthentication())...)
-	} else if asServiceDataFieldPath, ok := fps.AsServiceSubPath(); ok {
-		values = append(values, asServiceDataFieldPath.Get(source.GetService())...)
-	} else if asTransactionInfoFieldPath, ok := fps.AsTransactionSubPath(); ok {
-		values = append(values, asTransactionInfoFieldPath.Get(source.GetTransaction())...)
-	} else if asResourceChangeFieldPath, ok := fps.AsChangesSubPath(); ok {
+	switch fps.selector {
+	case CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorAuthentication:
+		values = append(values, fps.subPath.GetRaw(source.GetAuthentication())...)
+	case CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorService:
+		values = append(values, fps.subPath.GetRaw(source.GetService())...)
+	case CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorTransaction:
+		values = append(values, fps.subPath.GetRaw(source.GetTransaction())...)
+	case CreatePreCommittedResourceChangeLogsRequest_FieldPathSelectorChanges:
 		for _, item := range source.GetChanges() {
-			values = append(values, asResourceChangeFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreatePreCommittedResourceChangeLogsRequest: %d", fps.selector))
 	}
 	return

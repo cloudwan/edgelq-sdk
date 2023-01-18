@@ -58,6 +58,10 @@ message ListMonitoredResourceDescriptorsRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 7;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
 }
 
 // Response message for method
@@ -73,4 +77,13 @@ message ListMonitoredResourceDescriptorsResponse {
   string next_page_token = 2;
 
   string prev_page_token = 666;
+
+  // Current offset from the first page (0 if no page tokens were given or
+  // paging info was not requested). Page index can be computed from offset and
+  // limit provided in a request.
+  int32 current_offset = 5;
+
+  // Number of total MonitoresResourceDescriptors across all pages or 0, if
+  // there are no items or paging info was not requested.
+  int32 total_results_count = 6;
 }

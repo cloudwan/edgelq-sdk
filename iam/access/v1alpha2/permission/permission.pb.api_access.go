@@ -81,8 +81,9 @@ func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*p
 
 func (a *apiPermissionAccess) QueryPermissions(ctx context.Context, query *permission.ListQuery) (*permission.QueryResultSnapshot, error) {
 	request := &permission_client.ListPermissionsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiPermissionAccess) QueryPermissions(ctx context.Context, query *permi
 		return nil, err
 	}
 	return &permission.QueryResultSnapshot{
-		Permissions:    resp.Permissions,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Permissions:       resp.Permissions,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

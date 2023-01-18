@@ -164,6 +164,9 @@ func (o *ListMonitoredResourceDescriptorsRequest) MakeDiffFieldMask(other *ListM
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -209,6 +212,7 @@ func (o *ListMonitoredResourceDescriptorsRequest) Clone() *ListMonitoredResource
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -264,6 +268,7 @@ func (o *ListMonitoredResourceDescriptorsRequest) Merge(source *ListMonitoredRes
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListMonitoredResourceDescriptorsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -307,6 +312,12 @@ func (o *ListMonitoredResourceDescriptorsResponse) MakeDiffFieldMask(other *List
 	if o.GetPrevPageToken().String() != other.GetPrevPageToken().String() {
 		res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -343,6 +354,8 @@ func (o *ListMonitoredResourceDescriptorsResponse) Clone() *ListMonitoredResourc
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -393,6 +406,8 @@ func (o *ListMonitoredResourceDescriptorsResponse) Merge(source *ListMonitoredRe
 	} else {
 		o.PrevPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListMonitoredResourceDescriptorsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

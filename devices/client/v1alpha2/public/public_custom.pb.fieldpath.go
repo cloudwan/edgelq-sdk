@@ -944,11 +944,12 @@ func (fps *ListPublicDevicesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListPublicDevicesResponse
 func (fps *ListPublicDevicesResponse_FieldSubPath) Get(source *ListPublicDevicesResponse) (values []interface{}) {
-	if asDeviceFieldPath, ok := fps.AsDevicesSubPath(); ok {
+	switch fps.selector {
+	case ListPublicDevicesResponse_FieldPathSelectorDevices:
 		for _, item := range source.GetDevices() {
-			values = append(values, asDeviceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListPublicDevicesResponse: %d", fps.selector))
 	}
 	return

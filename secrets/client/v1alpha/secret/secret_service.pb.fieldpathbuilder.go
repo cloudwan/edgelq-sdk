@@ -319,6 +319,9 @@ func (ListSecretsRequestFieldPathBuilder) FieldMask() ListSecretsRequestPathSele
 func (ListSecretsRequestFieldPathBuilder) View() ListSecretsRequestPathSelectorView {
 	return ListSecretsRequestPathSelectorView{}
 }
+func (ListSecretsRequestFieldPathBuilder) IncludePagingInfo() ListSecretsRequestPathSelectorIncludePagingInfo {
+	return ListSecretsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListSecretsRequestPathSelectorParent struct{}
 
@@ -418,6 +421,20 @@ func (s ListSecretsRequestPathSelectorView) WithArrayOfValues(values []view.View
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListSecretsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListSecretsRequestPathSelectorIncludePagingInfo) FieldPath() *ListSecretsRequest_FieldTerminalPath {
+	return &ListSecretsRequest_FieldTerminalPath{selector: ListSecretsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListSecretsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListSecretsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsRequest_FieldTerminalPathValue)
+}
+
+func (s ListSecretsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListSecretsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListSecretsResponseFieldPathBuilder struct{}
 
 func NewListSecretsResponseFieldPathBuilder() ListSecretsResponseFieldPathBuilder {
@@ -431,6 +448,12 @@ func (ListSecretsResponseFieldPathBuilder) PrevPageToken() ListSecretsResponsePa
 }
 func (ListSecretsResponseFieldPathBuilder) NextPageToken() ListSecretsResponsePathSelectorNextPageToken {
 	return ListSecretsResponsePathSelectorNextPageToken{}
+}
+func (ListSecretsResponseFieldPathBuilder) CurrentOffset() ListSecretsResponsePathSelectorCurrentOffset {
+	return ListSecretsResponsePathSelectorCurrentOffset{}
+}
+func (ListSecretsResponseFieldPathBuilder) TotalResultsCount() ListSecretsResponsePathSelectorTotalResultsCount {
+	return ListSecretsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListSecretsResponsePathSelectorSecrets struct{}
@@ -577,6 +600,34 @@ func (s ListSecretsResponsePathSelectorNextPageToken) WithValue(value *secret.Pa
 }
 
 func (s ListSecretsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*secret.PagerCursor) *ListSecretsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorCurrentOffset struct{}
+
+func (ListSecretsResponsePathSelectorCurrentOffset) FieldPath() *ListSecretsResponse_FieldTerminalPath {
+	return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListSecretsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListSecretsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldTerminalPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListSecretsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListSecretsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListSecretsResponsePathSelectorTotalResultsCount) FieldPath() *ListSecretsResponse_FieldTerminalPath {
+	return &ListSecretsResponse_FieldTerminalPath{selector: ListSecretsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListSecretsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListSecretsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListSecretsResponse_FieldTerminalPathValue)
+}
+
+func (s ListSecretsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListSecretsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListSecretsResponse_FieldTerminalPathArrayOfValues)
 }
 

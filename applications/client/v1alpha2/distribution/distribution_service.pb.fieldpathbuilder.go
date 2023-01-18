@@ -3270,6 +3270,9 @@ func (ListDistributionsRequestFieldPathBuilder) FieldMask() ListDistributionsReq
 func (ListDistributionsRequestFieldPathBuilder) View() ListDistributionsRequestPathSelectorView {
 	return ListDistributionsRequestPathSelectorView{}
 }
+func (ListDistributionsRequestFieldPathBuilder) IncludePagingInfo() ListDistributionsRequestPathSelectorIncludePagingInfo {
+	return ListDistributionsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListDistributionsRequestPathSelectorParent struct{}
 
@@ -3369,6 +3372,20 @@ func (s ListDistributionsRequestPathSelectorView) WithArrayOfValues(values []vie
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListDistributionsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListDistributionsRequestPathSelectorIncludePagingInfo) FieldPath() *ListDistributionsRequest_FieldTerminalPath {
+	return &ListDistributionsRequest_FieldTerminalPath{selector: ListDistributionsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListDistributionsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListDistributionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDistributionsRequest_FieldTerminalPathValue)
+}
+
+func (s ListDistributionsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListDistributionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListDistributionsResponseFieldPathBuilder struct{}
 
 func NewListDistributionsResponseFieldPathBuilder() ListDistributionsResponseFieldPathBuilder {
@@ -3382,6 +3399,12 @@ func (ListDistributionsResponseFieldPathBuilder) PrevPageToken() ListDistributio
 }
 func (ListDistributionsResponseFieldPathBuilder) NextPageToken() ListDistributionsResponsePathSelectorNextPageToken {
 	return ListDistributionsResponsePathSelectorNextPageToken{}
+}
+func (ListDistributionsResponseFieldPathBuilder) CurrentOffset() ListDistributionsResponsePathSelectorCurrentOffset {
+	return ListDistributionsResponsePathSelectorCurrentOffset{}
+}
+func (ListDistributionsResponseFieldPathBuilder) TotalResultsCount() ListDistributionsResponsePathSelectorTotalResultsCount {
+	return ListDistributionsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListDistributionsResponsePathSelectorDistributions struct{}
@@ -6451,6 +6474,34 @@ func (s ListDistributionsResponsePathSelectorNextPageToken) WithValue(value *dis
 }
 
 func (s ListDistributionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*distribution.PagerCursor) *ListDistributionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListDistributionsResponsePathSelectorCurrentOffset struct{}
+
+func (ListDistributionsResponsePathSelectorCurrentOffset) FieldPath() *ListDistributionsResponse_FieldTerminalPath {
+	return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListDistributionsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListDistributionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDistributionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListDistributionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListDistributionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListDistributionsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListDistributionsResponsePathSelectorTotalResultsCount) FieldPath() *ListDistributionsResponse_FieldTerminalPath {
+	return &ListDistributionsResponse_FieldTerminalPath{selector: ListDistributionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListDistributionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListDistributionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListDistributionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListDistributionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListDistributionsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListDistributionsResponse_FieldTerminalPathArrayOfValues)
 }
 

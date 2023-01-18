@@ -81,8 +81,9 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 
 func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.ListQuery) (*project.QueryResultSnapshot, error) {
 	request := &project_client.ListProjectsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.Lis
 		return nil, err
 	}
 	return &project.QueryResultSnapshot{
-		Projects:       resp.Projects,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Projects:          resp.Projects,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

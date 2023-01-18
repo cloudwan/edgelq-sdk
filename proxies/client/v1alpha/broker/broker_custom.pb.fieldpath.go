@@ -380,15 +380,16 @@ func (fps *ListenRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListenRequest
 func (fps *ListenRequest_FieldSubPath) Get(source *ListenRequest) (values []interface{}) {
-	if asOpenRequestFieldPath, ok := fps.AsOpenRequestSubPath(); ok {
-		values = append(values, asOpenRequestFieldPath.Get(source.GetOpenRequest())...)
-	} else if asResumeRequestFieldPath, ok := fps.AsResumeRequestSubPath(); ok {
-		values = append(values, asResumeRequestFieldPath.Get(source.GetResumeRequest())...)
-	} else if asChannelOpenErrorFieldPath, ok := fps.AsChannelOpenErrorSubPath(); ok {
-		values = append(values, asChannelOpenErrorFieldPath.Get(source.GetChannelOpenError())...)
-	} else if asPingFieldPath, ok := fps.AsPingSubPath(); ok {
-		values = append(values, asPingFieldPath.Get(source.GetPing())...)
-	} else {
+	switch fps.selector {
+	case ListenRequest_FieldPathSelectorOpenRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenRequest())...)
+	case ListenRequest_FieldPathSelectorResumeRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetResumeRequest())...)
+	case ListenRequest_FieldPathSelectorChannelOpenError:
+		values = append(values, fps.subPath.GetRaw(source.GetChannelOpenError())...)
+	case ListenRequest_FieldPathSelectorPing:
+		values = append(values, fps.subPath.GetRaw(source.GetPing())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListenRequest: %d", fps.selector))
 	}
 	return
@@ -2529,13 +2530,14 @@ func (fps *ListenResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListenResponse
 func (fps *ListenResponse_FieldSubPath) Get(source *ListenResponse) (values []interface{}) {
-	if asListeningFieldPath, ok := fps.AsListeningSubPath(); ok {
-		values = append(values, asListeningFieldPath.Get(source.GetListening())...)
-	} else if asOpenChannelResponseFieldPath, ok := fps.AsOpenChannelResponseSubPath(); ok {
-		values = append(values, asOpenChannelResponseFieldPath.Get(source.GetOpenChannelResponse())...)
-	} else if asResumeChannelResponseFieldPath, ok := fps.AsResumeChannelResponseSubPath(); ok {
-		values = append(values, asResumeChannelResponseFieldPath.Get(source.GetResumeChannelResponse())...)
-	} else {
+	switch fps.selector {
+	case ListenResponse_FieldPathSelectorListening:
+		values = append(values, fps.subPath.GetRaw(source.GetListening())...)
+	case ListenResponse_FieldPathSelectorOpenChannelResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenChannelResponse())...)
+	case ListenResponse_FieldPathSelectorResumeChannelResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetResumeChannelResponse())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListenResponse: %d", fps.selector))
 	}
 	return
@@ -4765,21 +4767,22 @@ func (fps *AcceptRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AcceptRequest
 func (fps *AcceptRequest_FieldSubPath) Get(source *AcceptRequest) (values []interface{}) {
-	if asOpenRequestFieldPath, ok := fps.AsOpenRequestSubPath(); ok {
-		values = append(values, asOpenRequestFieldPath.Get(source.GetOpenRequest())...)
-	} else if asResumeRequestFieldPath, ok := fps.AsResumeRequestSubPath(); ok {
-		values = append(values, asResumeRequestFieldPath.Get(source.GetResumeRequest())...)
-	} else if asDataFieldPath, ok := fps.AsDataSubPath(); ok {
-		values = append(values, asDataFieldPath.Get(source.GetData())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else if asCloseFieldPath, ok := fps.AsCloseSubPath(); ok {
-		values = append(values, asCloseFieldPath.Get(source.GetClose())...)
-	} else if asErrorFieldPath, ok := fps.AsErrorSubPath(); ok {
-		values = append(values, asErrorFieldPath.Get(source.GetError())...)
-	} else if asPingFieldPath, ok := fps.AsPingSubPath(); ok {
-		values = append(values, asPingFieldPath.Get(source.GetPing())...)
-	} else {
+	switch fps.selector {
+	case AcceptRequest_FieldPathSelectorOpenRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenRequest())...)
+	case AcceptRequest_FieldPathSelectorResumeRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetResumeRequest())...)
+	case AcceptRequest_FieldPathSelectorData:
+		values = append(values, fps.subPath.GetRaw(source.GetData())...)
+	case AcceptRequest_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	case AcceptRequest_FieldPathSelectorClose:
+		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
+	case AcceptRequest_FieldPathSelectorError:
+		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	case AcceptRequest_FieldPathSelectorPing:
+		values = append(values, fps.subPath.GetRaw(source.GetPing())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptRequest: %d", fps.selector))
 	}
 	return
@@ -7189,15 +7192,16 @@ func (fps *AcceptResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AcceptResponse
 func (fps *AcceptResponse_FieldSubPath) Get(source *AcceptResponse) (values []interface{}) {
-	if asDataFieldPath, ok := fps.AsDataSubPath(); ok {
-		values = append(values, asDataFieldPath.Get(source.GetData())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else if asCloseFieldPath, ok := fps.AsCloseSubPath(); ok {
-		values = append(values, asCloseFieldPath.Get(source.GetClose())...)
-	} else if asErrorFieldPath, ok := fps.AsErrorSubPath(); ok {
-		values = append(values, asErrorFieldPath.Get(source.GetError())...)
-	} else {
+	switch fps.selector {
+	case AcceptResponse_FieldPathSelectorData:
+		values = append(values, fps.subPath.GetRaw(source.GetData())...)
+	case AcceptResponse_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	case AcceptResponse_FieldPathSelectorClose:
+		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
+	case AcceptResponse_FieldPathSelectorError:
+		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptResponse: %d", fps.selector))
 	}
 	return
@@ -9780,21 +9784,22 @@ func (fps *ConnectRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConnectRequest
 func (fps *ConnectRequest_FieldSubPath) Get(source *ConnectRequest) (values []interface{}) {
-	if asOpenRequestFieldPath, ok := fps.AsOpenRequestSubPath(); ok {
-		values = append(values, asOpenRequestFieldPath.Get(source.GetOpenRequest())...)
-	} else if asResumeRequestFieldPath, ok := fps.AsResumeRequestSubPath(); ok {
-		values = append(values, asResumeRequestFieldPath.Get(source.GetResumeRequest())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else if asDataFieldPath, ok := fps.AsDataSubPath(); ok {
-		values = append(values, asDataFieldPath.Get(source.GetData())...)
-	} else if asCloseFieldPath, ok := fps.AsCloseSubPath(); ok {
-		values = append(values, asCloseFieldPath.Get(source.GetClose())...)
-	} else if asErrorFieldPath, ok := fps.AsErrorSubPath(); ok {
-		values = append(values, asErrorFieldPath.Get(source.GetError())...)
-	} else if asPingFieldPath, ok := fps.AsPingSubPath(); ok {
-		values = append(values, asPingFieldPath.Get(source.GetPing())...)
-	} else {
+	switch fps.selector {
+	case ConnectRequest_FieldPathSelectorOpenRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenRequest())...)
+	case ConnectRequest_FieldPathSelectorResumeRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetResumeRequest())...)
+	case ConnectRequest_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	case ConnectRequest_FieldPathSelectorData:
+		values = append(values, fps.subPath.GetRaw(source.GetData())...)
+	case ConnectRequest_FieldPathSelectorClose:
+		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
+	case ConnectRequest_FieldPathSelectorError:
+		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	case ConnectRequest_FieldPathSelectorPing:
+		values = append(values, fps.subPath.GetRaw(source.GetPing())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectRequest: %d", fps.selector))
 	}
 	return
@@ -12048,21 +12053,22 @@ func (fps *ConnectResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConnectResponse
 func (fps *ConnectResponse_FieldSubPath) Get(source *ConnectResponse) (values []interface{}) {
-	if asOpenResponseFieldPath, ok := fps.AsOpenResponseSubPath(); ok {
-		values = append(values, asOpenResponseFieldPath.Get(source.GetOpenResponse())...)
-	} else if asResumeResponseFieldPath, ok := fps.AsResumeResponseSubPath(); ok {
-		values = append(values, asResumeResponseFieldPath.Get(source.GetResumeResponse())...)
-	} else if asChannelOpenErrorFieldPath, ok := fps.AsChannelOpenErrorSubPath(); ok {
-		values = append(values, asChannelOpenErrorFieldPath.Get(source.GetChannelOpenError())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else if asDataFieldPath, ok := fps.AsDataSubPath(); ok {
-		values = append(values, asDataFieldPath.Get(source.GetData())...)
-	} else if asCloseFieldPath, ok := fps.AsCloseSubPath(); ok {
-		values = append(values, asCloseFieldPath.Get(source.GetClose())...)
-	} else if asErrorFieldPath, ok := fps.AsErrorSubPath(); ok {
-		values = append(values, asErrorFieldPath.Get(source.GetError())...)
-	} else {
+	switch fps.selector {
+	case ConnectResponse_FieldPathSelectorOpenResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenResponse())...)
+	case ConnectResponse_FieldPathSelectorResumeResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetResumeResponse())...)
+	case ConnectResponse_FieldPathSelectorChannelOpenError:
+		values = append(values, fps.subPath.GetRaw(source.GetChannelOpenError())...)
+	case ConnectResponse_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	case ConnectResponse_FieldPathSelectorData:
+		values = append(values, fps.subPath.GetRaw(source.GetData())...)
+	case ConnectResponse_FieldPathSelectorClose:
+		values = append(values, fps.subPath.GetRaw(source.GetClose())...)
+	case ConnectResponse_FieldPathSelectorError:
+		values = append(values, fps.subPath.GetRaw(source.GetError())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectResponse: %d", fps.selector))
 	}
 	return

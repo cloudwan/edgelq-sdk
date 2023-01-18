@@ -376,13 +376,14 @@ func (fps *Distribution_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Distribution
 func (fps *Distribution_FieldSubPath) Get(source *Distribution) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else {
+	switch fps.selector {
+	case Distribution_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Distribution_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case Distribution_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution: %d", fps.selector))
 	}
 	return
@@ -1128,11 +1129,12 @@ func (fps *DistributionSpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Distribution_Spec
 func (fps *DistributionSpec_FieldSubPath) Get(source *Distribution_Spec) (values []interface{}) {
-	if asLabelSelectorFieldPath, ok := fps.AsSelectorSubPath(); ok {
-		values = append(values, asLabelSelectorFieldPath.Get(source.GetSelector())...)
-	} else if asTemplateFieldPath, ok := fps.AsTemplateSubPath(); ok {
-		values = append(values, asTemplateFieldPath.Get(source.GetTemplate())...)
-	} else {
+	switch fps.selector {
+	case DistributionSpec_FieldPathSelectorSelector:
+		values = append(values, fps.subPath.GetRaw(source.GetSelector())...)
+	case DistributionSpec_FieldPathSelectorTemplate:
+		values = append(values, fps.subPath.GetRaw(source.GetTemplate())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fps.selector))
 	}
 	return
@@ -2115,11 +2117,12 @@ func (fps *DistributionSpecTemplate_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Distribution_Spec_Template
 func (fps *DistributionSpecTemplate_FieldSubPath) Get(source *Distribution_Spec_Template) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else {
+	switch fps.selector {
+	case DistributionSpecTemplate_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case DistributionSpecTemplate_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec_Template: %d", fps.selector))
 	}
 	return
@@ -2894,11 +2897,12 @@ func (fps *LabelSelector_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source LabelSelector
 func (fps *LabelSelector_FieldSubPath) Get(source *LabelSelector) (values []interface{}) {
-	if asLabelSelectorRequirementFieldPath, ok := fps.AsMatchExpressionsSubPath(); ok {
+	switch fps.selector {
+	case LabelSelector_FieldPathSelectorMatchExpressions:
 		for _, item := range source.GetMatchExpressions() {
-			values = append(values, asLabelSelectorRequirementFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for LabelSelector: %d", fps.selector))
 	}
 	return

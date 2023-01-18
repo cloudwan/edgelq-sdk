@@ -81,8 +81,9 @@ func (a *apiLimitAccess) BatchGetLimits(ctx context.Context, refs []*limit.Refer
 
 func (a *apiLimitAccess) QueryLimits(ctx context.Context, query *limit.ListQuery) (*limit.QueryResultSnapshot, error) {
 	request := &limit_client.ListLimitsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiLimitAccess) QueryLimits(ctx context.Context, query *limit.ListQuery
 		return nil, err
 	}
 	return &limit.QueryResultSnapshot{
-		Limits:         resp.Limits,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Limits:            resp.Limits,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

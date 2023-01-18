@@ -81,8 +81,9 @@ func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Refer
 
 func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery) (*alert.QueryResultSnapshot, error) {
 	request := &alert_client.ListAlertsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery
 		return nil, err
 	}
 	return &alert.QueryResultSnapshot{
-		Alerts:         resp.Alerts,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Alerts:            resp.Alerts,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -899,6 +899,7 @@ func FullListDeploymentsRequest_FieldMask() *ListDeploymentsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListDeploymentsRequest_FieldTerminalPath{selector: ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListDeploymentsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListDeploymentsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListDeploymentsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListDeploymentsRequest_FieldMask) Subtract(other *ListDeploymentsRequest_FieldMask) *ListDeploymentsRequest_FieldMask {
 	result := &ListDeploymentsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListDeploymentsRequest_FieldMask) Project(source *ListDeploymen
 				result.FieldMask = source.FieldMask
 			case ListDeploymentsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListDeploymentsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListDeploymentsResponse_FieldMask() *ListDeploymentsResponse_FieldMask 
 	res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorDeployments})
 	res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListDeploymentsResponse_FieldTerminalPath{selector: ListDeploymentsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListDeploymentsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListDeploymentsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListDeploymentsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListDeploymentsResponse_FieldMask) Subtract(other *ListDeploymentsResponse_FieldMask) *ListDeploymentsResponse_FieldMask {
 	result := &ListDeploymentsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListDeploymentsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListDeploymentsResponse_FieldPathSelectorDeployments: &deployment.Deployment_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListDeploymentsResponse_FieldMask) Project(source *ListDeployme
 				result.PrevPageToken = source.PrevPageToken
 			case ListDeploymentsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListDeploymentsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListDeploymentsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListDeploymentsResponse_FieldSubPath:
 			switch tp.selector {

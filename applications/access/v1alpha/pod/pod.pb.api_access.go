@@ -81,8 +81,9 @@ func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, 
 
 func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery) (*pod.QueryResultSnapshot, error) {
 	request := &pod_client.ListPodsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery) (*po
 		return nil, err
 	}
 	return &pod.QueryResultSnapshot{
-		Pods:           resp.Pods,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Pods:              resp.Pods,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

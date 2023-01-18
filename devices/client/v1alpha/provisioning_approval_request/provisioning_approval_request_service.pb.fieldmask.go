@@ -899,6 +899,7 @@ func FullListProvisioningApprovalRequestsRequest_FieldMask() *ListProvisioningAp
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: ListProvisioningApprovalRequestsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: ListProvisioningApprovalRequestsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: ListProvisioningApprovalRequestsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsRequest_FieldTerminalPath{selector: ListProvisioningApprovalRequestsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListProvisioningApprovalRequestsRequest_FieldMask) IsFull() boo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProvisioningApprovalRequestsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListProvisioningApprovalRequestsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListProvisioningApprovalRequestsRequest_FieldMask) Subtract(other *ListProvisioningApprovalRequestsRequest_FieldMask) *ListProvisioningApprovalRequestsRequest_FieldMask {
 	result := &ListProvisioningApprovalRequestsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListProvisioningApprovalRequestsRequest_FieldMask) Project(sour
 				result.FieldMask = source.FieldMask
 			case ListProvisioningApprovalRequestsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListProvisioningApprovalRequestsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListProvisioningApprovalRequestsResponse_FieldMask() *ListProvisioningA
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorProvisioningApprovalRequests})
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListProvisioningApprovalRequestsResponse_FieldTerminalPath{selector: ListProvisioningApprovalRequestsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListProvisioningApprovalRequestsResponse_FieldMask) IsFull() bo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProvisioningApprovalRequestsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListProvisioningApprovalRequestsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListProvisioningApprovalRequestsResponse_FieldMask) Subtract(other *ListProvisioningApprovalRequestsResponse_FieldMask) *ListProvisioningApprovalRequestsResponse_FieldMask {
 	result := &ListProvisioningApprovalRequestsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListProvisioningApprovalRequestsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListProvisioningApprovalRequestsResponse_FieldPathSelectorProvisioningApprovalRequests: &provisioning_approval_request.ProvisioningApprovalRequest_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListProvisioningApprovalRequestsResponse_FieldMask) Project(sou
 				result.PrevPageToken = source.PrevPageToken
 			case ListProvisioningApprovalRequestsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListProvisioningApprovalRequestsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListProvisioningApprovalRequestsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListProvisioningApprovalRequestsResponse_FieldSubPath:
 			switch tp.selector {

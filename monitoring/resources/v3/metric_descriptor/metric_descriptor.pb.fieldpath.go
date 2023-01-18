@@ -617,25 +617,26 @@ func (fps *MetricDescriptor_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source MetricDescriptor
 func (fps *MetricDescriptor_FieldSubPath) Get(source *MetricDescriptor) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asLabelDescriptorFieldPath, ok := fps.AsLabelsSubPath(); ok {
+	switch fps.selector {
+	case MetricDescriptor_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case MetricDescriptor_FieldPathSelectorLabels:
 		for _, item := range source.GetLabels() {
-			values = append(values, asLabelDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetricDescriptorMetadataFieldPath, ok := fps.AsMetricDescriptorMetadataSubPath(); ok {
-		values = append(values, asMetricDescriptorMetadataFieldPath.Get(source.GetMetricDescriptorMetadata())...)
-	} else if asBucketOptionsFieldPath, ok := fps.AsDistributionBucketOptionsSubPath(); ok {
-		values = append(values, asBucketOptionsFieldPath.Get(source.GetDistributionBucketOptions())...)
-	} else if asLabelKeySetFieldPath, ok := fps.AsPromotedLabelKeySetsSubPath(); ok {
+	case MetricDescriptor_FieldPathSelectorMetricDescriptorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetricDescriptorMetadata())...)
+	case MetricDescriptor_FieldPathSelectorDistributionBucketOptions:
+		values = append(values, fps.subPath.GetRaw(source.GetDistributionBucketOptions())...)
+	case MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:
 		for _, item := range source.GetPromotedLabelKeySets() {
-			values = append(values, asLabelKeySetFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asIndexSpecFieldPath, ok := fps.AsIndexSpecSubPath(); ok {
-		values = append(values, asIndexSpecFieldPath.Get(source.GetIndexSpec())...)
-	} else if asStorageConfigFieldPath, ok := fps.AsStorageConfigSubPath(); ok {
-		values = append(values, asStorageConfigFieldPath.Get(source.GetStorageConfig())...)
-	} else {
+	case MetricDescriptor_FieldPathSelectorIndexSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetIndexSpec())...)
+	case MetricDescriptor_FieldPathSelectorStorageConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetStorageConfig())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fps.selector))
 	}
 	return
@@ -2048,11 +2049,12 @@ func (fps *MetricDescriptorIndexSpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source MetricDescriptor_IndexSpec
 func (fps *MetricDescriptorIndexSpec_FieldSubPath) Get(source *MetricDescriptor_IndexSpec) (values []interface{}) {
-	if asPerMonitoredResourceFieldPath, ok := fps.AsPerResourceSubPath(); ok {
+	switch fps.selector {
+	case MetricDescriptorIndexSpec_FieldPathSelectorPerResource:
 		for _, item := range source.GetPerResource() {
-			values = append(values, asPerMonitoredResourceFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec: %d", fps.selector))
 	}
 	return
@@ -3458,11 +3460,12 @@ func (fps *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPath) JSONStrin
 
 // Get returns all values pointed by selected field from source MetricDescriptor_IndexSpec_PerMonitoredResource
 func (fps *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPath) Get(source *MetricDescriptor_IndexSpec_PerMonitoredResource) (values []interface{}) {
-	if asIndexFieldPath, ok := fps.AsIndicesSubPath(); ok {
+	switch fps.selector {
+	case MetricDescriptorIndexSpecPerMonitoredResource_FieldPathSelectorIndices:
 		for _, item := range source.GetIndices() {
-			values = append(values, asIndexFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_PerMonitoredResource: %d", fps.selector))
 	}
 	return

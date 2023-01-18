@@ -81,8 +81,9 @@ func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, r
 
 func (a *apiServiceAccountAccess) QueryServiceAccounts(ctx context.Context, query *service_account.ListQuery) (*service_account.QueryResultSnapshot, error) {
 	request := &service_account_client.ListServiceAccountsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiServiceAccountAccess) QueryServiceAccounts(ctx context.Context, quer
 		return nil, err
 	}
 	return &service_account.QueryResultSnapshot{
-		ServiceAccounts: resp.ServiceAccounts,
-		NextPageCursor:  resp.NextPageToken,
-		PrevPageCursor:  resp.PrevPageToken,
+		ServiceAccounts:   resp.ServiceAccounts,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -899,6 +899,7 @@ func FullListServiceAccountsRequest_FieldMask() *ListServiceAccountsRequest_Fiel
 	res.Paths = append(res.Paths, &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListServiceAccountsRequest_FieldTerminalPath{selector: ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListServiceAccountsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListServiceAccountsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListServiceAccountsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListServiceAccountsRequest_FieldMask) Subtract(other *ListServiceAccountsRequest_FieldMask) *ListServiceAccountsRequest_FieldMask {
 	result := &ListServiceAccountsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListServiceAccountsRequest_FieldMask) Project(source *ListServi
 				result.FieldMask = source.FieldMask
 			case ListServiceAccountsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListServiceAccountsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListServiceAccountsResponse_FieldMask() *ListServiceAccountsResponse_Fi
 	res.Paths = append(res.Paths, &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorServiceAccounts})
 	res.Paths = append(res.Paths, &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListServiceAccountsResponse_FieldTerminalPath{selector: ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListServiceAccountsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListServiceAccountsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListServiceAccountsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListServiceAccountsResponse_FieldMask) Subtract(other *ListServiceAccountsResponse_FieldMask) *ListServiceAccountsResponse_FieldMask {
 	result := &ListServiceAccountsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListServiceAccountsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListServiceAccountsResponse_FieldPathSelectorServiceAccounts: &service_account.ServiceAccount_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListServiceAccountsResponse_FieldMask) Project(source *ListServ
 				result.PrevPageToken = source.PrevPageToken
 			case ListServiceAccountsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListServiceAccountsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListServiceAccountsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListServiceAccountsResponse_FieldSubPath:
 			switch tp.selector {

@@ -90,6 +90,10 @@ message ListServicesRequest {
   // View defines list of standard response fields present in response items.
   // Additional fields can be amended by request field field_mask
   goten.view.View view = 7;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
 }
 
 // Request message for method [ListServices][ntt.meta.v1alpha2.ListServices]
@@ -104,6 +108,16 @@ message ListServicesResponse {
   // A token to retrieve next page of results. Pass this value in the
   // [ListServicesRequest.page_token][ntt.meta.v1alpha2.ListServicesRequest.page_token]
   string next_page_token = 4;
+
+  // Current offset from the first page or 0 if no page tokens were given,
+  // paging info was not requested or there was an error while trying to get
+  // it). Page index can be computed from offset and limit provided in a
+  // request.
+  int32 current_offset = 5;
+
+  // Number of total Services across all pages or 0, if there are no items,
+  // paging info was not requested or there was an error while trying to get it.
+  int32 total_results_count = 6;
 }
 
 // Request message for method [WatchService][ntt.meta.v1alpha2.WatchService]

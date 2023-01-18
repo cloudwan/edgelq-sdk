@@ -1237,11 +1237,12 @@ func (fps *BatchGetOrganizationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetOrganizationsResponse
 func (fps *BatchGetOrganizationsResponse_FieldSubPath) Get(source *BatchGetOrganizationsResponse) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsOrganizationsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetOrganizationsResponse_FieldPathSelectorOrganizations:
 		for _, item := range source.GetOrganizations() {
-			values = append(values, asOrganizationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetOrganizationsResponse: %d", fps.selector))
 	}
 	return
@@ -1640,12 +1641,13 @@ type ListOrganizationsRequest_FieldPath interface {
 type ListOrganizationsRequest_FieldPathSelector int32
 
 const (
-	ListOrganizationsRequest_FieldPathSelectorPageSize  ListOrganizationsRequest_FieldPathSelector = 0
-	ListOrganizationsRequest_FieldPathSelectorPageToken ListOrganizationsRequest_FieldPathSelector = 1
-	ListOrganizationsRequest_FieldPathSelectorOrderBy   ListOrganizationsRequest_FieldPathSelector = 2
-	ListOrganizationsRequest_FieldPathSelectorFilter    ListOrganizationsRequest_FieldPathSelector = 3
-	ListOrganizationsRequest_FieldPathSelectorFieldMask ListOrganizationsRequest_FieldPathSelector = 4
-	ListOrganizationsRequest_FieldPathSelectorView      ListOrganizationsRequest_FieldPathSelector = 5
+	ListOrganizationsRequest_FieldPathSelectorPageSize          ListOrganizationsRequest_FieldPathSelector = 0
+	ListOrganizationsRequest_FieldPathSelectorPageToken         ListOrganizationsRequest_FieldPathSelector = 1
+	ListOrganizationsRequest_FieldPathSelectorOrderBy           ListOrganizationsRequest_FieldPathSelector = 2
+	ListOrganizationsRequest_FieldPathSelectorFilter            ListOrganizationsRequest_FieldPathSelector = 3
+	ListOrganizationsRequest_FieldPathSelectorFieldMask         ListOrganizationsRequest_FieldPathSelector = 4
+	ListOrganizationsRequest_FieldPathSelectorView              ListOrganizationsRequest_FieldPathSelector = 5
+	ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo ListOrganizationsRequest_FieldPathSelector = 6
 )
 
 func (s ListOrganizationsRequest_FieldPathSelector) String() string {
@@ -1662,6 +1664,8 @@ func (s ListOrganizationsRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		return "view"
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", s))
 	}
@@ -1685,6 +1689,8 @@ func BuildListOrganizationsRequest_FieldPath(fp gotenobject.RawFieldPath) (ListO
 			return &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListOrganizationsRequest", fp)
@@ -1750,6 +1756,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) Get(source *ListOrganizati
 			}
 		case ListOrganizationsRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 		}
@@ -1780,6 +1788,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) GetSingle(source *ListOrga
 		return res, res != nil
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 	}
@@ -1804,6 +1814,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*organization.Organization_FieldMask)(nil)
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 	}
@@ -1824,6 +1836,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) ClearValue(item *ListOrgan
 			item.FieldMask = nil
 		case ListOrganizationsRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 		}
@@ -1841,7 +1855,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListOrganizationsRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListOrganizationsRequest_FieldPathSelectorFilter ||
 		fp.selector == ListOrganizationsRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListOrganizationsRequest_FieldPathSelectorView
+		fp.selector == ListOrganizationsRequest_FieldPathSelectorView ||
+		fp.selector == ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListOrganizationsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1862,6 +1877,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) WithIValue(value interface
 		return &ListOrganizationsRequest_FieldTerminalPathValue{ListOrganizationsRequest_FieldTerminalPath: *fp, value: value.(*organization.Organization_FieldMask)}
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		return &ListOrganizationsRequest_FieldTerminalPathValue{ListOrganizationsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListOrganizationsRequest_FieldTerminalPathValue{ListOrganizationsRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 	}
@@ -1886,6 +1903,8 @@ func (fp *ListOrganizationsRequest_FieldTerminalPath) WithIArrayOfValues(values 
 		return &ListOrganizationsRequest_FieldTerminalPathArrayOfValues{ListOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]*organization.Organization_FieldMask)}
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		return &ListOrganizationsRequest_FieldTerminalPathArrayOfValues{ListOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListOrganizationsRequest_FieldTerminalPathArrayOfValues{ListOrganizationsRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fp.selector))
 	}
@@ -1970,6 +1989,10 @@ func (fpv *ListOrganizationsRequest_FieldTerminalPathValue) AsViewValue() (view.
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListOrganizationsRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListOrganizationsRequest
 func (fpv *ListOrganizationsRequest_FieldTerminalPathValue) SetTo(target **ListOrganizationsRequest) {
@@ -1989,6 +2012,8 @@ func (fpv *ListOrganizationsRequest_FieldTerminalPathValue) SetTo(target **ListO
 		(*target).FieldMask = fpv.value.(*organization.Organization_FieldMask)
 	case ListOrganizationsRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsRequest: %d", fpv.selector))
 	}
@@ -2026,6 +2051,16 @@ func (fpv *ListOrganizationsRequest_FieldTerminalPathValue) CompareWith(source *
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2162,6 +2197,10 @@ func (fpaov *ListOrganizationsRequest_FieldTerminalPathArrayOfValues) GetRawValu
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2189,6 +2228,10 @@ func (fpaov *ListOrganizationsRequest_FieldTerminalPathArrayOfValues) AsViewArra
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListOrganizationsRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2209,9 +2252,11 @@ type ListOrganizationsResponse_FieldPath interface {
 type ListOrganizationsResponse_FieldPathSelector int32
 
 const (
-	ListOrganizationsResponse_FieldPathSelectorOrganizations ListOrganizationsResponse_FieldPathSelector = 0
-	ListOrganizationsResponse_FieldPathSelectorPrevPageToken ListOrganizationsResponse_FieldPathSelector = 1
-	ListOrganizationsResponse_FieldPathSelectorNextPageToken ListOrganizationsResponse_FieldPathSelector = 2
+	ListOrganizationsResponse_FieldPathSelectorOrganizations     ListOrganizationsResponse_FieldPathSelector = 0
+	ListOrganizationsResponse_FieldPathSelectorPrevPageToken     ListOrganizationsResponse_FieldPathSelector = 1
+	ListOrganizationsResponse_FieldPathSelectorNextPageToken     ListOrganizationsResponse_FieldPathSelector = 2
+	ListOrganizationsResponse_FieldPathSelectorCurrentOffset     ListOrganizationsResponse_FieldPathSelector = 3
+	ListOrganizationsResponse_FieldPathSelectorTotalResultsCount ListOrganizationsResponse_FieldPathSelector = 4
 )
 
 func (s ListOrganizationsResponse_FieldPathSelector) String() string {
@@ -2222,6 +2267,10 @@ func (s ListOrganizationsResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", s))
 	}
@@ -2239,6 +2288,10 @@ func BuildListOrganizationsResponse_FieldPath(fp gotenobject.RawFieldPath) (List
 			return &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2305,6 +2358,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) Get(source *ListOrganizat
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 		}
@@ -2328,6 +2385,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) GetSingle(source *ListOrg
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 	}
@@ -2346,6 +2407,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) GetDefault() interface{} 
 		return (*organization.PagerCursor)(nil)
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return (*organization.PagerCursor)(nil)
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 	}
@@ -2360,6 +2425,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) ClearValue(item *ListOrga
 			item.PrevPageToken = nil
 		case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 		}
@@ -2373,7 +2442,9 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) ClearValueRaw(item proto.
 // IsLeaf - whether field path is holds simple value
 func (fp *ListOrganizationsResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListOrganizationsResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListOrganizationsResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListOrganizationsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListOrganizationsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListOrganizationsResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListOrganizationsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2388,6 +2459,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) WithIValue(value interfac
 		return &ListOrganizationsResponse_FieldTerminalPathValue{ListOrganizationsResponse_FieldTerminalPath: *fp, value: value.(*organization.PagerCursor)}
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return &ListOrganizationsResponse_FieldTerminalPathValue{ListOrganizationsResponse_FieldTerminalPath: *fp, value: value.(*organization.PagerCursor)}
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		return &ListOrganizationsResponse_FieldTerminalPathValue{ListOrganizationsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListOrganizationsResponse_FieldTerminalPathValue{ListOrganizationsResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 	}
@@ -2406,6 +2481,10 @@ func (fp *ListOrganizationsResponse_FieldTerminalPath) WithIArrayOfValues(values
 		return &ListOrganizationsResponse_FieldTerminalPathArrayOfValues{ListOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]*organization.PagerCursor)}
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return &ListOrganizationsResponse_FieldTerminalPathArrayOfValues{ListOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]*organization.PagerCursor)}
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		return &ListOrganizationsResponse_FieldTerminalPathArrayOfValues{ListOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		return &ListOrganizationsResponse_FieldTerminalPathArrayOfValues{ListOrganizationsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fp.selector))
 	}
@@ -2456,11 +2535,12 @@ func (fps *ListOrganizationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListOrganizationsResponse
 func (fps *ListOrganizationsResponse_FieldSubPath) Get(source *ListOrganizationsResponse) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsOrganizationsSubPath(); ok {
+	switch fps.selector {
+	case ListOrganizationsResponse_FieldPathSelectorOrganizations:
 		for _, item := range source.GetOrganizations() {
-			values = append(values, asOrganizationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fps.selector))
 	}
 	return
@@ -2595,6 +2675,14 @@ func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) AsNextPageTokenValu
 	res, ok := fpv.value.(*organization.PagerCursor)
 	return res, ok
 }
+func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListOrganizationsResponse
 func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) SetTo(target **ListOrganizationsResponse) {
@@ -2608,6 +2696,10 @@ func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) SetTo(target **List
 		(*target).PrevPageToken = fpv.value.(*organization.PagerCursor)
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*organization.PagerCursor)
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fpv.selector))
 	}
@@ -2627,6 +2719,26 @@ func (fpv *ListOrganizationsResponse_FieldTerminalPathValue) CompareWith(source 
 		return 0, false
 	case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListOrganizationsResponse: %d", fpv.selector))
 	}
@@ -2821,6 +2933,14 @@ func (fpaov *ListOrganizationsResponse_FieldTerminalPathArrayOfValues) GetRawVal
 		for _, v := range fpaov.values.([]*organization.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2834,6 +2954,14 @@ func (fpaov *ListOrganizationsResponse_FieldTerminalPathArrayOfValues) AsPrevPag
 }
 func (fpaov *ListOrganizationsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*organization.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*organization.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListOrganizationsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListOrganizationsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4780,9 +4908,10 @@ func (fps *WatchOrganizationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchOrganizationsResponse
 func (fps *WatchOrganizationsResponse_FieldSubPath) Get(source *WatchOrganizationsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchOrganizationsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchOrganizationsResponse: %d", fps.selector))
 	}
 	return
@@ -5910,9 +6039,10 @@ func (fps *CreateOrganizationRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateOrganizationRequest
 func (fps *CreateOrganizationRequest_FieldSubPath) Get(source *CreateOrganizationRequest) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsOrganizationSubPath(); ok {
-		values = append(values, asOrganizationFieldPath.Get(source.GetOrganization())...)
-	} else {
+	switch fps.selector {
+	case CreateOrganizationRequest_FieldPathSelectorOrganization:
+		values = append(values, fps.subPath.GetRaw(source.GetOrganization())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateOrganizationRequest: %d", fps.selector))
 	}
 	return
@@ -6539,11 +6669,12 @@ func (fps *UpdateOrganizationRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateOrganizationRequest
 func (fps *UpdateOrganizationRequest_FieldSubPath) Get(source *UpdateOrganizationRequest) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsOrganizationSubPath(); ok {
-		values = append(values, asOrganizationFieldPath.Get(source.GetOrganization())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateOrganizationRequest_FieldPathSelectorOrganization:
+		values = append(values, fps.subPath.GetRaw(source.GetOrganization())...)
+	case UpdateOrganizationRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest: %d", fps.selector))
 	}
 	return
@@ -7197,9 +7328,10 @@ func (fps *UpdateOrganizationRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateOrganizationRequest_CAS
 func (fps *UpdateOrganizationRequestCAS_FieldSubPath) Get(source *UpdateOrganizationRequest_CAS) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asOrganizationFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateOrganizationRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateOrganizationRequest_CAS: %d", fps.selector))
 	}
 	return

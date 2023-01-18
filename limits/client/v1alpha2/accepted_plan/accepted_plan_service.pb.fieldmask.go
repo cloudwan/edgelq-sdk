@@ -899,6 +899,7 @@ func FullListAcceptedPlansRequest_FieldMask() *ListAcceptedPlansRequest_FieldMas
 	res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListAcceptedPlansRequest_FieldTerminalPath{selector: ListAcceptedPlansRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListAcceptedPlansRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAcceptedPlansRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListAcceptedPlansRequest_FieldMask) Reset() {
 
 func (fieldMask *ListAcceptedPlansRequest_FieldMask) Subtract(other *ListAcceptedPlansRequest_FieldMask) *ListAcceptedPlansRequest_FieldMask {
 	result := &ListAcceptedPlansRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListAcceptedPlansRequest_FieldMask) Project(source *ListAccepte
 				result.FieldMask = source.FieldMask
 			case ListAcceptedPlansRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListAcceptedPlansRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListAcceptedPlansResponse_FieldMask() *ListAcceptedPlansResponse_FieldM
 	res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorAcceptedPlans})
 	res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListAcceptedPlansResponse_FieldTerminalPath{selector: ListAcceptedPlansResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListAcceptedPlansResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListAcceptedPlansResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListAcceptedPlansResponse_FieldMask) Reset() {
 
 func (fieldMask *ListAcceptedPlansResponse_FieldMask) Subtract(other *ListAcceptedPlansResponse_FieldMask) *ListAcceptedPlansResponse_FieldMask {
 	result := &ListAcceptedPlansResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListAcceptedPlansResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListAcceptedPlansResponse_FieldPathSelectorAcceptedPlans: &accepted_plan.AcceptedPlan_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListAcceptedPlansResponse_FieldMask) Project(source *ListAccept
 				result.PrevPageToken = source.PrevPageToken
 			case ListAcceptedPlansResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListAcceptedPlansResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListAcceptedPlansResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListAcceptedPlansResponse_FieldSubPath:
 			switch tp.selector {

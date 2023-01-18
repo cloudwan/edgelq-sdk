@@ -769,11 +769,12 @@ func (fps *BatchGetMetricDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetMetricDescriptorsResponse
 func (fps *BatchGetMetricDescriptorsResponse_FieldSubPath) Get(source *BatchGetMetricDescriptorsResponse) (values []interface{}) {
-	if asMetricDescriptorFieldPath, ok := fps.AsMetricDescriptorsSubPath(); ok {
+	switch fps.selector {
+	case BatchGetMetricDescriptorsResponse_FieldPathSelectorMetricDescriptors:
 		for _, item := range source.GetMetricDescriptors() {
-			values = append(values, asMetricDescriptorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetMetricDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -3135,9 +3136,10 @@ func (fps *WatchMetricDescriptorsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchMetricDescriptorsResponse
 func (fps *WatchMetricDescriptorsResponse_FieldSubPath) Get(source *WatchMetricDescriptorsResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchMetricDescriptorsResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchMetricDescriptorsResponse: %d", fps.selector))
 	}
 	return
@@ -4315,11 +4317,12 @@ func (fps *UpdateMetricDescriptorRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateMetricDescriptorRequest
 func (fps *UpdateMetricDescriptorRequest_FieldSubPath) Get(source *UpdateMetricDescriptorRequest) (values []interface{}) {
-	if asMetricDescriptorFieldPath, ok := fps.AsMetricDescriptorSubPath(); ok {
-		values = append(values, asMetricDescriptorFieldPath.Get(source.GetMetricDescriptor())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateMetricDescriptorRequest_FieldPathSelectorMetricDescriptor:
+		values = append(values, fps.subPath.GetRaw(source.GetMetricDescriptor())...)
+	case UpdateMetricDescriptorRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMetricDescriptorRequest: %d", fps.selector))
 	}
 	return
@@ -4973,9 +4976,10 @@ func (fps *UpdateMetricDescriptorRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateMetricDescriptorRequest_CAS
 func (fps *UpdateMetricDescriptorRequestCAS_FieldSubPath) Get(source *UpdateMetricDescriptorRequest_CAS) (values []interface{}) {
-	if asMetricDescriptorFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asMetricDescriptorFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateMetricDescriptorRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateMetricDescriptorRequest_CAS: %d", fps.selector))
 	}
 	return

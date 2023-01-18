@@ -81,8 +81,9 @@ func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Contex
 
 func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, query *metric_descriptor.ListQuery) (*metric_descriptor.QueryResultSnapshot, error) {
 	request := &metric_descriptor_client.ListMetricDescriptorsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, 
 		MetricDescriptors: resp.MetricDescriptors,
 		NextPageCursor:    resp.NextPageToken,
 		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

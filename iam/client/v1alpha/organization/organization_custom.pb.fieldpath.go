@@ -689,11 +689,12 @@ func (fps *ListMyOrganizationsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListMyOrganizationsResponse
 func (fps *ListMyOrganizationsResponse_FieldSubPath) Get(source *ListMyOrganizationsResponse) (values []interface{}) {
-	if asOrganizationFieldPath, ok := fps.AsOrganizationsSubPath(); ok {
+	switch fps.selector {
+	case ListMyOrganizationsResponse_FieldPathSelectorOrganizations:
 		for _, item := range source.GetOrganizations() {
-			values = append(values, asOrganizationFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListMyOrganizationsResponse: %d", fps.selector))
 	}
 	return

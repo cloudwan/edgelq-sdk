@@ -337,9 +337,10 @@ func (fps *Role_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Role
 func (fps *Role_FieldSubPath) Get(source *Role) (values []interface{}) {
-	if asConditionBindingFieldPath, ok := fps.AsDefaultConditionBindingSubPath(); ok {
-		values = append(values, asConditionBindingFieldPath.Get(source.GetDefaultConditionBinding())...)
-	} else {
+	switch fps.selector {
+	case Role_FieldPathSelectorDefaultConditionBinding:
+		values = append(values, fps.subPath.GetRaw(source.GetDefaultConditionBinding())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Role: %d", fps.selector))
 	}
 	return

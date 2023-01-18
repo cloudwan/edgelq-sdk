@@ -318,6 +318,7 @@ func FullListMonitoredResourceDescriptorsRequest_FieldMask() *ListMonitoredResou
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorPageToken})
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsRequest_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -361,7 +362,7 @@ func (fieldMask *ListMonitoredResourceDescriptorsRequest_FieldMask) IsFull() boo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMonitoredResourceDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -391,7 +392,7 @@ func (fieldMask *ListMonitoredResourceDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListMonitoredResourceDescriptorsRequest_FieldMask) Subtract(other *ListMonitoredResourceDescriptorsRequest_FieldMask) *ListMonitoredResourceDescriptorsRequest_FieldMask {
 	result := &ListMonitoredResourceDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -557,6 +558,8 @@ func (fieldMask *ListMonitoredResourceDescriptorsRequest_FieldMask) Project(sour
 				result.FieldMask = source.FieldMask
 			case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListMonitoredResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -583,6 +586,8 @@ func FullListMonitoredResourceDescriptorsResponse_FieldMask() *ListMonitoredReso
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors})
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorNextPageToken})
 	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken})
+	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListMonitoredResourceDescriptorsResponse_FieldTerminalPath{selector: ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -626,7 +631,7 @@ func (fieldMask *ListMonitoredResourceDescriptorsResponse_FieldMask) IsFull() bo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMonitoredResourceDescriptorsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -656,7 +661,7 @@ func (fieldMask *ListMonitoredResourceDescriptorsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListMonitoredResourceDescriptorsResponse_FieldMask) Subtract(other *ListMonitoredResourceDescriptorsResponse_FieldMask) *ListMonitoredResourceDescriptorsResponse_FieldMask {
 	result := &ListMonitoredResourceDescriptorsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListMonitoredResourceDescriptorsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListMonitoredResourceDescriptorsResponse_FieldPathSelectorMonitoredResourceDescriptors: &monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask{},
 	}
@@ -863,6 +868,10 @@ func (fieldMask *ListMonitoredResourceDescriptorsResponse_FieldMask) Project(sou
 				result.NextPageToken = source.NextPageToken
 			case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorPrevPageToken:
 				result.PrevPageToken = source.PrevPageToken
+			case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListMonitoredResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListMonitoredResourceDescriptorsResponse_FieldSubPath:
 			switch tp.selector {

@@ -274,9 +274,10 @@ func (fps *MigratePlanAssignmentRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source MigratePlanAssignmentRequest
 func (fps *MigratePlanAssignmentRequest_FieldSubPath) Get(source *MigratePlanAssignmentRequest) (values []interface{}) {
-	if asPlanAssignmentFieldPath, ok := fps.AsPlanAssignmentSubPath(); ok {
-		values = append(values, asPlanAssignmentFieldPath.Get(source.GetPlanAssignment())...)
-	} else {
+	switch fps.selector {
+	case MigratePlanAssignmentRequest_FieldPathSelectorPlanAssignment:
+		values = append(values, fps.subPath.GetRaw(source.GetPlanAssignment())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for MigratePlanAssignmentRequest: %d", fps.selector))
 	}
 	return

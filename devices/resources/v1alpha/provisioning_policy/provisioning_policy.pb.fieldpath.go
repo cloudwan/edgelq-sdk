@@ -360,13 +360,14 @@ func (fps *ProvisioningPolicy_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisioningPolicy
 func (fps *ProvisioningPolicy_FieldSubPath) Get(source *ProvisioningPolicy) (values []interface{}) {
-	if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case ProvisioningPolicy_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case ProvisioningPolicy_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	case ProvisioningPolicy_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy: %d", fps.selector))
 	}
 	return
@@ -1293,9 +1294,10 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisioningPolicy_Spec
 func (fps *ProvisioningPolicySpec_FieldSubPath) Get(source *ProvisioningPolicy_Spec) (values []interface{}) {
-	if asTemplateFieldPath, ok := fps.AsTemplateSubPath(); ok {
-		values = append(values, asTemplateFieldPath.Get(source.GetTemplate())...)
-	} else {
+	switch fps.selector {
+	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
+		values = append(values, fps.subPath.GetRaw(source.GetTemplate())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fps.selector))
 	}
 	return
@@ -2464,13 +2466,14 @@ func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProvisioningPolicy_Spec_Template
 func (fps *ProvisioningPolicySpecTemplate_FieldSubPath) Get(source *ProvisioningPolicy_Spec_Template) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asPublicListingSpecFieldPath, ok := fps.AsPublicListingSpecSubPath(); ok {
-		values = append(values, asPublicListingSpecFieldPath.Get(source.GetPublicListingSpec())...)
-	} else {
+	switch fps.selector {
+	case ProvisioningPolicySpecTemplate_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case ProvisioningPolicySpecTemplate_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case ProvisioningPolicySpecTemplate_FieldPathSelectorPublicListingSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetPublicListingSpec())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec_Template: %d", fps.selector))
 	}
 	return

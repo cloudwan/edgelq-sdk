@@ -681,6 +681,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -717,6 +725,25 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListAttestationDomainsRequest.page_token][ntt.iam.v1alpha2.ListAttestationDomainsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total AttestationDomains across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
 </td></tr>
  
 </tbody>
@@ -1966,6 +1993,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -2001,6 +2036,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListConditionsRequest.page_token][ntt.iam.v1alpha2.ListConditionsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Conditions across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -2958,6 +3011,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -2993,6 +3054,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListGroupsRequest.page_token][ntt.iam.v1alpha2.ListGroupsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Groups across all pages or 0, if there are no items, paging
+info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -3879,6 +3958,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -3915,6 +4002,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListGroupMembersRequest.page_token][ntt.iam.v1alpha2.ListGroupMembersRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total GroupMembers across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -4832,6 +4937,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -4868,6 +4981,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Organizations across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -5860,6 +5991,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -5896,6 +6035,25 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListOrganizationInvitationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationInvitationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total OrganizationInvitations across all pages or 0, if there are
+no items, paging info was not requested or there was an error while trying
+to get it.</p>
 </td></tr>
  
 </tbody>
@@ -7021,6 +7179,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -7057,6 +7223,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListPermissionsRequest.page_token][ntt.iam.v1alpha2.ListPermissionsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Permissions across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -7947,6 +8131,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -7982,6 +8174,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListProjectsRequest.page_token][ntt.iam.v1alpha2.ListProjectsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Projects across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -9000,6 +9210,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -9036,6 +9254,25 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListProjectInvitationsRequest.page_token][ntt.iam.v1alpha2.ListProjectInvitationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total ProjectInvitations across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
 </td></tr>
  
 </tbody>
@@ -10161,6 +10398,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -10196,6 +10441,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListRolesRequest.page_token][ntt.iam.v1alpha2.ListRolesRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Roles across all pages or 0, if there are no items, paging
+info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -11109,6 +11372,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -11145,6 +11416,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListRoleBindingsRequest.page_token][ntt.iam.v1alpha2.ListRoleBindingsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total RoleBindings across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>
@@ -11984,6 +12273,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -12020,6 +12317,25 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListServiceAccountsRequest.page_token][ntt.iam.v1alpha2.ListServiceAccountsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total ServiceAccounts across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
 </td></tr>
  
 </tbody>
@@ -12905,6 +13221,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -12941,6 +13265,25 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListServiceAccountKeysRequest.page_token][ntt.iam.v1alpha2.ListServiceAccountKeysRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total ServiceAccountKeys across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
 </td></tr>
  
 </tbody>
@@ -14094,6 +14437,14 @@ fields defined by request field view</p>
 <tr><td class="description"><p>View defines list of standard response fields present in response items.
 Additional fields can be amended by request field field_mask</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -14129,6 +14480,24 @@ Additional fields can be amended by request field field_mask</p>
 </tr>
 <tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
 [ListUsersRequest.page_token][ntt.iam.v1alpha2.ListUsersRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Users across all pages or 0, if there are no items, paging
+info was not requested or there was an error while trying to get it.</p>
 </td></tr>
  
 </tbody>

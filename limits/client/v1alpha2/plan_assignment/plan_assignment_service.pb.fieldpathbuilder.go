@@ -1098,6 +1098,9 @@ func (ListPlanAssignmentsRequestFieldPathBuilder) FieldMask() ListPlanAssignment
 func (ListPlanAssignmentsRequestFieldPathBuilder) View() ListPlanAssignmentsRequestPathSelectorView {
 	return ListPlanAssignmentsRequestPathSelectorView{}
 }
+func (ListPlanAssignmentsRequestFieldPathBuilder) IncludePagingInfo() ListPlanAssignmentsRequestPathSelectorIncludePagingInfo {
+	return ListPlanAssignmentsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListPlanAssignmentsRequestPathSelectorParent struct{}
 
@@ -1197,6 +1200,20 @@ func (s ListPlanAssignmentsRequestPathSelectorView) WithArrayOfValues(values []v
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListPlanAssignmentsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListPlanAssignmentsRequestPathSelectorIncludePagingInfo) FieldPath() *ListPlanAssignmentsRequest_FieldTerminalPath {
+	return &ListPlanAssignmentsRequest_FieldTerminalPath{selector: ListPlanAssignmentsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListPlanAssignmentsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListPlanAssignmentsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentsRequest_FieldTerminalPathValue)
+}
+
+func (s ListPlanAssignmentsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListPlanAssignmentsResponseFieldPathBuilder struct{}
 
 func NewListPlanAssignmentsResponseFieldPathBuilder() ListPlanAssignmentsResponseFieldPathBuilder {
@@ -1210,6 +1227,12 @@ func (ListPlanAssignmentsResponseFieldPathBuilder) PrevPageToken() ListPlanAssig
 }
 func (ListPlanAssignmentsResponseFieldPathBuilder) NextPageToken() ListPlanAssignmentsResponsePathSelectorNextPageToken {
 	return ListPlanAssignmentsResponsePathSelectorNextPageToken{}
+}
+func (ListPlanAssignmentsResponseFieldPathBuilder) CurrentOffset() ListPlanAssignmentsResponsePathSelectorCurrentOffset {
+	return ListPlanAssignmentsResponsePathSelectorCurrentOffset{}
+}
+func (ListPlanAssignmentsResponseFieldPathBuilder) TotalResultsCount() ListPlanAssignmentsResponsePathSelectorTotalResultsCount {
+	return ListPlanAssignmentsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListPlanAssignmentsResponsePathSelectorPlanAssignments struct{}
@@ -2117,6 +2140,34 @@ func (s ListPlanAssignmentsResponsePathSelectorNextPageToken) WithValue(value *p
 }
 
 func (s ListPlanAssignmentsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*plan_assignment.PagerCursor) *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPlanAssignmentsResponsePathSelectorCurrentOffset struct{}
+
+func (ListPlanAssignmentsResponsePathSelectorCurrentOffset) FieldPath() *ListPlanAssignmentsResponse_FieldTerminalPath {
+	return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListPlanAssignmentsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListPlanAssignmentsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPlanAssignmentsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPlanAssignmentsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListPlanAssignmentsResponsePathSelectorTotalResultsCount) FieldPath() *ListPlanAssignmentsResponse_FieldTerminalPath {
+	return &ListPlanAssignmentsResponse_FieldTerminalPath{selector: ListPlanAssignmentsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListPlanAssignmentsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListPlanAssignmentsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlanAssignmentsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPlanAssignmentsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlanAssignmentsResponse_FieldTerminalPathArrayOfValues)
 }
 

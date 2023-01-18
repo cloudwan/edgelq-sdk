@@ -412,6 +412,9 @@ func (o *ListMethodDescriptorsRequest) MakeDiffFieldMask(other *ListMethodDescri
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -457,6 +460,7 @@ func (o *ListMethodDescriptorsRequest) Clone() *ListMethodDescriptorsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*method_descriptor.MethodDescriptor_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -512,6 +516,7 @@ func (o *ListMethodDescriptorsRequest) Merge(source *ListMethodDescriptorsReques
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListMethodDescriptorsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -555,6 +560,12 @@ func (o *ListMethodDescriptorsResponse) MakeDiffFieldMask(other *ListMethodDescr
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -591,6 +602,8 @@ func (o *ListMethodDescriptorsResponse) Clone() *ListMethodDescriptorsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -641,6 +654,8 @@ func (o *ListMethodDescriptorsResponse) Merge(source *ListMethodDescriptorsRespo
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListMethodDescriptorsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

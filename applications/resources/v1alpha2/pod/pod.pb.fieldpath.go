@@ -380,13 +380,14 @@ func (fps *Pod_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Pod
 func (fps *Pod_FieldSubPath) Get(source *Pod) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else {
+	switch fps.selector {
+	case Pod_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Pod_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case Pod_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Pod: %d", fps.selector))
 	}
 	return
@@ -1274,23 +1275,24 @@ func (fps *PodSpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Pod_Spec
 func (fps *PodSpec_FieldSubPath) Get(source *Pod_Spec) (values []interface{}) {
-	if asContainerFieldPath, ok := fps.AsContainersSubPath(); ok {
+	switch fps.selector {
+	case PodSpec_FieldPathSelectorContainers:
 		for _, item := range source.GetContainers() {
-			values = append(values, asContainerFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asLocalObjectReferenceSecretFieldPath, ok := fps.AsImagePullSecretsSubPath(); ok {
+	case PodSpec_FieldPathSelectorImagePullSecrets:
 		for _, item := range source.GetImagePullSecrets() {
-			values = append(values, asLocalObjectReferenceSecretFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asVolumeFieldPath, ok := fps.AsVolumesSubPath(); ok {
+	case PodSpec_FieldPathSelectorVolumes:
 		for _, item := range source.GetVolumes() {
-			values = append(values, asVolumeFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asVolumeMountFieldPath, ok := fps.AsHostVolumeMountsSubPath(); ok {
+	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		for _, item := range source.GetHostVolumeMounts() {
-			values = append(values, asVolumeMountFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Spec: %d", fps.selector))
 	}
 	return
@@ -2138,11 +2140,12 @@ func (fps *PodStatus_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Pod_Status
 func (fps *PodStatus_FieldSubPath) Get(source *Pod_Status) (values []interface{}) {
-	if asContainerFieldPath, ok := fps.AsContainerStatusesSubPath(); ok {
+	switch fps.selector {
+	case PodStatus_FieldPathSelectorContainerStatuses:
 		for _, item := range source.GetContainerStatuses() {
-			values = append(values, asContainerFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status: %d", fps.selector))
 	}
 	return
@@ -2972,21 +2975,22 @@ func (fps *PodSpecContainer_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Pod_Spec_Container
 func (fps *PodSpecContainer_FieldSubPath) Get(source *Pod_Spec_Container) (values []interface{}) {
-	if asEnvVarFieldPath, ok := fps.AsEnvSubPath(); ok {
+	switch fps.selector {
+	case PodSpecContainer_FieldPathSelectorEnv:
 		for _, item := range source.GetEnv() {
-			values = append(values, asEnvVarFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asResourceRequirementsFieldPath, ok := fps.AsResourcesSubPath(); ok {
-		values = append(values, asResourceRequirementsFieldPath.Get(source.GetResources())...)
-	} else if asSecurityContextFieldPath, ok := fps.AsSecurityContextSubPath(); ok {
-		values = append(values, asSecurityContextFieldPath.Get(source.GetSecurityContext())...)
-	} else if asVolumeMountFieldPath, ok := fps.AsVolumeMountsSubPath(); ok {
+	case PodSpecContainer_FieldPathSelectorResources:
+		values = append(values, fps.subPath.GetRaw(source.GetResources())...)
+	case PodSpecContainer_FieldPathSelectorSecurityContext:
+		values = append(values, fps.subPath.GetRaw(source.GetSecurityContext())...)
+	case PodSpecContainer_FieldPathSelectorVolumeMounts:
 		for _, item := range source.GetVolumeMounts() {
-			values = append(values, asVolumeMountFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asEnvFromSourceFieldPath, ok := fps.AsEnvFromSubPath(); ok {
-		values = append(values, asEnvFromSourceFieldPath.Get(source.GetEnvFrom())...)
-	} else {
+	case PodSpecContainer_FieldPathSelectorEnvFrom:
+		values = append(values, fps.subPath.GetRaw(source.GetEnvFrom())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Spec_Container: %d", fps.selector))
 	}
 	return
@@ -4623,13 +4627,14 @@ func (fps *PodStatusContainer_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Pod_Status_Container
 func (fps *PodStatusContainer_FieldSubPath) Get(source *Pod_Status_Container) (values []interface{}) {
-	if asStateWaitingFieldPath, ok := fps.AsWaitingSubPath(); ok {
-		values = append(values, asStateWaitingFieldPath.Get(source.GetWaiting())...)
-	} else if asStateRunningFieldPath, ok := fps.AsRunningSubPath(); ok {
-		values = append(values, asStateRunningFieldPath.Get(source.GetRunning())...)
-	} else if asStateTerminatedFieldPath, ok := fps.AsTerminatedSubPath(); ok {
-		values = append(values, asStateTerminatedFieldPath.Get(source.GetTerminated())...)
-	} else {
+	switch fps.selector {
+	case PodStatusContainer_FieldPathSelectorWaiting:
+		values = append(values, fps.subPath.GetRaw(source.GetWaiting())...)
+	case PodStatusContainer_FieldPathSelectorRunning:
+		values = append(values, fps.subPath.GetRaw(source.GetRunning())...)
+	case PodStatusContainer_FieldPathSelectorTerminated:
+		values = append(values, fps.subPath.GetRaw(source.GetTerminated())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fps.selector))
 	}
 	return
@@ -6850,11 +6855,12 @@ func (fps *EnvFromSource_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source EnvFromSource
 func (fps *EnvFromSource_FieldSubPath) Get(source *EnvFromSource) (values []interface{}) {
-	if asConfigMapEnvSourceFieldPath, ok := fps.AsConfigMapRefSubPath(); ok {
-		values = append(values, asConfigMapEnvSourceFieldPath.Get(source.GetConfigMapRef())...)
-	} else if asSecretEnvSourceFieldPath, ok := fps.AsSecretRefSubPath(); ok {
-		values = append(values, asSecretEnvSourceFieldPath.Get(source.GetSecretRef())...)
-	} else {
+	switch fps.selector {
+	case EnvFromSource_FieldPathSelectorConfigMapRef:
+		values = append(values, fps.subPath.GetRaw(source.GetConfigMapRef())...)
+	case EnvFromSource_FieldPathSelectorSecretRef:
+		values = append(values, fps.subPath.GetRaw(source.GetSecretRef())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for EnvFromSource: %d", fps.selector))
 	}
 	return
@@ -7531,9 +7537,10 @@ func (fps *EnvVar_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source EnvVar
 func (fps *EnvVar_FieldSubPath) Get(source *EnvVar) (values []interface{}) {
-	if asEnvVarSourceFieldPath, ok := fps.AsValueFromSubPath(); ok {
-		values = append(values, asEnvVarSourceFieldPath.Get(source.GetValueFrom())...)
-	} else {
+	switch fps.selector {
+	case EnvVar_FieldPathSelectorValueFrom:
+		values = append(values, fps.subPath.GetRaw(source.GetValueFrom())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for EnvVar: %d", fps.selector))
 	}
 	return
@@ -9030,11 +9037,12 @@ func (fps *EnvVarSource_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source EnvVarSource
 func (fps *EnvVarSource_FieldSubPath) Get(source *EnvVarSource) (values []interface{}) {
-	if asConfigMapKeySelectorFieldPath, ok := fps.AsConfigMapKeyRefSubPath(); ok {
-		values = append(values, asConfigMapKeySelectorFieldPath.Get(source.GetConfigMapKeyRef())...)
-	} else if asSecretKeySelectorFieldPath, ok := fps.AsSecretKeyRefSubPath(); ok {
-		values = append(values, asSecretKeySelectorFieldPath.Get(source.GetSecretKeyRef())...)
-	} else {
+	switch fps.selector {
+	case EnvVarSource_FieldPathSelectorConfigMapKeyRef:
+		values = append(values, fps.subPath.GetRaw(source.GetConfigMapKeyRef())...)
+	case EnvVarSource_FieldPathSelectorSecretKeyRef:
+		values = append(values, fps.subPath.GetRaw(source.GetSecretKeyRef())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for EnvVarSource: %d", fps.selector))
 	}
 	return
@@ -11425,13 +11433,14 @@ func (fps *Volume_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Volume
 func (fps *Volume_FieldSubPath) Get(source *Volume) (values []interface{}) {
-	if asHostPathVolumeSourceFieldPath, ok := fps.AsHostPathSubPath(); ok {
-		values = append(values, asHostPathVolumeSourceFieldPath.Get(source.GetHostPath())...)
-	} else if asSecretVolumeSourceFieldPath, ok := fps.AsSecretSubPath(); ok {
-		values = append(values, asSecretVolumeSourceFieldPath.Get(source.GetSecret())...)
-	} else if asConfigMapVolumeSourceFieldPath, ok := fps.AsConfigMapSubPath(); ok {
-		values = append(values, asConfigMapVolumeSourceFieldPath.Get(source.GetConfigMap())...)
-	} else {
+	switch fps.selector {
+	case Volume_FieldPathSelectorHostPath:
+		values = append(values, fps.subPath.GetRaw(source.GetHostPath())...)
+	case Volume_FieldPathSelectorSecret:
+		values = append(values, fps.subPath.GetRaw(source.GetSecret())...)
+	case Volume_FieldPathSelectorConfigMap:
+		values = append(values, fps.subPath.GetRaw(source.GetConfigMap())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Volume: %d", fps.selector))
 	}
 	return
@@ -13095,11 +13104,12 @@ func (fps *SecretVolumeSource_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source SecretVolumeSource
 func (fps *SecretVolumeSource_FieldSubPath) Get(source *SecretVolumeSource) (values []interface{}) {
-	if asKeyToPathFieldPath, ok := fps.AsItemsSubPath(); ok {
+	switch fps.selector {
+	case SecretVolumeSource_FieldPathSelectorItems:
 		for _, item := range source.GetItems() {
-			values = append(values, asKeyToPathFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for SecretVolumeSource: %d", fps.selector))
 	}
 	return
@@ -14272,11 +14282,12 @@ func (fps *ConfigMapVolumeSource_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConfigMapVolumeSource
 func (fps *ConfigMapVolumeSource_FieldSubPath) Get(source *ConfigMapVolumeSource) (values []interface{}) {
-	if asKeyToPathFieldPath, ok := fps.AsItemsSubPath(); ok {
+	switch fps.selector {
+	case ConfigMapVolumeSource_FieldPathSelectorItems:
 		for _, item := range source.GetItems() {
-			values = append(values, asKeyToPathFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConfigMapVolumeSource: %d", fps.selector))
 	}
 	return

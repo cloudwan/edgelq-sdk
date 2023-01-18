@@ -412,6 +412,9 @@ func (o *ListAuditedResourceDescriptorsRequest) MakeDiffFieldMask(other *ListAud
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: ListAuditedResourceDescriptorsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListAuditedResourceDescriptorsRequest_FieldTerminalPath{selector: ListAuditedResourceDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -457,6 +460,7 @@ func (o *ListAuditedResourceDescriptorsRequest) Clone() *ListAuditedResourceDesc
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -512,6 +516,7 @@ func (o *ListAuditedResourceDescriptorsRequest) Merge(source *ListAuditedResourc
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListAuditedResourceDescriptorsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -555,6 +560,12 @@ func (o *ListAuditedResourceDescriptorsResponse) MakeDiffFieldMask(other *ListAu
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListAuditedResourceDescriptorsResponse_FieldTerminalPath{selector: ListAuditedResourceDescriptorsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListAuditedResourceDescriptorsResponse_FieldTerminalPath{selector: ListAuditedResourceDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListAuditedResourceDescriptorsResponse_FieldTerminalPath{selector: ListAuditedResourceDescriptorsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -591,6 +602,8 @@ func (o *ListAuditedResourceDescriptorsResponse) Clone() *ListAuditedResourceDes
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -641,6 +654,8 @@ func (o *ListAuditedResourceDescriptorsResponse) Merge(source *ListAuditedResour
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListAuditedResourceDescriptorsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

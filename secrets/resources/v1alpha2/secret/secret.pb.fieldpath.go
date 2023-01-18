@@ -471,9 +471,10 @@ func (fps *Secret_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Secret
 func (fps *Secret_FieldSubPath) Get(source *Secret) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case Secret_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Secret: %d", fps.selector))
 	}
 	return

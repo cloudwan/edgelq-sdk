@@ -81,8 +81,9 @@ func (a *apiPlanAccess) BatchGetPlans(ctx context.Context, refs []*plan.Referenc
 
 func (a *apiPlanAccess) QueryPlans(ctx context.Context, query *plan.ListQuery) (*plan.QueryResultSnapshot, error) {
 	request := &plan_client.ListPlansRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiPlanAccess) QueryPlans(ctx context.Context, query *plan.ListQuery) (
 		return nil, err
 	}
 	return &plan.QueryResultSnapshot{
-		Plans:          resp.Plans,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Plans:             resp.Plans,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

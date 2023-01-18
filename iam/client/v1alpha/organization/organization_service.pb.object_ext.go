@@ -414,6 +414,9 @@ func (o *ListOrganizationsRequest) MakeDiffFieldMask(other *ListOrganizationsReq
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -459,6 +462,7 @@ func (o *ListOrganizationsRequest) Clone() *ListOrganizationsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*organization.Organization_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -514,6 +518,7 @@ func (o *ListOrganizationsRequest) Merge(source *ListOrganizationsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListOrganizationsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -557,6 +562,12 @@ func (o *ListOrganizationsResponse) MakeDiffFieldMask(other *ListOrganizationsRe
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -593,6 +604,8 @@ func (o *ListOrganizationsResponse) Clone() *ListOrganizationsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -643,6 +656,8 @@ func (o *ListOrganizationsResponse) Merge(source *ListOrganizationsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListOrganizationsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

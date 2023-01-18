@@ -81,8 +81,9 @@ func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Cont
 
 func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context, query *attestation_domain.ListQuery) (*attestation_domain.QueryResultSnapshot, error) {
 	request := &attestation_domain_client.ListAttestationDomainsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context
 		AttestationDomains: resp.AttestationDomains,
 		NextPageCursor:     resp.NextPageToken,
 		PrevPageCursor:     resp.PrevPageToken,
+		TotalResultsCount:  resp.TotalResultsCount,
+		CurrentOffset:      resp.CurrentOffset,
 	}, nil
 }
 

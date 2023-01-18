@@ -81,8 +81,9 @@ func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx co
 
 func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx context.Context, query *organization_invitation.ListQuery) (*organization_invitation.QueryResultSnapshot, error) {
 	request := &organization_invitation_client.ListOrganizationInvitationsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx conte
 		OrganizationInvitations: resp.OrganizationInvitations,
 		NextPageCursor:          resp.NextPageToken,
 		PrevPageCursor:          resp.PrevPageToken,
+		TotalResultsCount:       resp.TotalResultsCount,
+		CurrentOffset:           resp.CurrentOffset,
 	}, nil
 }
 

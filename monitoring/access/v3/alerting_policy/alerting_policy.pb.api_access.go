@@ -81,8 +81,9 @@ func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, 
 
 func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, query *alerting_policy.ListQuery) (*alerting_policy.QueryResultSnapshot, error) {
 	request := &alerting_policy_client.ListAlertingPoliciesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, que
 		return nil, err
 	}
 	return &alerting_policy.QueryResultSnapshot{
-		AlertingPolicies: resp.AlertingPolicies,
-		NextPageCursor:   resp.NextPageToken,
-		PrevPageCursor:   resp.PrevPageToken,
+		AlertingPolicies:  resp.AlertingPolicies,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

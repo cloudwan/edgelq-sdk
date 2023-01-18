@@ -81,8 +81,9 @@ func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*lim
 
 func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_pool.ListQuery) (*limit_pool.QueryResultSnapshot, error) {
 	request := &limit_pool_client.ListLimitPoolsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_p
 		return nil, err
 	}
 	return &limit_pool.QueryResultSnapshot{
-		LimitPools:     resp.LimitPools,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		LimitPools:        resp.LimitPools,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -894,6 +894,7 @@ func FullListMethodDescriptorsRequest_FieldMask() *ListMethodDescriptorsRequest_
 	res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListMethodDescriptorsRequest_FieldTerminalPath{selector: ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -937,7 +938,7 @@ func (fieldMask *ListMethodDescriptorsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMethodDescriptorsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -967,7 +968,7 @@ func (fieldMask *ListMethodDescriptorsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListMethodDescriptorsRequest_FieldMask) Subtract(other *ListMethodDescriptorsRequest_FieldMask) *ListMethodDescriptorsRequest_FieldMask {
 	result := &ListMethodDescriptorsRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1133,6 +1134,8 @@ func (fieldMask *ListMethodDescriptorsRequest_FieldMask) Project(source *ListMet
 				result.FieldMask = source.FieldMask
 			case ListMethodDescriptorsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListMethodDescriptorsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1159,6 +1162,8 @@ func FullListMethodDescriptorsResponse_FieldMask() *ListMethodDescriptorsRespons
 	res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorMethodDescriptors})
 	res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListMethodDescriptorsResponse_FieldTerminalPath{selector: ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1202,7 +1207,7 @@ func (fieldMask *ListMethodDescriptorsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListMethodDescriptorsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1232,7 +1237,7 @@ func (fieldMask *ListMethodDescriptorsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListMethodDescriptorsResponse_FieldMask) Subtract(other *ListMethodDescriptorsResponse_FieldMask) *ListMethodDescriptorsResponse_FieldMask {
 	result := &ListMethodDescriptorsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListMethodDescriptorsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListMethodDescriptorsResponse_FieldPathSelectorMethodDescriptors: &method_descriptor.MethodDescriptor_FieldMask{},
 	}
@@ -1439,6 +1444,10 @@ func (fieldMask *ListMethodDescriptorsResponse_FieldMask) Project(source *ListMe
 				result.PrevPageToken = source.PrevPageToken
 			case ListMethodDescriptorsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListMethodDescriptorsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListMethodDescriptorsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListMethodDescriptorsResponse_FieldSubPath:
 			switch tp.selector {

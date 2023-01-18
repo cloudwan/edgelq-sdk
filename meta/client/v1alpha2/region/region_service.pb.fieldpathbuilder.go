@@ -1113,6 +1113,9 @@ func (ListRegionsRequestFieldPathBuilder) FieldMask() ListRegionsRequestPathSele
 func (ListRegionsRequestFieldPathBuilder) View() ListRegionsRequestPathSelectorView {
 	return ListRegionsRequestPathSelectorView{}
 }
+func (ListRegionsRequestFieldPathBuilder) IncludePagingInfo() ListRegionsRequestPathSelectorIncludePagingInfo {
+	return ListRegionsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListRegionsRequestPathSelectorPageSize struct{}
 
@@ -1198,6 +1201,20 @@ func (s ListRegionsRequestPathSelectorView) WithArrayOfValues(values []view.View
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRegionsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListRegionsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListRegionsRequestPathSelectorIncludePagingInfo) FieldPath() *ListRegionsRequest_FieldTerminalPath {
+	return &ListRegionsRequest_FieldTerminalPath{selector: ListRegionsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListRegionsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListRegionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRegionsRequest_FieldTerminalPathValue)
+}
+
+func (s ListRegionsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListRegionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRegionsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListRegionsResponseFieldPathBuilder struct{}
 
 func NewListRegionsResponseFieldPathBuilder() ListRegionsResponseFieldPathBuilder {
@@ -1211,6 +1228,12 @@ func (ListRegionsResponseFieldPathBuilder) PrevPageToken() ListRegionsResponsePa
 }
 func (ListRegionsResponseFieldPathBuilder) NextPageToken() ListRegionsResponsePathSelectorNextPageToken {
 	return ListRegionsResponsePathSelectorNextPageToken{}
+}
+func (ListRegionsResponseFieldPathBuilder) CurrentOffset() ListRegionsResponsePathSelectorCurrentOffset {
+	return ListRegionsResponsePathSelectorCurrentOffset{}
+}
+func (ListRegionsResponseFieldPathBuilder) TotalResultsCount() ListRegionsResponsePathSelectorTotalResultsCount {
+	return ListRegionsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListRegionsResponsePathSelectorRegions struct{}
@@ -2154,6 +2177,34 @@ func (s ListRegionsResponsePathSelectorNextPageToken) WithValue(value *region.Pa
 }
 
 func (s ListRegionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*region.PagerCursor) *ListRegionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRegionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRegionsResponsePathSelectorCurrentOffset struct{}
+
+func (ListRegionsResponsePathSelectorCurrentOffset) FieldPath() *ListRegionsResponse_FieldTerminalPath {
+	return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListRegionsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListRegionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRegionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListRegionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListRegionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRegionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRegionsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListRegionsResponsePathSelectorTotalResultsCount) FieldPath() *ListRegionsResponse_FieldTerminalPath {
+	return &ListRegionsResponse_FieldTerminalPath{selector: ListRegionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListRegionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListRegionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRegionsResponse_FieldTerminalPathValue)
+}
+
+func (s ListRegionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListRegionsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRegionsResponse_FieldTerminalPathArrayOfValues)
 }
 

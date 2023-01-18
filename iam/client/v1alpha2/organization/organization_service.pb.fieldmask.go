@@ -896,6 +896,7 @@ func FullListOrganizationsRequest_FieldMask() *ListOrganizationsRequest_FieldMas
 	res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListOrganizationsRequest_FieldTerminalPath{selector: ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -939,7 +940,7 @@ func (fieldMask *ListOrganizationsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListOrganizationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -969,7 +970,7 @@ func (fieldMask *ListOrganizationsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListOrganizationsRequest_FieldMask) Subtract(other *ListOrganizationsRequest_FieldMask) *ListOrganizationsRequest_FieldMask {
 	result := &ListOrganizationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1135,6 +1136,8 @@ func (fieldMask *ListOrganizationsRequest_FieldMask) Project(source *ListOrganiz
 				result.FieldMask = source.FieldMask
 			case ListOrganizationsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListOrganizationsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1161,6 +1164,8 @@ func FullListOrganizationsResponse_FieldMask() *ListOrganizationsResponse_FieldM
 	res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorOrganizations})
 	res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListOrganizationsResponse_FieldTerminalPath{selector: ListOrganizationsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1204,7 +1209,7 @@ func (fieldMask *ListOrganizationsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListOrganizationsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1234,7 +1239,7 @@ func (fieldMask *ListOrganizationsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListOrganizationsResponse_FieldMask) Subtract(other *ListOrganizationsResponse_FieldMask) *ListOrganizationsResponse_FieldMask {
 	result := &ListOrganizationsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListOrganizationsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListOrganizationsResponse_FieldPathSelectorOrganizations: &organization.Organization_FieldMask{},
 	}
@@ -1441,6 +1446,10 @@ func (fieldMask *ListOrganizationsResponse_FieldMask) Project(source *ListOrgani
 				result.PrevPageToken = source.PrevPageToken
 			case ListOrganizationsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListOrganizationsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListOrganizationsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListOrganizationsResponse_FieldSubPath:
 			switch tp.selector {

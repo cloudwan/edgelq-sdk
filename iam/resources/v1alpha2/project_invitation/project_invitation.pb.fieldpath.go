@@ -346,11 +346,12 @@ func (fps *ProjectInvitation_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ProjectInvitation
 func (fps *ProjectInvitation_FieldSubPath) Get(source *ProjectInvitation) (values []interface{}) {
-	if asInvitationFieldPath, ok := fps.AsInvitationSubPath(); ok {
-		values = append(values, asInvitationFieldPath.Get(source.GetInvitation())...)
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	switch fps.selector {
+	case ProjectInvitation_FieldPathSelectorInvitation:
+		values = append(values, fps.subPath.GetRaw(source.GetInvitation())...)
+	case ProjectInvitation_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ProjectInvitation: %d", fps.selector))
 	}
 	return

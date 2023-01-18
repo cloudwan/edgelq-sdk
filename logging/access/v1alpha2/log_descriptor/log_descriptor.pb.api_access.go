@@ -81,8 +81,9 @@ func (a *apiLogDescriptorAccess) BatchGetLogDescriptors(ctx context.Context, ref
 
 func (a *apiLogDescriptorAccess) QueryLogDescriptors(ctx context.Context, query *log_descriptor.ListQuery) (*log_descriptor.QueryResultSnapshot, error) {
 	request := &log_descriptor_client.ListLogDescriptorsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiLogDescriptorAccess) QueryLogDescriptors(ctx context.Context, query 
 		return nil, err
 	}
 	return &log_descriptor.QueryResultSnapshot{
-		LogDescriptors: resp.LogDescriptors,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		LogDescriptors:    resp.LogDescriptors,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

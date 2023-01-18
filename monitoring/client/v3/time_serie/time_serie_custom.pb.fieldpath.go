@@ -446,11 +446,12 @@ func (fps *ListTimeSeriesRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListTimeSeriesRequest
 func (fps *ListTimeSeriesRequest_FieldSubPath) Get(source *ListTimeSeriesRequest) (values []interface{}) {
-	if asTimeIntervalFieldPath, ok := fps.AsIntervalSubPath(); ok {
-		values = append(values, asTimeIntervalFieldPath.Get(source.GetInterval())...)
-	} else if asAggregationFieldPath, ok := fps.AsAggregationSubPath(); ok {
-		values = append(values, asAggregationFieldPath.Get(source.GetAggregation())...)
-	} else {
+	switch fps.selector {
+	case ListTimeSeriesRequest_FieldPathSelectorInterval:
+		values = append(values, fps.subPath.GetRaw(source.GetInterval())...)
+	case ListTimeSeriesRequest_FieldPathSelectorAggregation:
+		values = append(values, fps.subPath.GetRaw(source.GetAggregation())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListTimeSeriesRequest: %d", fps.selector))
 	}
 	return
@@ -1280,15 +1281,16 @@ func (fps *ListTimeSeriesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListTimeSeriesResponse
 func (fps *ListTimeSeriesResponse_FieldSubPath) Get(source *ListTimeSeriesResponse) (values []interface{}) {
-	if asTimeSerieFieldPath, ok := fps.AsTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case ListTimeSeriesResponse_FieldPathSelectorTimeSeries:
 		for _, item := range source.GetTimeSeries() {
-			values = append(values, asTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asStatusFieldPath, ok := fps.AsExecutionErrorsSubPath(); ok {
+	case ListTimeSeriesResponse_FieldPathSelectorExecutionErrors:
 		for _, item := range source.GetExecutionErrors() {
-			values = append(values, asStatusFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListTimeSeriesResponse: %d", fps.selector))
 	}
 	return
@@ -2343,11 +2345,12 @@ func (fps *CreateTimeSeriesRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateTimeSeriesRequest
 func (fps *CreateTimeSeriesRequest_FieldSubPath) Get(source *CreateTimeSeriesRequest) (values []interface{}) {
-	if asTimeSerieFieldPath, ok := fps.AsTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case CreateTimeSeriesRequest_FieldPathSelectorTimeSeries:
 		for _, item := range source.GetTimeSeries() {
-			values = append(values, asTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateTimeSeriesRequest: %d", fps.selector))
 	}
 	return
@@ -2985,11 +2988,12 @@ func (fps *CreateTimeSeriesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateTimeSeriesResponse
 func (fps *CreateTimeSeriesResponse_FieldSubPath) Get(source *CreateTimeSeriesResponse) (values []interface{}) {
-	if asCreateTimeSeriesErrorFieldPath, ok := fps.AsFailedTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case CreateTimeSeriesResponse_FieldPathSelectorFailedTimeSeries:
 		for _, item := range source.GetFailedTimeSeries() {
-			values = append(values, asCreateTimeSeriesErrorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateTimeSeriesResponse: %d", fps.selector))
 	}
 	return
@@ -3618,11 +3622,12 @@ func (fps *CreateTimeSeriesError_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateTimeSeriesError
 func (fps *CreateTimeSeriesError_FieldSubPath) Get(source *CreateTimeSeriesError) (values []interface{}) {
-	if asTimeSerieFieldPath, ok := fps.AsTimeSeriesSubPath(); ok {
-		values = append(values, asTimeSerieFieldPath.Get(source.GetTimeSeries())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else {
+	switch fps.selector {
+	case CreateTimeSeriesError_FieldPathSelectorTimeSeries:
+		values = append(values, fps.subPath.GetRaw(source.GetTimeSeries())...)
+	case CreateTimeSeriesError_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateTimeSeriesError: %d", fps.selector))
 	}
 	return

@@ -81,8 +81,9 @@ func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*d
 
 func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deployment.ListQuery) (*deployment.QueryResultSnapshot, error) {
 	request := &deployment_client.ListDeploymentsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deplo
 		return nil, err
 	}
 	return &deployment.QueryResultSnapshot{
-		Deployments:    resp.Deployments,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Deployments:       resp.Deployments,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

@@ -346,13 +346,14 @@ func (fps *ListenForConnectionsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListenForConnectionsRequest
 func (fps *ListenForConnectionsRequest_FieldSubPath) Get(source *ListenForConnectionsRequest) (values []interface{}) {
-	if asRegisterListenerFieldPath, ok := fps.AsRegisterListenerSubPath(); ok {
-		values = append(values, asRegisterListenerFieldPath.Get(source.GetRegisterListener())...)
-	} else if asChannelOpenErrorFieldPath, ok := fps.AsChannelOpenErrorSubPath(); ok {
-		values = append(values, asChannelOpenErrorFieldPath.Get(source.GetChannelOpenError())...)
-	} else if asKeepAliveFieldPath, ok := fps.AsKeepAliveSubPath(); ok {
-		values = append(values, asKeepAliveFieldPath.Get(source.GetKeepAlive())...)
-	} else {
+	switch fps.selector {
+	case ListenForConnectionsRequest_FieldPathSelectorRegisterListener:
+		values = append(values, fps.subPath.GetRaw(source.GetRegisterListener())...)
+	case ListenForConnectionsRequest_FieldPathSelectorChannelOpenError:
+		values = append(values, fps.subPath.GetRaw(source.GetChannelOpenError())...)
+	case ListenForConnectionsRequest_FieldPathSelectorKeepAlive:
+		values = append(values, fps.subPath.GetRaw(source.GetKeepAlive())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsRequest: %d", fps.selector))
 	}
 	return
@@ -2192,9 +2193,10 @@ func (fps *ListenForConnectionsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListenForConnectionsResponse
 func (fps *ListenForConnectionsResponse_FieldSubPath) Get(source *ListenForConnectionsResponse) (values []interface{}) {
-	if asChannelRequestedFieldPath, ok := fps.AsChannelRequestedSubPath(); ok {
-		values = append(values, asChannelRequestedFieldPath.Get(source.GetChannelRequested())...)
-	} else {
+	switch fps.selector {
+	case ListenForConnectionsResponse_FieldPathSelectorChannelRequested:
+		values = append(values, fps.subPath.GetRaw(source.GetChannelRequested())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListenForConnectionsResponse: %d", fps.selector))
 	}
 	return
@@ -3327,11 +3329,12 @@ func (fps *OpenConnectionChannelSocketRequest_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source OpenConnectionChannelSocketRequest
 func (fps *OpenConnectionChannelSocketRequest_FieldSubPath) Get(source *OpenConnectionChannelSocketRequest) (values []interface{}) {
-	if asRegisterSocketFieldPath, ok := fps.AsRegisterSocketSubPath(); ok {
-		values = append(values, asRegisterSocketFieldPath.Get(source.GetRegisterSocket())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else {
+	switch fps.selector {
+	case OpenConnectionChannelSocketRequest_FieldPathSelectorRegisterSocket:
+		values = append(values, fps.subPath.GetRaw(source.GetRegisterSocket())...)
+	case OpenConnectionChannelSocketRequest_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for OpenConnectionChannelSocketRequest: %d", fps.selector))
 	}
 	return
@@ -4466,9 +4469,10 @@ func (fps *OpenConnectionChannelSocketResponse_FieldSubPath) JSONString() string
 
 // Get returns all values pointed by selected field from source OpenConnectionChannelSocketResponse
 func (fps *OpenConnectionChannelSocketResponse_FieldSubPath) Get(source *OpenConnectionChannelSocketResponse) (values []interface{}) {
-	if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else {
+	switch fps.selector {
+	case OpenConnectionChannelSocketResponse_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for OpenConnectionChannelSocketResponse: %d", fps.selector))
 	}
 	return
@@ -5168,13 +5172,14 @@ func (fps *ConnectToDeviceRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConnectToDeviceRequest
 func (fps *ConnectToDeviceRequest_FieldSubPath) Get(source *ConnectToDeviceRequest) (values []interface{}) {
-	if asOpenRequestFieldPath, ok := fps.AsOpenRequestSubPath(); ok {
-		values = append(values, asOpenRequestFieldPath.Get(source.GetOpenRequest())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else if asKeepAliveFieldPath, ok := fps.AsKeepAliveSubPath(); ok {
-		values = append(values, asKeepAliveFieldPath.Get(source.GetKeepAlive())...)
-	} else {
+	switch fps.selector {
+	case ConnectToDeviceRequest_FieldPathSelectorOpenRequest:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenRequest())...)
+	case ConnectToDeviceRequest_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	case ConnectToDeviceRequest_FieldPathSelectorKeepAlive:
+		values = append(values, fps.subPath.GetRaw(source.GetKeepAlive())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectToDeviceRequest: %d", fps.selector))
 	}
 	return
@@ -6775,11 +6780,12 @@ func (fps *ConnectToDeviceResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ConnectToDeviceResponse
 func (fps *ConnectToDeviceResponse_FieldSubPath) Get(source *ConnectToDeviceResponse) (values []interface{}) {
-	if asOpenResponseFieldPath, ok := fps.AsOpenResponseSubPath(); ok {
-		values = append(values, asOpenResponseFieldPath.Get(source.GetOpenResponse())...)
-	} else if asAckFieldPath, ok := fps.AsAckSubPath(); ok {
-		values = append(values, asAckFieldPath.Get(source.GetAck())...)
-	} else {
+	switch fps.selector {
+	case ConnectToDeviceResponse_FieldPathSelectorOpenResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetOpenResponse())...)
+	case ConnectToDeviceResponse_FieldPathSelectorAck:
+		values = append(values, fps.subPath.GetRaw(source.GetAck())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ConnectToDeviceResponse: %d", fps.selector))
 	}
 	return

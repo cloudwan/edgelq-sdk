@@ -81,8 +81,9 @@ func (a *apiProvisioningPolicyAccess) BatchGetProvisioningPolicies(ctx context.C
 
 func (a *apiProvisioningPolicyAccess) QueryProvisioningPolicies(ctx context.Context, query *provisioning_policy.ListQuery) (*provisioning_policy.QueryResultSnapshot, error) {
 	request := &provisioning_policy_client.ListProvisioningPoliciesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiProvisioningPolicyAccess) QueryProvisioningPolicies(ctx context.Cont
 		ProvisioningPolicies: resp.ProvisioningPolicies,
 		NextPageCursor:       resp.NextPageToken,
 		PrevPageCursor:       resp.PrevPageToken,
+		TotalResultsCount:    resp.TotalResultsCount,
+		CurrentOffset:        resp.CurrentOffset,
 	}, nil
 }
 

@@ -896,6 +896,7 @@ func FullListPlansRequest_FieldMask() *ListPlansRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -939,7 +940,7 @@ func (fieldMask *ListPlansRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlansRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -969,7 +970,7 @@ func (fieldMask *ListPlansRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPlansRequest_FieldMask) Subtract(other *ListPlansRequest_FieldMask) *ListPlansRequest_FieldMask {
 	result := &ListPlansRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1135,6 +1136,8 @@ func (fieldMask *ListPlansRequest_FieldMask) Project(source *ListPlansRequest) *
 				result.FieldMask = source.FieldMask
 			case ListPlansRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPlansRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1161,6 +1164,8 @@ func FullListPlansResponse_FieldMask() *ListPlansResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorPlans})
 	res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1204,7 +1209,7 @@ func (fieldMask *ListPlansResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPlansResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1234,7 +1239,7 @@ func (fieldMask *ListPlansResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPlansResponse_FieldMask) Subtract(other *ListPlansResponse_FieldMask) *ListPlansResponse_FieldMask {
 	result := &ListPlansResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPlansResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPlansResponse_FieldPathSelectorPlans: &plan.Plan_FieldMask{},
 	}
@@ -1441,6 +1446,10 @@ func (fieldMask *ListPlansResponse_FieldMask) Project(source *ListPlansResponse)
 				result.PrevPageToken = source.PrevPageToken
 			case ListPlansResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPlansResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPlansResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPlansResponse_FieldSubPath:
 			switch tp.selector {

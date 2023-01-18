@@ -412,15 +412,16 @@ func (fps *Device_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device
 func (fps *Device_FieldSubPath) Get(source *Device) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asSpecFieldPath, ok := fps.AsSpecSubPath(); ok {
-		values = append(values, asSpecFieldPath.Get(source.GetSpec())...)
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else if asPublicListingSpecFieldPath, ok := fps.AsPublicListingSpecSubPath(); ok {
-		values = append(values, asPublicListingSpecFieldPath.Get(source.GetPublicListingSpec())...)
-	} else {
+	switch fps.selector {
+	case Device_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Device_FieldPathSelectorSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
+	case Device_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	case Device_FieldPathSelectorPublicListingSpec:
+		values = append(values, fps.subPath.GetRaw(source.GetPublicListingSpec())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fps.selector))
 	}
 	return
@@ -1281,11 +1282,12 @@ func (fps *DeviceSpec_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec
 func (fps *DeviceSpec_FieldSubPath) Get(source *Device_Spec) (values []interface{}) {
-	if asNetworkConfigFieldPath, ok := fps.AsNetConfigSubPath(); ok {
-		values = append(values, asNetworkConfigFieldPath.Get(source.GetNetConfig())...)
-	} else if asSSHConfigFieldPath, ok := fps.AsSshConfigSubPath(); ok {
-		values = append(values, asSSHConfigFieldPath.Get(source.GetSshConfig())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpec_FieldPathSelectorNetConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetNetConfig())...)
+	case DeviceSpec_FieldPathSelectorSshConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetSshConfig())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fps.selector))
 	}
 	return
@@ -2072,17 +2074,18 @@ func (fps *DeviceStatus_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Status
 func (fps *DeviceStatus_FieldSubPath) Get(source *Device_Status) (values []interface{}) {
-	if asAddressFieldPath, ok := fps.AsAddressesSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatus_FieldPathSelectorAddresses:
 		for _, item := range source.GetAddresses() {
-			values = append(values, asAddressFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asConditionFieldPath, ok := fps.AsConditionsSubPath(); ok {
+	case DeviceStatus_FieldPathSelectorConditions:
 		for _, item := range source.GetConditions() {
-			values = append(values, asConditionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asDeviceInfoFieldPath, ok := fps.AsDeviceInfoSubPath(); ok {
-		values = append(values, asDeviceInfoFieldPath.Get(source.GetDeviceInfo())...)
-	} else {
+	case DeviceStatus_FieldPathSelectorDeviceInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetDeviceInfo())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status: %d", fps.selector))
 	}
 	return
@@ -3348,31 +3351,32 @@ func (fps *DeviceSpecNetworkConfig_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig
 func (fps *DeviceSpecNetworkConfig_FieldSubPath) Get(source *Device_Spec_NetworkConfig) (values []interface{}) {
-	if asEthOptsFieldPath, ok := fps.AsEthernetsSubPath(); ok {
+	switch fps.selector {
+	case DeviceSpecNetworkConfig_FieldPathSelectorEthernets:
 		for _, item := range source.GetEthernets() {
-			values = append(values, asEthOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asWifiOptsFieldPath, ok := fps.AsWifisSubPath(); ok {
+	case DeviceSpecNetworkConfig_FieldPathSelectorWifis:
 		for _, item := range source.GetWifis() {
-			values = append(values, asWifiOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asBridgesOptsFieldPath, ok := fps.AsBridgesSubPath(); ok {
+	case DeviceSpecNetworkConfig_FieldPathSelectorBridges:
 		for _, item := range source.GetBridges() {
-			values = append(values, asBridgesOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asBondsOptsFieldPath, ok := fps.AsBondsSubPath(); ok {
+	case DeviceSpecNetworkConfig_FieldPathSelectorBonds:
 		for _, item := range source.GetBonds() {
-			values = append(values, asBondsOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asTunnelsOptsFieldPath, ok := fps.AsTunnelsSubPath(); ok {
+	case DeviceSpecNetworkConfig_FieldPathSelectorTunnels:
 		for _, item := range source.GetTunnels() {
-			values = append(values, asTunnelsOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asVlansOptsFieldPath, ok := fps.AsVlansSubPath(); ok {
+	case DeviceSpecNetworkConfig_FieldPathSelectorVlans:
 		for _, item := range source.GetVlans() {
-			values = append(values, asVlansOptsFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig: %d", fps.selector))
 	}
 	return
@@ -4336,11 +4340,12 @@ func (fps *DeviceSpecSSHConfig_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_SSHConfig
 func (fps *DeviceSpecSSHConfig_FieldSubPath) Get(source *Device_Spec_SSHConfig) (values []interface{}) {
-	if asAuthKeyFieldPath, ok := fps.AsSshAuthorizedSubPath(); ok {
+	switch fps.selector {
+	case DeviceSpecSSHConfig_FieldPathSelectorSshAuthorized:
 		for _, item := range source.GetSshAuthorized() {
-			values = append(values, asAuthKeyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_SSHConfig: %d", fps.selector))
 	}
 	return
@@ -5504,21 +5509,22 @@ func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_CommonOpts
 func (fps *DeviceSpecNetworkConfigCommonOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_CommonOpts) (values []interface{}) {
-	if asDHCPOverridesFieldPath, ok := fps.AsDhcp4OverridesSubPath(); ok {
-		values = append(values, asDHCPOverridesFieldPath.Get(source.GetDhcp4Overrides())...)
-	} else if asDHCPOverridesFieldPath, ok := fps.AsDhcp6OverridesSubPath(); ok {
-		values = append(values, asDHCPOverridesFieldPath.Get(source.GetDhcp6Overrides())...)
-	} else if asNameserversFieldPath, ok := fps.AsNameserversSubPath(); ok {
-		values = append(values, asNameserversFieldPath.Get(source.GetNameservers())...)
-	} else if asRoutesFieldPath, ok := fps.AsRoutesSubPath(); ok {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp4Overrides:
+		values = append(values, fps.subPath.GetRaw(source.GetDhcp4Overrides())...)
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorDhcp6Overrides:
+		values = append(values, fps.subPath.GetRaw(source.GetDhcp6Overrides())...)
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorNameservers:
+		values = append(values, fps.subPath.GetRaw(source.GetNameservers())...)
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutes:
 		for _, item := range source.GetRoutes() {
-			values = append(values, asRoutesFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asRoutingPolicyFieldPath, ok := fps.AsRoutingPolicySubPath(); ok {
-		values = append(values, asRoutingPolicyFieldPath.Get(source.GetRoutingPolicy())...)
-	} else if asAuthFieldPath, ok := fps.AsAuthSubPath(); ok {
-		values = append(values, asAuthFieldPath.Get(source.GetAuth())...)
-	} else {
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorRoutingPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetRoutingPolicy())...)
+	case DeviceSpecNetworkConfigCommonOpts_FieldPathSelectorAuth:
+		values = append(values, fps.subPath.GetRaw(source.GetAuth())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_CommonOpts: %d", fps.selector))
 	}
 	return
@@ -6737,11 +6743,12 @@ func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_EthOpts
 func (fps *DeviceSpecNetworkConfigEthOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_EthOpts) (values []interface{}) {
-	if asMatchFieldPath, ok := fps.AsMatchSubPath(); ok {
-		values = append(values, asMatchFieldPath.Get(source.GetMatch())...)
-	} else if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorMatch:
+		values = append(values, fps.subPath.GetRaw(source.GetMatch())...)
+	case DeviceSpecNetworkConfigEthOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_EthOpts: %d", fps.selector))
 	}
 	return
@@ -7546,15 +7553,16 @@ func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_WifiOpts
 func (fps *DeviceSpecNetworkConfigWifiOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_WifiOpts) (values []interface{}) {
-	if asMatchFieldPath, ok := fps.AsMatchSubPath(); ok {
-		values = append(values, asMatchFieldPath.Get(source.GetMatch())...)
-	} else if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else if asAccessPointFieldPath, ok := fps.AsAccessPointsSubPath(); ok {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorMatch:
+		values = append(values, fps.subPath.GetRaw(source.GetMatch())...)
+	case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	case DeviceSpecNetworkConfigWifiOpts_FieldPathSelectorAccessPoints:
 		for _, item := range source.GetAccessPoints() {
-			values = append(values, asAccessPointFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_WifiOpts: %d", fps.selector))
 	}
 	return
@@ -8361,11 +8369,12 @@ func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_BridgesOpts
 func (fps *DeviceSpecNetworkConfigBridgesOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_BridgesOpts) (values []interface{}) {
-	if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else if asParametersFieldPath, ok := fps.AsParametersSubPath(); ok {
-		values = append(values, asParametersFieldPath.Get(source.GetParameters())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	case DeviceSpecNetworkConfigBridgesOpts_FieldPathSelectorParameters:
+		values = append(values, fps.subPath.GetRaw(source.GetParameters())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_BridgesOpts: %d", fps.selector))
 	}
 	return
@@ -9097,11 +9106,12 @@ func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_BondsOpts
 func (fps *DeviceSpecNetworkConfigBondsOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_BondsOpts) (values []interface{}) {
-	if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else if asParametersFieldPath, ok := fps.AsParametersSubPath(); ok {
-		values = append(values, asParametersFieldPath.Get(source.GetParameters())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	case DeviceSpecNetworkConfigBondsOpts_FieldPathSelectorParameters:
+		values = append(values, fps.subPath.GetRaw(source.GetParameters())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_BondsOpts: %d", fps.selector))
 	}
 	return
@@ -9852,9 +9862,10 @@ func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) JSONString() string 
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_TunnelsOpts
 func (fps *DeviceSpecNetworkConfigTunnelsOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_TunnelsOpts) (values []interface{}) {
-	if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigTunnelsOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_TunnelsOpts: %d", fps.selector))
 	}
 	return
@@ -10604,9 +10615,10 @@ func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Spec_NetworkConfig_VlansOpts
 func (fps *DeviceSpecNetworkConfigVlansOpts_FieldSubPath) Get(source *Device_Spec_NetworkConfig_VlansOpts) (values []interface{}) {
-	if asCommonOptsFieldPath, ok := fps.AsOptsSubPath(); ok {
-		values = append(values, asCommonOptsFieldPath.Get(source.GetOpts())...)
-	} else {
+	switch fps.selector {
+	case DeviceSpecNetworkConfigVlansOpts_FieldPathSelectorOpts:
+		values = append(values, fps.subPath.GetRaw(source.GetOpts())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_NetworkConfig_VlansOpts: %d", fps.selector))
 	}
 	return
@@ -19988,9 +20000,10 @@ func (fps *DeviceStatusDeviceInfo_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo
 func (fps *DeviceStatusDeviceInfo_FieldSubPath) Get(source *Device_Status_DeviceInfo) (values []interface{}) {
-	if asHardwareInformationFieldPath, ok := fps.AsHardwareInformationSubPath(); ok {
-		values = append(values, asHardwareInformationFieldPath.Get(source.GetHardwareInformation())...)
-	} else {
+	switch fps.selector {
+	case DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation:
+		values = append(values, fps.subPath.GetRaw(source.GetHardwareInformation())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo: %d", fps.selector))
 	}
 	return
@@ -20945,23 +20958,24 @@ func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) JSONString() 
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation
 func (fps *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation) (values []interface{}) {
-	if asOSFieldPath, ok := fps.AsOsSubPath(); ok {
-		values = append(values, asOSFieldPath.Get(source.GetOs())...)
-	} else if asBIOSFieldPath, ok := fps.AsBiosSubPath(); ok {
-		values = append(values, asBIOSFieldPath.Get(source.GetBios())...)
-	} else if asSystemFieldPath, ok := fps.AsSystemSubPath(); ok {
-		values = append(values, asSystemFieldPath.Get(source.GetSystem())...)
-	} else if asCPUFieldPath, ok := fps.AsCpuSubPath(); ok {
-		values = append(values, asCPUFieldPath.Get(source.GetCpu())...)
-	} else if asBlockFieldPath, ok := fps.AsBlockSubPath(); ok {
-		values = append(values, asBlockFieldPath.Get(source.GetBlock())...)
-	} else if asNetworkFieldPath, ok := fps.AsNetworkSubPath(); ok {
-		values = append(values, asNetworkFieldPath.Get(source.GetNetwork())...)
-	} else if asGPUFieldPath, ok := fps.AsGpuSubPath(); ok {
-		values = append(values, asGPUFieldPath.Get(source.GetGpu())...)
-	} else if asMemoryInfoFieldPath, ok := fps.AsMemoryInfoSubPath(); ok {
-		values = append(values, asMemoryInfoFieldPath.Get(source.GetMemoryInfo())...)
-	} else {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorOs:
+		values = append(values, fps.subPath.GetRaw(source.GetOs())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBios:
+		values = append(values, fps.subPath.GetRaw(source.GetBios())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorSystem:
+		values = append(values, fps.subPath.GetRaw(source.GetSystem())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorCpu:
+		values = append(values, fps.subPath.GetRaw(source.GetCpu())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorBlock:
+		values = append(values, fps.subPath.GetRaw(source.GetBlock())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorNetwork:
+		values = append(values, fps.subPath.GetRaw(source.GetNetwork())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorGpu:
+		values = append(values, fps.subPath.GetRaw(source.GetGpu())...)
+	case DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo:
+		values = append(values, fps.subPath.GetRaw(source.GetMemoryInfo())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation: %d", fps.selector))
 	}
 	return
@@ -23285,9 +23299,10 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) JSONStr
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_System
 func (fps *DeviceStatusDeviceInfoHardwareInformationSystem_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_System) (values []interface{}) {
-	if asConfigurationFieldPath, ok := fps.AsConfigurationSubPath(); ok {
-		values = append(values, asConfigurationFieldPath.Get(source.GetConfiguration())...)
-	} else {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationSystem_FieldPathSelectorConfiguration:
+		values = append(values, fps.subPath.GetRaw(source.GetConfiguration())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_System: %d", fps.selector))
 	}
 	return
@@ -23962,11 +23977,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) JSONString
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_CPU
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPU_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_CPU) (values []interface{}) {
-	if asProcessorFieldPath, ok := fps.AsProcessorsSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationCPU_FieldPathSelectorProcessors:
 		for _, item := range source.GetProcessors() {
-			values = append(values, asProcessorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU: %d", fps.selector))
 	}
 	return
@@ -24551,11 +24567,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) JSONStri
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_Block
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlock_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_Block) (values []interface{}) {
-	if asDiskFieldPath, ok := fps.AsDisksSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationBlock_FieldPathSelectorDisks:
 		for _, item := range source.GetDisks() {
-			values = append(values, asDiskFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_Block: %d", fps.selector))
 	}
 	return
@@ -25140,11 +25157,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) JSONSt
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_Network
 func (fps *DeviceStatusDeviceInfoHardwareInformationNetwork_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_Network) (values []interface{}) {
-	if asNICFieldPath, ok := fps.AsNicsSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationNetwork_FieldPathSelectorNics:
 		for _, item := range source.GetNics() {
-			values = append(values, asNICFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_Network: %d", fps.selector))
 	}
 	return
@@ -25729,11 +25747,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) JSONString
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_GPU
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPU_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_GPU) (values []interface{}) {
-	if asGraphicCardFieldPath, ok := fps.AsGraphicCardsSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationGPU_FieldPathSelectorGraphicCards:
 		for _, item := range source.GetGraphicCards() {
-			values = append(values, asGraphicCardFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_GPU: %d", fps.selector))
 	}
 	return
@@ -26865,11 +26884,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) JSO
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (values []interface{}) {
-	if asMemoryFieldPath, ok := fps.AsMemorySubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
 		for _, item := range source.GetMemory() {
-			values = append(values, asMemoryFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fps.selector))
 	}
 	return
@@ -28152,15 +28172,16 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) J
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_CPU_Processor
 func (fps *DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) (values []interface{}) {
-	if asCapabilityFieldPath, ok := fps.AsCapabilitiesSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCapabilities:
 		for _, item := range source.GetCapabilities() {
-			values = append(values, asCapabilityFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asCacheFieldPath, ok := fps.AsCacheInfoSubPath(); ok {
+	case DeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPathSelectorCacheInfo:
 		for _, item := range source.GetCacheInfo() {
-			values = append(values, asCacheFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_CPU_Processor: %d", fps.selector))
 	}
 	return
@@ -29554,11 +29575,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) JSON
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_Block_Disk
 func (fps *DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_Block_Disk) (values []interface{}) {
-	if asPartitionFieldPath, ok := fps.AsPartitionsSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPathSelectorPartitions:
 		for _, item := range source.GetPartitions() {
-			values = append(values, asPartitionFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_Block_Disk: %d", fps.selector))
 	}
 	return
@@ -31717,9 +31739,10 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath)
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard
 func (fps *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) (values []interface{}) {
-	if asPCIDeviceFieldPath, ok := fps.AsDeviceSubPath(); ok {
-		values = append(values, asPCIDeviceFieldPath.Get(source.GetDevice())...)
-	} else {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPathSelectorDevice:
+		values = append(values, fps.subPath.GetRaw(source.GetDevice())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard: %d", fps.selector))
 	}
 	return
@@ -32357,11 +32380,12 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPat
 
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (values []interface{}) {
-	if asMemoryBankFieldPath, ok := fps.AsMemoryBanksSubPath(); ok {
+	switch fps.selector {
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
 		for _, item := range source.GetMemoryBanks() {
-			values = append(values, asMemoryBankFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fps.selector))
 	}
 	return

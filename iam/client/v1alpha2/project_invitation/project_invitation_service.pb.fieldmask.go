@@ -899,6 +899,7 @@ func FullListProjectInvitationsRequest_FieldMask() *ListProjectInvitationsReques
 	res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListProjectInvitationsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProjectInvitationsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListProjectInvitationsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListProjectInvitationsRequest_FieldMask) Subtract(other *ListProjectInvitationsRequest_FieldMask) *ListProjectInvitationsRequest_FieldMask {
 	result := &ListProjectInvitationsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListProjectInvitationsRequest_FieldMask) Project(source *ListPr
 				result.FieldMask = source.FieldMask
 			case ListProjectInvitationsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListProjectInvitationsResponse_FieldMask() *ListProjectInvitationsRespo
 	res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations})
 	res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListProjectInvitationsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListProjectInvitationsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListProjectInvitationsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListProjectInvitationsResponse_FieldMask) Subtract(other *ListProjectInvitationsResponse_FieldMask) *ListProjectInvitationsResponse_FieldMask {
 	result := &ListProjectInvitationsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListProjectInvitationsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListProjectInvitationsResponse_FieldPathSelectorProjectInvitations: &project_invitation.ProjectInvitation_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListProjectInvitationsResponse_FieldMask) Project(source *ListP
 				result.PrevPageToken = source.PrevPageToken
 			case ListProjectInvitationsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListProjectInvitationsResponse_FieldSubPath:
 			switch tp.selector {

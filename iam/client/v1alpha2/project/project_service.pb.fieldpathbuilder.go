@@ -1265,6 +1265,9 @@ func (ListProjectsRequestFieldPathBuilder) FieldMask() ListProjectsRequestPathSe
 func (ListProjectsRequestFieldPathBuilder) View() ListProjectsRequestPathSelectorView {
 	return ListProjectsRequestPathSelectorView{}
 }
+func (ListProjectsRequestFieldPathBuilder) IncludePagingInfo() ListProjectsRequestPathSelectorIncludePagingInfo {
+	return ListProjectsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListProjectsRequestPathSelectorPageSize struct{}
 
@@ -1350,6 +1353,20 @@ func (s ListProjectsRequestPathSelectorView) WithArrayOfValues(values []view.Vie
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListProjectsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListProjectsRequestPathSelectorIncludePagingInfo) FieldPath() *ListProjectsRequest_FieldTerminalPath {
+	return &ListProjectsRequest_FieldTerminalPath{selector: ListProjectsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListProjectsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListProjectsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsRequest_FieldTerminalPathValue)
+}
+
+func (s ListProjectsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListProjectsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListProjectsResponseFieldPathBuilder struct{}
 
 func NewListProjectsResponseFieldPathBuilder() ListProjectsResponseFieldPathBuilder {
@@ -1363,6 +1380,12 @@ func (ListProjectsResponseFieldPathBuilder) PrevPageToken() ListProjectsResponse
 }
 func (ListProjectsResponseFieldPathBuilder) NextPageToken() ListProjectsResponsePathSelectorNextPageToken {
 	return ListProjectsResponsePathSelectorNextPageToken{}
+}
+func (ListProjectsResponseFieldPathBuilder) CurrentOffset() ListProjectsResponsePathSelectorCurrentOffset {
+	return ListProjectsResponsePathSelectorCurrentOffset{}
+}
+func (ListProjectsResponseFieldPathBuilder) TotalResultsCount() ListProjectsResponsePathSelectorTotalResultsCount {
+	return ListProjectsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListProjectsResponsePathSelectorProjects struct{}
@@ -2450,6 +2473,34 @@ func (s ListProjectsResponsePathSelectorNextPageToken) WithValue(value *project.
 }
 
 func (s ListProjectsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*project.PagerCursor) *ListProjectsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorCurrentOffset struct{}
+
+func (ListProjectsResponsePathSelectorCurrentOffset) FieldPath() *ListProjectsResponse_FieldTerminalPath {
+	return &ListProjectsResponse_FieldTerminalPath{selector: ListProjectsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListProjectsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListProjectsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListProjectsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListProjectsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListProjectsResponsePathSelectorTotalResultsCount) FieldPath() *ListProjectsResponse_FieldTerminalPath {
+	return &ListProjectsResponse_FieldTerminalPath{selector: ListProjectsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListProjectsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListProjectsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListProjectsResponse_FieldTerminalPathValue)
+}
+
+func (s ListProjectsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListProjectsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListProjectsResponse_FieldTerminalPathArrayOfValues)
 }
 

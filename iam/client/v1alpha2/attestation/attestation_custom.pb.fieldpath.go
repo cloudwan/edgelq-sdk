@@ -314,11 +314,12 @@ func (fps *VerifyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source VerifyRequest
 func (fps *VerifyRequest_FieldSubPath) Get(source *VerifyRequest) (values []interface{}) {
-	if asAskForChallengeFieldPath, ok := fps.AsAskForChallengeSubPath(); ok {
-		values = append(values, asAskForChallengeFieldPath.Get(source.GetAskForChallenge())...)
-	} else if asChallengeResponseFieldPath, ok := fps.AsChallengeResponseSubPath(); ok {
-		values = append(values, asChallengeResponseFieldPath.Get(source.GetChallengeResponse())...)
-	} else {
+	switch fps.selector {
+	case VerifyRequest_FieldPathSelectorAskForChallenge:
+		values = append(values, fps.subPath.GetRaw(source.GetAskForChallenge())...)
+	case VerifyRequest_FieldPathSelectorChallengeResponse:
+		values = append(values, fps.subPath.GetRaw(source.GetChallengeResponse())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for VerifyRequest: %d", fps.selector))
 	}
 	return
@@ -1796,15 +1797,16 @@ func (fps *VerifyRequestChallengeResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source VerifyRequest_ChallengeResponse
 func (fps *VerifyRequestChallengeResponse_FieldSubPath) Get(source *VerifyRequest_ChallengeResponse) (values []interface{}) {
-	if asQuoteFieldPath, ok := fps.AsQuotesSubPath(); ok {
+	switch fps.selector {
+	case VerifyRequestChallengeResponse_FieldPathSelectorQuotes:
 		for _, item := range source.GetQuotes() {
-			values = append(values, asQuoteFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asPCRFieldPath, ok := fps.AsPcrsSubPath(); ok {
+	case VerifyRequestChallengeResponse_FieldPathSelectorPcrs:
 		for _, item := range source.GetPcrs() {
-			values = append(values, asPCRFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for VerifyRequest_ChallengeResponse: %d", fps.selector))
 	}
 	return
@@ -2911,11 +2913,12 @@ func (fps *VerifyResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source VerifyResponse
 func (fps *VerifyResponse_FieldSubPath) Get(source *VerifyResponse) (values []interface{}) {
-	if asChallengeFieldPath, ok := fps.AsChallengeSubPath(); ok {
-		values = append(values, asChallengeFieldPath.Get(source.GetChallenge())...)
-	} else if asAttestationSuccessfulFieldPath, ok := fps.AsAttestationSuccessfulSubPath(); ok {
-		values = append(values, asAttestationSuccessfulFieldPath.Get(source.GetAttestationSuccessful())...)
-	} else {
+	switch fps.selector {
+	case VerifyResponse_FieldPathSelectorChallenge:
+		values = append(values, fps.subPath.GetRaw(source.GetChallenge())...)
+	case VerifyResponse_FieldPathSelectorAttestationSuccessful:
+		values = append(values, fps.subPath.GetRaw(source.GetAttestationSuccessful())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for VerifyResponse: %d", fps.selector))
 	}
 	return

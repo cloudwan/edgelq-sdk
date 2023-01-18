@@ -361,9 +361,10 @@ func (fps *ListLogsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListLogsRequest
 func (fps *ListLogsRequest_FieldSubPath) Get(source *ListLogsRequest) (values []interface{}) {
-	if asTimeIntervalFieldPath, ok := fps.AsIntervalSubPath(); ok {
-		values = append(values, asTimeIntervalFieldPath.Get(source.GetInterval())...)
-	} else {
+	switch fps.selector {
+	case ListLogsRequest_FieldPathSelectorInterval:
+		values = append(values, fps.subPath.GetRaw(source.GetInterval())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogsRequest: %d", fps.selector))
 	}
 	return
@@ -1075,15 +1076,16 @@ func (fps *ListLogsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListLogsResponse
 func (fps *ListLogsResponse_FieldSubPath) Get(source *ListLogsResponse) (values []interface{}) {
-	if asLogFieldPath, ok := fps.AsLogsSubPath(); ok {
+	switch fps.selector {
+	case ListLogsResponse_FieldPathSelectorLogs:
 		for _, item := range source.GetLogs() {
-			values = append(values, asLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asStatusFieldPath, ok := fps.AsExecutionErrorsSubPath(); ok {
+	case ListLogsResponse_FieldPathSelectorExecutionErrors:
 		for _, item := range source.GetExecutionErrors() {
-			values = append(values, asStatusFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListLogsResponse: %d", fps.selector))
 	}
 	return
@@ -2138,11 +2140,12 @@ func (fps *CreateLogsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateLogsRequest
 func (fps *CreateLogsRequest_FieldSubPath) Get(source *CreateLogsRequest) (values []interface{}) {
-	if asLogFieldPath, ok := fps.AsLogsSubPath(); ok {
+	switch fps.selector {
+	case CreateLogsRequest_FieldPathSelectorLogs:
 		for _, item := range source.GetLogs() {
-			values = append(values, asLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateLogsRequest: %d", fps.selector))
 	}
 	return
@@ -2780,11 +2783,12 @@ func (fps *CreateLogsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateLogsResponse
 func (fps *CreateLogsResponse_FieldSubPath) Get(source *CreateLogsResponse) (values []interface{}) {
-	if asCreateErrorFieldPath, ok := fps.AsFailedLogsSubPath(); ok {
+	switch fps.selector {
+	case CreateLogsResponse_FieldPathSelectorFailedLogs:
 		for _, item := range source.GetFailedLogs() {
-			values = append(values, asCreateErrorFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateLogsResponse: %d", fps.selector))
 	}
 	return
@@ -3415,13 +3419,14 @@ func (fps *CreateLogsResponseCreateError_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateLogsResponse_CreateError
 func (fps *CreateLogsResponseCreateError_FieldSubPath) Get(source *CreateLogsResponse_CreateError) (values []interface{}) {
-	if asLogFieldPath, ok := fps.AsLogsSubPath(); ok {
+	switch fps.selector {
+	case CreateLogsResponseCreateError_FieldPathSelectorLogs:
 		for _, item := range source.GetLogs() {
-			values = append(values, asLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else {
+	case CreateLogsResponseCreateError_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateLogsResponse_CreateError: %d", fps.selector))
 	}
 	return

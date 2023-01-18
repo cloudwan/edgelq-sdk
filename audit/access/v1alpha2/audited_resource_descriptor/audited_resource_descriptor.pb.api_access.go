@@ -81,8 +81,9 @@ func (a *apiAuditedResourceDescriptorAccess) BatchGetAuditedResourceDescriptors(
 
 func (a *apiAuditedResourceDescriptorAccess) QueryAuditedResourceDescriptors(ctx context.Context, query *audited_resource_descriptor.ListQuery) (*audited_resource_descriptor.QueryResultSnapshot, error) {
 	request := &audited_resource_descriptor_client.ListAuditedResourceDescriptorsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiAuditedResourceDescriptorAccess) QueryAuditedResourceDescriptors(ctx
 		AuditedResourceDescriptors: resp.AuditedResourceDescriptors,
 		NextPageCursor:             resp.NextPageToken,
 		PrevPageCursor:             resp.PrevPageToken,
+		TotalResultsCount:          resp.TotalResultsCount,
+		CurrentOffset:              resp.CurrentOffset,
 	}, nil
 }
 

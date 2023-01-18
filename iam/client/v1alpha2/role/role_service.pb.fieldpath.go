@@ -1237,11 +1237,12 @@ func (fps *BatchGetRolesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetRolesResponse
 func (fps *BatchGetRolesResponse_FieldSubPath) Get(source *BatchGetRolesResponse) (values []interface{}) {
-	if asRoleFieldPath, ok := fps.AsRolesSubPath(); ok {
+	switch fps.selector {
+	case BatchGetRolesResponse_FieldPathSelectorRoles:
 		for _, item := range source.GetRoles() {
-			values = append(values, asRoleFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetRolesResponse: %d", fps.selector))
 	}
 	return
@@ -1640,12 +1641,13 @@ type ListRolesRequest_FieldPath interface {
 type ListRolesRequest_FieldPathSelector int32
 
 const (
-	ListRolesRequest_FieldPathSelectorPageSize  ListRolesRequest_FieldPathSelector = 0
-	ListRolesRequest_FieldPathSelectorPageToken ListRolesRequest_FieldPathSelector = 1
-	ListRolesRequest_FieldPathSelectorOrderBy   ListRolesRequest_FieldPathSelector = 2
-	ListRolesRequest_FieldPathSelectorFilter    ListRolesRequest_FieldPathSelector = 3
-	ListRolesRequest_FieldPathSelectorFieldMask ListRolesRequest_FieldPathSelector = 4
-	ListRolesRequest_FieldPathSelectorView      ListRolesRequest_FieldPathSelector = 5
+	ListRolesRequest_FieldPathSelectorPageSize          ListRolesRequest_FieldPathSelector = 0
+	ListRolesRequest_FieldPathSelectorPageToken         ListRolesRequest_FieldPathSelector = 1
+	ListRolesRequest_FieldPathSelectorOrderBy           ListRolesRequest_FieldPathSelector = 2
+	ListRolesRequest_FieldPathSelectorFilter            ListRolesRequest_FieldPathSelector = 3
+	ListRolesRequest_FieldPathSelectorFieldMask         ListRolesRequest_FieldPathSelector = 4
+	ListRolesRequest_FieldPathSelectorView              ListRolesRequest_FieldPathSelector = 5
+	ListRolesRequest_FieldPathSelectorIncludePagingInfo ListRolesRequest_FieldPathSelector = 6
 )
 
 func (s ListRolesRequest_FieldPathSelector) String() string {
@@ -1662,6 +1664,8 @@ func (s ListRolesRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListRolesRequest_FieldPathSelectorView:
 		return "view"
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", s))
 	}
@@ -1685,6 +1689,8 @@ func BuildListRolesRequest_FieldPath(fp gotenobject.RawFieldPath) (ListRolesRequ
 			return &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListRolesRequest", fp)
@@ -1750,6 +1756,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) Get(source *ListRolesRequest) (val
 			}
 		case ListRolesRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 		}
@@ -1780,6 +1788,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) GetSingle(source *ListRolesRequest
 		return res, res != nil
 	case ListRolesRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 	}
@@ -1804,6 +1814,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) GetDefault() interface{} {
 		return (*role.Role_FieldMask)(nil)
 	case ListRolesRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 	}
@@ -1824,6 +1836,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) ClearValue(item *ListRolesRequest)
 			item.FieldMask = nil
 		case ListRolesRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 		}
@@ -1841,7 +1855,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListRolesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListRolesRequest_FieldPathSelectorFilter ||
 		fp.selector == ListRolesRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListRolesRequest_FieldPathSelectorView
+		fp.selector == ListRolesRequest_FieldPathSelectorView ||
+		fp.selector == ListRolesRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListRolesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1862,6 +1877,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) WithIValue(value interface{}) List
 		return &ListRolesRequest_FieldTerminalPathValue{ListRolesRequest_FieldTerminalPath: *fp, value: value.(*role.Role_FieldMask)}
 	case ListRolesRequest_FieldPathSelectorView:
 		return &ListRolesRequest_FieldTerminalPathValue{ListRolesRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRolesRequest_FieldTerminalPathValue{ListRolesRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 	}
@@ -1886,6 +1903,8 @@ func (fp *ListRolesRequest_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &ListRolesRequest_FieldTerminalPathArrayOfValues{ListRolesRequest_FieldTerminalPath: *fp, values: values.([]*role.Role_FieldMask)}
 	case ListRolesRequest_FieldPathSelectorView:
 		return &ListRolesRequest_FieldTerminalPathArrayOfValues{ListRolesRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListRolesRequest_FieldTerminalPathArrayOfValues{ListRolesRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fp.selector))
 	}
@@ -1970,6 +1989,10 @@ func (fpv *ListRolesRequest_FieldTerminalPathValue) AsViewValue() (view.View, bo
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListRolesRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRolesRequest
 func (fpv *ListRolesRequest_FieldTerminalPathValue) SetTo(target **ListRolesRequest) {
@@ -1989,6 +2012,8 @@ func (fpv *ListRolesRequest_FieldTerminalPathValue) SetTo(target **ListRolesRequ
 		(*target).FieldMask = fpv.value.(*role.Role_FieldMask)
 	case ListRolesRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesRequest: %d", fpv.selector))
 	}
@@ -2026,6 +2051,16 @@ func (fpv *ListRolesRequest_FieldTerminalPathValue) CompareWith(source *ListRole
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2162,6 +2197,10 @@ func (fpaov *ListRolesRequest_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListRolesRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2189,6 +2228,10 @@ func (fpaov *ListRolesRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfValue
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListRolesRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2209,9 +2252,11 @@ type ListRolesResponse_FieldPath interface {
 type ListRolesResponse_FieldPathSelector int32
 
 const (
-	ListRolesResponse_FieldPathSelectorRoles         ListRolesResponse_FieldPathSelector = 0
-	ListRolesResponse_FieldPathSelectorPrevPageToken ListRolesResponse_FieldPathSelector = 1
-	ListRolesResponse_FieldPathSelectorNextPageToken ListRolesResponse_FieldPathSelector = 2
+	ListRolesResponse_FieldPathSelectorRoles             ListRolesResponse_FieldPathSelector = 0
+	ListRolesResponse_FieldPathSelectorPrevPageToken     ListRolesResponse_FieldPathSelector = 1
+	ListRolesResponse_FieldPathSelectorNextPageToken     ListRolesResponse_FieldPathSelector = 2
+	ListRolesResponse_FieldPathSelectorCurrentOffset     ListRolesResponse_FieldPathSelector = 3
+	ListRolesResponse_FieldPathSelectorTotalResultsCount ListRolesResponse_FieldPathSelector = 4
 )
 
 func (s ListRolesResponse_FieldPathSelector) String() string {
@@ -2222,6 +2267,10 @@ func (s ListRolesResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", s))
 	}
@@ -2239,6 +2288,10 @@ func BuildListRolesResponse_FieldPath(fp gotenobject.RawFieldPath) (ListRolesRes
 			return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2305,6 +2358,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) Get(source *ListRolesResponse) (v
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListRolesResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 		}
@@ -2328,6 +2385,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) GetSingle(source *ListRolesRespon
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 	}
@@ -2346,6 +2407,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) GetDefault() interface{} {
 		return (*role.PagerCursor)(nil)
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		return (*role.PagerCursor)(nil)
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 	}
@@ -2360,6 +2425,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) ClearValue(item *ListRolesRespons
 			item.PrevPageToken = nil
 		case ListRolesResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListRolesResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 		}
@@ -2373,7 +2442,9 @@ func (fp *ListRolesResponse_FieldTerminalPath) ClearValueRaw(item proto.Message)
 // IsLeaf - whether field path is holds simple value
 func (fp *ListRolesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListRolesResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListRolesResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListRolesResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListRolesResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListRolesResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListRolesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2388,6 +2459,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) WithIValue(value interface{}) Lis
 		return &ListRolesResponse_FieldTerminalPathValue{ListRolesResponse_FieldTerminalPath: *fp, value: value.(*role.PagerCursor)}
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		return &ListRolesResponse_FieldTerminalPathValue{ListRolesResponse_FieldTerminalPath: *fp, value: value.(*role.PagerCursor)}
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		return &ListRolesResponse_FieldTerminalPathValue{ListRolesResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRolesResponse_FieldTerminalPathValue{ListRolesResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 	}
@@ -2406,6 +2481,10 @@ func (fp *ListRolesResponse_FieldTerminalPath) WithIArrayOfValues(values interfa
 		return &ListRolesResponse_FieldTerminalPathArrayOfValues{ListRolesResponse_FieldTerminalPath: *fp, values: values.([]*role.PagerCursor)}
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		return &ListRolesResponse_FieldTerminalPathArrayOfValues{ListRolesResponse_FieldTerminalPath: *fp, values: values.([]*role.PagerCursor)}
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		return &ListRolesResponse_FieldTerminalPathArrayOfValues{ListRolesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListRolesResponse_FieldTerminalPathArrayOfValues{ListRolesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fp.selector))
 	}
@@ -2456,11 +2535,12 @@ func (fps *ListRolesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListRolesResponse
 func (fps *ListRolesResponse_FieldSubPath) Get(source *ListRolesResponse) (values []interface{}) {
-	if asRoleFieldPath, ok := fps.AsRolesSubPath(); ok {
+	switch fps.selector {
+	case ListRolesResponse_FieldPathSelectorRoles:
 		for _, item := range source.GetRoles() {
-			values = append(values, asRoleFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fps.selector))
 	}
 	return
@@ -2595,6 +2675,14 @@ func (fpv *ListRolesResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*ro
 	res, ok := fpv.value.(*role.PagerCursor)
 	return res, ok
 }
+func (fpv *ListRolesResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListRolesResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListRolesResponse
 func (fpv *ListRolesResponse_FieldTerminalPathValue) SetTo(target **ListRolesResponse) {
@@ -2608,6 +2696,10 @@ func (fpv *ListRolesResponse_FieldTerminalPathValue) SetTo(target **ListRolesRes
 		(*target).PrevPageToken = fpv.value.(*role.PagerCursor)
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*role.PagerCursor)
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fpv.selector))
 	}
@@ -2627,6 +2719,26 @@ func (fpv *ListRolesResponse_FieldTerminalPathValue) CompareWith(source *ListRol
 		return 0, false
 	case ListRolesResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListRolesResponse: %d", fpv.selector))
 	}
@@ -2821,6 +2933,14 @@ func (fpaov *ListRolesResponse_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]*role.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListRolesResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListRolesResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2834,6 +2954,14 @@ func (fpaov *ListRolesResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenAr
 }
 func (fpaov *ListRolesResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*role.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*role.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListRolesResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListRolesResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4780,9 +4908,10 @@ func (fps *WatchRolesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchRolesResponse
 func (fps *WatchRolesResponse_FieldSubPath) Get(source *WatchRolesResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchRolesResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchRolesResponse: %d", fps.selector))
 	}
 	return
@@ -5910,9 +6039,10 @@ func (fps *CreateRoleRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateRoleRequest
 func (fps *CreateRoleRequest_FieldSubPath) Get(source *CreateRoleRequest) (values []interface{}) {
-	if asRoleFieldPath, ok := fps.AsRoleSubPath(); ok {
-		values = append(values, asRoleFieldPath.Get(source.GetRole())...)
-	} else {
+	switch fps.selector {
+	case CreateRoleRequest_FieldPathSelectorRole:
+		values = append(values, fps.subPath.GetRaw(source.GetRole())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateRoleRequest: %d", fps.selector))
 	}
 	return
@@ -6539,11 +6669,12 @@ func (fps *UpdateRoleRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRoleRequest
 func (fps *UpdateRoleRequest_FieldSubPath) Get(source *UpdateRoleRequest) (values []interface{}) {
-	if asRoleFieldPath, ok := fps.AsRoleSubPath(); ok {
-		values = append(values, asRoleFieldPath.Get(source.GetRole())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateRoleRequest_FieldPathSelectorRole:
+		values = append(values, fps.subPath.GetRaw(source.GetRole())...)
+	case UpdateRoleRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest: %d", fps.selector))
 	}
 	return
@@ -7197,9 +7328,10 @@ func (fps *UpdateRoleRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateRoleRequest_CAS
 func (fps *UpdateRoleRequestCAS_FieldSubPath) Get(source *UpdateRoleRequest_CAS) (values []interface{}) {
-	if asRoleFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asRoleFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateRoleRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateRoleRequest_CAS: %d", fps.selector))
 	}
 	return

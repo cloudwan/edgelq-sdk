@@ -419,6 +419,9 @@ func (o *ListProjectInvitationsRequest) MakeDiffFieldMask(other *ListProjectInvi
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListProjectInvitationsRequest_FieldTerminalPath{selector: ListProjectInvitationsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListProjectInvitationsRequest) Clone() *ListProjectInvitationsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*project_invitation.ProjectInvitation_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListProjectInvitationsRequest) Merge(source *ListProjectInvitationsRequ
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListProjectInvitationsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListProjectInvitationsResponse) MakeDiffFieldMask(other *ListProjectInv
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListProjectInvitationsResponse_FieldTerminalPath{selector: ListProjectInvitationsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListProjectInvitationsResponse) Clone() *ListProjectInvitationsResponse
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListProjectInvitationsResponse) Merge(source *ListProjectInvitationsRes
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListProjectInvitationsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

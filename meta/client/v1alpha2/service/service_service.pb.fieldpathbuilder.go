@@ -924,6 +924,9 @@ func (ListServicesRequestFieldPathBuilder) FieldMask() ListServicesRequestPathSe
 func (ListServicesRequestFieldPathBuilder) View() ListServicesRequestPathSelectorView {
 	return ListServicesRequestPathSelectorView{}
 }
+func (ListServicesRequestFieldPathBuilder) IncludePagingInfo() ListServicesRequestPathSelectorIncludePagingInfo {
+	return ListServicesRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListServicesRequestPathSelectorPageSize struct{}
 
@@ -1009,6 +1012,20 @@ func (s ListServicesRequestPathSelectorView) WithArrayOfValues(values []view.Vie
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListServicesRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListServicesRequestPathSelectorIncludePagingInfo) FieldPath() *ListServicesRequest_FieldTerminalPath {
+	return &ListServicesRequest_FieldTerminalPath{selector: ListServicesRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListServicesRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListServicesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesRequest_FieldTerminalPathValue)
+}
+
+func (s ListServicesRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListServicesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListServicesResponseFieldPathBuilder struct{}
 
 func NewListServicesResponseFieldPathBuilder() ListServicesResponseFieldPathBuilder {
@@ -1022,6 +1039,12 @@ func (ListServicesResponseFieldPathBuilder) PrevPageToken() ListServicesResponse
 }
 func (ListServicesResponseFieldPathBuilder) NextPageToken() ListServicesResponsePathSelectorNextPageToken {
 	return ListServicesResponsePathSelectorNextPageToken{}
+}
+func (ListServicesResponseFieldPathBuilder) CurrentOffset() ListServicesResponsePathSelectorCurrentOffset {
+	return ListServicesResponsePathSelectorCurrentOffset{}
+}
+func (ListServicesResponseFieldPathBuilder) TotalResultsCount() ListServicesResponsePathSelectorTotalResultsCount {
+	return ListServicesResponsePathSelectorTotalResultsCount{}
 }
 
 type ListServicesResponsePathSelectorServices struct{}
@@ -1776,6 +1799,34 @@ func (s ListServicesResponsePathSelectorNextPageToken) WithValue(value *service.
 }
 
 func (s ListServicesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*service.PagerCursor) *ListServicesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListServicesResponsePathSelectorCurrentOffset struct{}
+
+func (ListServicesResponsePathSelectorCurrentOffset) FieldPath() *ListServicesResponse_FieldTerminalPath {
+	return &ListServicesResponse_FieldTerminalPath{selector: ListServicesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListServicesResponsePathSelectorCurrentOffset) WithValue(value int32) *ListServicesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldTerminalPathValue)
+}
+
+func (s ListServicesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListServicesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListServicesResponsePathSelectorTotalResultsCount struct{}
+
+func (ListServicesResponsePathSelectorTotalResultsCount) FieldPath() *ListServicesResponse_FieldTerminalPath {
+	return &ListServicesResponse_FieldTerminalPath{selector: ListServicesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListServicesResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListServicesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListServicesResponse_FieldTerminalPathValue)
+}
+
+func (s ListServicesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListServicesResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListServicesResponse_FieldTerminalPathArrayOfValues)
 }
 

@@ -899,6 +899,7 @@ func FullListPodsRequest_FieldMask() *ListPodsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -942,7 +943,7 @@ func (fieldMask *ListPodsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPodsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -972,7 +973,7 @@ func (fieldMask *ListPodsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPodsRequest_FieldMask) Subtract(other *ListPodsRequest_FieldMask) *ListPodsRequest_FieldMask {
 	result := &ListPodsRequest_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1140,6 +1141,8 @@ func (fieldMask *ListPodsRequest_FieldMask) Project(source *ListPodsRequest) *Li
 				result.FieldMask = source.FieldMask
 			case ListPodsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPodsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1166,6 +1169,8 @@ func FullListPodsResponse_FieldMask() *ListPodsResponse_FieldMask {
 	res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorPods})
 	res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1209,7 +1214,7 @@ func (fieldMask *ListPodsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPodsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1239,7 +1244,7 @@ func (fieldMask *ListPodsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPodsResponse_FieldMask) Subtract(other *ListPodsResponse_FieldMask) *ListPodsResponse_FieldMask {
 	result := &ListPodsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPodsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPodsResponse_FieldPathSelectorPods: &pod.Pod_FieldMask{},
 	}
@@ -1446,6 +1451,10 @@ func (fieldMask *ListPodsResponse_FieldMask) Project(source *ListPodsResponse) *
 				result.PrevPageToken = source.PrevPageToken
 			case ListPodsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPodsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPodsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPodsResponse_FieldSubPath:
 			switch tp.selector {

@@ -384,9 +384,10 @@ func (fps *ListActivityLogsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListActivityLogsRequest
 func (fps *ListActivityLogsRequest_FieldSubPath) Get(source *ListActivityLogsRequest) (values []interface{}) {
-	if asTimeIntervalFieldPath, ok := fps.AsIntervalSubPath(); ok {
-		values = append(values, asTimeIntervalFieldPath.Get(source.GetInterval())...)
-	} else {
+	switch fps.selector {
+	case ListActivityLogsRequest_FieldPathSelectorInterval:
+		values = append(values, fps.subPath.GetRaw(source.GetInterval())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListActivityLogsRequest: %d", fps.selector))
 	}
 	return
@@ -1118,15 +1119,16 @@ func (fps *ListActivityLogsResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListActivityLogsResponse
 func (fps *ListActivityLogsResponse_FieldSubPath) Get(source *ListActivityLogsResponse) (values []interface{}) {
-	if asActivityLogFieldPath, ok := fps.AsActivityLogsSubPath(); ok {
+	switch fps.selector {
+	case ListActivityLogsResponse_FieldPathSelectorActivityLogs:
 		for _, item := range source.GetActivityLogs() {
-			values = append(values, asActivityLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asStatusFieldPath, ok := fps.AsExecutionErrorsSubPath(); ok {
+	case ListActivityLogsResponse_FieldPathSelectorExecutionErrors:
 		for _, item := range source.GetExecutionErrors() {
-			values = append(values, asStatusFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListActivityLogsResponse: %d", fps.selector))
 	}
 	return
@@ -2161,11 +2163,12 @@ func (fps *CreateActivityLogsRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateActivityLogsRequest
 func (fps *CreateActivityLogsRequest_FieldSubPath) Get(source *CreateActivityLogsRequest) (values []interface{}) {
-	if asActivityLogFieldPath, ok := fps.AsActivityLogsSubPath(); ok {
+	switch fps.selector {
+	case CreateActivityLogsRequest_FieldPathSelectorActivityLogs:
 		for _, item := range source.GetActivityLogs() {
-			values = append(values, asActivityLogFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateActivityLogsRequest: %d", fps.selector))
 	}
 	return

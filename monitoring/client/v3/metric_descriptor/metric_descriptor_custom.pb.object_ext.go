@@ -81,6 +81,9 @@ func (o *ListMetricDescriptorsRequest) MakeDiffFieldMask(other *ListMetricDescri
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListMetricDescriptorsRequest_FieldTerminalPath{selector: ListMetricDescriptorsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -136,6 +139,7 @@ func (o *ListMetricDescriptorsRequest) Clone() *ListMetricDescriptorsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*metric_descriptor.MetricDescriptor_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -203,6 +207,7 @@ func (o *ListMetricDescriptorsRequest) Merge(source *ListMetricDescriptorsReques
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListMetricDescriptorsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -246,6 +251,12 @@ func (o *ListMetricDescriptorsResponse) MakeDiffFieldMask(other *ListMetricDescr
 	if o.GetPrevPageToken().String() != other.GetPrevPageToken().String() {
 		res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorPrevPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListMetricDescriptorsResponse_FieldTerminalPath{selector: ListMetricDescriptorsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -282,6 +293,8 @@ func (o *ListMetricDescriptorsResponse) Clone() *ListMetricDescriptorsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -332,6 +345,8 @@ func (o *ListMetricDescriptorsResponse) Merge(source *ListMetricDescriptorsRespo
 	} else {
 		o.PrevPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListMetricDescriptorsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

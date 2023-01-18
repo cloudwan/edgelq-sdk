@@ -2816,6 +2816,9 @@ func (ListPodsRequestFieldPathBuilder) FieldMask() ListPodsRequestPathSelectorFi
 func (ListPodsRequestFieldPathBuilder) View() ListPodsRequestPathSelectorView {
 	return ListPodsRequestPathSelectorView{}
 }
+func (ListPodsRequestFieldPathBuilder) IncludePagingInfo() ListPodsRequestPathSelectorIncludePagingInfo {
+	return ListPodsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListPodsRequestPathSelectorParent struct{}
 
@@ -2915,6 +2918,20 @@ func (s ListPodsRequestPathSelectorView) WithArrayOfValues(values []view.View) *
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListPodsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListPodsRequestPathSelectorIncludePagingInfo) FieldPath() *ListPodsRequest_FieldTerminalPath {
+	return &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListPodsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListPodsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsRequest_FieldTerminalPathValue)
+}
+
+func (s ListPodsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListPodsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListPodsResponseFieldPathBuilder struct{}
 
 func NewListPodsResponseFieldPathBuilder() ListPodsResponseFieldPathBuilder {
@@ -2928,6 +2945,12 @@ func (ListPodsResponseFieldPathBuilder) PrevPageToken() ListPodsResponsePathSele
 }
 func (ListPodsResponseFieldPathBuilder) NextPageToken() ListPodsResponsePathSelectorNextPageToken {
 	return ListPodsResponsePathSelectorNextPageToken{}
+}
+func (ListPodsResponseFieldPathBuilder) CurrentOffset() ListPodsResponsePathSelectorCurrentOffset {
+	return ListPodsResponsePathSelectorCurrentOffset{}
+}
+func (ListPodsResponseFieldPathBuilder) TotalResultsCount() ListPodsResponsePathSelectorTotalResultsCount {
+	return ListPodsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListPodsResponsePathSelectorPods struct{}
@@ -5553,6 +5576,34 @@ func (s ListPodsResponsePathSelectorNextPageToken) WithValue(value *pod.PagerCur
 }
 
 func (s ListPodsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*pod.PagerCursor) *ListPodsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorCurrentOffset struct{}
+
+func (ListPodsResponsePathSelectorCurrentOffset) FieldPath() *ListPodsResponse_FieldTerminalPath {
+	return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListPodsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListPodsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPodsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListPodsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPodsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListPodsResponsePathSelectorTotalResultsCount) FieldPath() *ListPodsResponse_FieldTerminalPath {
+	return &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListPodsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListPodsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPodsResponse_FieldTerminalPathValue)
+}
+
+func (s ListPodsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListPodsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPodsResponse_FieldTerminalPathArrayOfValues)
 }
 

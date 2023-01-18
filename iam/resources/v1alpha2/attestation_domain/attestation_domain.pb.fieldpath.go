@@ -398,17 +398,18 @@ func (fps *AttestationDomain_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AttestationDomain
 func (fps *AttestationDomain_FieldSubPath) Get(source *AttestationDomain) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asPolicyFieldPath, ok := fps.AsPoliciesSubPath(); ok {
+	switch fps.selector {
+	case AttestationDomain_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case AttestationDomain_FieldPathSelectorPolicies:
 		for _, item := range source.GetPolicies() {
-			values = append(values, asPolicyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asEnrolledKeyFieldPath, ok := fps.AsEnrollmentListSubPath(); ok {
+	case AttestationDomain_FieldPathSelectorEnrollmentList:
 		for _, item := range source.GetEnrollmentList() {
-			values = append(values, asEnrolledKeyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for AttestationDomain: %d", fps.selector))
 	}
 	return
@@ -1215,11 +1216,12 @@ func (fps *AttestationDomainPolicy_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source AttestationDomain_Policy
 func (fps *AttestationDomainPolicy_FieldSubPath) Get(source *AttestationDomain_Policy) (values []interface{}) {
-	if asPCRFieldPath, ok := fps.AsExpectedPcrsSubPath(); ok {
+	switch fps.selector {
+	case AttestationDomainPolicy_FieldPathSelectorExpectedPcrs:
 		for _, item := range source.GetExpectedPcrs() {
-			values = append(values, asPCRFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for AttestationDomain_Policy: %d", fps.selector))
 	}
 	return

@@ -86,9 +86,10 @@ func (q *GetQuery) SetFieldMask(mask gotenobject.FieldMask) {
 }
 
 type ListQuery struct {
-	Filter *Filter
-	Pager  *PagerQuery
-	Mask   *Device_FieldMask
+	Filter         *Filter
+	Pager          *PagerQuery
+	Mask           *Device_FieldMask
+	WithPagingInfo bool
 }
 
 func (q *ListQuery) GotenQuery() {}
@@ -113,6 +114,10 @@ func (q *ListQuery) GetFieldMask() gotenobject.FieldMask {
 	return q.Mask
 }
 
+func (q *ListQuery) GetWithPagingInfo() bool {
+	return q.WithPagingInfo
+}
+
 func (q *ListQuery) SetFilter(filter gotenresource.Filter) {
 	if filter != nil {
 		q.Filter = filter.(*Filter)
@@ -135,6 +140,10 @@ func (q *ListQuery) SetFieldMask(mask gotenobject.FieldMask) {
 	} else {
 		q.Mask = nil
 	}
+}
+
+func (q *ListQuery) SetWithPagingInfo(with bool) {
+	q.WithPagingInfo = with
 }
 
 type WatchQuery struct {
@@ -182,9 +191,11 @@ func (q *WatchQuery) SetStartingTime(startingTime *timestamppb.Timestamp) {
 }
 
 type QueryResultSnapshot struct {
-	Devices        []*Device
-	PrevPageCursor *PagerCursor
-	NextPageCursor *PagerCursor
+	Devices           []*Device
+	PrevPageCursor    *PagerCursor
+	NextPageCursor    *PagerCursor
+	TotalResultsCount int32
+	CurrentOffset     int32
 }
 
 func (qr *QueryResultSnapshot) GetResults() gotenresource.ResourceList {
@@ -197,6 +208,10 @@ func (qr *QueryResultSnapshot) GetNextPageCursor() gotenresource.Cursor {
 
 func (qr *QueryResultSnapshot) GetPrevPageCursor() gotenresource.Cursor {
 	return qr.PrevPageCursor
+}
+
+func (qr *QueryResultSnapshot) GetPagingInfo() (totalCount, offset int32) {
+	return qr.TotalResultsCount, qr.CurrentOffset
 }
 
 func (qr *QueryResultSnapshot) SetResults(results gotenresource.ResourceList) {
@@ -218,6 +233,11 @@ func (qr *QueryResultSnapshot) SetCursors(nextPageCursor, prevPageCursor gotenre
 	} else {
 		qr.PrevPageCursor = nil
 	}
+}
+
+func (qr *QueryResultSnapshot) SetPagingInfo(totalCount, offset int32) {
+	qr.TotalResultsCount = totalCount
+	qr.CurrentOffset = offset
 }
 
 type QueryResultChange struct {

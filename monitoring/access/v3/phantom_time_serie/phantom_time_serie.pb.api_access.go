@@ -81,8 +81,9 @@ func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Contex
 
 func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, query *phantom_time_serie.ListQuery) (*phantom_time_serie.QueryResultSnapshot, error) {
 	request := &phantom_time_serie_client.ListPhantomTimeSeriesRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, 
 		PhantomTimeSeries: resp.PhantomTimeSeries,
 		NextPageCursor:    resp.NextPageToken,
 		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

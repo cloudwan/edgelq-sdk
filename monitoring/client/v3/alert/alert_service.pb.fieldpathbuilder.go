@@ -1516,6 +1516,9 @@ func (ListAlertsRequestFieldPathBuilder) FieldMask() ListAlertsRequestPathSelect
 func (ListAlertsRequestFieldPathBuilder) View() ListAlertsRequestPathSelectorView {
 	return ListAlertsRequestPathSelectorView{}
 }
+func (ListAlertsRequestFieldPathBuilder) IncludePagingInfo() ListAlertsRequestPathSelectorIncludePagingInfo {
+	return ListAlertsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListAlertsRequestPathSelectorParent struct{}
 
@@ -1615,6 +1618,20 @@ func (s ListAlertsRequestPathSelectorView) WithArrayOfValues(values []view.View)
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListAlertsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListAlertsRequestPathSelectorIncludePagingInfo) FieldPath() *ListAlertsRequest_FieldTerminalPath {
+	return &ListAlertsRequest_FieldTerminalPath{selector: ListAlertsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListAlertsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListAlertsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertsRequest_FieldTerminalPathValue)
+}
+
+func (s ListAlertsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListAlertsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListAlertsResponseFieldPathBuilder struct{}
 
 func NewListAlertsResponseFieldPathBuilder() ListAlertsResponseFieldPathBuilder {
@@ -1628,6 +1645,12 @@ func (ListAlertsResponseFieldPathBuilder) PrevPageToken() ListAlertsResponsePath
 }
 func (ListAlertsResponseFieldPathBuilder) NextPageToken() ListAlertsResponsePathSelectorNextPageToken {
 	return ListAlertsResponsePathSelectorNextPageToken{}
+}
+func (ListAlertsResponseFieldPathBuilder) CurrentOffset() ListAlertsResponsePathSelectorCurrentOffset {
+	return ListAlertsResponsePathSelectorCurrentOffset{}
+}
+func (ListAlertsResponseFieldPathBuilder) TotalResultsCount() ListAlertsResponsePathSelectorTotalResultsCount {
+	return ListAlertsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListAlertsResponsePathSelectorAlerts struct{}
@@ -2959,6 +2982,34 @@ func (s ListAlertsResponsePathSelectorNextPageToken) WithValue(value *alert.Page
 }
 
 func (s ListAlertsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*alert.PagerCursor) *ListAlertsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertsResponsePathSelectorCurrentOffset struct{}
+
+func (ListAlertsResponsePathSelectorCurrentOffset) FieldPath() *ListAlertsResponse_FieldTerminalPath {
+	return &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListAlertsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListAlertsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListAlertsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAlertsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListAlertsResponsePathSelectorTotalResultsCount) FieldPath() *ListAlertsResponse_FieldTerminalPath {
+	return &ListAlertsResponse_FieldTerminalPath{selector: ListAlertsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListAlertsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListAlertsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAlertsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListAlertsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldTerminalPathArrayOfValues)
 }
 

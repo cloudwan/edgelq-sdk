@@ -896,6 +896,7 @@ func FullListPermissionsRequest_FieldMask() *ListPermissionsRequest_FieldMask {
 	res.Paths = append(res.Paths, &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorFieldMask})
 	res.Paths = append(res.Paths, &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &ListPermissionsRequest_FieldTerminalPath{selector: ListPermissionsRequest_FieldPathSelectorIncludePagingInfo})
 	return res
 }
 
@@ -939,7 +940,7 @@ func (fieldMask *ListPermissionsRequest_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPermissionsRequest_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -969,7 +970,7 @@ func (fieldMask *ListPermissionsRequest_FieldMask) Reset() {
 
 func (fieldMask *ListPermissionsRequest_FieldMask) Subtract(other *ListPermissionsRequest_FieldMask) *ListPermissionsRequest_FieldMask {
 	result := &ListPermissionsRequest_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1135,6 +1136,8 @@ func (fieldMask *ListPermissionsRequest_FieldMask) Project(source *ListPermissio
 				result.FieldMask = source.FieldMask
 			case ListPermissionsRequest_FieldPathSelectorView:
 				result.View = source.View
+			case ListPermissionsRequest_FieldPathSelectorIncludePagingInfo:
+				result.IncludePagingInfo = source.IncludePagingInfo
 			}
 		}
 	}
@@ -1161,6 +1164,8 @@ func FullListPermissionsResponse_FieldMask() *ListPermissionsResponse_FieldMask 
 	res.Paths = append(res.Paths, &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorPermissions})
 	res.Paths = append(res.Paths, &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorPrevPageToken})
 	res.Paths = append(res.Paths, &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &ListPermissionsResponse_FieldTerminalPath{selector: ListPermissionsResponse_FieldPathSelectorTotalResultsCount})
 	return res
 }
 
@@ -1204,7 +1209,7 @@ func (fieldMask *ListPermissionsResponse_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ListPermissionsResponse_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1234,7 +1239,7 @@ func (fieldMask *ListPermissionsResponse_FieldMask) Reset() {
 
 func (fieldMask *ListPermissionsResponse_FieldMask) Subtract(other *ListPermissionsResponse_FieldMask) *ListPermissionsResponse_FieldMask {
 	result := &ListPermissionsResponse_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ListPermissionsResponse_FieldPathSelector]gotenobject.FieldMask{
 		ListPermissionsResponse_FieldPathSelectorPermissions: &permission.Permission_FieldMask{},
 	}
@@ -1441,6 +1446,10 @@ func (fieldMask *ListPermissionsResponse_FieldMask) Project(source *ListPermissi
 				result.PrevPageToken = source.PrevPageToken
 			case ListPermissionsResponse_FieldPathSelectorNextPageToken:
 				result.NextPageToken = source.NextPageToken
+			case ListPermissionsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case ListPermissionsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
 			}
 		case *ListPermissionsResponse_FieldSubPath:
 			switch tp.selector {

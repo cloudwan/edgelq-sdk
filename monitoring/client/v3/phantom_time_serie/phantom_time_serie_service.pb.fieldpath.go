@@ -1239,11 +1239,12 @@ func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetPhantomTimeSeriesResponse
 func (fps *BatchGetPhantomTimeSeriesResponse_FieldSubPath) Get(source *BatchGetPhantomTimeSeriesResponse) (values []interface{}) {
-	if asPhantomTimeSerieFieldPath, ok := fps.AsPhantomTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case BatchGetPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries:
 		for _, item := range source.GetPhantomTimeSeries() {
-			values = append(values, asPhantomTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetPhantomTimeSeriesResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListPhantomTimeSeriesRequest_FieldPath interface {
 type ListPhantomTimeSeriesRequest_FieldPathSelector int32
 
 const (
-	ListPhantomTimeSeriesRequest_FieldPathSelectorParent    ListPhantomTimeSeriesRequest_FieldPathSelector = 0
-	ListPhantomTimeSeriesRequest_FieldPathSelectorPageSize  ListPhantomTimeSeriesRequest_FieldPathSelector = 1
-	ListPhantomTimeSeriesRequest_FieldPathSelectorPageToken ListPhantomTimeSeriesRequest_FieldPathSelector = 2
-	ListPhantomTimeSeriesRequest_FieldPathSelectorOrderBy   ListPhantomTimeSeriesRequest_FieldPathSelector = 3
-	ListPhantomTimeSeriesRequest_FieldPathSelectorFilter    ListPhantomTimeSeriesRequest_FieldPathSelector = 4
-	ListPhantomTimeSeriesRequest_FieldPathSelectorFieldMask ListPhantomTimeSeriesRequest_FieldPathSelector = 5
-	ListPhantomTimeSeriesRequest_FieldPathSelectorView      ListPhantomTimeSeriesRequest_FieldPathSelector = 6
+	ListPhantomTimeSeriesRequest_FieldPathSelectorParent            ListPhantomTimeSeriesRequest_FieldPathSelector = 0
+	ListPhantomTimeSeriesRequest_FieldPathSelectorPageSize          ListPhantomTimeSeriesRequest_FieldPathSelector = 1
+	ListPhantomTimeSeriesRequest_FieldPathSelectorPageToken         ListPhantomTimeSeriesRequest_FieldPathSelector = 2
+	ListPhantomTimeSeriesRequest_FieldPathSelectorOrderBy           ListPhantomTimeSeriesRequest_FieldPathSelector = 3
+	ListPhantomTimeSeriesRequest_FieldPathSelectorFilter            ListPhantomTimeSeriesRequest_FieldPathSelector = 4
+	ListPhantomTimeSeriesRequest_FieldPathSelectorFieldMask         ListPhantomTimeSeriesRequest_FieldPathSelector = 5
+	ListPhantomTimeSeriesRequest_FieldPathSelectorView              ListPhantomTimeSeriesRequest_FieldPathSelector = 6
+	ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo ListPhantomTimeSeriesRequest_FieldPathSelector = 7
 )
 
 func (s ListPhantomTimeSeriesRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListPhantomTimeSeriesRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		return "view"
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListPhantomTimeSeriesRequest_FieldPath(fp gotenobject.RawFieldPath) (L
 			return &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListPhantomTimeSeriesRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) Get(source *ListPhanto
 			}
 		case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) GetSingle(source *List
 		return res, res != nil
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) GetDefault() interface
 		return (*phantom_time_serie.PhantomTimeSerie_FieldMask)(nil)
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) ClearValue(item *ListP
 			item.FieldMask = nil
 		case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorFilter ||
 		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorView
+		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorView ||
+		fp.selector == ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) WithIValue(value inter
 		return &ListPhantomTimeSeriesRequest_FieldTerminalPathValue{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)}
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		return &ListPhantomTimeSeriesRequest_FieldTerminalPathValue{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPhantomTimeSeriesRequest_FieldTerminalPathValue{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListPhantomTimeSeriesRequest_FieldTerminalPath) WithIArrayOfValues(val
 		return &ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)}
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		return &ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListPhantomTimeSeriesRequest_FieldTerminalPathValue) AsViewValue() (v
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListPhantomTimeSeriesRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPhantomTimeSeriesRequest
 func (fpv *ListPhantomTimeSeriesRequest_FieldTerminalPathValue) SetTo(target **ListPhantomTimeSeriesRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListPhantomTimeSeriesRequest_FieldTerminalPathValue) SetTo(target **L
 		(*target).FieldMask = fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
 	case ListPhantomTimeSeriesRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListPhantomTimeSeriesRequest_FieldTerminalPathValue) CompareWith(sour
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) AsView
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2268,6 +2311,8 @@ const (
 	ListPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries ListPhantomTimeSeriesResponse_FieldPathSelector = 0
 	ListPhantomTimeSeriesResponse_FieldPathSelectorPrevPageToken     ListPhantomTimeSeriesResponse_FieldPathSelector = 1
 	ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken     ListPhantomTimeSeriesResponse_FieldPathSelector = 2
+	ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset     ListPhantomTimeSeriesResponse_FieldPathSelector = 3
+	ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount ListPhantomTimeSeriesResponse_FieldPathSelector = 4
 )
 
 func (s ListPhantomTimeSeriesResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListPhantomTimeSeriesResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListPhantomTimeSeriesResponse_FieldPath(fp gotenobject.RawFieldPath) (
 			return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) Get(source *ListPhant
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) GetSingle(source *Lis
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) GetDefault() interfac
 		return (*phantom_time_serie.PagerCursor)(nil)
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		return (*phantom_time_serie.PagerCursor)(nil)
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) ClearValue(item *List
 			item.PrevPageToken = nil
 		case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) ClearValueRaw(item pr
 // IsLeaf - whether field path is holds simple value
 func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) WithIValue(value inte
 		return &ListPhantomTimeSeriesResponse_FieldTerminalPathValue{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PagerCursor)}
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		return &ListPhantomTimeSeriesResponse_FieldTerminalPathValue{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PagerCursor)}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		return &ListPhantomTimeSeriesResponse_FieldTerminalPathValue{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPhantomTimeSeriesResponse_FieldTerminalPathValue{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListPhantomTimeSeriesResponse_FieldTerminalPath) WithIArrayOfValues(va
 		return &ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PagerCursor)}
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		return &ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PagerCursor)}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		return &ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues{ListPhantomTimeSeriesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListPhantomTimeSeriesResponse
 func (fps *ListPhantomTimeSeriesResponse_FieldSubPath) Get(source *ListPhantomTimeSeriesResponse) (values []interface{}) {
-	if asPhantomTimeSerieFieldPath, ok := fps.AsPhantomTimeSeriesSubPath(); ok {
+	switch fps.selector {
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorPhantomTimeSeries:
 		for _, item := range source.GetPhantomTimeSeries() {
-			values = append(values, asPhantomTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) AsNextPageToken
 	res, ok := fpv.value.(*phantom_time_serie.PagerCursor)
 	return res, ok
 }
+func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListPhantomTimeSeriesResponse
 func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) SetTo(target **ListPhantomTimeSeriesResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) SetTo(target **
 		(*target).PrevPageToken = fpv.value.(*phantom_time_serie.PagerCursor)
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*phantom_time_serie.PagerCursor)
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListPhantomTimeSeriesResponse_FieldTerminalPathValue) CompareWith(sou
 		return 0, false
 	case ListPhantomTimeSeriesResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListPhantomTimeSeriesResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]*phantom_time_serie.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues) AsPre
 }
 func (fpaov *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*phantom_time_serie.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*phantom_time_serie.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchPhantomTimeSeriesResponse
 func (fps *WatchPhantomTimeSeriesResponse_FieldSubPath) Get(source *WatchPhantomTimeSeriesResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchPhantomTimeSeriesResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchPhantomTimeSeriesResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreatePhantomTimeSerieRequest
 func (fps *CreatePhantomTimeSerieRequest_FieldSubPath) Get(source *CreatePhantomTimeSerieRequest) (values []interface{}) {
-	if asPhantomTimeSerieFieldPath, ok := fps.AsPhantomTimeSerieSubPath(); ok {
-		values = append(values, asPhantomTimeSerieFieldPath.Get(source.GetPhantomTimeSerie())...)
-	} else {
+	switch fps.selector {
+	case CreatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		values = append(values, fps.subPath.GetRaw(source.GetPhantomTimeSerie())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreatePhantomTimeSerieRequest: %d", fps.selector))
 	}
 	return

@@ -1176,6 +1176,9 @@ func (ListAttestationDomainsRequestFieldPathBuilder) FieldMask() ListAttestation
 func (ListAttestationDomainsRequestFieldPathBuilder) View() ListAttestationDomainsRequestPathSelectorView {
 	return ListAttestationDomainsRequestPathSelectorView{}
 }
+func (ListAttestationDomainsRequestFieldPathBuilder) IncludePagingInfo() ListAttestationDomainsRequestPathSelectorIncludePagingInfo {
+	return ListAttestationDomainsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListAttestationDomainsRequestPathSelectorParent struct{}
 
@@ -1275,6 +1278,20 @@ func (s ListAttestationDomainsRequestPathSelectorView) WithArrayOfValues(values 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListAttestationDomainsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListAttestationDomainsRequestPathSelectorIncludePagingInfo) FieldPath() *ListAttestationDomainsRequest_FieldTerminalPath {
+	return &ListAttestationDomainsRequest_FieldTerminalPath{selector: ListAttestationDomainsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListAttestationDomainsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListAttestationDomainsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsRequest_FieldTerminalPathValue)
+}
+
+func (s ListAttestationDomainsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListAttestationDomainsResponseFieldPathBuilder struct{}
 
 func NewListAttestationDomainsResponseFieldPathBuilder() ListAttestationDomainsResponseFieldPathBuilder {
@@ -1288,6 +1305,12 @@ func (ListAttestationDomainsResponseFieldPathBuilder) PrevPageToken() ListAttest
 }
 func (ListAttestationDomainsResponseFieldPathBuilder) NextPageToken() ListAttestationDomainsResponsePathSelectorNextPageToken {
 	return ListAttestationDomainsResponsePathSelectorNextPageToken{}
+}
+func (ListAttestationDomainsResponseFieldPathBuilder) CurrentOffset() ListAttestationDomainsResponsePathSelectorCurrentOffset {
+	return ListAttestationDomainsResponsePathSelectorCurrentOffset{}
+}
+func (ListAttestationDomainsResponseFieldPathBuilder) TotalResultsCount() ListAttestationDomainsResponsePathSelectorTotalResultsCount {
+	return ListAttestationDomainsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListAttestationDomainsResponsePathSelectorAttestationDomains struct{}
@@ -2281,6 +2304,34 @@ func (s ListAttestationDomainsResponsePathSelectorNextPageToken) WithValue(value
 }
 
 func (s ListAttestationDomainsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*attestation_domain.PagerCursor) *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorCurrentOffset struct{}
+
+func (ListAttestationDomainsResponsePathSelectorCurrentOffset) FieldPath() *ListAttestationDomainsResponse_FieldTerminalPath {
+	return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListAttestationDomainsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListAttestationDomainsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListAttestationDomainsResponsePathSelectorTotalResultsCount) FieldPath() *ListAttestationDomainsResponse_FieldTerminalPath {
+	return &ListAttestationDomainsResponse_FieldTerminalPath{selector: ListAttestationDomainsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListAttestationDomainsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListAttestationDomainsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAttestationDomainsResponse_FieldTerminalPathValue)
+}
+
+func (s ListAttestationDomainsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAttestationDomainsResponse_FieldTerminalPathArrayOfValues)
 }
 

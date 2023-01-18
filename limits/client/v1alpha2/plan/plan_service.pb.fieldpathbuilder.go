@@ -1016,6 +1016,9 @@ func (ListPlansRequestFieldPathBuilder) FieldMask() ListPlansRequestPathSelector
 func (ListPlansRequestFieldPathBuilder) View() ListPlansRequestPathSelectorView {
 	return ListPlansRequestPathSelectorView{}
 }
+func (ListPlansRequestFieldPathBuilder) IncludePagingInfo() ListPlansRequestPathSelectorIncludePagingInfo {
+	return ListPlansRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListPlansRequestPathSelectorPageSize struct{}
 
@@ -1101,6 +1104,20 @@ func (s ListPlansRequestPathSelectorView) WithArrayOfValues(values []view.View) 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListPlansRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListPlansRequestPathSelectorIncludePagingInfo) FieldPath() *ListPlansRequest_FieldTerminalPath {
+	return &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListPlansRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListPlansRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlansRequest_FieldTerminalPathValue)
+}
+
+func (s ListPlansRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListPlansRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListPlansResponseFieldPathBuilder struct{}
 
 func NewListPlansResponseFieldPathBuilder() ListPlansResponseFieldPathBuilder {
@@ -1114,6 +1131,12 @@ func (ListPlansResponseFieldPathBuilder) PrevPageToken() ListPlansResponsePathSe
 }
 func (ListPlansResponseFieldPathBuilder) NextPageToken() ListPlansResponsePathSelectorNextPageToken {
 	return ListPlansResponsePathSelectorNextPageToken{}
+}
+func (ListPlansResponseFieldPathBuilder) CurrentOffset() ListPlansResponsePathSelectorCurrentOffset {
+	return ListPlansResponsePathSelectorCurrentOffset{}
+}
+func (ListPlansResponseFieldPathBuilder) TotalResultsCount() ListPlansResponsePathSelectorTotalResultsCount {
+	return ListPlansResponsePathSelectorTotalResultsCount{}
 }
 
 type ListPlansResponsePathSelectorPlans struct{}
@@ -1952,6 +1975,34 @@ func (s ListPlansResponsePathSelectorNextPageToken) WithValue(value *plan.PagerC
 }
 
 func (s ListPlansResponsePathSelectorNextPageToken) WithArrayOfValues(values []*plan.PagerCursor) *ListPlansResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPlansResponsePathSelectorCurrentOffset struct{}
+
+func (ListPlansResponsePathSelectorCurrentOffset) FieldPath() *ListPlansResponse_FieldTerminalPath {
+	return &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListPlansResponsePathSelectorCurrentOffset) WithValue(value int32) *ListPlansResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlansResponse_FieldTerminalPathValue)
+}
+
+func (s ListPlansResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListPlansResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPlansResponsePathSelectorTotalResultsCount struct{}
+
+func (ListPlansResponsePathSelectorTotalResultsCount) FieldPath() *ListPlansResponse_FieldTerminalPath {
+	return &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListPlansResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListPlansResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPlansResponse_FieldTerminalPathValue)
+}
+
+func (s ListPlansResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListPlansResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPlansResponse_FieldTerminalPathArrayOfValues)
 }
 

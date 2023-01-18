@@ -414,6 +414,9 @@ func (o *ListPlansRequest) MakeDiffFieldMask(other *ListPlansRequest) *ListPlans
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListPlansRequest_FieldTerminalPath{selector: ListPlansRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -459,6 +462,7 @@ func (o *ListPlansRequest) Clone() *ListPlansRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*plan.Plan_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -514,6 +518,7 @@ func (o *ListPlansRequest) Merge(source *ListPlansRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListPlansRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -557,6 +562,12 @@ func (o *ListPlansResponse) MakeDiffFieldMask(other *ListPlansResponse) *ListPla
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListPlansResponse_FieldTerminalPath{selector: ListPlansResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -593,6 +604,8 @@ func (o *ListPlansResponse) Clone() *ListPlansResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -643,6 +656,8 @@ func (o *ListPlansResponse) Merge(source *ListPlansResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListPlansResponse) MergeRaw(source gotenobject.GotenObjectExt) {

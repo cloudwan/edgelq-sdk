@@ -419,6 +419,9 @@ func (o *ListPodsRequest) MakeDiffFieldMask(other *ListPodsRequest) *ListPodsReq
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListPodsRequest_FieldTerminalPath{selector: ListPodsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListPodsRequest) Clone() *ListPodsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*pod.Pod_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListPodsRequest) Merge(source *ListPodsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListPodsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListPodsResponse) MakeDiffFieldMask(other *ListPodsResponse) *ListPodsR
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListPodsResponse_FieldTerminalPath{selector: ListPodsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListPodsResponse) Clone() *ListPodsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListPodsResponse) Merge(source *ListPodsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListPodsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -403,15 +403,16 @@ func (fps *RoleBinding_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source RoleBinding
 func (fps *RoleBinding_FieldSubPath) Get(source *RoleBinding) (values []interface{}) {
-	if asConditionBindingFieldPath, ok := fps.AsConditionBindingSubPath(); ok {
-		values = append(values, asConditionBindingFieldPath.Get(source.GetConditionBinding())...)
-	} else if asParentFieldPath, ok := fps.AsAncestryPathSubPath(); ok {
+	switch fps.selector {
+	case RoleBinding_FieldPathSelectorConditionBinding:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionBinding())...)
+	case RoleBinding_FieldPathSelectorAncestryPath:
 		for _, item := range source.GetAncestryPath() {
-			values = append(values, asParentFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else {
+	case RoleBinding_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for RoleBinding: %d", fps.selector))
 	}
 	return

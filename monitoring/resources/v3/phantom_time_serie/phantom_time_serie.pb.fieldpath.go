@@ -465,15 +465,16 @@ func (fps *PhantomTimeSerie_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source PhantomTimeSerie
 func (fps *PhantomTimeSerie_FieldSubPath) Get(source *PhantomTimeSerie) (values []interface{}) {
-	if asMetaFieldPath, ok := fps.AsMetadataSubPath(); ok {
-		values = append(values, asMetaFieldPath.Get(source.GetMetadata())...)
-	} else if asMetricFieldPath, ok := fps.AsMetricSubPath(); ok {
-		values = append(values, asMetricFieldPath.Get(source.GetMetric())...)
-	} else if asMonitoredResourceFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asMonitoredResourceFieldPath.Get(source.GetResource())...)
-	} else if asTypedValueFieldPath, ok := fps.AsValueSubPath(); ok {
-		values = append(values, asTypedValueFieldPath.Get(source.GetValue())...)
-	} else {
+	switch fps.selector {
+	case PhantomTimeSerie_FieldPathSelectorMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case PhantomTimeSerie_FieldPathSelectorMetric:
+		values = append(values, fps.subPath.GetRaw(source.GetMetric())...)
+	case PhantomTimeSerie_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	case PhantomTimeSerie_FieldPathSelectorValue:
+		values = append(values, fps.subPath.GetRaw(source.GetValue())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSerie: %d", fps.selector))
 	}
 	return
@@ -1406,15 +1407,16 @@ func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source PhantomTimeSeriesBulkChange
 func (fps *PhantomTimeSeriesBulkChange_FieldSubPath) Get(source *PhantomTimeSeriesBulkChange) (values []interface{}) {
-	if asPhantomTimeSerieFieldPath, ok := fps.AsAddedSubPath(); ok {
+	switch fps.selector {
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorAdded:
 		for _, item := range source.GetAdded() {
-			values = append(values, asPhantomTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else if asPhantomTimeSerieFieldPath, ok := fps.AsRemovedSubPath(); ok {
+	case PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved:
 		for _, item := range source.GetRemoved() {
-			values = append(values, asPhantomTimeSerieFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for PhantomTimeSeriesBulkChange: %d", fps.selector))
 	}
 	return

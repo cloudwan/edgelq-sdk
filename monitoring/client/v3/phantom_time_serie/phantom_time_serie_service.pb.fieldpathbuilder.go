@@ -1759,6 +1759,9 @@ func (ListPhantomTimeSeriesRequestFieldPathBuilder) FieldMask() ListPhantomTimeS
 func (ListPhantomTimeSeriesRequestFieldPathBuilder) View() ListPhantomTimeSeriesRequestPathSelectorView {
 	return ListPhantomTimeSeriesRequestPathSelectorView{}
 }
+func (ListPhantomTimeSeriesRequestFieldPathBuilder) IncludePagingInfo() ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo {
+	return ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListPhantomTimeSeriesRequestPathSelectorParent struct{}
 
@@ -1858,6 +1861,20 @@ func (s ListPhantomTimeSeriesRequestPathSelectorView) WithArrayOfValues(values [
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo) FieldPath() *ListPhantomTimeSeriesRequest_FieldTerminalPath {
+	return &ListPhantomTimeSeriesRequest_FieldTerminalPath{selector: ListPhantomTimeSeriesRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListPhantomTimeSeriesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPhantomTimeSeriesRequest_FieldTerminalPathValue)
+}
+
+func (s ListPhantomTimeSeriesRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListPhantomTimeSeriesResponseFieldPathBuilder struct{}
 
 func NewListPhantomTimeSeriesResponseFieldPathBuilder() ListPhantomTimeSeriesResponseFieldPathBuilder {
@@ -1871,6 +1888,12 @@ func (ListPhantomTimeSeriesResponseFieldPathBuilder) PrevPageToken() ListPhantom
 }
 func (ListPhantomTimeSeriesResponseFieldPathBuilder) NextPageToken() ListPhantomTimeSeriesResponsePathSelectorNextPageToken {
 	return ListPhantomTimeSeriesResponsePathSelectorNextPageToken{}
+}
+func (ListPhantomTimeSeriesResponseFieldPathBuilder) CurrentOffset() ListPhantomTimeSeriesResponsePathSelectorCurrentOffset {
+	return ListPhantomTimeSeriesResponsePathSelectorCurrentOffset{}
+}
+func (ListPhantomTimeSeriesResponseFieldPathBuilder) TotalResultsCount() ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount {
+	return ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount{}
 }
 
 type ListPhantomTimeSeriesResponsePathSelectorPhantomTimeSeries struct{}
@@ -3443,6 +3466,34 @@ func (s ListPhantomTimeSeriesResponsePathSelectorNextPageToken) WithValue(value 
 }
 
 func (s ListPhantomTimeSeriesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*phantom_time_serie.PagerCursor) *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPhantomTimeSeriesResponsePathSelectorCurrentOffset struct{}
+
+func (ListPhantomTimeSeriesResponsePathSelectorCurrentOffset) FieldPath() *ListPhantomTimeSeriesResponse_FieldTerminalPath {
+	return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListPhantomTimeSeriesResponsePathSelectorCurrentOffset) WithValue(value int32) *ListPhantomTimeSeriesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPhantomTimeSeriesResponse_FieldTerminalPathValue)
+}
+
+func (s ListPhantomTimeSeriesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount struct{}
+
+func (ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount) FieldPath() *ListPhantomTimeSeriesResponse_FieldTerminalPath {
+	return &ListPhantomTimeSeriesResponse_FieldTerminalPath{selector: ListPhantomTimeSeriesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListPhantomTimeSeriesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPhantomTimeSeriesResponse_FieldTerminalPathValue)
+}
+
+func (s ListPhantomTimeSeriesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPhantomTimeSeriesResponse_FieldTerminalPathArrayOfValues)
 }
 

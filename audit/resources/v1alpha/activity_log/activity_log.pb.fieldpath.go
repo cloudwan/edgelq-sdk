@@ -698,23 +698,24 @@ func (fps *ActivityLog_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ActivityLog
 func (fps *ActivityLog_FieldSubPath) Get(source *ActivityLog) (values []interface{}) {
-	if asAuthenticationFieldPath, ok := fps.AsAuthenticationSubPath(); ok {
-		values = append(values, asAuthenticationFieldPath.Get(source.GetAuthentication())...)
-	} else if asAuthorizationFieldPath, ok := fps.AsAuthorizationSubPath(); ok {
-		values = append(values, asAuthorizationFieldPath.Get(source.GetAuthorization())...)
-	} else if asServiceDataFieldPath, ok := fps.AsServiceSubPath(); ok {
-		values = append(values, asServiceDataFieldPath.Get(source.GetService())...)
-	} else if asMethodFieldPath, ok := fps.AsMethodSubPath(); ok {
-		values = append(values, asMethodFieldPath.Get(source.GetMethod())...)
-	} else if asRequestMetadataFieldPath, ok := fps.AsRequestMetadataSubPath(); ok {
-		values = append(values, asRequestMetadataFieldPath.Get(source.GetRequestMetadata())...)
-	} else if asResourceFieldPath, ok := fps.AsResourceSubPath(); ok {
-		values = append(values, asResourceFieldPath.Get(source.GetResource())...)
-	} else if asEventFieldPath, ok := fps.AsEventsSubPath(); ok {
+	switch fps.selector {
+	case ActivityLog_FieldPathSelectorAuthentication:
+		values = append(values, fps.subPath.GetRaw(source.GetAuthentication())...)
+	case ActivityLog_FieldPathSelectorAuthorization:
+		values = append(values, fps.subPath.GetRaw(source.GetAuthorization())...)
+	case ActivityLog_FieldPathSelectorService:
+		values = append(values, fps.subPath.GetRaw(source.GetService())...)
+	case ActivityLog_FieldPathSelectorMethod:
+		values = append(values, fps.subPath.GetRaw(source.GetMethod())...)
+	case ActivityLog_FieldPathSelectorRequestMetadata:
+		values = append(values, fps.subPath.GetRaw(source.GetRequestMetadata())...)
+	case ActivityLog_FieldPathSelectorResource:
+		values = append(values, fps.subPath.GetRaw(source.GetResource())...)
+	case ActivityLog_FieldPathSelectorEvents:
 		for _, item := range source.GetEvents() {
-			values = append(values, asEventFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog: %d", fps.selector))
 	}
 	return
@@ -1816,13 +1817,14 @@ func (fps *ActivityLogEvent_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ActivityLog_Event
 func (fps *ActivityLogEvent_FieldSubPath) Get(source *ActivityLog_Event) (values []interface{}) {
-	if asClientMsgEventFieldPath, ok := fps.AsClientMessageSubPath(); ok {
-		values = append(values, asClientMsgEventFieldPath.Get(source.GetClientMessage())...)
-	} else if asServerMsgEventFieldPath, ok := fps.AsServerMessageSubPath(); ok {
-		values = append(values, asServerMsgEventFieldPath.Get(source.GetServerMessage())...)
-	} else if asExitEventFieldPath, ok := fps.AsExitSubPath(); ok {
-		values = append(values, asExitEventFieldPath.Get(source.GetExit())...)
-	} else {
+	switch fps.selector {
+	case ActivityLogEvent_FieldPathSelectorClientMessage:
+		values = append(values, fps.subPath.GetRaw(source.GetClientMessage())...)
+	case ActivityLogEvent_FieldPathSelectorServerMessage:
+		values = append(values, fps.subPath.GetRaw(source.GetServerMessage())...)
+	case ActivityLogEvent_FieldPathSelectorExit:
+		values = append(values, fps.subPath.GetRaw(source.GetExit())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event: %d", fps.selector))
 	}
 	return
@@ -3370,9 +3372,10 @@ func (fps *ActivityLogResource_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ActivityLog_Resource
 func (fps *ActivityLogResource_FieldSubPath) Get(source *ActivityLog_Resource) (values []interface{}) {
-	if asDifferenceFieldPath, ok := fps.AsDifferenceSubPath(); ok {
-		values = append(values, asDifferenceFieldPath.Get(source.GetDifference())...)
-	} else {
+	switch fps.selector {
+	case ActivityLogResource_FieldPathSelectorDifference:
+		values = append(values, fps.subPath.GetRaw(source.GetDifference())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Resource: %d", fps.selector))
 	}
 	return
@@ -4849,9 +4852,10 @@ func (fps *ActivityLogEventExitEvent_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ActivityLog_Event_ExitEvent
 func (fps *ActivityLogEventExitEvent_FieldSubPath) Get(source *ActivityLog_Event_ExitEvent) (values []interface{}) {
-	if asStatusFieldPath, ok := fps.AsStatusSubPath(); ok {
-		values = append(values, asStatusFieldPath.Get(source.GetStatus())...)
-	} else {
+	switch fps.selector {
+	case ActivityLogEventExitEvent_FieldPathSelectorStatus:
+		values = append(values, fps.subPath.GetRaw(source.GetStatus())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for ActivityLog_Event_ExitEvent: %d", fps.selector))
 	}
 	return

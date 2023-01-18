@@ -1239,11 +1239,12 @@ func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source BatchGetAlertingPoliciesResponse
 func (fps *BatchGetAlertingPoliciesResponse_FieldSubPath) Get(source *BatchGetAlertingPoliciesResponse) (values []interface{}) {
-	if asAlertingPolicyFieldPath, ok := fps.AsAlertingPoliciesSubPath(); ok {
+	switch fps.selector {
+	case BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies:
 		for _, item := range source.GetAlertingPolicies() {
-			values = append(values, asAlertingPolicyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for BatchGetAlertingPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -1642,13 +1643,14 @@ type ListAlertingPoliciesRequest_FieldPath interface {
 type ListAlertingPoliciesRequest_FieldPathSelector int32
 
 const (
-	ListAlertingPoliciesRequest_FieldPathSelectorParent    ListAlertingPoliciesRequest_FieldPathSelector = 0
-	ListAlertingPoliciesRequest_FieldPathSelectorPageSize  ListAlertingPoliciesRequest_FieldPathSelector = 1
-	ListAlertingPoliciesRequest_FieldPathSelectorPageToken ListAlertingPoliciesRequest_FieldPathSelector = 2
-	ListAlertingPoliciesRequest_FieldPathSelectorOrderBy   ListAlertingPoliciesRequest_FieldPathSelector = 3
-	ListAlertingPoliciesRequest_FieldPathSelectorFilter    ListAlertingPoliciesRequest_FieldPathSelector = 4
-	ListAlertingPoliciesRequest_FieldPathSelectorFieldMask ListAlertingPoliciesRequest_FieldPathSelector = 5
-	ListAlertingPoliciesRequest_FieldPathSelectorView      ListAlertingPoliciesRequest_FieldPathSelector = 6
+	ListAlertingPoliciesRequest_FieldPathSelectorParent            ListAlertingPoliciesRequest_FieldPathSelector = 0
+	ListAlertingPoliciesRequest_FieldPathSelectorPageSize          ListAlertingPoliciesRequest_FieldPathSelector = 1
+	ListAlertingPoliciesRequest_FieldPathSelectorPageToken         ListAlertingPoliciesRequest_FieldPathSelector = 2
+	ListAlertingPoliciesRequest_FieldPathSelectorOrderBy           ListAlertingPoliciesRequest_FieldPathSelector = 3
+	ListAlertingPoliciesRequest_FieldPathSelectorFilter            ListAlertingPoliciesRequest_FieldPathSelector = 4
+	ListAlertingPoliciesRequest_FieldPathSelectorFieldMask         ListAlertingPoliciesRequest_FieldPathSelector = 5
+	ListAlertingPoliciesRequest_FieldPathSelectorView              ListAlertingPoliciesRequest_FieldPathSelector = 6
+	ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo ListAlertingPoliciesRequest_FieldPathSelector = 7
 )
 
 func (s ListAlertingPoliciesRequest_FieldPathSelector) String() string {
@@ -1667,6 +1669,8 @@ func (s ListAlertingPoliciesRequest_FieldPathSelector) String() string {
 		return "field_mask"
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		return "view"
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return "include_paging_info"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", s))
 	}
@@ -1692,6 +1696,8 @@ func BuildListAlertingPoliciesRequest_FieldPath(fp gotenobject.RawFieldPath) (Li
 			return &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorFieldMask}, nil
 		case "view":
 			return &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorView}, nil
+		case "include_paging_info", "includePagingInfo", "include-paging-info":
+			return &ListAlertingPoliciesRequest_FieldTerminalPath{selector: ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ListAlertingPoliciesRequest", fp)
@@ -1761,6 +1767,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) Get(source *ListAlertin
 			}
 		case ListAlertingPoliciesRequest_FieldPathSelectorView:
 			values = append(values, source.View)
+		case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+			values = append(values, source.IncludePagingInfo)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 		}
@@ -1794,6 +1802,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) GetSingle(source *ListA
 		return res, res != nil
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		return source.GetView(), source != nil
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return source.GetIncludePagingInfo(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 	}
@@ -1820,6 +1830,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) GetDefault() interface{
 		return (*alerting_policy.AlertingPolicy_FieldMask)(nil)
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		return view.View_UNSPECIFIED
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 	}
@@ -1842,6 +1854,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) ClearValue(item *ListAl
 			item.FieldMask = nil
 		case ListAlertingPoliciesRequest_FieldPathSelectorView:
 			item.View = view.View_UNSPECIFIED
+		case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+			item.IncludePagingInfo = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 		}
@@ -1860,7 +1874,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorOrderBy ||
 		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorFilter ||
 		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorFieldMask ||
-		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorView
+		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorView ||
+		fp.selector == ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo
 }
 
 func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1883,6 +1898,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) WithIValue(value interf
 		return &ListAlertingPoliciesRequest_FieldTerminalPathValue{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(*alerting_policy.AlertingPolicy_FieldMask)}
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		return &ListAlertingPoliciesRequest_FieldTerminalPathValue{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAlertingPoliciesRequest_FieldTerminalPathValue{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 	}
@@ -1909,6 +1926,8 @@ func (fp *ListAlertingPoliciesRequest_FieldTerminalPath) WithIArrayOfValues(valu
 		return &ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]*alerting_policy.AlertingPolicy_FieldMask)}
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		return &ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		return &ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues{ListAlertingPoliciesRequest_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fp.selector))
 	}
@@ -1997,6 +2016,10 @@ func (fpv *ListAlertingPoliciesRequest_FieldTerminalPathValue) AsViewValue() (vi
 	res, ok := fpv.value.(view.View)
 	return res, ok
 }
+func (fpv *ListAlertingPoliciesRequest_FieldTerminalPathValue) AsIncludePagingInfoValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAlertingPoliciesRequest
 func (fpv *ListAlertingPoliciesRequest_FieldTerminalPathValue) SetTo(target **ListAlertingPoliciesRequest) {
@@ -2018,6 +2041,8 @@ func (fpv *ListAlertingPoliciesRequest_FieldTerminalPathValue) SetTo(target **Li
 		(*target).FieldMask = fpv.value.(*alerting_policy.AlertingPolicy_FieldMask)
 	case ListAlertingPoliciesRequest_FieldPathSelectorView:
 		(*target).View = fpv.value.(view.View)
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		(*target).IncludePagingInfo = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesRequest: %d", fpv.selector))
 	}
@@ -2074,6 +2099,16 @@ func (fpv *ListAlertingPoliciesRequest_FieldTerminalPathValue) CompareWith(sourc
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetIncludePagingInfo()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2214,6 +2249,10 @@ func (fpaov *ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) GetRawV
 		for _, v := range fpaov.values.([]view.View) {
 			values = append(values, v)
 		}
+	case ListAlertingPoliciesRequest_FieldPathSelectorIncludePagingInfo:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2245,6 +2284,10 @@ func (fpaov *ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsViewA
 	res, ok := fpaov.values.([]view.View)
 	return res, ok
 }
+func (fpaov *ListAlertingPoliciesRequest_FieldTerminalPathArrayOfValues) AsIncludePagingInfoArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
@@ -2265,9 +2308,11 @@ type ListAlertingPoliciesResponse_FieldPath interface {
 type ListAlertingPoliciesResponse_FieldPathSelector int32
 
 const (
-	ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies ListAlertingPoliciesResponse_FieldPathSelector = 0
-	ListAlertingPoliciesResponse_FieldPathSelectorPrevPageToken    ListAlertingPoliciesResponse_FieldPathSelector = 1
-	ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken    ListAlertingPoliciesResponse_FieldPathSelector = 2
+	ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies  ListAlertingPoliciesResponse_FieldPathSelector = 0
+	ListAlertingPoliciesResponse_FieldPathSelectorPrevPageToken     ListAlertingPoliciesResponse_FieldPathSelector = 1
+	ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken     ListAlertingPoliciesResponse_FieldPathSelector = 2
+	ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset     ListAlertingPoliciesResponse_FieldPathSelector = 3
+	ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount ListAlertingPoliciesResponse_FieldPathSelector = 4
 )
 
 func (s ListAlertingPoliciesResponse_FieldPathSelector) String() string {
@@ -2278,6 +2323,10 @@ func (s ListAlertingPoliciesResponse_FieldPathSelector) String() string {
 		return "prev_page_token"
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		return "next_page_token"
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", s))
 	}
@@ -2295,6 +2344,10 @@ func BuildListAlertingPoliciesResponse_FieldPath(fp gotenobject.RawFieldPath) (L
 			return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorPrevPageToken}, nil
 		case "next_page_token", "nextPageToken", "next-page-token":
 			return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &ListAlertingPoliciesResponse_FieldTerminalPath{selector: ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2361,6 +2414,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) Get(source *ListAlerti
 			if source.NextPageToken != nil {
 				values = append(values, source.NextPageToken)
 			}
+		case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 		}
@@ -2384,6 +2441,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) GetSingle(source *List
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		res := source.GetNextPageToken()
 		return res, res != nil
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 	}
@@ -2402,6 +2463,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) GetDefault() interface
 		return (*alerting_policy.PagerCursor)(nil)
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		return (*alerting_policy.PagerCursor)(nil)
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 	}
@@ -2416,6 +2481,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) ClearValue(item *ListA
 			item.PrevPageToken = nil
 		case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 			item.NextPageToken = nil
+		case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 		}
@@ -2429,7 +2498,9 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) ClearValueRaw(item pro
 // IsLeaf - whether field path is holds simple value
 func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorPrevPageToken ||
-		fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken
+		fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount
 }
 
 func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2444,6 +2515,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) WithIValue(value inter
 		return &ListAlertingPoliciesResponse_FieldTerminalPathValue{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, value: value.(*alerting_policy.PagerCursor)}
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		return &ListAlertingPoliciesResponse_FieldTerminalPathValue{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, value: value.(*alerting_policy.PagerCursor)}
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return &ListAlertingPoliciesResponse_FieldTerminalPathValue{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAlertingPoliciesResponse_FieldTerminalPathValue{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 	}
@@ -2462,6 +2537,10 @@ func (fp *ListAlertingPoliciesResponse_FieldTerminalPath) WithIArrayOfValues(val
 		return &ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, values: values.([]*alerting_policy.PagerCursor)}
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		return &ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, values: values.([]*alerting_policy.PagerCursor)}
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		return &ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		return &ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues{ListAlertingPoliciesResponse_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fp.selector))
 	}
@@ -2512,11 +2591,12 @@ func (fps *ListAlertingPoliciesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source ListAlertingPoliciesResponse
 func (fps *ListAlertingPoliciesResponse_FieldSubPath) Get(source *ListAlertingPoliciesResponse) (values []interface{}) {
-	if asAlertingPolicyFieldPath, ok := fps.AsAlertingPoliciesSubPath(); ok {
+	switch fps.selector {
+	case ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies:
 		for _, item := range source.GetAlertingPolicies() {
-			values = append(values, asAlertingPolicyFieldPath.Get(item)...)
+			values = append(values, fps.subPath.GetRaw(item)...)
 		}
-	} else {
+	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -2651,6 +2731,14 @@ func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) AsNextPageTokenV
 	res, ok := fpv.value.(*alerting_policy.PagerCursor)
 	return res, ok
 }
+func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ListAlertingPoliciesResponse
 func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) SetTo(target **ListAlertingPoliciesResponse) {
@@ -2664,6 +2752,10 @@ func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) SetTo(target **L
 		(*target).PrevPageToken = fpv.value.(*alerting_policy.PagerCursor)
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		(*target).NextPageToken = fpv.value.(*alerting_policy.PagerCursor)
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fpv.selector))
 	}
@@ -2683,6 +2775,26 @@ func (fpv *ListAlertingPoliciesResponse_FieldTerminalPathValue) CompareWith(sour
 		return 0, false
 	case ListAlertingPoliciesResponse_FieldPathSelectorNextPageToken:
 		return 0, false
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ListAlertingPoliciesResponse: %d", fpv.selector))
 	}
@@ -2877,6 +2989,14 @@ func (fpaov *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues) GetRaw
 		for _, v := range fpaov.values.([]*alerting_policy.PagerCursor) {
 			values = append(values, v)
 		}
+	case ListAlertingPoliciesResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case ListAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2890,6 +3010,14 @@ func (fpaov *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues) AsPrev
 }
 func (fpaov *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*alerting_policy.PagerCursor, bool) {
 	res, ok := fpaov.values.([]*alerting_policy.PagerCursor)
+	return res, ok
+}
+func (fpaov *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *ListAlertingPoliciesResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
 
@@ -4890,9 +5018,10 @@ func (fps *WatchAlertingPoliciesResponse_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source WatchAlertingPoliciesResponse
 func (fps *WatchAlertingPoliciesResponse_FieldSubPath) Get(source *WatchAlertingPoliciesResponse) (values []interface{}) {
-	if asPageTokenChangeFieldPath, ok := fps.AsPageTokenChangeSubPath(); ok {
-		values = append(values, asPageTokenChangeFieldPath.Get(source.GetPageTokenChange())...)
-	} else {
+	switch fps.selector {
+	case WatchAlertingPoliciesResponse_FieldPathSelectorPageTokenChange:
+		values = append(values, fps.subPath.GetRaw(source.GetPageTokenChange())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for WatchAlertingPoliciesResponse: %d", fps.selector))
 	}
 	return
@@ -6040,9 +6169,10 @@ func (fps *CreateAlertingPolicyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source CreateAlertingPolicyRequest
 func (fps *CreateAlertingPolicyRequest_FieldSubPath) Get(source *CreateAlertingPolicyRequest) (values []interface{}) {
-	if asAlertingPolicyFieldPath, ok := fps.AsAlertingPolicySubPath(); ok {
-		values = append(values, asAlertingPolicyFieldPath.Get(source.GetAlertingPolicy())...)
-	} else {
+	switch fps.selector {
+	case CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetAlertingPolicy())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for CreateAlertingPolicyRequest: %d", fps.selector))
 	}
 	return
@@ -6702,11 +6832,12 @@ func (fps *UpdateAlertingPolicyRequest_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAlertingPolicyRequest
 func (fps *UpdateAlertingPolicyRequest_FieldSubPath) Get(source *UpdateAlertingPolicyRequest) (values []interface{}) {
-	if asAlertingPolicyFieldPath, ok := fps.AsAlertingPolicySubPath(); ok {
-		values = append(values, asAlertingPolicyFieldPath.Get(source.GetAlertingPolicy())...)
-	} else if asCASFieldPath, ok := fps.AsCasSubPath(); ok {
-		values = append(values, asCASFieldPath.Get(source.GetCas())...)
-	} else {
+	switch fps.selector {
+	case UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy:
+		values = append(values, fps.subPath.GetRaw(source.GetAlertingPolicy())...)
+	case UpdateAlertingPolicyRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest: %d", fps.selector))
 	}
 	return
@@ -7360,9 +7491,10 @@ func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) JSONString() string {
 
 // Get returns all values pointed by selected field from source UpdateAlertingPolicyRequest_CAS
 func (fps *UpdateAlertingPolicyRequestCAS_FieldSubPath) Get(source *UpdateAlertingPolicyRequest_CAS) (values []interface{}) {
-	if asAlertingPolicyFieldPath, ok := fps.AsConditionalStateSubPath(); ok {
-		values = append(values, asAlertingPolicyFieldPath.Get(source.GetConditionalState())...)
-	} else {
+	switch fps.selector {
+	case UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
 		panic(fmt.Sprintf("Invalid selector for UpdateAlertingPolicyRequest_CAS: %d", fps.selector))
 	}
 	return

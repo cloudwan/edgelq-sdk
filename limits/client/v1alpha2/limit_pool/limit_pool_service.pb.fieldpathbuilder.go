@@ -996,6 +996,9 @@ func (ListLimitPoolsRequestFieldPathBuilder) FieldMask() ListLimitPoolsRequestPa
 func (ListLimitPoolsRequestFieldPathBuilder) View() ListLimitPoolsRequestPathSelectorView {
 	return ListLimitPoolsRequestPathSelectorView{}
 }
+func (ListLimitPoolsRequestFieldPathBuilder) IncludePagingInfo() ListLimitPoolsRequestPathSelectorIncludePagingInfo {
+	return ListLimitPoolsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListLimitPoolsRequestPathSelectorParent struct{}
 
@@ -1095,6 +1098,20 @@ func (s ListLimitPoolsRequestPathSelectorView) WithArrayOfValues(values []view.V
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitPoolsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListLimitPoolsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListLimitPoolsRequestPathSelectorIncludePagingInfo) FieldPath() *ListLimitPoolsRequest_FieldTerminalPath {
+	return &ListLimitPoolsRequest_FieldTerminalPath{selector: ListLimitPoolsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListLimitPoolsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListLimitPoolsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitPoolsRequest_FieldTerminalPathValue)
+}
+
+func (s ListLimitPoolsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListLimitPoolsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitPoolsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListLimitPoolsResponseFieldPathBuilder struct{}
 
 func NewListLimitPoolsResponseFieldPathBuilder() ListLimitPoolsResponseFieldPathBuilder {
@@ -1108,6 +1125,12 @@ func (ListLimitPoolsResponseFieldPathBuilder) PrevPageToken() ListLimitPoolsResp
 }
 func (ListLimitPoolsResponseFieldPathBuilder) NextPageToken() ListLimitPoolsResponsePathSelectorNextPageToken {
 	return ListLimitPoolsResponsePathSelectorNextPageToken{}
+}
+func (ListLimitPoolsResponseFieldPathBuilder) CurrentOffset() ListLimitPoolsResponsePathSelectorCurrentOffset {
+	return ListLimitPoolsResponsePathSelectorCurrentOffset{}
+}
+func (ListLimitPoolsResponseFieldPathBuilder) TotalResultsCount() ListLimitPoolsResponsePathSelectorTotalResultsCount {
+	return ListLimitPoolsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListLimitPoolsResponsePathSelectorLimitPools struct{}
@@ -1921,6 +1944,34 @@ func (s ListLimitPoolsResponsePathSelectorNextPageToken) WithValue(value *limit_
 }
 
 func (s ListLimitPoolsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*limit_pool.PagerCursor) *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitPoolsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLimitPoolsResponsePathSelectorCurrentOffset struct{}
+
+func (ListLimitPoolsResponsePathSelectorCurrentOffset) FieldPath() *ListLimitPoolsResponse_FieldTerminalPath {
+	return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListLimitPoolsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListLimitPoolsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitPoolsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLimitPoolsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitPoolsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLimitPoolsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListLimitPoolsResponsePathSelectorTotalResultsCount) FieldPath() *ListLimitPoolsResponse_FieldTerminalPath {
+	return &ListLimitPoolsResponse_FieldTerminalPath{selector: ListLimitPoolsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListLimitPoolsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListLimitPoolsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLimitPoolsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLimitPoolsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListLimitPoolsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLimitPoolsResponse_FieldTerminalPathArrayOfValues)
 }
 

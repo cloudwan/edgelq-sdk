@@ -414,6 +414,9 @@ func (o *ListServicesRequest) MakeDiffFieldMask(other *ListServicesRequest) *Lis
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListServicesRequest_FieldTerminalPath{selector: ListServicesRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListServicesRequest_FieldTerminalPath{selector: ListServicesRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -459,6 +462,7 @@ func (o *ListServicesRequest) Clone() *ListServicesRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*service.Service_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -514,6 +518,7 @@ func (o *ListServicesRequest) Merge(source *ListServicesRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListServicesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -557,6 +562,12 @@ func (o *ListServicesResponse) MakeDiffFieldMask(other *ListServicesResponse) *L
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListServicesResponse_FieldTerminalPath{selector: ListServicesResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListServicesResponse_FieldTerminalPath{selector: ListServicesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListServicesResponse_FieldTerminalPath{selector: ListServicesResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -593,6 +604,8 @@ func (o *ListServicesResponse) Clone() *ListServicesResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -643,6 +656,8 @@ func (o *ListServicesResponse) Merge(source *ListServicesResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListServicesResponse) MergeRaw(source gotenobject.GotenObjectExt) {

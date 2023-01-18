@@ -419,6 +419,9 @@ func (o *ListConfigMapsRequest) MakeDiffFieldMask(other *ListConfigMapsRequest) 
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListConfigMapsRequest_FieldTerminalPath{selector: ListConfigMapsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListConfigMapsRequest) Clone() *ListConfigMapsRequest {
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*config_map.ConfigMap_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListConfigMapsRequest) Merge(source *ListConfigMapsRequest) {
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListConfigMapsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListConfigMapsResponse) MakeDiffFieldMask(other *ListConfigMapsResponse
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListConfigMapsResponse_FieldTerminalPath{selector: ListConfigMapsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListConfigMapsResponse) Clone() *ListConfigMapsResponse {
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListConfigMapsResponse) Merge(source *ListConfigMapsResponse) {
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListConfigMapsResponse) MergeRaw(source gotenobject.GotenObjectExt) {

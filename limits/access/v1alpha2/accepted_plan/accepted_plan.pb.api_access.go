@@ -81,8 +81,9 @@ func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs 
 
 func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *accepted_plan.ListQuery) (*accepted_plan.QueryResultSnapshot, error) {
 	request := &accepted_plan_client.ListAcceptedPlansRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *a
 		return nil, err
 	}
 	return &accepted_plan.QueryResultSnapshot{
-		AcceptedPlans:  resp.AcceptedPlans,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		AcceptedPlans:     resp.AcceptedPlans,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

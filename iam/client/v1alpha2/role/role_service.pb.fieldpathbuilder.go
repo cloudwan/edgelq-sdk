@@ -1162,6 +1162,9 @@ func (ListRolesRequestFieldPathBuilder) FieldMask() ListRolesRequestPathSelector
 func (ListRolesRequestFieldPathBuilder) View() ListRolesRequestPathSelectorView {
 	return ListRolesRequestPathSelectorView{}
 }
+func (ListRolesRequestFieldPathBuilder) IncludePagingInfo() ListRolesRequestPathSelectorIncludePagingInfo {
+	return ListRolesRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListRolesRequestPathSelectorPageSize struct{}
 
@@ -1247,6 +1250,20 @@ func (s ListRolesRequestPathSelectorView) WithArrayOfValues(values []view.View) 
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListRolesRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListRolesRequestPathSelectorIncludePagingInfo) FieldPath() *ListRolesRequest_FieldTerminalPath {
+	return &ListRolesRequest_FieldTerminalPath{selector: ListRolesRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListRolesRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListRolesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesRequest_FieldTerminalPathValue)
+}
+
+func (s ListRolesRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListRolesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListRolesResponseFieldPathBuilder struct{}
 
 func NewListRolesResponseFieldPathBuilder() ListRolesResponseFieldPathBuilder {
@@ -1260,6 +1277,12 @@ func (ListRolesResponseFieldPathBuilder) PrevPageToken() ListRolesResponsePathSe
 }
 func (ListRolesResponseFieldPathBuilder) NextPageToken() ListRolesResponsePathSelectorNextPageToken {
 	return ListRolesResponsePathSelectorNextPageToken{}
+}
+func (ListRolesResponseFieldPathBuilder) CurrentOffset() ListRolesResponsePathSelectorCurrentOffset {
+	return ListRolesResponsePathSelectorCurrentOffset{}
+}
+func (ListRolesResponseFieldPathBuilder) TotalResultsCount() ListRolesResponsePathSelectorTotalResultsCount {
+	return ListRolesResponsePathSelectorTotalResultsCount{}
 }
 
 type ListRolesResponsePathSelectorRoles struct{}
@@ -2236,6 +2259,34 @@ func (s ListRolesResponsePathSelectorNextPageToken) WithValue(value *role.PagerC
 }
 
 func (s ListRolesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*role.PagerCursor) *ListRolesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorCurrentOffset struct{}
+
+func (ListRolesResponsePathSelectorCurrentOffset) FieldPath() *ListRolesResponse_FieldTerminalPath {
+	return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListRolesResponsePathSelectorCurrentOffset) WithValue(value int32) *ListRolesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldTerminalPathValue)
+}
+
+func (s ListRolesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListRolesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListRolesResponsePathSelectorTotalResultsCount struct{}
+
+func (ListRolesResponsePathSelectorTotalResultsCount) FieldPath() *ListRolesResponse_FieldTerminalPath {
+	return &ListRolesResponse_FieldTerminalPath{selector: ListRolesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListRolesResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListRolesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListRolesResponse_FieldTerminalPathValue)
+}
+
+func (s ListRolesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListRolesResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListRolesResponse_FieldTerminalPathArrayOfValues)
 }
 

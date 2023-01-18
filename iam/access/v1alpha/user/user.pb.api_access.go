@@ -81,8 +81,9 @@ func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Referenc
 
 func (a *apiUserAccess) QueryUsers(ctx context.Context, query *user.ListQuery) (*user.QueryResultSnapshot, error) {
 	request := &user_client.ListUsersRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -94,9 +95,11 @@ func (a *apiUserAccess) QueryUsers(ctx context.Context, query *user.ListQuery) (
 		return nil, err
 	}
 	return &user.QueryResultSnapshot{
-		Users:          resp.Users,
-		NextPageCursor: resp.NextPageToken,
-		PrevPageCursor: resp.PrevPageToken,
+		Users:             resp.Users,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		TotalResultsCount: resp.TotalResultsCount,
+		CurrentOffset:     resp.CurrentOffset,
 	}, nil
 }
 

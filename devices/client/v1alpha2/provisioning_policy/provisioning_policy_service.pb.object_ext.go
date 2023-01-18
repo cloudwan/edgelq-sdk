@@ -419,6 +419,9 @@ func (o *ListProvisioningPoliciesRequest) MakeDiffFieldMask(other *ListProvision
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListProvisioningPoliciesRequest_FieldTerminalPath{selector: ListProvisioningPoliciesRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListProvisioningPoliciesRequest_FieldTerminalPath{selector: ListProvisioningPoliciesRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -474,6 +477,7 @@ func (o *ListProvisioningPoliciesRequest) Clone() *ListProvisioningPoliciesReque
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*provisioning_policy.ProvisioningPolicy_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -541,6 +545,7 @@ func (o *ListProvisioningPoliciesRequest) Merge(source *ListProvisioningPolicies
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListProvisioningPoliciesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -584,6 +589,12 @@ func (o *ListProvisioningPoliciesResponse) MakeDiffFieldMask(other *ListProvisio
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListProvisioningPoliciesResponse_FieldTerminalPath{selector: ListProvisioningPoliciesResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -620,6 +631,8 @@ func (o *ListProvisioningPoliciesResponse) Clone() *ListProvisioningPoliciesResp
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -670,6 +683,8 @@ func (o *ListProvisioningPoliciesResponse) Merge(source *ListProvisioningPolicie
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListProvisioningPoliciesResponse) MergeRaw(source gotenobject.GotenObjectExt) {

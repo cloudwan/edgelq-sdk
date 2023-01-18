@@ -1031,6 +1031,9 @@ func (ListLogDescriptorsRequestFieldPathBuilder) FieldMask() ListLogDescriptorsR
 func (ListLogDescriptorsRequestFieldPathBuilder) View() ListLogDescriptorsRequestPathSelectorView {
 	return ListLogDescriptorsRequestPathSelectorView{}
 }
+func (ListLogDescriptorsRequestFieldPathBuilder) IncludePagingInfo() ListLogDescriptorsRequestPathSelectorIncludePagingInfo {
+	return ListLogDescriptorsRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListLogDescriptorsRequestPathSelectorParent struct{}
 
@@ -1130,6 +1133,20 @@ func (s ListLogDescriptorsRequestPathSelectorView) WithArrayOfValues(values []vi
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListLogDescriptorsRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListLogDescriptorsRequestPathSelectorIncludePagingInfo) FieldPath() *ListLogDescriptorsRequest_FieldTerminalPath {
+	return &ListLogDescriptorsRequest_FieldTerminalPath{selector: ListLogDescriptorsRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListLogDescriptorsRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListLogDescriptorsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsRequest_FieldTerminalPathValue)
+}
+
+func (s ListLogDescriptorsRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListLogDescriptorsResponseFieldPathBuilder struct{}
 
 func NewListLogDescriptorsResponseFieldPathBuilder() ListLogDescriptorsResponseFieldPathBuilder {
@@ -1143,6 +1160,12 @@ func (ListLogDescriptorsResponseFieldPathBuilder) PrevPageToken() ListLogDescrip
 }
 func (ListLogDescriptorsResponseFieldPathBuilder) NextPageToken() ListLogDescriptorsResponsePathSelectorNextPageToken {
 	return ListLogDescriptorsResponsePathSelectorNextPageToken{}
+}
+func (ListLogDescriptorsResponseFieldPathBuilder) CurrentOffset() ListLogDescriptorsResponsePathSelectorCurrentOffset {
+	return ListLogDescriptorsResponsePathSelectorCurrentOffset{}
+}
+func (ListLogDescriptorsResponseFieldPathBuilder) TotalResultsCount() ListLogDescriptorsResponsePathSelectorTotalResultsCount {
+	return ListLogDescriptorsResponsePathSelectorTotalResultsCount{}
 }
 
 type ListLogDescriptorsResponsePathSelectorLogDescriptors struct{}
@@ -1989,6 +2012,34 @@ func (s ListLogDescriptorsResponsePathSelectorNextPageToken) WithValue(value *lo
 }
 
 func (s ListLogDescriptorsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*log_descriptor.PagerCursor) *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorCurrentOffset struct{}
+
+func (ListLogDescriptorsResponsePathSelectorCurrentOffset) FieldPath() *ListLogDescriptorsResponse_FieldTerminalPath {
+	return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorCurrentOffset) WithValue(value int32) *ListLogDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListLogDescriptorsResponsePathSelectorTotalResultsCount struct{}
+
+func (ListLogDescriptorsResponsePathSelectorTotalResultsCount) FieldPath() *ListLogDescriptorsResponse_FieldTerminalPath {
+	return &ListLogDescriptorsResponse_FieldTerminalPath{selector: ListLogDescriptorsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListLogDescriptorsResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListLogDescriptorsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListLogDescriptorsResponse_FieldTerminalPathValue)
+}
+
+func (s ListLogDescriptorsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListLogDescriptorsResponse_FieldTerminalPathArrayOfValues)
 }
 

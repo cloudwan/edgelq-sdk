@@ -81,8 +81,9 @@ func (a *apiPlanAssignmentRequestAccess) BatchGetPlanAssignmentRequests(ctx cont
 
 func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context.Context, query *plan_assignment_request.ListQuery) (*plan_assignment_request.QueryResultSnapshot, error) {
 	request := &plan_assignment_request_client.ListPlanAssignmentRequestsRequest{
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
+		Filter:            query.Filter,
+		FieldMask:         query.Mask,
+		IncludePagingInfo: query.WithPagingInfo,
 	}
 	if query.Pager != nil {
 		request.PageSize = int32(query.Pager.Limit)
@@ -97,6 +98,8 @@ func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context
 		PlanAssignmentRequests: resp.PlanAssignmentRequests,
 		NextPageCursor:         resp.NextPageToken,
 		PrevPageCursor:         resp.PrevPageToken,
+		TotalResultsCount:      resp.TotalResultsCount,
+		CurrentOffset:          resp.CurrentOffset,
 	}, nil
 }
 

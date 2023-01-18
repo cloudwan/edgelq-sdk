@@ -939,6 +939,9 @@ func (ListGroupMembersRequestFieldPathBuilder) FieldMask() ListGroupMembersReque
 func (ListGroupMembersRequestFieldPathBuilder) View() ListGroupMembersRequestPathSelectorView {
 	return ListGroupMembersRequestPathSelectorView{}
 }
+func (ListGroupMembersRequestFieldPathBuilder) IncludePagingInfo() ListGroupMembersRequestPathSelectorIncludePagingInfo {
+	return ListGroupMembersRequestPathSelectorIncludePagingInfo{}
+}
 
 type ListGroupMembersRequestPathSelectorParent struct{}
 
@@ -1038,6 +1041,20 @@ func (s ListGroupMembersRequestPathSelectorView) WithArrayOfValues(values []view
 	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersRequest_FieldTerminalPathArrayOfValues)
 }
 
+type ListGroupMembersRequestPathSelectorIncludePagingInfo struct{}
+
+func (ListGroupMembersRequestPathSelectorIncludePagingInfo) FieldPath() *ListGroupMembersRequest_FieldTerminalPath {
+	return &ListGroupMembersRequest_FieldTerminalPath{selector: ListGroupMembersRequest_FieldPathSelectorIncludePagingInfo}
+}
+
+func (s ListGroupMembersRequestPathSelectorIncludePagingInfo) WithValue(value bool) *ListGroupMembersRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListGroupMembersRequest_FieldTerminalPathValue)
+}
+
+func (s ListGroupMembersRequestPathSelectorIncludePagingInfo) WithArrayOfValues(values []bool) *ListGroupMembersRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersRequest_FieldTerminalPathArrayOfValues)
+}
+
 type ListGroupMembersResponseFieldPathBuilder struct{}
 
 func NewListGroupMembersResponseFieldPathBuilder() ListGroupMembersResponseFieldPathBuilder {
@@ -1051,6 +1068,12 @@ func (ListGroupMembersResponseFieldPathBuilder) PrevPageToken() ListGroupMembers
 }
 func (ListGroupMembersResponseFieldPathBuilder) NextPageToken() ListGroupMembersResponsePathSelectorNextPageToken {
 	return ListGroupMembersResponsePathSelectorNextPageToken{}
+}
+func (ListGroupMembersResponseFieldPathBuilder) CurrentOffset() ListGroupMembersResponsePathSelectorCurrentOffset {
+	return ListGroupMembersResponsePathSelectorCurrentOffset{}
+}
+func (ListGroupMembersResponseFieldPathBuilder) TotalResultsCount() ListGroupMembersResponsePathSelectorTotalResultsCount {
+	return ListGroupMembersResponsePathSelectorTotalResultsCount{}
 }
 
 type ListGroupMembersResponsePathSelectorGroupMembers struct{}
@@ -1805,6 +1828,34 @@ func (s ListGroupMembersResponsePathSelectorNextPageToken) WithValue(value *grou
 }
 
 func (s ListGroupMembersResponsePathSelectorNextPageToken) WithArrayOfValues(values []*group_member.PagerCursor) *ListGroupMembersResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListGroupMembersResponsePathSelectorCurrentOffset struct{}
+
+func (ListGroupMembersResponsePathSelectorCurrentOffset) FieldPath() *ListGroupMembersResponse_FieldTerminalPath {
+	return &ListGroupMembersResponse_FieldTerminalPath{selector: ListGroupMembersResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s ListGroupMembersResponsePathSelectorCurrentOffset) WithValue(value int32) *ListGroupMembersResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListGroupMembersResponse_FieldTerminalPathValue)
+}
+
+func (s ListGroupMembersResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *ListGroupMembersResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersResponse_FieldTerminalPathArrayOfValues)
+}
+
+type ListGroupMembersResponsePathSelectorTotalResultsCount struct{}
+
+func (ListGroupMembersResponsePathSelectorTotalResultsCount) FieldPath() *ListGroupMembersResponse_FieldTerminalPath {
+	return &ListGroupMembersResponse_FieldTerminalPath{selector: ListGroupMembersResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s ListGroupMembersResponsePathSelectorTotalResultsCount) WithValue(value int32) *ListGroupMembersResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ListGroupMembersResponse_FieldTerminalPathValue)
+}
+
+func (s ListGroupMembersResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *ListGroupMembersResponse_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListGroupMembersResponse_FieldTerminalPathArrayOfValues)
 }
 

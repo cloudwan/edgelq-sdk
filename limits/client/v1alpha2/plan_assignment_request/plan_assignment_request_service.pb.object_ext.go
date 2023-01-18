@@ -421,6 +421,9 @@ func (o *ListPlanAssignmentRequestsRequest) MakeDiffFieldMask(other *ListPlanAss
 	if o.GetView() != other.GetView() {
 		res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorView})
 	}
+	if o.GetIncludePagingInfo() != other.GetIncludePagingInfo() {
+		res.Paths = append(res.Paths, &ListPlanAssignmentRequestsRequest_FieldTerminalPath{selector: ListPlanAssignmentRequestsRequest_FieldPathSelectorIncludePagingInfo})
+	}
 	return res
 }
 
@@ -476,6 +479,7 @@ func (o *ListPlanAssignmentRequestsRequest) Clone() *ListPlanAssignmentRequestsR
 	}
 	result.FieldMask = proto.Clone(o.FieldMask).(*plan_assignment_request.PlanAssignmentRequest_FieldMask)
 	result.View = o.View
+	result.IncludePagingInfo = o.IncludePagingInfo
 	return result
 }
 
@@ -543,6 +547,7 @@ func (o *ListPlanAssignmentRequestsRequest) Merge(source *ListPlanAssignmentRequ
 		}
 	}
 	o.View = source.GetView()
+	o.IncludePagingInfo = source.GetIncludePagingInfo()
 }
 
 func (o *ListPlanAssignmentRequestsRequest) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -586,6 +591,12 @@ func (o *ListPlanAssignmentRequestsResponse) MakeDiffFieldMask(other *ListPlanAs
 	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
 		res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorNextPageToken})
 	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &ListPlanAssignmentRequestsResponse_FieldTerminalPath{selector: ListPlanAssignmentRequestsResponse_FieldPathSelectorTotalResultsCount})
+	}
 	return res
 }
 
@@ -622,6 +633,8 @@ func (o *ListPlanAssignmentRequestsResponse) Clone() *ListPlanAssignmentRequests
 			panic(err)
 		}
 	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
 	return result
 }
 
@@ -672,6 +685,8 @@ func (o *ListPlanAssignmentRequestsResponse) Merge(source *ListPlanAssignmentReq
 	} else {
 		o.NextPageToken = nil
 	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
 }
 
 func (o *ListPlanAssignmentRequestsResponse) MergeRaw(source gotenobject.GotenObjectExt) {
