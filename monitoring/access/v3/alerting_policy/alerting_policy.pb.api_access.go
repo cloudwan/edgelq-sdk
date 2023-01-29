@@ -103,6 +103,30 @@ func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, que
 	}, nil
 }
 
+func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, query *alerting_policy.SearchQuery) (*alerting_policy.QueryResultSnapshot, error) {
+	request := &alerting_policy_client.SearchAlertingPoliciesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	resp, err := a.client.SearchAlertingPolicies(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	return &alerting_policy.QueryResultSnapshot{
+		AlertingPolicies:  resp.AlertingPolicies,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiAlertingPolicyAccess) WatchAlertingPolicy(ctx context.Context, query *alerting_policy.GetQuery, observerCb func(*alerting_policy.AlertingPolicyChange) error) error {
 	request := &alerting_policy_client.WatchAlertingPolicyRequest{
 		Name:      query.Reference,

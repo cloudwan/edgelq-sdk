@@ -57,7 +57,7 @@ func (d *Descriptor) NewListQuery() gotenresource.ListQuery {
 }
 
 func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
-	return nil
+	return &SearchQuery{}
 }
 
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {

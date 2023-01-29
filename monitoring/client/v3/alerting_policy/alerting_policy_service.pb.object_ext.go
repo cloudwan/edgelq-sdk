@@ -1566,3 +1566,315 @@ func (o *DeleteAlertingPolicyRequest) Merge(source *DeleteAlertingPolicyRequest)
 func (o *DeleteAlertingPolicyRequest) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*DeleteAlertingPolicyRequest))
 }
+
+func (o *SearchAlertingPoliciesRequest) GotenObjectExt() {}
+
+func (o *SearchAlertingPoliciesRequest) MakeFullFieldMask() *SearchAlertingPoliciesRequest_FieldMask {
+	return FullSearchAlertingPoliciesRequest_FieldMask()
+}
+
+func (o *SearchAlertingPoliciesRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSearchAlertingPoliciesRequest_FieldMask()
+}
+
+func (o *SearchAlertingPoliciesRequest) MakeDiffFieldMask(other *SearchAlertingPoliciesRequest) *SearchAlertingPoliciesRequest_FieldMask {
+	if o == nil && other == nil {
+		return &SearchAlertingPoliciesRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSearchAlertingPoliciesRequest_FieldMask()
+	}
+
+	res := &SearchAlertingPoliciesRequest_FieldMask{}
+	if o.GetParent().String() != other.GetParent().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorParent})
+	}
+	if o.GetPageSize() != other.GetPageSize() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPageSize})
+	}
+	if o.GetPageToken().String() != other.GetPageToken().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPageToken})
+	}
+	if o.GetOrderBy().String() != other.GetOrderBy().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorOrderBy})
+	}
+	if o.GetFilter().String() != other.GetFilter().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorFilter})
+	}
+	if !proto.Equal(o.GetFieldMask(), other.GetFieldMask()) {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorFieldMask})
+	}
+	if o.GetView() != other.GetView() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorView})
+	}
+	if o.GetPhrase() != other.GetPhrase() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPhrase})
+	}
+	return res
+}
+
+func (o *SearchAlertingPoliciesRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SearchAlertingPoliciesRequest))
+}
+
+func (o *SearchAlertingPoliciesRequest) Clone() *SearchAlertingPoliciesRequest {
+	if o == nil {
+		return nil
+	}
+	result := &SearchAlertingPoliciesRequest{}
+	if o.Parent == nil {
+		result.Parent = nil
+	} else if data, err := o.Parent.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Parent = &alerting_policy.ParentName{}
+		if err := result.Parent.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.PageSize = o.PageSize
+	if o.PageToken == nil {
+		result.PageToken = nil
+	} else if data, err := o.PageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PageToken = &alerting_policy.PagerCursor{}
+		if err := result.PageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.OrderBy == nil {
+		result.OrderBy = nil
+	} else if data, err := o.OrderBy.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.OrderBy = &alerting_policy.OrderBy{}
+		if err := result.OrderBy.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.Filter == nil {
+		result.Filter = nil
+	} else if data, err := o.Filter.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Filter = &alerting_policy.Filter{}
+		if err := result.Filter.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.FieldMask = proto.Clone(o.FieldMask).(*alerting_policy.AlertingPolicy_FieldMask)
+	result.View = o.View
+	result.Phrase = o.Phrase
+	return result
+}
+
+func (o *SearchAlertingPoliciesRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SearchAlertingPoliciesRequest) Merge(source *SearchAlertingPoliciesRequest) {
+	if source.GetParent() != nil {
+		if data, err := source.GetParent().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Parent = &alerting_policy.ParentName{}
+			if err := o.Parent.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Parent = nil
+	}
+	o.PageSize = source.GetPageSize()
+	if source.GetPageToken() != nil {
+		if data, err := source.GetPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PageToken = &alerting_policy.PagerCursor{}
+			if err := o.PageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PageToken = nil
+	}
+	if source.GetOrderBy() != nil {
+		if data, err := source.GetOrderBy().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.OrderBy = &alerting_policy.OrderBy{}
+			if err := o.OrderBy.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.OrderBy = nil
+	}
+	if source.GetFilter() != nil {
+		if data, err := source.GetFilter().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Filter = &alerting_policy.Filter{}
+			if err := o.Filter.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Filter = nil
+	}
+	if source.GetFieldMask() != nil {
+		if o.FieldMask == nil {
+			o.FieldMask = new(alerting_policy.AlertingPolicy_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
+		if err := o.FieldMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+	o.View = source.GetView()
+	o.Phrase = source.GetPhrase()
+}
+
+func (o *SearchAlertingPoliciesRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SearchAlertingPoliciesRequest))
+}
+
+func (o *SearchAlertingPoliciesResponse) GotenObjectExt() {}
+
+func (o *SearchAlertingPoliciesResponse) MakeFullFieldMask() *SearchAlertingPoliciesResponse_FieldMask {
+	return FullSearchAlertingPoliciesResponse_FieldMask()
+}
+
+func (o *SearchAlertingPoliciesResponse) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullSearchAlertingPoliciesResponse_FieldMask()
+}
+
+func (o *SearchAlertingPoliciesResponse) MakeDiffFieldMask(other *SearchAlertingPoliciesResponse) *SearchAlertingPoliciesResponse_FieldMask {
+	if o == nil && other == nil {
+		return &SearchAlertingPoliciesResponse_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullSearchAlertingPoliciesResponse_FieldMask()
+	}
+
+	res := &SearchAlertingPoliciesResponse_FieldMask{}
+
+	if len(o.GetAlertingPolicies()) == len(other.GetAlertingPolicies()) {
+		for i, lValue := range o.GetAlertingPolicies() {
+			rValue := other.GetAlertingPolicies()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies})
+	}
+	if o.GetPrevPageToken().String() != other.GetPrevPageToken().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorPrevPageToken})
+	}
+	if o.GetNextPageToken().String() != other.GetNextPageToken().String() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorNextPageToken})
+	}
+	if o.GetCurrentOffset() != other.GetCurrentOffset() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorCurrentOffset})
+	}
+	if o.GetTotalResultsCount() != other.GetTotalResultsCount() {
+		res.Paths = append(res.Paths, &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount})
+	}
+	return res
+}
+
+func (o *SearchAlertingPoliciesResponse) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*SearchAlertingPoliciesResponse))
+}
+
+func (o *SearchAlertingPoliciesResponse) Clone() *SearchAlertingPoliciesResponse {
+	if o == nil {
+		return nil
+	}
+	result := &SearchAlertingPoliciesResponse{}
+	result.AlertingPolicies = make([]*alerting_policy.AlertingPolicy, len(o.AlertingPolicies))
+	for i, sourceValue := range o.AlertingPolicies {
+		result.AlertingPolicies[i] = sourceValue.Clone()
+	}
+	if o.PrevPageToken == nil {
+		result.PrevPageToken = nil
+	} else if data, err := o.PrevPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.PrevPageToken = &alerting_policy.PagerCursor{}
+		if err := result.PrevPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.NextPageToken == nil {
+		result.NextPageToken = nil
+	} else if data, err := o.NextPageToken.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.NextPageToken = &alerting_policy.PagerCursor{}
+		if err := result.NextPageToken.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.CurrentOffset = o.CurrentOffset
+	result.TotalResultsCount = o.TotalResultsCount
+	return result
+}
+
+func (o *SearchAlertingPoliciesResponse) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *SearchAlertingPoliciesResponse) Merge(source *SearchAlertingPoliciesResponse) {
+	for _, sourceValue := range source.GetAlertingPolicies() {
+		exists := false
+		for _, currentValue := range o.AlertingPolicies {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *alerting_policy.AlertingPolicy
+			if sourceValue != nil {
+				newDstElement = new(alerting_policy.AlertingPolicy)
+				newDstElement.Merge(sourceValue)
+			}
+			o.AlertingPolicies = append(o.AlertingPolicies, newDstElement)
+		}
+	}
+
+	if source.GetPrevPageToken() != nil {
+		if data, err := source.GetPrevPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.PrevPageToken = &alerting_policy.PagerCursor{}
+			if err := o.PrevPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.PrevPageToken = nil
+	}
+	if source.GetNextPageToken() != nil {
+		if data, err := source.GetNextPageToken().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.NextPageToken = &alerting_policy.PagerCursor{}
+			if err := o.NextPageToken.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.NextPageToken = nil
+	}
+	o.CurrentOffset = source.GetCurrentOffset()
+	o.TotalResultsCount = source.GetTotalResultsCount()
+}
+
+func (o *SearchAlertingPoliciesResponse) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*SearchAlertingPoliciesResponse))
+}

@@ -250,3 +250,31 @@ func (obj *DeleteAlertingPolicyRequest) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *SearchAlertingPoliciesRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("SearchAlertingPoliciesRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SearchAlertingPoliciesResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.AlertingPolicies {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("SearchAlertingPoliciesResponse", "alertingPolicies", obj.AlertingPolicies[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

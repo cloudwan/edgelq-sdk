@@ -47,6 +47,7 @@ type AlertingConditionAccess interface {
 	GetAlertingCondition(context.Context, *GetQuery) (*AlertingCondition, error)
 	BatchGetAlertingConditions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryAlertingConditions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	SearchAlertingConditions(context.Context, *SearchQuery) (*QueryResultSnapshot, error)
 	WatchAlertingCondition(context.Context, *GetQuery, func(*AlertingConditionChange) error) error
 	WatchAlertingConditions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAlertingCondition(context.Context, *AlertingCondition, ...gotenresource.SaveOption) error
@@ -80,7 +81,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (g
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for AlertingCondition")
+	if asAlertingConditionQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchAlertingConditions(ctx, asAlertingConditionQuery)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected AlertingCondition, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

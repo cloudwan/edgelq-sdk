@@ -4054,3 +4054,599 @@ func (fieldMask *DeleteAlertingConditionRequest_FieldMask) PathsCount() int {
 	}
 	return len(fieldMask.Paths)
 }
+
+type SearchAlertingConditionsRequest_FieldMask struct {
+	Paths []SearchAlertingConditionsRequest_FieldPath
+}
+
+func FullSearchAlertingConditionsRequest_FieldMask() *SearchAlertingConditionsRequest_FieldMask {
+	res := &SearchAlertingConditionsRequest_FieldMask{}
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorParent})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageSize})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageToken})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorOrderBy})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFilter})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFieldMask})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPhrase})
+	return res
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseSearchAlertingConditionsRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 8)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*SearchAlertingConditionsRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseSearchAlertingConditionsRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Subtract(other *SearchAlertingConditionsRequest_FieldMask) *SearchAlertingConditionsRequest_FieldMask {
+	result := &SearchAlertingConditionsRequest_FieldMask{}
+	removedSelectors := make([]bool, 8)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *SearchAlertingConditionsRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*SearchAlertingConditionsRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) FilterInputFields() *SearchAlertingConditionsRequest_FieldMask {
+	result := &SearchAlertingConditionsRequest_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]SearchAlertingConditionsRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseSearchAlertingConditionsRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask SearchAlertingConditionsRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask SearchAlertingConditionsRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) AppendPath(path SearchAlertingConditionsRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(SearchAlertingConditionsRequest_FieldPath))
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) GetPaths() []SearchAlertingConditionsRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseSearchAlertingConditionsRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Set(target, source *SearchAlertingConditionsRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*SearchAlertingConditionsRequest), source.(*SearchAlertingConditionsRequest))
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) Project(source *SearchAlertingConditionsRequest) *SearchAlertingConditionsRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &SearchAlertingConditionsRequest{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *SearchAlertingConditionsRequest_FieldTerminalPath:
+			switch tp.selector {
+			case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+				result.Parent = source.Parent
+			case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+				result.PageSize = source.PageSize
+			case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+				result.PageToken = source.PageToken
+			case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+				result.OrderBy = source.OrderBy
+			case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+				result.Filter = source.Filter
+			case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+				result.FieldMask = source.FieldMask
+			case SearchAlertingConditionsRequest_FieldPathSelectorView:
+				result.View = source.View
+			case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+				result.Phrase = source.Phrase
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*SearchAlertingConditionsRequest))
+}
+
+func (fieldMask *SearchAlertingConditionsRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type SearchAlertingConditionsResponse_FieldMask struct {
+	Paths []SearchAlertingConditionsResponse_FieldPath
+}
+
+func FullSearchAlertingConditionsResponse_FieldMask() *SearchAlertingConditionsResponse_FieldMask {
+	res := &SearchAlertingConditionsResponse_FieldMask{}
+	res.Paths = append(res.Paths, &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset})
+	res.Paths = append(res.Paths, &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount})
+	return res
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseSearchAlertingConditionsResponse_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*SearchAlertingConditionsResponse_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseSearchAlertingConditionsResponse_FieldPath(raw)
+	})
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) ProtoMessage() {}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Subtract(other *SearchAlertingConditionsResponse_FieldMask) *SearchAlertingConditionsResponse_FieldMask {
+	result := &SearchAlertingConditionsResponse_FieldMask{}
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[SearchAlertingConditionsResponse_FieldPathSelector]gotenobject.FieldMask{
+		SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions: &alerting_condition.AlertingCondition_FieldMask{},
+	}
+	mySubMasks := map[SearchAlertingConditionsResponse_FieldPathSelector]gotenobject.FieldMask{
+		SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions: &alerting_condition.AlertingCondition_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *SearchAlertingConditionsResponse_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *SearchAlertingConditionsResponse_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*SearchAlertingConditionsResponse_FieldTerminalPath); ok {
+					switch tp.selector {
+					case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+						mySubMasks[SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions] = alerting_condition.FullAlertingCondition_FieldMask()
+					}
+				} else if tp, ok := path.(*SearchAlertingConditionsResponse_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &SearchAlertingConditionsResponse_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*SearchAlertingConditionsResponse_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) FilterInputFields() *SearchAlertingConditionsResponse_FieldMask {
+	result := &SearchAlertingConditionsResponse_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+			if _, ok := path.(*SearchAlertingConditionsResponse_FieldTerminalPath); ok {
+				for _, subpath := range alerting_condition.FullAlertingCondition_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &SearchAlertingConditionsResponse_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*SearchAlertingConditionsResponse_FieldSubPath); ok {
+				selectedMask := &alerting_condition.AlertingCondition_FieldMask{
+					Paths: []alerting_condition.AlertingCondition_FieldPath{sub.subPath.(alerting_condition.AlertingCondition_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &SearchAlertingConditionsResponse_FieldSubPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]SearchAlertingConditionsResponse_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseSearchAlertingConditionsResponse_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask SearchAlertingConditionsResponse_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask SearchAlertingConditionsResponse_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) AppendPath(path SearchAlertingConditionsResponse_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(SearchAlertingConditionsResponse_FieldPath))
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) GetPaths() []SearchAlertingConditionsResponse_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseSearchAlertingConditionsResponse_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Set(target, source *SearchAlertingConditionsResponse) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*SearchAlertingConditionsResponse), source.(*SearchAlertingConditionsResponse))
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) Project(source *SearchAlertingConditionsResponse) *SearchAlertingConditionsResponse {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &SearchAlertingConditionsResponse{}
+	alertingConditionsMask := &alerting_condition.AlertingCondition_FieldMask{}
+	wholeAlertingConditionsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *SearchAlertingConditionsResponse_FieldTerminalPath:
+			switch tp.selector {
+			case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+				result.AlertingConditions = source.AlertingConditions
+				wholeAlertingConditionsAccepted = true
+			case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+				result.PrevPageToken = source.PrevPageToken
+			case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+				result.NextPageToken = source.NextPageToken
+			case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+				result.CurrentOffset = source.CurrentOffset
+			case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+				result.TotalResultsCount = source.TotalResultsCount
+			}
+		case *SearchAlertingConditionsResponse_FieldSubPath:
+			switch tp.selector {
+			case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+				alertingConditionsMask.AppendPath(tp.subPath.(alerting_condition.AlertingCondition_FieldPath))
+			}
+		}
+	}
+	if wholeAlertingConditionsAccepted == false && len(alertingConditionsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetAlertingConditions() {
+			result.AlertingConditions = append(result.AlertingConditions, alertingConditionsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*SearchAlertingConditionsResponse))
+}
+
+func (fieldMask *SearchAlertingConditionsResponse_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}

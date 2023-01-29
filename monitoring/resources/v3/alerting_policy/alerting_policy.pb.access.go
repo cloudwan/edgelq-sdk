@@ -43,6 +43,7 @@ type AlertingPolicyAccess interface {
 	GetAlertingPolicy(context.Context, *GetQuery) (*AlertingPolicy, error)
 	BatchGetAlertingPolicies(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryAlertingPolicies(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	SearchAlertingPolicies(context.Context, *SearchQuery) (*QueryResultSnapshot, error)
 	WatchAlertingPolicy(context.Context, *GetQuery, func(*AlertingPolicyChange) error) error
 	WatchAlertingPolicies(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAlertingPolicy(context.Context, *AlertingPolicy, ...gotenresource.SaveOption) error
@@ -76,7 +77,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (g
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for AlertingPolicy")
+	if asAlertingPolicyQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchAlertingPolicies(ctx, asAlertingPolicyQuery)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected AlertingPolicy, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

@@ -318,6 +318,70 @@ message DeleteAlertingPolicyRequest {
   string name = 1;
 }
 
+// Request message for method
+// [SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]
+message SearchAlertingPoliciesRequest {
+  // Parent name of ntt.monitoring.v3.AlertingPolicy
+  string parent = 1;
+
+  // Requested page size. Server may return fewer AlertingPolicies than
+  // requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [SearchAlertingPoliciesResponse.next_page_token][ntt.monitoring.v3.SearchAlertingPoliciesResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+
+  // Optional search phrase used to further filter results.
+  string phrase = 8;
+}
+
+// Request message for method
+// [SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]
+message SearchAlertingPoliciesResponse {
+  // The list of AlertingPolicies
+  repeated AlertingPolicy alerting_policies = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]
+  string next_page_token = 4;
+
+  // Current offset from the first page (0 if no page tokens were given). Page
+  // index can be computed from offset and limit provided in a request
+  int32 current_offset = 5;
+
+  // Number of total AlertingPolicies across all pages.
+  int32 total_results_count = 6;
+}
+
 // AlertingPolicy service API for Monitoring
 service AlertingPolicyService {
   option (google.api.default_host) = "monitoring.edgelq.com";
@@ -385,6 +449,14 @@ service AlertingPolicyService {
       returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete : "/v3/{name=projects/*/regions/*/alertingPolicies/*}"
+    };
+  }
+
+  // SearchAlertingPolicies
+  rpc SearchAlertingPolicies(SearchAlertingPoliciesRequest)
+      returns (SearchAlertingPoliciesResponse) {
+    option (google.api.http) = {
+      get : "/v3/{parent=projects/*/regions/*}/alertingPolicies:search"
     };
   }
 }

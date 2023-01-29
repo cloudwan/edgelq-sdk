@@ -1526,6 +1526,31 @@ Equivalent REST API:
 
 </div>
 
+
+
+<div class="operation">
+<h5 id="operation-SearchAlertingConditions">SearchAlertingConditions</h5>
+
+<pre class="signature">rpc SearchAlertingConditions(<a href="#message-SearchAlertingConditionsRequest">SearchAlertingConditionsRequest</a>) returns (<a href="#message-SearchAlertingConditionsResponse">SearchAlertingConditionsResponse</a>)</pre>
+
+<div class="description">
+<p>SearchAlertingConditions</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{parent=projects/*/regions/*/alertingPolicies/*}/alertingConditions:search </pre>
+
+</div>
+
+
+</div>
+
  
 
 <h4>Messages</h4>
@@ -2372,6 +2397,142 @@ compare.</p>
 </tbody>
 </table>
 
+
+
+<h5 id="message-SearchAlertingConditionsRequest">SearchAlertingConditionsRequest</h5>
+
+<p>Request message for method
+[SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.monitoring.v3.AlertingCondition</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AlertingConditions than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[SearchAlertingConditionsResponse.next_page_token][ntt.monitoring.v3.SearchAlertingConditionsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">phrase</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional search phrase used to further filter results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SearchAlertingConditionsResponse">SearchAlertingConditionsResponse</h5>
+
+<p>Request message for method
+[SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">alerting_conditions</th>
+<td class="type"><pre>repeated <a href="#message-AlertingCondition">AlertingCondition</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of AlertingConditions</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page (0 if no page tokens were given). Page
+index can be computed from offset and limit provided in a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total AlertingConditions across all pages.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
  
 <h4>Enums</h4>
 
@@ -2700,6 +2861,31 @@ Equivalent REST API:
 Equivalent REST API:
 
 <pre>DELETE /v3/{name=projects/*/regions/*/alertingPolicies/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-SearchAlertingPolicies">SearchAlertingPolicies</h5>
+
+<pre class="signature">rpc SearchAlertingPolicies(<a href="#message-SearchAlertingPoliciesRequest">SearchAlertingPoliciesRequest</a>) returns (<a href="#message-SearchAlertingPoliciesResponse">SearchAlertingPoliciesResponse</a>)</pre>
+
+<div class="description">
+<p>SearchAlertingPolicies</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{parent=projects/*/regions/*}/alertingPolicies:search </pre>
 
 </div>
 
@@ -3495,6 +3681,142 @@ compare.</p>
 <td class="type"><pre>string</pre></td>
 </tr>
 <tr><td class="description"><p>Reference of ntt.monitoring.v3.AlertingPolicy</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SearchAlertingPoliciesRequest">SearchAlertingPoliciesRequest</h5>
+
+<p>Request message for method
+[SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.monitoring.v3.AlertingPolicy</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer AlertingPolicies than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[SearchAlertingPoliciesResponse.next_page_token][ntt.monitoring.v3.SearchAlertingPoliciesResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">phrase</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional search phrase used to further filter results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SearchAlertingPoliciesResponse">SearchAlertingPoliciesResponse</h5>
+
+<p>Request message for method
+[SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">alerting_policies</th>
+<td class="type"><pre>repeated <a href="#message-AlertingPolicy">AlertingPolicy</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of AlertingPolicies</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page (0 if no page tokens were given). Page
+index can be computed from offset and limit provided in a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total AlertingPolicies across all pages.</p>
 </td></tr>
  
 </tbody>

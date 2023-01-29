@@ -57,6 +57,7 @@ type AlertingPolicyServiceClient interface {
 	CreateAlertingPolicy(ctx context.Context, in *CreateAlertingPolicyRequest, opts ...grpc.CallOption) (*alerting_policy.AlertingPolicy, error)
 	UpdateAlertingPolicy(ctx context.Context, in *UpdateAlertingPolicyRequest, opts ...grpc.CallOption) (*alerting_policy.AlertingPolicy, error)
 	DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	SearchAlertingPolicies(ctx context.Context, in *SearchAlertingPoliciesRequest, opts ...grpc.CallOption) (*SearchAlertingPoliciesResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateAlertingPolicy(ctx context.Context, in *UpdateAlertingPol
 func (c *client) DeleteAlertingPolicy(ctx context.Context, in *DeleteAlertingPolicyRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingPolicyService/DeleteAlertingPolicy", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchAlertingPolicies(ctx context.Context, in *SearchAlertingPoliciesRequest, opts ...grpc.CallOption) (*SearchAlertingPoliciesResponse, error) {
+	out := new(SearchAlertingPoliciesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingPolicyService/SearchAlertingPolicies", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

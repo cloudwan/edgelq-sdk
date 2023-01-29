@@ -9010,3 +9010,1551 @@ func (s DeleteAlertingConditionRequestPathSelectorName) WithValue(value *alertin
 func (s DeleteAlertingConditionRequestPathSelectorName) WithArrayOfValues(values []*alerting_condition.Reference) *DeleteAlertingConditionRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeleteAlertingConditionRequest_FieldTerminalPathArrayOfValues)
 }
+
+type SearchAlertingConditionsRequestFieldPathBuilder struct{}
+
+func NewSearchAlertingConditionsRequestFieldPathBuilder() SearchAlertingConditionsRequestFieldPathBuilder {
+	return SearchAlertingConditionsRequestFieldPathBuilder{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) Parent() SearchAlertingConditionsRequestPathSelectorParent {
+	return SearchAlertingConditionsRequestPathSelectorParent{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) PageSize() SearchAlertingConditionsRequestPathSelectorPageSize {
+	return SearchAlertingConditionsRequestPathSelectorPageSize{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) PageToken() SearchAlertingConditionsRequestPathSelectorPageToken {
+	return SearchAlertingConditionsRequestPathSelectorPageToken{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) OrderBy() SearchAlertingConditionsRequestPathSelectorOrderBy {
+	return SearchAlertingConditionsRequestPathSelectorOrderBy{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) Filter() SearchAlertingConditionsRequestPathSelectorFilter {
+	return SearchAlertingConditionsRequestPathSelectorFilter{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) FieldMask() SearchAlertingConditionsRequestPathSelectorFieldMask {
+	return SearchAlertingConditionsRequestPathSelectorFieldMask{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) View() SearchAlertingConditionsRequestPathSelectorView {
+	return SearchAlertingConditionsRequestPathSelectorView{}
+}
+func (SearchAlertingConditionsRequestFieldPathBuilder) Phrase() SearchAlertingConditionsRequestPathSelectorPhrase {
+	return SearchAlertingConditionsRequestPathSelectorPhrase{}
+}
+
+type SearchAlertingConditionsRequestPathSelectorParent struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorParent) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorParent}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorParent) WithValue(value *alerting_condition.ParentName) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorParent) WithArrayOfValues(values []*alerting_condition.ParentName) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorPageSize struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorPageSize) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageSize}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPageSize) WithValue(value int32) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPageSize) WithArrayOfValues(values []int32) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorPageToken struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorPageToken) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageToken}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPageToken) WithValue(value *alerting_condition.PagerCursor) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPageToken) WithArrayOfValues(values []*alerting_condition.PagerCursor) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorOrderBy struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorOrderBy) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorOrderBy}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorOrderBy) WithValue(value *alerting_condition.OrderBy) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorOrderBy) WithArrayOfValues(values []*alerting_condition.OrderBy) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorFilter struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorFilter) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFilter}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorFilter) WithValue(value *alerting_condition.Filter) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorFilter) WithArrayOfValues(values []*alerting_condition.Filter) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorFieldMask struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorFieldMask) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFieldMask}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorFieldMask) WithValue(value *alerting_condition.AlertingCondition_FieldMask) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorFieldMask) WithArrayOfValues(values []*alerting_condition.AlertingCondition_FieldMask) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorView struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorView) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorView}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorView) WithValue(value view.View) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorView) WithArrayOfValues(values []view.View) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsRequestPathSelectorPhrase struct{}
+
+func (SearchAlertingConditionsRequestPathSelectorPhrase) FieldPath() *SearchAlertingConditionsRequest_FieldTerminalPath {
+	return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPhrase}
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPhrase) WithValue(value string) *SearchAlertingConditionsRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsRequestPathSelectorPhrase) WithArrayOfValues(values []string) *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponseFieldPathBuilder struct{}
+
+func NewSearchAlertingConditionsResponseFieldPathBuilder() SearchAlertingConditionsResponseFieldPathBuilder {
+	return SearchAlertingConditionsResponseFieldPathBuilder{}
+}
+func (SearchAlertingConditionsResponseFieldPathBuilder) AlertingConditions() SearchAlertingConditionsResponsePathSelectorAlertingConditions {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditions{}
+}
+func (SearchAlertingConditionsResponseFieldPathBuilder) PrevPageToken() SearchAlertingConditionsResponsePathSelectorPrevPageToken {
+	return SearchAlertingConditionsResponsePathSelectorPrevPageToken{}
+}
+func (SearchAlertingConditionsResponseFieldPathBuilder) NextPageToken() SearchAlertingConditionsResponsePathSelectorNextPageToken {
+	return SearchAlertingConditionsResponsePathSelectorNextPageToken{}
+}
+func (SearchAlertingConditionsResponseFieldPathBuilder) CurrentOffset() SearchAlertingConditionsResponsePathSelectorCurrentOffset {
+	return SearchAlertingConditionsResponsePathSelectorCurrentOffset{}
+}
+func (SearchAlertingConditionsResponseFieldPathBuilder) TotalResultsCount() SearchAlertingConditionsResponsePathSelectorTotalResultsCount {
+	return SearchAlertingConditionsResponsePathSelectorTotalResultsCount{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditions struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) FieldPath() *SearchAlertingConditionsResponse_FieldTerminalPath {
+	return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithValue(value []*alerting_condition.AlertingCondition) *SearchAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithArrayOfValues(values [][]*alerting_condition.AlertingCondition) *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithItemValue(value *alerting_condition.AlertingCondition) *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue)
+}
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithSubPath(subPath alerting_condition.AlertingCondition_FieldPath) *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions, subPath: subPath}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithSubValue(subPathValue alerting_condition.AlertingCondition_FieldPathValue) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return &SearchAlertingConditionsResponse_FieldSubPathValue{SearchAlertingConditionsResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithSubArrayOfValues(subPathArrayOfValues alerting_condition.AlertingCondition_FieldPathArrayOfValues) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return &SearchAlertingConditionsResponse_FieldSubPathArrayOfValues{SearchAlertingConditionsResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditions) WithSubArrayItemValue(subPathArrayItemValue alerting_condition.AlertingCondition_FieldPathArrayItemValue) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return &SearchAlertingConditionsResponse_FieldSubPathArrayItemValue{SearchAlertingConditionsResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) Name() SearchAlertingConditionsResponsePathSelectorAlertingConditionsName {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsName{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) Metadata() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) DisplayName() SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) Description() SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) Spec() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditions) State() SearchAlertingConditionsResponsePathSelectorAlertingConditionsState {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsState{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsName struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsName) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsName) WithValue(value *alerting_condition.Name) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsName) WithArrayOfValues(values []*alerting_condition.Name) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) WithValue(value *ntt_meta.Meta) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) CreateTime() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) UpdateTime() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) DeleteTime() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Uuid() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Tags() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Labels() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Annotations() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Generation() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) ResourceVersion() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) OwnerReferences() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Shards() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Syncing() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadata) Lifecycle() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().CreateTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime) WithValue(value *timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().UpdateTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Uuid().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataUuid) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Tags().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags) WithValue(value []string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags) WithArrayOfValues(values [][]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataTags) WithItemValue(value string) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Labels().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels) WithValue(value map[string]string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels) WithArrayOfValues(values []map[string]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLabels) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataLabels) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Annotations().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations) WithValue(value map[string]string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations) WithArrayOfValues(values []map[string]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataAnnotations) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Annotations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataAnnotations) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Generation().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration) WithValue(value int64) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataGeneration) WithArrayOfValues(values []int64) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().ResourceVersion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataResourceVersion) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Kind() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Version() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Name() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Region() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) Controller() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) BlockOwnerDeletion() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferences) RequiresOwnerReference() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Kind().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Name().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesName) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().Controller().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController) WithValue(value bool) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesController) WithArrayOfValues(values []bool) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Shards().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards) WithValue(value map[string]int64) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards) WithArrayOfValues(values []map[string]int64) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataShards) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Shards().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards) WithValue(value int64) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsMetadataShards) WithArrayOfValues(values []int64) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Syncing().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing) OwningRegion() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncing) Regions() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Syncing().OwningRegion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingOwningRegion) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Syncing().Regions().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) WithValue(value []string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) WithArrayOfValues(values [][]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataSyncingRegions) WithItemValue(value string) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) State() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycle) BlockDeletion() SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithValue(value bool) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsDisplayName) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Description().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription) WithValue(value string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsDescription) WithArrayOfValues(values []string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec) WithValue(value *alerting_condition.AlertingCondition_Spec) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec) TimeSeries() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpec) Trigger() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) WithValue(value *alerting_condition.AlertingCondition_Spec_TimeSeries) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_TimeSeries) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) Query() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) Threshold() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) CombineThreshold() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeries) Duration() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery) WithValue(value *alerting_condition.AlertingCondition_Spec_TimeSeries_Query) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_TimeSeries_Query) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery) Selector() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuery) Aggregation() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector) WithValue(value *monitoring_common.TimeSeriesSelector) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector) WithArrayOfValues(values []*monitoring_common.TimeSeriesSelector) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector) Metric() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelector) Resource() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric) WithValue(value *monitoring_common.MetricSelector) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric) WithArrayOfValues(values []*monitoring_common.MetricSelector) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric) Types() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetric) Labels() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Types().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes) WithValue(value []string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes) WithArrayOfValues(values [][]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricTypes) WithItemValue(value string) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) WithValue(value map[string]*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []map[string]*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) WithValue(value *monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorMetricLabels) WithArrayOfValues(values []*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource) WithValue(value *monitoring_common.MonitoredResourceSelector) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource) WithArrayOfValues(values []*monitoring_common.MonitoredResourceSelector) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource) Types() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResource) Labels() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Types().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes) WithValue(value []string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes) WithArrayOfValues(values [][]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceTypes) WithItemValue(value string) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) WithValue(value map[string]*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []map[string]*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Selector().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) WithValue(value *monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesQuerySelectorResourceLabels) WithArrayOfValues(values []*monitoring_common.Strings) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Aggregation().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) WithValue(value *monitoring_common.Aggregation) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) WithArrayOfValues(values []*monitoring_common.Aggregation) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) AlignmentPeriod() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) PerSeriesAligner() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) CrossSeriesReducer() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregation) GroupByFields() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Aggregation().AlignmentPeriod().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod) WithValue(value *duration.Duration) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationAlignmentPeriod) WithArrayOfValues(values []*duration.Duration) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Aggregation().PerSeriesAligner().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner) WithValue(value monitoring_common.Aggregation_Aligner) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationPerSeriesAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Aggregation().CrossSeriesReducer().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer) WithValue(value monitoring_common.Aggregation_Reducer) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationCrossSeriesReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().Aggregation().GroupByFields().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields) WithValue(value []string) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields) WithArrayOfValues(values [][]string) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesQueryAggregationGroupByFields) WithItemValue(value string) *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingConditionsResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Threshold().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold) WithValue(value *alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold) Compare() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThreshold) Value() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Threshold().Compare().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare) WithValue(value alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold_Compare) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdCompare) WithArrayOfValues(values []alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold_Compare) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Threshold().Value().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue) WithValue(value float64) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesThresholdValue) WithArrayOfValues(values []float64) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold) WithValue(value *alerting_condition.AlertingCondition_Spec_TimeSeries_CombineThreshold) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_TimeSeries_CombineThreshold) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold) PerMetric() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric{}
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThreshold) Combine() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetric().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) WithValue(value map[string]*alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) WithArrayOfValues(values []map[string]*alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) WithKey(key string) SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric {
+	return SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric{key: key}
+}
+
+type SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric struct {
+	key string
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetric().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) WithValue(value *alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponseMapPathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdPerMetric) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_TimeSeries_Threshold) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine) WithValue(value alerting_condition.AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesCombineThresholdCombine) WithArrayOfValues(values []alerting_condition.AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Duration().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration) WithValue(value *duration.Duration) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTimeSeriesDuration) WithArrayOfValues(values []*duration.Duration) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().Trigger().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger) WithValue(value *alerting_condition.AlertingCondition_Spec_Trigger) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger) WithArrayOfValues(values []*alerting_condition.AlertingCondition_Spec_Trigger) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTrigger) Type() SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType) WithValue(value alerting_condition.AlertingCondition_Spec_Trigger_Type) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsSpecTriggerType) WithArrayOfValues(values []alerting_condition.AlertingCondition_Spec_Trigger_Type) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsState struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsState) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().State().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsState) WithValue(value *alerting_condition.AlertingCondition_State) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsState) WithArrayOfValues(values []*alerting_condition.AlertingCondition_State) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsState) FiringAlertsCount() SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount {
+	return SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount{}
+}
+
+type SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount) FieldPath() *SearchAlertingConditionsResponse_FieldSubPath {
+	return &SearchAlertingConditionsResponse_FieldSubPath{
+		selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions,
+		subPath:  alerting_condition.NewAlertingConditionFieldPathBuilder().State().FiringAlertsCount().FieldPath(),
+	}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount) WithValue(value int64) *SearchAlertingConditionsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorAlertingConditionsStateFiringAlertsCount) WithArrayOfValues(values []int64) *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorPrevPageToken struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorPrevPageToken) FieldPath() *SearchAlertingConditionsResponse_FieldTerminalPath {
+	return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorPrevPageToken) WithValue(value *alerting_condition.PagerCursor) *SearchAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*alerting_condition.PagerCursor) *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorNextPageToken struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorNextPageToken) FieldPath() *SearchAlertingConditionsResponse_FieldTerminalPath {
+	return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorNextPageToken) WithValue(value *alerting_condition.PagerCursor) *SearchAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorNextPageToken) WithArrayOfValues(values []*alerting_condition.PagerCursor) *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorCurrentOffset struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorCurrentOffset) FieldPath() *SearchAlertingConditionsResponse_FieldTerminalPath {
+	return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorCurrentOffset) WithValue(value int32) *SearchAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingConditionsResponsePathSelectorTotalResultsCount struct{}
+
+func (SearchAlertingConditionsResponsePathSelectorTotalResultsCount) FieldPath() *SearchAlertingConditionsResponse_FieldTerminalPath {
+	return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorTotalResultsCount) WithValue(value int32) *SearchAlertingConditionsResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingConditionsResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingConditionsResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)
+}

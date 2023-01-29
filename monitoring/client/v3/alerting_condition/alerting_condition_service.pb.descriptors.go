@@ -41,6 +41,7 @@ var (
 	createAlertingConditionDescriptor    *CreateAlertingConditionDescriptor
 	updateAlertingConditionDescriptor    *UpdateAlertingConditionDescriptor
 	deleteAlertingConditionDescriptor    *DeleteAlertingConditionDescriptor
+	searchAlertingConditionsDescriptor   *SearchAlertingConditionsDescriptor
 )
 
 type GetAlertingConditionDescriptor struct{}
@@ -1455,6 +1456,182 @@ func GetDeleteAlertingConditionDescriptor() *DeleteAlertingConditionDescriptor {
 	return deleteAlertingConditionDescriptor
 }
 
+type SearchAlertingConditionsDescriptor struct{}
+
+type SearchAlertingConditionsDescriptorClientMsgHandle struct{}
+
+type SearchAlertingConditionsDescriptorServerMsgHandle struct{}
+
+func (d *SearchAlertingConditionsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchAlertingConditionsRequest{}
+}
+
+func (d *SearchAlertingConditionsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchAlertingConditionsResponse{}
+}
+
+func (d *SearchAlertingConditionsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchAlertingConditionsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchAlertingConditionsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchAlertingConditionsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchAlertingConditionsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchAlertingConditionsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchAlertingConditionsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetMethodName() string {
+	return "SearchAlertingConditions"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v3.AlertingConditionService/SearchAlertingConditions"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v3"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetApiName() string {
+	return "AlertingConditionService"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetServiceVersion() string {
+	return "v3"
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return alertingConditionServiceDescriptor
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return alerting_condition.GetDescriptor()
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchAlertingConditionsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchAlertingConditionsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchAlertingConditionsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchAlertingConditionsRequest) *alerting_condition.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchAlertingConditionsRequest) []*alerting_condition.Name
+	})
+	if ok {
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingConditionsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchAlertingConditionsRequest) *alerting_condition.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alerting_condition.ParentName)(nil)
+}
+
+func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchAlertingConditionsResponse) *alerting_condition.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchAlertingConditionsResponse) []*alerting_condition.Name
+	})
+	if ok {
+		return alerting_condition.AlertingConditionNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAlertingConditions(); len(resources) > 0 {
+			list := make(alerting_condition.AlertingConditionNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (alerting_condition.AlertingConditionNameList)(nil)
+}
+
+func (h *SearchAlertingConditionsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingConditionsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchAlertingConditionsResponse) *alerting_condition.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetSearchAlertingConditionsDescriptor() *SearchAlertingConditionsDescriptor {
+	return searchAlertingConditionsDescriptor
+}
+
 type AlertingConditionServiceDescriptor struct{}
 
 func (d *AlertingConditionServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1467,6 +1644,7 @@ func (d *AlertingConditionServiceDescriptor) AllMethodDescriptors() []gotenclien
 		createAlertingConditionDescriptor,
 		updateAlertingConditionDescriptor,
 		deleteAlertingConditionDescriptor,
+		searchAlertingConditionsDescriptor,
 	}
 }
 
@@ -1504,6 +1682,7 @@ func initDescriptors() {
 	createAlertingConditionDescriptor = &CreateAlertingConditionDescriptor{}
 	updateAlertingConditionDescriptor = &UpdateAlertingConditionDescriptor{}
 	deleteAlertingConditionDescriptor = &DeleteAlertingConditionDescriptor{}
+	searchAlertingConditionsDescriptor = &SearchAlertingConditionsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(alertingConditionServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getAlertingConditionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetAlertingConditionsDescriptor)
@@ -1513,6 +1692,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createAlertingConditionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateAlertingConditionDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteAlertingConditionDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchAlertingConditionsDescriptor)
 }
 
 func init() {

@@ -41,6 +41,7 @@ var (
 	createAlertingPolicyDescriptor     *CreateAlertingPolicyDescriptor
 	updateAlertingPolicyDescriptor     *UpdateAlertingPolicyDescriptor
 	deleteAlertingPolicyDescriptor     *DeleteAlertingPolicyDescriptor
+	searchAlertingPoliciesDescriptor   *SearchAlertingPoliciesDescriptor
 )
 
 type GetAlertingPolicyDescriptor struct{}
@@ -1455,6 +1456,182 @@ func GetDeleteAlertingPolicyDescriptor() *DeleteAlertingPolicyDescriptor {
 	return deleteAlertingPolicyDescriptor
 }
 
+type SearchAlertingPoliciesDescriptor struct{}
+
+type SearchAlertingPoliciesDescriptorClientMsgHandle struct{}
+
+type SearchAlertingPoliciesDescriptorServerMsgHandle struct{}
+
+func (d *SearchAlertingPoliciesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchAlertingPoliciesRequest{}
+}
+
+func (d *SearchAlertingPoliciesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchAlertingPoliciesResponse{}
+}
+
+func (d *SearchAlertingPoliciesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchAlertingPoliciesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchAlertingPoliciesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchAlertingPoliciesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchAlertingPoliciesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchAlertingPoliciesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchAlertingPoliciesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetMethodName() string {
+	return "SearchAlertingPolicies"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v3.AlertingPolicyService/SearchAlertingPolicies"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v3"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetApiName() string {
+	return "AlertingPolicyService"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetServiceVersion() string {
+	return "v3"
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return alertingPolicyServiceDescriptor
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return alerting_policy.GetDescriptor()
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchAlertingPoliciesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchAlertingPoliciesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchAlertingPoliciesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchAlertingPoliciesRequest) *alerting_policy.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingPoliciesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchAlertingPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchAlertingPoliciesRequest) []*alerting_policy.Name
+	})
+	if ok {
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchAlertingPoliciesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingPoliciesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchAlertingPoliciesRequest) *alerting_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alerting_policy.ParentName)(nil)
+}
+
+func (h *SearchAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchAlertingPoliciesResponse) *alerting_policy.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchAlertingPoliciesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchAlertingPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchAlertingPoliciesResponse) []*alerting_policy.Name
+	})
+	if ok {
+		return alerting_policy.AlertingPolicyNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetAlertingPolicies(); len(resources) > 0 {
+			list := make(alerting_policy.AlertingPolicyNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (alerting_policy.AlertingPolicyNameList)(nil)
+}
+
+func (h *SearchAlertingPoliciesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchAlertingPoliciesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchAlertingPoliciesResponse) *alerting_policy.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetSearchAlertingPoliciesDescriptor() *SearchAlertingPoliciesDescriptor {
+	return searchAlertingPoliciesDescriptor
+}
+
 type AlertingPolicyServiceDescriptor struct{}
 
 func (d *AlertingPolicyServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1467,6 +1644,7 @@ func (d *AlertingPolicyServiceDescriptor) AllMethodDescriptors() []gotenclient.M
 		createAlertingPolicyDescriptor,
 		updateAlertingPolicyDescriptor,
 		deleteAlertingPolicyDescriptor,
+		searchAlertingPoliciesDescriptor,
 	}
 }
 
@@ -1504,6 +1682,7 @@ func initDescriptors() {
 	createAlertingPolicyDescriptor = &CreateAlertingPolicyDescriptor{}
 	updateAlertingPolicyDescriptor = &UpdateAlertingPolicyDescriptor{}
 	deleteAlertingPolicyDescriptor = &DeleteAlertingPolicyDescriptor{}
+	searchAlertingPoliciesDescriptor = &SearchAlertingPoliciesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(alertingPolicyServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getAlertingPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetAlertingPoliciesDescriptor)
@@ -1513,6 +1692,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createAlertingPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateAlertingPolicyDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteAlertingPolicyDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchAlertingPoliciesDescriptor)
 }
 
 func init() {

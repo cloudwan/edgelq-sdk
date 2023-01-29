@@ -6778,3 +6778,1180 @@ func (s DeleteAlertingPolicyRequestPathSelectorName) WithValue(value *alerting_p
 func (s DeleteAlertingPolicyRequestPathSelectorName) WithArrayOfValues(values []*alerting_policy.Reference) *DeleteAlertingPolicyRequest_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeleteAlertingPolicyRequest_FieldTerminalPathArrayOfValues)
 }
+
+type SearchAlertingPoliciesRequestFieldPathBuilder struct{}
+
+func NewSearchAlertingPoliciesRequestFieldPathBuilder() SearchAlertingPoliciesRequestFieldPathBuilder {
+	return SearchAlertingPoliciesRequestFieldPathBuilder{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) Parent() SearchAlertingPoliciesRequestPathSelectorParent {
+	return SearchAlertingPoliciesRequestPathSelectorParent{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) PageSize() SearchAlertingPoliciesRequestPathSelectorPageSize {
+	return SearchAlertingPoliciesRequestPathSelectorPageSize{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) PageToken() SearchAlertingPoliciesRequestPathSelectorPageToken {
+	return SearchAlertingPoliciesRequestPathSelectorPageToken{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) OrderBy() SearchAlertingPoliciesRequestPathSelectorOrderBy {
+	return SearchAlertingPoliciesRequestPathSelectorOrderBy{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) Filter() SearchAlertingPoliciesRequestPathSelectorFilter {
+	return SearchAlertingPoliciesRequestPathSelectorFilter{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) FieldMask() SearchAlertingPoliciesRequestPathSelectorFieldMask {
+	return SearchAlertingPoliciesRequestPathSelectorFieldMask{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) View() SearchAlertingPoliciesRequestPathSelectorView {
+	return SearchAlertingPoliciesRequestPathSelectorView{}
+}
+func (SearchAlertingPoliciesRequestFieldPathBuilder) Phrase() SearchAlertingPoliciesRequestPathSelectorPhrase {
+	return SearchAlertingPoliciesRequestPathSelectorPhrase{}
+}
+
+type SearchAlertingPoliciesRequestPathSelectorParent struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorParent) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorParent}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorParent) WithValue(value *alerting_policy.ParentName) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorParent) WithArrayOfValues(values []*alerting_policy.ParentName) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorPageSize struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorPageSize) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPageSize}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPageSize) WithValue(value int32) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPageSize) WithArrayOfValues(values []int32) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorPageToken struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorPageToken) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPageToken}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPageToken) WithValue(value *alerting_policy.PagerCursor) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPageToken) WithArrayOfValues(values []*alerting_policy.PagerCursor) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorOrderBy struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorOrderBy) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorOrderBy}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorOrderBy) WithValue(value *alerting_policy.OrderBy) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorOrderBy) WithArrayOfValues(values []*alerting_policy.OrderBy) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorFilter struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorFilter) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorFilter}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorFilter) WithValue(value *alerting_policy.Filter) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorFilter) WithArrayOfValues(values []*alerting_policy.Filter) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorFieldMask struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorFieldMask) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorFieldMask}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorFieldMask) WithValue(value *alerting_policy.AlertingPolicy_FieldMask) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorFieldMask) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_FieldMask) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorView struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorView) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorView}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorView) WithValue(value view.View) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorView) WithArrayOfValues(values []view.View) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesRequestPathSelectorPhrase struct{}
+
+func (SearchAlertingPoliciesRequestPathSelectorPhrase) FieldPath() *SearchAlertingPoliciesRequest_FieldTerminalPath {
+	return &SearchAlertingPoliciesRequest_FieldTerminalPath{selector: SearchAlertingPoliciesRequest_FieldPathSelectorPhrase}
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPhrase) WithValue(value string) *SearchAlertingPoliciesRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesRequest_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesRequestPathSelectorPhrase) WithArrayOfValues(values []string) *SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesRequest_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponseFieldPathBuilder struct{}
+
+func NewSearchAlertingPoliciesResponseFieldPathBuilder() SearchAlertingPoliciesResponseFieldPathBuilder {
+	return SearchAlertingPoliciesResponseFieldPathBuilder{}
+}
+func (SearchAlertingPoliciesResponseFieldPathBuilder) AlertingPolicies() SearchAlertingPoliciesResponsePathSelectorAlertingPolicies {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPolicies{}
+}
+func (SearchAlertingPoliciesResponseFieldPathBuilder) PrevPageToken() SearchAlertingPoliciesResponsePathSelectorPrevPageToken {
+	return SearchAlertingPoliciesResponsePathSelectorPrevPageToken{}
+}
+func (SearchAlertingPoliciesResponseFieldPathBuilder) NextPageToken() SearchAlertingPoliciesResponsePathSelectorNextPageToken {
+	return SearchAlertingPoliciesResponsePathSelectorNextPageToken{}
+}
+func (SearchAlertingPoliciesResponseFieldPathBuilder) CurrentOffset() SearchAlertingPoliciesResponsePathSelectorCurrentOffset {
+	return SearchAlertingPoliciesResponsePathSelectorCurrentOffset{}
+}
+func (SearchAlertingPoliciesResponseFieldPathBuilder) TotalResultsCount() SearchAlertingPoliciesResponsePathSelectorTotalResultsCount {
+	return SearchAlertingPoliciesResponsePathSelectorTotalResultsCount{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPolicies struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) FieldPath() *SearchAlertingPoliciesResponse_FieldTerminalPath {
+	return &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithValue(value []*alerting_policy.AlertingPolicy) *SearchAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithArrayOfValues(values [][]*alerting_policy.AlertingPolicy) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithItemValue(value *alerting_policy.AlertingPolicy) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayItemValue)
+}
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithSubPath(subPath alerting_policy.AlertingPolicy_FieldPath) *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies, subPath: subPath}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithSubValue(subPathValue alerting_policy.AlertingPolicy_FieldPathValue) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return &SearchAlertingPoliciesResponse_FieldSubPathValue{SearchAlertingPoliciesResponse_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithSubArrayOfValues(subPathArrayOfValues alerting_policy.AlertingPolicy_FieldPathArrayOfValues) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return &SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues{SearchAlertingPoliciesResponse_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) WithSubArrayItemValue(subPathArrayItemValue alerting_policy.AlertingPolicy_FieldPathArrayItemValue) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+	return &SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue{SearchAlertingPoliciesResponse_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Name() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Metadata() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) DisplayName() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Description() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Documentation() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Spec() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName) WithValue(value *alerting_policy.Name) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName) WithArrayOfValues(values []*alerting_policy.Name) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) WithValue(value *ntt_meta.Meta) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) CreateTime() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) UpdateTime() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) DeleteTime() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Uuid() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Tags() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Labels() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Annotations() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Generation() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) ResourceVersion() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) OwnerReferences() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Shards() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Syncing() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadata) Lifecycle() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().CreateTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime) WithValue(value *timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().UpdateTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Uuid().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataUuid) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Tags().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataTags) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Labels().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels) WithValue(value map[string]string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels) WithArrayOfValues(values []map[string]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLabels) WithKey(key string) SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels {
+	return SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels{key: key}
+}
+
+type SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels struct {
+	key string
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataLabels) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Annotations().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations) WithValue(value map[string]string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations) WithArrayOfValues(values []map[string]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataAnnotations) WithKey(key string) SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations {
+	return SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations{key: key}
+}
+
+type SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations struct {
+	key string
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Annotations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataAnnotations) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Generation().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration) WithValue(value int64) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataGeneration) WithArrayOfValues(values []int64) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().ResourceVersion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataResourceVersion) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Kind() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Version() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Name() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Region() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) Controller() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) BlockOwnerDeletion() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferences) RequiresOwnerReference() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Kind().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Name().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesName) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().Controller().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesController) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Shards().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards) WithValue(value map[string]int64) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards) WithArrayOfValues(values []map[string]int64) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataShards) WithKey(key string) SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards {
+	return SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards{key: key}
+}
+
+type SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards struct {
+	key string
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Shards().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards) WithValue(value int64) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponseMapPathSelectorAlertingPoliciesMetadataShards) WithArrayOfValues(values []int64) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Syncing().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) OwningRegion() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncing) Regions() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Syncing().OwningRegion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingOwningRegion) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Syncing().Regions().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataSyncingRegions) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) State() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycle) BlockDeletion() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().DisplayName().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDisplayName) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Description().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDescription) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Documentation().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation) WithValue(value *alerting_policy.AlertingPolicy_Documentation) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Documentation) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation) Content() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentation) MimeType() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Documentation().Content().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationContent) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Documentation().MimeType().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesDocumentationMimeType) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) WithValue(value *alerting_policy.AlertingPolicy_Spec) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) Enabled() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) ConditionCombiner() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec) Notification() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Enabled().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecEnabled) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().ConditionCombiner().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner) WithValue(value alerting_policy.AlertingPolicy_Spec_ConditionsCombiner) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecConditionCombiner) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_ConditionsCombiner) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Slack() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) App() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) IncomingWebhook() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) AuthToken() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) Channel() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorPrevPageToken struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorPrevPageToken) FieldPath() *SearchAlertingPoliciesResponse_FieldTerminalPath {
+	return &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorPrevPageToken}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorPrevPageToken) WithValue(value *alerting_policy.PagerCursor) *SearchAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorPrevPageToken) WithArrayOfValues(values []*alerting_policy.PagerCursor) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorNextPageToken struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorNextPageToken) FieldPath() *SearchAlertingPoliciesResponse_FieldTerminalPath {
+	return &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorNextPageToken}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorNextPageToken) WithValue(value *alerting_policy.PagerCursor) *SearchAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorNextPageToken) WithArrayOfValues(values []*alerting_policy.PagerCursor) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorCurrentOffset struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorCurrentOffset) FieldPath() *SearchAlertingPoliciesResponse_FieldTerminalPath {
+	return &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorCurrentOffset}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorCurrentOffset) WithValue(value int32) *SearchAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorCurrentOffset) WithArrayOfValues(values []int32) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}
+
+type SearchAlertingPoliciesResponsePathSelectorTotalResultsCount struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorTotalResultsCount) FieldPath() *SearchAlertingPoliciesResponse_FieldTerminalPath {
+	return &SearchAlertingPoliciesResponse_FieldTerminalPath{selector: SearchAlertingPoliciesResponse_FieldPathSelectorTotalResultsCount}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorTotalResultsCount) WithValue(value int32) *SearchAlertingPoliciesResponse_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldTerminalPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorTotalResultsCount) WithArrayOfValues(values []int32) *SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldTerminalPathArrayOfValues)
+}

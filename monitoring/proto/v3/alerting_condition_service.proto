@@ -319,6 +319,70 @@ message DeleteAlertingConditionRequest {
   string name = 1;
 }
 
+// Request message for method
+// [SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]
+message SearchAlertingConditionsRequest {
+  // Parent name of ntt.monitoring.v3.AlertingCondition
+  string parent = 1;
+
+  // Requested page size. Server may return fewer AlertingConditions than
+  // requested. If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [SearchAlertingConditionsResponse.next_page_token][ntt.monitoring.v3.SearchAlertingConditionsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.view.View view = 7;
+
+  // Optional search phrase used to further filter results.
+  string phrase = 8;
+}
+
+// Request message for method
+// [SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]
+message SearchAlertingConditionsResponse {
+  // The list of AlertingConditions
+  repeated AlertingCondition alerting_conditions = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]
+  string next_page_token = 4;
+
+  // Current offset from the first page (0 if no page tokens were given). Page
+  // index can be computed from offset and limit provided in a request
+  int32 current_offset = 5;
+
+  // Number of total AlertingConditions across all pages.
+  int32 total_results_count = 6;
+}
+
 // AlertingCondition service API for Monitoring
 service AlertingConditionService {
   option (google.api.default_host) = "monitoring.edgelq.com";
@@ -394,6 +458,15 @@ service AlertingConditionService {
     option (google.api.http) = {
       delete : "/v3/{name=projects/*/regions/*/alertingPolicies/*/"
                "alertingConditions/*}"
+    };
+  }
+
+  // SearchAlertingConditions
+  rpc SearchAlertingConditions(SearchAlertingConditionsRequest)
+      returns (SearchAlertingConditionsResponse) {
+    option (google.api.http) = {
+      get : "/v3/{parent=projects/*/regions/*/alertingPolicies/*}/"
+            "alertingConditions:search"
     };
   }
 }

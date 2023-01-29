@@ -8254,3 +8254,1415 @@ func (fpaov *DeleteAlertingConditionRequest_FieldTerminalPathArrayOfValues) AsNa
 	res, ok := fpaov.values.([]*alerting_condition.Reference)
 	return res, ok
 }
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SearchAlertingConditionsRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SearchAlertingConditionsRequest_FieldPathSelector
+	Get(source *SearchAlertingConditionsRequest) []interface{}
+	GetSingle(source *SearchAlertingConditionsRequest) (interface{}, bool)
+	ClearValue(item *SearchAlertingConditionsRequest)
+
+	// Those methods build corresponding SearchAlertingConditionsRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SearchAlertingConditionsRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) SearchAlertingConditionsRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SearchAlertingConditionsRequest_FieldPathArrayItemValue
+}
+
+type SearchAlertingConditionsRequest_FieldPathSelector int32
+
+const (
+	SearchAlertingConditionsRequest_FieldPathSelectorParent    SearchAlertingConditionsRequest_FieldPathSelector = 0
+	SearchAlertingConditionsRequest_FieldPathSelectorPageSize  SearchAlertingConditionsRequest_FieldPathSelector = 1
+	SearchAlertingConditionsRequest_FieldPathSelectorPageToken SearchAlertingConditionsRequest_FieldPathSelector = 2
+	SearchAlertingConditionsRequest_FieldPathSelectorOrderBy   SearchAlertingConditionsRequest_FieldPathSelector = 3
+	SearchAlertingConditionsRequest_FieldPathSelectorFilter    SearchAlertingConditionsRequest_FieldPathSelector = 4
+	SearchAlertingConditionsRequest_FieldPathSelectorFieldMask SearchAlertingConditionsRequest_FieldPathSelector = 5
+	SearchAlertingConditionsRequest_FieldPathSelectorView      SearchAlertingConditionsRequest_FieldPathSelector = 6
+	SearchAlertingConditionsRequest_FieldPathSelectorPhrase    SearchAlertingConditionsRequest_FieldPathSelector = 7
+)
+
+func (s SearchAlertingConditionsRequest_FieldPathSelector) String() string {
+	switch s {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		return "parent"
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		return "page_size"
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		return "page_token"
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		return "order_by"
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		return "filter"
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		return "field_mask"
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		return "view"
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		return "phrase"
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", s))
+	}
+}
+
+func BuildSearchAlertingConditionsRequest_FieldPath(fp gotenobject.RawFieldPath) (SearchAlertingConditionsRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SearchAlertingConditionsRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "parent":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorParent}, nil
+		case "page_size", "pageSize", "page-size":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageSize}, nil
+		case "page_token", "pageToken", "page-token":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPageToken}, nil
+		case "order_by", "orderBy", "order-by":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorOrderBy}, nil
+		case "filter":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFilter}, nil
+		case "field_mask", "fieldMask", "field-mask":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorFieldMask}, nil
+		case "view":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorView}, nil
+		case "phrase":
+			return &SearchAlertingConditionsRequest_FieldTerminalPath{selector: SearchAlertingConditionsRequest_FieldPathSelectorPhrase}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SearchAlertingConditionsRequest", fp)
+}
+
+func ParseSearchAlertingConditionsRequest_FieldPath(rawField string) (SearchAlertingConditionsRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSearchAlertingConditionsRequest_FieldPath(fp)
+}
+
+func MustParseSearchAlertingConditionsRequest_FieldPath(rawField string) SearchAlertingConditionsRequest_FieldPath {
+	fp, err := ParseSearchAlertingConditionsRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SearchAlertingConditionsRequest_FieldTerminalPath struct {
+	selector SearchAlertingConditionsRequest_FieldPathSelector
+}
+
+var _ SearchAlertingConditionsRequest_FieldPath = (*SearchAlertingConditionsRequest_FieldTerminalPath)(nil)
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) Selector() SearchAlertingConditionsRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SearchAlertingConditionsRequest
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) Get(source *SearchAlertingConditionsRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+			if source.Parent != nil {
+				values = append(values, source.Parent)
+			}
+		case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+			values = append(values, source.PageSize)
+		case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+			if source.PageToken != nil {
+				values = append(values, source.PageToken)
+			}
+		case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+			if source.OrderBy != nil {
+				values = append(values, source.OrderBy)
+			}
+		case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+			if source.Filter != nil {
+				values = append(values, source.Filter)
+			}
+		case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+			if source.FieldMask != nil {
+				values = append(values, source.FieldMask)
+			}
+		case SearchAlertingConditionsRequest_FieldPathSelectorView:
+			values = append(values, source.View)
+		case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+			values = append(values, source.Phrase)
+		default:
+			panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SearchAlertingConditionsRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source SearchAlertingConditionsRequest
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) GetSingle(source *SearchAlertingConditionsRequest) (interface{}, bool) {
+	switch fp.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		res := source.GetParent()
+		return res, res != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		return source.GetPageSize(), source != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		res := source.GetPageToken()
+		return res, res != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		res := source.GetOrderBy()
+		return res, res != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		res := source.GetFilter()
+		return res, res != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		res := source.GetFieldMask()
+		return res, res != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		return source.GetView(), source != nil
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		return source.GetPhrase(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SearchAlertingConditionsRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		return (*alerting_condition.ParentName)(nil)
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		return int32(0)
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		return (*alerting_condition.PagerCursor)(nil)
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		return (*alerting_condition.OrderBy)(nil)
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		return (*alerting_condition.Filter)(nil)
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		return (*alerting_condition.AlertingCondition_FieldMask)(nil)
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		return view.View_UNSPECIFIED
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) ClearValue(item *SearchAlertingConditionsRequest) {
+	if item != nil {
+		switch fp.selector {
+		case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+			item.Parent = nil
+		case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+			item.PageSize = int32(0)
+		case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+			item.PageToken = nil
+		case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+			item.OrderBy = nil
+		case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+			item.Filter = nil
+		case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+			item.FieldMask = nil
+		case SearchAlertingConditionsRequest_FieldPathSelectorView:
+			item.View = view.View_UNSPECIFIED
+		case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+			item.Phrase = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SearchAlertingConditionsRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorParent ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorPageSize ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorPageToken ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorOrderBy ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorFilter ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorFieldMask ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorView ||
+		fp.selector == SearchAlertingConditionsRequest_FieldPathSelectorPhrase
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithIValue(value interface{}) SearchAlertingConditionsRequest_FieldPathValue {
+	switch fp.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.ParentName)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(int32)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.OrderBy)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.Filter)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(*alerting_condition.AlertingCondition_FieldMask)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(view.View)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathValue{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) SearchAlertingConditionsRequest_FieldPathArrayOfValues {
+	fpaov := &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.ParentName)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]int32)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.OrderBy)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.Filter)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]*alerting_condition.AlertingCondition_FieldMask)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]view.View)}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		return &SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues{SearchAlertingConditionsRequest_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) SearchAlertingConditionsRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// SearchAlertingConditionsRequest_FieldPathValue allows storing values for SearchAlertingConditionsRequest fields according to their type
+type SearchAlertingConditionsRequest_FieldPathValue interface {
+	SearchAlertingConditionsRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SearchAlertingConditionsRequest)
+	CompareWith(*SearchAlertingConditionsRequest) (cmp int, comparable bool)
+}
+
+func ParseSearchAlertingConditionsRequest_FieldPathValue(pathStr, valueStr string) (SearchAlertingConditionsRequest_FieldPathValue, error) {
+	fp, err := ParseSearchAlertingConditionsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SearchAlertingConditionsRequest_FieldPathValue), nil
+}
+
+func MustParseSearchAlertingConditionsRequest_FieldPathValue(pathStr, valueStr string) SearchAlertingConditionsRequest_FieldPathValue {
+	fpv, err := ParseSearchAlertingConditionsRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SearchAlertingConditionsRequest_FieldTerminalPathValue struct {
+	SearchAlertingConditionsRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ SearchAlertingConditionsRequest_FieldPathValue = (*SearchAlertingConditionsRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'SearchAlertingConditionsRequest' as interface{}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsParentValue() (*alerting_condition.ParentName, bool) {
+	res, ok := fpv.value.(*alerting_condition.ParentName)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsPageSizeValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsPageTokenValue() (*alerting_condition.PagerCursor, bool) {
+	res, ok := fpv.value.(*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsOrderByValue() (*alerting_condition.OrderBy, bool) {
+	res, ok := fpv.value.(*alerting_condition.OrderBy)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsFilterValue() (*alerting_condition.Filter, bool) {
+	res, ok := fpv.value.(*alerting_condition.Filter)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsFieldMaskValue() (*alerting_condition.AlertingCondition_FieldMask, bool) {
+	res, ok := fpv.value.(*alerting_condition.AlertingCondition_FieldMask)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsViewValue() (view.View, bool) {
+	res, ok := fpv.value.(view.View)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) AsPhraseValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object SearchAlertingConditionsRequest
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) SetTo(target **SearchAlertingConditionsRequest) {
+	if *target == nil {
+		*target = new(SearchAlertingConditionsRequest)
+	}
+	switch fpv.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		(*target).Parent = fpv.value.(*alerting_condition.ParentName)
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		(*target).PageSize = fpv.value.(int32)
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		(*target).PageToken = fpv.value.(*alerting_condition.PagerCursor)
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		(*target).OrderBy = fpv.value.(*alerting_condition.OrderBy)
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		(*target).Filter = fpv.value.(*alerting_condition.Filter)
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		(*target).FieldMask = fpv.value.(*alerting_condition.AlertingCondition_FieldMask)
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		(*target).View = fpv.value.(view.View)
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		(*target).Phrase = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SearchAlertingConditionsRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SearchAlertingConditionsRequest_FieldTerminalPathValue' with the value under path in 'SearchAlertingConditionsRequest'.
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) CompareWith(source *SearchAlertingConditionsRequest) (int, bool) {
+	switch fpv.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		leftValue := fpv.value.(*alerting_condition.ParentName)
+		rightValue := source.GetParent()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetPageSize()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		return 0, false
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		return 0, false
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		return 0, false
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		return 0, false
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		leftValue := fpv.value.(view.View)
+		rightValue := source.GetView()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPhrase()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *SearchAlertingConditionsRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SearchAlertingConditionsRequest))
+}
+
+// SearchAlertingConditionsRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for SearchAlertingConditionsRequest according to their type
+// Present only for array (repeated) types.
+type SearchAlertingConditionsRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SearchAlertingConditionsRequest_FieldPath
+	ContainsValue(*SearchAlertingConditionsRequest) bool
+}
+
+// ParseSearchAlertingConditionsRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSearchAlertingConditionsRequest_FieldPathArrayItemValue(pathStr, valueStr string) (SearchAlertingConditionsRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseSearchAlertingConditionsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SearchAlertingConditionsRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseSearchAlertingConditionsRequest_FieldPathArrayItemValue(pathStr, valueStr string) SearchAlertingConditionsRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseSearchAlertingConditionsRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue struct {
+	SearchAlertingConditionsRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ SearchAlertingConditionsRequest_FieldPathArrayItemValue = (*SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SearchAlertingConditionsRequest as interface{}
+func (fpaiv *SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue) GetSingle(source *SearchAlertingConditionsRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SearchAlertingConditionsRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SearchAlertingConditionsRequest'
+func (fpaiv *SearchAlertingConditionsRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *SearchAlertingConditionsRequest) bool {
+	slice := fpaiv.SearchAlertingConditionsRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// SearchAlertingConditionsRequest_FieldPathArrayOfValues allows storing slice of values for SearchAlertingConditionsRequest fields according to their type
+type SearchAlertingConditionsRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SearchAlertingConditionsRequest_FieldPath
+}
+
+func ParseSearchAlertingConditionsRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (SearchAlertingConditionsRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseSearchAlertingConditionsRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SearchAlertingConditionsRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseSearchAlertingConditionsRequest_FieldPathArrayOfValues(pathStr, valuesStr string) SearchAlertingConditionsRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseSearchAlertingConditionsRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues struct {
+	SearchAlertingConditionsRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ SearchAlertingConditionsRequest_FieldPathArrayOfValues = (*SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case SearchAlertingConditionsRequest_FieldPathSelectorParent:
+		for _, v := range fpaov.values.([]*alerting_condition.ParentName) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageSize:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPageToken:
+		for _, v := range fpaov.values.([]*alerting_condition.PagerCursor) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorOrderBy:
+		for _, v := range fpaov.values.([]*alerting_condition.OrderBy) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFilter:
+		for _, v := range fpaov.values.([]*alerting_condition.Filter) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorFieldMask:
+		for _, v := range fpaov.values.([]*alerting_condition.AlertingCondition_FieldMask) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorView:
+		for _, v := range fpaov.values.([]view.View) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsRequest_FieldPathSelectorPhrase:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsParentArrayOfValues() ([]*alerting_condition.ParentName, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.ParentName)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsPageSizeArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsPageTokenArrayOfValues() ([]*alerting_condition.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsOrderByArrayOfValues() ([]*alerting_condition.OrderBy, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.OrderBy)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*alerting_condition.Filter, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.Filter)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsFieldMaskArrayOfValues() ([]*alerting_condition.AlertingCondition_FieldMask, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.AlertingCondition_FieldMask)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsViewArrayOfValues() ([]view.View, bool) {
+	res, ok := fpaov.values.([]view.View)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsRequest_FieldTerminalPathArrayOfValues) AsPhraseArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type SearchAlertingConditionsResponse_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() SearchAlertingConditionsResponse_FieldPathSelector
+	Get(source *SearchAlertingConditionsResponse) []interface{}
+	GetSingle(source *SearchAlertingConditionsResponse) (interface{}, bool)
+	ClearValue(item *SearchAlertingConditionsResponse)
+
+	// Those methods build corresponding SearchAlertingConditionsResponse_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) SearchAlertingConditionsResponse_FieldPathValue
+	WithIArrayOfValues(values interface{}) SearchAlertingConditionsResponse_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) SearchAlertingConditionsResponse_FieldPathArrayItemValue
+}
+
+type SearchAlertingConditionsResponse_FieldPathSelector int32
+
+const (
+	SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions SearchAlertingConditionsResponse_FieldPathSelector = 0
+	SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken      SearchAlertingConditionsResponse_FieldPathSelector = 1
+	SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken      SearchAlertingConditionsResponse_FieldPathSelector = 2
+	SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset      SearchAlertingConditionsResponse_FieldPathSelector = 3
+	SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount  SearchAlertingConditionsResponse_FieldPathSelector = 4
+)
+
+func (s SearchAlertingConditionsResponse_FieldPathSelector) String() string {
+	switch s {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return "alerting_conditions"
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		return "prev_page_token"
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		return "next_page_token"
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return "current_offset"
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return "total_results_count"
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", s))
+	}
+}
+
+func BuildSearchAlertingConditionsResponse_FieldPath(fp gotenobject.RawFieldPath) (SearchAlertingConditionsResponse_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object SearchAlertingConditionsResponse")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "alerting_conditions", "alertingConditions", "alerting-conditions":
+			return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions}, nil
+		case "prev_page_token", "prevPageToken", "prev-page-token":
+			return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken}, nil
+		case "next_page_token", "nextPageToken", "next-page-token":
+			return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken}, nil
+		case "current_offset", "currentOffset", "current-offset":
+			return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset}, nil
+		case "total_results_count", "totalResultsCount", "total-results-count":
+			return &SearchAlertingConditionsResponse_FieldTerminalPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "alerting_conditions", "alertingConditions", "alerting-conditions":
+			if subpath, err := alerting_condition.BuildAlertingCondition_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &SearchAlertingConditionsResponse_FieldSubPath{selector: SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object SearchAlertingConditionsResponse", fp)
+}
+
+func ParseSearchAlertingConditionsResponse_FieldPath(rawField string) (SearchAlertingConditionsResponse_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildSearchAlertingConditionsResponse_FieldPath(fp)
+}
+
+func MustParseSearchAlertingConditionsResponse_FieldPath(rawField string) SearchAlertingConditionsResponse_FieldPath {
+	fp, err := ParseSearchAlertingConditionsResponse_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type SearchAlertingConditionsResponse_FieldTerminalPath struct {
+	selector SearchAlertingConditionsResponse_FieldPathSelector
+}
+
+var _ SearchAlertingConditionsResponse_FieldPath = (*SearchAlertingConditionsResponse_FieldTerminalPath)(nil)
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) Selector() SearchAlertingConditionsResponse_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source SearchAlertingConditionsResponse
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) Get(source *SearchAlertingConditionsResponse) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+			for _, value := range source.GetAlertingConditions() {
+				values = append(values, value)
+			}
+		case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+			if source.PrevPageToken != nil {
+				values = append(values, source.PrevPageToken)
+			}
+		case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+			if source.NextPageToken != nil {
+				values = append(values, source.NextPageToken)
+			}
+		case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+			values = append(values, source.CurrentOffset)
+		case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+			values = append(values, source.TotalResultsCount)
+		default:
+			panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*SearchAlertingConditionsResponse))
+}
+
+// GetSingle returns value pointed by specific field of from source SearchAlertingConditionsResponse
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) GetSingle(source *SearchAlertingConditionsResponse) (interface{}, bool) {
+	switch fp.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		res := source.GetAlertingConditions()
+		return res, res != nil
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		res := source.GetPrevPageToken()
+		return res, res != nil
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		res := source.GetNextPageToken()
+		return res, res != nil
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return source.GetCurrentOffset(), source != nil
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return source.GetTotalResultsCount(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*SearchAlertingConditionsResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return ([]*alerting_condition.AlertingCondition)(nil)
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		return (*alerting_condition.PagerCursor)(nil)
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		return (*alerting_condition.PagerCursor)(nil)
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return int32(0)
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return int32(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) ClearValue(item *SearchAlertingConditionsResponse) {
+	if item != nil {
+		switch fp.selector {
+		case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+			item.AlertingConditions = nil
+		case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+			item.PrevPageToken = nil
+		case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+			item.NextPageToken = nil
+		case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+			item.CurrentOffset = int32(0)
+		case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+			item.TotalResultsCount = int32(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*SearchAlertingConditionsResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken ||
+		fp.selector == SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken ||
+		fp.selector == SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset ||
+		fp.selector == SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithIValue(value interface{}) SearchAlertingConditionsResponse_FieldPathValue {
+	switch fp.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.([]*alerting_condition.AlertingCondition)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithIArrayOfValues(values interface{}) SearchAlertingConditionsResponse_FieldPathArrayOfValues {
+	fpaov := &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([][]*alerting_condition.AlertingCondition)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]*alerting_condition.PagerCursor)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, values: values.([]int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithIArrayItemValue(value interface{}) SearchAlertingConditionsResponse_FieldPathArrayItemValue {
+	switch fp.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return &SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue{SearchAlertingConditionsResponse_FieldTerminalPath: *fp, value: value.(*alerting_condition.AlertingCondition)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fp.selector))
+	}
+}
+
+func (fp *SearchAlertingConditionsResponse_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type SearchAlertingConditionsResponse_FieldSubPath struct {
+	selector SearchAlertingConditionsResponse_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ SearchAlertingConditionsResponse_FieldPath = (*SearchAlertingConditionsResponse_FieldSubPath)(nil)
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) Selector() SearchAlertingConditionsResponse_FieldPathSelector {
+	return fps.selector
+}
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) AsAlertingConditionsSubPath() (alerting_condition.AlertingCondition_FieldPath, bool) {
+	res, ok := fps.subPath.(alerting_condition.AlertingCondition_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source SearchAlertingConditionsResponse
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) Get(source *SearchAlertingConditionsResponse) (values []interface{}) {
+	switch fps.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		for _, item := range source.GetAlertingConditions() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*SearchAlertingConditionsResponse))
+}
+
+// GetSingle returns value of selected field from source SearchAlertingConditionsResponse
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) GetSingle(source *SearchAlertingConditionsResponse) (interface{}, bool) {
+	switch fps.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		if len(source.GetAlertingConditions()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAlertingConditions()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fps.selector))
+	}
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*SearchAlertingConditionsResponse))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) ClearValue(item *SearchAlertingConditionsResponse) {
+	if item != nil {
+		switch fps.selector {
+		case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+			for _, subItem := range item.AlertingConditions {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*SearchAlertingConditionsResponse))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&SearchAlertingConditionsResponse_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithIValue(value interface{}) SearchAlertingConditionsResponse_FieldPathValue {
+	return &SearchAlertingConditionsResponse_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithIArrayOfValues(values interface{}) SearchAlertingConditionsResponse_FieldPathArrayOfValues {
+	return &SearchAlertingConditionsResponse_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithIArrayItemValue(value interface{}) SearchAlertingConditionsResponse_FieldPathArrayItemValue {
+	return &SearchAlertingConditionsResponse_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *SearchAlertingConditionsResponse_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// SearchAlertingConditionsResponse_FieldPathValue allows storing values for SearchAlertingConditionsResponse fields according to their type
+type SearchAlertingConditionsResponse_FieldPathValue interface {
+	SearchAlertingConditionsResponse_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **SearchAlertingConditionsResponse)
+	CompareWith(*SearchAlertingConditionsResponse) (cmp int, comparable bool)
+}
+
+func ParseSearchAlertingConditionsResponse_FieldPathValue(pathStr, valueStr string) (SearchAlertingConditionsResponse_FieldPathValue, error) {
+	fp, err := ParseSearchAlertingConditionsResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsResponse field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(SearchAlertingConditionsResponse_FieldPathValue), nil
+}
+
+func MustParseSearchAlertingConditionsResponse_FieldPathValue(pathStr, valueStr string) SearchAlertingConditionsResponse_FieldPathValue {
+	fpv, err := ParseSearchAlertingConditionsResponse_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type SearchAlertingConditionsResponse_FieldTerminalPathValue struct {
+	SearchAlertingConditionsResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ SearchAlertingConditionsResponse_FieldPathValue = (*SearchAlertingConditionsResponse_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'SearchAlertingConditionsResponse' as interface{}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) AsAlertingConditionsValue() ([]*alerting_condition.AlertingCondition, bool) {
+	res, ok := fpv.value.([]*alerting_condition.AlertingCondition)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) AsPrevPageTokenValue() (*alerting_condition.PagerCursor, bool) {
+	res, ok := fpv.value.(*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) AsNextPageTokenValue() (*alerting_condition.PagerCursor, bool) {
+	res, ok := fpv.value.(*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) AsCurrentOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) AsTotalResultsCountValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object SearchAlertingConditionsResponse
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) SetTo(target **SearchAlertingConditionsResponse) {
+	if *target == nil {
+		*target = new(SearchAlertingConditionsResponse)
+	}
+	switch fpv.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		(*target).AlertingConditions = fpv.value.([]*alerting_condition.AlertingCondition)
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		(*target).PrevPageToken = fpv.value.(*alerting_condition.PagerCursor)
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		(*target).NextPageToken = fpv.value.(*alerting_condition.PagerCursor)
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		(*target).CurrentOffset = fpv.value.(int32)
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		(*target).TotalResultsCount = fpv.value.(int32)
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SearchAlertingConditionsResponse)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'SearchAlertingConditionsResponse_FieldTerminalPathValue' with the value under path in 'SearchAlertingConditionsResponse'.
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) CompareWith(source *SearchAlertingConditionsResponse) (int, bool) {
+	switch fpv.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return 0, false
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		return 0, false
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		return 0, false
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetCurrentOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetTotalResultsCount()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fpv.selector))
+	}
+}
+
+func (fpv *SearchAlertingConditionsResponse_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*SearchAlertingConditionsResponse))
+}
+
+type SearchAlertingConditionsResponse_FieldSubPathValue struct {
+	SearchAlertingConditionsResponse_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ SearchAlertingConditionsResponse_FieldPathValue = (*SearchAlertingConditionsResponse_FieldSubPathValue)(nil)
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) AsAlertingConditionsPathValue() (alerting_condition.AlertingCondition_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(alerting_condition.AlertingCondition_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) SetTo(target **SearchAlertingConditionsResponse) {
+	if *target == nil {
+		*target = new(SearchAlertingConditionsResponse)
+	}
+	switch fpvs.Selector() {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*SearchAlertingConditionsResponse)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) CompareWith(source *SearchAlertingConditionsResponse) (int, bool) {
+	switch fpvs.Selector() {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *SearchAlertingConditionsResponse_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*SearchAlertingConditionsResponse))
+}
+
+// SearchAlertingConditionsResponse_FieldPathArrayItemValue allows storing single item in Path-specific values for SearchAlertingConditionsResponse according to their type
+// Present only for array (repeated) types.
+type SearchAlertingConditionsResponse_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	SearchAlertingConditionsResponse_FieldPath
+	ContainsValue(*SearchAlertingConditionsResponse) bool
+}
+
+// ParseSearchAlertingConditionsResponse_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseSearchAlertingConditionsResponse_FieldPathArrayItemValue(pathStr, valueStr string) (SearchAlertingConditionsResponse_FieldPathArrayItemValue, error) {
+	fp, err := ParseSearchAlertingConditionsResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsResponse field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(SearchAlertingConditionsResponse_FieldPathArrayItemValue), nil
+}
+
+func MustParseSearchAlertingConditionsResponse_FieldPathArrayItemValue(pathStr, valueStr string) SearchAlertingConditionsResponse_FieldPathArrayItemValue {
+	fpaiv, err := ParseSearchAlertingConditionsResponse_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue struct {
+	SearchAlertingConditionsResponse_FieldTerminalPath
+	value interface{}
+}
+
+var _ SearchAlertingConditionsResponse_FieldPathArrayItemValue = (*SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object SearchAlertingConditionsResponse as interface{}
+func (fpaiv *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue) AsAlertingConditionsItemValue() (*alerting_condition.AlertingCondition, bool) {
+	res, ok := fpaiv.value.(*alerting_condition.AlertingCondition)
+	return res, ok
+}
+
+func (fpaiv *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue) GetSingle(source *SearchAlertingConditionsResponse) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*SearchAlertingConditionsResponse))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SearchAlertingConditionsResponse'
+func (fpaiv *SearchAlertingConditionsResponse_FieldTerminalPathArrayItemValue) ContainsValue(source *SearchAlertingConditionsResponse) bool {
+	slice := fpaiv.SearchAlertingConditionsResponse_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type SearchAlertingConditionsResponse_FieldSubPathArrayItemValue struct {
+	SearchAlertingConditionsResponse_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue) AsAlertingConditionsPathItemValue() (alerting_condition.AlertingCondition_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(alerting_condition.AlertingCondition_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SearchAlertingConditionsResponse'
+func (fpaivs *SearchAlertingConditionsResponse_FieldSubPathArrayItemValue) ContainsValue(source *SearchAlertingConditionsResponse) bool {
+	switch fpaivs.Selector() {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for SearchAlertingConditionsResponse: %d", fpaivs.Selector()))
+	}
+}
+
+// SearchAlertingConditionsResponse_FieldPathArrayOfValues allows storing slice of values for SearchAlertingConditionsResponse fields according to their type
+type SearchAlertingConditionsResponse_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	SearchAlertingConditionsResponse_FieldPath
+}
+
+func ParseSearchAlertingConditionsResponse_FieldPathArrayOfValues(pathStr, valuesStr string) (SearchAlertingConditionsResponse_FieldPathArrayOfValues, error) {
+	fp, err := ParseSearchAlertingConditionsResponse_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SearchAlertingConditionsResponse field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(SearchAlertingConditionsResponse_FieldPathArrayOfValues), nil
+}
+
+func MustParseSearchAlertingConditionsResponse_FieldPathArrayOfValues(pathStr, valuesStr string) SearchAlertingConditionsResponse_FieldPathArrayOfValues {
+	fpaov, err := ParseSearchAlertingConditionsResponse_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues struct {
+	SearchAlertingConditionsResponse_FieldTerminalPath
+	values interface{}
+}
+
+var _ SearchAlertingConditionsResponse_FieldPathArrayOfValues = (*SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case SearchAlertingConditionsResponse_FieldPathSelectorAlertingConditions:
+		for _, v := range fpaov.values.([][]*alerting_condition.AlertingCondition) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsResponse_FieldPathSelectorPrevPageToken:
+		for _, v := range fpaov.values.([]*alerting_condition.PagerCursor) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsResponse_FieldPathSelectorNextPageToken:
+		for _, v := range fpaov.values.([]*alerting_condition.PagerCursor) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsResponse_FieldPathSelectorCurrentOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case SearchAlertingConditionsResponse_FieldPathSelectorTotalResultsCount:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsAlertingConditionsArrayOfValues() ([][]*alerting_condition.AlertingCondition, bool) {
+	res, ok := fpaov.values.([][]*alerting_condition.AlertingCondition)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsPrevPageTokenArrayOfValues() ([]*alerting_condition.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsNextPageTokenArrayOfValues() ([]*alerting_condition.PagerCursor, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.PagerCursor)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsCurrentOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *SearchAlertingConditionsResponse_FieldTerminalPathArrayOfValues) AsTotalResultsCountArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+
+type SearchAlertingConditionsResponse_FieldSubPathArrayOfValues struct {
+	SearchAlertingConditionsResponse_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ SearchAlertingConditionsResponse_FieldPathArrayOfValues = (*SearchAlertingConditionsResponse_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *SearchAlertingConditionsResponse_FieldSubPathArrayOfValues) AsAlertingConditionsPathArrayOfValues() (alerting_condition.AlertingCondition_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(alerting_condition.AlertingCondition_FieldPathArrayOfValues)
+	return res, ok
+}

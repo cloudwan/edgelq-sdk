@@ -57,6 +57,7 @@ type AlertingConditionServiceClient interface {
 	CreateAlertingCondition(ctx context.Context, in *CreateAlertingConditionRequest, opts ...grpc.CallOption) (*alerting_condition.AlertingCondition, error)
 	UpdateAlertingCondition(ctx context.Context, in *UpdateAlertingConditionRequest, opts ...grpc.CallOption) (*alerting_condition.AlertingCondition, error)
 	DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	SearchAlertingConditions(ctx context.Context, in *SearchAlertingConditionsRequest, opts ...grpc.CallOption) (*SearchAlertingConditionsResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateAlertingCondition(ctx context.Context, in *UpdateAlerting
 func (c *client) DeleteAlertingCondition(ctx context.Context, in *DeleteAlertingConditionRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingConditionService/DeleteAlertingCondition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchAlertingConditions(ctx context.Context, in *SearchAlertingConditionsRequest, opts ...grpc.CallOption) (*SearchAlertingConditionsResponse, error) {
+	out := new(SearchAlertingConditionsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.AlertingConditionService/SearchAlertingConditions", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

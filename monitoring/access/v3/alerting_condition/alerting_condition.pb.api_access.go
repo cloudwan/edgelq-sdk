@@ -103,6 +103,30 @@ func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context
 	}, nil
 }
 
+func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Context, query *alerting_condition.SearchQuery) (*alerting_condition.QueryResultSnapshot, error) {
+	request := &alerting_condition_client.SearchAlertingConditionsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	resp, err := a.client.SearchAlertingConditions(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	return &alerting_condition.QueryResultSnapshot{
+		AlertingConditions: resp.AlertingConditions,
+		NextPageCursor:     resp.NextPageToken,
+		PrevPageCursor:     resp.PrevPageToken,
+		CurrentOffset:      resp.CurrentOffset,
+		TotalResultsCount:  resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiAlertingConditionAccess) WatchAlertingCondition(ctx context.Context, query *alerting_condition.GetQuery, observerCb func(*alerting_condition.AlertingConditionChange) error) error {
 	request := &alerting_condition_client.WatchAlertingConditionRequest{
 		Name:      query.Reference,
