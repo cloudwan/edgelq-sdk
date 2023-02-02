@@ -276,6 +276,10 @@ message PodManagementService {
   // Pod to execute the command on
   string pod = 2;
 
+  // Service (container) name to execute the command on (empty = acts on the
+  // entire pod)
+  string service = 3;
+
   // Commands for pod state management
   enum PodState {
     // Unspecified pod state
