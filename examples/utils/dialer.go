@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
-func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.ClientConn {
+func dialHelper(ctx context.Context, endpoint string, creds credentials.PerRPCCredentials) *grpc.ClientConn {
 	addr, _, _ := net.SplitHostPort(endpoint)
 	tlsCaPool, err := x509.SystemCertPool()
 	if err != nil {
@@ -28,19 +28,6 @@ func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.Cl
 	}
 	transportCreds := credentials.NewTLS(tlsConfig)
 
-	var creds credentials.PerRPCCredentials
-	if accessToken != "" {
-		creds = oauth.NewOauthAccess(&oauth2.Token{
-			AccessToken:  accessToken,
-			TokenType:    "Bearer",
-		})
-	} else {
-		jwtCredentials, err := oauth.NewJWTAccessFromFile(credsFile)
-		if err != nil {
-			panic(fmt.Errorf("error parsing ServiceAccount file credentials: %s", err))
-		}
-		creds = jwtCredentials
-	}
 	options := []grpc.DialOption{
 		grpc.WithStatsHandler(&ocgrpc.ClientHandler{}),
 		grpc.WithTransportCredentials(transportCreds),
@@ -55,4 +42,29 @@ func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.Cl
 		panic(fmt.Sprintf("Error dialing devices: %s", err))
 	}
 	return grpcConn
+}
+
+func DialJWT(ctx context.Context, endpoint, jwtKey string) *grpc.ClientConn {
+  jwtCredentials, err := oauth.NewJWTAccessFromKey([]byte(jwtKey))
+  if err != nil {
+    panic(fmt.Errorf("error parsing ServiceAccount json credentials: %s", err))
+  }
+  return dialHelper(ctx, endpoint, jwtCredentials)
+}
+
+func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.ClientConn {
+	var creds credentials.PerRPCCredentials
+	if accessToken != "" {
+		creds = oauth.NewOauthAccess(&oauth2.Token{
+			AccessToken:  accessToken,
+			TokenType:    "Bearer",
+		})
+	} else {
+		jwtCredentials, err := oauth.NewJWTAccessFromFile(credsFile)
+		if err != nil {
+			panic(fmt.Errorf("error parsing ServiceAccount file credentials: %s", err))
+		}
+		creds = jwtCredentials
+	}
+  return dialHelper(ctx, endpoint, creds)
 }
