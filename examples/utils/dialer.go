@@ -45,19 +45,19 @@ func dialHelper(ctx context.Context, endpoint string, creds credentials.PerRPCCr
 }
 
 func DialJWT(ctx context.Context, endpoint, jwtKey string) *grpc.ClientConn {
-  jwtCredentials, err := oauth.NewJWTAccessFromKey([]byte(jwtKey))
-  if err != nil {
-    panic(fmt.Errorf("error parsing ServiceAccount json credentials: %s", err))
-  }
-  return dialHelper(ctx, endpoint, jwtCredentials)
+	jwtCredentials, err := oauth.NewJWTAccessFromKey([]byte(jwtKey))
+	if err != nil {
+		panic(fmt.Errorf("error parsing ServiceAccount json credentials: %s", err))
+	}
+	return dialHelper(ctx, endpoint, jwtCredentials)
 }
 
 func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.ClientConn {
 	var creds credentials.PerRPCCredentials
 	if accessToken != "" {
 		creds = oauth.NewOauthAccess(&oauth2.Token{
-			AccessToken:  accessToken,
-			TokenType:    "Bearer",
+			AccessToken: accessToken,
+			TokenType:   "Bearer",
 		})
 	} else {
 		jwtCredentials, err := oauth.NewJWTAccessFromFile(credsFile)
@@ -66,5 +66,5 @@ func Dial(ctx context.Context, endpoint, accessToken, credsFile string) *grpc.Cl
 		}
 		creds = jwtCredentials
 	}
-  return dialHelper(ctx, endpoint, creds)
+	return dialHelper(ctx, endpoint, creds)
 }
