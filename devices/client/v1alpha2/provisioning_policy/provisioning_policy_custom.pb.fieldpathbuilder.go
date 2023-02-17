@@ -3352,6 +3352,10 @@ func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) LoggingConfig() Pr
 	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfig{}
 }
 
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpec) ProxyConfig() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig{}
+}
+
 type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
@@ -13568,6 +13572,86 @@ func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnabl
 }
 
 func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) HttpProxy() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) HttpsProxy() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy{}
+}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfig) NoProxy() ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy {
+	return ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy{}
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy struct{}
+
+func (ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy) FieldPath() *ProvisionDeviceViaPolicyResponse_FieldSubPath {
+	return &ProvisionDeviceViaPolicyResponse_FieldSubPath{
+		selector: ProvisionDeviceViaPolicyResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy) WithValue(value string) *ProvisionDeviceViaPolicyResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceViaPolicyResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceViaPolicyResponsePathSelectorDeviceSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceViaPolicyResponse_FieldSubPathArrayOfValues)
 }
 

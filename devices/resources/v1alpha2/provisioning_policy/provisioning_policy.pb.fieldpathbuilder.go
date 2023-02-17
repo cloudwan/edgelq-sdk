@@ -915,6 +915,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) LoggingConfig() Provisioni
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfig{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) ProxyConfig() ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -11134,6 +11138,86 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigEnableJournal
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) HttpProxy() ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) HttpsProxy() ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfig) NoProxy() ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy{}
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -12694,6 +12778,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) DisableDeviceDiscovery() 
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) LoggingConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfig {
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfig{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) ProxyConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig{}
 }
 
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount struct{}
@@ -22915,6 +23003,86 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigEnableJourna
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) HttpProxy() ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) HttpsProxy() ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfig) NoProxy() ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy) WithValue(value string) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -23720,6 +23888,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) DisableDeviceDiscovery()
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) LoggingConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfig {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfig{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) ProxyConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig{}
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecServiceAccount struct{}
@@ -33938,6 +34110,86 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigEnableJourn
 }
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) HttpProxy() ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) HttpsProxy() ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfig) NoProxy() ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy{}
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy) WithValue(value string) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

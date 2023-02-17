@@ -2693,6 +2693,10 @@ func (b *filterCndBuilderSpecTemplateSpec) LoggingConfig() *filterCndBuilderSpec
 	return &filterCndBuilderSpecTemplateSpecLoggingConfig{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) ProxyConfig() *filterCndBuilderSpecTemplateSpecProxyConfig {
+	return &filterCndBuilderSpecTemplateSpecProxyConfig{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -34497,6 +34501,254 @@ func (b *filterCndBuilderSpecTemplateSpecLoggingConfigEnableJournalExport) compa
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().LoggingConfig().EnableJournalExport().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecProxyConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Eq(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Neq(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Gt(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Gte(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Lt(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) Lte(value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) In(values []*device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) NotIn(values []*device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) compare(op gotenfilter.CompareOperator, value *device.Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) HttpProxy() *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy {
+	return &filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) HttpsProxy() *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy {
+	return &filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfig) NoProxy() *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy {
+	return &filterCndBuilderSpecTemplateSpecProxyConfigNoProxy{builder: b.builder}
+}
+
+type filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigHttpsProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().HttpsProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecProxyConfigNoProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecProxyConfigNoProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().ProxyConfig().NoProxy().WithValue(value),
 	})
 }
 

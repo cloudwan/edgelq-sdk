@@ -266,6 +266,16 @@ func (o *Device_Spec) MakeDiffFieldMask(other *Device_Spec) *Device_Spec_FieldMa
 			}
 		}
 	}
+	{
+		subMask := o.GetProxyConfig().MakeDiffFieldMask(other.GetProxyConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorProxyConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceSpec_FieldSubPath{selector: DeviceSpec_FieldPathSelectorProxyConfig, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -296,6 +306,7 @@ func (o *Device_Spec) Clone() *Device_Spec {
 	result.AttestationConfig = o.AttestationConfig.Clone()
 	result.DisableDeviceDiscovery = o.DisableDeviceDiscovery
 	result.LoggingConfig = o.LoggingConfig.Clone()
+	result.ProxyConfig = o.ProxyConfig.Clone()
 	return result
 }
 
@@ -343,6 +354,12 @@ func (o *Device_Spec) Merge(source *Device_Spec) {
 			o.LoggingConfig = new(Device_Spec_LoggingConfig)
 		}
 		o.LoggingConfig.Merge(source.GetLoggingConfig())
+	}
+	if source.GetProxyConfig() != nil {
+		if o.ProxyConfig == nil {
+			o.ProxyConfig = new(Device_Spec_ProxyConfig)
+		}
+		o.ProxyConfig.Merge(source.GetProxyConfig())
 	}
 }
 
@@ -1161,6 +1178,66 @@ func (o *Device_Spec_LoggingConfig) Merge(source *Device_Spec_LoggingConfig) {
 
 func (o *Device_Spec_LoggingConfig) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Spec_LoggingConfig))
+}
+
+func (o *Device_Spec_ProxyConfig) GotenObjectExt() {}
+
+func (o *Device_Spec_ProxyConfig) MakeFullFieldMask() *Device_Spec_ProxyConfig_FieldMask {
+	return FullDevice_Spec_ProxyConfig_FieldMask()
+}
+
+func (o *Device_Spec_ProxyConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Spec_ProxyConfig_FieldMask()
+}
+
+func (o *Device_Spec_ProxyConfig) MakeDiffFieldMask(other *Device_Spec_ProxyConfig) *Device_Spec_ProxyConfig_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Spec_ProxyConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Spec_ProxyConfig_FieldMask()
+	}
+
+	res := &Device_Spec_ProxyConfig_FieldMask{}
+	if o.GetHttpProxy() != other.GetHttpProxy() {
+		res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpProxy})
+	}
+	if o.GetHttpsProxy() != other.GetHttpsProxy() {
+		res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy})
+	}
+	if o.GetNoProxy() != other.GetNoProxy() {
+		res.Paths = append(res.Paths, &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorNoProxy})
+	}
+	return res
+}
+
+func (o *Device_Spec_ProxyConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Spec_ProxyConfig))
+}
+
+func (o *Device_Spec_ProxyConfig) Clone() *Device_Spec_ProxyConfig {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Spec_ProxyConfig{}
+	result.HttpProxy = o.HttpProxy
+	result.HttpsProxy = o.HttpsProxy
+	result.NoProxy = o.NoProxy
+	return result
+}
+
+func (o *Device_Spec_ProxyConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Spec_ProxyConfig) Merge(source *Device_Spec_ProxyConfig) {
+	o.HttpProxy = source.GetHttpProxy()
+	o.HttpsProxy = source.GetHttpsProxy()
+	o.NoProxy = source.GetNoProxy()
+}
+
+func (o *Device_Spec_ProxyConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Spec_ProxyConfig))
 }
 
 func (o *Device_Spec_NetworkConfig_CommonOpts) GotenObjectExt() {}

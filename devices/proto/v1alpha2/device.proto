@@ -77,6 +77,8 @@ message Device {
 
     LoggingConfig logging_config = 9;
 
+    ProxyConfig proxy_config = 10;
+
     // NetworkConfig defines the network configuration of the Device.
     // These fields are subset of the netplan configuration.
     message NetworkConfig {
@@ -457,6 +459,14 @@ message Device {
 
       // Whether the journald log exporter is enabled.
       bool enable_journal_export = 3;
+    }
+
+    message ProxyConfig {
+      string http_proxy = 1;
+
+      string https_proxy = 2;
+
+      string no_proxy = 3;
     }
   }
 

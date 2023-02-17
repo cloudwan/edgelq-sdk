@@ -3138,6 +3138,10 @@ func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) LoggingCo
 	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfig{}
 }
 
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpec) ProxyConfig() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig{}
+}
+
 type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount struct{}
 
 func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecServiceAccount) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
@@ -13354,6 +13358,86 @@ func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingCo
 }
 
 func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) HttpProxy() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) HttpsProxy() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy{}
+}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfig) NoProxy() ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy {
+	return ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy{}
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
+}
+
+type ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy struct{}
+
+func (ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy) FieldPath() *ProvisionDeviceForApprovedRequestResponse_FieldSubPath {
+	return &ProvisionDeviceForApprovedRequestResponse_FieldSubPath{
+		selector: ProvisionDeviceForApprovedRequestResponse_FieldPathSelectorDevice,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy) WithValue(value string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathValue)
+}
+
+func (s ProvisionDeviceForApprovedRequestResponsePathSelectorDeviceSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisionDeviceForApprovedRequestResponse_FieldSubPathArrayOfValues)
 }
 

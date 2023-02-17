@@ -2229,6 +2229,10 @@ func (b *filterCndBuilderSpec) LoggingConfig() *filterCndBuilderSpecLoggingConfi
 	return &filterCndBuilderSpecLoggingConfig{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) ProxyConfig() *filterCndBuilderSpecProxyConfig {
+	return &filterCndBuilderSpecProxyConfig{builder: b.builder}
+}
+
 type filterCndBuilderSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -34033,6 +34037,254 @@ func (b *filterCndBuilderSpecLoggingConfigEnableJournalExport) compare(op gotenf
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().LoggingConfig().EnableJournalExport().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecProxyConfig struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Eq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Neq(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Gt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Gte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Lt(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) Lte(value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfig) In(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfig) NotIn(values []*Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfig) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfig) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfig) compare(op gotenfilter.CompareOperator, value *Device_Spec_ProxyConfig) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().ProxyConfig().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfig) HttpProxy() *filterCndBuilderSpecProxyConfigHttpProxy {
+	return &filterCndBuilderSpecProxyConfigHttpProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecProxyConfig) HttpsProxy() *filterCndBuilderSpecProxyConfigHttpsProxy {
+	return &filterCndBuilderSpecProxyConfigHttpsProxy{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecProxyConfig) NoProxy() *filterCndBuilderSpecProxyConfigNoProxy {
+	return &filterCndBuilderSpecProxyConfigNoProxy{builder: b.builder}
+}
+
+type filterCndBuilderSpecProxyConfigHttpProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecProxyConfigHttpsProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigHttpsProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecProxyConfigNoProxy struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecProxyConfigNoProxy) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().WithValue(value),
 	})
 }
 

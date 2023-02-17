@@ -987,6 +987,7 @@ const (
 	DeviceSpec_FieldPathSelectorAttestationConfig      DeviceSpec_FieldPathSelector = 6
 	DeviceSpec_FieldPathSelectorDisableDeviceDiscovery DeviceSpec_FieldPathSelector = 7
 	DeviceSpec_FieldPathSelectorLoggingConfig          DeviceSpec_FieldPathSelector = 8
+	DeviceSpec_FieldPathSelectorProxyConfig            DeviceSpec_FieldPathSelector = 9
 )
 
 func (s DeviceSpec_FieldPathSelector) String() string {
@@ -1009,6 +1010,8 @@ func (s DeviceSpec_FieldPathSelector) String() string {
 		return "disable_device_discovery"
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return "logging_config"
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return "proxy_config"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", s))
 	}
@@ -1038,6 +1041,8 @@ func BuildDeviceSpec_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpec_FieldPat
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableDeviceDiscovery}, nil
 		case "logging_config", "loggingConfig", "logging-config":
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig}, nil
+		case "proxy_config", "proxyConfig", "proxy-config":
+			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorProxyConfig}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1064,6 +1069,12 @@ func BuildDeviceSpec_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpec_FieldPat
 				return nil, err
 			} else {
 				return &DeviceSpec_FieldSubPath{selector: DeviceSpec_FieldPathSelectorLoggingConfig, subPath: subpath}, nil
+			}
+		case "proxy_config", "proxyConfig", "proxy-config":
+			if subpath, err := BuildDeviceSpecProxyConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceSpec_FieldSubPath{selector: DeviceSpec_FieldPathSelectorProxyConfig, subPath: subpath}, nil
 			}
 		}
 	}
@@ -1138,6 +1149,10 @@ func (fp *DeviceSpec_FieldTerminalPath) Get(source *Device_Spec) (values []inter
 			if source.LoggingConfig != nil {
 				values = append(values, source.LoggingConfig)
 			}
+		case DeviceSpec_FieldPathSelectorProxyConfig:
+			if source.ProxyConfig != nil {
+				values = append(values, source.ProxyConfig)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1175,6 +1190,9 @@ func (fp *DeviceSpec_FieldTerminalPath) GetSingle(source *Device_Spec) (interfac
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		res := source.GetLoggingConfig()
 		return res, res != nil
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		res := source.GetProxyConfig()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1205,6 +1223,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return (*Device_Spec_LoggingConfig)(nil)
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return (*Device_Spec_ProxyConfig)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1231,6 +1251,8 @@ func (fp *DeviceSpec_FieldTerminalPath) ClearValue(item *Device_Spec) {
 			item.DisableDeviceDiscovery = false
 		case DeviceSpec_FieldPathSelectorLoggingConfig:
 			item.LoggingConfig = nil
+		case DeviceSpec_FieldPathSelectorProxyConfig:
+			item.ProxyConfig = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1274,6 +1296,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(bool)}
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_LoggingConfig)}
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_ProxyConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1304,6 +1328,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]bool)}
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_LoggingConfig)}
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_ProxyConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1351,6 +1377,10 @@ func (fps *DeviceSpec_FieldSubPath) AsLoggingConfigSubPath() (DeviceSpecLoggingC
 	res, ok := fps.subPath.(DeviceSpecLoggingConfig_FieldPath)
 	return res, ok
 }
+func (fps *DeviceSpec_FieldSubPath) AsProxyConfigSubPath() (DeviceSpecProxyConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecProxyConfig_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *DeviceSpec_FieldSubPath) String() string {
@@ -1373,6 +1403,8 @@ func (fps *DeviceSpec_FieldSubPath) Get(source *Device_Spec) (values []interface
 		values = append(values, fps.subPath.GetRaw(source.GetAttestationConfig())...)
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		values = append(values, fps.subPath.GetRaw(source.GetLoggingConfig())...)
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetProxyConfig())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fps.selector))
 	}
@@ -1406,6 +1438,11 @@ func (fps *DeviceSpec_FieldSubPath) GetSingle(source *Device_Spec) (interface{},
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetLoggingConfig())
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		if source.GetProxyConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetProxyConfig())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fps.selector))
 	}
@@ -1431,6 +1468,8 @@ func (fps *DeviceSpec_FieldSubPath) ClearValue(item *Device_Spec) {
 			fps.subPath.ClearValueRaw(item.AttestationConfig)
 		case DeviceSpec_FieldPathSelectorLoggingConfig:
 			fps.subPath.ClearValueRaw(item.LoggingConfig)
+		case DeviceSpec_FieldPathSelectorProxyConfig:
+			fps.subPath.ClearValueRaw(item.ProxyConfig)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fps.selector))
 		}
@@ -1551,6 +1590,10 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) AsLoggingConfigValue() (*Device_Sp
 	res, ok := fpv.value.(*Device_Spec_LoggingConfig)
 	return res, ok
 }
+func (fpv *DeviceSpec_FieldTerminalPathValue) AsProxyConfigValue() (*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_ProxyConfig)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
@@ -1576,6 +1619,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
 		(*target).DisableDeviceDiscovery = fpv.value.(bool)
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		(*target).LoggingConfig = fpv.value.(*Device_Spec_LoggingConfig)
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		(*target).ProxyConfig = fpv.value.(*Device_Spec_ProxyConfig)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1656,6 +1701,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) CompareWith(source *Device_Spec) (
 		}
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return 0, false
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1688,6 +1735,10 @@ func (fpvs *DeviceSpec_FieldSubPathValue) AsLoggingConfigPathValue() (DeviceSpec
 	res, ok := fpvs.subPathValue.(DeviceSpecLoggingConfig_FieldPathValue)
 	return res, ok
 }
+func (fpvs *DeviceSpec_FieldSubPathValue) AsProxyConfigPathValue() (DeviceSpecProxyConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *DeviceSpec_FieldSubPathValue) SetTo(target **Device_Spec) {
 	if *target == nil {
@@ -1702,6 +1753,8 @@ func (fpvs *DeviceSpec_FieldSubPathValue) SetTo(target **Device_Spec) {
 		fpvs.subPathValue.(DeviceSpecAttestationConfig_FieldPathValue).SetTo(&(*target).AttestationConfig)
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		fpvs.subPathValue.(DeviceSpecLoggingConfig_FieldPathValue).SetTo(&(*target).LoggingConfig)
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).SetTo(&(*target).ProxyConfig)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpvs.Selector()))
 	}
@@ -1726,6 +1779,8 @@ func (fpvs *DeviceSpec_FieldSubPathValue) CompareWith(source *Device_Spec) (int,
 		return fpvs.subPathValue.(DeviceSpecAttestationConfig_FieldPathValue).CompareWith(source.GetAttestationConfig())
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return fpvs.subPathValue.(DeviceSpecLoggingConfig_FieldPathValue).CompareWith(source.GetLoggingConfig())
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return fpvs.subPathValue.(DeviceSpecProxyConfig_FieldPathValue).CompareWith(source.GetProxyConfig())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpvs.Selector()))
 	}
@@ -1824,6 +1879,10 @@ func (fpaivs *DeviceSpec_FieldSubPathArrayItemValue) AsLoggingConfigPathItemValu
 	res, ok := fpaivs.subPathItemValue.(DeviceSpecLoggingConfig_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *DeviceSpec_FieldSubPathArrayItemValue) AsProxyConfigPathItemValue() (DeviceSpecProxyConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Spec'
 func (fpaivs *DeviceSpec_FieldSubPathArrayItemValue) ContainsValue(source *Device_Spec) bool {
@@ -1836,6 +1895,8 @@ func (fpaivs *DeviceSpec_FieldSubPathArrayItemValue) ContainsValue(source *Devic
 		return fpaivs.subPathItemValue.(DeviceSpecAttestationConfig_FieldPathArrayItemValue).ContainsValue(source.GetAttestationConfig())
 	case DeviceSpec_FieldPathSelectorLoggingConfig:
 		return fpaivs.subPathItemValue.(DeviceSpecLoggingConfig_FieldPathArrayItemValue).ContainsValue(source.GetLoggingConfig())
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecProxyConfig_FieldPathArrayItemValue).ContainsValue(source.GetProxyConfig())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpaivs.Selector()))
 	}
@@ -1912,6 +1973,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*Device_Spec_LoggingConfig) {
 			values = append(values, v)
 		}
+	case DeviceSpec_FieldPathSelectorProxyConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_ProxyConfig) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1951,6 +2016,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsLoggingConfigArrayOfVa
 	res, ok := fpaov.values.([]*Device_Spec_LoggingConfig)
 	return res, ok
 }
+func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsProxyConfigArrayOfValues() ([]*Device_Spec_ProxyConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_ProxyConfig)
+	return res, ok
+}
 
 type DeviceSpec_FieldSubPathArrayOfValues struct {
 	DeviceSpec_FieldPath
@@ -1976,6 +2045,10 @@ func (fpsaov *DeviceSpec_FieldSubPathArrayOfValues) AsAttestationConfigPathArray
 }
 func (fpsaov *DeviceSpec_FieldSubPathArrayOfValues) AsLoggingConfigPathArrayOfValues() (DeviceSpecLoggingConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecLoggingConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *DeviceSpec_FieldSubPathArrayOfValues) AsProxyConfigPathArrayOfValues() (DeviceSpecProxyConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecProxyConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -6061,6 +6134,469 @@ func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) AsUnitsArra
 }
 func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) AsEnableJournalExportArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceSpecProxyConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceSpecProxyConfig_FieldPathSelector
+	Get(source *Device_Spec_ProxyConfig) []interface{}
+	GetSingle(source *Device_Spec_ProxyConfig) (interface{}, bool)
+	ClearValue(item *Device_Spec_ProxyConfig)
+
+	// Those methods build corresponding DeviceSpecProxyConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceSpecProxyConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceSpecProxyConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceSpecProxyConfig_FieldPathArrayItemValue
+}
+
+type DeviceSpecProxyConfig_FieldPathSelector int32
+
+const (
+	DeviceSpecProxyConfig_FieldPathSelectorHttpProxy  DeviceSpecProxyConfig_FieldPathSelector = 0
+	DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy DeviceSpecProxyConfig_FieldPathSelector = 1
+	DeviceSpecProxyConfig_FieldPathSelectorNoProxy    DeviceSpecProxyConfig_FieldPathSelector = 2
+)
+
+func (s DeviceSpecProxyConfig_FieldPathSelector) String() string {
+	switch s {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		return "http_proxy"
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		return "https_proxy"
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		return "no_proxy"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", s))
+	}
+}
+
+func BuildDeviceSpecProxyConfig_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpecProxyConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Spec_ProxyConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "http_proxy", "httpProxy", "http-proxy":
+			return &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpProxy}, nil
+		case "https_proxy", "httpsProxy", "https-proxy":
+			return &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy}, nil
+		case "no_proxy", "noProxy", "no-proxy":
+			return &DeviceSpecProxyConfig_FieldTerminalPath{selector: DeviceSpecProxyConfig_FieldPathSelectorNoProxy}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_ProxyConfig", fp)
+}
+
+func ParseDeviceSpecProxyConfig_FieldPath(rawField string) (DeviceSpecProxyConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceSpecProxyConfig_FieldPath(fp)
+}
+
+func MustParseDeviceSpecProxyConfig_FieldPath(rawField string) DeviceSpecProxyConfig_FieldPath {
+	fp, err := ParseDeviceSpecProxyConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceSpecProxyConfig_FieldTerminalPath struct {
+	selector DeviceSpecProxyConfig_FieldPathSelector
+}
+
+var _ DeviceSpecProxyConfig_FieldPath = (*DeviceSpecProxyConfig_FieldTerminalPath)(nil)
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) Selector() DeviceSpecProxyConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Spec_ProxyConfig
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) Get(source *Device_Spec_ProxyConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+			values = append(values, source.HttpProxy)
+		case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+			values = append(values, source.HttpsProxy)
+		case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+			values = append(values, source.NoProxy)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Spec_ProxyConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Spec_ProxyConfig
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) GetSingle(source *Device_Spec_ProxyConfig) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		return source.GetHttpProxy(), source != nil
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		return source.GetHttpsProxy(), source != nil
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		return source.GetNoProxy(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Spec_ProxyConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		return ""
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		return ""
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) ClearValue(item *Device_Spec_ProxyConfig) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+			item.HttpProxy = ""
+		case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+			item.HttpsProxy = ""
+		case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+			item.NoProxy = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Spec_ProxyConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceSpecProxyConfig_FieldPathSelectorHttpProxy ||
+		fp.selector == DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy ||
+		fp.selector == DeviceSpecProxyConfig_FieldPathSelectorNoProxy
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecProxyConfig_FieldPathValue {
+	switch fp.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathValue{DeviceSpecProxyConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathValue{DeviceSpecProxyConfig_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathValue{DeviceSpecProxyConfig_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceSpecProxyConfig_FieldPathArrayOfValues {
+	fpaov := &DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues{DeviceSpecProxyConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues{DeviceSpecProxyConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues{DeviceSpecProxyConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		return &DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues{DeviceSpecProxyConfig_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceSpecProxyConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecProxyConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceSpecProxyConfig_FieldPathValue allows storing values for ProxyConfig fields according to their type
+type DeviceSpecProxyConfig_FieldPathValue interface {
+	DeviceSpecProxyConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Spec_ProxyConfig)
+	CompareWith(*Device_Spec_ProxyConfig) (cmp int, comparable bool)
+}
+
+func ParseDeviceSpecProxyConfig_FieldPathValue(pathStr, valueStr string) (DeviceSpecProxyConfig_FieldPathValue, error) {
+	fp, err := ParseDeviceSpecProxyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceSpecProxyConfig_FieldPathValue), nil
+}
+
+func MustParseDeviceSpecProxyConfig_FieldPathValue(pathStr, valueStr string) DeviceSpecProxyConfig_FieldPathValue {
+	fpv, err := ParseDeviceSpecProxyConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceSpecProxyConfig_FieldTerminalPathValue struct {
+	DeviceSpecProxyConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecProxyConfig_FieldPathValue = (*DeviceSpecProxyConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ProxyConfig' as interface{}
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) AsHttpProxyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) AsHttpsProxyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) AsNoProxyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ProxyConfig
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) SetTo(target **Device_Spec_ProxyConfig) {
+	if *target == nil {
+		*target = new(Device_Spec_ProxyConfig)
+	}
+	switch fpv.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		(*target).HttpProxy = fpv.value.(string)
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		(*target).HttpsProxy = fpv.value.(string)
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		(*target).NoProxy = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_ProxyConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceSpecProxyConfig_FieldTerminalPathValue' with the value under path in 'Device_Spec_ProxyConfig'.
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) CompareWith(source *Device_Spec_ProxyConfig) (int, bool) {
+	switch fpv.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetHttpProxy()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetHttpsProxy()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNoProxy()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_ProxyConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecProxyConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Spec_ProxyConfig))
+}
+
+// DeviceSpecProxyConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ProxyConfig according to their type
+// Present only for array (repeated) types.
+type DeviceSpecProxyConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceSpecProxyConfig_FieldPath
+	ContainsValue(*Device_Spec_ProxyConfig) bool
+}
+
+// ParseDeviceSpecProxyConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceSpecProxyConfig_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceSpecProxyConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceSpecProxyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceSpecProxyConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceSpecProxyConfig_FieldPathArrayItemValue(pathStr, valueStr string) DeviceSpecProxyConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceSpecProxyConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue struct {
+	DeviceSpecProxyConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecProxyConfig_FieldPathArrayItemValue = (*DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Spec_ProxyConfig as interface{}
+func (fpaiv *DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Spec_ProxyConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Spec_ProxyConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ProxyConfig'
+func (fpaiv *DeviceSpecProxyConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_ProxyConfig) bool {
+	slice := fpaiv.DeviceSpecProxyConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceSpecProxyConfig_FieldPathArrayOfValues allows storing slice of values for ProxyConfig fields according to their type
+type DeviceSpecProxyConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceSpecProxyConfig_FieldPath
+}
+
+func ParseDeviceSpecProxyConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceSpecProxyConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceSpecProxyConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ProxyConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceSpecProxyConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceSpecProxyConfig_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceSpecProxyConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceSpecProxyConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues struct {
+	DeviceSpecProxyConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceSpecProxyConfig_FieldPathArrayOfValues = (*DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpProxy:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceSpecProxyConfig_FieldPathSelectorHttpsProxy:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceSpecProxyConfig_FieldPathSelectorNoProxy:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues) AsHttpProxyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues) AsHttpsProxyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceSpecProxyConfig_FieldTerminalPathArrayOfValues) AsNoProxyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

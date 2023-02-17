@@ -909,6 +909,10 @@ func (ListPublicDevicesResponsePathSelectorDevicesSpec) LoggingConfig() ListPubl
 	return ListPublicDevicesResponsePathSelectorDevicesSpecLoggingConfig{}
 }
 
+func (ListPublicDevicesResponsePathSelectorDevicesSpec) ProxyConfig() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig{}
+}
+
 type ListPublicDevicesResponsePathSelectorDevicesSpecServiceAccount struct{}
 
 func (ListPublicDevicesResponsePathSelectorDevicesSpecServiceAccount) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
@@ -11125,6 +11129,86 @@ func (s ListPublicDevicesResponsePathSelectorDevicesSpecLoggingConfigEnableJourn
 }
 
 func (s ListPublicDevicesResponsePathSelectorDevicesSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) WithValue(value *device.Device_Spec_ProxyConfig) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) WithArrayOfValues(values []*device.Device_Spec_ProxyConfig) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) HttpProxy() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) HttpsProxy() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy{}
+}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfig) NoProxy() ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy {
+	return ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy{}
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpProxy().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpProxy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().HttpsProxy().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigHttpsProxy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
+}
+
+type ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy struct{}
+
+func (ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy) FieldPath() *ListPublicDevicesResponse_FieldSubPath {
+	return &ListPublicDevicesResponse_FieldSubPath{
+		selector: ListPublicDevicesResponse_FieldPathSelectorDevices,
+		subPath:  device.NewDeviceFieldPathBuilder().Spec().ProxyConfig().NoProxy().FieldPath(),
+	}
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy) WithValue(value string) *ListPublicDevicesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListPublicDevicesResponse_FieldSubPathValue)
+}
+
+func (s ListPublicDevicesResponsePathSelectorDevicesSpecProxyConfigNoProxy) WithArrayOfValues(values []string) *ListPublicDevicesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListPublicDevicesResponse_FieldSubPathArrayOfValues)
 }
 
