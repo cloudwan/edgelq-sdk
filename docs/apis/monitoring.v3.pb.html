@@ -96,6 +96,10 @@ table.fields tbody tr td.none {
 
 <li><a href="#resource-MonitoredResourceDescriptor">MonitoredResourceDescriptor</a></li>
 
+<li><a href="#resource-Notification">Notification</a></li>
+
+<li><a href="#resource-NotificationChannel">NotificationChannel</a></li>
+
 <li><a href="#resource-PhantomTimeSerie">PhantomTimeSerie</a></li>
 
 <li><a href="#resource-Project">Project</a></li>
@@ -420,10 +424,17 @@ use meta.create_time to get creation date.</p>
 </td></tr>
 
 <tr>
-<th rowspan="2">notification</th>
-<td class="type"><pre><a href="#message-Alert.State.Notification">Alert.State.Notification</a></pre></td>
+<th rowspan="2">needs_notification</th>
+<td class="type"><pre>bool</pre></td>
 </tr>
-<tr><td class="description"><p>Notification state</p>
+<tr><td class="description"><p>This alert needs to be notified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification_created</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Notification resource is generated for this alert</p>
 </td></tr>
  
 </tbody>
@@ -519,24 +530,6 @@ use meta.create_time to get creation date.</p>
 
 
 
-<h5 id="message-Alert.State.Notification">Alert.State.Notification</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">slack</th>
-<td class="type"><pre><a href="#message-Alert.State.Notification.Slack">Alert.State.Notification.Slack</a></pre></td>
-</tr>
-<tr><td class="description"></td></tr>
- 
-</tbody>
-</table>
-
-
-
 <h5 id="message-Alert.State.CombineThreshold.PerMetric">Alert.State.CombineThreshold.PerMetric</h5>
 
 
@@ -549,39 +542,6 @@ use meta.create_time to get creation date.</p>
 <td class="type"><pre>double</pre></td>
 </tr>
 <tr><td class="description"></td></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="message-Alert.State.Notification.Slack">Alert.State.Notification.Slack</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">ts</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Slack message &quot;ts&quot; (timestamp) string field. Used to track message</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">delivery_status</th>
-<td class="type"><pre><a href="#enum-Alert.State.Notification.Slack.DeliveryStatus">Alert.State.Notification.Slack.DeliveryStatus</a></pre></td>
-</tr>
-<tr><td class="description"><p>Delivery State</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">error_message</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Message explaining issue. Only present if delivery_state is ERROR</p>
-</td></tr>
  
 </tbody>
 </table>
@@ -1229,47 +1189,7 @@ compare.</p>
 </tbody>
 </table>
 
- 
-<h4>Enums</h4>
-
-
-
-<h5 id="enum-Alert.State.Notification.Slack.DeliveryStatus">Alert.State.Notification.Slack.DeliveryStatus</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Values</th></tr></thead>
-<tbody>
-<tr>
-<th>DELIVERY_STATUS_UNSPECIFIED</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>PENDING</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>SUCCESS</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>ERROR</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
- 
-</tbody>
-</table>
-
- 
- 
+  
 
 
 
@@ -2661,6 +2581,12 @@ index can be computed from offset and limit provided in a request</p>
 </tr>
 <tr><td class="description"><p>Spec</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">state</th>
+<td class="type"><pre><a href="#message-AlertingPolicy.State">AlertingPolicy.State</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
  
 </tbody>
 </table>
@@ -2963,71 +2889,51 @@ TODO: Add support to AND</p>
 
 
 
+<h5 id="message-AlertingPolicy.State">AlertingPolicy.State</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">active_alerts_count</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Number of ongoing alerts (incident has not ended)</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
 <h5 id="message-AlertingPolicy.Spec.Notification">AlertingPolicy.Spec.Notification</h5>
 
+<p>Notification specification for a given Policy</p>
 
 
 <table class="fields">
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
 <tr>
-<th rowspan="2">slack</th>
-<td class="type"><pre><a href="#message-AlertingPolicy.Spec.Notification.Slack">AlertingPolicy.Spec.Notification.Slack</a></pre></td>
+<th rowspan="2">enabled</th>
+<td class="type"><pre>bool</pre></td>
 </tr>
-<tr><td class="description"><p>Slack config</p>
-</td></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="message-AlertingPolicy.Spec.Notification.Slack">AlertingPolicy.Spec.Notification.Slack</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">app</th>
-<td class="type"><pre><a href="#message-AlertingPolicy.Spec.Notification.Slack.App">AlertingPolicy.Spec.Notification.Slack.App</a></pre></td>
-</tr>
-<tr><td class="description"><p>Slack Application configuration.
-Exclusive with Incoming Webhook URL</p>
+<tr><td class="description"><p>Enabled flag determines whether any notifications will be sent</p>
 </td></tr>
 
 <tr>
-<th rowspan="2">incoming_webhook</th>
-<td class="type"><pre>string</pre></td>
+<th rowspan="2">list_type</th>
+<td class="type"><pre><a href="#enum-AlertingPolicy.Spec.Notification.ListType">AlertingPolicy.Spec.Notification.ListType</a></pre></td>
 </tr>
-<tr><td class="description"><p>Incoming Webhook</p>
-</td></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="message-AlertingPolicy.Spec.Notification.Slack.App">AlertingPolicy.Spec.Notification.Slack.App</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">auth_token</th>
-<td class="type"><pre>string</pre></td>
-</tr>
-<tr><td class="description"><p>Slack app auth token</p>
-</td></tr>
+<tr><td class="description"></td></tr>
 
 <tr>
-<th rowspan="2">channel</th>
+<th rowspan="2">channels</th>
 <td class="type"><pre>repeated string</pre></td>
 </tr>
-<tr><td class="description"><p>Slack channels to notify</p>
+<tr><td class="description"><p>ListType specifies whether the list is an allowlist or a denylist.</p>
 </td></tr>
  
 </tbody>
@@ -3842,6 +3748,40 @@ index can be computed from offset and limit provided in a request</p>
 
 <tr>
 <th>AND</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="enum-AlertingPolicy.Spec.Notification.ListType">AlertingPolicy.Spec.Notification.ListType</h5>
+
+<p>ListType specifies whether the list is an allowlist or a denylist.
+If the list is an allowlist, then only the channels specified in the
+list will be notified. If the list is a denylist, then all channels
+except the ones specified in the list will be notified.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>LIST_TYPE_UNSPECIFIED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ALLOW</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DENY</th>
 <td class="description"></td>
 </tr>
 <tr></tr>
@@ -6072,6 +6012,2553 @@ there are no items or paging info was not requested.</p>
 </table>
 
   
+
+
+
+<h3 id="resource-Notification"><span id="message-Notification">Notification</span></h3>
+
+<p>Notification Resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">alerting_policy</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to alerting policy that this notification is for</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">alerts</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>References to alerts that are part of this notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">state</th>
+<td class="type"><pre><a href="#message-Notification.State">Notification.State</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetNotification">GetNotification</h5>
+
+<pre class="signature">rpc GetNotification(<a href="#message-GetNotificationRequest">GetNotificationRequest</a>) returns (<a href="#message-Notification">Notification</a>)</pre>
+
+<div class="description">
+<p>GetNotification</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{name=projects/*/regions/*/alertingPolicies/*/notifications/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetNotifications">BatchGetNotifications</h5>
+
+<pre class="signature">rpc BatchGetNotifications(<a href="#message-BatchGetNotificationsRequest">BatchGetNotificationsRequest</a>) returns (<a href="#message-BatchGetNotificationsResponse">BatchGetNotificationsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetNotifications</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/notifications:batchGet </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListNotifications">ListNotifications</h5>
+
+<pre class="signature">rpc ListNotifications(<a href="#message-ListNotificationsRequest">ListNotificationsRequest</a>) returns (<a href="#message-ListNotificationsResponse">ListNotificationsResponse</a>)</pre>
+
+<div class="description">
+<p>ListNotifications</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{parent=projects/*/regions/*/alertingPolicies/*}/notifications </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchNotification">WatchNotification</h5>
+
+<pre class="signature">rpc WatchNotification(<a href="#message-WatchNotificationRequest">WatchNotificationRequest</a>) returns (<a href="#message-WatchNotificationResponse">WatchNotificationResponse</a>)</pre>
+
+<div class="description">
+<p>WatchNotification</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{name=projects/*/regions/*/alertingPolicies/*/notifications/*}:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchNotifications">WatchNotifications</h5>
+
+<pre class="signature">rpc WatchNotifications(<a href="#message-WatchNotificationsRequest">WatchNotificationsRequest</a>) returns (<a href="#message-WatchNotificationsResponse">WatchNotificationsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchNotifications</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{parent=projects/*/regions/*/alertingPolicies/*}/notifications:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateNotification">CreateNotification</h5>
+
+<pre class="signature">rpc CreateNotification(<a href="#message-CreateNotificationRequest">CreateNotificationRequest</a>) returns (<a href="#message-Notification">Notification</a>)</pre>
+
+<div class="description">
+<p>CreateNotification</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{parent=projects/*/regions/*/alertingPolicies/*}/notifications (BODY: notification)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateNotification">UpdateNotification</h5>
+
+<pre class="signature">rpc UpdateNotification(<a href="#message-UpdateNotificationRequest">UpdateNotificationRequest</a>) returns (<a href="#message-Notification">Notification</a>)</pre>
+
+<div class="description">
+<p>UpdateNotification</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v3/{notification.name=projects/*/regions/*/alertingPolicies/*/notifications/*} (BODY: notification)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteNotification">DeleteNotification</h5>
+
+<pre class="signature">rpc DeleteNotification(<a href="#message-DeleteNotificationRequest">DeleteNotificationRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteNotification</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v3/{name=projects/*/regions/*/alertingPolicies/*/notifications/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-SearchNotifications">SearchNotifications</h5>
+
+<pre class="signature">rpc SearchNotifications(<a href="#message-SearchNotificationsRequest">SearchNotificationsRequest</a>) returns (<a href="#message-SearchNotificationsResponse">SearchNotificationsResponse</a>)</pre>
+
+<div class="description">
+<p>SearchNotifications</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{parent=projects/*/regions/*/alertingPolicies/*}/notifications:search </pre>
+
+</div>
+
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-Notification.State">Notification.State</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">all_alerts_resolved</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">notification_state</th>
+<td class="type"><pre>repeated <a href="#message-Notification.State.NotificationState">Notification.State.NotificationState</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notification state</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification_attempts_completed</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">resolution_notified</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">alerts_lifetime</th>
+<td class="type"><pre><a href="#message-TimeRange">TimeRange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Time range for which alerts for the policy are clubbed together</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Notification.State.NotificationState">Notification.State.NotificationState</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Notification channel name</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">status</th>
+<td class="type"><pre><a href="#enum-Notification.State.NotificationState.Status">Notification.State.NotificationState.Status</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Error message if status is FAILED</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">provider_data</th>
+<td class="type"><pre><a href="#message-Notification.State.NotificationState.ProviderData">Notification.State.NotificationState.ProviderData</a></pre></td>
+</tr>
+<tr><td class="description"><p>Provider specific data. Allows tracking ids of notifications sent to
+specific channels.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notify_attempts</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Notification.State.NotificationState.ProviderData">Notification.State.NotificationState.ProviderData</h5>
+
+<p>Provider specific data</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">slack</th>
+<td class="type"><pre><a href="#message-Notification.State.NotificationState.ProviderData.Slack">Notification.State.NotificationState.ProviderData.Slack</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">pager_duty</th>
+<td class="type"><pre><a href="#message-Notification.State.NotificationState.ProviderData.PagerDuty">Notification.State.NotificationState.ProviderData.PagerDuty</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Notification.State.NotificationState.ProviderData.Slack">Notification.State.NotificationState.ProviderData.Slack</h5>
+
+<p>Slack</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">ts</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-Notification.State.NotificationState.ProviderData.PagerDuty">Notification.State.NotificationState.ProviderData.PagerDuty</h5>
+
+<p>Pager Duty</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">incident_key</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetNotificationRequest">GetNotificationRequest</h5>
+
+<p>Request message for method
+[GetNotification][ntt.monitoring.v3.GetNotification]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetNotificationsRequest">BatchGetNotificationsRequest</h5>
+
+<p>Request message for method
+[BatchGetNotifications][ntt.monitoring.v3.BatchGetNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of Notifications</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetNotificationsResponse">BatchGetNotificationsResponse</h5>
+
+<p>BatchGetNotificationsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notifications</th>
+<td class="type"><pre>repeated <a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>found Notifications</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found Notifications</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListNotificationsRequest">ListNotificationsRequest</h5>
+
+<p>Request message for method
+[ListNotifications][ntt.monitoring.v3.ListNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Notifications than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListNotificationsResponse.next_page_token][ntt.monitoring.v3.ListNotificationsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListNotificationsResponse">ListNotificationsResponse</h5>
+
+<p>Request message for method
+[ListNotifications][ntt.monitoring.v3.ListNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notifications</th>
+<td class="type"><pre>repeated <a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of Notifications</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListNotificationsRequest.page_token][ntt.monitoring.v3.ListNotificationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListNotificationsRequest.page_token][ntt.monitoring.v3.ListNotificationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Notifications across all pages or 0, if there are no items,
+paging info was not requested or there was an error while trying to get it.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationRequest">WatchNotificationRequest</h5>
+
+<p>Request message for method
+[WatchNotification][ntt.monitoring.v3.WatchNotification]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationResponse">WatchNotificationResponse</h5>
+
+<p>WatchNotificationResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-NotificationChange">NotificationChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationsRequest">WatchNotificationsRequest</h5>
+
+<p>Request message for method
+[WatchNotifications][ntt.monitoring.v3.WatchNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Notifications than requested.
+If unspecified, server will pick an appropriate default.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">starting_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Point in the time from which we want to start getting updates. This field
+can be populated only for stateless watch type and if resume token is not
+known yet. If specified, initial snapshot will NOT be provided. It is
+assumed client can obtain it using separate means. Watch responses will
+contain resume tokens which should be used to resume broken connection.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to Notification that don't
+affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+Notification that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationsResponse">WatchNotificationsResponse</h5>
+
+<p>WatchNotificationsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_changes</th>
+<td class="type"><pre>repeated <a href="#message-NotificationChange">NotificationChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of Notifications</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All Notifications will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchNotificationsResponse.PageTokenChange">WatchNotificationsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (Notifications will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationsResponse.PageTokenChange">WatchNotificationsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateNotificationRequest">CreateNotificationRequest</h5>
+
+<p>Request message for method
+[CreateNotification][ntt.monitoring.v3.CreateNotification]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notification resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateNotificationRequest">UpdateNotificationRequest</h5>
+
+<p>Request message for method
+[UpdateNotification][ntt.monitoring.v3.UpdateNotification]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>Notification resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateNotificationRequest.CAS">UpdateNotificationRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateNotificationRequest.CAS">UpdateNotificationRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteNotificationRequest">DeleteNotificationRequest</h5>
+
+<p>Request message for method
+[DeleteNotification][ntt.monitoring.v3.DeleteNotification]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.monitoring.v3.Notification</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SearchNotificationsRequest">SearchNotificationsRequest</h5>
+
+<p>Request message for method
+[SearchNotifications][ntt.monitoring.v3.SearchNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.monitoring.v3.Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer Notifications than requested.
+If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[SearchNotificationsResponse.next_page_token][ntt.monitoring.v3.SearchNotificationsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">phrase</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Optional search phrase used to further filter results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-SearchNotificationsResponse">SearchNotificationsResponse</h5>
+
+<p>Request message for method
+[SearchNotifications][ntt.monitoring.v3.SearchNotifications]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notifications</th>
+<td class="type"><pre>repeated <a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of Notifications</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[SearchNotificationsRequest.page_token][ntt.monitoring.v3.SearchNotificationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[SearchNotificationsRequest.page_token][ntt.monitoring.v3.SearchNotificationsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page (0 if no page tokens were given). Page
+index can be computed from offset and limit provided in a request</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total Notifications across all pages.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-Notification.State.NotificationState.Status">Notification.State.NotificationState.Status</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNKNOWN</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>PENDING</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>FAILED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SUPPRESSED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SENT</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DELIVERED</th>
+<td class="description"><p>Status types that can be used by webhook integrated providers, like
+PagerDuty.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ACKNOWLEDGED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>UNACKNOWLEDGED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
+
+
+
+<h3 id="resource-NotificationChannel"><span id="message-NotificationChannel">NotificationChannel</span></h3>
+
+<p>NotificationChannel Resource</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata of NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">display_name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Display Name</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">spec</th>
+<td class="type"><pre><a href="#message-NotificationChannel.Spec">NotificationChannel.Spec</a></pre></td>
+</tr>
+<tr><td class="description"><p>Specification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">state</th>
+<td class="type"><pre><a href="#message-NotificationChannel.State">NotificationChannel.State</a></pre></td>
+</tr>
+<tr><td class="description"><p>State</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">description</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>description</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetNotificationChannel">GetNotificationChannel</h5>
+
+<pre class="signature">rpc GetNotificationChannel(<a href="#message-GetNotificationChannelRequest">GetNotificationChannelRequest</a>) returns (<a href="#message-NotificationChannel">NotificationChannel</a>)</pre>
+
+<div class="description">
+<p>GetNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{name=projects/*/notificationChannels/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetNotificationChannels">BatchGetNotificationChannels</h5>
+
+<pre class="signature">rpc BatchGetNotificationChannels(<a href="#message-BatchGetNotificationChannelsRequest">BatchGetNotificationChannelsRequest</a>) returns (<a href="#message-BatchGetNotificationChannelsResponse">BatchGetNotificationChannelsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetNotificationChannels</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/notificationChannels:batchGet </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListNotificationChannels">ListNotificationChannels</h5>
+
+<pre class="signature">rpc ListNotificationChannels(<a href="#message-ListNotificationChannelsRequest">ListNotificationChannelsRequest</a>) returns (<a href="#message-ListNotificationChannelsResponse">ListNotificationChannelsResponse</a>)</pre>
+
+<div class="description">
+<p>ListNotificationChannels</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /v3/{parent=projects/*}/notificationChannels </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchNotificationChannel">WatchNotificationChannel</h5>
+
+<pre class="signature">rpc WatchNotificationChannel(<a href="#message-WatchNotificationChannelRequest">WatchNotificationChannelRequest</a>) returns (<a href="#message-WatchNotificationChannelResponse">WatchNotificationChannelResponse</a>)</pre>
+
+<div class="description">
+<p>WatchNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{name=projects/*/notificationChannels/*}:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchNotificationChannels">WatchNotificationChannels</h5>
+
+<pre class="signature">rpc WatchNotificationChannels(<a href="#message-WatchNotificationChannelsRequest">WatchNotificationChannelsRequest</a>) returns (<a href="#message-WatchNotificationChannelsResponse">WatchNotificationChannelsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchNotificationChannels</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{parent=projects/*}/notificationChannels:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateNotificationChannel">CreateNotificationChannel</h5>
+
+<pre class="signature">rpc CreateNotificationChannel(<a href="#message-CreateNotificationChannelRequest">CreateNotificationChannelRequest</a>) returns (<a href="#message-NotificationChannel">NotificationChannel</a>)</pre>
+
+<div class="description">
+<p>CreateNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{parent=projects/*}/notificationChannels (BODY: notification_channel)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateNotificationChannel">UpdateNotificationChannel</h5>
+
+<pre class="signature">rpc UpdateNotificationChannel(<a href="#message-UpdateNotificationChannelRequest">UpdateNotificationChannelRequest</a>) returns (<a href="#message-NotificationChannel">NotificationChannel</a>)</pre>
+
+<div class="description">
+<p>UpdateNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v3/{notification_channel.name=projects/*/notificationChannels/*} (BODY: notification_channel)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteNotificationChannel">DeleteNotificationChannel</h5>
+
+<pre class="signature">rpc DeleteNotificationChannel(<a href="#message-DeleteNotificationChannelRequest">DeleteNotificationChannelRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /v3/{name=projects/*/notificationChannels/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-TestNotificationChannel">TestNotificationChannel</h5>
+
+<pre class="signature">rpc TestNotificationChannel(<a href="#message-TestNotificationChannelRequest">TestNotificationChannelRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>TestNotificationChannel</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /v3/{name=projects/*/notificationChannels/*}:test </pre>
+
+</div>
+
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-NotificationChannel.Spec">NotificationChannel.Spec</h5>
+
+<p>Spec of NotificationChannel</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">enabled</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Enabled flag. Whether the NotificationChannel is enabled or not. Disabled
+channels will not be used for alerting.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre><a href="#enum-NotificationChannel.Spec.Type">NotificationChannel.Spec.Type</a></pre></td>
+</tr>
+<tr><td class="description"><p>Type. Corresponding spec should a oneof field.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">email</th>
+<td class="type"><pre><a href="#message-NotificationChannel.Spec.Email">NotificationChannel.Spec.Email</a></pre></td>
+</tr>
+<tr><td class="description"><p>Email</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">slack</th>
+<td class="type"><pre><a href="#message-NotificationChannel.Spec.Slack">NotificationChannel.Spec.Slack</a></pre></td>
+</tr>
+<tr><td class="description"><p>Slack</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">webhook</th>
+<td class="type"><pre><a href="#message-NotificationChannel.Spec.Webhook">NotificationChannel.Spec.Webhook</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.State">NotificationChannel.State</h5>
+
+<p>State of NotificationChannel</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">status</th>
+<td class="type"><pre><a href="#enum-NotificationChannel.State.Status">NotificationChannel.State.Status</a></pre></td>
+</tr>
+<tr><td class="description"><p>Status</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">error</th>
+<td class="type"><pre><a href="#message-NotificationChannel.State.Error">NotificationChannel.State.Error</a></pre></td>
+</tr>
+<tr><td class="description"><p>Error</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.Spec.Email">NotificationChannel.Spec.Email</h5>
+
+<p>Email Spec</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">addresses</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Email Addresses</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.Spec.Slack">NotificationChannel.Spec.Slack</h5>
+
+<p>Slack Spec</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">incoming_webhook</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Slack Incoming Webhook URL</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.Spec.PagerDuty">NotificationChannel.Spec.PagerDuty</h5>
+
+<p>PagerDuty Spec</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">service_key</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>PagerDuty Service Key</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.Spec.Webhook">NotificationChannel.Spec.Webhook</h5>
+
+<p>Webhook Spec</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">url</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Webhook URL</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">headers</th>
+<td class="type"><pre>repeated <a href="#message-NotificationChannel.Spec.Webhook.Header">NotificationChannel.Spec.Webhook.Header</a></pre></td>
+</tr>
+<tr><td class="description"><p>Headers</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.Spec.Webhook.Header">NotificationChannel.Spec.Webhook.Header</h5>
+
+<p>Header</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">key</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">value</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannel.State.Error">NotificationChannel.State.Error</h5>
+
+<p>Error of NotificationChannel</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">message</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetNotificationChannelRequest">GetNotificationChannelRequest</h5>
+
+<p>Request message for method
+[GetNotificationChannel][ntt.monitoring.v3.GetNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetNotificationChannelsRequest">BatchGetNotificationChannelsRequest</h5>
+
+<p>Request message for method
+[BatchGetNotificationChannels][ntt.monitoring.v3.BatchGetNotificationChannels]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of NotificationChannels</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetNotificationChannelsResponse">BatchGetNotificationChannelsResponse</h5>
+
+<p>BatchGetNotificationChannelsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channels</th>
+<td class="type"><pre>repeated <a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>found NotificationChannels</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found NotificationChannels</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListNotificationChannelsRequest">ListNotificationChannelsRequest</h5>
+
+<p>Request message for method
+[ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer NotificationChannels than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListNotificationChannelsResponse.next_page_token][ntt.monitoring.v3.ListNotificationChannelsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListNotificationChannelsResponse">ListNotificationChannelsResponse</h5>
+
+<p>Request message for method
+[ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channels</th>
+<td class="type"><pre>repeated <a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of NotificationChannels</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total NotificationChannels across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationChannelRequest">WatchNotificationChannelRequest</h5>
+
+<p>Request message for method
+[WatchNotificationChannel][ntt.monitoring.v3.WatchNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationChannelResponse">WatchNotificationChannelResponse</h5>
+
+<p>WatchNotificationChannelResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-NotificationChannelChange">NotificationChannelChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationChannelsRequest">WatchNotificationChannelsRequest</h5>
+
+<p>Request message for method
+[WatchNotificationChannels][ntt.monitoring.v3.WatchNotificationChannels]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer NotificationChannels than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">starting_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Point in the time from which we want to start getting updates. This field
+can be populated only for stateless watch type and if resume token is not
+known yet. If specified, initial snapshot will NOT be provided. It is
+assumed client can obtain it using separate means. Watch responses will
+contain resume tokens which should be used to resume broken connection.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to NotificationChannel that
+don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+NotificationChannel that don't affect any of masked fields won't be sent
+back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationChannelsResponse">WatchNotificationChannelsResponse</h5>
+
+<p>WatchNotificationChannelsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channel_changes</th>
+<td class="type"><pre>repeated <a href="#message-NotificationChannelChange">NotificationChannelChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of NotificationChannels</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All NotificationChannels will be of
+type Added/Current (depending on watch_type specified in the request).
+Further responses will be incremental - however messages may still be
+chunked and is_current logic still applies. is_current is always true for
+stateful watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchNotificationChannelsResponse.PageTokenChange">WatchNotificationChannelsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (NotificationChannels will
+contains changes of type Current only). Any resume tokens should be
+discarded as well. This field should be checked only for stateless watch.
+In stateful those kind of errors are handled by the server side. Will never
+be sent along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchNotificationChannelsResponse.PageTokenChange">WatchNotificationChannelsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateNotificationChannelRequest">CreateNotificationChannelRequest</h5>
+
+<p>Request message for method
+[CreateNotificationChannel][ntt.monitoring.v3.CreateNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>NotificationChannel resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateNotificationChannelRequest">UpdateNotificationChannelRequest</h5>
+
+<p>Request message for method
+[UpdateNotificationChannel][ntt.monitoring.v3.UpdateNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>NotificationChannel resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateNotificationChannelRequest.CAS">UpdateNotificationChannelRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateNotificationChannelRequest.CAS">UpdateNotificationChannelRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteNotificationChannelRequest">DeleteNotificationChannelRequest</h5>
+
+<p>Request message for method
+[DeleteNotificationChannel][ntt.monitoring.v3.DeleteNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-TestNotificationChannelRequest">TestNotificationChannelRequest</h5>
+
+<p>Request message for method
+[TestNotificationChannel][ntt.monitoring.v3.TestNotificationChannel]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>reference of ntt.monitoring.v3.NotificationChannel</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-NotificationChannel.Spec.Type">NotificationChannel.Spec.Type</h5>
+
+<p>Type of NotificationChannel</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>TYPE_UNSPECIFIED</th>
+<td class="description"><p>Type is unknown</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>EMAIL</th>
+<td class="description"><p>Email NotificationChannel</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>SLACK</th>
+<td class="description"><p>Slack NotificationChannel</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>WEBHOOK</th>
+<td class="description"><p>Webhook NotificationChannel</p>
+</td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="enum-NotificationChannel.State.Status">NotificationChannel.State.Status</h5>
+
+<p>State of NotificationChannel</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>STATE_UNSPECIFIED</th>
+<td class="description"><p>State is unknown</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ACTIVE</th>
+<td class="description"><p>NotificationChannel is active</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DISABLED</th>
+<td class="description"><p>NotificationChannel is disabled</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ERROR</th>
+<td class="description"><p>Error of NotificationChannel</p>
+</td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
 
 
 
@@ -9757,6 +12244,351 @@ resource.labels.&lt;key1&gt; IN (label1_0, label1_1, ...) AND ...
 </tr>
 <tr><td class="description"><p>label key, e.g. &quot;project_id&quot;, &quot;target_id&quot;, etc
 Note the missing &quot;resource.labels.&quot; prefix.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChange">NotificationChange</h5>
+
+<p>NotificationChange is used by Watch notifications Responses to describe
+change of single Notification One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-NotificationChange.Added">NotificationChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-NotificationChange.Modified">NotificationChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-NotificationChange.Current">NotificationChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-NotificationChange.Removed">NotificationChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when Notification is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChange.Added">NotificationChange.Added</h5>
+
+<p>Notification has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added Notification in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChange.Current">NotificationChange.Current</h5>
+
+<p>Notification has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChange.Modified">NotificationChange.Modified</h5>
+
+<p>Notification changed some of it's fields - contains either full document or
+masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified Notification</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification</th>
+<td class="type"><pre><a href="#message-Notification">Notification</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of Notification or masked difference, depending on
+mask_changes instrumentation of issued [WatchNotificationRequest] or
+[WatchNotificationsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified Notification.
+When modification doesn't affect sorted order, value will remain
+identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying Notification new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChange.Removed">NotificationChange.Removed</h5>
+
+<p>Removed is returned when Notification is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed Notification index. Not populated in stateless
+watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannelChange">NotificationChannelChange</h5>
+
+<p>NotificationChannelChange is used by Watch notifications Responses to
+describe change of single NotificationChannel One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-NotificationChannelChange.Added">NotificationChannelChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-NotificationChannelChange.Modified">NotificationChannelChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-NotificationChannelChange.Current">NotificationChannelChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-NotificationChannelChange.Removed">NotificationChannelChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when NotificationChannel is deleted or leaves Query
+view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannelChange.Added">NotificationChannelChange.Added</h5>
+
+<p>NotificationChannel has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added NotificationChannel in resulting query
+view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannelChange.Current">NotificationChannelChange.Current</h5>
+
+<p>NotificationChannel has been added or modified in a query view. Version
+used for stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannelChange.Modified">NotificationChannelChange.Modified</h5>
+
+<p>NotificationChannel changed some of it's fields - contains either full
+document or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified NotificationChannel</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">notification_channel</th>
+<td class="type"><pre><a href="#message-NotificationChannel">NotificationChannel</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of NotificationChannel or masked difference, depending on
+mask_changes instrumentation of issued [WatchNotificationChannelRequest]
+or [WatchNotificationChannelsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+NotificationChannel. When modification doesn't affect sorted order, value
+will remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying NotificationChannel new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-NotificationChannelChange.Removed">NotificationChannelChange.Removed</h5>
+
+<p>Removed is returned when NotificationChannel is deleted or leaves Query
+view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed NotificationChannel index. Not populated in
+stateless watch type.</p>
 </td></tr>
  
 </tbody>

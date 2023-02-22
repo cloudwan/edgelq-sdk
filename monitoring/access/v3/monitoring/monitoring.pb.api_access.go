@@ -12,6 +12,8 @@ import (
 	alerting_policy_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/alerting_policy"
 	metric_descriptor_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/metric_descriptor"
 	monitored_resource_descriptor_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/monitored_resource_descriptor"
+	notification_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/notification"
+	notification_channel_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/notification_channel"
 	phantom_time_serie_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/phantom_time_serie"
 	project_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/project"
 	monitoring_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitoring"
@@ -20,6 +22,8 @@ import (
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
+	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 )
@@ -32,6 +36,8 @@ type MonitoringApiAccess interface {
 	alerting_policy.AlertingPolicyAccess
 	metric_descriptor.MetricDescriptorAccess
 	monitored_resource_descriptor.MonitoredResourceDescriptorAccess
+	notification.NotificationAccess
+	notification_channel.NotificationChannelAccess
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
 }
@@ -44,6 +50,8 @@ type apiMonitoringAccess struct {
 	alerting_policy.AlertingPolicyAccess
 	metric_descriptor.MetricDescriptorAccess
 	monitored_resource_descriptor.MonitoredResourceDescriptorAccess
+	notification.NotificationAccess
+	notification_channel.NotificationChannelAccess
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
 }
@@ -55,6 +63,8 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 	alertingPolicyAccess := alerting_policy_access.NewApiAlertingPolicyAccess(client)
 	metricDescriptorAccess := metric_descriptor_access.NewApiMetricDescriptorAccess(client)
 	monitoredResourceDescriptorAccess := monitored_resource_descriptor_access.NewApiMonitoredResourceDescriptorAccess(client)
+	notificationAccess := notification_access.NewApiNotificationAccess(client)
+	notificationChannelAccess := notification_channel_access.NewApiNotificationChannelAccess(client)
 	phantomTimeSerieAccess := phantom_time_serie_access.NewApiPhantomTimeSerieAccess(client)
 	projectAccess := project_access.NewApiProjectAccess(client)
 
@@ -66,6 +76,8 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 			alerting_policy.AsAnyCastAccess(alertingPolicyAccess),
 			metric_descriptor.AsAnyCastAccess(metricDescriptorAccess),
 			monitored_resource_descriptor.AsAnyCastAccess(monitoredResourceDescriptorAccess),
+			notification.AsAnyCastAccess(notificationAccess),
+			notification_channel.AsAnyCastAccess(notificationChannelAccess),
 			phantom_time_serie.AsAnyCastAccess(phantomTimeSerieAccess),
 			project.AsAnyCastAccess(projectAccess),
 		),
@@ -75,6 +87,8 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 		AlertingPolicyAccess:              alertingPolicyAccess,
 		MetricDescriptorAccess:            metricDescriptorAccess,
 		MonitoredResourceDescriptorAccess: monitoredResourceDescriptorAccess,
+		NotificationAccess:                notificationAccess,
+		NotificationChannelAccess:         notificationChannelAccess,
 		PhantomTimeSerieAccess:            phantomTimeSerieAccess,
 		ProjectAccess:                     projectAccess,
 	}

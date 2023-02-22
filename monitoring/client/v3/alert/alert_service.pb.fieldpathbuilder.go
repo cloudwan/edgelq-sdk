@@ -1257,8 +1257,12 @@ func (BatchGetAlertsResponsePathSelectorAlertsState) Lifetime() BatchGetAlertsRe
 	return BatchGetAlertsResponsePathSelectorAlertsStateLifetime{}
 }
 
-func (BatchGetAlertsResponsePathSelectorAlertsState) Notification() BatchGetAlertsResponsePathSelectorAlertsStateNotification {
-	return BatchGetAlertsResponsePathSelectorAlertsStateNotification{}
+func (BatchGetAlertsResponsePathSelectorAlertsState) NeedsNotification() BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification {
+	return BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification{}
+}
+
+func (BatchGetAlertsResponsePathSelectorAlertsState) NotificationCreated() BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated {
+	return BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated{}
 }
 
 type BatchGetAlertsResponsePathSelectorAlertsStateIsFiring struct{}
@@ -1371,104 +1375,37 @@ func (s BatchGetAlertsResponsePathSelectorAlertsStateLifetimeEndTime) WithArrayO
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetAlertsResponsePathSelectorAlertsStateNotification struct{}
+type BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification struct{}
 
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotification) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
+func (BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
 	return &BatchGetAlertsResponse_FieldSubPath{
 		selector: BatchGetAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotification) WithValue(value *alert.Alert_State_Notification) *BatchGetAlertsResponse_FieldSubPathValue {
+func (s BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification) WithValue(value bool) *BatchGetAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertsResponsePathSelectorAlertsStateNeedsNotification) WithArrayOfValues(values []bool) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
 }
 
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotification) Slack() BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack {
-	return BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack{}
-}
+type BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated struct{}
 
-type BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack struct{}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
+func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
 	return &BatchGetAlertsResponse_FieldSubPath{
 		selector: BatchGetAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *BatchGetAlertsResponse_FieldSubPathValue {
+func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated) WithValue(value bool) *BatchGetAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) Ts() BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs {
-	return BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs{}
-}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) DeliveryStatus() BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus {
-	return BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus{}
-}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlack) ErrorMessage() BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage {
-	return BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage{}
-}
-
-type BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs struct{}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
-	return &BatchGetAlertsResponse_FieldSubPath{
-		selector: BatchGetAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs) WithValue(value string) *BatchGetAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackTs) WithArrayOfValues(values []string) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-type BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus struct{}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
-	return &BatchGetAlertsResponse_FieldSubPath{
-		selector: BatchGetAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *BatchGetAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-type BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage struct{}
-
-func (BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) FieldPath() *BatchGetAlertsResponse_FieldSubPath {
-	return &BatchGetAlertsResponse_FieldSubPath{
-		selector: BatchGetAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) WithValue(value string) *BatchGetAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertsResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertsResponsePathSelectorAlertsStateNotificationCreated) WithArrayOfValues(values []bool) *BatchGetAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2742,8 +2679,12 @@ func (ListAlertsResponsePathSelectorAlertsState) Lifetime() ListAlertsResponsePa
 	return ListAlertsResponsePathSelectorAlertsStateLifetime{}
 }
 
-func (ListAlertsResponsePathSelectorAlertsState) Notification() ListAlertsResponsePathSelectorAlertsStateNotification {
-	return ListAlertsResponsePathSelectorAlertsStateNotification{}
+func (ListAlertsResponsePathSelectorAlertsState) NeedsNotification() ListAlertsResponsePathSelectorAlertsStateNeedsNotification {
+	return ListAlertsResponsePathSelectorAlertsStateNeedsNotification{}
+}
+
+func (ListAlertsResponsePathSelectorAlertsState) NotificationCreated() ListAlertsResponsePathSelectorAlertsStateNotificationCreated {
+	return ListAlertsResponsePathSelectorAlertsStateNotificationCreated{}
 }
 
 type ListAlertsResponsePathSelectorAlertsStateIsFiring struct{}
@@ -2856,104 +2797,37 @@ func (s ListAlertsResponsePathSelectorAlertsStateLifetimeEndTime) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListAlertsResponsePathSelectorAlertsStateNotification struct{}
+type ListAlertsResponsePathSelectorAlertsStateNeedsNotification struct{}
 
-func (ListAlertsResponsePathSelectorAlertsStateNotification) FieldPath() *ListAlertsResponse_FieldSubPath {
+func (ListAlertsResponsePathSelectorAlertsStateNeedsNotification) FieldPath() *ListAlertsResponse_FieldSubPath {
 	return &ListAlertsResponse_FieldSubPath{
 		selector: ListAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s ListAlertsResponsePathSelectorAlertsStateNotification) WithValue(value *alert.Alert_State_Notification) *ListAlertsResponse_FieldSubPathValue {
+func (s ListAlertsResponsePathSelectorAlertsStateNeedsNotification) WithValue(value bool) *ListAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
 }
 
-func (s ListAlertsResponsePathSelectorAlertsStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *ListAlertsResponse_FieldSubPathArrayOfValues {
+func (s ListAlertsResponsePathSelectorAlertsStateNeedsNotification) WithArrayOfValues(values []bool) *ListAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListAlertsResponsePathSelectorAlertsStateNotification) Slack() ListAlertsResponsePathSelectorAlertsStateNotificationSlack {
-	return ListAlertsResponsePathSelectorAlertsStateNotificationSlack{}
-}
+type ListAlertsResponsePathSelectorAlertsStateNotificationCreated struct{}
 
-type ListAlertsResponsePathSelectorAlertsStateNotificationSlack struct{}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlack) FieldPath() *ListAlertsResponse_FieldSubPath {
+func (ListAlertsResponsePathSelectorAlertsStateNotificationCreated) FieldPath() *ListAlertsResponse_FieldSubPath {
 	return &ListAlertsResponse_FieldSubPath{
 		selector: ListAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *ListAlertsResponse_FieldSubPathValue {
+func (s ListAlertsResponsePathSelectorAlertsStateNotificationCreated) WithValue(value bool) *ListAlertsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
 }
 
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *ListAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlack) Ts() ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs {
-	return ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs{}
-}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlack) DeliveryStatus() ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus {
-	return ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus{}
-}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlack) ErrorMessage() ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage {
-	return ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage{}
-}
-
-type ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs struct{}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs) FieldPath() *ListAlertsResponse_FieldSubPath {
-	return &ListAlertsResponse_FieldSubPath{
-		selector: ListAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs) WithValue(value string) *ListAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackTs) WithArrayOfValues(values []string) *ListAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-type ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus struct{}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) FieldPath() *ListAlertsResponse_FieldSubPath {
-	return &ListAlertsResponse_FieldSubPath{
-		selector: ListAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *ListAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *ListAlertsResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
-}
-
-type ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage struct{}
-
-func (ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) FieldPath() *ListAlertsResponse_FieldSubPath {
-	return &ListAlertsResponse_FieldSubPath{
-		selector: ListAlertsResponse_FieldPathSelectorAlerts,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) WithValue(value string) *ListAlertsResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertsResponse_FieldSubPathValue)
-}
-
-func (s ListAlertsResponsePathSelectorAlertsStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *ListAlertsResponse_FieldSubPathArrayOfValues {
+func (s ListAlertsResponsePathSelectorAlertsStateNotificationCreated) WithArrayOfValues(values []bool) *ListAlertsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -4625,8 +4499,12 @@ func (CreateAlertRequestPathSelectorAlertState) Lifetime() CreateAlertRequestPat
 	return CreateAlertRequestPathSelectorAlertStateLifetime{}
 }
 
-func (CreateAlertRequestPathSelectorAlertState) Notification() CreateAlertRequestPathSelectorAlertStateNotification {
-	return CreateAlertRequestPathSelectorAlertStateNotification{}
+func (CreateAlertRequestPathSelectorAlertState) NeedsNotification() CreateAlertRequestPathSelectorAlertStateNeedsNotification {
+	return CreateAlertRequestPathSelectorAlertStateNeedsNotification{}
+}
+
+func (CreateAlertRequestPathSelectorAlertState) NotificationCreated() CreateAlertRequestPathSelectorAlertStateNotificationCreated {
+	return CreateAlertRequestPathSelectorAlertStateNotificationCreated{}
 }
 
 type CreateAlertRequestPathSelectorAlertStateIsFiring struct{}
@@ -4739,104 +4617,37 @@ func (s CreateAlertRequestPathSelectorAlertStateLifetimeEndTime) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateAlertRequestPathSelectorAlertStateNotification struct{}
+type CreateAlertRequestPathSelectorAlertStateNeedsNotification struct{}
 
-func (CreateAlertRequestPathSelectorAlertStateNotification) FieldPath() *CreateAlertRequest_FieldSubPath {
+func (CreateAlertRequestPathSelectorAlertStateNeedsNotification) FieldPath() *CreateAlertRequest_FieldSubPath {
 	return &CreateAlertRequest_FieldSubPath{
 		selector: CreateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s CreateAlertRequestPathSelectorAlertStateNotification) WithValue(value *alert.Alert_State_Notification) *CreateAlertRequest_FieldSubPathValue {
+func (s CreateAlertRequestPathSelectorAlertStateNeedsNotification) WithValue(value bool) *CreateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertRequestPathSelectorAlertStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *CreateAlertRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertRequestPathSelectorAlertStateNeedsNotification) WithArrayOfValues(values []bool) *CreateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-func (CreateAlertRequestPathSelectorAlertStateNotification) Slack() CreateAlertRequestPathSelectorAlertStateNotificationSlack {
-	return CreateAlertRequestPathSelectorAlertStateNotificationSlack{}
-}
+type CreateAlertRequestPathSelectorAlertStateNotificationCreated struct{}
 
-type CreateAlertRequestPathSelectorAlertStateNotificationSlack struct{}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlack) FieldPath() *CreateAlertRequest_FieldSubPath {
+func (CreateAlertRequestPathSelectorAlertStateNotificationCreated) FieldPath() *CreateAlertRequest_FieldSubPath {
 	return &CreateAlertRequest_FieldSubPath{
 		selector: CreateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *CreateAlertRequest_FieldSubPathValue {
+func (s CreateAlertRequestPathSelectorAlertStateNotificationCreated) WithValue(value bool) *CreateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *CreateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlack) Ts() CreateAlertRequestPathSelectorAlertStateNotificationSlackTs {
-	return CreateAlertRequestPathSelectorAlertStateNotificationSlackTs{}
-}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlack) DeliveryStatus() CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus {
-	return CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus{}
-}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlack) ErrorMessage() CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage {
-	return CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage{}
-}
-
-type CreateAlertRequestPathSelectorAlertStateNotificationSlackTs struct{}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlackTs) FieldPath() *CreateAlertRequest_FieldSubPath {
-	return &CreateAlertRequest_FieldSubPath{
-		selector: CreateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackTs) WithValue(value string) *CreateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackTs) WithArrayOfValues(values []string) *CreateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus struct{}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) FieldPath() *CreateAlertRequest_FieldSubPath {
-	return &CreateAlertRequest_FieldSubPath{
-		selector: CreateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *CreateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *CreateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage struct{}
-
-func (CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) FieldPath() *CreateAlertRequest_FieldSubPath {
-	return &CreateAlertRequest_FieldSubPath{
-		selector: CreateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) WithValue(value string) *CreateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *CreateAlertRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertRequestPathSelectorAlertStateNotificationCreated) WithArrayOfValues(values []bool) *CreateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5941,8 +5752,12 @@ func (UpdateAlertRequestPathSelectorAlertState) Lifetime() UpdateAlertRequestPat
 	return UpdateAlertRequestPathSelectorAlertStateLifetime{}
 }
 
-func (UpdateAlertRequestPathSelectorAlertState) Notification() UpdateAlertRequestPathSelectorAlertStateNotification {
-	return UpdateAlertRequestPathSelectorAlertStateNotification{}
+func (UpdateAlertRequestPathSelectorAlertState) NeedsNotification() UpdateAlertRequestPathSelectorAlertStateNeedsNotification {
+	return UpdateAlertRequestPathSelectorAlertStateNeedsNotification{}
+}
+
+func (UpdateAlertRequestPathSelectorAlertState) NotificationCreated() UpdateAlertRequestPathSelectorAlertStateNotificationCreated {
+	return UpdateAlertRequestPathSelectorAlertStateNotificationCreated{}
 }
 
 type UpdateAlertRequestPathSelectorAlertStateIsFiring struct{}
@@ -6055,104 +5870,37 @@ func (s UpdateAlertRequestPathSelectorAlertStateLifetimeEndTime) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertRequestPathSelectorAlertStateNotification struct{}
+type UpdateAlertRequestPathSelectorAlertStateNeedsNotification struct{}
 
-func (UpdateAlertRequestPathSelectorAlertStateNotification) FieldPath() *UpdateAlertRequest_FieldSubPath {
+func (UpdateAlertRequestPathSelectorAlertStateNeedsNotification) FieldPath() *UpdateAlertRequest_FieldSubPath {
 	return &UpdateAlertRequest_FieldSubPath{
 		selector: UpdateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorAlertStateNotification) WithValue(value *alert.Alert_State_Notification) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorAlertStateNeedsNotification) WithValue(value bool) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorAlertStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorAlertStateNeedsNotification) WithArrayOfValues(values []bool) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertRequestPathSelectorAlertStateNotification) Slack() UpdateAlertRequestPathSelectorAlertStateNotificationSlack {
-	return UpdateAlertRequestPathSelectorAlertStateNotificationSlack{}
-}
+type UpdateAlertRequestPathSelectorAlertStateNotificationCreated struct{}
 
-type UpdateAlertRequestPathSelectorAlertStateNotificationSlack struct{}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlack) FieldPath() *UpdateAlertRequest_FieldSubPath {
+func (UpdateAlertRequestPathSelectorAlertStateNotificationCreated) FieldPath() *UpdateAlertRequest_FieldSubPath {
 	return &UpdateAlertRequest_FieldSubPath{
 		selector: UpdateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorAlertStateNotificationCreated) WithValue(value bool) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlack) Ts() UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs {
-	return UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs{}
-}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlack) DeliveryStatus() UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus {
-	return UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus{}
-}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlack) ErrorMessage() UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage {
-	return UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage{}
-}
-
-type UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs struct{}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs) WithValue(value string) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackTs) WithArrayOfValues(values []string) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus struct{}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage struct{}
-
-func (UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorAlert,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) WithValue(value string) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorAlertStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorAlertStateNotificationCreated) WithArrayOfValues(values []bool) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7281,8 +7029,12 @@ func (UpdateAlertRequestPathSelectorCasConditionalStateState) Lifetime() UpdateA
 	return UpdateAlertRequestPathSelectorCasConditionalStateStateLifetime{}
 }
 
-func (UpdateAlertRequestPathSelectorCasConditionalStateState) Notification() UpdateAlertRequestPathSelectorCasConditionalStateStateNotification {
-	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotification{}
+func (UpdateAlertRequestPathSelectorCasConditionalStateState) NeedsNotification() UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification {
+	return UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification{}
+}
+
+func (UpdateAlertRequestPathSelectorCasConditionalStateState) NotificationCreated() UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated {
+	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated{}
 }
 
 type UpdateAlertRequestPathSelectorCasConditionalStateStateIsFiring struct{}
@@ -7395,104 +7147,37 @@ func (s UpdateAlertRequestPathSelectorCasConditionalStateStateLifetimeEndTime) W
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertRequestPathSelectorCasConditionalStateStateNotification struct{}
+type UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification struct{}
 
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotification) FieldPath() *UpdateAlertRequest_FieldSubPath {
+func (UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification) FieldPath() *UpdateAlertRequest_FieldSubPath {
 	return &UpdateAlertRequest_FieldSubPath{
 		selector: UpdateAlertRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().Notification().FieldPath(),
+		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotification) WithValue(value *alert.Alert_State_Notification) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification) WithValue(value bool) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNeedsNotification) WithArrayOfValues(values []bool) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotification) Slack() UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack {
-	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack{}
-}
+type UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated struct{}
 
-type UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack struct{}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) FieldPath() *UpdateAlertRequest_FieldSubPath {
+func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated) FieldPath() *UpdateAlertRequest_FieldSubPath {
 	return &UpdateAlertRequest_FieldSubPath{
 		selector: UpdateAlertRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().Notification().Slack().FieldPath(),
+		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *UpdateAlertRequest_FieldSubPathValue {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated) WithValue(value bool) *UpdateAlertRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) Ts() UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs {
-	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs{}
-}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) DeliveryStatus() UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus {
-	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus{}
-}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlack) ErrorMessage() UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage {
-	return UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage{}
-}
-
-type UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs struct{}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs) WithValue(value string) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackTs) WithArrayOfValues(values []string) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus struct{}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage struct{}
-
-func (UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage) FieldPath() *UpdateAlertRequest_FieldSubPath {
-	return &UpdateAlertRequest_FieldSubPath{
-		selector: UpdateAlertRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertRequestCASFieldPathBuilder().ConditionalState().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage) WithValue(value string) *UpdateAlertRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *UpdateAlertRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequestPathSelectorCasConditionalStateStateNotificationCreated) WithArrayOfValues(values []bool) *UpdateAlertRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequest_FieldSubPathArrayOfValues)
 }
 
@@ -8611,8 +8296,12 @@ func (UpdateAlertRequest_CASPathSelectorConditionalStateState) Lifetime() Update
 	return UpdateAlertRequest_CASPathSelectorConditionalStateStateLifetime{}
 }
 
-func (UpdateAlertRequest_CASPathSelectorConditionalStateState) Notification() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification {
-	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification{}
+func (UpdateAlertRequest_CASPathSelectorConditionalStateState) NeedsNotification() UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification {
+	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification{}
+}
+
+func (UpdateAlertRequest_CASPathSelectorConditionalStateState) NotificationCreated() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated {
+	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated{}
 }
 
 type UpdateAlertRequest_CASPathSelectorConditionalStateStateIsFiring struct{}
@@ -8725,104 +8414,37 @@ func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateLifetimeEndTime) 
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification struct{}
+type UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification struct{}
 
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
+func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
 	return &UpdateAlertRequestCAS_FieldSubPath{
 		selector: UpdateAlertRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NeedsNotification().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification) WithValue(value *alert.Alert_State_Notification) *UpdateAlertRequestCAS_FieldSubPathValue {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification) WithValue(value bool) *UpdateAlertRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification) WithArrayOfValues(values []*alert.Alert_State_Notification) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNeedsNotification) WithArrayOfValues(values []bool) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotification) Slack() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack {
-	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack{}
-}
+type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated struct{}
 
-type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack struct{}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
+func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
 	return &UpdateAlertRequestCAS_FieldSubPath{
 		selector: UpdateAlertRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().FieldPath(),
+		subPath:  alert.NewAlertFieldPathBuilder().State().NotificationCreated().FieldPath(),
 	}
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) WithValue(value *alert.Alert_State_Notification_Slack) *UpdateAlertRequestCAS_FieldSubPathValue {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated) WithValue(value bool) *UpdateAlertRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) WithArrayOfValues(values []*alert.Alert_State_Notification_Slack) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
-}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) Ts() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs {
-	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs{}
-}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) DeliveryStatus() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus {
-	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus{}
-}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlack) ErrorMessage() UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage {
-	return UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage{}
-}
-
-type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs struct{}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
-	return &UpdateAlertRequestCAS_FieldSubPath{
-		selector: UpdateAlertRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().Ts().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs) WithValue(value string) *UpdateAlertRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackTs) WithArrayOfValues(values []string) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus struct{}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
-	return &UpdateAlertRequestCAS_FieldSubPath{
-		selector: UpdateAlertRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().DeliveryStatus().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus) WithValue(value alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackDeliveryStatus) WithArrayOfValues(values []alert.Alert_State_Notification_Slack_DeliveryStatus) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage struct{}
-
-func (UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage) FieldPath() *UpdateAlertRequestCAS_FieldSubPath {
-	return &UpdateAlertRequestCAS_FieldSubPath{
-		selector: UpdateAlertRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alert.NewAlertFieldPathBuilder().State().Notification().Slack().ErrorMessage().FieldPath(),
-	}
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage) WithValue(value string) *UpdateAlertRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationSlackErrorMessage) WithArrayOfValues(values []string) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertRequest_CASPathSelectorConditionalStateStateNotificationCreated) WithArrayOfValues(values []bool) *UpdateAlertRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertRequestCAS_FieldSubPathArrayOfValues)
 }
 

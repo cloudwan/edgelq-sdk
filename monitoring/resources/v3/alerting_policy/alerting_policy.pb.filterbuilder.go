@@ -194,6 +194,10 @@ func (b *filterCndBuilder) Spec() *filterCndBuilderSpec {
 	return &filterCndBuilderSpec{builder: b.builder}
 }
 
+func (b *filterCndBuilder) State() *filterCndBuilderState {
+	return &filterCndBuilderState{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2669,351 +2673,347 @@ func (b *filterCndBuilderSpecNotification) compare(op gotenfilter.CompareOperato
 	})
 }
 
-func (b *filterCndBuilderSpecNotification) Slack() *filterCndBuilderSpecNotificationSlack {
-	return &filterCndBuilderSpecNotificationSlack{builder: b.builder}
+func (b *filterCndBuilderSpecNotification) Enabled() *filterCndBuilderSpecNotificationEnabled {
+	return &filterCndBuilderSpecNotificationEnabled{builder: b.builder}
 }
 
-type filterCndBuilderSpecNotificationSlack struct {
+func (b *filterCndBuilderSpecNotification) ListType() *filterCndBuilderSpecNotificationListType {
+	return &filterCndBuilderSpecNotificationListType{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecNotification) Channels() *filterCndBuilderSpecNotificationChannels {
+	return &filterCndBuilderSpecNotificationChannels{builder: b.builder}
+}
+
+type filterCndBuilderSpecNotificationEnabled struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Eq(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Neq(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Gt(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Gte(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Lt(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) Lte(value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) In(values []*AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) NotIn(values []*AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) compare(op gotenfilter.CompareOperator, value *AlertingPolicy_Spec_Notification_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationEnabled) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().WithValue(value),
+		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlack) App() *filterCndBuilderSpecNotificationSlackApp {
-	return &filterCndBuilderSpecNotificationSlackApp{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecNotificationSlack) IncomingWebhook() *filterCndBuilderSpecNotificationSlackIncomingWebhook {
-	return &filterCndBuilderSpecNotificationSlackIncomingWebhook{builder: b.builder}
-}
-
-type filterCndBuilderSpecNotificationSlackApp struct {
+type filterCndBuilderSpecNotificationListType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Eq(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Eq(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Neq(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Neq(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Gt(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Gt(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Gte(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Gte(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Lt(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Lt(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) Lte(value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) Lte(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) In(values []*AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) In(values []AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) NotIn(values []*AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) NotIn(values []AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) compare(op gotenfilter.CompareOperator, value *AlertingPolicy_Spec_Notification_Slack_App) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationListType) compare(op gotenfilter.CompareOperator, value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().WithValue(value),
+		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackApp) AuthToken() *filterCndBuilderSpecNotificationSlackAppAuthToken {
-	return &filterCndBuilderSpecNotificationSlackAppAuthToken{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecNotificationSlackApp) Channel() *filterCndBuilderSpecNotificationSlackAppChannel {
-	return &filterCndBuilderSpecNotificationSlackAppChannel{builder: b.builder}
-}
-
-type filterCndBuilderSpecNotificationSlackAppAuthToken struct {
+type filterCndBuilderSpecNotificationChannels struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Eq(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Neq(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Gt(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Gte(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Lt(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Lte(value []string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) In(values [][]string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) NotIn(values [][]string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppAuthToken) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotificationSlackAppChannel struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Eq(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Neq(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Gt(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Gte(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Lt(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Lte(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) In(values [][]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) NotIn(values [][]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) Contains(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Contains(value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-		Value:     NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().WithItemValue(value),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
+		Value:     NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithItemValue(value),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) ContainsAnyOf(values []string) *FilterBuilder {
-	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel()
+func (b *filterCndBuilderSpecNotificationChannels) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels()
 	itemValues := make([]AlertingPolicy_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
 		itemValues = append(itemValues, pathSelector.WithItemValue(value))
 	}
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 		Values:    itemValues,
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) ContainsAll(values []string) *FilterBuilder {
-	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel()
+func (b *filterCndBuilderSpecNotificationChannels) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels()
 	itemValues := make([]AlertingPolicy_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
 		itemValues = append(itemValues, pathSelector.WithItemValue(value))
 	}
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 		Values:    itemValues,
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackAppChannel) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().WithValue(value),
+		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithValue(value),
 	})
 }
 
-type filterCndBuilderSpecNotificationSlackIncomingWebhook struct {
+type filterCndBuilderState struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Eq(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Neq(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Gt(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Gte(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Lt(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderState) Lte(value *AlertingPolicy_State) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderState) In(values []*AlertingPolicy_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderState) NotIn(values []*AlertingPolicy_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().WithArrayOfValues(values),
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().State().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) IsNull() *FilterBuilder {
+func (b *filterCndBuilderState) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) IsNan() *FilterBuilder {
+func (b *filterCndBuilderState) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		FieldPath: NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationSlackIncomingWebhook) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderState) compare(op gotenfilter.CompareOperator, value *AlertingPolicy_State) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().WithValue(value),
+		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().State().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderState) ActiveAlertsCount() *filterCndBuilderStateActiveAlertsCount {
+	return &filterCndBuilderStateActiveAlertsCount{builder: b.builder}
+}
+
+type filterCndBuilderStateActiveAlertsCount struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateActiveAlertsCount) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                      op,
+		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().WithValue(value),
 	})
 }

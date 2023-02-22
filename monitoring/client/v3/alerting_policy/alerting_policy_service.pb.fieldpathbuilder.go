@@ -217,6 +217,10 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPolicies) Spec() Batch
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec{}
 }
 
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPolicies) State() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState{}
+}
+
 type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesName struct{}
 
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesName) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
@@ -1009,112 +1013,108 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotifica
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Slack() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack{}
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Enabled() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack struct{}
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
+}
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
 	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
 		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithValue(value bool) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) App() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp{}
-}
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) IncomingWebhook() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook{}
-}
-
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp struct{}
-
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
 	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
 		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) AuthToken() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken{}
-}
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels struct{}
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) Channel() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel{}
-}
-
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken struct{}
-
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
 	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
 		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel struct{}
-
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
-	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
-		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithValue(value []string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithItemValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook struct{}
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState struct{}
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
 	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
 		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithValue(value *alerting_policy.AlertingPolicy_State) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesState) ActiveAlertsCount() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount {
+	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount{}
+}
+
+type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount struct{}
+
+func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
+	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
+		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithValue(value int64) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithArrayOfValues(values []int64) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1354,6 +1354,10 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPolicies) Documentation() 
 
 func (ListAlertingPoliciesResponsePathSelectorAlertingPolicies) Spec() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec {
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec{}
+}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPolicies) State() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState{}
 }
 
 type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesName struct{}
@@ -2148,112 +2152,108 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Slack() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack{}
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Enabled() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack struct{}
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
+}
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
 	return &ListAlertingPoliciesResponse_FieldSubPath{
 		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithValue(value bool) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) App() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp{}
-}
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) IncomingWebhook() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook{}
-}
-
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp struct{}
-
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
 	return &ListAlertingPoliciesResponse_FieldSubPath{
 		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) AuthToken() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken{}
-}
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels struct{}
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) Channel() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel{}
-}
-
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken struct{}
-
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
 	return &ListAlertingPoliciesResponse_FieldSubPath{
 		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel struct{}
-
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
-	return &ListAlertingPoliciesResponse_FieldSubPath{
-		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithValue(value []string) *ListAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithItemValue(value string) *ListAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *ListAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook struct{}
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState struct{}
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
 	return &ListAlertingPoliciesResponse_FieldSubPath{
 		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithValue(value string) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithValue(value *alerting_policy.AlertingPolicy_State) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesState) ActiveAlertsCount() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount {
+	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount{}
+}
+
+type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount struct{}
+
+func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
+	return &ListAlertingPoliciesResponse_FieldSubPath{
+		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithValue(value int64) *ListAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithArrayOfValues(values []int64) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2891,6 +2891,10 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicy) Documentation() Cre
 
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicy) Spec() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpec {
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpec{}
+}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicy) State() CreateAlertingPolicyRequestPathSelectorAlertingPolicyState {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyState{}
 }
 
 type CreateAlertingPolicyRequestPathSelectorAlertingPolicyName struct{}
@@ -3685,112 +3689,108 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) W
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Slack() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack{}
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Enabled() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled{}
 }
 
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack struct{}
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) ListType() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType{}
+}
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Channels() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels{}
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
 	return &CreateAlertingPolicyRequest_FieldSubPath{
 		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithValue(value bool) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithArrayOfValues(values []bool) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) App() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp{}
-}
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType struct{}
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) IncomingWebhook() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook{}
-}
-
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp struct{}
-
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
 	return &CreateAlertingPolicyRequest_FieldSubPath{
 		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) AuthToken() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken{}
-}
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels struct{}
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) Channel() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel{}
-}
-
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken struct{}
-
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
 	return &CreateAlertingPolicyRequest_FieldSubPath{
 		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []string) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel struct{}
-
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
-	return &CreateAlertingPolicyRequest_FieldSubPath{
-		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithValue(value []string) *CreateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithItemValue(value string) *CreateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value string) *CreateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook struct{}
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyState struct{}
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyState) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
 	return &CreateAlertingPolicyRequest_FieldSubPath{
 		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) WithValue(value string) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyState) WithValue(value *alerting_policy.AlertingPolicy_State) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyState) ActiveAlertsCount() CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount {
+	return CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount{}
+}
+
+type CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount struct{}
+
+func (CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
+	return &CreateAlertingPolicyRequest_FieldSubPath{
+		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) WithValue(value int64) *CreateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) WithArrayOfValues(values []int64) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -3861,6 +3861,10 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicy) Documentation() Upd
 
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicy) Spec() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpec {
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpec{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicy) State() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState{}
 }
 
 type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyName struct{}
@@ -4655,112 +4659,108 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) W
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Slack() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack{}
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Enabled() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled{}
 }
 
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack struct{}
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) ListType() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType{}
+}
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Channels() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) App() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp{}
-}
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlack) IncomingWebhook() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook{}
-}
-
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) AuthToken() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken{}
-}
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackApp) Channel() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel{}
-}
-
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackAppChannel) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook struct{}
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState) WithValue(value *alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyState) ActiveAlertsCount() UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount {
+	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) WithValue(value int64) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicyStateActiveAlertsCount) WithArrayOfValues(values []int64) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4855,6 +4855,10 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalState) Documentation(
 
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalState) Spec() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpec {
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpec{}
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalState) State() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState{}
 }
 
 type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateName struct{}
@@ -5649,112 +5653,108 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificati
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) Slack() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack{}
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) Enabled() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled{}
 }
 
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack struct{}
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) ListType() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType{}
+}
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) Channels() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Slack().FieldPath(),
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled) WithValue(value bool) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack) App() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp{}
-}
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlack) IncomingWebhook() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook{}
-}
-
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp) AuthToken() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken{}
-}
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackApp) Channel() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel{}
-}
-
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackAppChannel) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook struct{}
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState struct{}
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
 	return &UpdateAlertingPolicyRequest_FieldSubPath{
 		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().State().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook) WithValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState) WithValue(value *alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateState) ActiveAlertsCount() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount {
+	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount{}
+}
+
+type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount struct{}
+
+func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
+	return &UpdateAlertingPolicyRequest_FieldSubPath{
+		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount) WithValue(value int64) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateStateActiveAlertsCount) WithArrayOfValues(values []int64) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5839,6 +5839,10 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalState) Documentation
 
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalState) Spec() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpec {
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpec{}
+}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalState) State() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState{}
 }
 
 type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateName struct{}
@@ -6633,112 +6637,108 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificat
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) Slack() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack{}
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) Enabled() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled{}
 }
 
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack struct{}
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) ListType() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType{}
+}
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) Channels() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels{}
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
 	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
 		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled) WithValue(value bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack) App() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp{}
-}
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType struct{}
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlack) IncomingWebhook() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook{}
-}
-
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp struct{}
-
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
 	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
 		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp) AuthToken() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken{}
-}
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels struct{}
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackApp) Channel() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel{}
-}
-
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken struct{}
-
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
 	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
 		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel struct{}
-
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
-	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
-		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel) WithValue(value []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackAppChannel) WithItemValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue)
 }
 
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook struct{}
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState struct{}
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
 	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
 		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook) WithValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState) WithValue(value *alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateState) ActiveAlertsCount() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount {
+	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount{}
+}
+
+type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount struct{}
+
+func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
+	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
+		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount) WithValue(value int64) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateStateActiveAlertsCount) WithArrayOfValues(values []int64) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -6997,6 +6997,10 @@ func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Documentation(
 
 func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) Spec() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec {
 	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpec{}
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPolicies) State() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState{}
 }
 
 type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesName struct{}
@@ -7791,112 +7795,108 @@ func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificati
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Slack() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack{}
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Enabled() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack struct{}
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
+}
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
 	return &SearchAlertingPoliciesResponse_FieldSubPath{
 		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().FieldPath(),
 	}
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithValue(value bool) *SearchAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) App() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp{}
-}
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlack) IncomingWebhook() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook{}
-}
-
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp struct{}
-
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
 	return &SearchAlertingPoliciesResponse_FieldSubPath{
 		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
 	}
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithValue(value *alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *SearchAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_Spec_Notification_Slack_App) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) AuthToken() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken{}
-}
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels struct{}
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackApp) Channel() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel{}
-}
-
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken struct{}
-
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
 	return &SearchAlertingPoliciesResponse_FieldSubPath{
 		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().AuthToken().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
 	}
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppAuthToken) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel struct{}
-
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
-	return &SearchAlertingPoliciesResponse_FieldSubPath{
-		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().App().Channel().FieldPath(),
-	}
-}
-
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackAppChannel) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook struct{}
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState struct{}
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
 	return &SearchAlertingPoliciesResponse_FieldSubPath{
 		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().Slack().IncomingWebhook().FieldPath(),
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().FieldPath(),
 	}
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithValue(value *alerting_policy.AlertingPolicy_State) *SearchAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationSlackIncomingWebhook) WithArrayOfValues(values []string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState) WithArrayOfValues(values []*alerting_policy.AlertingPolicy_State) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesState) ActiveAlertsCount() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount {
+	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount{}
+}
+
+type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount struct{}
+
+func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
+	return &SearchAlertingPoliciesResponse_FieldSubPath{
+		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
+		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().State().ActiveAlertsCount().FieldPath(),
+	}
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithValue(value int64) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
+}
+
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesStateActiveAlertsCount) WithArrayOfValues(values []int64) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 

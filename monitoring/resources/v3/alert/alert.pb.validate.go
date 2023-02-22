@@ -102,11 +102,6 @@ func (obj *Alert_State) GotenValidate() error {
 			return gotenvalidate.NewValidationError("State", "lifetime", obj.Lifetime, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.Notification).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("State", "notification", obj.Notification, "nested object validation failed", err)
-		}
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -158,30 +153,7 @@ func (obj *Alert_State_CombineThreshold) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *Alert_State_Notification) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.Slack).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Notification", "slack", obj.Slack, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *Alert_State_CombineThreshold_PerMetric) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Alert_State_Notification_Slack) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

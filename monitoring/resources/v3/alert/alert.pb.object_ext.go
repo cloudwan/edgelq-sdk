@@ -282,15 +282,11 @@ func (o *Alert_State) MakeDiffFieldMask(other *Alert_State) *Alert_State_FieldMa
 			}
 		}
 	}
-	{
-		subMask := o.GetNotification().MakeDiffFieldMask(other.GetNotification())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotification})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorNotification, subPath: subpath})
-			}
-		}
+	if o.GetNeedsNotification() != other.GetNeedsNotification() {
+		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNeedsNotification})
+	}
+	if o.GetNotificationCreated() != other.GetNotificationCreated() {
+		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated})
 	}
 	return res
 }
@@ -308,7 +304,8 @@ func (o *Alert_State) Clone() *Alert_State {
 	result.IsAcknowledged = o.IsAcknowledged
 	result.IsSilenced = o.IsSilenced
 	result.Lifetime = o.Lifetime.Clone()
-	result.Notification = o.Notification.Clone()
+	result.NeedsNotification = o.NeedsNotification
+	result.NotificationCreated = o.NotificationCreated
 	return result
 }
 
@@ -326,12 +323,8 @@ func (o *Alert_State) Merge(source *Alert_State) {
 		}
 		o.Lifetime.Merge(source.GetLifetime())
 	}
-	if source.GetNotification() != nil {
-		if o.Notification == nil {
-			o.Notification = new(Alert_State_Notification)
-		}
-		o.Notification.Merge(source.GetNotification())
-	}
+	o.NeedsNotification = source.GetNeedsNotification()
+	o.NotificationCreated = source.GetNotificationCreated()
 }
 
 func (o *Alert_State) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -597,68 +590,6 @@ func (o *Alert_State_CombineThreshold) MergeRaw(source gotenobject.GotenObjectEx
 	o.Merge(source.(*Alert_State_CombineThreshold))
 }
 
-func (o *Alert_State_Notification) GotenObjectExt() {}
-
-func (o *Alert_State_Notification) MakeFullFieldMask() *Alert_State_Notification_FieldMask {
-	return FullAlert_State_Notification_FieldMask()
-}
-
-func (o *Alert_State_Notification) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlert_State_Notification_FieldMask()
-}
-
-func (o *Alert_State_Notification) MakeDiffFieldMask(other *Alert_State_Notification) *Alert_State_Notification_FieldMask {
-	if o == nil && other == nil {
-		return &Alert_State_Notification_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlert_State_Notification_FieldMask()
-	}
-
-	res := &Alert_State_Notification_FieldMask{}
-	{
-		subMask := o.GetSlack().MakeDiffFieldMask(other.GetSlack())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &AlertStateNotification_FieldTerminalPath{selector: AlertStateNotification_FieldPathSelectorSlack})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &AlertStateNotification_FieldSubPath{selector: AlertStateNotification_FieldPathSelectorSlack, subPath: subpath})
-			}
-		}
-	}
-	return res
-}
-
-func (o *Alert_State_Notification) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Alert_State_Notification))
-}
-
-func (o *Alert_State_Notification) Clone() *Alert_State_Notification {
-	if o == nil {
-		return nil
-	}
-	result := &Alert_State_Notification{}
-	result.Slack = o.Slack.Clone()
-	return result
-}
-
-func (o *Alert_State_Notification) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *Alert_State_Notification) Merge(source *Alert_State_Notification) {
-	if source.GetSlack() != nil {
-		if o.Slack == nil {
-			o.Slack = new(Alert_State_Notification_Slack)
-		}
-		o.Slack.Merge(source.GetSlack())
-	}
-}
-
-func (o *Alert_State_Notification) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Alert_State_Notification))
-}
-
 func (o *Alert_State_CombineThreshold_PerMetric) GotenObjectExt() {}
 
 func (o *Alert_State_CombineThreshold_PerMetric) MakeFullFieldMask() *Alert_State_CombineThreshold_PerMetric_FieldMask {
@@ -726,64 +657,4 @@ func (o *Alert_State_CombineThreshold_PerMetric) Merge(source *Alert_State_Combi
 
 func (o *Alert_State_CombineThreshold_PerMetric) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Alert_State_CombineThreshold_PerMetric))
-}
-
-func (o *Alert_State_Notification_Slack) GotenObjectExt() {}
-
-func (o *Alert_State_Notification_Slack) MakeFullFieldMask() *Alert_State_Notification_Slack_FieldMask {
-	return FullAlert_State_Notification_Slack_FieldMask()
-}
-
-func (o *Alert_State_Notification_Slack) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlert_State_Notification_Slack_FieldMask()
-}
-
-func (o *Alert_State_Notification_Slack) MakeDiffFieldMask(other *Alert_State_Notification_Slack) *Alert_State_Notification_Slack_FieldMask {
-	if o == nil && other == nil {
-		return &Alert_State_Notification_Slack_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlert_State_Notification_Slack_FieldMask()
-	}
-
-	res := &Alert_State_Notification_Slack_FieldMask{}
-	if o.GetTs() != other.GetTs() {
-		res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorTs})
-	}
-	if o.GetDeliveryStatus() != other.GetDeliveryStatus() {
-		res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus})
-	}
-	if o.GetErrorMessage() != other.GetErrorMessage() {
-		res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorErrorMessage})
-	}
-	return res
-}
-
-func (o *Alert_State_Notification_Slack) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Alert_State_Notification_Slack))
-}
-
-func (o *Alert_State_Notification_Slack) Clone() *Alert_State_Notification_Slack {
-	if o == nil {
-		return nil
-	}
-	result := &Alert_State_Notification_Slack{}
-	result.Ts = o.Ts
-	result.DeliveryStatus = o.DeliveryStatus
-	result.ErrorMessage = o.ErrorMessage
-	return result
-}
-
-func (o *Alert_State_Notification_Slack) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *Alert_State_Notification_Slack) Merge(source *Alert_State_Notification_Slack) {
-	o.Ts = source.GetTs()
-	o.DeliveryStatus = source.GetDeliveryStatus()
-	o.ErrorMessage = source.GetErrorMessage()
-}
-
-func (o *Alert_State_Notification_Slack) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Alert_State_Notification_Slack))
 }

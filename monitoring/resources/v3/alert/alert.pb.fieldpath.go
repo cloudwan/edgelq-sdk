@@ -1548,11 +1548,12 @@ type AlertState_FieldPath interface {
 type AlertState_FieldPathSelector int32
 
 const (
-	AlertState_FieldPathSelectorIsFiring       AlertState_FieldPathSelector = 0
-	AlertState_FieldPathSelectorIsAcknowledged AlertState_FieldPathSelector = 1
-	AlertState_FieldPathSelectorIsSilenced     AlertState_FieldPathSelector = 2
-	AlertState_FieldPathSelectorLifetime       AlertState_FieldPathSelector = 3
-	AlertState_FieldPathSelectorNotification   AlertState_FieldPathSelector = 4
+	AlertState_FieldPathSelectorIsFiring            AlertState_FieldPathSelector = 0
+	AlertState_FieldPathSelectorIsAcknowledged      AlertState_FieldPathSelector = 1
+	AlertState_FieldPathSelectorIsSilenced          AlertState_FieldPathSelector = 2
+	AlertState_FieldPathSelectorLifetime            AlertState_FieldPathSelector = 3
+	AlertState_FieldPathSelectorNeedsNotification   AlertState_FieldPathSelector = 4
+	AlertState_FieldPathSelectorNotificationCreated AlertState_FieldPathSelector = 5
 )
 
 func (s AlertState_FieldPathSelector) String() string {
@@ -1565,8 +1566,10 @@ func (s AlertState_FieldPathSelector) String() string {
 		return "is_silenced"
 	case AlertState_FieldPathSelectorLifetime:
 		return "lifetime"
-	case AlertState_FieldPathSelectorNotification:
-		return "notification"
+	case AlertState_FieldPathSelectorNeedsNotification:
+		return "needs_notification"
+	case AlertState_FieldPathSelectorNotificationCreated:
+		return "notification_created"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", s))
 	}
@@ -1586,8 +1589,10 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorIsSilenced}, nil
 		case "lifetime":
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifetime}, nil
-		case "notification":
-			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotification}, nil
+		case "needs_notification", "needsNotification", "needs-notification":
+			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNeedsNotification}, nil
+		case "notification_created", "notificationCreated", "notification-created":
+			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1596,12 +1601,6 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 				return nil, err
 			} else {
 				return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorLifetime, subPath: subpath}, nil
-			}
-		case "notification":
-			if subpath, err := BuildAlertStateNotification_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorNotification, subPath: subpath}, nil
 			}
 		}
 	}
@@ -1658,10 +1657,10 @@ func (fp *AlertState_FieldTerminalPath) Get(source *Alert_State) (values []inter
 			if source.Lifetime != nil {
 				values = append(values, source.Lifetime)
 			}
-		case AlertState_FieldPathSelectorNotification:
-			if source.Notification != nil {
-				values = append(values, source.Notification)
-			}
+		case AlertState_FieldPathSelectorNeedsNotification:
+			values = append(values, source.NeedsNotification)
+		case AlertState_FieldPathSelectorNotificationCreated:
+			values = append(values, source.NotificationCreated)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 		}
@@ -1685,9 +1684,10 @@ func (fp *AlertState_FieldTerminalPath) GetSingle(source *Alert_State) (interfac
 	case AlertState_FieldPathSelectorLifetime:
 		res := source.GetLifetime()
 		return res, res != nil
-	case AlertState_FieldPathSelectorNotification:
-		res := source.GetNotification()
-		return res, res != nil
+	case AlertState_FieldPathSelectorNeedsNotification:
+		return source.GetNeedsNotification(), source != nil
+	case AlertState_FieldPathSelectorNotificationCreated:
+		return source.GetNotificationCreated(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1708,8 +1708,10 @@ func (fp *AlertState_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case AlertState_FieldPathSelectorLifetime:
 		return (*monitoring_common.TimeRange)(nil)
-	case AlertState_FieldPathSelectorNotification:
-		return (*Alert_State_Notification)(nil)
+	case AlertState_FieldPathSelectorNeedsNotification:
+		return false
+	case AlertState_FieldPathSelectorNotificationCreated:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1726,8 +1728,10 @@ func (fp *AlertState_FieldTerminalPath) ClearValue(item *Alert_State) {
 			item.IsSilenced = false
 		case AlertState_FieldPathSelectorLifetime:
 			item.Lifetime = nil
-		case AlertState_FieldPathSelectorNotification:
-			item.Notification = nil
+		case AlertState_FieldPathSelectorNeedsNotification:
+			item.NeedsNotification = false
+		case AlertState_FieldPathSelectorNotificationCreated:
+			item.NotificationCreated = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 		}
@@ -1742,7 +1746,9 @@ func (fp *AlertState_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *AlertState_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertState_FieldPathSelectorIsFiring ||
 		fp.selector == AlertState_FieldPathSelectorIsAcknowledged ||
-		fp.selector == AlertState_FieldPathSelectorIsSilenced
+		fp.selector == AlertState_FieldPathSelectorIsSilenced ||
+		fp.selector == AlertState_FieldPathSelectorNeedsNotification ||
+		fp.selector == AlertState_FieldPathSelectorNotificationCreated
 }
 
 func (fp *AlertState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1759,8 +1765,10 @@ func (fp *AlertState_FieldTerminalPath) WithIValue(value interface{}) AlertState
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	case AlertState_FieldPathSelectorLifetime:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*monitoring_common.TimeRange)}
-	case AlertState_FieldPathSelectorNotification:
-		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*Alert_State_Notification)}
+	case AlertState_FieldPathSelectorNeedsNotification:
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
+	case AlertState_FieldPathSelectorNotificationCreated:
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1781,8 +1789,10 @@ func (fp *AlertState_FieldTerminalPath) WithIArrayOfValues(values interface{}) A
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case AlertState_FieldPathSelectorLifetime:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TimeRange)}
-	case AlertState_FieldPathSelectorNotification:
-		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*Alert_State_Notification)}
+	case AlertState_FieldPathSelectorNeedsNotification:
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
+	case AlertState_FieldPathSelectorNotificationCreated:
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1818,10 +1828,6 @@ func (fps *AlertState_FieldSubPath) AsLifetimeSubPath() (monitoring_common.TimeR
 	res, ok := fps.subPath.(monitoring_common.TimeRange_FieldPath)
 	return res, ok
 }
-func (fps *AlertState_FieldSubPath) AsNotificationSubPath() (AlertStateNotification_FieldPath, bool) {
-	res, ok := fps.subPath.(AlertStateNotification_FieldPath)
-	return res, ok
-}
 
 // String returns path representation in proto convention
 func (fps *AlertState_FieldSubPath) String() string {
@@ -1838,8 +1844,6 @@ func (fps *AlertState_FieldSubPath) Get(source *Alert_State) (values []interface
 	switch fps.selector {
 	case AlertState_FieldPathSelectorLifetime:
 		values = append(values, fps.subPath.GetRaw(source.GetLifetime())...)
-	case AlertState_FieldPathSelectorNotification:
-		values = append(values, fps.subPath.GetRaw(source.GetNotification())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fps.selector))
 	}
@@ -1858,11 +1862,6 @@ func (fps *AlertState_FieldSubPath) GetSingle(source *Alert_State) (interface{},
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetLifetime())
-	case AlertState_FieldPathSelectorNotification:
-		if source.GetNotification() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetNotification())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fps.selector))
 	}
@@ -1882,8 +1881,6 @@ func (fps *AlertState_FieldSubPath) ClearValue(item *Alert_State) {
 		switch fps.selector {
 		case AlertState_FieldPathSelectorLifetime:
 			fps.subPath.ClearValueRaw(item.Lifetime)
-		case AlertState_FieldPathSelectorNotification:
-			fps.subPath.ClearValueRaw(item.Notification)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fps.selector))
 		}
@@ -1984,8 +1981,12 @@ func (fpv *AlertState_FieldTerminalPathValue) AsLifetimeValue() (*monitoring_com
 	res, ok := fpv.value.(*monitoring_common.TimeRange)
 	return res, ok
 }
-func (fpv *AlertState_FieldTerminalPathValue) AsNotificationValue() (*Alert_State_Notification, bool) {
-	res, ok := fpv.value.(*Alert_State_Notification)
+func (fpv *AlertState_FieldTerminalPathValue) AsNeedsNotificationValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *AlertState_FieldTerminalPathValue) AsNotificationCreatedValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
 	return res, ok
 }
 
@@ -2003,8 +2004,10 @@ func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
 		(*target).IsSilenced = fpv.value.(bool)
 	case AlertState_FieldPathSelectorLifetime:
 		(*target).Lifetime = fpv.value.(*monitoring_common.TimeRange)
-	case AlertState_FieldPathSelectorNotification:
-		(*target).Notification = fpv.value.(*Alert_State_Notification)
+	case AlertState_FieldPathSelectorNeedsNotification:
+		(*target).NeedsNotification = fpv.value.(bool)
+	case AlertState_FieldPathSelectorNotificationCreated:
+		(*target).NotificationCreated = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpv.selector))
 	}
@@ -2050,8 +2053,26 @@ func (fpv *AlertState_FieldTerminalPathValue) CompareWith(source *Alert_State) (
 		}
 	case AlertState_FieldPathSelectorLifetime:
 		return 0, false
-	case AlertState_FieldPathSelectorNotification:
-		return 0, false
+	case AlertState_FieldPathSelectorNeedsNotification:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetNeedsNotification()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case AlertState_FieldPathSelectorNotificationCreated:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetNotificationCreated()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpv.selector))
 	}
@@ -2072,10 +2093,6 @@ func (fpvs *AlertState_FieldSubPathValue) AsLifetimePathValue() (monitoring_comm
 	res, ok := fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertState_FieldSubPathValue) AsNotificationPathValue() (AlertStateNotification_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(AlertStateNotification_FieldPathValue)
-	return res, ok
-}
 
 func (fpvs *AlertState_FieldSubPathValue) SetTo(target **Alert_State) {
 	if *target == nil {
@@ -2084,8 +2101,6 @@ func (fpvs *AlertState_FieldSubPathValue) SetTo(target **Alert_State) {
 	switch fpvs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
 		fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).SetTo(&(*target).Lifetime)
-	case AlertState_FieldPathSelectorNotification:
-		fpvs.subPathValue.(AlertStateNotification_FieldPathValue).SetTo(&(*target).Notification)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -2104,8 +2119,6 @@ func (fpvs *AlertState_FieldSubPathValue) CompareWith(source *Alert_State) (int,
 	switch fpvs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
 		return fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).CompareWith(source.GetLifetime())
-	case AlertState_FieldPathSelectorNotification:
-		return fpvs.subPathValue.(AlertStateNotification_FieldPathValue).CompareWith(source.GetNotification())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -2192,18 +2205,12 @@ func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsLifetimePathItemValue() (
 	res, ok := fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsNotificationPathItemValue() (AlertStateNotification_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(AlertStateNotification_FieldPathArrayItemValue)
-	return res, ok
-}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'State'
 func (fpaivs *AlertState_FieldSubPathArrayItemValue) ContainsValue(source *Alert_State) bool {
 	switch fpaivs.Selector() {
 	case AlertState_FieldPathSelectorLifetime:
 		return fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetLifetime())
-	case AlertState_FieldPathSelectorNotification:
-		return fpaivs.subPathItemValue.(AlertStateNotification_FieldPathArrayItemValue).ContainsValue(source.GetNotification())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpaivs.Selector()))
 	}
@@ -2260,8 +2267,12 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*monitoring_common.TimeRange) {
 			values = append(values, v)
 		}
-	case AlertState_FieldPathSelectorNotification:
-		for _, v := range fpaov.values.([]*Alert_State_Notification) {
+	case AlertState_FieldPathSelectorNeedsNotification:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case AlertState_FieldPathSelectorNotificationCreated:
+		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
 	}
@@ -2283,8 +2294,12 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsLifetimeArrayOfValues(
 	res, ok := fpaov.values.([]*monitoring_common.TimeRange)
 	return res, ok
 }
-func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNotificationArrayOfValues() ([]*Alert_State_Notification, bool) {
-	res, ok := fpaov.values.([]*Alert_State_Notification)
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNeedsNotificationArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNotificationCreatedArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
@@ -2300,10 +2315,6 @@ func (fpsaov *AlertState_FieldSubPathArrayOfValues) GetRawValues() []interface{}
 }
 func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsLifetimePathArrayOfValues() (monitoring_common.TimeRange_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TimeRange_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsNotificationPathArrayOfValues() (AlertStateNotification_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(AlertStateNotification_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4344,586 +4355,6 @@ func (fpaov *AlertStateCombineThreshold_FieldTerminalPathArrayOfValues) GetRawVa
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type AlertStateNotification_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() AlertStateNotification_FieldPathSelector
-	Get(source *Alert_State_Notification) []interface{}
-	GetSingle(source *Alert_State_Notification) (interface{}, bool)
-	ClearValue(item *Alert_State_Notification)
-
-	// Those methods build corresponding AlertStateNotification_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) AlertStateNotification_FieldPathValue
-	WithIArrayOfValues(values interface{}) AlertStateNotification_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) AlertStateNotification_FieldPathArrayItemValue
-}
-
-type AlertStateNotification_FieldPathSelector int32
-
-const (
-	AlertStateNotification_FieldPathSelectorSlack AlertStateNotification_FieldPathSelector = 0
-)
-
-func (s AlertStateNotification_FieldPathSelector) String() string {
-	switch s {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return "slack"
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", s))
-	}
-}
-
-func BuildAlertStateNotification_FieldPath(fp gotenobject.RawFieldPath) (AlertStateNotification_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Alert_State_Notification")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "slack":
-			return &AlertStateNotification_FieldTerminalPath{selector: AlertStateNotification_FieldPathSelectorSlack}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "slack":
-			if subpath, err := BuildAlertStateNotificationSlack_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &AlertStateNotification_FieldSubPath{selector: AlertStateNotification_FieldPathSelectorSlack, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Alert_State_Notification", fp)
-}
-
-func ParseAlertStateNotification_FieldPath(rawField string) (AlertStateNotification_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildAlertStateNotification_FieldPath(fp)
-}
-
-func MustParseAlertStateNotification_FieldPath(rawField string) AlertStateNotification_FieldPath {
-	fp, err := ParseAlertStateNotification_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type AlertStateNotification_FieldTerminalPath struct {
-	selector AlertStateNotification_FieldPathSelector
-}
-
-var _ AlertStateNotification_FieldPath = (*AlertStateNotification_FieldTerminalPath)(nil)
-
-func (fp *AlertStateNotification_FieldTerminalPath) Selector() AlertStateNotification_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *AlertStateNotification_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *AlertStateNotification_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source Alert_State_Notification
-func (fp *AlertStateNotification_FieldTerminalPath) Get(source *Alert_State_Notification) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case AlertStateNotification_FieldPathSelectorSlack:
-			if source.Slack != nil {
-				values = append(values, source.Slack)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Alert_State_Notification))
-}
-
-// GetSingle returns value pointed by specific field of from source Alert_State_Notification
-func (fp *AlertStateNotification_FieldTerminalPath) GetSingle(source *Alert_State_Notification) (interface{}, bool) {
-	switch fp.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		res := source.GetSlack()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Alert_State_Notification))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *AlertStateNotification_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return (*Alert_State_Notification_Slack)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) ClearValue(item *Alert_State_Notification) {
-	if item != nil {
-		switch fp.selector {
-		case AlertStateNotification_FieldPathSelectorSlack:
-			item.Slack = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Alert_State_Notification))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *AlertStateNotification_FieldTerminalPath) IsLeaf() bool {
-	return false
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithIValue(value interface{}) AlertStateNotification_FieldPathValue {
-	switch fp.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.(*Alert_State_Notification_Slack)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithIArrayOfValues(values interface{}) AlertStateNotification_FieldPathArrayOfValues {
-	fpaov := &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([]*Alert_State_Notification_Slack)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertStateNotification_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotification_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type AlertStateNotification_FieldSubPath struct {
-	selector AlertStateNotification_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ AlertStateNotification_FieldPath = (*AlertStateNotification_FieldSubPath)(nil)
-
-func (fps *AlertStateNotification_FieldSubPath) Selector() AlertStateNotification_FieldPathSelector {
-	return fps.selector
-}
-func (fps *AlertStateNotification_FieldSubPath) AsSlackSubPath() (AlertStateNotificationSlack_FieldPath, bool) {
-	res, ok := fps.subPath.(AlertStateNotificationSlack_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *AlertStateNotification_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *AlertStateNotification_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source Alert_State_Notification
-func (fps *AlertStateNotification_FieldSubPath) Get(source *Alert_State_Notification) (values []interface{}) {
-	switch fps.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		values = append(values, fps.subPath.GetRaw(source.GetSlack())...)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *AlertStateNotification_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*Alert_State_Notification))
-}
-
-// GetSingle returns value of selected field from source Alert_State_Notification
-func (fps *AlertStateNotification_FieldSubPath) GetSingle(source *Alert_State_Notification) (interface{}, bool) {
-	switch fps.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		if source.GetSlack() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetSlack())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fps.selector))
-	}
-}
-
-func (fps *AlertStateNotification_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*Alert_State_Notification))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *AlertStateNotification_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *AlertStateNotification_FieldSubPath) ClearValue(item *Alert_State_Notification) {
-	if item != nil {
-		switch fps.selector {
-		case AlertStateNotification_FieldPathSelectorSlack:
-			fps.subPath.ClearValueRaw(item.Slack)
-		default:
-			panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *AlertStateNotification_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*Alert_State_Notification))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *AlertStateNotification_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *AlertStateNotification_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&AlertStateNotification_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithIValue(value interface{}) AlertStateNotification_FieldPathValue {
-	return &AlertStateNotification_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithIArrayOfValues(values interface{}) AlertStateNotification_FieldPathArrayOfValues {
-	return &AlertStateNotification_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithIArrayItemValue(value interface{}) AlertStateNotification_FieldPathArrayItemValue {
-	return &AlertStateNotification_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *AlertStateNotification_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// AlertStateNotification_FieldPathValue allows storing values for Notification fields according to their type
-type AlertStateNotification_FieldPathValue interface {
-	AlertStateNotification_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **Alert_State_Notification)
-	CompareWith(*Alert_State_Notification) (cmp int, comparable bool)
-}
-
-func ParseAlertStateNotification_FieldPathValue(pathStr, valueStr string) (AlertStateNotification_FieldPathValue, error) {
-	fp, err := ParseAlertStateNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(AlertStateNotification_FieldPathValue), nil
-}
-
-func MustParseAlertStateNotification_FieldPathValue(pathStr, valueStr string) AlertStateNotification_FieldPathValue {
-	fpv, err := ParseAlertStateNotification_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type AlertStateNotification_FieldTerminalPathValue struct {
-	AlertStateNotification_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertStateNotification_FieldPathValue = (*AlertStateNotification_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Notification' as interface{}
-func (fpv *AlertStateNotification_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *AlertStateNotification_FieldTerminalPathValue) AsSlackValue() (*Alert_State_Notification_Slack, bool) {
-	res, ok := fpv.value.(*Alert_State_Notification_Slack)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Notification
-func (fpv *AlertStateNotification_FieldTerminalPathValue) SetTo(target **Alert_State_Notification) {
-	if *target == nil {
-		*target = new(Alert_State_Notification)
-	}
-	switch fpv.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		(*target).Slack = fpv.value.(*Alert_State_Notification_Slack)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertStateNotification_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Alert_State_Notification)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'AlertStateNotification_FieldTerminalPathValue' with the value under path in 'Alert_State_Notification'.
-func (fpv *AlertStateNotification_FieldTerminalPathValue) CompareWith(source *Alert_State_Notification) (int, bool) {
-	switch fpv.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertStateNotification_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Alert_State_Notification))
-}
-
-type AlertStateNotification_FieldSubPathValue struct {
-	AlertStateNotification_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ AlertStateNotification_FieldPathValue = (*AlertStateNotification_FieldSubPathValue)(nil)
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) AsSlackPathValue() (AlertStateNotificationSlack_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(AlertStateNotificationSlack_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) SetTo(target **Alert_State_Notification) {
-	if *target == nil {
-		*target = new(Alert_State_Notification)
-	}
-	switch fpvs.Selector() {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		fpvs.subPathValue.(AlertStateNotificationSlack_FieldPathValue).SetTo(&(*target).Slack)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Alert_State_Notification)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) CompareWith(source *Alert_State_Notification) (int, bool) {
-	switch fpvs.Selector() {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return fpvs.subPathValue.(AlertStateNotificationSlack_FieldPathValue).CompareWith(source.GetSlack())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *AlertStateNotification_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*Alert_State_Notification))
-}
-
-// AlertStateNotification_FieldPathArrayItemValue allows storing single item in Path-specific values for Notification according to their type
-// Present only for array (repeated) types.
-type AlertStateNotification_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	AlertStateNotification_FieldPath
-	ContainsValue(*Alert_State_Notification) bool
-}
-
-// ParseAlertStateNotification_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseAlertStateNotification_FieldPathArrayItemValue(pathStr, valueStr string) (AlertStateNotification_FieldPathArrayItemValue, error) {
-	fp, err := ParseAlertStateNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(AlertStateNotification_FieldPathArrayItemValue), nil
-}
-
-func MustParseAlertStateNotification_FieldPathArrayItemValue(pathStr, valueStr string) AlertStateNotification_FieldPathArrayItemValue {
-	fpaiv, err := ParseAlertStateNotification_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type AlertStateNotification_FieldTerminalPathArrayItemValue struct {
-	AlertStateNotification_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertStateNotification_FieldPathArrayItemValue = (*AlertStateNotification_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object Alert_State_Notification as interface{}
-func (fpaiv *AlertStateNotification_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *AlertStateNotification_FieldTerminalPathArrayItemValue) GetSingle(source *Alert_State_Notification) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *AlertStateNotification_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Alert_State_Notification))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Notification'
-func (fpaiv *AlertStateNotification_FieldTerminalPathArrayItemValue) ContainsValue(source *Alert_State_Notification) bool {
-	slice := fpaiv.AlertStateNotification_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type AlertStateNotification_FieldSubPathArrayItemValue struct {
-	AlertStateNotification_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *AlertStateNotification_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *AlertStateNotification_FieldSubPathArrayItemValue) AsSlackPathItemValue() (AlertStateNotificationSlack_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(AlertStateNotificationSlack_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Notification'
-func (fpaivs *AlertStateNotification_FieldSubPathArrayItemValue) ContainsValue(source *Alert_State_Notification) bool {
-	switch fpaivs.Selector() {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		return fpaivs.subPathItemValue.(AlertStateNotificationSlack_FieldPathArrayItemValue).ContainsValue(source.GetSlack())
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification: %d", fpaivs.Selector()))
-	}
-}
-
-// AlertStateNotification_FieldPathArrayOfValues allows storing slice of values for Notification fields according to their type
-type AlertStateNotification_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	AlertStateNotification_FieldPath
-}
-
-func ParseAlertStateNotification_FieldPathArrayOfValues(pathStr, valuesStr string) (AlertStateNotification_FieldPathArrayOfValues, error) {
-	fp, err := ParseAlertStateNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(AlertStateNotification_FieldPathArrayOfValues), nil
-}
-
-func MustParseAlertStateNotification_FieldPathArrayOfValues(pathStr, valuesStr string) AlertStateNotification_FieldPathArrayOfValues {
-	fpaov, err := ParseAlertStateNotification_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type AlertStateNotification_FieldTerminalPathArrayOfValues struct {
-	AlertStateNotification_FieldTerminalPath
-	values interface{}
-}
-
-var _ AlertStateNotification_FieldPathArrayOfValues = (*AlertStateNotification_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case AlertStateNotification_FieldPathSelectorSlack:
-		for _, v := range fpaov.values.([]*Alert_State_Notification_Slack) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsSlackArrayOfValues() ([]*Alert_State_Notification_Slack, bool) {
-	res, ok := fpaov.values.([]*Alert_State_Notification_Slack)
-	return res, ok
-}
-
-type AlertStateNotification_FieldSubPathArrayOfValues struct {
-	AlertStateNotification_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ AlertStateNotification_FieldPathArrayOfValues = (*AlertStateNotification_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *AlertStateNotification_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *AlertStateNotification_FieldSubPathArrayOfValues) AsSlackPathArrayOfValues() (AlertStateNotificationSlack_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(AlertStateNotificationSlack_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type AlertStateCombineThresholdPerMetric_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() AlertStateCombineThresholdPerMetric_FieldPathSelector
@@ -5511,468 +4942,5 @@ func (fpmaov *AlertStateCombineThresholdPerMetric_FieldPathMapArrayOfValues) Get
 }
 func (fpmaov *AlertStateCombineThresholdPerMetric_FieldPathMapArrayOfValues) AsObservedValuesArrayOfElementValues() ([]float64, bool) {
 	res, ok := fpmaov.values.([]float64)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type AlertStateNotificationSlack_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() AlertStateNotificationSlack_FieldPathSelector
-	Get(source *Alert_State_Notification_Slack) []interface{}
-	GetSingle(source *Alert_State_Notification_Slack) (interface{}, bool)
-	ClearValue(item *Alert_State_Notification_Slack)
-
-	// Those methods build corresponding AlertStateNotificationSlack_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) AlertStateNotificationSlack_FieldPathValue
-	WithIArrayOfValues(values interface{}) AlertStateNotificationSlack_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) AlertStateNotificationSlack_FieldPathArrayItemValue
-}
-
-type AlertStateNotificationSlack_FieldPathSelector int32
-
-const (
-	AlertStateNotificationSlack_FieldPathSelectorTs             AlertStateNotificationSlack_FieldPathSelector = 0
-	AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus AlertStateNotificationSlack_FieldPathSelector = 1
-	AlertStateNotificationSlack_FieldPathSelectorErrorMessage   AlertStateNotificationSlack_FieldPathSelector = 2
-)
-
-func (s AlertStateNotificationSlack_FieldPathSelector) String() string {
-	switch s {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		return "ts"
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		return "delivery_status"
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		return "error_message"
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", s))
-	}
-}
-
-func BuildAlertStateNotificationSlack_FieldPath(fp gotenobject.RawFieldPath) (AlertStateNotificationSlack_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Alert_State_Notification_Slack")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "ts":
-			return &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorTs}, nil
-		case "delivery_status", "deliveryStatus", "delivery-status":
-			return &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus}, nil
-		case "error_message", "errorMessage", "error-message":
-			return &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorErrorMessage}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Alert_State_Notification_Slack", fp)
-}
-
-func ParseAlertStateNotificationSlack_FieldPath(rawField string) (AlertStateNotificationSlack_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildAlertStateNotificationSlack_FieldPath(fp)
-}
-
-func MustParseAlertStateNotificationSlack_FieldPath(rawField string) AlertStateNotificationSlack_FieldPath {
-	fp, err := ParseAlertStateNotificationSlack_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type AlertStateNotificationSlack_FieldTerminalPath struct {
-	selector AlertStateNotificationSlack_FieldPathSelector
-}
-
-var _ AlertStateNotificationSlack_FieldPath = (*AlertStateNotificationSlack_FieldTerminalPath)(nil)
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) Selector() AlertStateNotificationSlack_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source Alert_State_Notification_Slack
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) Get(source *Alert_State_Notification_Slack) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case AlertStateNotificationSlack_FieldPathSelectorTs:
-			values = append(values, source.Ts)
-		case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-			values = append(values, source.DeliveryStatus)
-		case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-			values = append(values, source.ErrorMessage)
-		default:
-			panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Alert_State_Notification_Slack))
-}
-
-// GetSingle returns value pointed by specific field of from source Alert_State_Notification_Slack
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) GetSingle(source *Alert_State_Notification_Slack) (interface{}, bool) {
-	switch fp.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		return source.GetTs(), source != nil
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		return source.GetDeliveryStatus(), source != nil
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		return source.GetErrorMessage(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Alert_State_Notification_Slack))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		return ""
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		return Alert_State_Notification_Slack_DELIVERY_STATUS_UNSPECIFIED
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		return ""
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) ClearValue(item *Alert_State_Notification_Slack) {
-	if item != nil {
-		switch fp.selector {
-		case AlertStateNotificationSlack_FieldPathSelectorTs:
-			item.Ts = ""
-		case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-			item.DeliveryStatus = Alert_State_Notification_Slack_DELIVERY_STATUS_UNSPECIFIED
-		case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-			item.ErrorMessage = ""
-		default:
-			panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Alert_State_Notification_Slack))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AlertStateNotificationSlack_FieldPathSelectorTs ||
-		fp.selector == AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus ||
-		fp.selector == AlertStateNotificationSlack_FieldPathSelectorErrorMessage
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithIValue(value interface{}) AlertStateNotificationSlack_FieldPathValue {
-	switch fp.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		return &AlertStateNotificationSlack_FieldTerminalPathValue{AlertStateNotificationSlack_FieldTerminalPath: *fp, value: value.(string)}
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		return &AlertStateNotificationSlack_FieldTerminalPathValue{AlertStateNotificationSlack_FieldTerminalPath: *fp, value: value.(Alert_State_Notification_Slack_DeliveryStatus)}
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		return &AlertStateNotificationSlack_FieldTerminalPathValue{AlertStateNotificationSlack_FieldTerminalPath: *fp, value: value.(string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithIArrayOfValues(values interface{}) AlertStateNotificationSlack_FieldPathArrayOfValues {
-	fpaov := &AlertStateNotificationSlack_FieldTerminalPathArrayOfValues{AlertStateNotificationSlack_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		return &AlertStateNotificationSlack_FieldTerminalPathArrayOfValues{AlertStateNotificationSlack_FieldTerminalPath: *fp, values: values.([]string)}
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		return &AlertStateNotificationSlack_FieldTerminalPathArrayOfValues{AlertStateNotificationSlack_FieldTerminalPath: *fp, values: values.([]Alert_State_Notification_Slack_DeliveryStatus)}
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		return &AlertStateNotificationSlack_FieldTerminalPathArrayOfValues{AlertStateNotificationSlack_FieldTerminalPath: *fp, values: values.([]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertStateNotificationSlack_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fp.selector))
-	}
-}
-
-func (fp *AlertStateNotificationSlack_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// AlertStateNotificationSlack_FieldPathValue allows storing values for Slack fields according to their type
-type AlertStateNotificationSlack_FieldPathValue interface {
-	AlertStateNotificationSlack_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **Alert_State_Notification_Slack)
-	CompareWith(*Alert_State_Notification_Slack) (cmp int, comparable bool)
-}
-
-func ParseAlertStateNotificationSlack_FieldPathValue(pathStr, valueStr string) (AlertStateNotificationSlack_FieldPathValue, error) {
-	fp, err := ParseAlertStateNotificationSlack_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(AlertStateNotificationSlack_FieldPathValue), nil
-}
-
-func MustParseAlertStateNotificationSlack_FieldPathValue(pathStr, valueStr string) AlertStateNotificationSlack_FieldPathValue {
-	fpv, err := ParseAlertStateNotificationSlack_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type AlertStateNotificationSlack_FieldTerminalPathValue struct {
-	AlertStateNotificationSlack_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertStateNotificationSlack_FieldPathValue = (*AlertStateNotificationSlack_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Slack' as interface{}
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) AsTsValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) AsDeliveryStatusValue() (Alert_State_Notification_Slack_DeliveryStatus, bool) {
-	res, ok := fpv.value.(Alert_State_Notification_Slack_DeliveryStatus)
-	return res, ok
-}
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) AsErrorMessageValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Slack
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) SetTo(target **Alert_State_Notification_Slack) {
-	if *target == nil {
-		*target = new(Alert_State_Notification_Slack)
-	}
-	switch fpv.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		(*target).Ts = fpv.value.(string)
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		(*target).DeliveryStatus = fpv.value.(Alert_State_Notification_Slack_DeliveryStatus)
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		(*target).ErrorMessage = fpv.value.(string)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Alert_State_Notification_Slack)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'AlertStateNotificationSlack_FieldTerminalPathValue' with the value under path in 'Alert_State_Notification_Slack'.
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) CompareWith(source *Alert_State_Notification_Slack) (int, bool) {
-	switch fpv.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetTs()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		leftValue := fpv.value.(Alert_State_Notification_Slack_DeliveryStatus)
-		rightValue := source.GetDeliveryStatus()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetErrorMessage()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Alert_State_Notification_Slack: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertStateNotificationSlack_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Alert_State_Notification_Slack))
-}
-
-// AlertStateNotificationSlack_FieldPathArrayItemValue allows storing single item in Path-specific values for Slack according to their type
-// Present only for array (repeated) types.
-type AlertStateNotificationSlack_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	AlertStateNotificationSlack_FieldPath
-	ContainsValue(*Alert_State_Notification_Slack) bool
-}
-
-// ParseAlertStateNotificationSlack_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseAlertStateNotificationSlack_FieldPathArrayItemValue(pathStr, valueStr string) (AlertStateNotificationSlack_FieldPathArrayItemValue, error) {
-	fp, err := ParseAlertStateNotificationSlack_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(AlertStateNotificationSlack_FieldPathArrayItemValue), nil
-}
-
-func MustParseAlertStateNotificationSlack_FieldPathArrayItemValue(pathStr, valueStr string) AlertStateNotificationSlack_FieldPathArrayItemValue {
-	fpaiv, err := ParseAlertStateNotificationSlack_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type AlertStateNotificationSlack_FieldTerminalPathArrayItemValue struct {
-	AlertStateNotificationSlack_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertStateNotificationSlack_FieldPathArrayItemValue = (*AlertStateNotificationSlack_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object Alert_State_Notification_Slack as interface{}
-func (fpaiv *AlertStateNotificationSlack_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *AlertStateNotificationSlack_FieldTerminalPathArrayItemValue) GetSingle(source *Alert_State_Notification_Slack) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *AlertStateNotificationSlack_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Alert_State_Notification_Slack))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Slack'
-func (fpaiv *AlertStateNotificationSlack_FieldTerminalPathArrayItemValue) ContainsValue(source *Alert_State_Notification_Slack) bool {
-	slice := fpaiv.AlertStateNotificationSlack_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// AlertStateNotificationSlack_FieldPathArrayOfValues allows storing slice of values for Slack fields according to their type
-type AlertStateNotificationSlack_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	AlertStateNotificationSlack_FieldPath
-}
-
-func ParseAlertStateNotificationSlack_FieldPathArrayOfValues(pathStr, valuesStr string) (AlertStateNotificationSlack_FieldPathArrayOfValues, error) {
-	fp, err := ParseAlertStateNotificationSlack_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(AlertStateNotificationSlack_FieldPathArrayOfValues), nil
-}
-
-func MustParseAlertStateNotificationSlack_FieldPathArrayOfValues(pathStr, valuesStr string) AlertStateNotificationSlack_FieldPathArrayOfValues {
-	fpaov, err := ParseAlertStateNotificationSlack_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type AlertStateNotificationSlack_FieldTerminalPathArrayOfValues struct {
-	AlertStateNotificationSlack_FieldTerminalPath
-	values interface{}
-}
-
-var _ AlertStateNotificationSlack_FieldPathArrayOfValues = (*AlertStateNotificationSlack_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *AlertStateNotificationSlack_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case AlertStateNotificationSlack_FieldPathSelectorTs:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-		for _, v := range fpaov.values.([]Alert_State_Notification_Slack_DeliveryStatus) {
-			values = append(values, v)
-		}
-	case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *AlertStateNotificationSlack_FieldTerminalPathArrayOfValues) AsTsArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *AlertStateNotificationSlack_FieldTerminalPathArrayOfValues) AsDeliveryStatusArrayOfValues() ([]Alert_State_Notification_Slack_DeliveryStatus, bool) {
-	res, ok := fpaov.values.([]Alert_State_Notification_Slack_DeliveryStatus)
-	return res, ok
-}
-func (fpaov *AlertStateNotificationSlack_FieldTerminalPathArrayOfValues) AsErrorMessageArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
 	return res, ok
 }

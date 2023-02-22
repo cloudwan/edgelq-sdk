@@ -16,6 +16,8 @@ import (
 	alerting_policy_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/alerting_policy"
 	metric_descriptor_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/metric_descriptor"
 	monitored_resource_descriptor_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitored_resource_descriptor"
+	notification_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification"
+	notification_channel_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification_channel"
 	phantom_time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie"
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/project"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/time_serie"
@@ -24,6 +26,8 @@ import (
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/monitored_resource_descriptor"
+	notification "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie"
@@ -47,6 +51,10 @@ var (
 	_ = &metric_descriptor_client.BatchGetMetricDescriptorsRequest{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &monitored_resource_descriptor_client.BatchGetMonitoredResourceDescriptorsRequest{}
+	_ = &notification.Notification{}
+	_ = &notification_channel.NotificationChannel{}
+	_ = &notification_channel_client.GetNotificationChannelRequest{}
+	_ = &notification_client.GetNotificationRequest{}
 	_ = &phantom_time_serie.PhantomTimeSerie{}
 	_ = &phantom_time_serie_client.GetPhantomTimeSerieRequest{}
 	_ = &project.Project{}
@@ -85,6 +93,8 @@ func (d *MonitoringDescriptor) AllResourceDescriptors() []gotenresource.Descript
 		alerting_policy.GetDescriptor(),
 		metric_descriptor.GetDescriptor(),
 		monitored_resource_descriptor.GetDescriptor(),
+		notification.GetDescriptor(),
+		notification_channel.GetDescriptor(),
 		phantom_time_serie.GetDescriptor(),
 		project.GetDescriptor(),
 	}
@@ -97,6 +107,8 @@ func (d *MonitoringDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		alerting_policy_client.GetAlertingPolicyServiceDescriptor(),
 		metric_descriptor_client.GetMetricDescriptorServiceDescriptor(),
 		monitored_resource_descriptor_client.GetMonitoredResourceDescriptorServiceDescriptor(),
+		notification_channel_client.GetNotificationChannelServiceDescriptor(),
+		notification_client.GetNotificationServiceDescriptor(),
 		phantom_time_serie_client.GetPhantomTimeSerieServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
 		time_serie_client.GetTimeSerieServiceDescriptor(),

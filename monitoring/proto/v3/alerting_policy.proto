@@ -34,6 +34,8 @@ message AlertingPolicy {
   // Spec
   Spec spec = 6;
 
+  State state = 7;
+
   // Documentation
   message Documentation {
     // Documentation content
@@ -56,27 +58,28 @@ message AlertingPolicy {
     ConditionsCombiner condition_combiner = 2;
 
     // Notification specification
-    Notification notification = 3;
+    Notification notification = 4;
 
+    // Notification specification for a given Policy
     message Notification {
-      // Slack config
-      Slack slack = 1;
+      // Enabled flag determines whether any notifications will be sent
+      bool enabled = 1;
 
-      message Slack {
-        // Slack Application configuration.
-        // Exclusive with Incoming Webhook URL
-        App app = 1;
+      ListType list_type = 2;
 
-        // Incoming Webhook
-        string incoming_webhook = 2;
+      // ListType specifies whether the list is an allowlist or a denylist.
+      repeated string channels = 3;
 
-        message App {
-          // Slack app auth token
-          string auth_token = 2;
+      // ListType specifies whether the list is an allowlist or a denylist.
+      // If the list is an allowlist, then only the channels specified in the
+      // list will be notified. If the list is a denylist, then all channels
+      // except the ones specified in the list will be notified.
+      enum ListType {
+        LIST_TYPE_UNSPECIFIED = 0;
 
-          // Slack channels to notify
-          repeated string channel = 3;
-        }
+        ALLOW = 1;
+
+        DENY = 2;
       }
     }
 
@@ -85,5 +88,10 @@ message AlertingPolicy {
 
       AND = 1;
     }
+  }
+
+  message State {
+    // Number of ongoing alerts (incident has not ended)
+    int64 active_alerts_count = 1;
   }
 }

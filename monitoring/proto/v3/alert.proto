@@ -68,39 +68,17 @@ message Alert {
     // use meta.create_time to get creation date.
     TimeRange lifetime = 7;
 
-    // Notification state
-    Notification notification = 8;
+    // This alert needs to be notified
+    bool needs_notification = 8;
+
+    // Notification resource is generated for this alert
+    bool notification_created = 9;
 
     // oneof:
     message Threshold { double observed_value = 1; }
 
     message CombineThreshold {
       message PerMetric { map<string, double> observed_values = 2; }
-    }
-
-    message Notification {
-      Slack slack = 1;
-
-      message Slack {
-        // Slack message "ts" (timestamp) string field. Used to track message
-        string ts = 1;
-
-        // Delivery State
-        DeliveryStatus delivery_status = 2;
-
-        // Message explaining issue. Only present if delivery_state is ERROR
-        string error_message = 3;
-
-        enum DeliveryStatus {
-          DELIVERY_STATUS_UNSPECIFIED = 0;
-
-          PENDING = 1;
-
-          SUCCESS = 2;
-
-          ERROR = 3;
-        }
-      }
     }
   }
 }

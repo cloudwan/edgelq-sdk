@@ -67,6 +67,11 @@ func (obj *AlertingPolicy) GotenValidate() error {
 			return gotenvalidate.NewValidationError("AlertingPolicy", "spec", obj.Spec, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.State).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("AlertingPolicy", "state", obj.State, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -101,35 +106,16 @@ func (obj *AlertingPolicy_Spec) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *AlertingPolicy_State) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *AlertingPolicy_Spec_Notification) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.Slack).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Notification", "slack", obj.Slack, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *AlertingPolicy_Spec_Notification_Slack) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if subobj, ok := interface{}(obj.App).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Slack", "app", obj.App, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *AlertingPolicy_Spec_Notification_Slack_App) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

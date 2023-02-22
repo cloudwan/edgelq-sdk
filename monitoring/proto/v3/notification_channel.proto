@@ -1,0 +1,138 @@
+syntax = "proto3";
+
+package ntt.monitoring.v3;
+
+import "edgelq-sdk/common/types/meta.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel;notification_channel";
+option java_multiple_files = true;
+option java_outer_classname = "NotificationChannelProto";
+option java_package = "com.ntt.monitoring.pb.v3";
+
+// NotificationChannel Resource
+message NotificationChannel {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/NotificationChannel"
+    pattern : "projects/{project}/notificationChannels/{notification_channel}"
+  };
+
+  // Name of NotificationChannel
+  string name = 1;
+
+  // Metadata of NotificationChannel
+  ntt.types.Meta metadata = 2;
+
+  // Display Name
+  string display_name = 3;
+
+  // Specification
+  Spec spec = 4;
+
+  // State
+  State state = 5;
+
+  // description
+  string description = 6;
+
+  // Spec of NotificationChannel
+  message Spec {
+    // Enabled flag. Whether the NotificationChannel is enabled or not. Disabled
+    // channels will not be used for alerting.
+    bool enabled = 1;
+
+    // Type. Corresponding spec should a oneof field.
+    Type type = 2;
+
+    // Email
+    Email email = 3;
+
+    // Slack
+    Slack slack = 4;
+
+    Webhook webhook = 5;
+
+    // Email Spec
+    message Email {
+      // Email Addresses
+      repeated string addresses = 1;
+    }
+
+    // Slack Spec
+    message Slack {
+      // Slack Incoming Webhook URL
+      string incoming_webhook = 1;
+    }
+
+    // PagerDuty Spec
+    message PagerDuty {
+      // PagerDuty Service Key
+      string service_key = 1;
+    }
+
+    // Webhook Spec
+    message Webhook {
+      // Webhook URL
+      string url = 1;
+
+      // Headers
+      repeated Header headers = 2;
+
+      // Header
+      message Header {
+        string key = 1;
+
+        string value = 2;
+      }
+    }
+
+    // Type of NotificationChannel
+    enum Type {
+      // Type is unknown
+      TYPE_UNSPECIFIED = 0;
+
+      // Email NotificationChannel
+      EMAIL = 1;
+
+      // Slack NotificationChannel
+      SLACK = 2;
+
+      // Webhook NotificationChannel
+      WEBHOOK = 3;
+      // PagerDuty NotificationChannel
+      // PAGERDUTY = 4;
+    }
+  }
+
+  // State of NotificationChannel
+  message State {
+    // Status
+    Status status = 1;
+
+    // Error
+    Error error = 4;
+
+    // Error of NotificationChannel
+    message Error {
+      google.protobuf.Timestamp time = 1;
+
+      string message = 2;
+    }
+
+    // State of NotificationChannel
+    enum Status {
+      // State is unknown
+      STATE_UNSPECIFIED = 0;
+
+      // NotificationChannel is active
+      ACTIVE = 1;
+
+      // NotificationChannel is disabled
+      DISABLED = 2;
+
+      // Error of NotificationChannel
+      ERROR = 3;
+    }
+  }
+}

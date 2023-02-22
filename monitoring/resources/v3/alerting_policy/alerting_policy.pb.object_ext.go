@@ -95,6 +95,16 @@ func (o *AlertingPolicy) MakeDiffFieldMask(other *AlertingPolicy) *AlertingPolic
 			}
 		}
 	}
+	{
+		subMask := o.GetState().MakeDiffFieldMask(other.GetState())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &AlertingPolicy_FieldTerminalPath{selector: AlertingPolicy_FieldPathSelectorState})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &AlertingPolicy_FieldSubPath{selector: AlertingPolicy_FieldPathSelectorState, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -122,6 +132,7 @@ func (o *AlertingPolicy) Clone() *AlertingPolicy {
 	result.Description = o.Description
 	result.Documentation = o.Documentation.Clone()
 	result.Spec = o.Spec.Clone()
+	result.State = o.State.Clone()
 	return result
 }
 
@@ -161,6 +172,12 @@ func (o *AlertingPolicy) Merge(source *AlertingPolicy) {
 			o.Spec = new(AlertingPolicy_Spec)
 		}
 		o.Spec.Merge(source.GetSpec())
+	}
+	if source.GetState() != nil {
+		if o.State == nil {
+			o.State = new(AlertingPolicy_State)
+		}
+		o.State.Merge(source.GetState())
 	}
 }
 
@@ -295,6 +312,56 @@ func (o *AlertingPolicy_Spec) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*AlertingPolicy_Spec))
 }
 
+func (o *AlertingPolicy_State) GotenObjectExt() {}
+
+func (o *AlertingPolicy_State) MakeFullFieldMask() *AlertingPolicy_State_FieldMask {
+	return FullAlertingPolicy_State_FieldMask()
+}
+
+func (o *AlertingPolicy_State) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullAlertingPolicy_State_FieldMask()
+}
+
+func (o *AlertingPolicy_State) MakeDiffFieldMask(other *AlertingPolicy_State) *AlertingPolicy_State_FieldMask {
+	if o == nil && other == nil {
+		return &AlertingPolicy_State_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullAlertingPolicy_State_FieldMask()
+	}
+
+	res := &AlertingPolicy_State_FieldMask{}
+	if o.GetActiveAlertsCount() != other.GetActiveAlertsCount() {
+		res.Paths = append(res.Paths, &AlertingPolicyState_FieldTerminalPath{selector: AlertingPolicyState_FieldPathSelectorActiveAlertsCount})
+	}
+	return res
+}
+
+func (o *AlertingPolicy_State) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*AlertingPolicy_State))
+}
+
+func (o *AlertingPolicy_State) Clone() *AlertingPolicy_State {
+	if o == nil {
+		return nil
+	}
+	result := &AlertingPolicy_State{}
+	result.ActiveAlertsCount = o.ActiveAlertsCount
+	return result
+}
+
+func (o *AlertingPolicy_State) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *AlertingPolicy_State) Merge(source *AlertingPolicy_State) {
+	o.ActiveAlertsCount = source.GetActiveAlertsCount()
+}
+
+func (o *AlertingPolicy_State) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*AlertingPolicy_State))
+}
+
 func (o *AlertingPolicy_Spec_Notification) GotenObjectExt() {}
 
 func (o *AlertingPolicy_Spec_Notification) MakeFullFieldMask() *AlertingPolicy_Spec_Notification_FieldMask {
@@ -314,15 +381,23 @@ func (o *AlertingPolicy_Spec_Notification) MakeDiffFieldMask(other *AlertingPoli
 	}
 
 	res := &AlertingPolicy_Spec_Notification_FieldMask{}
-	{
-		subMask := o.GetSlack().MakeDiffFieldMask(other.GetSlack())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorSlack})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldSubPath{selector: AlertingPolicySpecNotification_FieldPathSelectorSlack, subPath: subpath})
+	if o.GetEnabled() != other.GetEnabled() {
+		res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorEnabled})
+	}
+	if o.GetListType() != other.GetListType() {
+		res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorListType})
+	}
+
+	if len(o.GetChannels()) == len(other.GetChannels()) {
+		for i, lValue := range o.GetChannels() {
+			rValue := other.GetChannels()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels})
+				break
 			}
 		}
+	} else {
+		res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels})
 	}
 	return res
 }
@@ -336,7 +411,12 @@ func (o *AlertingPolicy_Spec_Notification) Clone() *AlertingPolicy_Spec_Notifica
 		return nil
 	}
 	result := &AlertingPolicy_Spec_Notification{}
-	result.Slack = o.Slack.Clone()
+	result.Enabled = o.Enabled
+	result.ListType = o.ListType
+	result.Channels = make([]string, len(o.Channels))
+	for i, sourceValue := range o.Channels {
+		result.Channels[i] = sourceValue
+	}
 	return result
 }
 
@@ -345,148 +425,11 @@ func (o *AlertingPolicy_Spec_Notification) CloneRaw() gotenobject.GotenObjectExt
 }
 
 func (o *AlertingPolicy_Spec_Notification) Merge(source *AlertingPolicy_Spec_Notification) {
-	if source.GetSlack() != nil {
-		if o.Slack == nil {
-			o.Slack = new(AlertingPolicy_Spec_Notification_Slack)
-		}
-		o.Slack.Merge(source.GetSlack())
-	}
-}
-
-func (o *AlertingPolicy_Spec_Notification) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*AlertingPolicy_Spec_Notification))
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) GotenObjectExt() {}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) MakeFullFieldMask() *AlertingPolicy_Spec_Notification_Slack_FieldMask {
-	return FullAlertingPolicy_Spec_Notification_Slack_FieldMask()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlertingPolicy_Spec_Notification_Slack_FieldMask()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) MakeDiffFieldMask(other *AlertingPolicy_Spec_Notification_Slack) *AlertingPolicy_Spec_Notification_Slack_FieldMask {
-	if o == nil && other == nil {
-		return &AlertingPolicy_Spec_Notification_Slack_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlertingPolicy_Spec_Notification_Slack_FieldMask()
-	}
-
-	res := &AlertingPolicy_Spec_Notification_Slack_FieldMask{}
-	{
-		subMask := o.GetApp().MakeDiffFieldMask(other.GetApp())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlack_FieldTerminalPath{selector: AlertingPolicySpecNotificationSlack_FieldPathSelectorApp})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlack_FieldSubPath{selector: AlertingPolicySpecNotificationSlack_FieldPathSelectorApp, subPath: subpath})
-			}
-		}
-	}
-	if o.GetIncomingWebhook() != other.GetIncomingWebhook() {
-		res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlack_FieldTerminalPath{selector: AlertingPolicySpecNotificationSlack_FieldPathSelectorIncomingWebhook})
-	}
-	return res
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*AlertingPolicy_Spec_Notification_Slack))
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) Clone() *AlertingPolicy_Spec_Notification_Slack {
-	if o == nil {
-		return nil
-	}
-	result := &AlertingPolicy_Spec_Notification_Slack{}
-	result.App = o.App.Clone()
-	result.IncomingWebhook = o.IncomingWebhook
-	return result
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) Merge(source *AlertingPolicy_Spec_Notification_Slack) {
-	if source.GetApp() != nil {
-		if o.App == nil {
-			o.App = new(AlertingPolicy_Spec_Notification_Slack_App)
-		}
-		o.App.Merge(source.GetApp())
-	}
-	o.IncomingWebhook = source.GetIncomingWebhook()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*AlertingPolicy_Spec_Notification_Slack))
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) GotenObjectExt() {}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) MakeFullFieldMask() *AlertingPolicy_Spec_Notification_Slack_App_FieldMask {
-	return FullAlertingPolicy_Spec_Notification_Slack_App_FieldMask()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlertingPolicy_Spec_Notification_Slack_App_FieldMask()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) MakeDiffFieldMask(other *AlertingPolicy_Spec_Notification_Slack_App) *AlertingPolicy_Spec_Notification_Slack_App_FieldMask {
-	if o == nil && other == nil {
-		return &AlertingPolicy_Spec_Notification_Slack_App_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlertingPolicy_Spec_Notification_Slack_App_FieldMask()
-	}
-
-	res := &AlertingPolicy_Spec_Notification_Slack_App_FieldMask{}
-	if o.GetAuthToken() != other.GetAuthToken() {
-		res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlackApp_FieldTerminalPath{selector: AlertingPolicySpecNotificationSlackApp_FieldPathSelectorAuthToken})
-	}
-
-	if len(o.GetChannel()) == len(other.GetChannel()) {
-		for i, lValue := range o.GetChannel() {
-			rValue := other.GetChannel()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlackApp_FieldTerminalPath{selector: AlertingPolicySpecNotificationSlackApp_FieldPathSelectorChannel})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &AlertingPolicySpecNotificationSlackApp_FieldTerminalPath{selector: AlertingPolicySpecNotificationSlackApp_FieldPathSelectorChannel})
-	}
-	return res
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*AlertingPolicy_Spec_Notification_Slack_App))
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) Clone() *AlertingPolicy_Spec_Notification_Slack_App {
-	if o == nil {
-		return nil
-	}
-	result := &AlertingPolicy_Spec_Notification_Slack_App{}
-	result.AuthToken = o.AuthToken
-	result.Channel = make([]string, len(o.Channel))
-	for i, sourceValue := range o.Channel {
-		result.Channel[i] = sourceValue
-	}
-	return result
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *AlertingPolicy_Spec_Notification_Slack_App) Merge(source *AlertingPolicy_Spec_Notification_Slack_App) {
-	o.AuthToken = source.GetAuthToken()
-	for _, sourceValue := range source.GetChannel() {
+	o.Enabled = source.GetEnabled()
+	o.ListType = source.GetListType()
+	for _, sourceValue := range source.GetChannels() {
 		exists := false
-		for _, currentValue := range o.Channel {
+		for _, currentValue := range o.Channels {
 			if currentValue == sourceValue {
 				exists = true
 				break
@@ -495,12 +438,12 @@ func (o *AlertingPolicy_Spec_Notification_Slack_App) Merge(source *AlertingPolic
 		if !exists {
 			var newDstElement string
 			newDstElement = sourceValue
-			o.Channel = append(o.Channel, newDstElement)
+			o.Channels = append(o.Channels, newDstElement)
 		}
 	}
 
 }
 
-func (o *AlertingPolicy_Spec_Notification_Slack_App) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*AlertingPolicy_Spec_Notification_Slack_App))
+func (o *AlertingPolicy_Spec_Notification) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*AlertingPolicy_Spec_Notification))
 }

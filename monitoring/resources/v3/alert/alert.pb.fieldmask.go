@@ -706,7 +706,8 @@ func FullAlert_State_FieldMask() *Alert_State_FieldMask {
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorIsAcknowledged})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorIsSilenced})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifetime})
-	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotification})
+	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNeedsNotification})
+	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated})
 	return res
 }
 
@@ -750,7 +751,7 @@ func (fieldMask *Alert_State_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertState_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -780,14 +781,12 @@ func (fieldMask *Alert_State_FieldMask) Reset() {
 
 func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *Alert_State_FieldMask {
 	result := &Alert_State_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
-		AlertState_FieldPathSelectorLifetime:     &monitoring_common.TimeRange_FieldMask{},
-		AlertState_FieldPathSelectorNotification: &Alert_State_Notification_FieldMask{},
+		AlertState_FieldPathSelectorLifetime: &monitoring_common.TimeRange_FieldMask{},
 	}
 	mySubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
-		AlertState_FieldPathSelectorLifetime:     &monitoring_common.TimeRange_FieldMask{},
-		AlertState_FieldPathSelectorNotification: &Alert_State_Notification_FieldMask{},
+		AlertState_FieldPathSelectorLifetime: &monitoring_common.TimeRange_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -805,8 +804,6 @@ func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *
 					switch tp.selector {
 					case AlertState_FieldPathSelectorLifetime:
 						mySubMasks[AlertState_FieldPathSelectorLifetime] = monitoring_common.FullTimeRange_FieldMask()
-					case AlertState_FieldPathSelectorNotification:
-						mySubMasks[AlertState_FieldPathSelectorNotification] = FullAlert_State_Notification_FieldMask()
 					}
 				} else if tp, ok := path.(*AlertState_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -961,8 +958,6 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 	result := &Alert_State{}
 	lifetimeMask := &monitoring_common.TimeRange_FieldMask{}
 	wholeLifetimeAccepted := false
-	notificationMask := &Alert_State_Notification_FieldMask{}
-	wholeNotificationAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -977,24 +972,20 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 			case AlertState_FieldPathSelectorLifetime:
 				result.Lifetime = source.Lifetime
 				wholeLifetimeAccepted = true
-			case AlertState_FieldPathSelectorNotification:
-				result.Notification = source.Notification
-				wholeNotificationAccepted = true
+			case AlertState_FieldPathSelectorNeedsNotification:
+				result.NeedsNotification = source.NeedsNotification
+			case AlertState_FieldPathSelectorNotificationCreated:
+				result.NotificationCreated = source.NotificationCreated
 			}
 		case *AlertState_FieldSubPath:
 			switch tp.selector {
 			case AlertState_FieldPathSelectorLifetime:
 				lifetimeMask.AppendPath(tp.subPath.(monitoring_common.TimeRange_FieldPath))
-			case AlertState_FieldPathSelectorNotification:
-				notificationMask.AppendPath(tp.subPath.(AlertStateNotification_FieldPath))
 			}
 		}
 	}
 	if wholeLifetimeAccepted == false && len(lifetimeMask.Paths) > 0 {
 		result.Lifetime = lifetimeMask.Project(source.GetLifetime())
-	}
-	if wholeNotificationAccepted == false && len(notificationMask.Paths) > 0 {
-		result.Notification = notificationMask.Project(source.GetNotification())
 	}
 	return result
 }
@@ -2093,296 +2084,6 @@ func (fieldMask *Alert_State_CombineThreshold_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type Alert_State_Notification_FieldMask struct {
-	Paths []AlertStateNotification_FieldPath
-}
-
-func FullAlert_State_Notification_FieldMask() *Alert_State_Notification_FieldMask {
-	res := &Alert_State_Notification_FieldMask{}
-	res.Paths = append(res.Paths, &AlertStateNotification_FieldTerminalPath{selector: AlertStateNotification_FieldPathSelectorSlack})
-	return res
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Alert_State_Notification_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseAlertStateNotification_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 1)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*AlertStateNotification_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseAlertStateNotification_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Subtract(other *Alert_State_Notification_FieldMask) *Alert_State_Notification_FieldMask {
-	result := &Alert_State_Notification_FieldMask{}
-	removedSelectors := make([]bool, 1)
-	otherSubMasks := map[AlertStateNotification_FieldPathSelector]gotenobject.FieldMask{
-		AlertStateNotification_FieldPathSelectorSlack: &Alert_State_Notification_Slack_FieldMask{},
-	}
-	mySubMasks := map[AlertStateNotification_FieldPathSelector]gotenobject.FieldMask{
-		AlertStateNotification_FieldPathSelectorSlack: &Alert_State_Notification_Slack_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *AlertStateNotification_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *AlertStateNotification_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*AlertStateNotification_FieldTerminalPath); ok {
-					switch tp.selector {
-					case AlertStateNotification_FieldPathSelectorSlack:
-						mySubMasks[AlertStateNotification_FieldPathSelectorSlack] = FullAlert_State_Notification_Slack_FieldMask()
-					}
-				} else if tp, ok := path.(*AlertStateNotification_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &AlertStateNotification_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Alert_State_Notification_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Alert_State_Notification_FieldMask) FilterInputFields() *Alert_State_Notification_FieldMask {
-	result := &Alert_State_Notification_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Alert_State_Notification_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]AlertStateNotification_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseAlertStateNotification_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Alert_State_Notification_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Alert_State_Notification_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) AppendPath(path AlertStateNotification_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(AlertStateNotification_FieldPath))
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) GetPaths() []AlertStateNotification_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseAlertStateNotification_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Set(target, source *Alert_State_Notification) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Alert_State_Notification), source.(*Alert_State_Notification))
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) Project(source *Alert_State_Notification) *Alert_State_Notification {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Alert_State_Notification{}
-	slackMask := &Alert_State_Notification_Slack_FieldMask{}
-	wholeSlackAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *AlertStateNotification_FieldTerminalPath:
-			switch tp.selector {
-			case AlertStateNotification_FieldPathSelectorSlack:
-				result.Slack = source.Slack
-				wholeSlackAccepted = true
-			}
-		case *AlertStateNotification_FieldSubPath:
-			switch tp.selector {
-			case AlertStateNotification_FieldPathSelectorSlack:
-				slackMask.AppendPath(tp.subPath.(AlertStateNotificationSlack_FieldPath))
-			}
-		}
-	}
-	if wholeSlackAccepted == false && len(slackMask.Paths) > 0 {
-		result.Slack = slackMask.Project(source.GetSlack())
-	}
-	return result
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Alert_State_Notification))
-}
-
-func (fieldMask *Alert_State_Notification_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
 type Alert_State_CombineThreshold_PerMetric_FieldMask struct {
 	Paths []AlertStateCombineThresholdPerMetric_FieldPath
 }
@@ -2646,265 +2347,6 @@ func (fieldMask *Alert_State_CombineThreshold_PerMetric_FieldMask) ProjectRaw(so
 }
 
 func (fieldMask *Alert_State_CombineThreshold_PerMetric_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Alert_State_Notification_Slack_FieldMask struct {
-	Paths []AlertStateNotificationSlack_FieldPath
-}
-
-func FullAlert_State_Notification_Slack_FieldMask() *Alert_State_Notification_Slack_FieldMask {
-	res := &Alert_State_Notification_Slack_FieldMask{}
-	res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorTs})
-	res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus})
-	res.Paths = append(res.Paths, &AlertStateNotificationSlack_FieldTerminalPath{selector: AlertStateNotificationSlack_FieldPathSelectorErrorMessage})
-	return res
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseAlertStateNotificationSlack_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 3)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*AlertStateNotificationSlack_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseAlertStateNotificationSlack_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) ProtoMessage() {}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Subtract(other *Alert_State_Notification_Slack_FieldMask) *Alert_State_Notification_Slack_FieldMask {
-	result := &Alert_State_Notification_Slack_FieldMask{}
-	removedSelectors := make([]bool, 3)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *AlertStateNotificationSlack_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Alert_State_Notification_Slack_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) FilterInputFields() *Alert_State_Notification_Slack_FieldMask {
-	result := &Alert_State_Notification_Slack_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]AlertStateNotificationSlack_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseAlertStateNotificationSlack_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Alert_State_Notification_Slack_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Alert_State_Notification_Slack_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &fieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) AppendPath(path AlertStateNotificationSlack_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(AlertStateNotificationSlack_FieldPath))
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) GetPaths() []AlertStateNotificationSlack_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseAlertStateNotificationSlack_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Set(target, source *Alert_State_Notification_Slack) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Alert_State_Notification_Slack), source.(*Alert_State_Notification_Slack))
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) Project(source *Alert_State_Notification_Slack) *Alert_State_Notification_Slack {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Alert_State_Notification_Slack{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *AlertStateNotificationSlack_FieldTerminalPath:
-			switch tp.selector {
-			case AlertStateNotificationSlack_FieldPathSelectorTs:
-				result.Ts = source.Ts
-			case AlertStateNotificationSlack_FieldPathSelectorDeliveryStatus:
-				result.DeliveryStatus = source.DeliveryStatus
-			case AlertStateNotificationSlack_FieldPathSelectorErrorMessage:
-				result.ErrorMessage = source.ErrorMessage
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Alert_State_Notification_Slack))
-}
-
-func (fieldMask *Alert_State_Notification_Slack_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
