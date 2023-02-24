@@ -708,6 +708,7 @@ func FullAlert_State_FieldMask() *Alert_State_FieldMask {
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifetime})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNeedsNotification})
 	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated})
+	res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifecycleCompleted})
 	return res
 }
 
@@ -751,7 +752,7 @@ func (fieldMask *Alert_State_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertState_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -781,7 +782,7 @@ func (fieldMask *Alert_State_FieldMask) Reset() {
 
 func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *Alert_State_FieldMask {
 	result := &Alert_State_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
 		AlertState_FieldPathSelectorLifetime: &monitoring_common.TimeRange_FieldMask{},
 	}
@@ -976,6 +977,8 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 				result.NeedsNotification = source.NeedsNotification
 			case AlertState_FieldPathSelectorNotificationCreated:
 				result.NotificationCreated = source.NotificationCreated
+			case AlertState_FieldPathSelectorLifecycleCompleted:
+				result.LifecycleCompleted = source.LifecycleCompleted
 			}
 		case *AlertState_FieldSubPath:
 			switch tp.selector {

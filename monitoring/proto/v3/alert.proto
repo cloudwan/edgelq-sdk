@@ -74,6 +74,9 @@ message Alert {
     // Notification resource is generated for this alert
     bool notification_created = 9;
 
+    // Alert has ended and any needed notifications are processed
+    bool lifecycle_completed = 10;
+
     // oneof:
     message Threshold { double observed_value = 1; }
 

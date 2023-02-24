@@ -3402,6 +3402,10 @@ func (b *filterCndBuilderState) NotificationCreated() *filterCndBuilderStateNoti
 	return &filterCndBuilderStateNotificationCreated{builder: b.builder}
 }
 
+func (b *filterCndBuilderState) LifecycleCompleted() *filterCndBuilderStateLifecycleCompleted {
+	return &filterCndBuilderStateLifecycleCompleted{builder: b.builder}
+}
+
 type filterCndBuilderStateIsFiring struct {
 	builder *FilterBuilder
 }
@@ -3879,5 +3883,64 @@ func (b *filterCndBuilderStateNotificationCreated) compare(op gotenfilter.Compar
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:             op,
 		Alert_FieldPathValue: NewAlertFieldPathBuilder().State().NotificationCreated().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateLifecycleCompleted struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().LifecycleCompleted().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().LifecycleCompleted().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:             op,
+		Alert_FieldPathValue: NewAlertFieldPathBuilder().State().LifecycleCompleted().WithValue(value),
 	})
 }

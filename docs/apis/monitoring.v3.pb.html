@@ -436,6 +436,13 @@ use meta.create_time to get creation date.</p>
 </tr>
 <tr><td class="description"><p>Notification resource is generated for this alert</p>
 </td></tr>
+
+<tr>
+<th rowspan="2">lifecycle_completed</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Alert has ended and any needed notifications are processed</p>
+</td></tr>
  
 </tbody>
 </table>
@@ -6300,7 +6307,7 @@ Equivalent REST API:
 <thead><tr><th colspan="2">Fields</th></tr></thead>
 <tbody>
 <tr>
-<th rowspan="2">all_alerts_resolved</th>
+<th rowspan="2">is_resolved</th>
 <td class="type"><pre>bool</pre></td>
 </tr>
 <tr><td class="description"></td></tr>
@@ -6313,22 +6320,39 @@ Equivalent REST API:
 </td></tr>
 
 <tr>
-<th rowspan="2">notification_attempts_completed</th>
+<th rowspan="2">incident_notify_attempts_done</th>
 <td class="type"><pre>bool</pre></td>
 </tr>
-<tr><td class="description"></td></tr>
+<tr><td class="description"><p>Internal state to keep track of whether any notification sends needs to
+be retried for new incident</p>
+</td></tr>
 
 <tr>
-<th rowspan="2">resolution_notified</th>
+<th rowspan="2">resolution_notify_attempts_done</th>
 <td class="type"><pre>bool</pre></td>
 </tr>
-<tr><td class="description"></td></tr>
+<tr><td class="description"><p>Internal state to keep track of whether any notification sends needs to
+be retried for resolution</p>
+</td></tr>
 
 <tr>
 <th rowspan="2">alerts_lifetime</th>
 <td class="type"><pre><a href="#message-TimeRange">TimeRange</a></pre></td>
 </tr>
 <tr><td class="description"><p>Time range for which alerts for the policy are clubbed together</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resolution_notification_state</th>
+<td class="type"><pre>repeated <a href="#message-Notification.State.NotificationState">Notification.State.NotificationState</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">lifecycle_completed</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Alert has ended and any needed notifications are processed</p>
 </td></tr>
  
 </tbody>
@@ -7629,6 +7653,15 @@ channels will not be used for alerting.</p>
 <td class="type"><pre><a href="#message-NotificationChannel.Spec.Webhook">NotificationChannel.Spec.Webhook</a></pre></td>
 </tr>
 <tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">notification_language_code</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Default language for invitation is english (eng)
+Configuring unsupported language will fallback to english
+Currently only sendgrid uses this.</p>
+</td></tr>
  
 </tbody>
 </table>

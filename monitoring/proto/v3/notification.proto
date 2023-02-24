@@ -33,17 +33,26 @@ message Notification {
   State state = 6;
 
   message State {
-    bool all_alerts_resolved = 1;
+    bool is_resolved = 1;
 
     // Notification state
     repeated NotificationState notification_state = 2;
 
-    bool notification_attempts_completed = 3;
+    // Internal state to keep track of whether any notification sends needs to
+    // be retried for new incident
+    bool incident_notify_attempts_done = 3;
 
-    bool resolution_notified = 4;
+    // Internal state to keep track of whether any notification sends needs to
+    // be retried for resolution
+    bool resolution_notify_attempts_done = 4;
 
     // Time range for which alerts for the policy are clubbed together
     TimeRange alerts_lifetime = 5;
+
+    repeated NotificationState resolution_notification_state = 6;
+
+    // Alert has ended and any needed notifications are processed
+    bool lifecycle_completed = 7;
 
     message NotificationState {
       // Notification channel name

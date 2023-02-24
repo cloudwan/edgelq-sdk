@@ -737,6 +737,10 @@ func (NotificationChannelPathSelectorSpec) Webhook() NotificationChannelPathSele
 	return NotificationChannelPathSelectorSpecWebhook{}
 }
 
+func (NotificationChannelPathSelectorSpec) NotificationLanguageCode() NotificationChannelPathSelectorSpecNotificationLanguageCode {
+	return NotificationChannelPathSelectorSpecNotificationLanguageCode{}
+}
+
 type NotificationChannelPathSelectorSpecEnabled struct{}
 
 func (NotificationChannelPathSelectorSpecEnabled) FieldPath() *NotificationChannel_FieldSubPath {
@@ -956,6 +960,23 @@ func (s NotificationChannelPathSelectorSpecWebhookHeadersValue) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
+type NotificationChannelPathSelectorSpecNotificationLanguageCode struct{}
+
+func (NotificationChannelPathSelectorSpecNotificationLanguageCode) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  NewNotificationChannelSpecFieldPathBuilder().NotificationLanguageCode().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecNotificationLanguageCode) WithValue(value string) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecNotificationLanguageCode) WithArrayOfValues(values []string) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
 type NotificationChannelPathSelectorState struct{}
 
 func (NotificationChannelPathSelectorState) FieldPath() *NotificationChannel_FieldTerminalPath {
@@ -1103,6 +1124,9 @@ func (NotificationChannelSpecFieldPathBuilder) Slack() NotificationChannel_SpecP
 }
 func (NotificationChannelSpecFieldPathBuilder) Webhook() NotificationChannel_SpecPathSelectorWebhook {
 	return NotificationChannel_SpecPathSelectorWebhook{}
+}
+func (NotificationChannelSpecFieldPathBuilder) NotificationLanguageCode() NotificationChannel_SpecPathSelectorNotificationLanguageCode {
+	return NotificationChannel_SpecPathSelectorNotificationLanguageCode{}
 }
 
 type NotificationChannel_SpecPathSelectorEnabled struct{}
@@ -1355,6 +1379,20 @@ func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithValue(value
 
 func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannel_SpecPathSelectorNotificationLanguageCode struct{}
+
+func (NotificationChannel_SpecPathSelectorNotificationLanguageCode) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
+	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode}
+}
+
+func (s NotificationChannel_SpecPathSelectorNotificationLanguageCode) WithValue(value string) *NotificationChannelSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
+}
+
+func (s NotificationChannel_SpecPathSelectorNotificationLanguageCode) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
 }
 
 type NotificationChannelStateFieldPathBuilder struct{}

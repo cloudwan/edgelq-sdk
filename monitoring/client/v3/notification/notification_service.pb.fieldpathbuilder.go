@@ -899,40 +899,48 @@ func (s BatchGetNotificationsResponsePathSelectorNotificationsState) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsState) AllAlertsResolved() BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved {
-	return BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved{}
+func (BatchGetNotificationsResponsePathSelectorNotificationsState) IsResolved() BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved{}
 }
 
 func (BatchGetNotificationsResponsePathSelectorNotificationsState) NotificationState() BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationState {
 	return BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationState{}
 }
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsState) NotificationAttemptsCompleted() BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted {
-	return BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted{}
+func (BatchGetNotificationsResponsePathSelectorNotificationsState) IncidentNotifyAttemptsDone() BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone{}
 }
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsState) ResolutionNotified() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified {
-	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified{}
+func (BatchGetNotificationsResponsePathSelectorNotificationsState) ResolutionNotifyAttemptsDone() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone{}
 }
 
 func (BatchGetNotificationsResponsePathSelectorNotificationsState) AlertsLifetime() BatchGetNotificationsResponsePathSelectorNotificationsStateAlertsLifetime {
 	return BatchGetNotificationsResponsePathSelectorNotificationsStateAlertsLifetime{}
 }
 
-type BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved struct{}
+func (BatchGetNotificationsResponsePathSelectorNotificationsState) ResolutionNotificationState() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState{}
+}
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+func (BatchGetNotificationsResponsePathSelectorNotificationsState) LifecycleCompleted() BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted{}
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
 	return &BatchGetNotificationsResponse_FieldSubPath{
 		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateIsResolved) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1146,37 +1154,37 @@ func (s BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationS
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted struct{}
+type BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone struct{}
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
 	return &BatchGetNotificationsResponse_FieldSubPath{
 		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified struct{}
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone struct{}
 
-func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
 	return &BatchGetNotificationsResponse_FieldSubPath{
 		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
 }
 
-func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -1236,6 +1244,233 @@ func (s BatchGetNotificationsResponsePathSelectorNotificationsStateAlertsLifetim
 }
 
 func (s BatchGetNotificationsResponsePathSelectorNotificationsStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *BatchGetNotificationsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetNotificationsResponse_FieldSubPathArrayItemValue)
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotificationChannel() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Status() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus{}
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Error() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError{}
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) ProviderData() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData{}
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotifyAttempts() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithValue(value string) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithArrayOfValues(values []string) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) Slack() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) PagerDuty() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) Ts() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted struct{}
+
+func (BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) FieldPath() *BatchGetNotificationsResponse_FieldSubPath {
+	return &BatchGetNotificationsResponse_FieldSubPath{
+		selector: BatchGetNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithValue(value bool) *BatchGetNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BatchGetNotificationsResponse_FieldSubPathValue)
+}
+
+func (s BatchGetNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithArrayOfValues(values []bool) *BatchGetNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2147,40 +2382,48 @@ func (s ListNotificationsResponsePathSelectorNotificationsState) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-func (ListNotificationsResponsePathSelectorNotificationsState) AllAlertsResolved() ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved {
-	return ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved{}
+func (ListNotificationsResponsePathSelectorNotificationsState) IsResolved() ListNotificationsResponsePathSelectorNotificationsStateIsResolved {
+	return ListNotificationsResponsePathSelectorNotificationsStateIsResolved{}
 }
 
 func (ListNotificationsResponsePathSelectorNotificationsState) NotificationState() ListNotificationsResponsePathSelectorNotificationsStateNotificationState {
 	return ListNotificationsResponsePathSelectorNotificationsStateNotificationState{}
 }
 
-func (ListNotificationsResponsePathSelectorNotificationsState) NotificationAttemptsCompleted() ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted {
-	return ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted{}
+func (ListNotificationsResponsePathSelectorNotificationsState) IncidentNotifyAttemptsDone() ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone {
+	return ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone{}
 }
 
-func (ListNotificationsResponsePathSelectorNotificationsState) ResolutionNotified() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified {
-	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified{}
+func (ListNotificationsResponsePathSelectorNotificationsState) ResolutionNotifyAttemptsDone() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone{}
 }
 
 func (ListNotificationsResponsePathSelectorNotificationsState) AlertsLifetime() ListNotificationsResponsePathSelectorNotificationsStateAlertsLifetime {
 	return ListNotificationsResponsePathSelectorNotificationsStateAlertsLifetime{}
 }
 
-type ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved struct{}
+func (ListNotificationsResponsePathSelectorNotificationsState) ResolutionNotificationState() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState{}
+}
 
-func (ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) FieldPath() *ListNotificationsResponse_FieldSubPath {
+func (ListNotificationsResponsePathSelectorNotificationsState) LifecycleCompleted() ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted {
+	return ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted{}
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateIsResolved struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateIsResolved) FieldPath() *ListNotificationsResponse_FieldSubPath {
 	return &ListNotificationsResponse_FieldSubPath{
 		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
+func (s ListNotificationsResponsePathSelectorNotificationsStateIsResolved) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+func (s ListNotificationsResponsePathSelectorNotificationsStateIsResolved) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2394,37 +2637,37 @@ func (s ListNotificationsResponsePathSelectorNotificationsStateNotificationState
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted struct{}
+type ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone struct{}
 
-func (ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) FieldPath() *ListNotificationsResponse_FieldSubPath {
+func (ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) FieldPath() *ListNotificationsResponse_FieldSubPath {
 	return &ListNotificationsResponse_FieldSubPath{
 		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
+func (s ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+func (s ListNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified struct{}
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone struct{}
 
-func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified) FieldPath() *ListNotificationsResponse_FieldSubPath {
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) FieldPath() *ListNotificationsResponse_FieldSubPath {
 	return &ListNotificationsResponse_FieldSubPath{
 		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
 }
 
-func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2484,6 +2727,233 @@ func (s ListNotificationsResponsePathSelectorNotificationsStateAlertsLifetimeEnd
 }
 
 func (s ListNotificationsResponsePathSelectorNotificationsStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *ListNotificationsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ListNotificationsResponse_FieldSubPathArrayItemValue)
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotificationChannel() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Status() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus{}
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Error() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError{}
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) ProviderData() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData{}
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotifyAttempts() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithValue(value string) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithArrayOfValues(values []string) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) Slack() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) PagerDuty() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) Ts() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *ListNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted struct{}
+
+func (ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) FieldPath() *ListNotificationsResponse_FieldSubPath {
+	return &ListNotificationsResponse_FieldSubPath{
+		selector: ListNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithValue(value bool) *ListNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ListNotificationsResponse_FieldSubPathValue)
+}
+
+func (s ListNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithArrayOfValues(values []bool) *ListNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3793,40 +4263,48 @@ func (s CreateNotificationRequestPathSelectorNotificationState) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-func (CreateNotificationRequestPathSelectorNotificationState) AllAlertsResolved() CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved {
-	return CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved{}
+func (CreateNotificationRequestPathSelectorNotificationState) IsResolved() CreateNotificationRequestPathSelectorNotificationStateIsResolved {
+	return CreateNotificationRequestPathSelectorNotificationStateIsResolved{}
 }
 
 func (CreateNotificationRequestPathSelectorNotificationState) NotificationState() CreateNotificationRequestPathSelectorNotificationStateNotificationState {
 	return CreateNotificationRequestPathSelectorNotificationStateNotificationState{}
 }
 
-func (CreateNotificationRequestPathSelectorNotificationState) NotificationAttemptsCompleted() CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted {
-	return CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted{}
+func (CreateNotificationRequestPathSelectorNotificationState) IncidentNotifyAttemptsDone() CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone {
+	return CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone{}
 }
 
-func (CreateNotificationRequestPathSelectorNotificationState) ResolutionNotified() CreateNotificationRequestPathSelectorNotificationStateResolutionNotified {
-	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotified{}
+func (CreateNotificationRequestPathSelectorNotificationState) ResolutionNotifyAttemptsDone() CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone{}
 }
 
 func (CreateNotificationRequestPathSelectorNotificationState) AlertsLifetime() CreateNotificationRequestPathSelectorNotificationStateAlertsLifetime {
 	return CreateNotificationRequestPathSelectorNotificationStateAlertsLifetime{}
 }
 
-type CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved struct{}
+func (CreateNotificationRequestPathSelectorNotificationState) ResolutionNotificationState() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState{}
+}
 
-func (CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) FieldPath() *CreateNotificationRequest_FieldSubPath {
+func (CreateNotificationRequestPathSelectorNotificationState) LifecycleCompleted() CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted {
+	return CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted{}
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateIsResolved struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateIsResolved) FieldPath() *CreateNotificationRequest_FieldSubPath {
 	return &CreateNotificationRequest_FieldSubPath{
 		selector: CreateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
+func (s CreateNotificationRequestPathSelectorNotificationStateIsResolved) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+func (s CreateNotificationRequestPathSelectorNotificationStateIsResolved) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4040,37 +4518,37 @@ func (s CreateNotificationRequestPathSelectorNotificationStateNotificationStateN
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted struct{}
+type CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone struct{}
 
-func (CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) FieldPath() *CreateNotificationRequest_FieldSubPath {
+func (CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) FieldPath() *CreateNotificationRequest_FieldSubPath {
 	return &CreateNotificationRequest_FieldSubPath{
 		selector: CreateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
+func (s CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+func (s CreateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type CreateNotificationRequestPathSelectorNotificationStateResolutionNotified struct{}
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone struct{}
 
-func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotified) FieldPath() *CreateNotificationRequest_FieldSubPath {
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) FieldPath() *CreateNotificationRequest_FieldSubPath {
 	return &CreateNotificationRequest_FieldSubPath{
 		selector: CreateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotified) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
 }
 
-func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotified) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4130,6 +4608,233 @@ func (s CreateNotificationRequestPathSelectorNotificationStateAlertsLifetimeEndT
 }
 
 func (s CreateNotificationRequestPathSelectorNotificationStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *CreateNotificationRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*CreateNotificationRequest_FieldSubPathArrayItemValue)
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) NotificationChannel() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) Status() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus{}
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) Error() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError{}
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) ProviderData() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData{}
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) NotifyAttempts() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) WithValue(value string) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) WithArrayOfValues(values []string) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) Slack() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) PagerDuty() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) Ts() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *CreateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted struct{}
+
+func (CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) FieldPath() *CreateNotificationRequest_FieldSubPath {
+	return &CreateNotificationRequest_FieldSubPath{
+		selector: CreateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) WithValue(value bool) *CreateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CreateNotificationRequest_FieldSubPathValue)
+}
+
+func (s CreateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) WithArrayOfValues(values []bool) *CreateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4872,40 +5577,48 @@ func (s UpdateNotificationRequestPathSelectorNotificationState) WithArrayOfValue
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateNotificationRequestPathSelectorNotificationState) AllAlertsResolved() UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved {
-	return UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved{}
+func (UpdateNotificationRequestPathSelectorNotificationState) IsResolved() UpdateNotificationRequestPathSelectorNotificationStateIsResolved {
+	return UpdateNotificationRequestPathSelectorNotificationStateIsResolved{}
 }
 
 func (UpdateNotificationRequestPathSelectorNotificationState) NotificationState() UpdateNotificationRequestPathSelectorNotificationStateNotificationState {
 	return UpdateNotificationRequestPathSelectorNotificationStateNotificationState{}
 }
 
-func (UpdateNotificationRequestPathSelectorNotificationState) NotificationAttemptsCompleted() UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted {
-	return UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted{}
+func (UpdateNotificationRequestPathSelectorNotificationState) IncidentNotifyAttemptsDone() UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone {
+	return UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone{}
 }
 
-func (UpdateNotificationRequestPathSelectorNotificationState) ResolutionNotified() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified {
-	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified{}
+func (UpdateNotificationRequestPathSelectorNotificationState) ResolutionNotifyAttemptsDone() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone{}
 }
 
 func (UpdateNotificationRequestPathSelectorNotificationState) AlertsLifetime() UpdateNotificationRequestPathSelectorNotificationStateAlertsLifetime {
 	return UpdateNotificationRequestPathSelectorNotificationStateAlertsLifetime{}
 }
 
-type UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved struct{}
+func (UpdateNotificationRequestPathSelectorNotificationState) ResolutionNotificationState() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState{}
+}
 
-func (UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorNotificationState) LifecycleCompleted() UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted {
+	return UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted{}
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateIsResolved struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateIsResolved) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorNotificationStateIsResolved) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateAllAlertsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorNotificationStateIsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5119,37 +5832,37 @@ func (s UpdateNotificationRequestPathSelectorNotificationStateNotificationStateN
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted struct{}
+type UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorNotificationStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified struct{}
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotified) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5209,6 +5922,233 @@ func (s UpdateNotificationRequestPathSelectorNotificationStateAlertsLifetimeEndT
 }
 
 func (s UpdateNotificationRequestPathSelectorNotificationStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateNotificationRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) NotificationChannel() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) Status() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus{}
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) Error() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError{}
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) ProviderData() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData{}
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationState) NotifyAttempts() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateError) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) Slack() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderData) PagerDuty() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlack) Ts() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted struct{}
+
+func (UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorNotification,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorNotificationStateLifecycleCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5975,40 +6915,48 @@ func (s UpdateNotificationRequestPathSelectorCasConditionalStateState) WithArray
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateState) AllAlertsResolved() UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved {
-	return UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved{}
+func (UpdateNotificationRequestPathSelectorCasConditionalStateState) IsResolved() UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved{}
 }
 
 func (UpdateNotificationRequestPathSelectorCasConditionalStateState) NotificationState() UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationState {
 	return UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationState{}
 }
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateState) NotificationAttemptsCompleted() UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted {
-	return UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted{}
+func (UpdateNotificationRequestPathSelectorCasConditionalStateState) IncidentNotifyAttemptsDone() UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone{}
 }
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateState) ResolutionNotified() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified {
-	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified{}
+func (UpdateNotificationRequestPathSelectorCasConditionalStateState) ResolutionNotifyAttemptsDone() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone{}
 }
 
 func (UpdateNotificationRequestPathSelectorCasConditionalStateState) AlertsLifetime() UpdateNotificationRequestPathSelectorCasConditionalStateStateAlertsLifetime {
 	return UpdateNotificationRequestPathSelectorCasConditionalStateStateAlertsLifetime{}
 }
 
-type UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved struct{}
+func (UpdateNotificationRequestPathSelectorCasConditionalStateState) ResolutionNotificationState() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState{}
+}
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorCasConditionalStateState) LifecycleCompleted() UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted{}
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().AllAlertsResolved().FieldPath(),
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateAllAlertsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateIsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6222,37 +7170,37 @@ func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificatio
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted struct{}
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified struct{}
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone) FieldPath() *UpdateNotificationRequest_FieldSubPath {
 	return &UpdateNotificationRequest_FieldSubPath{
 		selector: UpdateNotificationRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotified().FieldPath(),
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotified) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6312,6 +7260,233 @@ func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateAlertsLifet
 }
 
 func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *UpdateNotificationRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateNotificationRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) NotificationChannel() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) Status() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus{}
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) Error() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError{}
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) ProviderData() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData{}
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationState) NotifyAttempts() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateError) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData) Slack() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderData) PagerDuty() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlack) Ts() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted struct{}
+
+func (UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted) FieldPath() *UpdateNotificationRequest_FieldSubPath {
+	return &UpdateNotificationRequest_FieldSubPath{
+		selector: UpdateNotificationRequest_FieldPathSelectorCas,
+		subPath:  NewUpdateNotificationRequestCASFieldPathBuilder().ConditionalState().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted) WithValue(value bool) *UpdateNotificationRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequest_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequestPathSelectorCasConditionalStateStateLifecycleCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequest_FieldSubPathArrayOfValues)
 }
 
@@ -7068,40 +8243,48 @@ func (s UpdateNotificationRequest_CASPathSelectorConditionalStateState) WithArra
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) AllAlertsResolved() UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved {
-	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved{}
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) IsResolved() UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved{}
 }
 
 func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) NotificationState() UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationState {
 	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationState{}
 }
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) NotificationAttemptsCompleted() UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted {
-	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted{}
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) IncidentNotifyAttemptsDone() UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone{}
 }
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) ResolutionNotified() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified {
-	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified{}
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) ResolutionNotifyAttemptsDone() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone{}
 }
 
 func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) AlertsLifetime() UpdateNotificationRequest_CASPathSelectorConditionalStateStateAlertsLifetime {
 	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateAlertsLifetime{}
 }
 
-type UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved struct{}
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) ResolutionNotificationState() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState{}
+}
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateState) LifecycleCompleted() UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted{}
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
 	return &UpdateNotificationRequestCAS_FieldSubPath{
 		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateAllAlertsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateIsResolved) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7315,37 +8498,37 @@ func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificati
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted struct{}
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
 	return &UpdateNotificationRequestCAS_FieldSubPath{
 		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
-type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified struct{}
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone struct{}
 
-func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
 	return &UpdateNotificationRequestCAS_FieldSubPath{
 		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotified) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7405,6 +8588,233 @@ func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateAlertsLife
 }
 
 func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *UpdateNotificationRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdateNotificationRequestCAS_FieldSubPathArrayItemValue)
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) NotificationChannel() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) Status() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus{}
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) Error() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError{}
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) ProviderData() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData{}
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationState) NotifyAttempts() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError) WithValue(value string) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateError) WithArrayOfValues(values []string) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData) Slack() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderData) PagerDuty() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlack) Ts() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted struct{}
+
+func (UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted) FieldPath() *UpdateNotificationRequestCAS_FieldSubPath {
+	return &UpdateNotificationRequestCAS_FieldSubPath{
+		selector: UpdateNotificationRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted) WithValue(value bool) *UpdateNotificationRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdateNotificationRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdateNotificationRequest_CASPathSelectorConditionalStateStateLifecycleCompleted) WithArrayOfValues(values []bool) *UpdateNotificationRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateNotificationRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -8335,40 +9745,48 @@ func (s SearchNotificationsResponsePathSelectorNotificationsState) WithArrayOfVa
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-func (SearchNotificationsResponsePathSelectorNotificationsState) AllAlertsResolved() SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved {
-	return SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved{}
+func (SearchNotificationsResponsePathSelectorNotificationsState) IsResolved() SearchNotificationsResponsePathSelectorNotificationsStateIsResolved {
+	return SearchNotificationsResponsePathSelectorNotificationsStateIsResolved{}
 }
 
 func (SearchNotificationsResponsePathSelectorNotificationsState) NotificationState() SearchNotificationsResponsePathSelectorNotificationsStateNotificationState {
 	return SearchNotificationsResponsePathSelectorNotificationsStateNotificationState{}
 }
 
-func (SearchNotificationsResponsePathSelectorNotificationsState) NotificationAttemptsCompleted() SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted {
-	return SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted{}
+func (SearchNotificationsResponsePathSelectorNotificationsState) IncidentNotifyAttemptsDone() SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone {
+	return SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone{}
 }
 
-func (SearchNotificationsResponsePathSelectorNotificationsState) ResolutionNotified() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified {
-	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified{}
+func (SearchNotificationsResponsePathSelectorNotificationsState) ResolutionNotifyAttemptsDone() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone{}
 }
 
 func (SearchNotificationsResponsePathSelectorNotificationsState) AlertsLifetime() SearchNotificationsResponsePathSelectorNotificationsStateAlertsLifetime {
 	return SearchNotificationsResponsePathSelectorNotificationsStateAlertsLifetime{}
 }
 
-type SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved struct{}
+func (SearchNotificationsResponsePathSelectorNotificationsState) ResolutionNotificationState() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState{}
+}
 
-func (SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+func (SearchNotificationsResponsePathSelectorNotificationsState) LifecycleCompleted() SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted {
+	return SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted{}
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateIsResolved struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateIsResolved) FieldPath() *SearchNotificationsResponse_FieldSubPath {
 	return &SearchNotificationsResponse_FieldSubPath{
 		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	}
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateIsResolved) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateAllAlertsResolved) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateIsResolved) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -8582,37 +10000,37 @@ func (s SearchNotificationsResponsePathSelectorNotificationsStateNotificationSta
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted struct{}
+type SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone struct{}
 
-func (SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+func (SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) FieldPath() *SearchNotificationsResponse_FieldSubPath {
 	return &SearchNotificationsResponse_FieldSubPath{
 		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateNotificationAttemptsCompleted) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateIncidentNotifyAttemptsDone) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
-type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified struct{}
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone struct{}
 
-func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) FieldPath() *SearchNotificationsResponse_FieldSubPath {
 	return &SearchNotificationsResponse_FieldSubPath{
 		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
-		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	}
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
 }
 
-func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotified) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotifyAttemptsDone) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 
@@ -8672,6 +10090,233 @@ func (s SearchNotificationsResponsePathSelectorNotificationsStateAlertsLifetimeE
 }
 
 func (s SearchNotificationsResponsePathSelectorNotificationsStateAlertsLifetimeEndTime) WithArrayOfValues(values []*timestamp.Timestamp) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithValue(value []*notification.Notification_State_NotificationState) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithArrayOfValues(values [][]*notification.Notification_State_NotificationState) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) WithItemValue(value *notification.Notification_State_NotificationState) *SearchNotificationsResponse_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*SearchNotificationsResponse_FieldSubPathArrayItemValue)
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotificationChannel() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel{}
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Status() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus{}
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) Error() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError{}
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) ProviderData() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData{}
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationState) NotifyAttempts() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts{}
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithValue(value *notification_channel.Name) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotificationChannel) WithArrayOfValues(values []*notification_channel.Name) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithValue(value notification.Notification_State_NotificationState_Status) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateStatus) WithArrayOfValues(values []notification.Notification_State_NotificationState_Status) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithValue(value string) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateError) WithArrayOfValues(values []string) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithValue(value *notification.Notification_State_NotificationState_ProviderData) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) Slack() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack{}
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderData) PagerDuty() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty{}
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithValue(value *notification.Notification_State_NotificationState_ProviderData_Slack) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_Slack) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlack) Ts() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs{}
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithValue(value string) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataSlackTs) WithArrayOfValues(values []string) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithValue(value *notification.Notification_State_NotificationState_ProviderData_PagerDuty) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) WithArrayOfValues(values []*notification.Notification_State_NotificationState_ProviderData_PagerDuty) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{}
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithValue(value string) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithValue(value int64) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateResolutionNotificationStateNotifyAttempts) WithArrayOfValues(values []int64) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
+}
+
+type SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted struct{}
+
+func (SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) FieldPath() *SearchNotificationsResponse_FieldSubPath {
+	return &SearchNotificationsResponse_FieldSubPath{
+		selector: SearchNotificationsResponse_FieldPathSelectorNotifications,
+		subPath:  notification.NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithValue(value bool) *SearchNotificationsResponse_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*SearchNotificationsResponse_FieldSubPathValue)
+}
+
+func (s SearchNotificationsResponsePathSelectorNotificationsStateLifecycleCompleted) WithArrayOfValues(values []bool) *SearchNotificationsResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchNotificationsResponse_FieldSubPathArrayOfValues)
 }
 

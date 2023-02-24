@@ -53,6 +53,11 @@ message NotificationChannel {
 
     Webhook webhook = 5;
 
+    // Default language for invitation is english (eng)
+    // Configuring unsupported language will fallback to english
+    // Currently only sendgrid uses this.
+    string notification_language_code = 6;
+
     // Email Spec
     message Email {
       // Email Addresses

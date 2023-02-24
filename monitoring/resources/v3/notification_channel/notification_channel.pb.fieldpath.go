@@ -937,11 +937,12 @@ type NotificationChannelSpec_FieldPath interface {
 type NotificationChannelSpec_FieldPathSelector int32
 
 const (
-	NotificationChannelSpec_FieldPathSelectorEnabled NotificationChannelSpec_FieldPathSelector = 0
-	NotificationChannelSpec_FieldPathSelectorType    NotificationChannelSpec_FieldPathSelector = 1
-	NotificationChannelSpec_FieldPathSelectorEmail   NotificationChannelSpec_FieldPathSelector = 2
-	NotificationChannelSpec_FieldPathSelectorSlack   NotificationChannelSpec_FieldPathSelector = 3
-	NotificationChannelSpec_FieldPathSelectorWebhook NotificationChannelSpec_FieldPathSelector = 4
+	NotificationChannelSpec_FieldPathSelectorEnabled                  NotificationChannelSpec_FieldPathSelector = 0
+	NotificationChannelSpec_FieldPathSelectorType                     NotificationChannelSpec_FieldPathSelector = 1
+	NotificationChannelSpec_FieldPathSelectorEmail                    NotificationChannelSpec_FieldPathSelector = 2
+	NotificationChannelSpec_FieldPathSelectorSlack                    NotificationChannelSpec_FieldPathSelector = 3
+	NotificationChannelSpec_FieldPathSelectorWebhook                  NotificationChannelSpec_FieldPathSelector = 4
+	NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode NotificationChannelSpec_FieldPathSelector = 5
 )
 
 func (s NotificationChannelSpec_FieldPathSelector) String() string {
@@ -956,6 +957,8 @@ func (s NotificationChannelSpec_FieldPathSelector) String() string {
 		return "slack"
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		return "webhook"
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return "notification_language_code"
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", s))
 	}
@@ -977,6 +980,8 @@ func BuildNotificationChannelSpec_FieldPath(fp gotenobject.RawFieldPath) (Notifi
 			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack}, nil
 		case "webhook":
 			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook}, nil
+		case "notification_language_code", "notificationLanguageCode", "notification-language-code":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1059,6 +1064,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) Get(source *NotificationCha
 			if source.Webhook != nil {
 				values = append(values, source.Webhook)
 			}
+		case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+			values = append(values, source.NotificationLanguageCode)
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 		}
@@ -1086,6 +1093,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) GetSingle(source *Notificat
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		res := source.GetWebhook()
 		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return source.GetNotificationLanguageCode(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 	}
@@ -1108,6 +1117,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*NotificationChannel_Spec_Slack)(nil)
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		return (*NotificationChannel_Spec_Webhook)(nil)
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 	}
@@ -1126,6 +1137,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) ClearValue(item *Notificati
 			item.Slack = nil
 		case NotificationChannelSpec_FieldPathSelectorWebhook:
 			item.Webhook = nil
+		case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+			item.NotificationLanguageCode = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 		}
@@ -1139,7 +1152,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) ClearValueRaw(item proto.Me
 // IsLeaf - whether field path is holds simple value
 func (fp *NotificationChannelSpec_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == NotificationChannelSpec_FieldPathSelectorEnabled ||
-		fp.selector == NotificationChannelSpec_FieldPathSelectorType
+		fp.selector == NotificationChannelSpec_FieldPathSelectorType ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode
 }
 
 func (fp *NotificationChannelSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1158,6 +1172,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) WithIValue(value interface{
 		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*NotificationChannel_Spec_Slack)}
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*NotificationChannel_Spec_Webhook)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 	}
@@ -1180,6 +1196,8 @@ func (fp *NotificationChannelSpec_FieldTerminalPath) WithIArrayOfValues(values i
 		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*NotificationChannel_Spec_Slack)}
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*NotificationChannel_Spec_Webhook)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fp.selector))
 	}
@@ -1398,6 +1416,10 @@ func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsWebhookValue() (*No
 	res, ok := fpv.value.(*NotificationChannel_Spec_Webhook)
 	return res, ok
 }
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsNotificationLanguageCodeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *NotificationChannelSpec_FieldTerminalPathValue) SetTo(target **NotificationChannel_Spec) {
@@ -1415,6 +1437,8 @@ func (fpv *NotificationChannelSpec_FieldTerminalPathValue) SetTo(target **Notifi
 		(*target).Slack = fpv.value.(*NotificationChannel_Spec_Slack)
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		(*target).Webhook = fpv.value.(*NotificationChannel_Spec_Webhook)
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		(*target).NotificationLanguageCode = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fpv.selector))
 	}
@@ -1454,6 +1478,16 @@ func (fpv *NotificationChannelSpec_FieldTerminalPathValue) CompareWith(source *N
 		return 0, false
 	case NotificationChannelSpec_FieldPathSelectorWebhook:
 		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNotificationLanguageCode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec: %d", fpv.selector))
 	}
@@ -1680,6 +1714,10 @@ func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]*NotificationChannel_Spec_Webhook) {
 			values = append(values, v)
 		}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1701,6 +1739,10 @@ func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsSlackArra
 }
 func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsWebhookArrayOfValues() ([]*NotificationChannel_Spec_Webhook, bool) {
 	res, ok := fpaov.values.([]*NotificationChannel_Spec_Webhook)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsNotificationLanguageCodeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

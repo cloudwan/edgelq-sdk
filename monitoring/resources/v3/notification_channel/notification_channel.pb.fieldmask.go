@@ -405,6 +405,7 @@ func FullNotificationChannel_Spec_FieldMask() *NotificationChannel_Spec_FieldMas
 	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEmail})
 	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack})
 	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode})
 	return res
 }
 
@@ -448,7 +449,7 @@ func (fieldMask *NotificationChannel_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*NotificationChannelSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -478,7 +479,7 @@ func (fieldMask *NotificationChannel_Spec_FieldMask) Reset() {
 
 func (fieldMask *NotificationChannel_Spec_FieldMask) Subtract(other *NotificationChannel_Spec_FieldMask) *NotificationChannel_Spec_FieldMask {
 	result := &NotificationChannel_Spec_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[NotificationChannelSpec_FieldPathSelector]gotenobject.FieldMask{
 		NotificationChannelSpec_FieldPathSelectorEmail:   &NotificationChannel_Spec_Email_FieldMask{},
 		NotificationChannelSpec_FieldPathSelectorSlack:   &NotificationChannel_Spec_Slack_FieldMask{},
@@ -685,6 +686,8 @@ func (fieldMask *NotificationChannel_Spec_FieldMask) Project(source *Notificatio
 			case NotificationChannelSpec_FieldPathSelectorWebhook:
 				result.Webhook = source.Webhook
 				wholeWebhookAccepted = true
+			case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+				result.NotificationLanguageCode = source.NotificationLanguageCode
 			}
 		case *NotificationChannelSpec_FieldSubPath:
 			switch tp.selector {

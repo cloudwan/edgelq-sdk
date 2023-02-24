@@ -885,25 +885,31 @@ type NotificationState_FieldPath interface {
 type NotificationState_FieldPathSelector int32
 
 const (
-	NotificationState_FieldPathSelectorAllAlertsResolved             NotificationState_FieldPathSelector = 0
-	NotificationState_FieldPathSelectorNotificationState             NotificationState_FieldPathSelector = 1
-	NotificationState_FieldPathSelectorNotificationAttemptsCompleted NotificationState_FieldPathSelector = 2
-	NotificationState_FieldPathSelectorResolutionNotified            NotificationState_FieldPathSelector = 3
-	NotificationState_FieldPathSelectorAlertsLifetime                NotificationState_FieldPathSelector = 4
+	NotificationState_FieldPathSelectorIsResolved                   NotificationState_FieldPathSelector = 0
+	NotificationState_FieldPathSelectorNotificationState            NotificationState_FieldPathSelector = 1
+	NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone   NotificationState_FieldPathSelector = 2
+	NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone NotificationState_FieldPathSelector = 3
+	NotificationState_FieldPathSelectorAlertsLifetime               NotificationState_FieldPathSelector = 4
+	NotificationState_FieldPathSelectorResolutionNotificationState  NotificationState_FieldPathSelector = 5
+	NotificationState_FieldPathSelectorLifecycleCompleted           NotificationState_FieldPathSelector = 6
 )
 
 func (s NotificationState_FieldPathSelector) String() string {
 	switch s {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
-		return "all_alerts_resolved"
+	case NotificationState_FieldPathSelectorIsResolved:
+		return "is_resolved"
 	case NotificationState_FieldPathSelectorNotificationState:
 		return "notification_state"
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-		return "notification_attempts_completed"
-	case NotificationState_FieldPathSelectorResolutionNotified:
-		return "resolution_notified"
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+		return "incident_notify_attempts_done"
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+		return "resolution_notify_attempts_done"
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return "alerts_lifetime"
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return "resolution_notification_state"
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		return "lifecycle_completed"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", s))
 	}
@@ -915,16 +921,20 @@ func BuildNotificationState_FieldPath(fp gotenobject.RawFieldPath) (Notification
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "all_alerts_resolved", "allAlertsResolved", "all-alerts-resolved":
-			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorAllAlertsResolved}, nil
+		case "is_resolved", "isResolved", "is-resolved":
+			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIsResolved}, nil
 		case "notification_state", "notificationState", "notification-state":
 			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationState}, nil
-		case "notification_attempts_completed", "notificationAttemptsCompleted", "notification-attempts-completed":
-			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationAttemptsCompleted}, nil
-		case "resolution_notified", "resolutionNotified", "resolution-notified":
-			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotified}, nil
+		case "incident_notify_attempts_done", "incidentNotifyAttemptsDone", "incident-notify-attempts-done":
+			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone}, nil
+		case "resolution_notify_attempts_done", "resolutionNotifyAttemptsDone", "resolution-notify-attempts-done":
+			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone}, nil
 		case "alerts_lifetime", "alertsLifetime", "alerts-lifetime":
 			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorAlertsLifetime}, nil
+		case "resolution_notification_state", "resolutionNotificationState", "resolution-notification-state":
+			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotificationState}, nil
+		case "lifecycle_completed", "lifecycleCompleted", "lifecycle-completed":
+			return &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorLifecycleCompleted}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -939,6 +949,12 @@ func BuildNotificationState_FieldPath(fp gotenobject.RawFieldPath) (Notification
 				return nil, err
 			} else {
 				return &NotificationState_FieldSubPath{selector: NotificationState_FieldPathSelectorAlertsLifetime, subPath: subpath}, nil
+			}
+		case "resolution_notification_state", "resolutionNotificationState", "resolution-notification-state":
+			if subpath, err := BuildNotificationStateNotificationState_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationState_FieldSubPath{selector: NotificationState_FieldPathSelectorResolutionNotificationState, subPath: subpath}, nil
 			}
 		}
 	}
@@ -985,20 +1001,26 @@ func (fp *NotificationState_FieldTerminalPath) JSONString() string {
 func (fp *NotificationState_FieldTerminalPath) Get(source *Notification_State) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case NotificationState_FieldPathSelectorAllAlertsResolved:
-			values = append(values, source.AllAlertsResolved)
+		case NotificationState_FieldPathSelectorIsResolved:
+			values = append(values, source.IsResolved)
 		case NotificationState_FieldPathSelectorNotificationState:
 			for _, value := range source.GetNotificationState() {
 				values = append(values, value)
 			}
-		case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-			values = append(values, source.NotificationAttemptsCompleted)
-		case NotificationState_FieldPathSelectorResolutionNotified:
-			values = append(values, source.ResolutionNotified)
+		case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+			values = append(values, source.IncidentNotifyAttemptsDone)
+		case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+			values = append(values, source.ResolutionNotifyAttemptsDone)
 		case NotificationState_FieldPathSelectorAlertsLifetime:
 			if source.AlertsLifetime != nil {
 				values = append(values, source.AlertsLifetime)
 			}
+		case NotificationState_FieldPathSelectorResolutionNotificationState:
+			for _, value := range source.GetResolutionNotificationState() {
+				values = append(values, value)
+			}
+		case NotificationState_FieldPathSelectorLifecycleCompleted:
+			values = append(values, source.LifecycleCompleted)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 		}
@@ -1013,18 +1035,23 @@ func (fp *NotificationState_FieldTerminalPath) GetRaw(source proto.Message) []in
 // GetSingle returns value pointed by specific field of from source Notification_State
 func (fp *NotificationState_FieldTerminalPath) GetSingle(source *Notification_State) (interface{}, bool) {
 	switch fp.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
-		return source.GetAllAlertsResolved(), source != nil
+	case NotificationState_FieldPathSelectorIsResolved:
+		return source.GetIsResolved(), source != nil
 	case NotificationState_FieldPathSelectorNotificationState:
 		res := source.GetNotificationState()
 		return res, res != nil
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-		return source.GetNotificationAttemptsCompleted(), source != nil
-	case NotificationState_FieldPathSelectorResolutionNotified:
-		return source.GetResolutionNotified(), source != nil
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+		return source.GetIncidentNotifyAttemptsDone(), source != nil
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+		return source.GetResolutionNotifyAttemptsDone(), source != nil
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		res := source.GetAlertsLifetime()
 		return res, res != nil
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		res := source.GetResolutionNotificationState()
+		return res, res != nil
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		return source.GetLifecycleCompleted(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 	}
@@ -1037,16 +1064,20 @@ func (fp *NotificationState_FieldTerminalPath) GetSingleRaw(source proto.Message
 // GetDefault returns a default value of the field type
 func (fp *NotificationState_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
+	case NotificationState_FieldPathSelectorIsResolved:
 		return false
 	case NotificationState_FieldPathSelectorNotificationState:
 		return ([]*Notification_State_NotificationState)(nil)
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
 		return false
-	case NotificationState_FieldPathSelectorResolutionNotified:
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return false
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return (*monitoring_common.TimeRange)(nil)
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return ([]*Notification_State_NotificationState)(nil)
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 	}
@@ -1055,16 +1086,20 @@ func (fp *NotificationState_FieldTerminalPath) GetDefault() interface{} {
 func (fp *NotificationState_FieldTerminalPath) ClearValue(item *Notification_State) {
 	if item != nil {
 		switch fp.selector {
-		case NotificationState_FieldPathSelectorAllAlertsResolved:
-			item.AllAlertsResolved = false
+		case NotificationState_FieldPathSelectorIsResolved:
+			item.IsResolved = false
 		case NotificationState_FieldPathSelectorNotificationState:
 			item.NotificationState = nil
-		case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-			item.NotificationAttemptsCompleted = false
-		case NotificationState_FieldPathSelectorResolutionNotified:
-			item.ResolutionNotified = false
+		case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+			item.IncidentNotifyAttemptsDone = false
+		case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+			item.ResolutionNotifyAttemptsDone = false
 		case NotificationState_FieldPathSelectorAlertsLifetime:
 			item.AlertsLifetime = nil
+		case NotificationState_FieldPathSelectorResolutionNotificationState:
+			item.ResolutionNotificationState = nil
+		case NotificationState_FieldPathSelectorLifecycleCompleted:
+			item.LifecycleCompleted = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 		}
@@ -1077,9 +1112,10 @@ func (fp *NotificationState_FieldTerminalPath) ClearValueRaw(item proto.Message)
 
 // IsLeaf - whether field path is holds simple value
 func (fp *NotificationState_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == NotificationState_FieldPathSelectorAllAlertsResolved ||
-		fp.selector == NotificationState_FieldPathSelectorNotificationAttemptsCompleted ||
-		fp.selector == NotificationState_FieldPathSelectorResolutionNotified
+	return fp.selector == NotificationState_FieldPathSelectorIsResolved ||
+		fp.selector == NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone ||
+		fp.selector == NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone ||
+		fp.selector == NotificationState_FieldPathSelectorLifecycleCompleted
 }
 
 func (fp *NotificationState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1088,16 +1124,20 @@ func (fp *NotificationState_FieldTerminalPath) SplitIntoTerminalIPaths() []goten
 
 func (fp *NotificationState_FieldTerminalPath) WithIValue(value interface{}) NotificationState_FieldPathValue {
 	switch fp.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
+	case NotificationState_FieldPathSelectorIsResolved:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(bool)}
 	case NotificationState_FieldPathSelectorNotificationState:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.([]*Notification_State_NotificationState)}
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(bool)}
-	case NotificationState_FieldPathSelectorResolutionNotified:
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(bool)}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(*monitoring_common.TimeRange)}
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.([]*Notification_State_NotificationState)}
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		return &NotificationState_FieldTerminalPathValue{NotificationState_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 	}
@@ -1110,16 +1150,20 @@ func (fp *NotificationState_FieldTerminalPath) WithRawIValue(value interface{}) 
 func (fp *NotificationState_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationState_FieldPathArrayOfValues {
 	fpaov := &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
+	case NotificationState_FieldPathSelectorIsResolved:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case NotificationState_FieldPathSelectorNotificationState:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([][]*Notification_State_NotificationState)}
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]bool)}
-	case NotificationState_FieldPathSelectorResolutionNotified:
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]*monitoring_common.TimeRange)}
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([][]*Notification_State_NotificationState)}
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		return &NotificationState_FieldTerminalPathArrayOfValues{NotificationState_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
 	}
@@ -1133,6 +1177,8 @@ func (fp *NotificationState_FieldTerminalPath) WithRawIArrayOfValues(values inte
 func (fp *NotificationState_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationState_FieldPathArrayItemValue {
 	switch fp.selector {
 	case NotificationState_FieldPathSelectorNotificationState:
+		return &NotificationState_FieldTerminalPathArrayItemValue{NotificationState_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState)}
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
 		return &NotificationState_FieldTerminalPathArrayItemValue{NotificationState_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fp.selector))
@@ -1161,6 +1207,10 @@ func (fps *NotificationState_FieldSubPath) AsAlertsLifetimeSubPath() (monitoring
 	res, ok := fps.subPath.(monitoring_common.TimeRange_FieldPath)
 	return res, ok
 }
+func (fps *NotificationState_FieldSubPath) AsResolutionNotificationStateSubPath() (NotificationStateNotificationState_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationStateNotificationState_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *NotificationState_FieldSubPath) String() string {
@@ -1181,6 +1231,10 @@ func (fps *NotificationState_FieldSubPath) Get(source *Notification_State) (valu
 		}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		values = append(values, fps.subPath.GetRaw(source.GetAlertsLifetime())...)
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		for _, item := range source.GetResolutionNotificationState() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fps.selector))
 	}
@@ -1204,6 +1258,11 @@ func (fps *NotificationState_FieldSubPath) GetSingle(source *Notification_State)
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAlertsLifetime())
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		if len(source.GetResolutionNotificationState()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetResolutionNotificationState()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fps.selector))
 	}
@@ -1227,6 +1286,10 @@ func (fps *NotificationState_FieldSubPath) ClearValue(item *Notification_State) 
 			}
 		case NotificationState_FieldPathSelectorAlertsLifetime:
 			fps.subPath.ClearValueRaw(item.AlertsLifetime)
+		case NotificationState_FieldPathSelectorResolutionNotificationState:
+			for _, subItem := range item.ResolutionNotificationState {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fps.selector))
 		}
@@ -1311,7 +1374,7 @@ var _ NotificationState_FieldPathValue = (*NotificationState_FieldTerminalPathVa
 func (fpv *NotificationState_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *NotificationState_FieldTerminalPathValue) AsAllAlertsResolvedValue() (bool, bool) {
+func (fpv *NotificationState_FieldTerminalPathValue) AsIsResolvedValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
@@ -1319,16 +1382,24 @@ func (fpv *NotificationState_FieldTerminalPathValue) AsNotificationStateValue() 
 	res, ok := fpv.value.([]*Notification_State_NotificationState)
 	return res, ok
 }
-func (fpv *NotificationState_FieldTerminalPathValue) AsNotificationAttemptsCompletedValue() (bool, bool) {
+func (fpv *NotificationState_FieldTerminalPathValue) AsIncidentNotifyAttemptsDoneValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *NotificationState_FieldTerminalPathValue) AsResolutionNotifiedValue() (bool, bool) {
+func (fpv *NotificationState_FieldTerminalPathValue) AsResolutionNotifyAttemptsDoneValue() (bool, bool) {
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
 func (fpv *NotificationState_FieldTerminalPathValue) AsAlertsLifetimeValue() (*monitoring_common.TimeRange, bool) {
 	res, ok := fpv.value.(*monitoring_common.TimeRange)
+	return res, ok
+}
+func (fpv *NotificationState_FieldTerminalPathValue) AsResolutionNotificationStateValue() ([]*Notification_State_NotificationState, bool) {
+	res, ok := fpv.value.([]*Notification_State_NotificationState)
+	return res, ok
+}
+func (fpv *NotificationState_FieldTerminalPathValue) AsLifecycleCompletedValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
 	return res, ok
 }
 
@@ -1338,16 +1409,20 @@ func (fpv *NotificationState_FieldTerminalPathValue) SetTo(target **Notification
 		*target = new(Notification_State)
 	}
 	switch fpv.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
-		(*target).AllAlertsResolved = fpv.value.(bool)
+	case NotificationState_FieldPathSelectorIsResolved:
+		(*target).IsResolved = fpv.value.(bool)
 	case NotificationState_FieldPathSelectorNotificationState:
 		(*target).NotificationState = fpv.value.([]*Notification_State_NotificationState)
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-		(*target).NotificationAttemptsCompleted = fpv.value.(bool)
-	case NotificationState_FieldPathSelectorResolutionNotified:
-		(*target).ResolutionNotified = fpv.value.(bool)
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+		(*target).IncidentNotifyAttemptsDone = fpv.value.(bool)
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+		(*target).ResolutionNotifyAttemptsDone = fpv.value.(bool)
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		(*target).AlertsLifetime = fpv.value.(*monitoring_common.TimeRange)
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		(*target).ResolutionNotificationState = fpv.value.([]*Notification_State_NotificationState)
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		(*target).LifecycleCompleted = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fpv.selector))
 	}
@@ -1361,9 +1436,9 @@ func (fpv *NotificationState_FieldTerminalPathValue) SetToRaw(target proto.Messa
 // CompareWith compares value in the 'NotificationState_FieldTerminalPathValue' with the value under path in 'Notification_State'.
 func (fpv *NotificationState_FieldTerminalPathValue) CompareWith(source *Notification_State) (int, bool) {
 	switch fpv.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
+	case NotificationState_FieldPathSelectorIsResolved:
 		leftValue := fpv.value.(bool)
-		rightValue := source.GetAllAlertsResolved()
+		rightValue := source.GetIsResolved()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -1373,9 +1448,9 @@ func (fpv *NotificationState_FieldTerminalPathValue) CompareWith(source *Notific
 		}
 	case NotificationState_FieldPathSelectorNotificationState:
 		return 0, false
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
 		leftValue := fpv.value.(bool)
-		rightValue := source.GetNotificationAttemptsCompleted()
+		rightValue := source.GetIncidentNotifyAttemptsDone()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -1383,9 +1458,9 @@ func (fpv *NotificationState_FieldTerminalPathValue) CompareWith(source *Notific
 		} else {
 			return 1, true
 		}
-	case NotificationState_FieldPathSelectorResolutionNotified:
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		leftValue := fpv.value.(bool)
-		rightValue := source.GetResolutionNotified()
+		rightValue := source.GetResolutionNotifyAttemptsDone()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -1395,6 +1470,18 @@ func (fpv *NotificationState_FieldTerminalPathValue) CompareWith(source *Notific
 		}
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return 0, false
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return 0, false
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetLifecycleCompleted()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fpv.selector))
 	}
@@ -1419,6 +1506,10 @@ func (fpvs *NotificationState_FieldSubPathValue) AsAlertsLifetimePathValue() (mo
 	res, ok := fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue)
 	return res, ok
 }
+func (fpvs *NotificationState_FieldSubPathValue) AsResolutionNotificationStatePathValue() (NotificationStateNotificationState_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationStateNotificationState_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *NotificationState_FieldSubPathValue) SetTo(target **Notification_State) {
 	if *target == nil {
@@ -1429,6 +1520,8 @@ func (fpvs *NotificationState_FieldSubPathValue) SetTo(target **Notification_Sta
 		panic("FieldPath setter is unsupported for array subpaths")
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).SetTo(&(*target).AlertsLifetime)
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fpvs.Selector()))
 	}
@@ -1449,6 +1542,8 @@ func (fpvs *NotificationState_FieldSubPathValue) CompareWith(source *Notificatio
 		return 0, false // repeated field
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return fpvs.subPathValue.(monitoring_common.TimeRange_FieldPathValue).CompareWith(source.GetAlertsLifetime())
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fpvs.Selector()))
 	}
@@ -1502,6 +1597,10 @@ func (fpaiv *NotificationState_FieldTerminalPathArrayItemValue) AsNotificationSt
 	res, ok := fpaiv.value.(*Notification_State_NotificationState)
 	return res, ok
 }
+func (fpaiv *NotificationState_FieldTerminalPathArrayItemValue) AsResolutionNotificationStateItemValue() (*Notification_State_NotificationState, bool) {
+	res, ok := fpaiv.value.(*Notification_State_NotificationState)
+	return res, ok
+}
 
 func (fpaiv *NotificationState_FieldTerminalPathArrayItemValue) GetSingle(source *Notification_State) (interface{}, bool) {
 	return nil, false
@@ -1543,6 +1642,10 @@ func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsAlertsLifetimePath
 	res, ok := fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *NotificationState_FieldSubPathArrayItemValue) AsResolutionNotificationStatePathItemValue() (NotificationStateNotificationState_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationStateNotificationState_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'State'
 func (fpaivs *NotificationState_FieldSubPathArrayItemValue) ContainsValue(source *Notification_State) bool {
@@ -1551,6 +1654,8 @@ func (fpaivs *NotificationState_FieldSubPathArrayItemValue) ContainsValue(source
 		return false // repeated/map field
 	case NotificationState_FieldPathSelectorAlertsLifetime:
 		return fpaivs.subPathItemValue.(monitoring_common.TimeRange_FieldPathArrayItemValue).ContainsValue(source.GetAlertsLifetime())
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State: %d", fpaivs.Selector()))
 	}
@@ -1591,7 +1696,7 @@ var _ NotificationState_FieldPathArrayOfValues = (*NotificationState_FieldTermin
 
 func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case NotificationState_FieldPathSelectorAllAlertsResolved:
+	case NotificationState_FieldPathSelectorIsResolved:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
@@ -1599,11 +1704,11 @@ func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([][]*Notification_State_NotificationState) {
 			values = append(values, v)
 		}
-	case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
+	case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
-	case NotificationState_FieldPathSelectorResolutionNotified:
+	case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
@@ -1611,10 +1716,18 @@ func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]*monitoring_common.TimeRange) {
 			values = append(values, v)
 		}
+	case NotificationState_FieldPathSelectorResolutionNotificationState:
+		for _, v := range fpaov.values.([][]*Notification_State_NotificationState) {
+			values = append(values, v)
+		}
+	case NotificationState_FieldPathSelectorLifecycleCompleted:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
-func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsAllAlertsResolvedArrayOfValues() ([]bool, bool) {
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsIsResolvedArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
@@ -1622,16 +1735,24 @@ func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsNotificationSta
 	res, ok := fpaov.values.([][]*Notification_State_NotificationState)
 	return res, ok
 }
-func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsNotificationAttemptsCompletedArrayOfValues() ([]bool, bool) {
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsIncidentNotifyAttemptsDoneArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
-func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsResolutionNotifiedArrayOfValues() ([]bool, bool) {
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsResolutionNotifyAttemptsDoneArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsAlertsLifetimeArrayOfValues() ([]*monitoring_common.TimeRange, bool) {
 	res, ok := fpaov.values.([]*monitoring_common.TimeRange)
+	return res, ok
+}
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsResolutionNotificationStateArrayOfValues() ([][]*Notification_State_NotificationState, bool) {
+	res, ok := fpaov.values.([][]*Notification_State_NotificationState)
+	return res, ok
+}
+func (fpaov *NotificationState_FieldTerminalPathArrayOfValues) AsLifecycleCompletedArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
@@ -1651,6 +1772,10 @@ func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsNotificationStatePa
 }
 func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsAlertsLifetimePathArrayOfValues() (monitoring_common.TimeRange_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(monitoring_common.TimeRange_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *NotificationState_FieldSubPathArrayOfValues) AsResolutionNotificationStatePathArrayOfValues() (NotificationStateNotificationState_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationStateNotificationState_FieldPathArrayOfValues)
 	return res, ok
 }
 

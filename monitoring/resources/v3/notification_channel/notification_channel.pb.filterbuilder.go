@@ -2256,6 +2256,10 @@ func (b *filterCndBuilderSpec) Webhook() *filterCndBuilderSpecWebhook {
 	return &filterCndBuilderSpecWebhook{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) NotificationLanguageCode() *filterCndBuilderSpecNotificationLanguageCode {
+	return &filterCndBuilderSpecNotificationLanguageCode{builder: b.builder}
+}
+
 type filterCndBuilderSpecEnabled struct {
 	builder *FilterBuilder
 }
@@ -2994,6 +2998,65 @@ func (b *filterCndBuilderSpecWebhookHeadersValue) compare(op gotenfilter.Compare
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().Value().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecNotificationLanguageCode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().NotificationLanguageCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().NotificationLanguageCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().NotificationLanguageCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().NotificationLanguageCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecNotificationLanguageCode) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().NotificationLanguageCode().WithValue(value),
 	})
 }
 

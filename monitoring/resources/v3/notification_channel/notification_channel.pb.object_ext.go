@@ -225,6 +225,9 @@ func (o *NotificationChannel_Spec) MakeDiffFieldMask(other *NotificationChannel_
 			}
 		}
 	}
+	if o.GetNotificationLanguageCode() != other.GetNotificationLanguageCode() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode})
+	}
 	return res
 }
 
@@ -242,6 +245,7 @@ func (o *NotificationChannel_Spec) Clone() *NotificationChannel_Spec {
 	result.Email = o.Email.Clone()
 	result.Slack = o.Slack.Clone()
 	result.Webhook = o.Webhook.Clone()
+	result.NotificationLanguageCode = o.NotificationLanguageCode
 	return result
 }
 
@@ -270,6 +274,7 @@ func (o *NotificationChannel_Spec) Merge(source *NotificationChannel_Spec) {
 		}
 		o.Webhook.Merge(source.GetWebhook())
 	}
+	o.NotificationLanguageCode = source.GetNotificationLanguageCode()
 }
 
 func (o *NotificationChannel_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

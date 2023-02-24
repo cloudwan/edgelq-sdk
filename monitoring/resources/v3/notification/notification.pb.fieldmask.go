@@ -393,11 +393,13 @@ type Notification_State_FieldMask struct {
 
 func FullNotification_State_FieldMask() *Notification_State_FieldMask {
 	res := &Notification_State_FieldMask{}
-	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorAllAlertsResolved})
+	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIsResolved})
 	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationState})
-	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationAttemptsCompleted})
-	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotified})
+	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone})
+	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone})
 	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorAlertsLifetime})
+	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotificationState})
+	res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorLifecycleCompleted})
 	return res
 }
 
@@ -441,7 +443,7 @@ func (fieldMask *Notification_State_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*NotificationState_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -471,14 +473,16 @@ func (fieldMask *Notification_State_FieldMask) Reset() {
 
 func (fieldMask *Notification_State_FieldMask) Subtract(other *Notification_State_FieldMask) *Notification_State_FieldMask {
 	result := &Notification_State_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[NotificationState_FieldPathSelector]gotenobject.FieldMask{
-		NotificationState_FieldPathSelectorNotificationState: &Notification_State_NotificationState_FieldMask{},
-		NotificationState_FieldPathSelectorAlertsLifetime:    &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorNotificationState:           &Notification_State_NotificationState_FieldMask{},
+		NotificationState_FieldPathSelectorAlertsLifetime:              &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorResolutionNotificationState: &Notification_State_NotificationState_FieldMask{},
 	}
 	mySubMasks := map[NotificationState_FieldPathSelector]gotenobject.FieldMask{
-		NotificationState_FieldPathSelectorNotificationState: &Notification_State_NotificationState_FieldMask{},
-		NotificationState_FieldPathSelectorAlertsLifetime:    &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorNotificationState:           &Notification_State_NotificationState_FieldMask{},
+		NotificationState_FieldPathSelectorAlertsLifetime:              &monitoring_common.TimeRange_FieldMask{},
+		NotificationState_FieldPathSelectorResolutionNotificationState: &Notification_State_NotificationState_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -498,6 +502,8 @@ func (fieldMask *Notification_State_FieldMask) Subtract(other *Notification_Stat
 						mySubMasks[NotificationState_FieldPathSelectorNotificationState] = FullNotification_State_NotificationState_FieldMask()
 					case NotificationState_FieldPathSelectorAlertsLifetime:
 						mySubMasks[NotificationState_FieldPathSelectorAlertsLifetime] = monitoring_common.FullTimeRange_FieldMask()
+					case NotificationState_FieldPathSelectorResolutionNotificationState:
+						mySubMasks[NotificationState_FieldPathSelectorResolutionNotificationState] = FullNotification_State_NotificationState_FieldMask()
 					}
 				} else if tp, ok := path.(*NotificationState_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -654,23 +660,30 @@ func (fieldMask *Notification_State_FieldMask) Project(source *Notification_Stat
 	wholeNotificationStateAccepted := false
 	alertsLifetimeMask := &monitoring_common.TimeRange_FieldMask{}
 	wholeAlertsLifetimeAccepted := false
+	resolutionNotificationStateMask := &Notification_State_NotificationState_FieldMask{}
+	wholeResolutionNotificationStateAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
 		case *NotificationState_FieldTerminalPath:
 			switch tp.selector {
-			case NotificationState_FieldPathSelectorAllAlertsResolved:
-				result.AllAlertsResolved = source.AllAlertsResolved
+			case NotificationState_FieldPathSelectorIsResolved:
+				result.IsResolved = source.IsResolved
 			case NotificationState_FieldPathSelectorNotificationState:
 				result.NotificationState = source.NotificationState
 				wholeNotificationStateAccepted = true
-			case NotificationState_FieldPathSelectorNotificationAttemptsCompleted:
-				result.NotificationAttemptsCompleted = source.NotificationAttemptsCompleted
-			case NotificationState_FieldPathSelectorResolutionNotified:
-				result.ResolutionNotified = source.ResolutionNotified
+			case NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone:
+				result.IncidentNotifyAttemptsDone = source.IncidentNotifyAttemptsDone
+			case NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone:
+				result.ResolutionNotifyAttemptsDone = source.ResolutionNotifyAttemptsDone
 			case NotificationState_FieldPathSelectorAlertsLifetime:
 				result.AlertsLifetime = source.AlertsLifetime
 				wholeAlertsLifetimeAccepted = true
+			case NotificationState_FieldPathSelectorResolutionNotificationState:
+				result.ResolutionNotificationState = source.ResolutionNotificationState
+				wholeResolutionNotificationStateAccepted = true
+			case NotificationState_FieldPathSelectorLifecycleCompleted:
+				result.LifecycleCompleted = source.LifecycleCompleted
 			}
 		case *NotificationState_FieldSubPath:
 			switch tp.selector {
@@ -678,6 +691,8 @@ func (fieldMask *Notification_State_FieldMask) Project(source *Notification_Stat
 				notificationStateMask.AppendPath(tp.subPath.(NotificationStateNotificationState_FieldPath))
 			case NotificationState_FieldPathSelectorAlertsLifetime:
 				alertsLifetimeMask.AppendPath(tp.subPath.(monitoring_common.TimeRange_FieldPath))
+			case NotificationState_FieldPathSelectorResolutionNotificationState:
+				resolutionNotificationStateMask.AppendPath(tp.subPath.(NotificationStateNotificationState_FieldPath))
 			}
 		}
 	}
@@ -688,6 +703,11 @@ func (fieldMask *Notification_State_FieldMask) Project(source *Notification_Stat
 	}
 	if wholeAlertsLifetimeAccepted == false && len(alertsLifetimeMask.Paths) > 0 {
 		result.AlertsLifetime = alertsLifetimeMask.Project(source.GetAlertsLifetime())
+	}
+	if wholeResolutionNotificationStateAccepted == false && len(resolutionNotificationStateMask.Paths) > 0 {
+		for _, sourceItem := range source.GetResolutionNotificationState() {
+			result.ResolutionNotificationState = append(result.ResolutionNotificationState, resolutionNotificationStateMask.Project(sourceItem))
+		}
 	}
 	return result
 }

@@ -1126,6 +1126,10 @@ func (AlertPathSelectorState) NotificationCreated() AlertPathSelectorStateNotifi
 	return AlertPathSelectorStateNotificationCreated{}
 }
 
+func (AlertPathSelectorState) LifecycleCompleted() AlertPathSelectorStateLifecycleCompleted {
+	return AlertPathSelectorStateLifecycleCompleted{}
+}
+
 type AlertPathSelectorStateIsFiring struct{}
 
 func (AlertPathSelectorStateIsFiring) FieldPath() *Alert_FieldSubPath {
@@ -1267,6 +1271,23 @@ func (s AlertPathSelectorStateNotificationCreated) WithValue(value bool) *Alert_
 }
 
 func (s AlertPathSelectorStateNotificationCreated) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorStateLifecycleCompleted struct{}
+
+func (AlertPathSelectorStateLifecycleCompleted) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorState,
+		subPath:  NewAlertStateFieldPathBuilder().LifecycleCompleted().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorStateLifecycleCompleted) WithValue(value bool) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorStateLifecycleCompleted) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1673,6 +1694,9 @@ func (AlertStateFieldPathBuilder) NeedsNotification() Alert_StatePathSelectorNee
 func (AlertStateFieldPathBuilder) NotificationCreated() Alert_StatePathSelectorNotificationCreated {
 	return Alert_StatePathSelectorNotificationCreated{}
 }
+func (AlertStateFieldPathBuilder) LifecycleCompleted() Alert_StatePathSelectorLifecycleCompleted {
+	return Alert_StatePathSelectorLifecycleCompleted{}
+}
 
 type Alert_StatePathSelectorIsFiring struct{}
 
@@ -1813,6 +1837,20 @@ func (s Alert_StatePathSelectorNotificationCreated) WithValue(value bool) *Alert
 }
 
 func (s Alert_StatePathSelectorNotificationCreated) WithArrayOfValues(values []bool) *AlertState_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldTerminalPathArrayOfValues)
+}
+
+type Alert_StatePathSelectorLifecycleCompleted struct{}
+
+func (Alert_StatePathSelectorLifecycleCompleted) FieldPath() *AlertState_FieldTerminalPath {
+	return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifecycleCompleted}
+}
+
+func (s Alert_StatePathSelectorLifecycleCompleted) WithValue(value bool) *AlertState_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertState_FieldTerminalPathValue)
+}
+
+func (s Alert_StatePathSelectorLifecycleCompleted) WithArrayOfValues(values []bool) *AlertState_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldTerminalPathArrayOfValues)
 }
 

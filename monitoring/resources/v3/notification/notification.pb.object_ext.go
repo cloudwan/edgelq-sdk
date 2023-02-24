@@ -246,8 +246,8 @@ func (o *Notification_State) MakeDiffFieldMask(other *Notification_State) *Notif
 	}
 
 	res := &Notification_State_FieldMask{}
-	if o.GetAllAlertsResolved() != other.GetAllAlertsResolved() {
-		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorAllAlertsResolved})
+	if o.GetIsResolved() != other.GetIsResolved() {
+		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIsResolved})
 	}
 
 	if len(o.GetNotificationState()) == len(other.GetNotificationState()) {
@@ -261,11 +261,11 @@ func (o *Notification_State) MakeDiffFieldMask(other *Notification_State) *Notif
 	} else {
 		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationState})
 	}
-	if o.GetNotificationAttemptsCompleted() != other.GetNotificationAttemptsCompleted() {
-		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorNotificationAttemptsCompleted})
+	if o.GetIncidentNotifyAttemptsDone() != other.GetIncidentNotifyAttemptsDone() {
+		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorIncidentNotifyAttemptsDone})
 	}
-	if o.GetResolutionNotified() != other.GetResolutionNotified() {
-		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotified})
+	if o.GetResolutionNotifyAttemptsDone() != other.GetResolutionNotifyAttemptsDone() {
+		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotifyAttemptsDone})
 	}
 	{
 		subMask := o.GetAlertsLifetime().MakeDiffFieldMask(other.GetAlertsLifetime())
@@ -276,6 +276,21 @@ func (o *Notification_State) MakeDiffFieldMask(other *Notification_State) *Notif
 				res.Paths = append(res.Paths, &NotificationState_FieldSubPath{selector: NotificationState_FieldPathSelectorAlertsLifetime, subPath: subpath})
 			}
 		}
+	}
+
+	if len(o.GetResolutionNotificationState()) == len(other.GetResolutionNotificationState()) {
+		for i, lValue := range o.GetResolutionNotificationState() {
+			rValue := other.GetResolutionNotificationState()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotificationState})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorResolutionNotificationState})
+	}
+	if o.GetLifecycleCompleted() != other.GetLifecycleCompleted() {
+		res.Paths = append(res.Paths, &NotificationState_FieldTerminalPath{selector: NotificationState_FieldPathSelectorLifecycleCompleted})
 	}
 	return res
 }
@@ -289,14 +304,19 @@ func (o *Notification_State) Clone() *Notification_State {
 		return nil
 	}
 	result := &Notification_State{}
-	result.AllAlertsResolved = o.AllAlertsResolved
+	result.IsResolved = o.IsResolved
 	result.NotificationState = make([]*Notification_State_NotificationState, len(o.NotificationState))
 	for i, sourceValue := range o.NotificationState {
 		result.NotificationState[i] = sourceValue.Clone()
 	}
-	result.NotificationAttemptsCompleted = o.NotificationAttemptsCompleted
-	result.ResolutionNotified = o.ResolutionNotified
+	result.IncidentNotifyAttemptsDone = o.IncidentNotifyAttemptsDone
+	result.ResolutionNotifyAttemptsDone = o.ResolutionNotifyAttemptsDone
 	result.AlertsLifetime = o.AlertsLifetime.Clone()
+	result.ResolutionNotificationState = make([]*Notification_State_NotificationState, len(o.ResolutionNotificationState))
+	for i, sourceValue := range o.ResolutionNotificationState {
+		result.ResolutionNotificationState[i] = sourceValue.Clone()
+	}
+	result.LifecycleCompleted = o.LifecycleCompleted
 	return result
 }
 
@@ -305,7 +325,7 @@ func (o *Notification_State) CloneRaw() gotenobject.GotenObjectExt {
 }
 
 func (o *Notification_State) Merge(source *Notification_State) {
-	o.AllAlertsResolved = source.GetAllAlertsResolved()
+	o.IsResolved = source.GetIsResolved()
 	for _, sourceValue := range source.GetNotificationState() {
 		exists := false
 		for _, currentValue := range o.NotificationState {
@@ -324,14 +344,33 @@ func (o *Notification_State) Merge(source *Notification_State) {
 		}
 	}
 
-	o.NotificationAttemptsCompleted = source.GetNotificationAttemptsCompleted()
-	o.ResolutionNotified = source.GetResolutionNotified()
+	o.IncidentNotifyAttemptsDone = source.GetIncidentNotifyAttemptsDone()
+	o.ResolutionNotifyAttemptsDone = source.GetResolutionNotifyAttemptsDone()
 	if source.GetAlertsLifetime() != nil {
 		if o.AlertsLifetime == nil {
 			o.AlertsLifetime = new(monitoring_common.TimeRange)
 		}
 		o.AlertsLifetime.Merge(source.GetAlertsLifetime())
 	}
+	for _, sourceValue := range source.GetResolutionNotificationState() {
+		exists := false
+		for _, currentValue := range o.ResolutionNotificationState {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *Notification_State_NotificationState
+			if sourceValue != nil {
+				newDstElement = new(Notification_State_NotificationState)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ResolutionNotificationState = append(o.ResolutionNotificationState, newDstElement)
+		}
+	}
+
+	o.LifecycleCompleted = source.GetLifecycleCompleted()
 }
 
 func (o *Notification_State) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -1554,6 +1554,7 @@ const (
 	AlertState_FieldPathSelectorLifetime            AlertState_FieldPathSelector = 3
 	AlertState_FieldPathSelectorNeedsNotification   AlertState_FieldPathSelector = 4
 	AlertState_FieldPathSelectorNotificationCreated AlertState_FieldPathSelector = 5
+	AlertState_FieldPathSelectorLifecycleCompleted  AlertState_FieldPathSelector = 6
 )
 
 func (s AlertState_FieldPathSelector) String() string {
@@ -1570,6 +1571,8 @@ func (s AlertState_FieldPathSelector) String() string {
 		return "needs_notification"
 	case AlertState_FieldPathSelectorNotificationCreated:
 		return "notification_created"
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		return "lifecycle_completed"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", s))
 	}
@@ -1593,6 +1596,8 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNeedsNotification}, nil
 		case "notification_created", "notificationCreated", "notification-created":
 			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated}, nil
+		case "lifecycle_completed", "lifecycleCompleted", "lifecycle-completed":
+			return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifecycleCompleted}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1661,6 +1666,8 @@ func (fp *AlertState_FieldTerminalPath) Get(source *Alert_State) (values []inter
 			values = append(values, source.NeedsNotification)
 		case AlertState_FieldPathSelectorNotificationCreated:
 			values = append(values, source.NotificationCreated)
+		case AlertState_FieldPathSelectorLifecycleCompleted:
+			values = append(values, source.LifecycleCompleted)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 		}
@@ -1688,6 +1695,8 @@ func (fp *AlertState_FieldTerminalPath) GetSingle(source *Alert_State) (interfac
 		return source.GetNeedsNotification(), source != nil
 	case AlertState_FieldPathSelectorNotificationCreated:
 		return source.GetNotificationCreated(), source != nil
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		return source.GetLifecycleCompleted(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1712,6 +1721,8 @@ func (fp *AlertState_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case AlertState_FieldPathSelectorNotificationCreated:
 		return false
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 	}
@@ -1732,6 +1743,8 @@ func (fp *AlertState_FieldTerminalPath) ClearValue(item *Alert_State) {
 			item.NeedsNotification = false
 		case AlertState_FieldPathSelectorNotificationCreated:
 			item.NotificationCreated = false
+		case AlertState_FieldPathSelectorLifecycleCompleted:
+			item.LifecycleCompleted = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
 		}
@@ -1748,7 +1761,8 @@ func (fp *AlertState_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == AlertState_FieldPathSelectorIsAcknowledged ||
 		fp.selector == AlertState_FieldPathSelectorIsSilenced ||
 		fp.selector == AlertState_FieldPathSelectorNeedsNotification ||
-		fp.selector == AlertState_FieldPathSelectorNotificationCreated
+		fp.selector == AlertState_FieldPathSelectorNotificationCreated ||
+		fp.selector == AlertState_FieldPathSelectorLifecycleCompleted
 }
 
 func (fp *AlertState_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1768,6 +1782,8 @@ func (fp *AlertState_FieldTerminalPath) WithIValue(value interface{}) AlertState
 	case AlertState_FieldPathSelectorNeedsNotification:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	case AlertState_FieldPathSelectorNotificationCreated:
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
+	case AlertState_FieldPathSelectorLifecycleCompleted:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
@@ -1792,6 +1808,8 @@ func (fp *AlertState_FieldTerminalPath) WithIArrayOfValues(values interface{}) A
 	case AlertState_FieldPathSelectorNeedsNotification:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	case AlertState_FieldPathSelectorNotificationCreated:
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
+	case AlertState_FieldPathSelectorLifecycleCompleted:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fp.selector))
@@ -1989,6 +2007,10 @@ func (fpv *AlertState_FieldTerminalPathValue) AsNotificationCreatedValue() (bool
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *AlertState_FieldTerminalPathValue) AsLifecycleCompletedValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object State
 func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
@@ -2008,6 +2030,8 @@ func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
 		(*target).NeedsNotification = fpv.value.(bool)
 	case AlertState_FieldPathSelectorNotificationCreated:
 		(*target).NotificationCreated = fpv.value.(bool)
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		(*target).LifecycleCompleted = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpv.selector))
 	}
@@ -2066,6 +2090,16 @@ func (fpv *AlertState_FieldTerminalPathValue) CompareWith(source *Alert_State) (
 	case AlertState_FieldPathSelectorNotificationCreated:
 		leftValue := fpv.value.(bool)
 		rightValue := source.GetNotificationCreated()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetLifecycleCompleted()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
@@ -2275,6 +2309,10 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case AlertState_FieldPathSelectorLifecycleCompleted:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2299,6 +2337,10 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNeedsNotificationArray
 	return res, ok
 }
 func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsNotificationCreatedArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsLifecycleCompletedArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

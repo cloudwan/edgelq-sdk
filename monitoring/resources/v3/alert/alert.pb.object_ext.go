@@ -288,6 +288,9 @@ func (o *Alert_State) MakeDiffFieldMask(other *Alert_State) *Alert_State_FieldMa
 	if o.GetNotificationCreated() != other.GetNotificationCreated() {
 		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorNotificationCreated})
 	}
+	if o.GetLifecycleCompleted() != other.GetLifecycleCompleted() {
+		res.Paths = append(res.Paths, &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorLifecycleCompleted})
+	}
 	return res
 }
 
@@ -306,6 +309,7 @@ func (o *Alert_State) Clone() *Alert_State {
 	result.Lifetime = o.Lifetime.Clone()
 	result.NeedsNotification = o.NeedsNotification
 	result.NotificationCreated = o.NotificationCreated
+	result.LifecycleCompleted = o.LifecycleCompleted
 	return result
 }
 
@@ -325,6 +329,7 @@ func (o *Alert_State) Merge(source *Alert_State) {
 	}
 	o.NeedsNotification = source.GetNeedsNotification()
 	o.NotificationCreated = source.GetNotificationCreated()
+	o.LifecycleCompleted = source.GetLifecycleCompleted()
 }
 
 func (o *Alert_State) MergeRaw(source gotenobject.GotenObjectExt) {

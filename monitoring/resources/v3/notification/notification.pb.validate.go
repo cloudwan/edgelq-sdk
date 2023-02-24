@@ -93,6 +93,13 @@ func (obj *Notification_State) GotenValidate() error {
 			return gotenvalidate.NewValidationError("State", "alertsLifetime", obj.AlertsLifetime, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.ResolutionNotificationState {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("State", "resolutionNotificationState", obj.ResolutionNotificationState[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

@@ -2337,82 +2337,90 @@ func (b *filterCndBuilderState) compare(op gotenfilter.CompareOperator, value *N
 	})
 }
 
-func (b *filterCndBuilderState) AllAlertsResolved() *filterCndBuilderStateAllAlertsResolved {
-	return &filterCndBuilderStateAllAlertsResolved{builder: b.builder}
+func (b *filterCndBuilderState) IsResolved() *filterCndBuilderStateIsResolved {
+	return &filterCndBuilderStateIsResolved{builder: b.builder}
 }
 
 func (b *filterCndBuilderState) NotificationState() *filterCndBuilderStateNotificationState {
 	return &filterCndBuilderStateNotificationState{builder: b.builder}
 }
 
-func (b *filterCndBuilderState) NotificationAttemptsCompleted() *filterCndBuilderStateNotificationAttemptsCompleted {
-	return &filterCndBuilderStateNotificationAttemptsCompleted{builder: b.builder}
+func (b *filterCndBuilderState) IncidentNotifyAttemptsDone() *filterCndBuilderStateIncidentNotifyAttemptsDone {
+	return &filterCndBuilderStateIncidentNotifyAttemptsDone{builder: b.builder}
 }
 
-func (b *filterCndBuilderState) ResolutionNotified() *filterCndBuilderStateResolutionNotified {
-	return &filterCndBuilderStateResolutionNotified{builder: b.builder}
+func (b *filterCndBuilderState) ResolutionNotifyAttemptsDone() *filterCndBuilderStateResolutionNotifyAttemptsDone {
+	return &filterCndBuilderStateResolutionNotifyAttemptsDone{builder: b.builder}
 }
 
 func (b *filterCndBuilderState) AlertsLifetime() *filterCndBuilderStateAlertsLifetime {
 	return &filterCndBuilderStateAlertsLifetime{builder: b.builder}
 }
 
-type filterCndBuilderStateAllAlertsResolved struct {
+func (b *filterCndBuilderState) ResolutionNotificationState() *filterCndBuilderStateResolutionNotificationState {
+	return &filterCndBuilderStateResolutionNotificationState{builder: b.builder}
+}
+
+func (b *filterCndBuilderState) LifecycleCompleted() *filterCndBuilderStateLifecycleCompleted {
+	return &filterCndBuilderStateLifecycleCompleted{builder: b.builder}
+}
+
+type filterCndBuilderStateIsResolved struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().AllAlertsResolved().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().IsResolved().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().AllAlertsResolved().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().IsResolved().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewNotificationFieldPathBuilder().State().AllAlertsResolved().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().IsResolved().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateAllAlertsResolved) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIsResolved) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
-		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().AllAlertsResolved().WithValue(value),
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().IsResolved().WithValue(value),
 	})
 }
 
@@ -3076,121 +3084,121 @@ func (b *filterCndBuilderStateNotificationStateNotifyAttempts) compare(op gotenf
 	})
 }
 
-type filterCndBuilderStateNotificationAttemptsCompleted struct {
+type filterCndBuilderStateIncidentNotifyAttemptsDone struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateNotificationAttemptsCompleted) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderStateIncidentNotifyAttemptsDone) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
-		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationAttemptsCompleted().WithValue(value),
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().IncidentNotifyAttemptsDone().WithValue(value),
 	})
 }
 
-type filterCndBuilderStateResolutionNotified struct {
+type filterCndBuilderStateResolutionNotifyAttemptsDone struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateResolutionNotified) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotified().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateResolutionNotified) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotified().WithArrayOfValues(values),
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateResolutionNotified) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateResolutionNotified) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotified().FieldPath(),
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStateResolutionNotified) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderStateResolutionNotifyAttemptsDone) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
-		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotified().WithValue(value),
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotifyAttemptsDone().WithValue(value),
 	})
 }
 
@@ -3376,5 +3384,724 @@ func (b *filterCndBuilderStateAlertsLifetimeEndTime) compare(op gotenfilter.Comp
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().AlertsLifetime().EndTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationState struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Eq(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Neq(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Gt(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Gte(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Lt(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Lte(value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) In(values [][]*Notification_State_NotificationState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) NotIn(values [][]*Notification_State_NotificationState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Contains(value *Notification_State_NotificationState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+		Value:     NewNotificationFieldPathBuilder().State().ResolutionNotificationState().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) ContainsAnyOf(values []*Notification_State_NotificationState) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().ResolutionNotificationState()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) ContainsAll(values []*Notification_State_NotificationState) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().ResolutionNotificationState()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) compare(op gotenfilter.CompareOperator, value []*Notification_State_NotificationState) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) NotificationChannel() *filterCndBuilderStateResolutionNotificationStateNotificationChannel {
+	return &filterCndBuilderStateResolutionNotificationStateNotificationChannel{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Status() *filterCndBuilderStateResolutionNotificationStateStatus {
+	return &filterCndBuilderStateResolutionNotificationStateStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) Error() *filterCndBuilderStateResolutionNotificationStateError {
+	return &filterCndBuilderStateResolutionNotificationStateError{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) ProviderData() *filterCndBuilderStateResolutionNotificationStateProviderData {
+	return &filterCndBuilderStateResolutionNotificationStateProviderData{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationState) NotifyAttempts() *filterCndBuilderStateResolutionNotificationStateNotifyAttempts {
+	return &filterCndBuilderStateResolutionNotificationStateNotifyAttempts{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateNotificationChannel struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Eq(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Neq(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Gt(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Gte(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Lt(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) Lte(value *notification_channel.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) In(values []*notification_channel.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) NotIn(values []*notification_channel.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotificationChannel) compare(op gotenfilter.CompareOperator, value *notification_channel.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotificationChannel().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Eq(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Neq(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Gt(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Gte(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Lt(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) Lte(value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) In(values []Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) NotIn(values []Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateStatus) compare(op gotenfilter.CompareOperator, value Notification_State_NotificationState_Status) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Status().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().Error().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderData struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Eq(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Neq(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Gt(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Gte(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Lt(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Lte(value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) In(values []*Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) NotIn(values []*Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) compare(op gotenfilter.CompareOperator, value *Notification_State_NotificationState_ProviderData) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Slack() *filterCndBuilderStateResolutionNotificationStateProviderDataSlack {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataSlack{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) PagerDuty() *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataSlack struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Eq(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Neq(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Gt(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Gte(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Lt(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Lte(value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) In(values []*Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) NotIn(values []*Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) compare(op gotenfilter.CompareOperator, value *Notification_State_NotificationState_ProviderData_Slack) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlack) Ts() *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataSlackTs) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Slack().Ts().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Eq(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Neq(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Gt(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Gte(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Lt(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) Lte(value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) In(values []*Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) NotIn(values []*Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) compare(op gotenfilter.CompareOperator, value *Notification_State_NotificationState_ProviderData_PagerDuty) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty) IncidentKey() *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateNotifyAttempts struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateNotifyAttempts) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().NotifyAttempts().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateLifecycleCompleted struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().LifecycleCompleted().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().LifecycleCompleted().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().LifecycleCompleted().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateLifecycleCompleted) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().LifecycleCompleted().WithValue(value),
 	})
 }
