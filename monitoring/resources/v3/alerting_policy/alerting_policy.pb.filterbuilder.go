@@ -2677,10 +2677,6 @@ func (b *filterCndBuilderSpecNotification) Enabled() *filterCndBuilderSpecNotifi
 	return &filterCndBuilderSpecNotificationEnabled{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecNotification) ListType() *filterCndBuilderSpecNotificationListType {
-	return &filterCndBuilderSpecNotificationListType{builder: b.builder}
-}
-
 func (b *filterCndBuilderSpecNotification) Channels() *filterCndBuilderSpecNotificationChannels {
 	return &filterCndBuilderSpecNotificationChannels{builder: b.builder}
 }
@@ -2741,65 +2737,6 @@ func (b *filterCndBuilderSpecNotificationEnabled) compare(op gotenfilter.Compare
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Enabled().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotificationListType struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Eq(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Neq(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Gt(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Gte(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Lt(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) Lte(value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationListType) In(values []AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationListType) NotIn(values []AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationListType) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationListType) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationListType) compare(op gotenfilter.CompareOperator, value AlertingPolicy_Spec_Notification_ListType) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                      op,
-		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().WithValue(value),
 	})
 }
 

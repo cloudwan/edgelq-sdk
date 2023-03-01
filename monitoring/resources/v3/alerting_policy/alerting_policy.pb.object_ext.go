@@ -384,9 +384,6 @@ func (o *AlertingPolicy_Spec_Notification) MakeDiffFieldMask(other *AlertingPoli
 	if o.GetEnabled() != other.GetEnabled() {
 		res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorEnabled})
 	}
-	if o.GetListType() != other.GetListType() {
-		res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorListType})
-	}
 
 	if len(o.GetChannels()) == len(other.GetChannels()) {
 		for i, lValue := range o.GetChannels() {
@@ -412,7 +409,6 @@ func (o *AlertingPolicy_Spec_Notification) Clone() *AlertingPolicy_Spec_Notifica
 	}
 	result := &AlertingPolicy_Spec_Notification{}
 	result.Enabled = o.Enabled
-	result.ListType = o.ListType
 	result.Channels = make([]string, len(o.Channels))
 	for i, sourceValue := range o.Channels {
 		result.Channels[i] = sourceValue
@@ -426,7 +422,6 @@ func (o *AlertingPolicy_Spec_Notification) CloneRaw() gotenobject.GotenObjectExt
 
 func (o *AlertingPolicy_Spec_Notification) Merge(source *AlertingPolicy_Spec_Notification) {
 	o.Enabled = source.GetEnabled()
-	o.ListType = source.GetListType()
 	for _, sourceValue := range source.GetChannels() {
 		exists := false
 		for _, currentValue := range o.Channels {

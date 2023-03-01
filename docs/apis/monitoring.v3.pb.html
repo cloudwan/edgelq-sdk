@@ -2931,17 +2931,10 @@ TODO: Add support to AND</p>
 </td></tr>
 
 <tr>
-<th rowspan="2">list_type</th>
-<td class="type"><pre><a href="#enum-AlertingPolicy.Spec.Notification.ListType">AlertingPolicy.Spec.Notification.ListType</a></pre></td>
-</tr>
-<tr><td class="description"></td></tr>
-
-<tr>
 <th rowspan="2">channels</th>
 <td class="type"><pre>repeated string</pre></td>
 </tr>
-<tr><td class="description"><p>ListType specifies whether the list is an allowlist or a denylist.</p>
-</td></tr>
+<tr><td class="description"></td></tr>
  
 </tbody>
 </table>
@@ -3755,40 +3748,6 @@ index can be computed from offset and limit provided in a request</p>
 
 <tr>
 <th>AND</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="enum-AlertingPolicy.Spec.Notification.ListType">AlertingPolicy.Spec.Notification.ListType</h5>
-
-<p>ListType specifies whether the list is an allowlist or a denylist.
-If the list is an allowlist, then only the channels specified in the
-list will be notified. If the list is a denylist, then all channels
-except the ones specified in the list will be notified.</p>
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Values</th></tr></thead>
-<tbody>
-<tr>
-<th>LIST_TYPE_UNSPECIFIED</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>ALLOW</th>
-<td class="description"></td>
-</tr>
-<tr></tr>
-
-<tr>
-<th>DENY</th>
 <td class="description"></td>
 </tr>
 <tr></tr>

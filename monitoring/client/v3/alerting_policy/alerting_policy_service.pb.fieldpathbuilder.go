@@ -1017,10 +1017,6 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificati
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
-	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
-}
-
 func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
 	return BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
 }
@@ -1039,23 +1035,6 @@ func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotifica
 }
 
 func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-type BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
-
-func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *BatchGetAlertingPoliciesResponse_FieldSubPath {
-	return &BatchGetAlertingPoliciesResponse_FieldSubPath{
-		selector: BatchGetAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -2156,10 +2135,6 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) 
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
-	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
-}
-
 func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
 	return ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
 }
@@ -2178,23 +2153,6 @@ func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification
 }
 
 func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-type ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
-
-func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *ListAlertingPoliciesResponse_FieldSubPath {
-	return &ListAlertingPoliciesResponse_FieldSubPath{
-		selector: ListAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *ListAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
@@ -3693,10 +3651,6 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Ena
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled{}
 }
 
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) ListType() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType {
-	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType{}
-}
-
 func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Channels() CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels {
 	return CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels{}
 }
@@ -3715,23 +3669,6 @@ func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEna
 }
 
 func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithArrayOfValues(values []bool) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-type CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType struct{}
-
-func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) FieldPath() *CreateAlertingPolicyRequest_FieldSubPath {
-	return &CreateAlertingPolicyRequest_FieldSubPath{
-		selector: CreateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *CreateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -4663,10 +4600,6 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Ena
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled{}
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) ListType() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType {
-	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType{}
-}
-
 func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotification) Channels() UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels {
 	return UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels{}
 }
@@ -4685,23 +4618,6 @@ func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEna
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorAlertingPolicy,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -5657,10 +5573,6 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled{}
 }
 
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) ListType() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType {
-	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType{}
-}
-
 func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification) Channels() UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels {
 	return UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels{}
 }
@@ -5679,23 +5591,6 @@ func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificati
 }
 
 func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType struct{}
-
-func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequest_FieldSubPath {
-	return &UpdateAlertingPolicyRequest_FieldSubPath{
-		selector: UpdateAlertingPolicyRequest_FieldPathSelectorCas,
-		subPath:  NewUpdateAlertingPolicyRequestCASFieldPathBuilder().ConditionalState().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
@@ -6641,10 +6536,6 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificatio
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled{}
 }
 
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) ListType() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType {
-	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType{}
-}
-
 func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotification) Channels() UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels {
 	return UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels{}
 }
@@ -6663,23 +6554,6 @@ func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificat
 }
 
 func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationEnabled) WithArrayOfValues(values []bool) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
-}
-
-type UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType struct{}
-
-func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) FieldPath() *UpdateAlertingPolicyRequestCAS_FieldSubPath {
-	return &UpdateAlertingPolicyRequestCAS_FieldSubPath{
-		selector: UpdateAlertingPolicyRequestCAS_FieldPathSelectorConditionalState,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
-}
-
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
@@ -7799,10 +7673,6 @@ func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification
 	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled{}
 }
 
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) ListType() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType {
-	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType{}
-}
-
 func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification) Channels() SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels {
 	return SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels{}
 }
@@ -7821,23 +7691,6 @@ func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificati
 }
 
 func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationEnabled) WithArrayOfValues(values []bool) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
-}
-
-type SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType struct{}
-
-func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) FieldPath() *SearchAlertingPoliciesResponse_FieldSubPath {
-	return &SearchAlertingPoliciesResponse_FieldSubPath{
-		selector: SearchAlertingPoliciesResponse_FieldPathSelectorAlertingPolicies,
-		subPath:  alerting_policy.NewAlertingPolicyFieldPathBuilder().Spec().Notification().ListType().FieldPath(),
-	}
-}
-
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithValue(value alerting_policy.AlertingPolicy_Spec_Notification_ListType) *SearchAlertingPoliciesResponse_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
-}
-
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationListType) WithArrayOfValues(values []alerting_policy.AlertingPolicy_Spec_Notification_ListType) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 

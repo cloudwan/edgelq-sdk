@@ -65,22 +65,9 @@ message AlertingPolicy {
       // Enabled flag determines whether any notifications will be sent
       bool enabled = 1;
 
-      ListType list_type = 2;
-
-      // ListType specifies whether the list is an allowlist or a denylist.
       repeated string channels = 3;
 
-      // ListType specifies whether the list is an allowlist or a denylist.
-      // If the list is an allowlist, then only the channels specified in the
-      // list will be notified. If the list is a denylist, then all channels
-      // except the ones specified in the list will be notified.
-      enum ListType {
-        LIST_TYPE_UNSPECIFIED = 0;
-
-        ALLOW = 1;
-
-        DENY = 2;
-      }
+      reserved 2;
     }
 
     enum ConditionsCombiner {

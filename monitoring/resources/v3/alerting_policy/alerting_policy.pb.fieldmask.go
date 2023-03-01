@@ -1219,7 +1219,6 @@ type AlertingPolicy_Spec_Notification_FieldMask struct {
 func FullAlertingPolicy_Spec_Notification_FieldMask() *AlertingPolicy_Spec_Notification_FieldMask {
 	res := &AlertingPolicy_Spec_Notification_FieldMask{}
 	res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorEnabled})
-	res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorListType})
 	res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels})
 	return res
 }
@@ -1264,7 +1263,7 @@ func (fieldMask *AlertingPolicy_Spec_Notification_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertingPolicySpecNotification_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1294,7 +1293,7 @@ func (fieldMask *AlertingPolicy_Spec_Notification_FieldMask) Reset() {
 
 func (fieldMask *AlertingPolicy_Spec_Notification_FieldMask) Subtract(other *AlertingPolicy_Spec_Notification_FieldMask) *AlertingPolicy_Spec_Notification_FieldMask {
 	result := &AlertingPolicy_Spec_Notification_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1450,8 +1449,6 @@ func (fieldMask *AlertingPolicy_Spec_Notification_FieldMask) Project(source *Ale
 			switch tp.selector {
 			case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 				result.Enabled = source.Enabled
-			case AlertingPolicySpecNotification_FieldPathSelectorListType:
-				result.ListType = source.ListType
 			case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 				result.Channels = source.Channels
 			}

@@ -2472,16 +2472,13 @@ type AlertingPolicySpecNotification_FieldPathSelector int32
 
 const (
 	AlertingPolicySpecNotification_FieldPathSelectorEnabled  AlertingPolicySpecNotification_FieldPathSelector = 0
-	AlertingPolicySpecNotification_FieldPathSelectorListType AlertingPolicySpecNotification_FieldPathSelector = 1
-	AlertingPolicySpecNotification_FieldPathSelectorChannels AlertingPolicySpecNotification_FieldPathSelector = 2
+	AlertingPolicySpecNotification_FieldPathSelectorChannels AlertingPolicySpecNotification_FieldPathSelector = 1
 )
 
 func (s AlertingPolicySpecNotification_FieldPathSelector) String() string {
 	switch s {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return "enabled"
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		return "list_type"
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		return "channels"
 	default:
@@ -2497,8 +2494,6 @@ func BuildAlertingPolicySpecNotification_FieldPath(fp gotenobject.RawFieldPath) 
 		switch fp[0] {
 		case "enabled":
 			return &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorEnabled}, nil
-		case "list_type", "listType", "list-type":
-			return &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorListType}, nil
 		case "channels":
 			return &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels}, nil
 		}
@@ -2548,8 +2543,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) Get(source *Alerting
 		switch fp.selector {
 		case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 			values = append(values, source.Enabled)
-		case AlertingPolicySpecNotification_FieldPathSelectorListType:
-			values = append(values, source.ListType)
 		case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 			for _, value := range source.GetChannels() {
 				values = append(values, value)
@@ -2570,8 +2563,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) GetSingle(source *Al
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return source.GetEnabled(), source != nil
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		return source.GetListType(), source != nil
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		res := source.GetChannels()
 		return res, res != nil
@@ -2589,8 +2580,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) GetDefault() interfa
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return false
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		return AlertingPolicy_Spec_Notification_LIST_TYPE_UNSPECIFIED
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		return ([]string)(nil)
 	default:
@@ -2603,8 +2592,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) ClearValue(item *Ale
 		switch fp.selector {
 		case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 			item.Enabled = false
-		case AlertingPolicySpecNotification_FieldPathSelectorListType:
-			item.ListType = AlertingPolicy_Spec_Notification_LIST_TYPE_UNSPECIFIED
 		case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 			item.Channels = nil
 		default:
@@ -2620,7 +2607,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *AlertingPolicySpecNotification_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertingPolicySpecNotification_FieldPathSelectorEnabled ||
-		fp.selector == AlertingPolicySpecNotification_FieldPathSelectorListType ||
 		fp.selector == AlertingPolicySpecNotification_FieldPathSelectorChannels
 }
 
@@ -2632,8 +2618,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIValue(value int
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.(bool)}
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.(AlertingPolicy_Spec_Notification_ListType)}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.([]string)}
 	default:
@@ -2650,8 +2634,6 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIArrayOfValues(v
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([]bool)}
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([]AlertingPolicy_Spec_Notification_ListType)}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([][]string)}
 	default:
@@ -2720,10 +2702,6 @@ func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsEnabledValue
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsListTypeValue() (AlertingPolicy_Spec_Notification_ListType, bool) {
-	res, ok := fpv.value.(AlertingPolicy_Spec_Notification_ListType)
-	return res, ok
-}
 func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsChannelsValue() ([]string, bool) {
 	res, ok := fpv.value.([]string)
 	return res, ok
@@ -2737,8 +2715,6 @@ func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) SetTo(target *
 	switch fpv.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		(*target).Enabled = fpv.value.(bool)
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		(*target).ListType = fpv.value.(AlertingPolicy_Spec_Notification_ListType)
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		(*target).Channels = fpv.value.([]string)
 	default:
@@ -2760,16 +2736,6 @@ func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) CompareWith(so
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		leftValue := fpv.value.(AlertingPolicy_Spec_Notification_ListType)
-		rightValue := source.GetListType()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -2892,10 +2858,6 @@ func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
-	case AlertingPolicySpecNotification_FieldPathSelectorListType:
-		for _, v := range fpaov.values.([]AlertingPolicy_Spec_Notification_ListType) {
-			values = append(values, v)
-		}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
 		for _, v := range fpaov.values.([][]string) {
 			values = append(values, v)
@@ -2905,10 +2867,6 @@ func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) GetR
 }
 func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsEnabledArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
-	return res, ok
-}
-func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsListTypeArrayOfValues() ([]AlertingPolicy_Spec_Notification_ListType, bool) {
-	res, ok := fpaov.values.([]AlertingPolicy_Spec_Notification_ListType)
 	return res, ok
 }
 func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsChannelsArrayOfValues() ([][]string, bool) {
