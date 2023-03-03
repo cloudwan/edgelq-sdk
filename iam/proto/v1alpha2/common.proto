@@ -75,5 +75,5 @@ enum BusinessTier {
 
   SMALL = 3;
 
-  TINY = 4;
+  XSMALL = 4;
 }
