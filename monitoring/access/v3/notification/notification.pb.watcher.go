@@ -39,12 +39,17 @@ type Watcher struct {
 	queryWatcherStates map[int]*queryWatcherState
 	watcherEvtsChan    chan *QueryWatcherEvent
 	filters            []*WatcherFilterParams
-	filtersResetChan   chan []*WatcherFilterParams
+	filtersResetChan   chan struct {
+		f []*WatcherFilterParams
+		v int32
+	}
 	inSyncFlag         int32
 	nextIdentifier     int
 	watcherCtx         context.Context
 	watcherCtxCancel   context.CancelFunc
 	useIChan           int32
+	nextFiltersVersion int32
+	filtersVersion     int32
 }
 
 type WatcherConfig struct {
@@ -90,17 +95,25 @@ type queryWatcherState struct {
 
 func NewWatcher(client notification_client.NotificationServiceClient, config *WatcherConfig, filters ...*WatcherFilterParams) *Watcher {
 	ctx, cancel := context.WithCancel(context.Background())
-	return &Watcher{
+	watcher := &Watcher{
 		client:             client,
 		config:             config,
 		filters:            filters,
 		outputEvtChan:      make(chan WatcherEvent, config.WatcherEventBufferSize),
 		queryWatcherStates: map[int]*queryWatcherState{},
 		watcherEvtsChan:    make(chan *QueryWatcherEvent, config.WatcherEventBufferSize),
-		filtersResetChan:   make(chan []*WatcherFilterParams, 1),
-		watcherCtx:         ctx,
-		watcherCtxCancel:   cancel,
+		filtersResetChan: make(chan struct {
+			f []*WatcherFilterParams
+			v int32
+		}, 5),
+		watcherCtx:       ctx,
+		watcherCtxCancel: cancel,
 	}
+	watcher.filtersResetChan <- struct {
+		f []*WatcherFilterParams
+		v int32
+	}{f: filters, v: 0}
+	return watcher
 }
 
 func (pw *Watcher) Events() <-chan WatcherEvent {
@@ -157,16 +170,21 @@ func (pw *Watcher) GetIFilters() []gotenaccess.WatcherFilterParams {
 	return result
 }
 
-func (pw *Watcher) ResetFilters(ctx context.Context, filters ...*WatcherFilterParams) error {
+func (pw *Watcher) ResetFilters(ctx context.Context, filters ...*WatcherFilterParams) (int32, error) {
+	pw.nextFiltersVersion++
+	pw.filters = filters
 	select {
 	case <-ctx.Done():
-		return ctx.Err()
-	case pw.filtersResetChan <- filters:
+		return -1, ctx.Err()
+	case pw.filtersResetChan <- struct {
+		f []*WatcherFilterParams
+		v int32
+	}{f: filters, v: pw.nextFiltersVersion}:
 	}
-	return nil
+	return pw.nextFiltersVersion, nil
 }
 
-func (pw *Watcher) ResetIFilters(ctx context.Context, filters ...gotenaccess.WatcherFilterParams) error {
+func (pw *Watcher) ResetIFilters(ctx context.Context, filters ...gotenaccess.WatcherFilterParams) (int32, error) {
 	typedFilters := make([]*WatcherFilterParams, 0, len(filters))
 	for _, filter := range filters {
 		typedFilters = append(typedFilters, filter.(*WatcherFilterParams))
@@ -179,9 +197,6 @@ func (pw *Watcher) Run(ctx context.Context) error {
 		WithField("watcher", "notification-watcher")
 	ctx = ctxlogrus.ToContext(ctx, log)
 
-	log.Debugf("Initializing initial queries")
-	pw.resetFilters(ctx, pw.filters)
-
 	log.Debugf("running")
 	defer func() {
 		close(pw.outputEvtChan)
@@ -191,7 +206,8 @@ func (pw *Watcher) Run(ctx context.Context) error {
 	for {
 		select {
 		case newFilters := <-pw.filtersResetChan:
-			pw.resetFilters(ctx, newFilters)
+			pw.filtersVersion = newFilters.v
+			pw.resetFilters(ctx, newFilters.f)
 		case evt := <-pw.watcherEvtsChan:
 			if evt.LostSync {
 				pw.onQueryLostSync(ctx, evt)
@@ -214,8 +230,6 @@ func (pw *Watcher) Run(ctx context.Context) error {
 }
 
 func (pw *Watcher) resetFilters(ctx context.Context, filters []*WatcherFilterParams) {
-	pw.filters = filters
-
 	filtersMap := map[string]*WatcherFilterParams{}
 	for _, filter := range filters {
 		filtersMap[filter.String()] = filter
@@ -369,7 +383,7 @@ func (pw *Watcher) onQueryChanges(ctx context.Context, evt *QueryWatcherEvent) {
 				return
 			}
 		} else if pw.inSyncFlag > 0 {
-			evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(false), Changes: changes}
+			evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(false, pw.filtersVersion), Changes: changes}
 			pw.sendEvent(ctx, evt)
 		}
 	}
@@ -378,7 +392,7 @@ func (pw *Watcher) onQueryChanges(ctx context.Context, evt *QueryWatcherEvent) {
 func (pw *Watcher) processSyncLost(ctx context.Context) {
 	ctxlogrus.Extract(ctx).Infof("Notifiying watcher-wide sync lost")
 	atomic.StoreInt32(&pw.inSyncFlag, 0)
-	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBaseLostSync()}
+	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBaseLostSync(pw.filtersVersion)}
 	pw.sendEvent(ctx, evt)
 }
 
@@ -391,7 +405,7 @@ func (pw *Watcher) processSnapshot(ctx context.Context) {
 			snapshot = append(snapshot, NewAddWatcherEventChange(item))
 		}
 	}
-	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(true), Changes: snapshot}
+	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBase(true, pw.filtersVersion), Changes: snapshot}
 	pw.sendEvent(ctx, evt)
 }
 
