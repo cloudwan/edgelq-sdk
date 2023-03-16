@@ -55,6 +55,7 @@ type PhantomTimeSerieServiceClient interface {
 	WatchPhantomTimeSerie(ctx context.Context, in *WatchPhantomTimeSerieRequest, opts ...grpc.CallOption) (WatchPhantomTimeSerieClientStream, error)
 	WatchPhantomTimeSeries(ctx context.Context, in *WatchPhantomTimeSeriesRequest, opts ...grpc.CallOption) (WatchPhantomTimeSeriesClientStream, error)
 	CreatePhantomTimeSerie(ctx context.Context, in *CreatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error)
+	UpdatePhantomTimeSerie(ctx context.Context, in *UpdatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error)
 	DeletePhantomTimeSerie(ctx context.Context, in *DeletePhantomTimeSerieRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -170,6 +171,15 @@ func (x *watchPhantomTimeSeriesWatchPhantomTimeSeriesClient) Recv() (*WatchPhant
 func (c *client) CreatePhantomTimeSerie(ctx context.Context, in *CreatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error) {
 	out := new(phantom_time_serie.PhantomTimeSerie)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.PhantomTimeSerieService/CreatePhantomTimeSerie", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) UpdatePhantomTimeSerie(ctx context.Context, in *UpdatePhantomTimeSerieRequest, opts ...grpc.CallOption) (*phantom_time_serie.PhantomTimeSerie, error) {
+	out := new(phantom_time_serie.PhantomTimeSerie)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.PhantomTimeSerieService/UpdatePhantomTimeSerie", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

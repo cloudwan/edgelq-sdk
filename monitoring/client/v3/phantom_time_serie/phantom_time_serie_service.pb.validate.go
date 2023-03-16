@@ -205,6 +205,42 @@ func (obj *CreatePhantomTimeSerieRequest) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *UpdatePhantomTimeSerieRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.PhantomTimeSerie == nil {
+		return gotenvalidate.NewValidationError("UpdatePhantomTimeSerieRequest", "phantomTimeSerie", obj.PhantomTimeSerie, "field is required", nil)
+	}
+	if subobj, ok := interface{}(obj.PhantomTimeSerie).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdatePhantomTimeSerieRequest", "phantomTimeSerie", obj.PhantomTimeSerie, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Cas).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdatePhantomTimeSerieRequest", "cas", obj.Cas, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdatePhantomTimeSerieRequest_CAS) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.ConditionalState).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *DeletePhantomTimeSerieRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

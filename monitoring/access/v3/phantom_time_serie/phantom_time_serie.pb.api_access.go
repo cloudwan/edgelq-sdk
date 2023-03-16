@@ -179,7 +179,23 @@ func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, re
 	}
 
 	if saveOpts.OnlyUpdate() || previousRes != nil {
-		return fmt.Errorf("update operation on %s is prohibited", res.Name.AsReference().String())
+		updateRequest := &phantom_time_serie_client.UpdatePhantomTimeSerieRequest{
+			PhantomTimeSerie: res,
+		}
+		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
+			updateRequest.UpdateMask = updateMask.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+		}
+		if mask, conditionalState := saveOpts.GetCAS(); mask != nil && conditionalState != nil {
+			updateRequest.Cas = &phantom_time_serie_client.UpdatePhantomTimeSerieRequest_CAS{
+				ConditionalState: conditionalState.(*phantom_time_serie.PhantomTimeSerie),
+				FieldMask:        mask.(*phantom_time_serie.PhantomTimeSerie_FieldMask),
+			}
+		}
+		_, err := a.client.UpdatePhantomTimeSerie(ctx, updateRequest)
+		if err != nil {
+			return err
+		}
+		return nil
 	} else {
 		createRequest := &phantom_time_serie_client.CreatePhantomTimeSerieRequest{
 			PhantomTimeSerie: res,

@@ -8598,7 +8598,8 @@ Key is not to be decoded outside of service, but treated as opaque string</p>
 <td class="type"><pre><a href="#message-Metric">Metric</a></pre></td>
 </tr>
 <tr><td class="description"><p>The associated metric. A fully-specified metric used to identify the time
-series.</p>
+series.
+This field cannot be updated, can be only set during creation.</p>
 </td></tr>
 
 <tr>
@@ -8606,7 +8607,8 @@ series.</p>
 <td class="type"><pre><a href="#message-MonitoredResource">MonitoredResource</a></pre></td>
 </tr>
 <tr><td class="description"><p>The associated monitored resource.  Custom metrics can use only certain
-monitored resource types in their time series data.</p>
+monitored resource types in their time series data.
+This field cannot be updated, can be only set during creation.</p>
 </td></tr>
 
 <tr>
@@ -8790,6 +8792,31 @@ Equivalent REST API:
 Equivalent REST API:
 
 <pre>POST /v3/{parent=projects/*/regions/*}/phantomTimeSeries (BODY: phantom_time_serie)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdatePhantomTimeSerie">UpdatePhantomTimeSerie</h5>
+
+<pre class="signature">rpc UpdatePhantomTimeSerie(<a href="#message-UpdatePhantomTimeSerieRequest">UpdatePhantomTimeSerieRequest</a>) returns (<a href="#message-PhantomTimeSerie">PhantomTimeSerie</a>)</pre>
+
+<div class="description">
+<p>UpdatePhantomTimeSerie</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /v3/{phantom_time_serie.name=projects/*/regions/*/phantomTimeSeries/*} (BODY: phantom_time_serie)</pre>
 
 </div>
 
@@ -9383,6 +9410,75 @@ along with is_current, is_soft_reset or snapshot_size.</p>
 <td class="type"><pre><a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
 </tr>
 <tr><td class="description"><p>PhantomTimeSerie resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePhantomTimeSerieRequest">UpdatePhantomTimeSerieRequest</h5>
+
+<p>Request message for method
+[UpdatePhantomTimeSerie][ntt.monitoring.v3.UpdatePhantomTimeSerie]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">phantom_time_serie</th>
+<td class="type"><pre><a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
+</tr>
+<tr><td class="description"><p>PhantomTimeSerie resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdatePhantomTimeSerieRequest.CAS">UpdatePhantomTimeSerieRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdatePhantomTimeSerieRequest.CAS">UpdatePhantomTimeSerieRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
 </td></tr>
  
 </tbody>
@@ -12753,60 +12849,6 @@ will remain identical to [view_index].</p>
 </tr>
 <tr><td class="description"><p>Integer specifying removed PhantomTimeSerie index. Not populated in
 stateless watch type.</p>
-</td></tr>
- 
-</tbody>
-</table>
-
-
-
-<h5 id="message-PhantomTimeSeriesBulkChange">PhantomTimeSeriesBulkChange</h5>
-
-
-
-<table class="fields">
-<thead><tr><th colspan="2">Fields</th></tr></thead>
-<tbody>
-<tr>
-<th rowspan="2">resync</th>
-<td class="type"><pre>bool</pre></td>
-</tr>
-<tr><td class="description"><p>add partitioning information (e.g. project, hash key to invalidate whole
-group upon resync)</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">partition</th>
-<td class="type"><pre>bytes</pre></td>
-</tr>
-<tr><td class="description"><p>partition identifier (e.g. project, key_hash)</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">added</th>
-<td class="type"><pre>repeated <a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
-</tr>
-<tr><td class="description"></td></tr>
-
-<tr>
-<th rowspan="2">removed</th>
-<td class="type"><pre>repeated <a href="#message-PhantomTimeSerie">PhantomTimeSerie</a></pre></td>
-</tr>
-<tr><td class="description"></td></tr>
-
-<tr>
-<th rowspan="2">start_time</th>
-<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
-</tr>
-<tr><td class="description"><p>Timestamp of the first PhantomTimeSeriesBulkChange for this partition.
-It updates with every resync event.</p>
-</td></tr>
-
-<tr>
-<th rowspan="2">msg_time</th>
-<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
-</tr>
-<tr><td class="description"><p>Timestamp of the message</p>
 </td></tr>
  
 </tbody>

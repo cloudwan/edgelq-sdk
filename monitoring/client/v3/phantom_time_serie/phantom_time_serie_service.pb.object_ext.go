@@ -1330,6 +1330,173 @@ func (o *CreatePhantomTimeSerieRequest) MergeRaw(source gotenobject.GotenObjectE
 	o.Merge(source.(*CreatePhantomTimeSerieRequest))
 }
 
+func (o *UpdatePhantomTimeSerieRequest) GotenObjectExt() {}
+
+func (o *UpdatePhantomTimeSerieRequest) MakeFullFieldMask() *UpdatePhantomTimeSerieRequest_FieldMask {
+	return FullUpdatePhantomTimeSerieRequest_FieldMask()
+}
+
+func (o *UpdatePhantomTimeSerieRequest) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUpdatePhantomTimeSerieRequest_FieldMask()
+}
+
+func (o *UpdatePhantomTimeSerieRequest) MakeDiffFieldMask(other *UpdatePhantomTimeSerieRequest) *UpdatePhantomTimeSerieRequest_FieldMask {
+	if o == nil && other == nil {
+		return &UpdatePhantomTimeSerieRequest_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUpdatePhantomTimeSerieRequest_FieldMask()
+	}
+
+	res := &UpdatePhantomTimeSerieRequest_FieldMask{}
+	{
+		subMask := o.GetPhantomTimeSerie().MakeDiffFieldMask(other.GetPhantomTimeSerie())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie, subPath: subpath})
+			}
+		}
+	}
+	if !proto.Equal(o.GetUpdateMask(), other.GetUpdateMask()) {
+		res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask})
+	}
+	{
+		subMask := o.GetCas().MakeDiffFieldMask(other.GetCas())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas, subPath: subpath})
+			}
+		}
+	}
+	return res
+}
+
+func (o *UpdatePhantomTimeSerieRequest) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UpdatePhantomTimeSerieRequest))
+}
+
+func (o *UpdatePhantomTimeSerieRequest) Clone() *UpdatePhantomTimeSerieRequest {
+	if o == nil {
+		return nil
+	}
+	result := &UpdatePhantomTimeSerieRequest{}
+	result.PhantomTimeSerie = o.PhantomTimeSerie.Clone()
+	result.UpdateMask = proto.Clone(o.UpdateMask).(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	result.Cas = o.Cas.Clone()
+	return result
+}
+
+func (o *UpdatePhantomTimeSerieRequest) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UpdatePhantomTimeSerieRequest) Merge(source *UpdatePhantomTimeSerieRequest) {
+	if source.GetPhantomTimeSerie() != nil {
+		if o.PhantomTimeSerie == nil {
+			o.PhantomTimeSerie = new(phantom_time_serie.PhantomTimeSerie)
+		}
+		o.PhantomTimeSerie.Merge(source.GetPhantomTimeSerie())
+	}
+	if source.GetUpdateMask() != nil {
+		if o.UpdateMask == nil {
+			o.UpdateMask = new(phantom_time_serie.PhantomTimeSerie_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetUpdateMask().ToProtoFieldMask(), o.UpdateMask.ToProtoFieldMask())
+		if err := o.UpdateMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+	if source.GetCas() != nil {
+		if o.Cas == nil {
+			o.Cas = new(UpdatePhantomTimeSerieRequest_CAS)
+		}
+		o.Cas.Merge(source.GetCas())
+	}
+}
+
+func (o *UpdatePhantomTimeSerieRequest) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) GotenObjectExt() {}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) MakeFullFieldMask() *UpdatePhantomTimeSerieRequest_CAS_FieldMask {
+	return FullUpdatePhantomTimeSerieRequest_CAS_FieldMask()
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUpdatePhantomTimeSerieRequest_CAS_FieldMask()
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) MakeDiffFieldMask(other *UpdatePhantomTimeSerieRequest_CAS) *UpdatePhantomTimeSerieRequest_CAS_FieldMask {
+	if o == nil && other == nil {
+		return &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUpdatePhantomTimeSerieRequest_CAS_FieldMask()
+	}
+
+	res := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	{
+		subMask := o.GetConditionalState().MakeDiffFieldMask(other.GetConditionalState())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState, subPath: subpath})
+			}
+		}
+	}
+	if !proto.Equal(o.GetFieldMask(), other.GetFieldMask()) {
+		res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask})
+	}
+	return res
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) Clone() *UpdatePhantomTimeSerieRequest_CAS {
+	if o == nil {
+		return nil
+	}
+	result := &UpdatePhantomTimeSerieRequest_CAS{}
+	result.ConditionalState = o.ConditionalState.Clone()
+	result.FieldMask = proto.Clone(o.FieldMask).(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	return result
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) Merge(source *UpdatePhantomTimeSerieRequest_CAS) {
+	if source.GetConditionalState() != nil {
+		if o.ConditionalState == nil {
+			o.ConditionalState = new(phantom_time_serie.PhantomTimeSerie)
+		}
+		o.ConditionalState.Merge(source.GetConditionalState())
+	}
+	if source.GetFieldMask() != nil {
+		if o.FieldMask == nil {
+			o.FieldMask = new(phantom_time_serie.PhantomTimeSerie_FieldMask)
+		}
+		mergedMask := fieldmaskpb.Union(source.GetFieldMask().ToProtoFieldMask(), o.FieldMask.ToProtoFieldMask())
+		if err := o.FieldMask.FromProtoFieldMask(mergedMask); err != nil {
+			panic(err)
+		}
+	}
+}
+
+func (o *UpdatePhantomTimeSerieRequest_CAS) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
 func (o *DeletePhantomTimeSerieRequest) GotenObjectExt() {}
 
 func (o *DeletePhantomTimeSerieRequest) MakeFullFieldMask() *DeletePhantomTimeSerieRequest_FieldMask {

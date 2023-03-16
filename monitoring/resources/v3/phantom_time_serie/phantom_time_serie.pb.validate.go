@@ -27,7 +27,6 @@ import (
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 var (
@@ -51,7 +50,6 @@ var (
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
 )
 
 func (obj *PhantomTimeSerie) GotenValidate() error {
@@ -76,29 +74,6 @@ func (obj *PhantomTimeSerie) GotenValidate() error {
 	if subobj, ok := interface{}(obj.Value).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("PhantomTimeSerie", "value", obj.Value, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *PhantomTimeSeriesBulkChange) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for idx, elem := range obj.Added {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("PhantomTimeSeriesBulkChange", "added", obj.Added[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	for idx, elem := range obj.Removed {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("PhantomTimeSeriesBulkChange", "removed", obj.Removed[idx], "nested object validation failed", err)
-			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

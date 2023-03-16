@@ -20,7 +20,6 @@ import (
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/metric_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
 
 // ensure the imports are used
@@ -40,7 +39,6 @@ var (
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &metric_descriptor.MetricDescriptor{}
 	_ = &project.Project{}
-	_ = &timestamp.Timestamp{}
 )
 
 func (o *PhantomTimeSerie) GotenObjectExt() {}
@@ -205,153 +203,4 @@ func (o *PhantomTimeSerie) Merge(source *PhantomTimeSerie) {
 
 func (o *PhantomTimeSerie) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*PhantomTimeSerie))
-}
-
-func (o *PhantomTimeSeriesBulkChange) GotenObjectExt() {}
-
-func (o *PhantomTimeSeriesBulkChange) MakeFullFieldMask() *PhantomTimeSeriesBulkChange_FieldMask {
-	return FullPhantomTimeSeriesBulkChange_FieldMask()
-}
-
-func (o *PhantomTimeSeriesBulkChange) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPhantomTimeSeriesBulkChange_FieldMask()
-}
-
-func (o *PhantomTimeSeriesBulkChange) MakeDiffFieldMask(other *PhantomTimeSeriesBulkChange) *PhantomTimeSeriesBulkChange_FieldMask {
-	if o == nil && other == nil {
-		return &PhantomTimeSeriesBulkChange_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullPhantomTimeSeriesBulkChange_FieldMask()
-	}
-
-	res := &PhantomTimeSeriesBulkChange_FieldMask{}
-	if o.GetResync() != other.GetResync() {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorResync})
-	}
-	if string(o.GetPartition()) != string(other.GetPartition()) {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorPartition})
-	}
-
-	if len(o.GetAdded()) == len(other.GetAdded()) {
-		for i, lValue := range o.GetAdded() {
-			rValue := other.GetAdded()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorAdded})
-	}
-
-	if len(o.GetRemoved()) == len(other.GetRemoved()) {
-		for i, lValue := range o.GetRemoved() {
-			rValue := other.GetRemoved()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorRemoved})
-	}
-	if !proto.Equal(o.GetStartTime(), other.GetStartTime()) {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorStartTime})
-	}
-	if !proto.Equal(o.GetMsgTime(), other.GetMsgTime()) {
-		res.Paths = append(res.Paths, &PhantomTimeSeriesBulkChange_FieldTerminalPath{selector: PhantomTimeSeriesBulkChange_FieldPathSelectorMsgTime})
-	}
-	return res
-}
-
-func (o *PhantomTimeSeriesBulkChange) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PhantomTimeSeriesBulkChange))
-}
-
-func (o *PhantomTimeSeriesBulkChange) Clone() *PhantomTimeSeriesBulkChange {
-	if o == nil {
-		return nil
-	}
-	result := &PhantomTimeSeriesBulkChange{}
-	result.Resync = o.Resync
-	result.Partition = make([]byte, len(o.Partition))
-	for i, bt := range o.Partition {
-		result.Partition[i] = bt
-	}
-	result.Added = make([]*PhantomTimeSerie, len(o.Added))
-	for i, sourceValue := range o.Added {
-		result.Added[i] = sourceValue.Clone()
-	}
-	result.Removed = make([]*PhantomTimeSerie, len(o.Removed))
-	for i, sourceValue := range o.Removed {
-		result.Removed[i] = sourceValue.Clone()
-	}
-	result.StartTime = proto.Clone(o.StartTime).(*timestamp.Timestamp)
-	result.MsgTime = proto.Clone(o.MsgTime).(*timestamp.Timestamp)
-	return result
-}
-
-func (o *PhantomTimeSeriesBulkChange) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *PhantomTimeSeriesBulkChange) Merge(source *PhantomTimeSeriesBulkChange) {
-	o.Resync = source.GetResync()
-	o.Partition = make([]byte, len(source.GetPartition()))
-	for i, bt := range source.GetPartition() {
-		o.Partition[i] = bt
-	}
-	for _, sourceValue := range source.GetAdded() {
-		exists := false
-		for _, currentValue := range o.Added {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *PhantomTimeSerie
-			if sourceValue != nil {
-				newDstElement = new(PhantomTimeSerie)
-				newDstElement.Merge(sourceValue)
-			}
-			o.Added = append(o.Added, newDstElement)
-		}
-	}
-
-	for _, sourceValue := range source.GetRemoved() {
-		exists := false
-		for _, currentValue := range o.Removed {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *PhantomTimeSerie
-			if sourceValue != nil {
-				newDstElement = new(PhantomTimeSerie)
-				newDstElement.Merge(sourceValue)
-			}
-			o.Removed = append(o.Removed, newDstElement)
-		}
-	}
-
-	if source.GetStartTime() != nil {
-		if o.StartTime == nil {
-			o.StartTime = new(timestamp.Timestamp)
-		}
-		proto.Merge(o.StartTime, source.GetStartTime())
-	}
-	if source.GetMsgTime() != nil {
-		if o.MsgTime == nil {
-			o.MsgTime = new(timestamp.Timestamp)
-		}
-		proto.Merge(o.MsgTime, source.GetMsgTime())
-	}
-}
-
-func (o *PhantomTimeSeriesBulkChange) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PhantomTimeSeriesBulkChange))
 }

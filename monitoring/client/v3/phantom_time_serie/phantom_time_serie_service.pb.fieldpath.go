@@ -6561,6 +6561,1311 @@ func (fpsaov *CreatePhantomTimeSerieRequest_FieldSubPathArrayOfValues) AsPhantom
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type UpdatePhantomTimeSerieRequest_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() UpdatePhantomTimeSerieRequest_FieldPathSelector
+	Get(source *UpdatePhantomTimeSerieRequest) []interface{}
+	GetSingle(source *UpdatePhantomTimeSerieRequest) (interface{}, bool)
+	ClearValue(item *UpdatePhantomTimeSerieRequest)
+
+	// Those methods build corresponding UpdatePhantomTimeSerieRequest_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathValue
+	WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue
+}
+
+type UpdatePhantomTimeSerieRequest_FieldPathSelector int32
+
+const (
+	UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie UpdatePhantomTimeSerieRequest_FieldPathSelector = 0
+	UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask       UpdatePhantomTimeSerieRequest_FieldPathSelector = 1
+	UpdatePhantomTimeSerieRequest_FieldPathSelectorCas              UpdatePhantomTimeSerieRequest_FieldPathSelector = 2
+)
+
+func (s UpdatePhantomTimeSerieRequest_FieldPathSelector) String() string {
+	switch s {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return "phantom_time_serie"
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		return "update_mask"
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return "cas"
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", s))
+	}
+}
+
+func BuildUpdatePhantomTimeSerieRequest_FieldPath(fp gotenobject.RawFieldPath) (UpdatePhantomTimeSerieRequest_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object UpdatePhantomTimeSerieRequest")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "phantom_time_serie", "phantomTimeSerie", "phantom-time-serie":
+			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie}, nil
+		case "update_mask", "updateMask", "update-mask":
+			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask}, nil
+		case "cas":
+			return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "phantom_time_serie", "phantomTimeSerie", "phantom-time-serie":
+			if subpath, err := phantom_time_serie.BuildPhantomTimeSerie_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie, subPath: subpath}, nil
+			}
+		case "cas":
+			if subpath, err := BuildUpdatePhantomTimeSerieRequestCAS_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object UpdatePhantomTimeSerieRequest", fp)
+}
+
+func ParseUpdatePhantomTimeSerieRequest_FieldPath(rawField string) (UpdatePhantomTimeSerieRequest_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildUpdatePhantomTimeSerieRequest_FieldPath(fp)
+}
+
+func MustParseUpdatePhantomTimeSerieRequest_FieldPath(rawField string) UpdatePhantomTimeSerieRequest_FieldPath {
+	fp, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type UpdatePhantomTimeSerieRequest_FieldTerminalPath struct {
+	selector UpdatePhantomTimeSerieRequest_FieldPathSelector
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPath = (*UpdatePhantomTimeSerieRequest_FieldTerminalPath)(nil)
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) Selector() UpdatePhantomTimeSerieRequest_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source UpdatePhantomTimeSerieRequest
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) Get(source *UpdatePhantomTimeSerieRequest) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+			if source.PhantomTimeSerie != nil {
+				values = append(values, source.PhantomTimeSerie)
+			}
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+			if source.UpdateMask != nil {
+				values = append(values, source.UpdateMask)
+			}
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+			if source.Cas != nil {
+				values = append(values, source.Cas)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// GetSingle returns value pointed by specific field of from source UpdatePhantomTimeSerieRequest
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetSingle(source *UpdatePhantomTimeSerieRequest) (interface{}, bool) {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		res := source.GetPhantomTimeSerie()
+		return res, res != nil
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		res := source.GetUpdateMask()
+		return res, res != nil
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		res := source.GetCas()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return (*phantom_time_serie.PhantomTimeSerie)(nil)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		return (*phantom_time_serie.PhantomTimeSerie_FieldMask)(nil)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return (*UpdatePhantomTimeSerieRequest_CAS)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) ClearValue(item *UpdatePhantomTimeSerieRequest) {
+	if item != nil {
+		switch fp.selector {
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+			item.PhantomTimeSerie = nil
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+			item.UpdateMask = nil
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+			item.Cas = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*UpdatePhantomTimeSerieRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithIValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathValue {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathValue{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, value: value.(*UpdatePhantomTimeSerieRequest_CAS)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues {
+	fpaov := &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return &UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldTerminalPath: *fp, values: values.([]*UpdatePhantomTimeSerieRequest_CAS)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequest_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type UpdatePhantomTimeSerieRequest_FieldSubPath struct {
+	selector UpdatePhantomTimeSerieRequest_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPath = (*UpdatePhantomTimeSerieRequest_FieldSubPath)(nil)
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) Selector() UpdatePhantomTimeSerieRequest_FieldPathSelector {
+	return fps.selector
+}
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) AsPhantomTimeSerieSubPath() (phantom_time_serie.PhantomTimeSerie_FieldPath, bool) {
+	res, ok := fps.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath)
+	return res, ok
+}
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) AsCasSubPath() (UpdatePhantomTimeSerieRequestCAS_FieldPath, bool) {
+	res, ok := fps.subPath.(UpdatePhantomTimeSerieRequestCAS_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source UpdatePhantomTimeSerieRequest
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) Get(source *UpdatePhantomTimeSerieRequest) (values []interface{}) {
+	switch fps.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		values = append(values, fps.subPath.GetRaw(source.GetPhantomTimeSerie())...)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		values = append(values, fps.subPath.GetRaw(source.GetCas())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// GetSingle returns value of selected field from source UpdatePhantomTimeSerieRequest
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) GetSingle(source *UpdatePhantomTimeSerieRequest) (interface{}, bool) {
+	switch fps.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		if source.GetPhantomTimeSerie() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPhantomTimeSerie())
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		if source.GetCas() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetCas())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fps.selector))
+	}
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) ClearValue(item *UpdatePhantomTimeSerieRequest) {
+	if item != nil {
+		switch fps.selector {
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+			fps.subPath.ClearValueRaw(item.PhantomTimeSerie)
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+			fps.subPath.ClearValueRaw(item.Cas)
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*UpdatePhantomTimeSerieRequest))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithIValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequest_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// UpdatePhantomTimeSerieRequest_FieldPathValue allows storing values for UpdatePhantomTimeSerieRequest fields according to their type
+type UpdatePhantomTimeSerieRequest_FieldPathValue interface {
+	UpdatePhantomTimeSerieRequest_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **UpdatePhantomTimeSerieRequest)
+	CompareWith(*UpdatePhantomTimeSerieRequest) (cmp int, comparable bool)
+}
+
+func ParseUpdatePhantomTimeSerieRequest_FieldPathValue(pathStr, valueStr string) (UpdatePhantomTimeSerieRequest_FieldPathValue, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UpdatePhantomTimeSerieRequest field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(UpdatePhantomTimeSerieRequest_FieldPathValue), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequest_FieldPathValue(pathStr, valueStr string) UpdatePhantomTimeSerieRequest_FieldPathValue {
+	fpv, err := ParseUpdatePhantomTimeSerieRequest_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type UpdatePhantomTimeSerieRequest_FieldTerminalPathValue struct {
+	UpdatePhantomTimeSerieRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPathValue = (*UpdatePhantomTimeSerieRequest_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'UpdatePhantomTimeSerieRequest' as interface{}
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) AsPhantomTimeSerieValue() (*phantom_time_serie.PhantomTimeSerie, bool) {
+	res, ok := fpv.value.(*phantom_time_serie.PhantomTimeSerie)
+	return res, ok
+}
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) AsUpdateMaskValue() (*phantom_time_serie.PhantomTimeSerie_FieldMask, bool) {
+	res, ok := fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	return res, ok
+}
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) AsCasValue() (*UpdatePhantomTimeSerieRequest_CAS, bool) {
+	res, ok := fpv.value.(*UpdatePhantomTimeSerieRequest_CAS)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object UpdatePhantomTimeSerieRequest
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) SetTo(target **UpdatePhantomTimeSerieRequest) {
+	if *target == nil {
+		*target = new(UpdatePhantomTimeSerieRequest)
+	}
+	switch fpv.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		(*target).PhantomTimeSerie = fpv.value.(*phantom_time_serie.PhantomTimeSerie)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		(*target).UpdateMask = fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		(*target).Cas = fpv.value.(*UpdatePhantomTimeSerieRequest_CAS)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UpdatePhantomTimeSerieRequest)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UpdatePhantomTimeSerieRequest_FieldTerminalPathValue' with the value under path in 'UpdatePhantomTimeSerieRequest'.
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) CompareWith(source *UpdatePhantomTimeSerieRequest) (int, bool) {
+	switch fpv.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return 0, false
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		return 0, false
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpv.selector))
+	}
+}
+
+func (fpv *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+type UpdatePhantomTimeSerieRequest_FieldSubPathValue struct {
+	UpdatePhantomTimeSerieRequest_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPathValue = (*UpdatePhantomTimeSerieRequest_FieldSubPathValue)(nil)
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) AsPhantomTimeSeriePathValue() (phantom_time_serie.PhantomTimeSerie_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue)
+	return res, ok
+}
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) AsCasPathValue() (UpdatePhantomTimeSerieRequestCAS_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(UpdatePhantomTimeSerieRequestCAS_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) SetTo(target **UpdatePhantomTimeSerieRequest) {
+	if *target == nil {
+		*target = new(UpdatePhantomTimeSerieRequest)
+	}
+	switch fpvs.Selector() {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue).SetTo(&(*target).PhantomTimeSerie)
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		fpvs.subPathValue.(UpdatePhantomTimeSerieRequestCAS_FieldPathValue).SetTo(&(*target).Cas)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UpdatePhantomTimeSerieRequest)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) CompareWith(source *UpdatePhantomTimeSerieRequest) (int, bool) {
+	switch fpvs.Selector() {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue).CompareWith(source.GetPhantomTimeSerie())
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return fpvs.subPathValue.(UpdatePhantomTimeSerieRequestCAS_FieldPathValue).CompareWith(source.GetCas())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequest_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue allows storing single item in Path-specific values for UpdatePhantomTimeSerieRequest according to their type
+// Present only for array (repeated) types.
+type UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	UpdatePhantomTimeSerieRequest_FieldPath
+	ContainsValue(*UpdatePhantomTimeSerieRequest) bool
+}
+
+// ParseUpdatePhantomTimeSerieRequest_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseUpdatePhantomTimeSerieRequest_FieldPathArrayItemValue(pathStr, valueStr string) (UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UpdatePhantomTimeSerieRequest field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequest_FieldPathArrayItemValue(pathStr, valueStr string) UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue {
+	fpaiv, err := ParseUpdatePhantomTimeSerieRequest_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue struct {
+	UpdatePhantomTimeSerieRequest_FieldTerminalPath
+	value interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPathArrayItemValue = (*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object UpdatePhantomTimeSerieRequest as interface{}
+func (fpaiv *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetSingle(source *UpdatePhantomTimeSerieRequest) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UpdatePhantomTimeSerieRequest'
+func (fpaiv *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePhantomTimeSerieRequest) bool {
+	slice := fpaiv.UpdatePhantomTimeSerieRequest_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue struct {
+	UpdatePhantomTimeSerieRequest_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue) AsPhantomTimeSeriePathItemValue() (phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue) AsCasPathItemValue() (UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'UpdatePhantomTimeSerieRequest'
+func (fpaivs *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue) ContainsValue(source *UpdatePhantomTimeSerieRequest) bool {
+	switch fpaivs.Selector() {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		return fpaivs.subPathItemValue.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue).ContainsValue(source.GetPhantomTimeSerie())
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		return fpaivs.subPathItemValue.(UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue).ContainsValue(source.GetCas())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest: %d", fpaivs.Selector()))
+	}
+}
+
+// UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues allows storing slice of values for UpdatePhantomTimeSerieRequest fields according to their type
+type UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	UpdatePhantomTimeSerieRequest_FieldPath
+}
+
+func ParseUpdatePhantomTimeSerieRequest_FieldPathArrayOfValues(pathStr, valuesStr string) (UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing UpdatePhantomTimeSerieRequest field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequest_FieldPathArrayOfValues(pathStr, valuesStr string) UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues {
+	fpaov, err := ParseUpdatePhantomTimeSerieRequest_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues struct {
+	UpdatePhantomTimeSerieRequest_FieldTerminalPath
+	values interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues = (*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+		for _, v := range fpaov.values.([]*phantom_time_serie.PhantomTimeSerie) {
+			values = append(values, v)
+		}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+		for _, v := range fpaov.values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask) {
+			values = append(values, v)
+		}
+	case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+		for _, v := range fpaov.values.([]*UpdatePhantomTimeSerieRequest_CAS) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsPhantomTimeSerieArrayOfValues() ([]*phantom_time_serie.PhantomTimeSerie, bool) {
+	res, ok := fpaov.values.([]*phantom_time_serie.PhantomTimeSerie)
+	return res, ok
+}
+func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsUpdateMaskArrayOfValues() ([]*phantom_time_serie.PhantomTimeSerie_FieldMask, bool) {
+	res, ok := fpaov.values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	return res, ok
+}
+func (fpaov *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues) AsCasArrayOfValues() ([]*UpdatePhantomTimeSerieRequest_CAS, bool) {
+	res, ok := fpaov.values.([]*UpdatePhantomTimeSerieRequest_CAS)
+	return res, ok
+}
+
+type UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues struct {
+	UpdatePhantomTimeSerieRequest_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ UpdatePhantomTimeSerieRequest_FieldPathArrayOfValues = (*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues) AsPhantomTimeSeriePathArrayOfValues() (phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues) AsCasPathArrayOfValues() (UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type UpdatePhantomTimeSerieRequestCAS_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() UpdatePhantomTimeSerieRequestCAS_FieldPathSelector
+	Get(source *UpdatePhantomTimeSerieRequest_CAS) []interface{}
+	GetSingle(source *UpdatePhantomTimeSerieRequest_CAS) (interface{}, bool)
+	ClearValue(item *UpdatePhantomTimeSerieRequest_CAS)
+
+	// Those methods build corresponding UpdatePhantomTimeSerieRequestCAS_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathValue
+	WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldPathSelector int32
+
+const (
+	UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState UpdatePhantomTimeSerieRequestCAS_FieldPathSelector = 0
+	UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask        UpdatePhantomTimeSerieRequestCAS_FieldPathSelector = 1
+)
+
+func (s UpdatePhantomTimeSerieRequestCAS_FieldPathSelector) String() string {
+	switch s {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return "conditional_state"
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		return "field_mask"
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", s))
+	}
+}
+
+func BuildUpdatePhantomTimeSerieRequestCAS_FieldPath(fp gotenobject.RawFieldPath) (UpdatePhantomTimeSerieRequestCAS_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object UpdatePhantomTimeSerieRequest_CAS")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "conditional_state", "conditionalState", "conditional-state":
+			return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState}, nil
+		case "field_mask", "fieldMask", "field-mask":
+			return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "conditional_state", "conditionalState", "conditional-state":
+			if subpath, err := phantom_time_serie.BuildPhantomTimeSerie_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object UpdatePhantomTimeSerieRequest_CAS", fp)
+}
+
+func ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(rawField string) (UpdatePhantomTimeSerieRequestCAS_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildUpdatePhantomTimeSerieRequestCAS_FieldPath(fp)
+}
+
+func MustParseUpdatePhantomTimeSerieRequestCAS_FieldPath(rawField string) UpdatePhantomTimeSerieRequestCAS_FieldPath {
+	fp, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath struct {
+	selector UpdatePhantomTimeSerieRequestCAS_FieldPathSelector
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPath = (*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath)(nil)
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) Selector() UpdatePhantomTimeSerieRequestCAS_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source UpdatePhantomTimeSerieRequest_CAS
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) Get(source *UpdatePhantomTimeSerieRequest_CAS) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+			if source.ConditionalState != nil {
+				values = append(values, source.ConditionalState)
+			}
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+			if source.FieldMask != nil {
+				values = append(values, source.FieldMask)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// GetSingle returns value pointed by specific field of from source UpdatePhantomTimeSerieRequest_CAS
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) GetSingle(source *UpdatePhantomTimeSerieRequest_CAS) (interface{}, bool) {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		res := source.GetConditionalState()
+		return res, res != nil
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		res := source.GetFieldMask()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return (*phantom_time_serie.PhantomTimeSerie)(nil)
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		return (*phantom_time_serie.PhantomTimeSerie_FieldMask)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) ClearValue(item *UpdatePhantomTimeSerieRequest_CAS) {
+	if item != nil {
+		switch fp.selector {
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+			item.ConditionalState = nil
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+			item.FieldMask = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithIValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathValue {
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue{UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie)}
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue{UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath: *fp, value: value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues {
+	fpaov := &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie)}
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues{UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath: *fp, values: values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fp.selector))
+	}
+}
+
+func (fp *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldSubPath struct {
+	selector UpdatePhantomTimeSerieRequestCAS_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPath = (*UpdatePhantomTimeSerieRequestCAS_FieldSubPath)(nil)
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) Selector() UpdatePhantomTimeSerieRequestCAS_FieldPathSelector {
+	return fps.selector
+}
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) AsConditionalStateSubPath() (phantom_time_serie.PhantomTimeSerie_FieldPath, bool) {
+	res, ok := fps.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source UpdatePhantomTimeSerieRequest_CAS
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) Get(source *UpdatePhantomTimeSerieRequest_CAS) (values []interface{}) {
+	switch fps.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		values = append(values, fps.subPath.GetRaw(source.GetConditionalState())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// GetSingle returns value of selected field from source UpdatePhantomTimeSerieRequest_CAS
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) GetSingle(source *UpdatePhantomTimeSerieRequest_CAS) (interface{}, bool) {
+	switch fps.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		if source.GetConditionalState() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetConditionalState())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fps.selector))
+	}
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) ClearValue(item *UpdatePhantomTimeSerieRequest_CAS) {
+	if item != nil {
+		switch fps.selector {
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+			fps.subPath.ClearValueRaw(item.ConditionalState)
+		default:
+			panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithIValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathValue {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithIArrayOfValues(values interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithIArrayItemValue(value interface{}) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *UpdatePhantomTimeSerieRequestCAS_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// UpdatePhantomTimeSerieRequestCAS_FieldPathValue allows storing values for CAS fields according to their type
+type UpdatePhantomTimeSerieRequestCAS_FieldPathValue interface {
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **UpdatePhantomTimeSerieRequest_CAS)
+	CompareWith(*UpdatePhantomTimeSerieRequest_CAS) (cmp int, comparable bool)
+}
+
+func ParseUpdatePhantomTimeSerieRequestCAS_FieldPathValue(pathStr, valueStr string) (UpdatePhantomTimeSerieRequestCAS_FieldPathValue, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CAS field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(UpdatePhantomTimeSerieRequestCAS_FieldPathValue), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequestCAS_FieldPathValue(pathStr, valueStr string) UpdatePhantomTimeSerieRequestCAS_FieldPathValue {
+	fpv, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath
+	value interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPathValue = (*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'CAS' as interface{}
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) AsConditionalStateValue() (*phantom_time_serie.PhantomTimeSerie, bool) {
+	res, ok := fpv.value.(*phantom_time_serie.PhantomTimeSerie)
+	return res, ok
+}
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) AsFieldMaskValue() (*phantom_time_serie.PhantomTimeSerie_FieldMask, bool) {
+	res, ok := fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object CAS
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) SetTo(target **UpdatePhantomTimeSerieRequest_CAS) {
+	if *target == nil {
+		*target = new(UpdatePhantomTimeSerieRequest_CAS)
+	}
+	switch fpv.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		(*target).ConditionalState = fpv.value.(*phantom_time_serie.PhantomTimeSerie)
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		(*target).FieldMask = fpv.value.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fpv.selector))
+	}
+}
+
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UpdatePhantomTimeSerieRequest_CAS)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue' with the value under path in 'UpdatePhantomTimeSerieRequest_CAS'.
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) CompareWith(source *UpdatePhantomTimeSerieRequest_CAS) (int, bool) {
+	switch fpv.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return 0, false
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fpv.selector))
+	}
+}
+
+func (fpv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPathValue = (*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)(nil)
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) AsConditionalStatePathValue() (phantom_time_serie.PhantomTimeSerie_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) SetTo(target **UpdatePhantomTimeSerieRequest_CAS) {
+	if *target == nil {
+		*target = new(UpdatePhantomTimeSerieRequest_CAS)
+	}
+	switch fpvs.Selector() {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue).SetTo(&(*target).ConditionalState)
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*UpdatePhantomTimeSerieRequest_CAS)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) CompareWith(source *UpdatePhantomTimeSerieRequest_CAS) (int, bool) {
+	switch fpvs.Selector() {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return fpvs.subPathValue.(phantom_time_serie.PhantomTimeSerie_FieldPathValue).CompareWith(source.GetConditionalState())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue allows storing single item in Path-specific values for CAS according to their type
+// Present only for array (repeated) types.
+type UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+	ContainsValue(*UpdatePhantomTimeSerieRequest_CAS) bool
+}
+
+// ParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue(pathStr, valueStr string) (UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CAS field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue(pathStr, valueStr string) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue {
+	fpaiv, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath
+	value interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue = (*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object UpdatePhantomTimeSerieRequest_CAS as interface{}
+func (fpaiv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue) GetSingle(source *UpdatePhantomTimeSerieRequest_CAS) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'CAS'
+func (fpaiv *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayItemValue) ContainsValue(source *UpdatePhantomTimeSerieRequest_CAS) bool {
+	slice := fpaiv.UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue) AsConditionalStatePathItemValue() (phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'CAS'
+func (fpaivs *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue) ContainsValue(source *UpdatePhantomTimeSerieRequest_CAS) bool {
+	switch fpaivs.Selector() {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		return fpaivs.subPathItemValue.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue).ContainsValue(source.GetConditionalState())
+	default:
+		panic(fmt.Sprintf("Invalid selector for UpdatePhantomTimeSerieRequest_CAS: %d", fpaivs.Selector()))
+	}
+}
+
+// UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues allows storing slice of values for CAS fields according to their type
+type UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+}
+
+func ParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues(pathStr, valuesStr string) (UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues, error) {
+	fp, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing CAS field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues), nil
+}
+
+func MustParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues(pathStr, valuesStr string) UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues {
+	fpaov, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath
+	values interface{}
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues = (*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+		for _, v := range fpaov.values.([]*phantom_time_serie.PhantomTimeSerie) {
+			values = append(values, v)
+		}
+	case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+		for _, v := range fpaov.values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues) AsConditionalStateArrayOfValues() ([]*phantom_time_serie.PhantomTimeSerie, bool) {
+	res, ok := fpaov.values.([]*phantom_time_serie.PhantomTimeSerie)
+	return res, ok
+}
+func (fpaov *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues) AsFieldMaskArrayOfValues() ([]*phantom_time_serie.PhantomTimeSerie_FieldMask, bool) {
+	res, ok := fpaov.values.([]*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	return res, ok
+}
+
+type UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues struct {
+	UpdatePhantomTimeSerieRequestCAS_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues = (*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues) AsConditionalStatePathArrayOfValues() (phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type DeletePhantomTimeSerieRequest_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() DeletePhantomTimeSerieRequest_FieldPathSelector

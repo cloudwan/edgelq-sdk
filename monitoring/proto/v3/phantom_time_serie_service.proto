@@ -283,6 +283,35 @@ message CreatePhantomTimeSerieRequest {
 }
 
 // Request message for method
+// [UpdatePhantomTimeSerie][ntt.monitoring.v3.UpdatePhantomTimeSerie]
+message UpdatePhantomTimeSerieRequest {
+  // PhantomTimeSerie resource body
+  PhantomTimeSerie phantom_time_serie = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    PhantomTimeSerie conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+}
+
+// Request message for method
 // [DeletePhantomTimeSerie][ntt.monitoring.v3.DeletePhantomTimeSerie]
 message DeletePhantomTimeSerieRequest {
   // Reference of ntt.monitoring.v3.PhantomTimeSerie
@@ -339,6 +368,16 @@ service PhantomTimeSerieService {
       returns (PhantomTimeSerie) {
     option (google.api.http) = {
       post : "/v3/{parent=projects/*/regions/*}/phantomTimeSeries"
+      body : "phantom_time_serie"
+    };
+  }
+
+  // UpdatePhantomTimeSerie
+  rpc UpdatePhantomTimeSerie(UpdatePhantomTimeSerieRequest)
+      returns (PhantomTimeSerie) {
+    option (google.api.http) = {
+      put : "/v3/{phantom_time_serie.name=projects/*/regions/*/"
+            "phantomTimeSeries/*}"
       body : "phantom_time_serie"
     };
   }

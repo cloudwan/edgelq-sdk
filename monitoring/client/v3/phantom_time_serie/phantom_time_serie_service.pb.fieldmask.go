@@ -3152,6 +3152,656 @@ func (fieldMask *CreatePhantomTimeSerieRequest_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type UpdatePhantomTimeSerieRequest_FieldMask struct {
+	Paths []UpdatePhantomTimeSerieRequest_FieldPath
+}
+
+func FullUpdatePhantomTimeSerieRequest_FieldMask() *UpdatePhantomTimeSerieRequest_FieldMask {
+	res := &UpdatePhantomTimeSerieRequest_FieldMask{}
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie})
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask})
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas})
+	return res
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UpdatePhantomTimeSerieRequest_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUpdatePhantomTimeSerieRequest_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Subtract(other *UpdatePhantomTimeSerieRequest_FieldMask) *UpdatePhantomTimeSerieRequest_FieldMask {
+	result := &UpdatePhantomTimeSerieRequest_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[UpdatePhantomTimeSerieRequest_FieldPathSelector]gotenobject.FieldMask{
+		UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
+		UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:              &UpdatePhantomTimeSerieRequest_CAS_FieldMask{},
+	}
+	mySubMasks := map[UpdatePhantomTimeSerieRequest_FieldPathSelector]gotenobject.FieldMask{
+		UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
+		UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:              &UpdatePhantomTimeSerieRequest_CAS_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UpdatePhantomTimeSerieRequest_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *UpdatePhantomTimeSerieRequest_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*UpdatePhantomTimeSerieRequest_FieldTerminalPath); ok {
+					switch tp.selector {
+					case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+						mySubMasks[UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie] = phantom_time_serie.FullPhantomTimeSerie_FieldMask()
+					case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+						mySubMasks[UpdatePhantomTimeSerieRequest_FieldPathSelectorCas] = FullUpdatePhantomTimeSerieRequest_CAS_FieldMask()
+					}
+				} else if tp, ok := path.(*UpdatePhantomTimeSerieRequest_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UpdatePhantomTimeSerieRequest_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) FilterInputFields() *UpdatePhantomTimeSerieRequest_FieldMask {
+	result := &UpdatePhantomTimeSerieRequest_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+			if _, ok := path.(*UpdatePhantomTimeSerieRequest_FieldTerminalPath); ok {
+				for _, subpath := range phantom_time_serie.FullPhantomTimeSerie_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdatePhantomTimeSerieRequest_FieldSubPath); ok {
+				selectedMask := &phantom_time_serie.PhantomTimeSerie_FieldMask{
+					Paths: []phantom_time_serie.PhantomTimeSerie_FieldPath{sub.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie, subPath: allowedPath})
+				}
+			}
+		case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+			if _, ok := path.(*UpdatePhantomTimeSerieRequest_FieldTerminalPath); ok {
+				for _, subpath := range FullUpdatePhantomTimeSerieRequest_CAS_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdatePhantomTimeSerieRequest_FieldSubPath); ok {
+				selectedMask := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{
+					Paths: []UpdatePhantomTimeSerieRequestCAS_FieldPath{sub.subPath.(UpdatePhantomTimeSerieRequestCAS_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UpdatePhantomTimeSerieRequest_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UpdatePhantomTimeSerieRequest_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UpdatePhantomTimeSerieRequest_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) AppendPath(path UpdatePhantomTimeSerieRequest_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UpdatePhantomTimeSerieRequest_FieldPath))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) GetPaths() []UpdatePhantomTimeSerieRequest_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUpdatePhantomTimeSerieRequest_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Set(target, source *UpdatePhantomTimeSerieRequest) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UpdatePhantomTimeSerieRequest), source.(*UpdatePhantomTimeSerieRequest))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) Project(source *UpdatePhantomTimeSerieRequest) *UpdatePhantomTimeSerieRequest {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UpdatePhantomTimeSerieRequest{}
+	phantomTimeSerieMask := &phantom_time_serie.PhantomTimeSerie_FieldMask{}
+	wholePhantomTimeSerieAccepted := false
+	casMask := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	wholeCasAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UpdatePhantomTimeSerieRequest_FieldTerminalPath:
+			switch tp.selector {
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+				result.PhantomTimeSerie = source.PhantomTimeSerie
+				wholePhantomTimeSerieAccepted = true
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask:
+				result.UpdateMask = source.UpdateMask
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+				result.Cas = source.Cas
+				wholeCasAccepted = true
+			}
+		case *UpdatePhantomTimeSerieRequest_FieldSubPath:
+			switch tp.selector {
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie:
+				phantomTimeSerieMask.AppendPath(tp.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath))
+			case UpdatePhantomTimeSerieRequest_FieldPathSelectorCas:
+				casMask.AppendPath(tp.subPath.(UpdatePhantomTimeSerieRequestCAS_FieldPath))
+			}
+		}
+	}
+	if wholePhantomTimeSerieAccepted == false && len(phantomTimeSerieMask.Paths) > 0 {
+		result.PhantomTimeSerie = phantomTimeSerieMask.Project(source.GetPhantomTimeSerie())
+	}
+	if wholeCasAccepted == false && len(casMask.Paths) > 0 {
+		result.Cas = casMask.Project(source.GetCas())
+	}
+	return result
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UpdatePhantomTimeSerieRequest))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type UpdatePhantomTimeSerieRequest_CAS_FieldMask struct {
+	Paths []UpdatePhantomTimeSerieRequestCAS_FieldPath
+}
+
+func FullUpdatePhantomTimeSerieRequest_CAS_FieldMask() *UpdatePhantomTimeSerieRequest_CAS_FieldMask {
+	res := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState})
+	res.Paths = append(res.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask})
+	return res
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(raw)
+	})
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) ProtoMessage() {}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Subtract(other *UpdatePhantomTimeSerieRequest_CAS_FieldMask) *UpdatePhantomTimeSerieRequest_CAS_FieldMask {
+	result := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[UpdatePhantomTimeSerieRequestCAS_FieldPathSelector]gotenobject.FieldMask{
+		UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
+	}
+	mySubMasks := map[UpdatePhantomTimeSerieRequestCAS_FieldPathSelector]gotenobject.FieldMask{
+		UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState: &phantom_time_serie.PhantomTimeSerie_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *UpdatePhantomTimeSerieRequestCAS_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath); ok {
+					switch tp.selector {
+					case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+						mySubMasks[UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState] = phantom_time_serie.FullPhantomTimeSerie_FieldMask()
+					}
+				} else if tp, ok := path.(*UpdatePhantomTimeSerieRequestCAS_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*UpdatePhantomTimeSerieRequest_CAS_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) FilterInputFields() *UpdatePhantomTimeSerieRequest_CAS_FieldMask {
+	result := &UpdatePhantomTimeSerieRequest_CAS_FieldMask{}
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+			if _, ok := path.(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath); ok {
+				for _, subpath := range phantom_time_serie.FullPhantomTimeSerie_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*UpdatePhantomTimeSerieRequestCAS_FieldSubPath); ok {
+				selectedMask := &phantom_time_serie.PhantomTimeSerie_FieldMask{
+					Paths: []phantom_time_serie.PhantomTimeSerie_FieldPath{sub.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) ToProtoFieldMask() *fieldmaskpb.FieldMask {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) FromProtoFieldMask(protoFieldMask *fieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]UpdatePhantomTimeSerieRequestCAS_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask UpdatePhantomTimeSerieRequest_CAS_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask UpdatePhantomTimeSerieRequest_CAS_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &fieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) AppendPath(path UpdatePhantomTimeSerieRequestCAS_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(UpdatePhantomTimeSerieRequestCAS_FieldPath))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) GetPaths() []UpdatePhantomTimeSerieRequestCAS_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseUpdatePhantomTimeSerieRequestCAS_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Set(target, source *UpdatePhantomTimeSerieRequest_CAS) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*UpdatePhantomTimeSerieRequest_CAS), source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) Project(source *UpdatePhantomTimeSerieRequest_CAS) *UpdatePhantomTimeSerieRequest_CAS {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &UpdatePhantomTimeSerieRequest_CAS{}
+	conditionalStateMask := &phantom_time_serie.PhantomTimeSerie_FieldMask{}
+	wholeConditionalStateAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath:
+			switch tp.selector {
+			case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+				result.ConditionalState = source.ConditionalState
+				wholeConditionalStateAccepted = true
+			case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask:
+				result.FieldMask = source.FieldMask
+			}
+		case *UpdatePhantomTimeSerieRequestCAS_FieldSubPath:
+			switch tp.selector {
+			case UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState:
+				conditionalStateMask.AppendPath(tp.subPath.(phantom_time_serie.PhantomTimeSerie_FieldPath))
+			}
+		}
+	}
+	if wholeConditionalStateAccepted == false && len(conditionalStateMask.Paths) > 0 {
+		result.ConditionalState = conditionalStateMask.Project(source.GetConditionalState())
+	}
+	return result
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*UpdatePhantomTimeSerieRequest_CAS))
+}
+
+func (fieldMask *UpdatePhantomTimeSerieRequest_CAS_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type DeletePhantomTimeSerieRequest_FieldMask struct {
 	Paths []DeletePhantomTimeSerieRequest_FieldPath
 }

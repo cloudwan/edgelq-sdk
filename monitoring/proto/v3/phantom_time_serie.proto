@@ -5,6 +5,7 @@ package ntt.monitoring.v3;
 import "edgelq-sdk/common/types/meta.proto";
 import "edgelq-sdk/monitoring/proto/v3/common.proto";
 import "edgelq-sdk/monitoring/proto/v3/metric_descriptor.proto";
+import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -32,17 +33,19 @@ message PhantomTimeSerie {
   //
   // Kind/ValueType are not present in key
   // Key is not to be decoded outside of service, but treated as opaque string
-  bytes key = 101;
+  bytes key = 101 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   // Internal use - for bulk reporting of TimeSeries
-  string project = 102;
+  string project = 102 [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   // The associated metric. A fully-specified metric used to identify the time
   // series.
+  // This field cannot be updated, can be only set during creation.
   Metric metric = 1;
 
   // The associated monitored resource.  Custom metrics can use only certain
   // monitored resource types in their time series data.
+  // This field cannot be updated, can be only set during creation.
   MonitoredResource resource = 2;
 
   // The metric kind of the time series. When listing time series, this metric
@@ -54,7 +57,8 @@ message PhantomTimeSerie {
   // metric's descriptor must be auto-created, then this field specifies the
   // metric kind of the new descriptor and must be either `GAUGE` (the default)
   // or `CUMULATIVE`.
-  MetricDescriptor.MetricKind metric_kind = 3;
+  MetricDescriptor.MetricKind metric_kind = 3
+      [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   // The value type of the time series. When listing time series, this value
   // type might be different from the value type of the associated metric if
@@ -62,30 +66,9 @@ message PhantomTimeSerie {
   //
   // When creating a time series, this field is optional. If present, it must be
   // the same as the type of the data in the `points` field.
-  MetricDescriptor.ValueType value_type = 4;
+  MetricDescriptor.ValueType value_type = 4
+      [ (google.api.field_behavior) = OUTPUT_ONLY ];
 
   // Phantom value
   TypedValue value = 6;
-}
-
-message PhantomTimeSeriesBulkChange {
-  // add partitioning information (e.g. project, hash key to invalidate whole
-  // group upon resync)
-  bool resync = 1;
-
-  // partition identifier (e.g. project, key_hash)
-  bytes partition = 2;
-
-  repeated PhantomTimeSerie added = 3;
-
-  repeated PhantomTimeSerie removed = 4;
-  // no need to handle modified (key is treated as id and it must change on
-  // modified)
-
-  // Timestamp of the first PhantomTimeSeriesBulkChange for this partition.
-  // It updates with every resync event.
-  google.protobuf.Timestamp start_time = 5;
-
-  // Timestamp of the message
-  google.protobuf.Timestamp msg_time = 6;
 }

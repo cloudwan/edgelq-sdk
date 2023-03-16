@@ -5565,6 +5565,4729 @@ func (s CreatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributi
 	return s.FieldPath().WithIArrayItemValue(value).(*CreatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
 }
 
+type UpdatePhantomTimeSerieRequestFieldPathBuilder struct{}
+
+func NewUpdatePhantomTimeSerieRequestFieldPathBuilder() UpdatePhantomTimeSerieRequestFieldPathBuilder {
+	return UpdatePhantomTimeSerieRequestFieldPathBuilder{}
+}
+func (UpdatePhantomTimeSerieRequestFieldPathBuilder) PhantomTimeSerie() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie{}
+}
+func (UpdatePhantomTimeSerieRequestFieldPathBuilder) UpdateMask() UpdatePhantomTimeSerieRequestPathSelectorUpdateMask {
+	return UpdatePhantomTimeSerieRequestPathSelectorUpdateMask{}
+}
+func (UpdatePhantomTimeSerieRequestFieldPathBuilder) Cas() UpdatePhantomTimeSerieRequestPathSelectorCas {
+	return UpdatePhantomTimeSerieRequestPathSelectorCas{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) FieldPath() *UpdatePhantomTimeSerieRequest_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithValue(value *phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithSubPath(subPath phantom_time_serie.PhantomTimeSerie_FieldPath) *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie, subPath: subPath}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithSubValue(subPathValue phantom_time_serie.PhantomTimeSerie_FieldPathValue) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathValue{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithSubArrayOfValues(subPathArrayOfValues phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) WithSubArrayItemValue(subPathArrayItemValue phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Metadata() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Name() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Key() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Project() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Metric() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Resource() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) MetricKind() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) ValueType() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerie) Value() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) WithValue(value *ntt_meta.Meta) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) CreateTime() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) UpdateTime() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) DeleteTime() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Uuid() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Tags() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Labels() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Annotations() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Generation() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) ResourceVersion() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) OwnerReferences() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Shards() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Syncing() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadata) Lifecycle() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().CreateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().UpdateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Uuid().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataUuid) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Tags().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataTags) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Annotations().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataAnnotations) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Annotations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataAnnotations) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Generation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataGeneration) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().ResourceVersion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataResourceVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) Kind() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) Version() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) Name() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) Region() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) Controller() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) BlockOwnerDeletion() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferences) RequiresOwnerReference() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Kind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesName) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Controller().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesController) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Shards().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards) WithValue(value map[string]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards) WithArrayOfValues(values []map[string]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataShards) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Shards().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetadataShards) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) OwningRegion() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncing) Regions() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().OwningRegion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingOwningRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().Regions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataSyncingRegions) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle) State() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycle) BlockDeletion() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName) WithValue(value *phantom_time_serie.Name) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieName) WithArrayOfValues(values []*phantom_time_serie.Name) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Key().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey) WithValue(value []byte) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieKey) WithArrayOfValues(values [][]byte) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Project().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieProject) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) WithValue(value *monitoring_common.Metric) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) WithArrayOfValues(values []*monitoring_common.Metric) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) Type() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) Labels() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetric) ReducedLabels() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieMetricLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) WithValue(value *monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) WithArrayOfValues(values []*monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) Type() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) Labels() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResource) ReducedLabels() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorPhantomTimeSerieResourceLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieResourceReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().MetricKind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind) WithValue(value metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieMetricKind) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().ValueType().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType) WithValue(value metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueType) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) WithValue(value *monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) BoolValue() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) Int64Value() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) DoubleValue() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) StringValue() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValue) DistributionValue() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().BoolValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueBoolValue) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().Int64Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueInt64Value) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DoubleValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDoubleValue) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().StringValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueStringValue) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) WithValue(value *monitoring_common.Distribution) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) Count() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) Mean() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) SumOfSquaredDeviation() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) Range() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) BucketOptions() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValue) BucketCounts() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Count().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueCount) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Mean().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueMean) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().SumOfSquaredDeviation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueSumOfSquaredDeviation) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange) Min() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRange) Max() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().Min().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMin) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().Max().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueRangeMax) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) LinearBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) ExponentialBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) ExplicitBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptions) DynamicBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) Width() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBuckets) Offset() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().Width().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsWidth) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().Offset().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsLinearBucketsOffset) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) GrowthFactor() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBuckets) Scale() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().GrowthFactor().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().Scale().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExponentialBucketsScale) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExplicitBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBuckets) Bounds() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExplicitBuckets().Bounds().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds) WithValue(value []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsExplicitBucketsBounds) WithItemValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets) Compression() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBuckets) Means() UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans {
+	return UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().Compression().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsCompression) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().Means().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans) WithValue(value []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketOptionsDynamicBucketsMeans) WithItemValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorPhantomTimeSerie,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketCounts().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts) WithValue(value []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts) WithArrayOfValues(values [][]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorPhantomTimeSerieValueDistributionValueBucketCounts) WithItemValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorUpdateMask struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorUpdateMask) FieldPath() *UpdatePhantomTimeSerieRequest_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorUpdateMask}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorUpdateMask) WithValue(value *phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorUpdateMask) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCas struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCas) FieldPath() *UpdatePhantomTimeSerieRequest_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequest_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCas) WithValue(value *UpdatePhantomTimeSerieRequest_CAS) *UpdatePhantomTimeSerieRequest_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCas) WithArrayOfValues(values []*UpdatePhantomTimeSerieRequest_CAS) *UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldTerminalPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCas) WithSubPath(subPath UpdatePhantomTimeSerieRequestCAS_FieldPath) *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas, subPath: subPath}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCas) WithSubValue(subPathValue UpdatePhantomTimeSerieRequestCAS_FieldPathValue) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathValue{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCas) WithSubArrayOfValues(subPathArrayOfValues UpdatePhantomTimeSerieRequestCAS_FieldPathArrayOfValues) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCas) WithSubArrayItemValue(subPathArrayItemValue UpdatePhantomTimeSerieRequestCAS_FieldPathArrayItemValue) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue{UpdatePhantomTimeSerieRequest_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCas) ConditionalState() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCas) FieldMask() UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) WithValue(value *phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Metadata() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Name() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Key() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Project() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Metric() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Resource() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) MetricKind() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) ValueType() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalState) Value() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) WithValue(value *ntt_meta.Meta) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) CreateTime() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) UpdateTime() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) DeleteTime() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Uuid() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Tags() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Labels() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Annotations() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Generation() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) ResourceVersion() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) OwnerReferences() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Shards() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Syncing() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadata) Lifecycle() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().CreateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().UpdateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Uuid().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataUuid) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Tags().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataTags) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Annotations().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataAnnotations) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Annotations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataAnnotations) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Generation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataGeneration) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().ResourceVersion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataResourceVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Kind() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Version() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Name() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Region() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) Controller() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) BlockOwnerDeletion() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Kind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesName) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Region().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().Controller().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesController) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Shards().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards) WithValue(value map[string]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards) WithArrayOfValues(values []map[string]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataShards) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Shards().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetadataShards) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Syncing().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing) OwningRegion() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncing) Regions() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Syncing().OwningRegion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingOwningRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Syncing().Regions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle) State() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycle) BlockDeletion() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName) WithValue(value *phantom_time_serie.Name) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateName) WithArrayOfValues(values []*phantom_time_serie.Name) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Key().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey) WithValue(value []byte) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateKey) WithArrayOfValues(values [][]byte) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Project().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateProject) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metric().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) WithValue(value *monitoring_common.Metric) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) WithArrayOfValues(values []*monitoring_common.Metric) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) Type() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) Labels() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetric) ReducedLabels() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metric().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateMetricLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Metric().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Resource().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) WithValue(value *monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) WithArrayOfValues(values []*monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) Type() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) Labels() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResource) ReducedLabels() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Resource().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceLabels) WithKey(key string) UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels {
+	return UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestMapPathSelectorCasConditionalStateResourceLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Resource().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateResourceReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().MetricKind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind) WithValue(value metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateMetricKind) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().ValueType().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType) WithValue(value metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueType) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) WithValue(value *monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) BoolValue() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) Int64Value() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) DoubleValue() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) StringValue() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValue) DistributionValue() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().BoolValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue) WithValue(value bool) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueBoolValue) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().Int64Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueInt64Value) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DoubleValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDoubleValue) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().StringValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue) WithValue(value string) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueStringValue) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) WithValue(value *monitoring_common.Distribution) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) Count() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) Mean() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) SumOfSquaredDeviation() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) Range() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) BucketOptions() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValue) BucketCounts() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().Count().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount) WithValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueCount) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().Mean().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueMean) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().SumOfSquaredDeviation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueSumOfSquaredDeviation) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().Range().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange) Min() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRange) Max() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().Range().Min().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMin) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().Range().Max().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueRangeMax) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) LinearBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) ExponentialBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) ExplicitBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptions) DynamicBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().LinearBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) Width() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBuckets) Offset() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().LinearBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().LinearBuckets().Width().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().LinearBuckets().Offset().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExponentialBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) GrowthFactor() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) Scale() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExponentialBuckets().GrowthFactor().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExponentialBuckets().Scale().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExplicitBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) Bounds() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().ExplicitBuckets().Bounds().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithValue(value []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithItemValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().DynamicBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) Compression() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression{}
+}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) Means() UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans {
+	return UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans{}
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().DynamicBuckets().Compression().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) WithValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketOptions().DynamicBuckets().Means().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithValue(value []float64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithItemValue(value float64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().ConditionalState().Value().DistributionValue().BucketCounts().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts) WithValue(value []int64) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts) WithArrayOfValues(values [][]int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasConditionalStateValueDistributionValueBucketCounts) WithItemValue(value int64) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask struct{}
+
+func (UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask) FieldPath() *UpdatePhantomTimeSerieRequest_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequest_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequest_FieldPathSelectorCas,
+		subPath:  NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder().FieldMask().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask) WithValue(value *phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequest_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequestPathSelectorCasFieldMask) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequest_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequestCASFieldPathBuilder struct{}
+
+func NewUpdatePhantomTimeSerieRequestCASFieldPathBuilder() UpdatePhantomTimeSerieRequestCASFieldPathBuilder {
+	return UpdatePhantomTimeSerieRequestCASFieldPathBuilder{}
+}
+func (UpdatePhantomTimeSerieRequestCASFieldPathBuilder) ConditionalState() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState{}
+}
+func (UpdatePhantomTimeSerieRequestCASFieldPathBuilder) FieldMask() UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithValue(value *phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie) *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithSubPath(subPath phantom_time_serie.PhantomTimeSerie_FieldPath) *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState, subPath: subPath}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithSubValue(subPathValue phantom_time_serie.PhantomTimeSerie_FieldPathValue) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue{UpdatePhantomTimeSerieRequestCAS_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithSubArrayOfValues(subPathArrayOfValues phantom_time_serie.PhantomTimeSerie_FieldPathArrayOfValues) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues{UpdatePhantomTimeSerieRequestCAS_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) WithSubArrayItemValue(subPathArrayItemValue phantom_time_serie.PhantomTimeSerie_FieldPathArrayItemValue) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue{UpdatePhantomTimeSerieRequestCAS_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Metadata() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Name() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Key() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Project() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Metric() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Resource() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) MetricKind() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) ValueType() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalState) Value() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) WithValue(value *ntt_meta.Meta) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) WithArrayOfValues(values []*ntt_meta.Meta) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) CreateTime() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) UpdateTime() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) DeleteTime() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Uuid() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Tags() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Labels() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Annotations() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Generation() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) ResourceVersion() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) OwnerReferences() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Shards() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Syncing() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadata) Lifecycle() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().CreateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataCreateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().UpdateTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUpdateTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().DeleteTime().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithValue(value *timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataDeleteTime) WithArrayOfValues(values []*timestamp.Timestamp) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Uuid().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataUuid) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Tags().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags) WithValue(value []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataTags) WithItemValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLabels) WithKey(key string) UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels {
+	return UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Annotations().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataAnnotations) WithKey(key string) UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations {
+	return UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations{key: key}
+}
+
+type UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Annotations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataAnnotations) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Generation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration) WithValue(value int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataGeneration) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().ResourceVersion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataResourceVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) WithValue(value []*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) WithArrayOfValues(values [][]*ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) WithItemValue(value *ntt_meta.OwnerReference) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Kind() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Version() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Name() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Region() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) Controller() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) BlockOwnerDeletion() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferences) RequiresOwnerReference() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Kind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesKind) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Version().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesVersion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesName) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Region().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().Controller().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController) WithValue(value bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesController) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().BlockOwnerDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesBlockOwnerDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithValue(value bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Shards().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards) WithValue(value map[string]int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards) WithArrayOfValues(values []map[string]int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataShards) WithKey(key string) UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards {
+	return UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards{key: key}
+}
+
+type UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Shards().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards) WithValue(value int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetadataShards) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing) WithValue(value *ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing) WithArrayOfValues(values []*ntt_meta.SyncingMeta) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing) OwningRegion() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncing) Regions() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().OwningRegion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingOwningRegion) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Syncing().Regions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithValue(value []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataSyncingRegions) WithItemValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithValue(value *ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle) WithArrayOfValues(values []*ntt_meta.Lifecycle) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle) State() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycle) BlockDeletion() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().State().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithValue(value ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleState) WithArrayOfValues(values []ntt_meta.Lifecycle_State) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metadata().Lifecycle().BlockDeletion().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithValue(value bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetadataLifecycleBlockDeletion) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName) WithValue(value *phantom_time_serie.Name) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateName) WithArrayOfValues(values []*phantom_time_serie.Name) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Key().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey) WithValue(value []byte) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateKey) WithArrayOfValues(values [][]byte) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Project().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateProject) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) WithValue(value *monitoring_common.Metric) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) WithArrayOfValues(values []*monitoring_common.Metric) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) Type() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) Labels() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetric) ReducedLabels() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricLabels) WithKey(key string) UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels {
+	return UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateMetricLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Metric().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) WithValue(value *monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) WithArrayOfValues(values []*monitoring_common.MonitoredResource) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) Type() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) Labels() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResource) ReducedLabels() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Type().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceType) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Labels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels) WithValue(value map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels) WithArrayOfValues(values []map[string]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceLabels) WithKey(key string) UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels {
+	return UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels{key: key}
+}
+
+type UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels struct {
+	key string
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().Labels().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASMapPathSelectorConditionalStateResourceLabels) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Resource().ReducedLabels().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels) WithValue(value []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels) WithArrayOfValues(values [][]string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateResourceReducedLabels) WithItemValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().MetricKind().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind) WithValue(value metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateMetricKind) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_MetricKind) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().ValueType().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType) WithValue(value metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueType) WithArrayOfValues(values []metric_descriptor.MetricDescriptor_ValueType) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) WithValue(value *monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) WithArrayOfValues(values []*monitoring_common.TypedValue) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) BoolValue() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) Int64Value() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) DoubleValue() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) StringValue() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValue) DistributionValue() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().BoolValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue) WithValue(value bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueBoolValue) WithArrayOfValues(values []bool) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().Int64Value().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value) WithValue(value int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueInt64Value) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DoubleValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDoubleValue) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().StringValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue) WithValue(value string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueStringValue) WithArrayOfValues(values []string) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) WithValue(value *monitoring_common.Distribution) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) WithArrayOfValues(values []*monitoring_common.Distribution) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) Count() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) Mean() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) SumOfSquaredDeviation() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) Range() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) BucketOptions() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValue) BucketCounts() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Count().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount) WithValue(value int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueCount) WithArrayOfValues(values []int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Mean().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueMean) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().SumOfSquaredDeviation().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueSumOfSquaredDeviation) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange) WithValue(value *monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange) WithArrayOfValues(values []*monitoring_common.Distribution_Range) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange) Min() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRange) Max() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().Min().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMin) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().Range().Max().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueRangeMax) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) WithValue(value *monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) LinearBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) ExponentialBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) ExplicitBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptions) DynamicBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Linear) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) Width() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBuckets) Offset() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().Width().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsWidth) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().LinearBuckets().Offset().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsLinearBucketsOffset) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Exponential) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) NumFiniteBuckets() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) GrowthFactor() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBuckets) Scale() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().NumFiniteBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithValue(value int32) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsNumFiniteBuckets) WithArrayOfValues(values []int32) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().GrowthFactor().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsGrowthFactor) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExponentialBuckets().Scale().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExponentialBucketsScale) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExplicitBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Explicit) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBuckets) Bounds() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().ExplicitBuckets().Bounds().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithValue(value []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsExplicitBucketsBounds) WithItemValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) WithValue(value *monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) WithArrayOfValues(values []*monitoring_common.Distribution_BucketOptions_Dynamic) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) Compression() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression{}
+}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBuckets) Means() UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans {
+	return UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans{}
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().Compression().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) WithValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsCompression) WithArrayOfValues(values []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketOptions().DynamicBuckets().Means().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithValue(value []float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithArrayOfValues(values [][]float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketOptionsDynamicBucketsMeans) WithItemValue(value float64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldSubPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldSubPath{
+		selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorConditionalState,
+		subPath:  phantom_time_serie.NewPhantomTimeSerieFieldPathBuilder().Value().DistributionValue().BucketCounts().FieldPath(),
+	}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts) WithValue(value []int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts) WithArrayOfValues(values [][]int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayOfValues)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorConditionalStateValueDistributionValueBucketCounts) WithItemValue(value int64) *UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldSubPathArrayItemValue)
+}
+
+type UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask struct{}
+
+func (UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask) FieldPath() *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath {
+	return &UpdatePhantomTimeSerieRequestCAS_FieldTerminalPath{selector: UpdatePhantomTimeSerieRequestCAS_FieldPathSelectorFieldMask}
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask) WithValue(value *phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathValue)
+}
+
+func (s UpdatePhantomTimeSerieRequest_CASPathSelectorFieldMask) WithArrayOfValues(values []*phantom_time_serie.PhantomTimeSerie_FieldMask) *UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*UpdatePhantomTimeSerieRequestCAS_FieldTerminalPathArrayOfValues)
+}
+
 type DeletePhantomTimeSerieRequestFieldPathBuilder struct{}
 
 func NewDeletePhantomTimeSerieRequestFieldPathBuilder() DeletePhantomTimeSerieRequestFieldPathBuilder {

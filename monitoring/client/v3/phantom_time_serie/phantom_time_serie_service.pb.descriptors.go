@@ -39,6 +39,7 @@ var (
 	watchPhantomTimeSerieDescriptor     *WatchPhantomTimeSerieDescriptor
 	watchPhantomTimeSeriesDescriptor    *WatchPhantomTimeSeriesDescriptor
 	createPhantomTimeSerieDescriptor    *CreatePhantomTimeSerieDescriptor
+	updatePhantomTimeSerieDescriptor    *UpdatePhantomTimeSerieDescriptor
 	deletePhantomTimeSerieDescriptor    *DeletePhantomTimeSerieDescriptor
 )
 
@@ -1114,6 +1115,179 @@ func GetCreatePhantomTimeSerieDescriptor() *CreatePhantomTimeSerieDescriptor {
 	return createPhantomTimeSerieDescriptor
 }
 
+type UpdatePhantomTimeSerieDescriptor struct{}
+
+type UpdatePhantomTimeSerieDescriptorClientMsgHandle struct{}
+
+type UpdatePhantomTimeSerieDescriptorServerMsgHandle struct{}
+
+func (d *UpdatePhantomTimeSerieDescriptor) NewEmptyClientMsg() proto.Message {
+	return &UpdatePhantomTimeSerieRequest{}
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) NewEmptyServerMsg() proto.Message {
+	return &phantom_time_serie.PhantomTimeSerie{}
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) RequestHasResourceBody() bool {
+	return true
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetVerb() string {
+	return "update"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetMethodName() string {
+	return "UpdatePhantomTimeSerie"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v3.PhantomTimeSerieService/UpdatePhantomTimeSerie"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v3"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetApiName() string {
+	return "PhantomTimeSerieService"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetServiceVersion() string {
+	return "v3"
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return phantomTimeSerieServiceDescriptor
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return phantom_time_serie.GetDescriptor()
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdatePhantomTimeSerieDescriptorClientMsgHandle{}
+}
+
+func (d *UpdatePhantomTimeSerieDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &UpdatePhantomTimeSerieDescriptorServerMsgHandle{}
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*UpdatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*UpdatePhantomTimeSerieRequest) *phantom_time_serie.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		res := typedMsg.GetPhantomTimeSerie()
+		if name := res.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*UpdatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*UpdatePhantomTimeSerieRequest) []*phantom_time_serie.Name
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*UpdatePhantomTimeSerieRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*UpdatePhantomTimeSerieRequest) *phantom_time_serie.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*phantom_time_serie.Name)(nil)
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*phantom_time_serie.PhantomTimeSerie) []*phantom_time_serie.Name
+	})
+	if ok {
+		return phantom_time_serie.PhantomTimeSerieNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *UpdatePhantomTimeSerieDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*phantom_time_serie.PhantomTimeSerie)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*phantom_time_serie.PhantomTimeSerie) *phantom_time_serie.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func GetUpdatePhantomTimeSerieDescriptor() *UpdatePhantomTimeSerieDescriptor {
+	return updatePhantomTimeSerieDescriptor
+}
+
 type DeletePhantomTimeSerieDescriptor struct{}
 
 type DeletePhantomTimeSerieDescriptorClientMsgHandle struct{}
@@ -1291,6 +1465,7 @@ func (d *PhantomTimeSerieServiceDescriptor) AllMethodDescriptors() []gotenclient
 		watchPhantomTimeSerieDescriptor,
 		watchPhantomTimeSeriesDescriptor,
 		createPhantomTimeSerieDescriptor,
+		updatePhantomTimeSerieDescriptor,
 		deletePhantomTimeSerieDescriptor,
 	}
 }
@@ -1327,6 +1502,7 @@ func initDescriptors() {
 	watchPhantomTimeSerieDescriptor = &WatchPhantomTimeSerieDescriptor{}
 	watchPhantomTimeSeriesDescriptor = &WatchPhantomTimeSeriesDescriptor{}
 	createPhantomTimeSerieDescriptor = &CreatePhantomTimeSerieDescriptor{}
+	updatePhantomTimeSerieDescriptor = &UpdatePhantomTimeSerieDescriptor{}
 	deletePhantomTimeSerieDescriptor = &DeletePhantomTimeSerieDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(phantomTimeSerieServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getPhantomTimeSerieDescriptor)
@@ -1335,6 +1511,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchPhantomTimeSerieDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchPhantomTimeSeriesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createPhantomTimeSerieDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(updatePhantomTimeSerieDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deletePhantomTimeSerieDescriptor)
 }
 
