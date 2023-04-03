@@ -59,6 +59,10 @@ func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []
 	request := &role_binding_client.BatchGetRoleBindingsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(role_binding.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*role_binding.RoleBinding_FieldMask)
+	}
 	resp, err := a.client.BatchGetRoleBindings(ctx, request)
 	if err != nil {
 		return err

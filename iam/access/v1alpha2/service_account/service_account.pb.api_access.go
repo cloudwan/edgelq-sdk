@@ -59,6 +59,10 @@ func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, r
 	request := &service_account_client.BatchGetServiceAccountsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(service_account.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*service_account.ServiceAccount_FieldMask)
+	}
 	resp, err := a.client.BatchGetServiceAccounts(ctx, request)
 	if err != nil {
 		return err

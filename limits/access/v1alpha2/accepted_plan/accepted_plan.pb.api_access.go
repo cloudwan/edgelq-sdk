@@ -59,6 +59,10 @@ func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs 
 	request := &accepted_plan_client.BatchGetAcceptedPlansRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(accepted_plan.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*accepted_plan.AcceptedPlan_FieldMask)
+	}
 	resp, err := a.client.BatchGetAcceptedPlans(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs 
 	request := &organization_client.BatchGetOrganizationsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(organization.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*organization.Organization_FieldMask)
+	}
 	resp, err := a.client.BatchGetOrganizations(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx co
 	request := &organization_invitation_client.BatchGetOrganizationInvitationsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(organization_invitation.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*organization_invitation.OrganizationInvitation_FieldMask)
+	}
 	resp, err := a.client.BatchGetOrganizationInvitations(ctx, request)
 	if err != nil {
 		return err

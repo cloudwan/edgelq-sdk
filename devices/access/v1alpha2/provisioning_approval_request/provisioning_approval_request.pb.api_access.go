@@ -59,6 +59,10 @@ func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalReque
 	request := &provisioning_approval_request_client.BatchGetProvisioningApprovalRequestsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(provisioning_approval_request.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)
+	}
 	resp, err := a.client.BatchGetProvisioningApprovalRequests(ctx, request)
 	if err != nil {
 		return err

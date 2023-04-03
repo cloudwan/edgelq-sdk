@@ -59,6 +59,10 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 	request := &condition_client.BatchGetConditionsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(condition.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*condition.Condition_FieldMask)
+	}
 	resp, err := a.client.BatchGetConditions(ctx, request)
 	if err != nil {
 		return err

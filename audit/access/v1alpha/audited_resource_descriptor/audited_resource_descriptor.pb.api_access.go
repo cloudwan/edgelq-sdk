@@ -59,6 +59,10 @@ func (a *apiAuditedResourceDescriptorAccess) BatchGetAuditedResourceDescriptors(
 	request := &audited_resource_descriptor_client.BatchGetAuditedResourceDescriptorsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(audited_resource_descriptor.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)
+	}
 	resp, err := a.client.BatchGetAuditedResourceDescriptors(ctx, request)
 	if err != nil {
 		return err

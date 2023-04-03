@@ -59,6 +59,10 @@ func (a *apiNotificationAccess) BatchGetNotifications(ctx context.Context, refs 
 	request := &notification_client.BatchGetNotificationsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(notification.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*notification.Notification_FieldMask)
+	}
 	resp, err := a.client.BatchGetNotifications(ctx, request)
 	if err != nil {
 		return err

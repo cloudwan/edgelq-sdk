@@ -59,6 +59,10 @@ func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs 
 	request := &distribution_client.BatchGetDistributionsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(distribution.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*distribution.Distribution_FieldMask)
+	}
 	resp, err := a.client.BatchGetDistributions(ctx, request)
 	if err != nil {
 		return err

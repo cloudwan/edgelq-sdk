@@ -59,6 +59,10 @@ func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Referenc
 	request := &user_client.BatchGetUsersRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(user.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*user.User_FieldMask)
+	}
 	resp, err := a.client.BatchGetUsers(ctx, request)
 	if err != nil {
 		return err

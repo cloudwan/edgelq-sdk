@@ -59,6 +59,10 @@ func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*lim
 	request := &limit_pool_client.BatchGetLimitPoolsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(limit_pool.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*limit_pool.LimitPool_FieldMask)
+	}
 	resp, err := a.client.BatchGetLimitPools(ctx, request)
 	if err != nil {
 		return err

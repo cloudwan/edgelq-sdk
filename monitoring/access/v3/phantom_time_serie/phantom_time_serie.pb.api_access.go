@@ -59,6 +59,10 @@ func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Contex
 	request := &phantom_time_serie_client.BatchGetPhantomTimeSeriesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(phantom_time_serie.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
+	}
 	resp, err := a.client.BatchGetPhantomTimeSeries(ctx, request)
 	if err != nil {
 		return err

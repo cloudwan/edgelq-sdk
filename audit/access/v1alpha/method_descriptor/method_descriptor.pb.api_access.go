@@ -59,6 +59,10 @@ func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Contex
 	request := &method_descriptor_client.BatchGetMethodDescriptorsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(method_descriptor.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*method_descriptor.MethodDescriptor_FieldMask)
+	}
 	resp, err := a.client.BatchGetMethodDescriptors(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiLimitAccess) BatchGetLimits(ctx context.Context, refs []*limit.Refer
 	request := &limit_client.BatchGetLimitsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(limit.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*limit.Limit_FieldMask)
+	}
 	resp, err := a.client.BatchGetLimits(ctx, request)
 	if err != nil {
 		return err

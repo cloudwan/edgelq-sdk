@@ -59,6 +59,10 @@ func (a *apiLogDescriptorAccess) BatchGetLogDescriptors(ctx context.Context, ref
 	request := &log_descriptor_client.BatchGetLogDescriptorsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(log_descriptor.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*log_descriptor.LogDescriptor_FieldMask)
+	}
 	resp, err := a.client.BatchGetLogDescriptors(ctx, request)
 	if err != nil {
 		return err

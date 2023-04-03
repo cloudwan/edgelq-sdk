@@ -59,6 +59,10 @@ func (a *apiSecretAccess) BatchGetSecrets(ctx context.Context, refs []*secret.Re
 	request := &secret_client.BatchGetSecretsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(secret.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*secret.Secret_FieldMask)
+	}
 	resp, err := a.client.BatchGetSecrets(ctx, request)
 	if err != nil {
 		return err

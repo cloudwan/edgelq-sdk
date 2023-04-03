@@ -59,6 +59,10 @@ func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Referenc
 	request := &role_client.BatchGetRolesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(role.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*role.Role_FieldMask)
+	}
 	resp, err := a.client.BatchGetRoles(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service
 	request := &service_client.BatchGetServicesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(service.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*service.Service_FieldMask)
+	}
 	resp, err := a.client.BatchGetServices(ctx, request)
 	if err != nil {
 		return err

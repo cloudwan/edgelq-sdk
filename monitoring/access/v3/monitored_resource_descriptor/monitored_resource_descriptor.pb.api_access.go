@@ -59,6 +59,10 @@ func (a *apiMonitoredResourceDescriptorAccess) BatchGetMonitoredResourceDescript
 	request := &monitored_resource_descriptor_client.BatchGetMonitoredResourceDescriptorsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(monitored_resource_descriptor.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask)
+	}
 	resp, err := a.client.BatchGetMonitoredResourceDescriptors(ctx, request)
 	if err != nil {
 		return err

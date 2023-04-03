@@ -59,6 +59,10 @@ func (a *apiPlanAccess) BatchGetPlans(ctx context.Context, refs []*plan.Referenc
 	request := &plan_client.BatchGetPlansRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(plan.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*plan.Plan_FieldMask)
+	}
 	resp, err := a.client.BatchGetPlans(ctx, request)
 	if err != nil {
 		return err

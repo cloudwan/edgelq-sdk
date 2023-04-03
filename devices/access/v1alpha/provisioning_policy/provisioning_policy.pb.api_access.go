@@ -59,6 +59,10 @@ func (a *apiProvisioningPolicyAccess) BatchGetProvisioningPolicys(ctx context.Co
 	request := &provisioning_policy_client.BatchGetProvisioningPolicysRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(provisioning_policy.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*provisioning_policy.ProvisioningPolicy_FieldMask)
+	}
 	resp, err := a.client.BatchGetProvisioningPolicys(ctx, request)
 	if err != nil {
 		return err

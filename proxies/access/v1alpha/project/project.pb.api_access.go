@@ -59,6 +59,10 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 	request := &project_client.BatchGetProjectsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(project.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*project.Project_FieldMask)
+	}
 	resp, err := a.client.BatchGetProjects(ctx, request)
 	if err != nil {
 		return err

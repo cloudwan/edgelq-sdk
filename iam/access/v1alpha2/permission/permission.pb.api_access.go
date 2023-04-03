@@ -59,6 +59,10 @@ func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*p
 	request := &permission_client.BatchGetPermissionsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(permission.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*permission.Permission_FieldMask)
+	}
 	resp, err := a.client.BatchGetPermissions(ctx, request)
 	if err != nil {
 		return err

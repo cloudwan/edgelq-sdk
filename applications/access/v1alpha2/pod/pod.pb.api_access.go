@@ -59,6 +59,10 @@ func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, 
 	request := &pod_client.BatchGetPodsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(pod.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*pod.Pod_FieldMask)
+	}
 	resp, err := a.client.BatchGetPods(ctx, request)
 	if err != nil {
 		return err

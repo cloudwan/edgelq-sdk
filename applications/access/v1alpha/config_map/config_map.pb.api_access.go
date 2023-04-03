@@ -59,6 +59,10 @@ func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*con
 	request := &config_map_client.BatchGetConfigMapsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(config_map.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*config_map.ConfigMap_FieldMask)
+	}
 	resp, err := a.client.BatchGetConfigMaps(ctx, request)
 	if err != nil {
 		return err

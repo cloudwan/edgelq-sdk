@@ -59,6 +59,10 @@ func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Contex
 	request := &metric_descriptor_client.BatchGetMetricDescriptorsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(metric_descriptor.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*metric_descriptor.MetricDescriptor_FieldMask)
+	}
 	resp, err := a.client.BatchGetMetricDescriptors(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Refer
 	request := &alert_client.BatchGetAlertsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(alert.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*alert.Alert_FieldMask)
+	}
 	resp, err := a.client.BatchGetAlerts(ctx, request)
 	if err != nil {
 		return err

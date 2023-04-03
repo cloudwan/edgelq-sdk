@@ -59,6 +59,10 @@ func (a *apiResourceAccess) BatchGetResources(ctx context.Context, refs []*resou
 	request := &resource_client.BatchGetResourcesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(resource.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*resource.Resource_FieldMask)
+	}
 	resp, err := a.client.BatchGetResources(ctx, request)
 	if err != nil {
 		return err

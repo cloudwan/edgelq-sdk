@@ -59,6 +59,10 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 	request := &alerting_condition_client.BatchGetAlertingConditionsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(alerting_condition.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*alerting_condition.AlertingCondition_FieldMask)
+	}
 	resp, err := a.client.BatchGetAlertingConditions(ctx, request)
 	if err != nil {
 		return err

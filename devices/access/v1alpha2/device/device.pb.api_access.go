@@ -59,6 +59,10 @@ func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Re
 	request := &device_client.BatchGetDevicesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(device.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*device.Device_FieldMask)
+	}
 	resp, err := a.client.BatchGetDevices(ctx, request)
 	if err != nil {
 		return err

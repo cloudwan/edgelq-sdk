@@ -59,6 +59,10 @@ func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Cont
 	request := &project_invitation_client.BatchGetProjectInvitationsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(project_invitation.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*project_invitation.ProjectInvitation_FieldMask)
+	}
 	resp, err := a.client.BatchGetProjectInvitations(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Cont
 	request := &attestation_domain_client.BatchGetAttestationDomainsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(attestation_domain.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*attestation_domain.AttestationDomain_FieldMask)
+	}
 	resp, err := a.client.BatchGetAttestationDomains(ctx, request)
 	if err != nil {
 		return err

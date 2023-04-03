@@ -59,6 +59,10 @@ func (a *apiPlanAssignmentAccess) BatchGetPlanAssignments(ctx context.Context, r
 	request := &plan_assignment_client.BatchGetPlanAssignmentsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(plan_assignment.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*plan_assignment.PlanAssignment_FieldMask)
+	}
 	resp, err := a.client.BatchGetPlanAssignments(ctx, request)
 	if err != nil {
 		return err

@@ -59,6 +59,10 @@ func (a *apiNotificationChannelAccess) BatchGetNotificationChannels(ctx context.
 	request := &notification_channel_client.BatchGetNotificationChannelsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(notification_channel.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*notification_channel.NotificationChannel_FieldMask)
+	}
 	resp, err := a.client.BatchGetNotificationChannels(ctx, request)
 	if err != nil {
 		return err

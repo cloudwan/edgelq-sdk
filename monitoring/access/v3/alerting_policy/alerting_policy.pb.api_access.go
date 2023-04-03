@@ -59,6 +59,10 @@ func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, 
 	request := &alerting_policy_client.BatchGetAlertingPoliciesRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(alerting_policy.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*alerting_policy.AlertingPolicy_FieldMask)
+	}
 	resp, err := a.client.BatchGetAlertingPolicies(ctx, request)
 	if err != nil {
 		return err

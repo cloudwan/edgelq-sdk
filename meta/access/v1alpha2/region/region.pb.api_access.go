@@ -59,6 +59,10 @@ func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Re
 	request := &region_client.BatchGetRegionsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(region.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*region.Region_FieldMask)
+	}
 	resp, err := a.client.BatchGetRegions(ctx, request)
 	if err != nil {
 		return err

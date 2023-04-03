@@ -59,6 +59,10 @@ func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Refer
 	request := &group_client.BatchGetGroupsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(group.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*group.Group_FieldMask)
+	}
 	resp, err := a.client.BatchGetGroups(ctx, request)
 	if err != nil {
 		return err

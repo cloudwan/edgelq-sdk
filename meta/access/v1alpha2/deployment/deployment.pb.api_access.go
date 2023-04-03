@@ -59,6 +59,10 @@ func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*d
 	request := &deployment_client.BatchGetDeploymentsRequest{
 		Names: refs,
 	}
+	fieldMask := batchGetOpts.GetFieldMask(deployment.GetDescriptor())
+	if fieldMask != nil {
+		request.FieldMask = fieldMask.(*deployment.Deployment_FieldMask)
+	}
 	resp, err := a.client.BatchGetDeployments(ctx, request)
 	if err != nil {
 		return err
