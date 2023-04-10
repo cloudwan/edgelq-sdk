@@ -28,8 +28,11 @@ EdgeLQ SDK provides:
 In simple words, EdgeLQ SDK provides code for client-based applications talking to EdgeLQ services.
 
 ## Repository structure
+
+[goten sdk]: https://github.com/cloudwan/goten-sdk
 Each service contains its own directory in this repo. Internal structure is practically same everywhere, as Goten
-enforces some common standards. All the components reference [Goten SDK](https://github.com/cloudwan/goten-sdk) library.
+enforces some common standards. All the components reference [Goten SDK] library.
+
 
 Code organization within single service has following pattern:
 
