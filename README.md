@@ -29,7 +29,7 @@ In simple words, EdgeLQ SDK provides code for client-based applications talking 
 
 ## Repository structure
 Each service contains its own directory in this repo. Internal structure is practically same everywhere, as Goten
-enforces some common standards. All the components reference [Goten SDK library](github.com/cloudwan/goten-sdk).
+enforces some common standards. All the components reference [Goten SDK](https://github.com/cloudwan/goten-sdk) library.
 
 Code organization within single service has following pattern:
 
@@ -54,7 +54,7 @@ Contains sum of all clients for given service. May not be recommended if we want
 Contains high-level client-based components like Watcher - dedicated for each resource.
 
 ## How to use
-EdgeLQ utilizes [Goten SDK](github.com/cloudwan/goten-sdk), which contains basic instructions. It does not require much
+EdgeLQ utilizes [Goten SDK], which contains basic instructions. It does not require much
 extra - in order to develop Golang application with this SDK, you need to install Go and include SDK in your list of dependencies.
 You can use [examples](./examples) provided in this repository as a help.
 
