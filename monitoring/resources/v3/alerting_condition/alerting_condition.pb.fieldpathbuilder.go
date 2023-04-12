@@ -10,6 +10,7 @@ import (
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/common/v3"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	duration "github.com/golang/protobuf/ptypes/duration"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -21,6 +22,7 @@ var (
 	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &alerting_policy.AlertingPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 	_ = &duration.Duration{}
 	_ = &timestamp.Timestamp{}

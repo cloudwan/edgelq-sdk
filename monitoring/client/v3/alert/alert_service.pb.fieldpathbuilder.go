@@ -12,6 +12,7 @@ import (
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
@@ -29,6 +30,7 @@ var (
 	_ = &alerting_condition.AlertingCondition{}
 	_ = &alerting_policy.AlertingPolicy{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 	_ = &duration.Duration{}
 	_ = &empty.Empty{}

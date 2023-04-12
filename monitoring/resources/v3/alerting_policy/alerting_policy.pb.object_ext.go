@@ -17,6 +17,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 )
 
@@ -34,6 +35,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 )
 
@@ -388,7 +390,7 @@ func (o *AlertingPolicy_Spec_Notification) MakeDiffFieldMask(other *AlertingPoli
 	if len(o.GetChannels()) == len(other.GetChannels()) {
 		for i, lValue := range o.GetChannels() {
 			rValue := other.GetChannels()[i]
-			if lValue != rValue {
+			if lValue.String() != rValue.String() {
 				res.Paths = append(res.Paths, &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels})
 				break
 			}
@@ -409,9 +411,18 @@ func (o *AlertingPolicy_Spec_Notification) Clone() *AlertingPolicy_Spec_Notifica
 	}
 	result := &AlertingPolicy_Spec_Notification{}
 	result.Enabled = o.Enabled
-	result.Channels = make([]string, len(o.Channels))
+	result.Channels = make([]*notification_channel.Reference, len(o.Channels))
 	for i, sourceValue := range o.Channels {
-		result.Channels[i] = sourceValue
+		if sourceValue == nil {
+			result.Channels[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.Channels[i] = &notification_channel.Reference{}
+			if err := result.Channels[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
 	}
 	return result
 }
@@ -425,14 +436,25 @@ func (o *AlertingPolicy_Spec_Notification) Merge(source *AlertingPolicy_Spec_Not
 	for _, sourceValue := range source.GetChannels() {
 		exists := false
 		for _, currentValue := range o.Channels {
-			if currentValue == sourceValue {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
 				exists = true
 				break
 			}
 		}
 		if !exists {
-			var newDstElement string
-			newDstElement = sourceValue
+			var newDstElement *notification_channel.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &notification_channel.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
 			o.Channels = append(o.Channels, newDstElement)
 		}
 	}

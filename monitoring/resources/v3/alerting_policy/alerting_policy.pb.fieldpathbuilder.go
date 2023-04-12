@@ -8,6 +8,7 @@ package alerting_policy
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -16,6 +17,7 @@ import (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 	_ = &timestamp.Timestamp{}
 )
@@ -903,15 +905,15 @@ func (AlertingPolicyPathSelectorSpecNotificationChannels) FieldPath() *AlertingP
 	}
 }
 
-func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithValue(value []string) *AlertingPolicy_FieldSubPathValue {
+func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *AlertingPolicy_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
 }
 
-func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithArrayOfValues(values [][]string) *AlertingPolicy_FieldSubPathArrayOfValues {
+func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 
-func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithItemValue(value string) *AlertingPolicy_FieldSubPathArrayItemValue {
+func (s AlertingPolicyPathSelectorSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *AlertingPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingPolicy_FieldSubPathArrayItemValue)
 }
 
@@ -1113,15 +1115,15 @@ func (AlertingPolicy_SpecPathSelectorNotificationChannels) FieldPath() *Alerting
 	}
 }
 
-func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithValue(value []string) *AlertingPolicySpec_FieldSubPathValue {
+func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithValue(value []*notification_channel.Reference) *AlertingPolicySpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicySpec_FieldSubPathValue)
 }
 
-func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithArrayOfValues(values [][]string) *AlertingPolicySpec_FieldSubPathArrayOfValues {
+func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *AlertingPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicySpec_FieldSubPathArrayOfValues)
 }
 
-func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithItemValue(value string) *AlertingPolicySpec_FieldSubPathArrayItemValue {
+func (s AlertingPolicy_SpecPathSelectorNotificationChannels) WithItemValue(value *notification_channel.Reference) *AlertingPolicySpec_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingPolicySpec_FieldSubPathArrayItemValue)
 }
 
@@ -1180,14 +1182,14 @@ func (AlertingPolicy_Spec_NotificationPathSelectorChannels) FieldPath() *Alertin
 	return &AlertingPolicySpecNotification_FieldTerminalPath{selector: AlertingPolicySpecNotification_FieldPathSelectorChannels}
 }
 
-func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithValue(value []string) *AlertingPolicySpecNotification_FieldTerminalPathValue {
+func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithValue(value []*notification_channel.Reference) *AlertingPolicySpecNotification_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingPolicySpecNotification_FieldTerminalPathValue)
 }
 
-func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithArrayOfValues(values [][]string) *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues {
+func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues)
 }
 
-func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithItemValue(value string) *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue {
+func (s AlertingPolicy_Spec_NotificationPathSelectorChannels) WithItemValue(value *notification_channel.Reference) *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue)
 }

@@ -25,6 +25,7 @@ import (
 // proto imports
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 )
 
@@ -50,6 +51,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &ntt_meta.Meta{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 )
 
@@ -2581,7 +2583,7 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) GetDefault() interfa
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return false
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		return ([]string)(nil)
+		return ([]*notification_channel.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fp.selector))
 	}
@@ -2619,7 +2621,7 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIValue(value int
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.(bool)}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.([]string)}
+		return &AlertingPolicySpecNotification_FieldTerminalPathValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.([]*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fp.selector))
 	}
@@ -2635,7 +2637,7 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIArrayOfValues(v
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([]bool)}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([][]string)}
+		return &AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues{AlertingPolicySpecNotification_FieldTerminalPath: *fp, values: values.([][]*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fp.selector))
 	}
@@ -2649,7 +2651,7 @@ func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithRawIArrayOfValue
 func (fp *AlertingPolicySpecNotification_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertingPolicySpecNotification_FieldPathArrayItemValue {
 	switch fp.selector {
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		return &AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.(string)}
+		return &AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue{AlertingPolicySpecNotification_FieldTerminalPath: *fp, value: value.(*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fp.selector))
 	}
@@ -2702,8 +2704,8 @@ func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsEnabledValue
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
-func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsChannelsValue() ([]string, bool) {
-	res, ok := fpv.value.([]string)
+func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) AsChannelsValue() ([]*notification_channel.Reference, bool) {
+	res, ok := fpv.value.([]*notification_channel.Reference)
 	return res, ok
 }
 
@@ -2716,7 +2718,7 @@ func (fpv *AlertingPolicySpecNotification_FieldTerminalPathValue) SetTo(target *
 	case AlertingPolicySpecNotification_FieldPathSelectorEnabled:
 		(*target).Enabled = fpv.value.(bool)
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		(*target).Channels = fpv.value.([]string)
+		(*target).Channels = fpv.value.([]*notification_channel.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingPolicy_Spec_Notification: %d", fpv.selector))
 	}
@@ -2791,8 +2793,8 @@ var _ AlertingPolicySpecNotification_FieldPathArrayItemValue = (*AlertingPolicyS
 func (fpaiv *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue) AsChannelsItemValue() (string, bool) {
-	res, ok := fpaiv.value.(string)
+func (fpaiv *AlertingPolicySpecNotification_FieldTerminalPathArrayItemValue) AsChannelsItemValue() (*notification_channel.Reference, bool) {
+	res, ok := fpaiv.value.(*notification_channel.Reference)
 	return res, ok
 }
 
@@ -2859,7 +2861,7 @@ func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) GetR
 			values = append(values, v)
 		}
 	case AlertingPolicySpecNotification_FieldPathSelectorChannels:
-		for _, v := range fpaov.values.([][]string) {
+		for _, v := range fpaov.values.([][]*notification_channel.Reference) {
 			values = append(values, v)
 		}
 	}
@@ -2869,7 +2871,7 @@ func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsEn
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
-func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsChannelsArrayOfValues() ([][]string, bool) {
-	res, ok := fpaov.values.([][]string)
+func (fpaov *AlertingPolicySpecNotification_FieldTerminalPathArrayOfValues) AsChannelsArrayOfValues() ([][]*notification_channel.Reference, bool) {
+	res, ok := fpaov.values.([][]*notification_channel.Reference)
 	return res, ok
 }

@@ -9,6 +9,7 @@ import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_policy"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	view "github.com/cloudwan/goten-sdk/runtime/api/view"
 	watch_type "github.com/cloudwan/goten-sdk/runtime/api/watch_type"
@@ -22,6 +23,7 @@ var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 	_ = &alerting_policy.AlertingPolicy{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 	_ = &empty.Empty{}
 	_ = &field_mask.FieldMask{}
@@ -1047,15 +1049,15 @@ func (BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificati
 	}
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *BatchGetAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s BatchGetAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*BatchGetAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
@@ -2165,15 +2167,15 @@ func (ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationCh
 	}
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *ListAlertingPoliciesResponse_FieldSubPathValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *ListAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*ListAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *ListAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ListAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *ListAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s ListAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *ListAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ListAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 
@@ -3681,15 +3683,15 @@ func (CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChann
 	}
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []string) *CreateAlertingPolicyRequest_FieldSubPathValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []*notification_channel.Reference) *CreateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CreateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]string) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *CreateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CreateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value string) *CreateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s CreateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *CreateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*CreateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
@@ -4630,15 +4632,15 @@ func (UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChann
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithValue(value []*notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequestPathSelectorAlertingPolicySpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
@@ -5603,15 +5605,15 @@ func (UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotification
 	}
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequest_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequest_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequestPathSelectorCasConditionalStateSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequest_FieldSubPathArrayItemValue)
 }
 
@@ -6566,15 +6568,15 @@ func (UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificatio
 	}
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithValue(value []string) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *UpdateAlertingPolicyRequestCAS_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathValue)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayOfValues)
 }
 
-func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithItemValue(value string) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue {
+func (s UpdateAlertingPolicyRequest_CASPathSelectorConditionalStateSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*UpdateAlertingPolicyRequestCAS_FieldSubPathArrayItemValue)
 }
 
@@ -7703,15 +7705,15 @@ func (SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotification
 	}
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []string) *SearchAlertingPoliciesResponse_FieldSubPathValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithValue(value []*notification_channel.Reference) *SearchAlertingPoliciesResponse_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathValue)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]string) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithArrayOfValues(values [][]*notification_channel.Reference) *SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*SearchAlertingPoliciesResponse_FieldSubPathArrayOfValues)
 }
 
-func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value string) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
+func (s SearchAlertingPoliciesResponsePathSelectorAlertingPoliciesSpecNotificationChannels) WithItemValue(value *notification_channel.Reference) *SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*SearchAlertingPoliciesResponse_FieldSubPathArrayItemValue)
 }
 

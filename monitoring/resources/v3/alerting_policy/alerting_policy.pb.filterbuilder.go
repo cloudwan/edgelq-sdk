@@ -13,6 +13,7 @@ import (
 import (
 	ntt_meta "github.com/cloudwan/edgelq-sdk/common/types/meta"
 	multi_region_policy "github.com/cloudwan/edgelq-sdk/common/types/multi_region_policy"
+	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 )
@@ -27,6 +28,7 @@ var (
 var (
 	_ = &ntt_meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &project.Project{}
 	_ = &timestamp.Timestamp{}
 )
@@ -2744,37 +2746,37 @@ type filterCndBuilderSpecNotificationChannels struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Eq(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Eq(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Neq(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Neq(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Gt(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Gt(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Gte(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Gte(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Lt(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Lt(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Lte(value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Lte(value []*notification_channel.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) In(values [][]string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) In(values [][]*notification_channel.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) NotIn(values [][]string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) NotIn(values [][]*notification_channel.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		AlertingPolicy_FieldPathArrayOfValues: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithArrayOfValues(values),
 	})
@@ -2792,7 +2794,7 @@ func (b *filterCndBuilderSpecNotificationChannels) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) Contains(value string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) Contains(value *notification_channel.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().FieldPath(),
@@ -2800,7 +2802,7 @@ func (b *filterCndBuilderSpecNotificationChannels) Contains(value string) *Filte
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) ContainsAnyOf(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) ContainsAnyOf(values []*notification_channel.Reference) *FilterBuilder {
 	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels()
 	itemValues := make([]AlertingPolicy_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2813,7 +2815,7 @@ func (b *filterCndBuilderSpecNotificationChannels) ContainsAnyOf(values []string
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) ContainsAll(values []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) ContainsAll(values []*notification_channel.Reference) *FilterBuilder {
 	pathSelector := NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels()
 	itemValues := make([]AlertingPolicy_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2826,7 +2828,7 @@ func (b *filterCndBuilderSpecNotificationChannels) ContainsAll(values []string) 
 	})
 }
 
-func (b *filterCndBuilderSpecNotificationChannels) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+func (b *filterCndBuilderSpecNotificationChannels) compare(op gotenfilter.CompareOperator, value []*notification_channel.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		AlertingPolicy_FieldPathValue: NewAlertingPolicyFieldPathBuilder().Spec().Notification().Channels().WithValue(value),
