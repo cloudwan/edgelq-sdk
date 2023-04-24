@@ -20,6 +20,7 @@ import (
 	notification_channel_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification_channel"
 	phantom_time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie"
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/project"
+	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/recovery_store_sharding_info"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/time_serie"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
@@ -30,6 +31,7 @@ import (
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie"
 )
 
@@ -59,6 +61,8 @@ var (
 	_ = &phantom_time_serie_client.GetPhantomTimeSerieRequest{}
 	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
+	_ = &recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoRequest{}
 	_ = &time_serie.Point{}
 )
 
@@ -97,6 +101,7 @@ func (d *MonitoringDescriptor) AllResourceDescriptors() []gotenresource.Descript
 		notification_channel.GetDescriptor(),
 		phantom_time_serie.GetDescriptor(),
 		project.GetDescriptor(),
+		recovery_store_sharding_info.GetDescriptor(),
 	}
 }
 
@@ -111,6 +116,7 @@ func (d *MonitoringDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		notification_client.GetNotificationServiceDescriptor(),
 		phantom_time_serie_client.GetPhantomTimeSerieServiceDescriptor(),
 		project_client.GetProjectServiceDescriptor(),
+		recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoServiceDescriptor(),
 		time_serie_client.GetTimeSerieServiceDescriptor(),
 	}
 }

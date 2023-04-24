@@ -19,6 +19,7 @@ import (
 	notification_channel_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/notification_channel"
 	phantom_time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/phantom_time_serie"
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/project"
+	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/recovery_store_sharding_info"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/time_serie"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
@@ -29,6 +30,7 @@ import (
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/time_serie"
 )
 
@@ -57,6 +59,8 @@ var (
 	_ = &phantom_time_serie_client.GetPhantomTimeSerieRequest{}
 	_ = &project.Project{}
 	_ = &project_client.GetProjectRequest{}
+	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
+	_ = &recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoRequest{}
 	_ = &time_serie.Point{}
 )
 
@@ -70,6 +74,7 @@ type MonitoringClient interface {
 	notification_client.NotificationServiceClient
 	phantom_time_serie_client.PhantomTimeSerieServiceClient
 	project_client.ProjectServiceClient
+	recovery_store_sharding_info_client.RecoveryStoreShardingInfoServiceClient
 	time_serie_client.TimeSerieServiceClient
 }
 
@@ -83,6 +88,7 @@ type monitoringClient struct {
 	notification_client.NotificationServiceClient
 	phantom_time_serie_client.PhantomTimeSerieServiceClient
 	project_client.ProjectServiceClient
+	recovery_store_sharding_info_client.RecoveryStoreShardingInfoServiceClient
 	time_serie_client.TimeSerieServiceClient
 }
 
@@ -97,6 +103,7 @@ func NewMonitoringClient(cc grpc.ClientConnInterface) MonitoringClient {
 		NotificationServiceClient:                notification_client.NewNotificationServiceClient(cc),
 		PhantomTimeSerieServiceClient:            phantom_time_serie_client.NewPhantomTimeSerieServiceClient(cc),
 		ProjectServiceClient:                     project_client.NewProjectServiceClient(cc),
+		RecoveryStoreShardingInfoServiceClient:   recovery_store_sharding_info_client.NewRecoveryStoreShardingInfoServiceClient(cc),
 		TimeSerieServiceClient:                   time_serie_client.NewTimeSerieServiceClient(cc),
 	}
 }

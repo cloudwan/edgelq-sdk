@@ -16,6 +16,7 @@ import (
 	notification_channel_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/notification_channel"
 	phantom_time_serie_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/phantom_time_serie"
 	project_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/project"
+	recovery_store_sharding_info_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v3/recovery_store_sharding_info"
 	monitoring_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v3/monitoring"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/alerting_condition"
@@ -26,6 +27,7 @@ import (
 	notification_channel "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/notification_channel"
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/project"
+	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v3/recovery_store_sharding_info"
 )
 
 type MonitoringApiAccess interface {
@@ -40,6 +42,7 @@ type MonitoringApiAccess interface {
 	notification_channel.NotificationChannelAccess
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
+	recovery_store_sharding_info.RecoveryStoreShardingInfoAccess
 }
 
 type apiMonitoringAccess struct {
@@ -54,6 +57,7 @@ type apiMonitoringAccess struct {
 	notification_channel.NotificationChannelAccess
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
+	recovery_store_sharding_info.RecoveryStoreShardingInfoAccess
 }
 
 func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess {
@@ -67,6 +71,7 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 	notificationChannelAccess := notification_channel_access.NewApiNotificationChannelAccess(client)
 	phantomTimeSerieAccess := phantom_time_serie_access.NewApiPhantomTimeSerieAccess(client)
 	projectAccess := project_access.NewApiProjectAccess(client)
+	recoveryStoreShardingInfoAccess := recovery_store_sharding_info_access.NewApiRecoveryStoreShardingInfoAccess(client)
 
 	return &apiMonitoringAccess{
 		Access: gotenresource.NewCompositeAccess(
@@ -80,6 +85,7 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 			notification_channel.AsAnyCastAccess(notificationChannelAccess),
 			phantom_time_serie.AsAnyCastAccess(phantomTimeSerieAccess),
 			project.AsAnyCastAccess(projectAccess),
+			recovery_store_sharding_info.AsAnyCastAccess(recoveryStoreShardingInfoAccess),
 		),
 
 		AlertAccess:                       alertAccess,
@@ -91,5 +97,6 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 		NotificationChannelAccess:         notificationChannelAccess,
 		PhantomTimeSerieAccess:            phantomTimeSerieAccess,
 		ProjectAccess:                     projectAccess,
+		RecoveryStoreShardingInfoAccess:   recoveryStoreShardingInfoAccess,
 	}
 }

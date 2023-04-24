@@ -23,6 +23,8 @@ import "edgelq-sdk/monitoring/proto/v3/phantom_time_serie.proto";
 import "edgelq-sdk/monitoring/proto/v3/phantom_time_serie_service.proto";
 import "edgelq-sdk/monitoring/proto/v3/project.proto";
 import "edgelq-sdk/monitoring/proto/v3/project_service.proto";
+import "edgelq-sdk/monitoring/proto/v3/recovery_store_sharding_info.proto";
+import "edgelq-sdk/monitoring/proto/v3/recovery_store_sharding_info_service.proto";
 import "edgelq-sdk/monitoring/proto/v3/time_serie.proto";
 import "edgelq-sdk/monitoring/proto/v3/time_serie_custom.proto";
 import "edgelq-sdk/monitoring/proto/v3/time_serie_service.proto";
