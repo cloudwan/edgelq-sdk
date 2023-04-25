@@ -48,7 +48,7 @@ func ResourceViewFieldMask(viewName view.View, extraMask *Notification_FieldMask
 	case view.View_FULL:
 		return nil
 	case view.View_BASIC:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "alerting_policy", "state.notification_attempts_completed", "state.notification_state")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "alerting_policy", "state.incident_notify_attempts_done", "state.notification_state")
 		break
 	case view.View_NAME:
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name")
