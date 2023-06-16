@@ -1,0 +1,1837 @@
+
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+body {
+  padding: 1em;
+}
+h2 {
+  margin-top: 1em;
+}
+h3 {
+  margin-top: 1em;
+}
+h4 {
+  margin-top: 1em;
+}
+h5 {
+  margin-top: 1em;
+}
+div.operation {
+  background: #f0f0f0;
+}
+div.operation h5 {
+  padding: 0.2em;
+  background: #e0e0e0;
+}
+div.operation .signature {
+  font-weight: bold;
+  padding: 0.2em;
+}
+div.operation .description {
+  padding: 0.2em;
+}
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
+table th,
+table td {
+  padding: 0.2em;
+}
+table.fields {
+  width: 100%;
+}
+table.fields thead tr th {
+  background: #c0c0c0;
+}
+table.fields tbody tr th {
+  background: #e0e0e0;
+  vertical-align: top;
+  border-bottom: 1px solid #ababab;
+  width: 25%;
+}
+table.fields tbody tr td.type {
+  font-weight: bold;
+}
+table.fields tbody tr td.type pre {
+  margin: 0px;
+}
+table.fields tbody tr td.description {
+  border-bottom: 1px solid #ababab;
+}
+table.fields tbody tr td.description *:last-child {
+  margin-bottom: 0px;
+}
+table.fields tbody tr td.none {
+  border-bottom: 1px solid #ababab;
+}
+</style>
+</head>
+
+
+<body>
+<h1>Service: MetaMixin (ntt.meta.mixin.v1alpha2 - v1alpha2)</h1>
+
+<p>Service MetaMixin</p>
+
+<h2>Index</h2>
+
+<ul>
+
+<li><a href="#resource-ResourceShadow">ResourceShadow</a></li> 
+
+<li><a href="#shared-resources">Shared Resources</a></li>
+</ul>
+
+<h2>Resources</h2>
+
+
+<h3 id="resource-ResourceShadow"><span id="message-ResourceShadow">ResourceShadow</span></h3>
+
+<p>ResourceShadow is a hidden handle hidden behind each actual resource
+in their service-region location (shadows are not present in synced
+regions). It is used to enforce database constraints across all
+services and regions.
+Resource shadow is used for all original resources defined in their
+services - it does not support mixin service resources.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of ResourceShadow. ID part must contain fully qualified resource name.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource_type</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Type of resource for this shadow</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">version</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Version of API for this resource. It will be always newest, however, if
+some service uses older version of imported service, imported service
+should convert shadows to that lower version. TODO: This is NOT
+implemented.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">references</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ReferencesState">ResourceShadow.ReferencesState</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current state of all references and information about back refs.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">lifecycle</th>
+<td class="type"><pre><a href="#message-ResourceShadow.Lifecycle">ResourceShadow.Lifecycle</a></pre></td>
+</tr>
+<tr><td class="description"><p>Lifecycle indicates current life cycle state of resource.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource_metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata copy from shadowed resource</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetResourceShadow">GetResourceShadow</h5>
+
+<pre class="signature">rpc GetResourceShadow(<a href="#message-GetResourceShadowRequest">GetResourceShadowRequest</a>) returns (<a href="#message-ResourceShadow">ResourceShadow</a>)</pre>
+
+<div class="description">
+<p>GetResourceShadow</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /meta-mixin/v1alpha2/{name=resourceShadows/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetResourceShadows">BatchGetResourceShadows</h5>
+
+<pre class="signature">rpc BatchGetResourceShadows(<a href="#message-BatchGetResourceShadowsRequest">BatchGetResourceShadowsRequest</a>) returns (<a href="#message-BatchGetResourceShadowsResponse">BatchGetResourceShadowsResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetResourceShadows</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /meta-mixin/v1alpha2/resourceShadows:batchGet </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListResourceShadows">ListResourceShadows</h5>
+
+<pre class="signature">rpc ListResourceShadows(<a href="#message-ListResourceShadowsRequest">ListResourceShadowsRequest</a>) returns (<a href="#message-ListResourceShadowsResponse">ListResourceShadowsResponse</a>)</pre>
+
+<div class="description">
+<p>ListResourceShadows</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /meta-mixin/v1alpha2/resourceShadows </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchResourceShadow">WatchResourceShadow</h5>
+
+<pre class="signature">rpc WatchResourceShadow(<a href="#message-WatchResourceShadowRequest">WatchResourceShadowRequest</a>) returns (<a href="#message-WatchResourceShadowResponse">WatchResourceShadowResponse</a>)</pre>
+
+<div class="description">
+<p>WatchResourceShadow</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2/{name=resourceShadows/*}:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchResourceShadows">WatchResourceShadows</h5>
+
+<pre class="signature">rpc WatchResourceShadows(<a href="#message-WatchResourceShadowsRequest">WatchResourceShadowsRequest</a>) returns (<a href="#message-WatchResourceShadowsResponse">WatchResourceShadowsResponse</a>)</pre>
+
+<div class="description">
+<p>WatchResourceShadows</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2/resourceShadows:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateResourceShadow">CreateResourceShadow</h5>
+
+<pre class="signature">rpc CreateResourceShadow(<a href="#message-CreateResourceShadowRequest">CreateResourceShadowRequest</a>) returns (<a href="#message-ResourceShadow">ResourceShadow</a>)</pre>
+
+<div class="description">
+<p>CreateResourceShadow</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2/resourceShadows (BODY: resource_shadow)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateResourceShadow">UpdateResourceShadow</h5>
+
+<pre class="signature">rpc UpdateResourceShadow(<a href="#message-UpdateResourceShadowRequest">UpdateResourceShadowRequest</a>) returns (<a href="#message-ResourceShadow">ResourceShadow</a>)</pre>
+
+<div class="description">
+<p>UpdateResourceShadow</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /meta-mixin/v1alpha2/{resource_shadow.name=resourceShadows/*} (BODY: resource_shadow)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteResourceShadow">DeleteResourceShadow</h5>
+
+<pre class="signature">rpc DeleteResourceShadow(<a href="#message-DeleteResourceShadowRequest">DeleteResourceShadowRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteResourceShadow</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /meta-mixin/v1alpha2/{name=resourceShadows/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-EstablishReferences">EstablishReferences</h5>
+
+<pre class="signature">rpc EstablishReferences(<a href="#message-EstablishReferencesRequest">EstablishReferencesRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>EstablishReferences</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2/resourceShadows:establishReferences </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ConfirmBlockades">ConfirmBlockades</h5>
+
+<pre class="signature">rpc ConfirmBlockades(<a href="#message-ConfirmBlockadesRequest">ConfirmBlockadesRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>ConfirmBlockades</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2/resourceShadows:confirmBlockades </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-RemoveMetaOwnerReference">RemoveMetaOwnerReference</h5>
+
+<pre class="signature">rpc RemoveMetaOwnerReference(<a href="#message-RemoveMetaOwnerReferenceRequest">RemoveMetaOwnerReferenceRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>RemoveMetaOwnerReference</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /meta-mixin/v1alpha2:removeMetaOwnerReference </pre>
+
+</div>
+
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</h5>
+
+<p>ServiceRegionPair is a binding of service with region. They are used as
+service location, showing where objects of interest are.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">region</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadow.ReferencesState">ResourceShadow.ReferencesState</h5>
+
+<p>ReferencesState describes all current references a resource has, deletion
+behaviors and sources of back refs. It is crucial component in enforcing
+database rules regarding reference constraints, garbage collection etc.
+It has information about all references, sources od back refs, describes
+meta references, blocking, those with asynchronous deletion triggers and
+so on - just big block of information.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">all</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of all referenced resources - both in schema and metadata.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">back_ref_locations</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of all locations with references to this resource. Its
+a kind of back reference - except we only show locations where they
+can be found. To obtain them in full, it is required to make List
+request for each service-region pair and filter must use CONTAINS
+condition for field &quot;all&quot;.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">with_target_del_handlers</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of references in schema with asynchronous deletion handler (unset or
+cascade delete). This list is used by garbage collection functions.
+Length of this list is the same as target_del_handlers. Each reference in
+this list corresponds to handler with same position in that other list.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">target_del_handlers</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ReferencesState.DeletionHandler">ResourceShadow.ReferencesState.DeletionHandler</a></pre></td>
+</tr>
+<tr><td class="description"><p>Deletion handlers attached to each reference in with_target_del_handlers
+list.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">async_delete_subscribers</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of all service-region pairs which contain resources that are
+interested in deletion of this resource, because they have schema
+references with target deletion behavior (or had). It does not include
+metadata references, as those are removed using different mechanism.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">meta_owners</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of all references present in metadata as owners. In comparison
+with schema references, referencing service may not be aware of
+referenced service existence.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">meta_ownee_locations</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of all service-region pairs which contain resources that point to
+this resource as their meta owner.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">blocking</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of all blocking references. Each reference in this list has
+associated details in blockade_details.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">blockade_details</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ReferencesState.BlockadeInfo">ResourceShadow.ReferencesState.BlockadeInfo</a></pre></td>
+</tr>
+<tr><td class="description"><p>Detailed information about blocking references in blocking field.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">blocking_sources</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of all service-region pairs which have resource blocking current
+resource. This list needs to be cleared before deletion can take place.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tentative_blockades</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow.ReferencesState.TentativeBlockade">ResourceShadow.ReferencesState.TentativeBlockade</a></pre></td>
+</tr>
+<tr><td class="description"><p>List of resources blocking current resource that are in the process
+of creation. By design, blockade is installed on blocked resource before
+blocking resource is created, so we never end up with dandling blocking
+reference.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadow.Lifecycle">ResourceShadow.Lifecycle</h5>
+
+<p>Lifecycle describes life stage of current resource and additional
+information about tasks that must be executed if it is in pending
+or deleting state.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">state</th>
+<td class="type"><pre><a href="#enum-ResourceShadow.Lifecycle.State">ResourceShadow.Lifecycle.State</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current resource state</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">pending_blockades_to_confirm</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If this flag is true, it means this resource has gained new blocking
+references (usually as a result from create operation, but not
+necessarily). Db controller needs to remove tentative blocks from
+ReferencesState object in target resources. This flag is used when State
+is equal to PENDING</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">pending_delete</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Pending delete is used by db controller to mark resource as waiting
+for deletion - but which cannot be deleted yet, because it is being
+blocked. It means that Delete<Resource> call has not been executed yet.
+This flag is used when State is equal to PENDING</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">check_meta_ownees</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>This flag informs that db controller should iterate over all meta ownee
+resources, select those with &quot;requires_owner_reference&quot; flag (See type
+ntt.meta.OwnerReference), and verify if this resource has still strong
+reference to them - if not, it means they were disowned and need to be
+cleaned. This flag is used when constraint store notices that some
+resource unset some of its references and perhaps it affects meta ownees.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">check_meta_owners</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>This flag informs that db controller should iterate over all meta owner
+references, select those with &quot;requires_owner_reference&quot; flag (See type
+ntt.meta.OwnerReference), and verify if this resource has strong
+reference to them - if not, it means they were disowned and need to be
+cleaned. This flag is set when new meta reference with above flag has
+been added.
+Db controller needs to take into account that meta ownee may have been
+created but transaction for meta owner may be still ongoing, so
+removal needs proper delay.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadow.ReferencesState.DeletionHandler">ResourceShadow.ReferencesState.DeletionHandler</h5>
+
+<p>DeletionHandler is attached to references with defined asynchronous
+behavior on target deletion. Synchronous are handled by server.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">target_location</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Location of the target resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ref_field_path</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Field path of the reference</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">handler_type</th>
+<td class="type"><pre><a href="#enum-ResourceShadow.ReferencesState.DeletionHandler.HandlerType">ResourceShadow.ReferencesState.DeletionHandler.HandlerType</a></pre></td>
+</tr>
+<tr><td class="description"><p>Desired behavior for target deletion.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadow.ReferencesState.BlockadeInfo">ResourceShadow.ReferencesState.BlockadeInfo</h5>
+
+<p>BlockadeInfo is attached to references that block target deletion.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">target_location</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Location of blocked resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ref_field_path</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Field path of blocking reference</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadow.ReferencesState.TentativeBlockade">ResourceShadow.ReferencesState.TentativeBlockade</h5>
+
+<p>TentativeBlockade describes temporary tentative blockade that needs to be
+confirmed. Blockades are installed when blocking reference is set for the
+first time, but before transaction concludes. It is being removed ASAP by
+controller after transaction finishes. If it does not finish, blockade
+will be removed after timeout.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">blocking_resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Back reference resource.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource_location</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Back reference location.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">attach_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Time when blockade was installed. It is used to determine whether
+transaction should be assumed as failed.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tx_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Tx identifier as chosen by server making write. In conjunction with
+tx_attempt_counter it may automatically invalidate previous tentative
+blocks, so we dont rely on timeout.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tx_attempt_counter</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Information which tx attempt it is.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-GetResourceShadowRequest">GetResourceShadowRequest</h5>
+
+<p>Request message for method
+[GetResourceShadow][ntt.meta.mixin.v1alpha2.GetResourceShadow]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.meta.mixin.v1alpha2.ResourceShadow</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetResourceShadowsRequest">BatchGetResourceShadowsRequest</h5>
+
+<p>Request message for method
+[BatchGetResourceShadows][ntt.meta.mixin.v1alpha2.BatchGetResourceShadows]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of ResourceShadows</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetResourceShadowsResponse">BatchGetResourceShadowsResponse</h5>
+
+<p>BatchGetResourceShadowsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadows</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>found ResourceShadows</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found ResourceShadows</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListResourceShadowsRequest">ListResourceShadowsRequest</h5>
+
+<p>Request message for method
+[ListResourceShadows][ntt.meta.mixin.v1alpha2.ListResourceShadows]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer ResourceShadows than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListResourceShadowsResponse.next_page_token][ntt.meta.mixin.v1alpha2.ListResourceShadowsResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListResourceShadowsResponse">ListResourceShadowsResponse</h5>
+
+<p>Request message for method
+[ListResourceShadows][ntt.meta.mixin.v1alpha2.ListResourceShadows]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadows</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of ResourceShadows</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListResourceShadowsRequest.page_token][ntt.meta.mixin.v1alpha2.ListResourceShadowsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListResourceShadowsRequest.page_token][ntt.meta.mixin.v1alpha2.ListResourceShadowsRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total ResourceShadows across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchResourceShadowRequest">WatchResourceShadowRequest</h5>
+
+<p>Request message for method
+[WatchResourceShadow][ntt.meta.mixin.v1alpha2.WatchResourceShadow]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.meta.mixin.v1alpha2.ResourceShadow</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchResourceShadowResponse">WatchResourceShadowResponse</h5>
+
+<p>WatchResourceShadowResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-ResourceShadowChange">ResourceShadowChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchResourceShadowsRequest">WatchResourceShadowsRequest</h5>
+
+<p>Request message for method
+[WatchResourceShadows][ntt.meta.mixin.v1alpha2.WatchResourceShadows]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer ResourceShadows than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">starting_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Point in the time from which we want to start getting updates. This field
+can be populated only for stateless watch type and if resume token is not
+known yet. If specified, initial snapshot will NOT be provided. It is
+assumed client can obtain it using separate means. Watch responses will
+contain resume tokens which should be used to resume broken connection.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to ResourceShadow that don't
+affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+ResourceShadow that don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchResourceShadowsResponse">WatchResourceShadowsResponse</h5>
+
+<p>WatchResourceShadowsResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadow_changes</th>
+<td class="type"><pre>repeated <a href="#message-ResourceShadowChange">ResourceShadowChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of ResourceShadows</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All ResourceShadows will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchResourceShadowsResponse.PageTokenChange">WatchResourceShadowsResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (ResourceShadows will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchResourceShadowsResponse.PageTokenChange">WatchResourceShadowsResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateResourceShadowRequest">CreateResourceShadowRequest</h5>
+
+<p>Request message for method
+[CreateResourceShadow][ntt.meta.mixin.v1alpha2.CreateResourceShadow]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadow</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>ResourceShadow resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateResourceShadowRequest">UpdateResourceShadowRequest</h5>
+
+<p>Request message for method
+[UpdateResourceShadow][ntt.meta.mixin.v1alpha2.UpdateResourceShadow]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadow</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>ResourceShadow resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateResourceShadowRequest.CAS">UpdateResourceShadowRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateResourceShadowRequest.CAS">UpdateResourceShadowRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteResourceShadowRequest">DeleteResourceShadowRequest</h5>
+
+<p>Request message for method
+[DeleteResourceShadow][ntt.meta.mixin.v1alpha2.DeleteResourceShadow]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.meta.mixin.v1alpha2.ResourceShadow</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-EstablishReferencesRequest">EstablishReferencesRequest</h5>
+
+<p>Request message for method
+[EstablishReferences][ntt.meta.mixin.v1alpha2.EstablishReferences]
+This request is being sent:</p>
+<ul>
+<li>by server, when there is a change in references
+in some resource (like some new reference has been added...
+This request can also be used to change nature of some reference,
+like from switch BLOCKING to ASYNC_CASCADE_DELETE in schema).</li>
+<li>by db-controller, as a way to confirm connection with meta
+owner (shadows_with_new_meta_ownees). Tx fields are not
+populated in this case</li>
+</ul>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">requester_service</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Requester service indicates service and region location
+of shadow that is trying to establish reference bindings.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">referencing_shadow</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Shadow with references to new resources.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">referenced_shadows</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of all NEW referenced shadows - if resource started
+pointing to some new resource that was not before.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">blocked_shadows</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of blocking references from referencing shadow.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">shadows_with_new_del_subs</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of shadows requested to install asynchronous subscription for
+potential delete operation on requester, because it has references
+causing asynchronous deletion in schema.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">shadows_with_new_meta_ownees</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of shadows requested to install asynchronous subscription for
+potential delete operation on requester, because it has meta
+references, which, once empty, need to trigger asynchronous deletion.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tx_id</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Identifier of local transaction on an instance that sent
+this request. Receiver of EstablishReferencesRequest should
+check, along with tx_attempt field, if this is not the
+first request - and if not, if there are things to drop
+from previous one.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">tx_attempt</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Indicator (from 1)</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ConfirmBlockadesRequest">ConfirmBlockadesRequest</h5>
+
+<p>Request message for method
+[ConfirmBlockades][ntt.meta.mixin.v1alpha2.ConfirmBlockades]
+This method is additional to EstablishReferencesRequest and is
+sent by db controller to confirm existence of blocking references.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">requester_service</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Location of referencing shadow</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">referencing_shadow</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Referencing shadow that wishes to confirm blocking references.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">blocked_shadows</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>List of blocking references that need to be confirmed.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-RemoveMetaOwnerReferenceRequest">RemoveMetaOwnerReferenceRequest</h5>
+
+<p>Request message for method
+[RemoveMetaOwnerReference][ntt.meta.mixin.v1alpha2.RemoveMetaOwnerReference]
+This method is used to notify meta ownees that their parent has
+been deleted.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">owner_shadow_location</th>
+<td class="type"><pre><a href="#message-ResourceShadow.ServiceRegionPair">ResourceShadow.ServiceRegionPair</a></pre></td>
+</tr>
+<tr><td class="description"><p>Location of owner resource</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">owner_shadow</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of owner shadow.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">ownee_shadow</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ownee shadow - which points to owner in its
+metadata.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+<h4>Enums</h4>
+
+
+
+<h5 id="enum-ResourceShadow.ReferencesState.DeletionHandler.HandlerType">ResourceShadow.ReferencesState.DeletionHandler.HandlerType</h5>
+
+<p>Describes whether reference should be only unset or perhaps
+owning resource should be deleted.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>CASCADE_DELETE</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>UNSET</th>
+<td class="description"></td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="enum-ResourceShadow.Lifecycle.State">ResourceShadow.Lifecycle.State</h5>
+
+<p>State points to the current resource state. Some states are watched
+by db controller.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Values</th></tr></thead>
+<tbody>
+<tr>
+<th>UNDEFINED</th>
+<td class="description"><p>Never used</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>ACTIVE</th>
+<td class="description"><p>Active is the default state where resource will spend 99.9% of
+its life time. Resource is fully functioning and db controller
+does not need to bother with it.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>PENDING</th>
+<td class="description"><p>Pending state describes resource that already is fully visible
+and functioning in database - but requires some attention from
+db controller, because some references have changed recently.</p>
+</td>
+</tr>
+<tr></tr>
+
+<tr>
+<th>DELETING</th>
+<td class="description"><p>Deleting state indicates that delete operation was already executed
+on resource. Proper resource is already deleted from database
+(TODO: we need to add deletion with progress bar, where original
+resource remains in db despite delete method already executed).
+Shadow will exist in this state until all deletion handlers
+are executed.</p>
+</td>
+</tr>
+<tr></tr>
+ 
+</tbody>
+</table>
+
+ 
+ 
+
+
+ 
+
+<h4 id="shared-resources">Shared Resources</h4>
+
+<h5>Operations</h5>
+
+ 
+
+
+<h5>Messages<h5>
+
+<h5 id="message-ResourceShadowChange">ResourceShadowChange</h5>
+
+<p>ResourceShadowChange is used by Watch notifications Responses to describe
+change of single ResourceShadow One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-ResourceShadowChange.Added">ResourceShadowChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-ResourceShadowChange.Modified">ResourceShadowChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-ResourceShadowChange.Current">ResourceShadowChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-ResourceShadowChange.Removed">ResourceShadowChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when ResourceShadow is deleted or leaves Query view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadowChange.Added">ResourceShadowChange.Added</h5>
+
+<p>ResourceShadow has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadow</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added ResourceShadow in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadowChange.Current">ResourceShadowChange.Current</h5>
+
+<p>ResourceShadow has been added or modified in a query view. Version used for
+stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">resource_shadow</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadowChange.Modified">ResourceShadowChange.Modified</h5>
+
+<p>ResourceShadow changed some of it's fields - contains either full document
+or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified ResourceShadow</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource_shadow</th>
+<td class="type"><pre><a href="#message-ResourceShadow">ResourceShadow</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of ResourceShadow or masked difference, depending on
+mask_changes instrumentation of issued [WatchResourceShadowRequest] or
+[WatchResourceShadowsRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+ResourceShadow. When modification doesn't affect sorted order, value will
+remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying ResourceShadow new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ResourceShadowChange.Removed">ResourceShadowChange.Removed</h5>
+
+<p>Removed is returned when ResourceShadow is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed ResourceShadow index. Not populated in
+stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+
+
+</body>
+</html>

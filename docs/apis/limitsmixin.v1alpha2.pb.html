@@ -1,0 +1,1228 @@
+
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+body {
+  padding: 1em;
+}
+h2 {
+  margin-top: 1em;
+}
+h3 {
+  margin-top: 1em;
+}
+h4 {
+  margin-top: 1em;
+}
+h5 {
+  margin-top: 1em;
+}
+div.operation {
+  background: #f0f0f0;
+}
+div.operation h5 {
+  padding: 0.2em;
+  background: #e0e0e0;
+}
+div.operation .signature {
+  font-weight: bold;
+  padding: 0.2em;
+}
+div.operation .description {
+  padding: 0.2em;
+}
+div.operation .rest {
+  font-size: 80%;
+  color: #808080;
+  padding: 0.2em;
+}
+div.operation .rest pre {
+  color: inherit;
+  margin: 2px 0px;
+}
+table th,
+table td {
+  padding: 0.2em;
+}
+table.fields {
+  width: 100%;
+}
+table.fields thead tr th {
+  background: #c0c0c0;
+}
+table.fields tbody tr th {
+  background: #e0e0e0;
+  vertical-align: top;
+  border-bottom: 1px solid #ababab;
+  width: 25%;
+}
+table.fields tbody tr td.type {
+  font-weight: bold;
+}
+table.fields tbody tr td.type pre {
+  margin: 0px;
+}
+table.fields tbody tr td.description {
+  border-bottom: 1px solid #ababab;
+}
+table.fields tbody tr td.description *:last-child {
+  margin-bottom: 0px;
+}
+table.fields tbody tr td.none {
+  border-bottom: 1px solid #ababab;
+}
+</style>
+</head>
+
+
+<body>
+<h1>Service: LimitsMixin (ntt.limits.mixin.v1alpha2 - v1alpha2)</h1>
+
+<p>Service LimitsMixin</p>
+
+<h2>Index</h2>
+
+<ul>
+
+<li><a href="#resource-LocalLimitTracker">LocalLimitTracker</a></li> 
+
+<li><a href="#shared-resources">Shared Resources</a></li>
+</ul>
+
+<h2>Resources</h2>
+
+
+<h3 id="resource-LocalLimitTracker"><span id="message-LocalLimitTracker">LocalLimitTracker</span></h3>
+
+<p>LocalLimitTracker tracks number of resources of specific kind and ensures
+it does not exceed limit. This is local, regional resource with syncing
+disabled. This resource is in fact regional representation of
+limits.edgelq.com/Limit - however because its part of Mixin service,
+each edgelq-based service contains its own collection of it.
+This is necessary because we want each application ensure limits
+are not exceeded by using transaction guarantee - in each region.
+However, for practical reasons, we can say that this resource does
+not need to be client facing.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of LocalLimitTracker, it has following format:
+regions/{region}/localLimitTrackers/{projectId}/{resourceType}</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">service</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Service to which resource belongs</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resource</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Tracked resource reference</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">project</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Project associated with this tracker. The reason why its not included
+in resource name is because this is a (bit) &quot;hidden&quot; resource - and
+we dont want project admins being able to modify them.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">project_region</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Primary region ID for project this limit tracker belongs to.
+It may be different from region of this tracker, because Project
+may have presence in multiple regions. Limits (limits.edgelq.com/Limit)
+are managed by primary region, but their trackers are located in their
+final region.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">limit</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum number of resources of given type</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">used</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Number currently in use</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">metadata</th>
+<td class="type"><pre>.ntt.types.Meta</pre></td>
+</tr>
+<tr><td class="description"><p>Metadata</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+<h4>Operations</h4>
+
+
+
+<div class="operation">
+<h5 id="operation-GetLocalLimitTracker">GetLocalLimitTracker</h5>
+
+<pre class="signature">rpc GetLocalLimitTracker(<a href="#message-GetLocalLimitTrackerRequest">GetLocalLimitTrackerRequest</a>) returns (<a href="#message-LocalLimitTracker">LocalLimitTracker</a>)</pre>
+
+<div class="description">
+<p>GetLocalLimitTracker</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*} </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-BatchGetLocalLimitTrackers">BatchGetLocalLimitTrackers</h5>
+
+<pre class="signature">rpc BatchGetLocalLimitTrackers(<a href="#message-BatchGetLocalLimitTrackersRequest">BatchGetLocalLimitTrackersRequest</a>) returns (<a href="#message-BatchGetLocalLimitTrackersResponse">BatchGetLocalLimitTrackersResponse</a>)</pre>
+
+<div class="description">
+<p>BatchGetLocalLimitTrackers</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/localLimitTrackers:batchGet </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-ListLocalLimitTrackers">ListLocalLimitTrackers</h5>
+
+<pre class="signature">rpc ListLocalLimitTrackers(<a href="#message-ListLocalLimitTrackersRequest">ListLocalLimitTrackersRequest</a>) returns (<a href="#message-ListLocalLimitTrackersResponse">ListLocalLimitTrackersResponse</a>)</pre>
+
+<div class="description">
+<p>ListLocalLimitTrackers</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>GET /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLocalLimitTracker">WatchLocalLimitTracker</h5>
+
+<pre class="signature">rpc WatchLocalLimitTracker(<a href="#message-WatchLocalLimitTrackerRequest">WatchLocalLimitTrackerRequest</a>) returns (<a href="#message-WatchLocalLimitTrackerResponse">WatchLocalLimitTrackerResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLocalLimitTracker</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*}:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-WatchLocalLimitTrackers">WatchLocalLimitTrackers</h5>
+
+<pre class="signature">rpc WatchLocalLimitTrackers(<a href="#message-WatchLocalLimitTrackersRequest">WatchLocalLimitTrackersRequest</a>) returns (<a href="#message-WatchLocalLimitTrackersResponse">WatchLocalLimitTrackersResponse</a>)</pre>
+
+<div class="description">
+<p>WatchLocalLimitTrackers</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers:watch </pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-CreateLocalLimitTracker">CreateLocalLimitTracker</h5>
+
+<pre class="signature">rpc CreateLocalLimitTracker(<a href="#message-CreateLocalLimitTrackerRequest">CreateLocalLimitTrackerRequest</a>) returns (<a href="#message-LocalLimitTracker">LocalLimitTracker</a>)</pre>
+
+<div class="description">
+<p>CreateLocalLimitTracker</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>POST /limits-mixin/v1alpha2/{parent=regions/*}/localLimitTrackers (BODY: local_limit_tracker)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-UpdateLocalLimitTracker">UpdateLocalLimitTracker</h5>
+
+<pre class="signature">rpc UpdateLocalLimitTracker(<a href="#message-UpdateLocalLimitTrackerRequest">UpdateLocalLimitTrackerRequest</a>) returns (<a href="#message-LocalLimitTracker">LocalLimitTracker</a>)</pre>
+
+<div class="description">
+<p>UpdateLocalLimitTracker</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>PUT /limits-mixin/v1alpha2/{local_limit_tracker.name=regions/*/localLimitTrackers/*} (BODY: local_limit_tracker)</pre>
+
+</div>
+
+
+</div>
+
+
+
+<div class="operation">
+<h5 id="operation-DeleteLocalLimitTracker">DeleteLocalLimitTracker</h5>
+
+<pre class="signature">rpc DeleteLocalLimitTracker(<a href="#message-DeleteLocalLimitTrackerRequest">DeleteLocalLimitTrackerRequest</a>) returns (Empty)</pre>
+
+<div class="description">
+<p>DeleteLocalLimitTracker</p>
+
+</div>
+
+
+
+
+<div class="rest">
+Equivalent REST API:
+
+<pre>DELETE /limits-mixin/v1alpha2/{name=regions/*/localLimitTrackers/*} </pre>
+
+</div>
+
+
+</div>
+
+ 
+
+<h4>Messages</h4>
+
+
+
+<h5 id="message-GetLocalLimitTrackerRequest">GetLocalLimitTrackerRequest</h5>
+
+<p>Request message for method
+[GetLocalLimitTracker][ntt.limits.mixin.v1alpha2.GetLocalLimitTracker]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLocalLimitTrackersRequest">BatchGetLocalLimitTrackersRequest</h5>
+
+<p>Request message for method
+[BatchGetLocalLimitTrackers][ntt.limits.mixin.v1alpha2.BatchGetLocalLimitTrackers]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">names</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>Names of LocalLimitTrackers</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-BatchGetLocalLimitTrackersResponse">BatchGetLocalLimitTrackersResponse</h5>
+
+<p>BatchGetLocalLimitTrackersResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_trackers</th>
+<td class="type"><pre>repeated <a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>found LocalLimitTrackers</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">missing</th>
+<td class="type"><pre>repeated string</pre></td>
+</tr>
+<tr><td class="description"><p>list of not found LocalLimitTrackers</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLocalLimitTrackersRequest">ListLocalLimitTrackersRequest</h5>
+
+<p>Request message for method
+[ListLocalLimitTrackers][ntt.limits.mixin.v1alpha2.ListLocalLimitTrackers]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent name of ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer LocalLimitTrackers than
+requested. If unspecified, server will pick an appropriate default.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Typically, this is the value of
+[ListLocalLimitTrackersResponse.next_page_token][ntt.limits.mixin.v1alpha2.ListLocalLimitTrackersResponse.next_page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> list
+of field path with order directive, either 'asc' or 'desc'. If direction is
+not provided, 'asc' is assumed. e.g. &quot;state.nested_field asc,
+state.something.else desc, theme&quot;</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">include_paging_info</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>Indicates if list response should contain total count and offset (fields
+current_offset and total_results_count).</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-ListLocalLimitTrackersResponse">ListLocalLimitTrackersResponse</h5>
+
+<p>Request message for method
+[ListLocalLimitTrackers][ntt.limits.mixin.v1alpha2.ListLocalLimitTrackers]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_trackers</th>
+<td class="type"><pre>repeated <a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>The list of LocalLimitTrackers</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve previous page of results. Pass this value in the
+[ListLocalLimitTrackersRequest.page_token][ntt.limits.mixin.v1alpha2.ListLocalLimitTrackersRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token to retrieve next page of results. Pass this value in the
+[ListLocalLimitTrackersRequest.page_token][ntt.limits.mixin.v1alpha2.ListLocalLimitTrackersRequest.page_token]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current_offset</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Current offset from the first page or 0 if no page tokens were given,
+paging info was not requested or there was an error while trying to get
+it). Page index can be computed from offset and limit provided in a
+request.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">total_results_count</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Number of total LocalLimitTrackers across all pages or 0, if there are no
+items, paging info was not requested or there was an error while trying to
+get it.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLocalLimitTrackerRequest">WatchLocalLimitTrackerRequest</h5>
+
+<p>Request message for method
+[WatchLocalLimitTracker][ntt.limits.mixin.v1alpha2.WatchLocalLimitTracker]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference to ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLocalLimitTrackerResponse">WatchLocalLimitTrackerResponse</h5>
+
+<p>WatchLocalLimitTrackerResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">change</th>
+<td class="type"><pre><a href="#message-LocalLimitTrackerChange">LocalLimitTrackerChange</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLocalLimitTrackersRequest">WatchLocalLimitTrackersRequest</h5>
+
+<p>Request message for method
+[WatchLocalLimitTrackers][ntt.limits.mixin.v1alpha2.WatchLocalLimitTrackers]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">type</th>
+<td class="type"><pre>.goten.watch_type.WatchType</pre></td>
+</tr>
+<tr><td class="description"><p>Type of a watch. Identifies how server stream data to a client, which
+fields in a request are allowed and which fields in response are relevant.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Requested page size. Server may return fewer LocalLimitTrackers than
+requested. If unspecified, server will pick an appropriate default. Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying a page of results the server should return.
+Can be populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">order_by</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Order By -
+<a href="https://cloud.google.com/apis/design/design_patterns#list_pagination">https://cloud.google.com/apis/design/design_patterns#list_pagination</a> Can be
+populated only for stateful watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>A token identifying watch resume point from previous session.
+Can be populated only for stateless watch type.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">starting_time</th>
+<td class="type"><pre>.google.protobuf.Timestamp</pre></td>
+</tr>
+<tr><td class="description"><p>Point in the time from which we want to start getting updates. This field
+can be populated only for stateless watch type and if resume token is not
+known yet. If specified, initial snapshot will NOT be provided. It is
+assumed client can obtain it using separate means. Watch responses will
+contain resume tokens which should be used to resume broken connection.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">filter</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Filter - filter results by field criteria. Simplified SQL-like syntax with
+following operators:
+&lt;=, &gt;=, =, !=, &lt;, &gt;, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+[NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+CONTAINS &quot;severity:important&quot; OR (state.last_error_time &gt;
+&quot;2018-11-15T10:00:00Z&quot; AND state.status = &quot;ERROR&quot;)'</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>A list of extra fields to be obtained for each response item on top of
+fields defined by request field view Changes to LocalLimitTracker that
+don't affect any of masked fields won't be sent back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view</th>
+<td class="type"><pre>.goten.view.View</pre></td>
+</tr>
+<tr><td class="description"><p>View defines list of standard response fields present in response items.
+Additional fields can be amended by request field field_mask Changes to
+LocalLimitTracker that don't affect any of masked fields won't be sent
+back.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">max_chunk_size</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Maximum amount of changes in each response message. Query result response
+is divided on the server side into chunks with size of a specified amount
+to limit memory footprint of each message. Responses will hold information
+whether more elements will continue for the actual change. If unspecified,
+server will pick an appropriate default.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLocalLimitTrackersResponse">WatchLocalLimitTrackersResponse</h5>
+
+<p>WatchLocalLimitTrackersResponse</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_tracker_changes</th>
+<td class="type"><pre>repeated <a href="#message-LocalLimitTrackerChange">LocalLimitTrackerChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>Changes of LocalLimitTrackers</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_current</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>If request specified max_chunk_size (or this limit was enforced if
+stateless watch has been chosen), then responses with &quot;full changeset&quot; will
+be divided into chunks. Client should keep receiving messages and, once
+is_current has value true, combine this recent message with all previous
+ones where is_current is false. If this is the first is_current in a whole
+watch stream, then it means that client should have, at this moment,
+contain snapshot of the current situation (or more accurately, snapshot of
+situation at the moment of request). All LocalLimitTrackers will be of type
+Added/Current (depending on watch_type specified in the request). Further
+responses will be incremental - however messages may still be chunked and
+is_current logic still applies. is_current is always true for stateful
+watch if max_chunk_size was left to 0.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">page_token_change</th>
+<td class="type"><pre><a href="#message-WatchLocalLimitTrackersResponse.PageTokenChange">WatchLocalLimitTrackersResponse.PageTokenChange</a></pre></td>
+</tr>
+<tr><td class="description"><p>When present, PageTokens used for page navigation should be updated.
+Present only if is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">resume_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Token that can be used if current connection drops and client needs to
+reconnect. Populated only for stateless watch type. Present only if
+is_current is true (last chunk).</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">snapshot_size</th>
+<td class="type"><pre>int64</pre></td>
+</tr>
+<tr><td class="description"><p>Server may occasionally send information how many resources should client
+have in its state so far (response message without any changes, but with
+snapshot_size field specified). If client has different value than the one
+sent by the server, then it should be treated by a client as an error and
+should reconnect. If value is smaller then 0, then client should ignore
+this field as unpopulated. This field should be checked only for stateless
+watch. In stateful those kind of errors are handled by the server side.
+Will be never sent together with is_current, is_soft_reset and
+is_hard_reset flags.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_soft_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+It indicates that client should drop all changes from recent responses
+where is_current is false only! If last message had is_current set to true,
+client should do nothing and process normally. Resume token received before
+is still valid. This field should be checked only for stateless watch. In
+stateful those kind of errors are handled by the server side. Will never be
+sent along with is_current, is_hard_reset or snapshot_size.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">is_hard_reset</th>
+<td class="type"><pre>bool</pre></td>
+</tr>
+<tr><td class="description"><p>In case of internal issue server may send response message with this flag.
+After receiving, client should clear whole state (drop all changes received
+so far) as server will send new snapshot (LocalLimitTrackers will contains
+changes of type Current only). Any resume tokens should be discarded as
+well. This field should be checked only for stateless watch. In stateful
+those kind of errors are handled by the server side. Will never be sent
+along with is_current, is_soft_reset or snapshot_size.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-WatchLocalLimitTrackersResponse.PageTokenChange">WatchLocalLimitTrackersResponse.PageTokenChange</h5>
+
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">prev_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve previous page of results.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">next_page_token</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>New token to retrieve next page of results.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-CreateLocalLimitTrackerRequest">CreateLocalLimitTrackerRequest</h5>
+
+<p>Request message for method
+[CreateLocalLimitTracker][ntt.limits.mixin.v1alpha2.CreateLocalLimitTracker]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">parent</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Parent reference of ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">local_limit_tracker</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>LocalLimitTracker resource body</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLocalLimitTrackerRequest">UpdateLocalLimitTrackerRequest</h5>
+
+<p>Request message for method
+[UpdateLocalLimitTracker][ntt.limits.mixin.v1alpha2.UpdateLocalLimitTracker]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_tracker</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>LocalLimitTracker resource body</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">update_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>FieldMask applied to request - change will be applied only for fields in
+the mask</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">cas</th>
+<td class="type"><pre><a href="#message-UpdateLocalLimitTrackerRequest.CAS">UpdateLocalLimitTrackerRequest.CAS</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional update applied to request if update should be executed only for
+specific resource state. If this field is populated, then server will fetch
+existing resource, compare with the one stored in the cas field (after
+applying field mask) and proceed with update only and only if they match.
+Otherwise RPC error Aborted will be returned.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-UpdateLocalLimitTrackerRequest.CAS">UpdateLocalLimitTrackerRequest.CAS</h5>
+
+<p>CAS - Compare and Swap. This object is used if user wants to make update
+conditional based upon previous resource version.</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">conditional_state</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>Conditional desired state of a resource before update.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Field paths from conditional state of resource server should check and
+compare.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-DeleteLocalLimitTrackerRequest">DeleteLocalLimitTrackerRequest</h5>
+
+<p>Request message for method
+[DeleteLocalLimitTracker][ntt.limits.mixin.v1alpha2.DeleteLocalLimitTracker]</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Reference of ntt.limits.mixin.v1alpha2.LocalLimitTracker</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+  
+
+
+ 
+
+<h4 id="shared-resources">Shared Resources</h4>
+
+<h5>Operations</h5>
+
+ 
+
+
+<h5>Messages<h5>
+
+<h5 id="message-LocalLimitTrackerChange">LocalLimitTrackerChange</h5>
+
+<p>LocalLimitTrackerChange is used by Watch notifications Responses to describe
+change of single LocalLimitTracker One of Added, Modified, Removed</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">added</th>
+<td class="type"><pre><a href="#message-LocalLimitTrackerChange.Added">LocalLimitTrackerChange.Added</a></pre></td>
+</tr>
+<tr><td class="description"><p>Added is returned when watched document is added, either created or
+enters Query view</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">modified</th>
+<td class="type"><pre><a href="#message-LocalLimitTrackerChange.Modified">LocalLimitTrackerChange.Modified</a></pre></td>
+</tr>
+<tr><td class="description"><p>Modified is returned when watched document is modified</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">current</th>
+<td class="type"><pre><a href="#message-LocalLimitTrackerChange.Current">LocalLimitTrackerChange.Current</a></pre></td>
+</tr>
+<tr><td class="description"><p>Current is returned in stateless watch when document enters query view or
+is modified within.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">removed</th>
+<td class="type"><pre><a href="#message-LocalLimitTrackerChange.Removed">LocalLimitTrackerChange.Removed</a></pre></td>
+</tr>
+<tr><td class="description"><p>Removed is returned when LocalLimitTracker is deleted or leaves Query
+view</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LocalLimitTrackerChange.Added">LocalLimitTrackerChange.Added</h5>
+
+<p>LocalLimitTracker has been added to query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_tracker</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer describing index of added LocalLimitTracker in resulting query
+view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LocalLimitTrackerChange.Current">LocalLimitTrackerChange.Current</h5>
+
+<p>LocalLimitTracker has been added or modified in a query view. Version used
+for stateless watching</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">local_limit_tracker</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LocalLimitTrackerChange.Modified">LocalLimitTrackerChange.Modified</h5>
+
+<p>LocalLimitTracker changed some of it's fields - contains either full
+document or masked change</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"><p>Name of modified LocalLimitTracker</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">local_limit_tracker</th>
+<td class="type"><pre><a href="#message-LocalLimitTracker">LocalLimitTracker</a></pre></td>
+</tr>
+<tr><td class="description"><p>New version of LocalLimitTracker or masked difference, depending on
+mask_changes instrumentation of issued [WatchLocalLimitTrackerRequest] or
+[WatchLocalLimitTrackersRequest]</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">field_mask</th>
+<td class="type"><pre>.google.protobuf.FieldMask</pre></td>
+</tr>
+<tr><td class="description"><p>Used when mask_changes is set, contains field paths of modified
+properties.</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">previous_view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Previous view index specifies previous position of modified
+LocalLimitTracker. When modification doesn't affect sorted order, value
+will remain identical to [view_index].</p>
+</td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying LocalLimitTracker new index in resulting query view.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+
+
+<h5 id="message-LocalLimitTrackerChange.Removed">LocalLimitTrackerChange.Removed</h5>
+
+<p>Removed is returned when LocalLimitTracker is deleted or leaves Query view</p>
+
+
+<table class="fields">
+<thead><tr><th colspan="2">Fields</th></tr></thead>
+<tbody>
+<tr>
+<th rowspan="2">name</th>
+<td class="type"><pre>string</pre></td>
+</tr>
+<tr><td class="description"></td></tr>
+
+<tr>
+<th rowspan="2">view_index</th>
+<td class="type"><pre>int32</pre></td>
+</tr>
+<tr><td class="description"><p>Integer specifying removed LocalLimitTracker index. Not populated in
+stateless watch type.</p>
+</td></tr>
+ 
+</tbody>
+</table>
+
+ 
+
+
+</body>
+</html>
